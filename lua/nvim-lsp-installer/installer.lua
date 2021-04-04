@@ -130,7 +130,6 @@ function M.create_lsp_config_installer(module)
                 vim.tbl_deep_extend('force', module.default_options, opts)
             )
         end,
-        extras = module.extras or {},
     }
 end
 
