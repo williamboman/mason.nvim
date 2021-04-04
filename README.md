@@ -5,6 +5,7 @@
 Semi-opinionated companion plugin for [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 It comes with all batteries included, or at least to the extent possible. On top of just providing commands for
 installing & uninsalling LSP servers, it:
+
 - provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
 - provides extra APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
 
@@ -13,12 +14,14 @@ Inspired by [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 ## Installation
 
 ### vim-plug
+
 ```vim
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 ```
 
 ### [Packer](https://github.com/wbthomason/packer.nvim)
+
 ```lua
 use {
     'neovim/nvim-lsp-config',
@@ -61,6 +64,21 @@ for _, server in pairs(installed_servers) do
 end
 ```
 
+## Available LSPs
+
+- bashls
+- cssls
+- dockerls
+- eslintls
+- graphql
+- html
+- jsonls
+- solargraph (ruby)
+- sumneko_lua
+- tsserver
+- vimls
+- yamlls
+
 ## Extras
 
 ### tsserver
@@ -69,14 +87,16 @@ The `tsserver` language server comes with the following extras:
 
 - `rename_file(old, new)` Tells the language server that a file was renamed. Useful when refactoring.
 
-    Usage:
+  Usage:
+
 ```lua
 require'nvim-lsp-installer'.get_installer('tsserver').extras.rename_file(old, new)
 ```
 
 - `organize_imports(bufname)` Organizes the imports of a file. `bufname` is optional, will default to current buffer.
 
-    Usage:
+  Usage:
+
 ```lua
 require'nvim-lsp-installer'.get_installer('tsserver').extras.organize_imports(bufname)
 ```
