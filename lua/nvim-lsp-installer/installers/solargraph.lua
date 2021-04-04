@@ -21,7 +21,7 @@ chmod +x solargraph;
 ]]
 
 return installer.create_lsp_config_installer {
-    name = "pyright",
+    name = "solargraph",
     root_dir = root_dir,
     install_cmd = install_cmd,
     pre_install = function ()

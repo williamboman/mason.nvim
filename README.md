@@ -84,6 +84,5 @@ require'nvim-lsp-installer'.get_installer('tsserver').extras.organize_imports(bu
 ## TODO
 
 - installer... server... module.... pick one!!
-- use same lsp server names as lspconfig does
 - docs
 - nicer API for accessing extras

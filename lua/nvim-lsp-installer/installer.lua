@@ -1,18 +1,18 @@
 local M = {}
 
 local _INSTALLERS = {
-    'vim-ls',
-    'graphql-ls',
-    'lua-ls',
-    'typescript-ls',
-    'css-ls',
-    'html-ls',
-    'json-ls',
-    'yaml-ls',
-    'bash-ls',
-    'docker-ls',
-    'ruby-ls',
-    'eslint-ls',
+    'bashls',
+    'cssls',
+    'dockerls',
+    'eslintls',
+    'graphql',
+    'html',
+    'jsonls',
+    'solargraph',
+    'sumneko_lua',
+    'tsserver',
+    'vimls',
+    'yamlls',
 }
 
 local function escape_quotes(str)
