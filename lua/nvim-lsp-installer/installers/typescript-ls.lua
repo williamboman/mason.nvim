@@ -16,8 +16,8 @@ return installer.create_lsp_config_installer {
             local old_uri = vim.uri_from_fname(old)
             local new_uri = vim.uri_from_fname(new)
 
-            -- maybe filter by client name, only send to tsserver?
-            for _, client in ipairs(vim.lsp.get_active_clients()) do
+            -- TODO: send only to tsserver
+            for _, client in pairs(vim.lsp.get_active_clients()) do
                 client.request(
                     'workspace/executeCommand',
                     {
@@ -31,6 +31,20 @@ return installer.create_lsp_config_installer {
                     }
                 )
             end
-        end
+        end,
+        organize_imports = function(bufname)
+            bufname = bufname or vim.api.nvim_buf_get_name(0)
+
+            -- TODO: send only to tsserver
+            for _, client in pairs(vim.lsp.get_active_clients()) do
+                client.request(
+                    'workspace/executeCommand',
+                    {
+                        command = '_typescript.organizeImports',
+                        arguments = {bufname},
+                    }
+                )
+            end
+        end,
     }
 }

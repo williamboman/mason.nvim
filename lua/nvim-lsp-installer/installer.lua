@@ -19,7 +19,7 @@ local function escape_quotes(str)
     return string.format("%q", str)
 end
 
-function M.get_server_installer(server)
+local function get_server_installer(server)
     return require('nvim-lsp-installer.installers.' .. server)
 end
 
@@ -28,9 +28,9 @@ function M.get_available_servers() return _INSTALLERS end
 function M.get_installed_servers()
     local installed_servers = {}
     for _, server in ipairs(M.get_available_servers()) do
-        local module = M.get_server_installer(server)
+        local module = get_server_installer(server)
         if os.execute('test -d ' .. escape_quotes(module.root_dir)) == 0 then
-            table.insert(installed_servers, server)
+            table.insert(installed_servers, module)
         end
     end
     return installed_servers
@@ -47,7 +47,7 @@ function M.get_uninstalled_servers()
 end
 
 local function _uninstall(server)
-    local installer = M.get_server_installer(server)
+    local installer = get_server_installer(server)
 
     -- giggity
     if os.execute('rm -rf ' .. escape_quotes(installer.root_dir)) ~= 0 then
@@ -56,7 +56,7 @@ local function _uninstall(server)
 end
 
 local function _install(server)
-    local installer = M.get_server_installer(server)
+    local installer = get_server_installer(server)
 
     if installer.pre_install then
         installer.pre_install()
@@ -118,10 +118,14 @@ end
 
 function M.create_lsp_config_installer(module)
     return {
+        name = module.name,
         install_cmd = module.install_cmd,
         root_dir = module.root_dir,
         pre_install = module.pre_install,
         setup = function(opts)
+            -- We require the lspconfig server here in order to do it as late as possible.
+            -- The reason for this is because once a lspconfig server has been imported, it's
+            -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
             require'lspconfig'[module.name].setup(
                 vim.tbl_deep_extend('force', module.default_options, opts)
             )

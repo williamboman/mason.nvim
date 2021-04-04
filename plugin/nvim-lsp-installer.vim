@@ -9,7 +9,9 @@ function! s:LspInstallCompletion(...) abort
 endfunction
 
 function! s:LspUninstallCompletion(...) abort
-    return join(luaeval("require'nvim-lsp-installer'.get_installed_servers()"), "\n")
+    return join(
+        \ map(luaeval("require'nvim-lsp-installer'.get_installed_servers()"), {_, val -> val.name}),
+        \ "\n")
 endfunction
 
 function! s:LspInstall(server) abort
@@ -33,7 +35,7 @@ function! s:LspUninstallAll() abort
 endfunction
 
 function! s:LspPrintInstalled() abort
-    echo luaeval("require'nvim-lsp-installer'.get_installed_servers()")
+    echo map(luaeval("require'nvim-lsp-installer'.get_installed_servers()"), {_, val -> val.name})
 endfunction
 
 command! -nargs=1 -complete=custom,s:LspInstallCompletion LspInstall exe s:LspInstall("<args>")
