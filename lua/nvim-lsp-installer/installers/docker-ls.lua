@@ -1,0 +1,14 @@
+local installer = require('nvim-lsp-installer.installer')
+local capabilities = require('nvim-lsp-installer.capabilities')
+
+local root_dir = installer.get_server_root_path('dockerfile')
+
+return installer.create_lsp_config_installer {
+    name = 'dockerls',
+    root_dir = root_dir,
+    install_cmd = [[npm install dockerfile-language-server-nodejs@latest]],
+    default_options = {
+        cmd = { root_dir .. '/node_modules/.bin/docker-langserver', '--stdio' },
+        capabilities = capabilities.create(),
+    },
+}
