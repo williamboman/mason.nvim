@@ -1,5 +1,4 @@
 local installer = require('nvim-lsp-installer.installer')
-local capabilities = require('nvim-lsp-installer.capabilities')
 
 local root_dir = installer.get_server_root_path('ruby')
 
@@ -31,6 +30,5 @@ return installer.create_lsp_config_installer {
     end,
     default_options = {
         cmd = { root_dir .. '/solargraph/solargraph', 'stdio' },
-        capabilities = capabilities.create(),
     }
 }

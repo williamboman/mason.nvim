@@ -1,5 +1,4 @@
 local installer = require('nvim-lsp-installer.installer')
-local capabilities = require('nvim-lsp-installer.capabilities')
 
 local root_dir = installer.get_server_root_path('lua')
 
@@ -38,7 +37,6 @@ return installer.create_lsp_config_installer {
     end,
     default_options = {
         cmd = { root_dir .. "/lua-language-server/bin/" .. bin_dir .. "/lua-language-server" , "-E", root_dir .. "/lua-language-server/main.lua"},
-        capabilities = capabilities.create(),
         settings = {
             Lua = {
                 diagnostics = {
