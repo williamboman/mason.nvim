@@ -26,7 +26,7 @@ local uname_alias = {
 local uname = vim.fn.system('uname'):gsub("%s+", "")
 local bin_dir = uname_alias[uname] or uname
 
-return installer.create_lsp_config_installer {
+return installer.Installer:new {
     name = "sumneko_lua",
     root_dir = root_dir,
     install_cmd = install_cmd,

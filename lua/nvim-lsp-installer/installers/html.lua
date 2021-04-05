@@ -2,7 +2,7 @@ local installer = require('nvim-lsp-installer.installer')
 
 local root_dir = installer.get_server_root_path('html')
 
-return installer.create_lsp_config_installer {
+return installer.Installer:new {
     name = "html",
     root_dir = root_dir,
     install_cmd = [[npm install vscode-html-languageserver-bin]],

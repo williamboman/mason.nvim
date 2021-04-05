@@ -60,7 +60,7 @@ for _, server in pairs(installed_servers) do
     --     opts.root_dir = function() ... end
     -- end
 
-    server.setup(opts)
+    server:setup(opts)
 end
 ```
 

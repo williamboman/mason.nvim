@@ -2,7 +2,7 @@ local installer = require('nvim-lsp-installer.installer')
 
 local root_dir = installer.get_server_root_path('json')
 
-return installer.create_lsp_config_installer {
+return installer.Installer:new {
     name = "jsonls",
     root_dir = root_dir,
     install_cmd = [[npm install vscode-json-languageserver-bin]],

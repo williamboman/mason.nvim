@@ -47,7 +47,7 @@ npm install;
 npx tsc;
 ]]
 
-return installer.create_lsp_config_installer {
+return installer.Installer:new {
     name = "eslintls",
     root_dir = root_dir,
     install_cmd = install_cmd,

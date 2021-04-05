@@ -2,7 +2,7 @@ local installer = require('nvim-lsp-installer.installer')
 
 local root_dir = installer.get_server_root_path('yaml')
 
-return installer.create_lsp_config_installer {
+return installer.Installer:new {
     name = "yamlls",
     root_dir = root_dir,
     install_cmd = [[npm install yaml-language-server]],

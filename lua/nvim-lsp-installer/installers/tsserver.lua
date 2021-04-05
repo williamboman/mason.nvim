@@ -2,7 +2,7 @@ local installer = require('nvim-lsp-installer.installer')
 
 local root_dir = installer.get_server_root_path('tsserver')
 
-return installer.create_lsp_config_installer {
+return installer.Installer:new {
     name = "tsserver",
     root_dir = root_dir,
     install_cmd = [[npm install typescript-language-server]],
