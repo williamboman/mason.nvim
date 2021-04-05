@@ -55,10 +55,12 @@ return installer.Installer:new {
         cmd = {'node', root_dir .. '/server/out/eslintServer.js', '--stdio'},
         handlers = {
             ["eslint/openDoc"] = function (_, _, open_doc)
-                os.execute("open " .. open_doc.url)
+                os.execute(string.format("open %q", open_doc.url))
                 return {id = nil, result = true}
             end,
             ["eslint/confirmESLintExecution"] = function ()
+                -- VSCode language servers have a policy to request explicit approval
+                -- before applying code changes. We just approve it immediately.
                 return ConfirmExecutionResult.approved
             end,
             ["eslint/probeFailed"] = function ()
