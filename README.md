@@ -104,4 +104,3 @@ require'nvim-lsp-installer.extras.tsserver'.organize_imports(bufname)
 ## TODO
 
 - installer... server... module.... pick one!!
-- docs

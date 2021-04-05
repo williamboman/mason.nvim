@@ -1,0 +1,135 @@
+*nvim-lsp-installer* Semi-opinionated companion plugin for nvim-lspconfig.
+
+Minimum version of neovim: 0.5.0
+
+Author: William Boman <william@redwill.se>
+
+==============================================================================
+INTRODUCTION                                *nvim-lsp-installer-introduction*
+
+Semi-opinionated companion plugin for nvim-lspconfig. It comes with all
+batteries included, or at least to the extent possible.
+
+Requires:
+- neovim `nightly (>= 0.5.0)`
+- neovim/nvim-lspconfig (https://github.com/neovim/nvim-lspconfig)
+
+
+==============================================================================
+QUICK START                                   *nvim-lsp-installer-quickstart*
+
+Install a language server via `:LspInstall`, for example: >
+
+    :LspInstall tsserver
+<
+
+Then, somewhere in your initialization script (see `:h init.lua`): >
+
+    function common_on_attach(client, bufnr)
+        -- .. set up keymaps, etc.
+    end
+
+    local installed_servers = lsp_installer.get_installed_servers()
+
+    for _, server in pairs(installed_servers) do
+        opts = {
+            on_attach = common_on_attach,
+        }
+
+        -- (optional) Customize the options passed to the server
+        -- if server.name == "tsserver" then
+        --     opts.root_dir = function() ... end
+        -- end
+
+        server:setup(opts)
+    end
+<
+
+==============================================================================
+COMMANDS                                        *nvim-lsp-installer-commands*
+
+                                                                *:LspInstall*
+:LspInstall {server}
+
+Installs a language server
+
+                                                              *:LspUninstall*
+:LspUninstall {server}
+
+Uninstalls a language server.
+
+                                                             *:LspInstallAll*
+:LspInstallAll
+
+Installs all available language servers.
+
+                                                           *:LspUninstallAll*
+:LspUninstallAll
+
+Uninstalls all installed language servers.
+
+                                                         *:LspPrintInstalled*
+:LspPrintInstalled
+
+Prints all installed language servers.
+
+
+==============================================================================
+Lua module: nvim-lsp-installer                                *lsp_installer*
+
+                                      *lsp_installer.get_available_servers()*
+get_available_servers()
+        Return: ~
+            (string[]) A list containing all available language servers.
+
+                                      *lsp_installer.get_installed_servers()*
+get_installed_servers()
+        Return: ~
+            (Installer[]) A list of installers. See |lsp_installer.Installer|.
+
+                                    *lsp_installer.get_uninstalled_servers()*
+get_uninstalled_servers()
+        Return: ~
+            (string[]) A list of servers that are not installed.
+
+                                                    *lsp_installer.install()*
+install({server})
+        Installs the provided {server}. If {server} is already installed, it
+        is reinstalled.
+
+        Parameters: ~
+            {server} (string) The server to install.
+
+                                                  *lsp_installer.uninstall()*
+uninstall({server})
+        Uninstalls the provided {server}.
+
+        Parameters: ~
+            {server} (string) The server to uninstall.
+
+==============================================================================
+Lua module: nvim-lsp-installer.installer            *lsp_installer.installer*
+
+                                                    *lsp_installer.Installer*
+class: Installer
+        This class enables installing, uninstalling, and setting up language
+        servers.
+
+        Methods: ~
+            - setup({opts})
+                    Sets up the language server. This has the same function
+                    signature as the setup function in nvim-lspconfig.
+
+                    See |lspconfig-custom-config| for more information on
+                    {opts}.
+
+            - is_installed()
+                    Returns {true} is installer is installed, else returns {false}.
+
+            - install()
+                    Installs this instance of an installer.
+
+            - uninstall()
+                    Uninstalls this instance of an installer.
+
+ vim:tw=78:ft=help:norl:
