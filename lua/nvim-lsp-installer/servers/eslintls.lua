@@ -8,15 +8,12 @@ if not lspconfig.eslintls then
         default_config = {
             filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact'},
             root_dir = lspconfig.util.root_pattern(".eslintrc*", "package.json", ".git"),
+
+            -- Refer to https://github.com/Microsoft/vscode-eslint#settings-options for documentation.
             settings = {
-                nodePath = '', -- If this is a non-null/undefined value the eslint LSP runs into runtime exceptions.
                 validate = 'on',
                 run = 'onType',
-                workingDirectory = {mode = "auto"},
-                workspaceFolder = {
-                    uri = "/",
-                    name = "root",
-                },
+
                 codeAction = {
                     disableRuleComment = {
                         enable = true,
@@ -25,6 +22,26 @@ if not lspconfig.eslintls then
                     showDocumentation = {
                         enable = true
                     }
+                },
+
+                -- Automatically determine working directory by locating .eslintrc config files.
+                --
+                -- It's recommended not to change this.
+                workingDirectory = {mode = "auto"},
+
+                -- If nodePath is a non-null/undefined value the eslint LSP runs into runtime exceptions.
+                --
+                -- It's recommended not to change this.
+                nodePath = '',
+
+                -- The "workspaceFolder" is a VSCode concept. We set it to the root
+                -- directory to not restrict the LPS server when it traverses the
+                -- file tree when locating a .eslintrc config file.
+                --
+                -- It's recommended not to change this.
+                workspaceFolder = {
+                    uri = "/",
+                    name = "root",
                 },
             },
         },
