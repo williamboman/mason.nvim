@@ -17,7 +17,8 @@ if not lspconfig.eslintls then
                 codeAction = {
                     disableRuleComment = {
                         enable = true,
-                        location = "sameLine",
+                        -- "sameLine" might not work as expected, see https://github.com/williamboman/nvim-lsp-installer/issues/4
+                        location = "separateLine",
                     },
                     showDocumentation = {
                         enable = true
