@@ -1,10 +1,10 @@
 local util = require('lspconfig.util')
 
-local installer = require('nvim-lsp-installer.installer')
+local server = require('nvim-lsp-installer.server')
 
-local root_dir = installer.get_server_root_path('graphql')
+local root_dir = server.get_server_root_path('graphql')
 
-return installer.Installer:new {
+return server.Server:new {
     name = "graphql",
     root_dir = root_dir,
     install_cmd = [[npm install graphql-language-service-cli@latest graphql]],

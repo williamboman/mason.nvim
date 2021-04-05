@@ -1,8 +1,8 @@
-local installer = require('nvim-lsp-installer.installer')
+local server = require('nvim-lsp-installer.server')
 
-local root_dir = installer.get_server_root_path('bash')
+local root_dir = server.get_server_root_path('bash')
 
-return installer.Installer:new {
+return server.Server:new {
     name = "bashls",
     root_dir = root_dir,
     install_cmd = [[npm install bash-language-server@latest]],

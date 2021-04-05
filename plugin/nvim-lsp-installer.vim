@@ -4,38 +4,40 @@ let g:loaded_nvim_lsp_installer = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
+function! s:MapServerName(servers) abort
+    return map(a:servers, {_, val -> val.name})
+endfunction
+
 function! s:LspInstallCompletion(...) abort
-    return join(luaeval("require'nvim-lsp-installer'.get_available_servers()"), "\n")
+    return join(s:MapServerName(luaeval("require'nvim-lsp-installer'.get_available_servers()")), "\n")
 endfunction
 
 function! s:LspUninstallCompletion(...) abort
-    return join(
-        \ map(luaeval("require'nvim-lsp-installer'.get_installed_servers()"), {_, val -> val.name}),
-        \ "\n")
+    return join(s:MapServerName(luaeval("require'nvim-lsp-installer'.get_installed_servers()")), "\n")
 endfunction
 
-function! s:LspInstall(server) abort
-    call luaeval("require'nvim-lsp-installer'.install(_A)", a:server)
+function! s:LspInstall(server_name) abort
+    call luaeval("require'nvim-lsp-installer'.install(_A)", a:server_name)
 endfunction
 
 function! s:LspInstallAll() abort
-    for server in luaeval("require'nvim-lsp-installer'.get_uninstalled_servers()")
-        call luaeval("require'nvim-lsp-installer'.install(_A)", server)
+    for server_name in s:MapServerName(luaeval("require'nvim-lsp-installer'.get_uninstalled_servers()"))
+        call luaeval("require'nvim-lsp-installer'.install(_A)", server_name)
     endfor
 endfunction
 
-function! s:LspUninstall(server) abort
-    call luaeval("require'nvim-lsp-installer'.uninstall(_A)", a:server)
+function! s:LspUninstall(server_name) abort
+    call luaeval("require'nvim-lsp-installer'.uninstall(_A)", a:server_name)
 endfunction
 
 function! s:LspUninstallAll() abort
-    for server in luaeval("require'nvim-lsp-installer'.get_installed_servers()")
+    for server in s:MapServerName(luaeval("require'nvim-lsp-installer'.get_installed_servers()"))
         call s:LspUninstall(server)
     endfor
 endfunction
 
 function! s:LspPrintInstalled() abort
-    echo map(luaeval("require'nvim-lsp-installer'.get_installed_servers()"), {_, val -> val.name})
+    echo s:MapServerName(luaeval("require'nvim-lsp-installer'.get_installed_servers()"))
 endfunction
 
 command! -nargs=1 -complete=custom,s:LspInstallCompletion LspInstall exe s:LspInstall("<args>")

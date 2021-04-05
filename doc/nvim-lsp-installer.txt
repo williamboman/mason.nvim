@@ -49,12 +49,12 @@ Then, somewhere in your initialization script (see `:h init.lua`): >
 COMMANDS                                        *nvim-lsp-installer-commands*
 
                                                                 *:LspInstall*
-:LspInstall {server}
+:LspInstall {server_name}
 
 Installs a language server
 
                                                               *:LspUninstall*
-:LspUninstall {server}
+:LspUninstall {server_name}
 
 Uninstalls a language server.
 
@@ -80,38 +80,38 @@ Lua module: nvim-lsp-installer                                *lsp_installer*
                                       *lsp_installer.get_available_servers()*
 get_available_servers()
         Return: ~
-            (string[]) A list containing all available language servers.
+            |lsp_installer.Server|[] A list containing all available language servers.
 
                                       *lsp_installer.get_installed_servers()*
 get_installed_servers()
         Return: ~
-            (Installer[]) A list of installers. See |lsp_installer.Installer|.
+            |lsp_installer.Server|[] A list of servers that are currently installed.
 
                                     *lsp_installer.get_uninstalled_servers()*
 get_uninstalled_servers()
         Return: ~
-            (string[]) A list of servers that are not installed.
+            |lsp_installer.Server|[] A list of servers that are not installed.
 
                                                     *lsp_installer.install()*
-install({server})
-        Installs the provided {server}. If {server} is already installed, it
+install({server_name})
+        Installs the provided {server_name}. If {server_name} is already installed, it
         is reinstalled.
 
         Parameters: ~
-            {server} (string) The server to install.
+            {server_name} (string) The server to install.
 
                                                   *lsp_installer.uninstall()*
-uninstall({server})
-        Uninstalls the provided {server}.
+uninstall({server_name})
+        Uninstalls the provided {server_name}.
 
         Parameters: ~
-            {server} (string) The server to uninstall.
+            {server_name} (string) The server to uninstall.
 
 ==============================================================================
-Lua module: nvim-lsp-installer.installer            *lsp_installer.installer*
+Lua module: nvim-lsp-installer.server                  *lsp_installer.server*
 
-                                                    *lsp_installer.Installer*
-class: Installer
+                                                       *lsp_installer.Server*
+class: Server
         This class enables installing, uninstalling, and setting up language
         servers.
 
@@ -124,12 +124,12 @@ class: Installer
                     {opts}.
 
             - is_installed()
-                    Returns {true} is installer is installed, else returns {false}.
+                    Returns {true} is server is installed, else returns {false}.
 
             - install()
-                    Installs this instance of an installer.
+                    Installs this instance of an LSP server.
 
             - uninstall()
-                    Uninstalls this instance of an installer.
+                    Uninstalls this instance of an LSP server.
 
  vim:tw=78:ft=help:norl:

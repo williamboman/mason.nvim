@@ -100,7 +100,3 @@ require'nvim-lsp-installer.extras.tsserver'.rename_file(old, new)
 ```lua
 require'nvim-lsp-installer.extras.tsserver'.organize_imports(bufname)
 ```
-
-## TODO
-
-- installer... server... module.... pick one!!

@@ -1,7 +1,7 @@
 local lspconfig = require'lspconfig'
 local configs = require'lspconfig/configs'
 
-local installer = require'nvim-lsp-installer.installer'
+local server = require'nvim-lsp-installer.server'
 
 if not lspconfig.eslintls then
     configs.eslintls = {
@@ -38,7 +38,7 @@ local ConfirmExecutionResult = {
     approved = 4
 }
 
-local root_dir = installer.get_server_root_path('eslint')
+local root_dir = server.get_server_root_path('eslint')
 local install_cmd = [[
 git clone https://github.com/microsoft/vscode-eslint .;
 npm install;
@@ -47,7 +47,7 @@ npm install;
 npx tsc;
 ]]
 
-return installer.Installer:new {
+return server.Server:new {
     name = "eslintls",
     root_dir = root_dir,
     install_cmd = install_cmd,

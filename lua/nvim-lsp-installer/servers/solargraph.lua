@@ -1,6 +1,6 @@
-local installer = require('nvim-lsp-installer.installer')
+local server = require('nvim-lsp-installer.server')
 
-local root_dir = installer.get_server_root_path('ruby')
+local root_dir = server.get_server_root_path('ruby')
 
 local install_cmd = [[
 wget -O solargraph.tar $(curl -s https://api.github.com/repos/castwide/solargraph/tags | grep 'tarball_url' | cut -d\" -f4 | head -n1);
@@ -19,7 +19,7 @@ echo 'bundle exec solargraph $*' >> solargraph;
 chmod +x solargraph;
 ]]
 
-return installer.Installer:new {
+return server.Server:new {
     name = "solargraph",
     root_dir = root_dir,
     install_cmd = install_cmd,

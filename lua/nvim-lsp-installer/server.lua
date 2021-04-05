@@ -1,6 +1,7 @@
 local M = {}
 
-local _INSTALLERS = {
+-- :'<,'>!sort
+local _SERVERS = {
     'bashls',
     'cssls',
     'dockerls',
@@ -19,82 +20,90 @@ local function escape_quotes(str)
     return string.format("%q", str)
 end
 
-local function get_server_installer(server)
-    return pcall(require, 'nvim-lsp-installer.installers.' .. server)
+local function get_server(server_name)
+    return pcall(require, 'nvim-lsp-installer.servers.' .. server_name)
 end
 
-function M.get_available_servers() return _INSTALLERS end
-
-function M.get_installed_servers()
-    local installed_servers = {}
-    for _, server in pairs(M.get_available_servers()) do
-        local ok, module = get_server_installer(server)
+local function get_servers(server_names)
+    local result = {}
+    for _, server_name in pairs(server_names) do
+        local ok, server = get_server(server_name)
         if not ok then
-            vim.api.nvim_err_writeln("Unable to find installer for " .. server)
+            vim.api.nvim_err_writeln("Unable to find LSP server " .. server_name)
             goto continue
         end
-        if module:is_installed() then
-            table.insert(installed_servers, module)
-        end
+        result[server_name] = server
         ::continue::
     end
-    return installed_servers
+    return result
 end
 
-function M.get_uninstalled_servers()
-    local installed_servers = M.get_installed_servers()
+function M.get_available_servers()
+    return vim.tbl_values(get_servers(_SERVERS))
+end
+
+function M.get_installed_servers()
     return vim.tbl_filter(
         function (server)
-            return not vim.tbl_contains(installed_servers, server)
+            return server:is_installed()
         end,
         M.get_available_servers()
     )
 end
 
-function M.install(server)
-    local ok, installer = get_server_installer(server)
+function M.get_uninstalled_servers()
+    return vim.tbl_filter(
+        function (server)
+            return not server:is_installed()
+        end,
+        M.get_available_servers()
+    )
+end
+
+function M.install(server_name)
+    local ok, server = get_server(server_name)
     if not ok then
-        return vim.api.nvim_err_writeln("Unable to find installer for " .. server)
+        return vim.api.nvim_err_writeln("Unable to find LSP server " .. server_name)
     end
-    local success, error = pcall(installer.install, installer)
+    local success, error = pcall(server.install, server)
     if not success then
-        pcall(installer.uninstall, installer)
-        return vim.api.nvim_err_writeln("Failed to install " .. server .. ". Error=" .. vim.inspect(error))
+        pcall(server.uninstall, server)
+        return vim.api.nvim_err_writeln("Failed to install " .. server_name .. ". Error=" .. vim.inspect(error))
     end
 end
 
-function M.uninstall(server)
-    local ok, installer = get_server_installer(server)
+function M.uninstall(server_name)
+    local ok, server = get_server(server_name)
     if not ok then
-        return vim.api.nvim_err_writeln("Unable to find installer for " .. server)
+        return vim.api.nvim_err_writeln("Unable to find LSP server " .. server_name)
     end
-    local success, error = pcall(installer.uninstall, installer)
+    local success, error = pcall(server.uninstall, server)
     if not success then
-        vim.api.nvim_err_writeln('Unable to uninstall ' .. server .. '. Error=' .. vim.inspect(error))
+        vim.api.nvim_err_writeln('Unable to uninstall ' .. server_name .. '. Error=' .. vim.inspect(error))
         return success
     end
-    print("Successfully uninstalled " .. server)
+    print("Successfully uninstalled " .. server_name)
 end
 
 function M.get_server_root_path(server)
     return vim.fn.stdpath('data') .. "/lsp_servers/" .. server
 end
 
-M.Installer = {}
-M.Installer.__index = M.Installer
+M.Server = {}
+M.Server.__index = M.Server
 
----@class Installer
-function M.Installer:new(opts)
+---@class Server
+function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
         _install_cmd = opts.install_cmd,
         _root_dir = opts.root_dir,
         _default_options = opts.default_options,
         _pre_install = opts.pre_install,
-    }, M.Installer)
+    }, M.Server)
 end
 
-function M.Installer:setup(opts)
+function M.Server:setup(opts)
     -- We require the lspconfig server here in order to do it as late as possible.
     -- The reason for this is because once a lspconfig server has been imported, it's
     -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
@@ -103,17 +112,17 @@ function M.Installer:setup(opts)
     )
 end
 
-function M.Installer:is_installed()
+function M.Server:is_installed()
     return os.execute('test -d ' .. escape_quotes(self._root_dir)) == 0
 end
 
-function M.Installer:create_root_dir()
+function M.Server:create_root_dir()
     if os.execute('mkdir -p ' .. escape_quotes(self._root_dir)) ~= 0 then
         error('Could not create LSP server directory ' .. self._root_dir)
     end
 end
 
-function M.Installer:install()
+function M.Server:install()
     if self._pre_install then
         self._pre_install()
     end
@@ -134,7 +143,7 @@ function M.Installer:install()
             cwd = self._root_dir,
             on_exit = function (_, exit_code)
                 if exit_code ~= 0 then
-                    vim.api.nvim_err_writeln("Installer failed for " .. self.name .. ". Exit code: " .. exit_code)
+                    vim.api.nvim_err_writeln("Server installation failed for " .. self.name .. ". Exit code: " .. exit_code)
                     self:uninstall()
                 else
                     print("Successfully installed " .. self.name)
@@ -147,7 +156,7 @@ function M.Installer:install()
     vim.cmd([[startinsert]]) -- so that the buffer tails the term log nicely
 end
 
-function M.Installer:uninstall()
+function M.Server:uninstall()
     -- giggity
     if os.execute('rm -rf ' .. escape_quotes(self._root_dir)) ~= 0 then
         error('Could not remove LSP server directory ' .. self._root_dir)

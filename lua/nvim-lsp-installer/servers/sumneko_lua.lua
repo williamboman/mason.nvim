@@ -1,6 +1,6 @@
-local installer = require('nvim-lsp-installer.installer')
+local server = require('nvim-lsp-installer.server')
 
-local root_dir = installer.get_server_root_path('lua')
+local root_dir = server.get_server_root_path('lua')
 
 local install_cmd = [=[
 rm -rf lua-language-server;
@@ -26,7 +26,7 @@ local uname_alias = {
 local uname = vim.fn.system('uname'):gsub("%s+", "")
 local bin_dir = uname_alias[uname] or uname
 
-return installer.Installer:new {
+return server.Server:new {
     name = "sumneko_lua",
     root_dir = root_dir,
     install_cmd = install_cmd,
