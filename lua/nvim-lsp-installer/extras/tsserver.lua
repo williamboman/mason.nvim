@@ -1,4 +1,4 @@
-local extras = require'nvim-lsp-installer.extras'
+local extras = require'nvim-lsp-installer.extras.utils'
 
 local M = {}
 
