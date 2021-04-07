@@ -25,6 +25,8 @@ if not lspconfig.eslintls then
                     }
                 },
 
+                rulesCustomizations = {},
+
                 -- Automatically determine working directory by locating .eslintrc config files.
                 --
                 -- It's recommended not to change this.
