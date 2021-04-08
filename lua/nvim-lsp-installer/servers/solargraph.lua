@@ -23,7 +23,7 @@ return server.Server:new {
     name = "solargraph",
     root_dir = root_dir,
     install_cmd = install_cmd,
-    pre_install = function ()
+    pre_install_check = function ()
         if vim.fn.executable('bundle') ~= 1 then
             error("bundle not installed")
         end

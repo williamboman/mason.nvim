@@ -93,13 +93,25 @@ M.Server = {}
 M.Server.__index = M.Server
 
 ---@class Server
+--@param opts table
+-- @field name (string)                  The name of the LSP server. This MUST correspond with lspconfig's naming.
+--
+-- @field root_dir (string)              The root directory of the installation. Most servers will make use of server.get_server_root_path() to produce its root_dir path.
+--
+-- @field install_cmd (string)           The shell script that installs the LSP. Make sure to exit with an error code (e.g. exit 1) on failures.
+--                                       The shell script is executed with "set -e" (exits the script on first non-successful command) by default.
+--
+-- @field default_options (table)        The default options to be passed to lspconfig's .setup() function. Each server should provide at least the `cmd` field.
+--
+-- @field pre_install_check (function)   An optional function to be executed before the install_cmd. This allows ensuring that any prerequisites are fulfilled.
+--                                       This could for example be verifying that required build tools are installed.
 function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
         _install_cmd = opts.install_cmd,
         _root_dir = opts.root_dir,
         _default_options = opts.default_options,
-        _pre_install = opts.pre_install,
+        _pre_install_check = opts.pre_install_check,
     }, M.Server)
 end
 
@@ -123,13 +135,13 @@ function M.Server:create_root_dir()
 end
 
 function M.Server:install()
-    if self._pre_install then
-        self._pre_install()
+    if self._pre_install_check then
+        self._pre_install_check()
     end
 
-    -- We run uninstall after pre_install because we don't want to
+    -- We run uninstall after pre_install_check because we don't want to
     -- unnecessarily uninstall a server should it no longer pass the
-    -- pre_install check.
+    -- pre_install_check.
     self:uninstall()
 
     self:create_root_dir()
@@ -144,7 +156,7 @@ function M.Server:install()
             on_exit = function (_, exit_code)
                 if exit_code ~= 0 then
                     vim.api.nvim_err_writeln("Server installation failed for " .. self.name .. ". Exit code: " .. exit_code)
-                    self:uninstall()
+                    pcall(self.uninstall, self)
                 else
                     print("Successfully installed " .. self.name)
                 end

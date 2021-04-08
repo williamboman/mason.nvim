@@ -30,7 +30,7 @@ return server.Server:new {
     name = "sumneko_lua",
     root_dir = root_dir,
     install_cmd = install_cmd,
-    pre_install = function()
+    pre_install_check = function()
         if vim.fn.executable('ninja') ~= 1 then
             error("ninja not installed (see https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages)")
         end
