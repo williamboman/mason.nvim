@@ -3,6 +3,7 @@ local M = {}
 -- :'<,'>!sort
 local _SERVERS = {
     'bashls',
+    'clangd',
     'cssls',
     'dockerls',
     'eslintls',

@@ -67,6 +67,7 @@ end
 ## Available LSPs
 
 - bashls
+- clangd
 - cssls
 - dockerls
 - eslintls
