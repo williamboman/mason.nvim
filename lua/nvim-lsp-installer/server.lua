@@ -7,6 +7,7 @@ local _SERVERS = {
     'cssls',
     'dockerls',
     'eslintls',
+    'gopls',
     'graphql',
     'html',
     'jsonls',

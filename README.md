@@ -71,6 +71,7 @@ end
 - cssls
 - dockerls
 - eslintls
+- gopls
 - graphql
 - html
 - jsonls
