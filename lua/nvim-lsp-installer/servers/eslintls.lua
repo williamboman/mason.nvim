@@ -64,7 +64,7 @@ git clone https://github.com/microsoft/vscode-eslint .;
 npm install;
 cd server;
 npm install;
-npx tsc;
+../node_modules/.bin/tsc;
 ]]
 
 return server.Server:new {
