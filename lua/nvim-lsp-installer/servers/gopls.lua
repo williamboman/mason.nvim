@@ -19,6 +19,6 @@ return server.Server:new {
   end,
   install_cmd = install_cmd,
   default_options = {
-    cmd = {root_dir .. "/gopls", "-logfile=/home/ecmm/log"},
+    cmd = {root_dir .. "/gopls"},
   }
 }
