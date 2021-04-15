@@ -2,20 +2,21 @@ local M = {}
 
 -- :'<,'>!sort
 local _SERVERS = {
-    'bashls',
-    'clangd',
-    'cssls',
-    'dockerls',
-    'eslintls',
-    'gopls',
-    'graphql',
-    'html',
-    'jsonls',
-    'solargraph',
-    'sumneko_lua',
-    'tsserver',
-    'vimls',
-    'yamlls',
+    "bashls",
+    "clangd",
+    "cssls",
+    "denols",
+    "dockerls",
+    "eslintls",
+    "gopls",
+    "graphql",
+    "html",
+    "jsonls",
+    "solargraph",
+    "sumneko_lua",
+    "tsserver",
+    "vimls",
+    "yamlls",
 }
 
 local function escape_quotes(str)

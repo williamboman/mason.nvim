@@ -69,6 +69,7 @@ end
 - bashls
 - clangd
 - cssls
+- denols
 - dockerls
 - eslintls
 - gopls
