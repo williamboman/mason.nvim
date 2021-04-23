@@ -16,6 +16,7 @@ local _SERVERS = {
     "sumneko_lua",
     "tsserver",
     "vimls",
+    "vuels",
     "yamlls",
 }
 

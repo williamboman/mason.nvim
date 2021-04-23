@@ -80,6 +80,7 @@ end
 - sumneko_lua
 - tsserver
 - vimls
+- vuels
 - yamlls
 
 ## Extras
