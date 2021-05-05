@@ -9,9 +9,9 @@ cd lua-language-server/;
 git submodule update --init --recursive;
 cd 3rd/luamake;
 if [[ $(uname) == Darwin ]]; then
-    ninja -f ninja/macos.ninja;
+    ninja -f compile/ninja/macos.ninja;
 elif [[ $(uname) == Linux ]]; then
-    ninja -f ninja/linux.ninja;
+    ninja -f compile/ninja/linux.ninja;
 else
     >&2 echo "$(uname) not supported.";
     exit 1;
