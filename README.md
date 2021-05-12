@@ -1,4 +1,4 @@
-# nvim-lsp-installer
+![nvim-lsp-installer](./logo.png)
 
 ## About
 
