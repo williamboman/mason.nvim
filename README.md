@@ -104,3 +104,7 @@ require'nvim-lsp-installer.extras.tsserver'.rename_file(old, new)
 ```lua
 require'nvim-lsp-installer.extras.tsserver'.organize_imports(bufname)
 ```
+
+## Logo
+
+Illustrations in the logo are derived from [@Kaligule](https://schauderbasis.de/)'s "Robots" collection.
