@@ -1,4 +1,6 @@
-![nvim-lsp-installer](./logo.png)
+<p align="center">
+  <img src="./logo.png" alt="nvim-lsp-installer" width="60%" />
+</p>
 
 ## About
 
