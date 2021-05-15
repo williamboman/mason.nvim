@@ -80,6 +80,7 @@ end
 - jsonls
 - solargraph (ruby)
 - sumneko_lua
+- texlab
 - tsserver
 - vimls
 - vuels

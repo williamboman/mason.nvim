@@ -14,6 +14,7 @@ local _SERVERS = {
     "jsonls",
     "solargraph",
     "sumneko_lua",
+    "texlab",
     "tsserver",
     "vimls",
     "vuels",
