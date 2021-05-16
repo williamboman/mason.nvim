@@ -37,7 +37,6 @@ use {
 
 - `:LspInstall <language>` - installs/reinstalls a language server
 - `:LspUninstall <language>` - uninstalls a language server
-- `:LspInstallAll` - installs all available language servers
 - `:LspUninstallAll` - uninstalls all language servers
 - `:LspPrintInstalled` - prints all installed language servers
 

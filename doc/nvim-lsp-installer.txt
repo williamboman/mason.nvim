@@ -58,11 +58,6 @@ Installs a language server
 
 Uninstalls a language server.
 
-                                                             *:LspInstallAll*
-:LspInstallAll
-
-Installs all available language servers.
-
                                                            *:LspUninstallAll*
 :LspUninstallAll
 
