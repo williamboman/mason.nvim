@@ -15,6 +15,7 @@ local _SERVERS = {
     "graphql",
     "html",
     "jsonls",
+    "rust_analyzer",
     "solargraph",
     "sumneko_lua",
     "texlab",

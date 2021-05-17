@@ -80,6 +80,7 @@ end
 - graphql
 - html
 - jsonls
+- rust_analyzer
 - solargraph (ruby)
 - sumneko_lua
 - texlab
