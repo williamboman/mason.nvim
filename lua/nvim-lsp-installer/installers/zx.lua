@@ -35,7 +35,7 @@ local function zx_installer(force)
         uv.spawn(
             "npm",
             {
-                args = { npm_command, "zx" },
+                args = { npm_command, "zx@1" },
                 cwd = INSTALL_DIR,
             },
             vim.schedule_wrap(function (code)
