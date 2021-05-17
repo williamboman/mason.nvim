@@ -1,12 +1,8 @@
 local uv = vim.loop
 local M = {}
 
-local function escape_quotes(str)
-    return string.format("%q", str)
-end
-
 function M.mkdirp(path)
-    if os.execute("mkdir -p " .. escape_quotes(path)) ~= 0 then
+    if os.execute(("mkdir -p %q"):format(path)) ~= 0 then
         error(("mkdirp: Could not create directory %s"):format(path))
     end
 end
@@ -34,7 +30,7 @@ end
 
 function M.rmrf(path)
     -- giggity
-    if os.execute("rm -rf " .. escape_quotes(path)) ~= 0 then
+    if os.execute(("rm -rf %q"):format(path)) ~= 0 then
         error(("Could not remove LSP server directory %s"):format(path))
     end
 end
