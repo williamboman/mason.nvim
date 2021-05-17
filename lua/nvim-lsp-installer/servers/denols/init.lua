@@ -12,7 +12,7 @@ curl -fsSL https://deno.land/x/install/install.sh | sh
 return server.Server:new {
     name = "denols",
     root_dir = root_dir,
-    install_cmd = shell.raw(install_cmd),
+    installer = shell.raw(install_cmd),
     default_options = {
         cmd = { path.concat { root_dir, "bin", "deno" }, "lsp" },
     },

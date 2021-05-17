@@ -13,7 +13,7 @@ local bin_dir = uname_alias[uname] or uname
 return server.Server:new {
     name = "sumneko_lua",
     root_dir = root_dir,
-    install_cmd = zx.file("./install.mjs"),
+    installer = zx.file("./install.mjs"),
     pre_install_check = function()
         if vim.fn.executable("ninja") ~= 1 then
             error("ninja not installed (see https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages)")

@@ -9,7 +9,7 @@ local root_dir = server.get_server_root_path("graphql")
 return server.Server:new {
     name = "graphql",
     root_dir = root_dir,
-    install_cmd = npm.packages { "graphql-language-service-cli@latest",  "graphql" },
+    installer = npm.packages { "graphql-language-service-cli@latest",  "graphql" },
     default_options = {
         cmd = { path.concat { root_dir, "node_modules", ".bin", "graphql-lsp" }, "server", "-m", "stream" },
         filetypes = { "typescriptreact", "javascriptreact", "graphql" },

@@ -7,7 +7,7 @@ local root_dir = server.get_server_root_path("c-family")
 return server.Server:new {
   name = "clangd",
   root_dir = root_dir,
-  install_cmd = zx.file("./install.mjs"),
+  installer = zx.file("./install.mjs"),
   default_options = {
     cmd = { path.concat { root_dir, "clangd", "bin", "clangd" } },
   }

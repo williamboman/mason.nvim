@@ -17,7 +17,7 @@ return server.Server:new {
       error("Please install the Go CLI before installing gopls (https://golang.org/doc/install).")
     end
   end,
-  install_cmd = shell.raw(install_cmd),
+  installer = shell.raw(install_cmd),
   default_options = {
     cmd = { path.concat { root_dir, "gopls" } },
   }

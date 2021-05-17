@@ -103,17 +103,18 @@ M.Server.__index = M.Server
 --
 -- @field root_dir (string)              The root directory of the installation. Most servers will make use of server.get_server_root_path() to produce its root_dir path.
 --
--- @field install_cmd (string)           The shell script that installs the LSP. Make sure to exit with an error code (e.g. exit 1) on failures.
---                                       The shell script is executed with "set -e" (exits the script on first non-successful command) by default.
+-- @field installer (function)           The function that installs the LSP (see the .installers module). The function signature should be `function (server, callback)`, where
+--                                       `server` is the Server instance being installed, and `callback` is a function that must be called upon completion. The `callback` function
+--                                       has the signature `function (success, result)`, where `success` is a boolean and `result` is of any type (similar to `pcall`).
 --
 -- @field default_options (table)        The default options to be passed to lspconfig's .setup() function. Each server should provide at least the `cmd` field.
 --
--- @field pre_install_check (function)   An optional function to be executed before the install_cmd. This allows ensuring that any prerequisites are fulfilled.
+-- @field pre_install_check (function)   An optional function to be executed before the installer. This allows ensuring that any prerequisites are fulfilled.
 --                                       This could for example be verifying that required build tools are installed.
 function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
-        _install_cmd = opts.install_cmd,
+        _installer = opts.installer,
         _root_dir = opts.root_dir,
         _default_options = opts.default_options,
         _pre_install_check = opts.pre_install_check,
@@ -149,9 +150,9 @@ function M.Server:install()
 
     self:create_root_dir()
 
-    self._install_cmd(self, function (_, exit_code)
-        if exit_code ~= 0 then
-            vim.api.nvim_err_writeln(("Server installation failed for %s. Exit code: %d"):format(self.name, exit_code))
+    self._installer(self, function (success, result)
+        if not success then
+            vim.api.nvim_err_writeln(("Server installation failed for %s. %s"):format(self.name, result))
             pcall(self.uninstall, self)
         else
             print(("Successfully installed %s"):format(self.name))

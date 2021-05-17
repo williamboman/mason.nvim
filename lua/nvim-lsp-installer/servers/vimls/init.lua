@@ -7,7 +7,7 @@ local root_dir = server.get_server_root_path("vim")
 return server.Server:new {
     name = "vimls",
     root_dir = root_dir,
-    install_cmd = npm.packages { "vim-language-server@latest" },
+    installer = npm.packages { "vim-language-server@latest" },
     default_options = {
         cmd = { path.concat { root_dir, "node_modules", ".bin", "vim-language-server" }, "--stdio" },
     }

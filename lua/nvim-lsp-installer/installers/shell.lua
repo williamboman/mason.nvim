@@ -1,7 +1,7 @@
 local M = {}
 
 function M.raw(raw_script)
-    return function (server, on_exit)
+    return function (server, callback)
         local shell = vim.o.shell
         vim.o.shell = "/bin/bash"
         vim.cmd [[new]]
@@ -9,7 +9,13 @@ function M.raw(raw_script)
             "set -e;\n" .. raw_script,
             {
                 cwd = server._root_dir,
-                on_exit = on_exit
+                on_exit = function (_, exit_code)
+                    if exit_code ~= 0 then
+                        callback(false, ("Exit code was non-successful: %d"):format(exit_code))
+                    else
+                        callback(true, nil)
+                    end
+                end
             }
         )
         vim.o.shell = shell

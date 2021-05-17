@@ -44,7 +44,7 @@ end
 
 function M.file(relpath)
     local script_path = path.realpath(relpath, 3)
-    return function (server, on_exit)
+    return function (server, callback)
         M.install_zx(function ()
             vim.cmd [[new]]
             vim.fn.termopen(("set -e; %q %q"):format(
@@ -52,7 +52,13 @@ function M.file(relpath)
                 script_path
             ), {
                     cwd = server._root_dir,
-                    on_exit = on_exit
+                    on_exit = function (_, exit_code)
+                        if exit_code ~= 0 then
+                            callback(false, ("Exit code was non-successful: %d"):format(exit_code))
+                        else
+                            callback(true, nil)
+                        end
+                    end
                 })
             vim.cmd [[startinsert]] -- so that the buffer tails the term log nicely
         end, false)

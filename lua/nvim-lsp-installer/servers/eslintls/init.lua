@@ -64,7 +64,7 @@ npm install;
 return server.Server:new {
     name = "eslintls",
     root_dir = root_dir,
-    install_cmd = shell.raw(install_cmd),
+    installer = shell.raw(install_cmd),
     default_options = {
         cmd = { "node", path.concat { root_dir, "server", "out", "eslintServer.js" }, "--stdio" },
         handlers = {

@@ -7,7 +7,7 @@ local root_dir = server.get_server_root_path("ruby")
 return server.Server:new {
     name = "solargraph",
     root_dir = root_dir,
-    install_cmd = zx.file("./install.mjs"),
+    installer = zx.file("./install.mjs"),
     pre_install_check = function ()
         if vim.fn.executable("bundle") ~= 1 then
             error("bundle not installed")
