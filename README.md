@@ -10,10 +10,13 @@ installing & uninsalling LSP servers, it:
 
 - provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
 - provides extra APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
+- has support for a variety of different install methods (primarily [google/zx](https://github.com/google/zx))
 
 Inspired by [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 
 ## Installation
+
+Some install scripts are written in [google/zx](https://github.com/google/zx) and will require a [Node.js LTS](https://nodejs.org/) runtime to be installed.
 
 ### vim-plug
 

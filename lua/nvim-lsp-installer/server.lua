@@ -1,3 +1,6 @@
+local fs = require("nvim-lsp-installer.fs")
+local path = require("nvim-lsp-installer.path")
+
 local M = {}
 
 -- :'<,'>!sort
@@ -21,12 +24,8 @@ local _SERVERS = {
     "yamlls",
 }
 
-local function escape_quotes(str)
-    return string.format("%q", str)
-end
-
 local function get_server(server_name)
-    return pcall(require, 'nvim-lsp-installer.servers.' .. server_name)
+    return pcall(require, ("nvim-lsp-installer.servers.%s"):format(server_name))
 end
 
 local function get_servers(server_names)
@@ -34,7 +33,7 @@ local function get_servers(server_names)
     for _, server_name in pairs(server_names) do
         local ok, server = get_server(server_name)
         if not ok then
-            vim.api.nvim_err_writeln("Unable to find LSP server " .. server_name)
+            vim.api.nvim_err_writeln(("Unable to find LSP server %s. Error=%s"):format(server_name, server))
             goto continue
         end
         result[server_name] = server
@@ -68,30 +67,30 @@ end
 function M.install(server_name)
     local ok, server = get_server(server_name)
     if not ok then
-        return vim.api.nvim_err_writeln("Unable to find LSP server " .. server_name)
+        return vim.api.nvim_err_writeln(("Unable to find LSP server %s. Error=%s"):format(server_name, server))
     end
     local success, error = pcall(server.install, server)
     if not success then
         pcall(server.uninstall, server)
-        return vim.api.nvim_err_writeln("Failed to install " .. server_name .. ". Error=" .. vim.inspect(error))
+        return vim.api.nvim_err_writeln(("Failed to install %s. Error=%s"):format(server_name, vim.inspect(error)))
     end
 end
 
 function M.uninstall(server_name)
     local ok, server = get_server(server_name)
     if not ok then
-        return vim.api.nvim_err_writeln("Unable to find LSP server " .. server_name)
+        return vim.api.nvim_err_writeln(("Unable to find LSP server %s. Error=%s"):format(server_name, server))
     end
     local success, error = pcall(server.uninstall, server)
     if not success then
-        vim.api.nvim_err_writeln('Unable to uninstall ' .. server_name .. '. Error=' .. vim.inspect(error))
+        vim.api.nvim_err_writeln(("Unable to uninstall %s. Error=%s"):format(server_name, vim.inspect(error)))
         return success
     end
-    print("Successfully uninstalled " .. server_name)
+    print(("Successfully uninstalled %s"):format(server_name))
 end
 
 function M.get_server_root_path(server)
-    return vim.fn.stdpath('data') .. "/lsp_servers/" .. server
+    return path.concat { vim.fn.stdpath("data"), "lsp_servers", server }
 end
 
 M.Server = {}
@@ -124,19 +123,17 @@ function M.Server:setup(opts)
     -- We require the lspconfig server here in order to do it as late as possible.
     -- The reason for this is because once a lspconfig server has been imported, it's
     -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
-    require'lspconfig'[self.name].setup(
-        vim.tbl_deep_extend('force', self._default_options, opts)
+    require("lspconfig")[self.name].setup(
+        vim.tbl_deep_extend("force", self._default_options, opts)
     )
 end
 
 function M.Server:is_installed()
-    return os.execute('test -d ' .. escape_quotes(self._root_dir)) == 0
+    return fs.dir_exists(self._root_dir)
 end
 
 function M.Server:create_root_dir()
-    if os.execute('mkdir -p ' .. escape_quotes(self._root_dir)) ~= 0 then
-        error('Could not create LSP server directory ' .. self._root_dir)
-    end
+    fs.mkdirp(self._root_dir)
 end
 
 function M.Server:install()
@@ -151,34 +148,18 @@ function M.Server:install()
 
     self:create_root_dir()
 
-    local shell = vim.o.shell
-    vim.o.shell = '/bin/bash'
-    vim.cmd [[new]]
-    vim.fn.termopen(
-        'set -e;\n' .. self._install_cmd,
-        {
-            cwd = self._root_dir,
-            on_exit = function (_, exit_code)
-                if exit_code ~= 0 then
-                    vim.api.nvim_err_writeln("Server installation failed for " .. self.name .. ". Exit code: " .. exit_code)
-                    pcall(self.uninstall, self)
-                else
-                    print("Successfully installed " .. self.name)
-                end
-
-            end
-        }
-    )
-    vim.o.shell = shell
-    vim.cmd([[startinsert]]) -- so that the buffer tails the term log nicely
+    self._install_cmd(self, function (_, exit_code)
+        if exit_code ~= 0 then
+            vim.api.nvim_err_writeln(("Server installation failed for %s. Exit code: %d"):format(self.name, exit_code))
+            pcall(self.uninstall, self)
+        else
+            print(("Successfully installed %s"):format(self.name))
+        end
+    end)
 end
 
 function M.Server:uninstall()
-    -- giggity
-    if os.execute('rm -rf ' .. escape_quotes(self._root_dir)) ~= 0 then
-        error('Could not remove LSP server directory ' .. self._root_dir)
-    end
-
+    fs.rmrf(self._root_dir)
 end
 
 return M

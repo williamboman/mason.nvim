@@ -1,7 +1,9 @@
-local lspconfig = require'lspconfig'
-local configs = require'lspconfig/configs'
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig/configs")
 
-local server = require'nvim-lsp-installer.server'
+local server = require("nvim-lsp-installer.server")
+local path = require("nvim-lsp-installer.path")
+local shell = require("nvim-lsp-installer.installers.shell")
 
 configs.eslintls = {
     default_config = {
@@ -50,7 +52,7 @@ local ConfirmExecutionResult = {
     approved = 4
 }
 
-local root_dir = server.get_server_root_path('eslint')
+local root_dir = server.get_server_root_path("eslint")
 local install_cmd = [[
 git clone https://github.com/microsoft/vscode-eslint .;
 npm install;
@@ -62,9 +64,9 @@ npm install;
 return server.Server:new {
     name = "eslintls",
     root_dir = root_dir,
-    install_cmd = install_cmd,
+    install_cmd = shell.raw(install_cmd),
     default_options = {
-        cmd = {'node', root_dir .. '/server/out/eslintServer.js', '--stdio'},
+        cmd = { "node", path.concat { root_dir, "server", "out", "eslintServer.js" }, "--stdio" },
         handlers = {
             ["eslint/openDoc"] = function (_, _, open_doc)
                 os.execute(string.format("open %q", open_doc.url))
@@ -76,15 +78,15 @@ return server.Server:new {
                 return ConfirmExecutionResult.approved
             end,
             ["eslint/probeFailed"] = function ()
-                vim.api.nvim_err_writeln('ESLint probe failed.')
+                vim.api.nvim_err_writeln("ESLint probe failed.")
                 return {id = nil, result = true}
             end,
             ["eslint/noLibrary"] = function ()
-                vim.api.nvim_err_writeln('Unable to find ESLint library.')
+                vim.api.nvim_err_writeln("Unable to find ESLint library.")
                 return {id = nil, result = true}
             end,
             ["eslint/noConfig"] = function ()
-                vim.api.nvim_err_writeln('Unable to find ESLint configuration.')
+                vim.api.nvim_err_writeln("Unable to find ESLint configuration.")
                 return {id = nil, result = true}
             end,
         },

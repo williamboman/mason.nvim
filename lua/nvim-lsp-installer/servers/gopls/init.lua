@@ -1,12 +1,12 @@
-local server = require('nvim-lsp-installer.server')
+local server = require("nvim-lsp-installer.server")
+local path = require("nvim-lsp-installer.path")
+local shell = require("nvim-lsp-installer.installers.shell")
 
-local root_dir = server.get_server_root_path('go')
+local root_dir = server.get_server_root_path("go")
 
 local install_cmd = [=[
-
 GO111MODULE=on GOBIN="$PWD" GOPATH="$PWD"  go get golang.org/x/tools/gopls@latest;
 command -v ./gopls &> /dev/null; 
-
 ]=]
 
 return server.Server:new {
@@ -17,8 +17,8 @@ return server.Server:new {
       error("Please install the Go CLI before installing gopls (https://golang.org/doc/install).")
     end
   end,
-  install_cmd = install_cmd,
+  install_cmd = shell.raw(install_cmd),
   default_options = {
-    cmd = {root_dir .. "/gopls"},
+    cmd = { path.concat { root_dir, "gopls" } },
   }
 }
