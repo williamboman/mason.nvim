@@ -1,12 +1,17 @@
 local M = {}
 
-function M.raw(raw_script)
+local default_opts = {
+    prefix = "set -euo pipefail;"
+}
+
+function M.raw(raw_script, opts)
+    opts = opts or {}
     return function (server, callback)
         local shell = vim.o.shell
         vim.o.shell = "/bin/bash"
         vim.cmd [[new]]
         vim.fn.termopen(
-            "set -e;\n" .. raw_script,
+            opts.prefix or default_opts.prefix .. raw_script,
             {
                 cwd = server._root_dir,
                 on_exit = function (_, exit_code)
