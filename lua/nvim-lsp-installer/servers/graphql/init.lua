@@ -13,6 +13,22 @@ return server.Server:new {
     default_options = {
         cmd = { path.concat { root_dir, "node_modules", ".bin", "graphql-lsp" }, "server", "-m", "stream" },
         filetypes = { "typescriptreact", "javascriptreact", "graphql" },
-        root_dir = util.root_pattern(".git", ".graphqlrc"),
+        root_dir = util.root_pattern(
+          -- Sourced from https://graphql-config.com/usage/ and https://git.io/Js2dt
+          "package.json",
+          "graphql.config.json",
+          "graphql.config.js",
+          "graphql.config.ts",
+          "graphql.config.toml",
+          "graphql.config.yaml",
+          "graphql.config.yml",
+          ".graphqlrc",
+          ".graphqlrc.json",
+          ".graphqlrc.toml",
+          ".graphqlrc.yaml",
+          ".graphqlrc.yml",
+          ".graphqlrc.js",
+          ".graphqlrc.ts"
+        ),
     },
 }
