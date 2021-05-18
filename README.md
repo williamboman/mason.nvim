@@ -75,6 +75,7 @@ end
 - cssls
 - denols
 - dockerls
+- elmls
 - eslintls
 - gopls
 - graphql

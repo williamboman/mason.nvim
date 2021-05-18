@@ -10,6 +10,7 @@ local _SERVERS = {
     "cssls",
     "denols",
     "dockerls",
+    "elmls",
     "eslintls",
     "gopls",
     "graphql",
