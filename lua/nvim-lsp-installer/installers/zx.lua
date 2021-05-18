@@ -23,6 +23,7 @@ local function zx_installer(force)
 
         if vim.fn.executable("npm") ~= 1 or vim.fn.executable("node") ~= 1 then
             callback(false, "Cannot install zx because npm and/or node not installed.")
+            return
         end
 
         local is_zx_already_installed = fs.file_exists(ZX_EXECUTABLE)
@@ -41,6 +42,7 @@ local function zx_installer(force)
             vim.schedule_wrap(function (code)
                 if code ~= 0 then
                     callback(false, "Failed to install zx.")
+                    return
                 end
                 has_installed_zx = true
                 vim.cmd [[ echon "" ]] -- clear the previously printed feedback message… ¯\_(ツ)_/¯
