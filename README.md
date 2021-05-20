@@ -81,6 +81,7 @@ end
 - graphql
 - html
 - jsonls
+- pyright
 - rust_analyzer
 - solargraph (ruby)
 - sumneko_lua

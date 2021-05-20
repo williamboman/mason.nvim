@@ -16,6 +16,7 @@ local _SERVERS = {
     "graphql",
     "html",
     "jsonls",
+    "pyright",
     "rust_analyzer",
     "solargraph",
     "sumneko_lua",
