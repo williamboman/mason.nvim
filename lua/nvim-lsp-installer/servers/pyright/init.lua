@@ -10,6 +10,5 @@ return server.Server:new {
     installer = npm.packages { "pyright" },
     default_options = {
         cmd = { path.concat { root_dir, "node_modules", ".bin", "pyright-langserver" }, "--stdio" },
-        on_attach = server.common_on_attach,
     },
 }
