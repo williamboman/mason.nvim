@@ -116,6 +116,8 @@ require'nvim-lsp-installer.extras.tsserver'.organize_imports(bufname)
 
 ## Adapters
 
+Make sure to only attempt connecting adapters once the plugin(s) involved have been loaded.
+
 ### [kyazdani42/nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
 
 ```lua
