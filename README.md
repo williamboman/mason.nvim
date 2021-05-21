@@ -97,7 +97,7 @@ end
 
 The `tsserver` language server comes with the following extras:
 
-- `rename_file(old, new)` Tells the language server that a file was renamed. Useful when refactoring.
+- `rename_file(old, new)` Tells the language server that a file was renamed. Useful when refactoring. Refer to the [adapters section](#adapters) to find plugin integrations that automatically executes this for you.
 
   Usage:
 
@@ -112,6 +112,18 @@ require'nvim-lsp-installer.extras.tsserver'.rename_file(old, new)
 ```lua
 require'nvim-lsp-installer.extras.tsserver'.organize_imports(bufname)
 ```
+
+## Adapters
+
+### [kyazdani42/nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
+
+```lua
+require'nvim-lsp-installer.adapters.nvim-tree'.connect()
+```
+
+Supported capabilities:
+
+ -  `_typescript.applyRenameFile`. Automatically executes the rename file client request when renaming a node.
 
 ## Logo
 
