@@ -132,6 +132,10 @@ function M.Server:setup(opts)
     )
 end
 
+function M.Server:get_default_options()
+    return vim.deepcopy(self._default_options)
+end
+
 function M.Server:is_installed()
     return fs.dir_exists(self._root_dir)
 end

@@ -119,6 +119,10 @@ class: Server
                     See |lspconfig-custom-config| for more information on
                     {opts}.
 
+            - get_default_options()
+                    Returns a deep copy of the default options provided to
+                    lspconfig in the setup({opts}) method.
+
             - is_installed()
                     Returns {true} is server is installed, else returns {false}.
 
