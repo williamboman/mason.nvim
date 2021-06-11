@@ -31,12 +31,11 @@ local function get_servers(server_names)
     local result = {}
     for _, server_name in pairs(server_names) do
         local ok, server = M.get_server(server_name)
-        if not ok then
+        if ok then
+            result[server_name] = server
+        else
             vim.api.nvim_err_writeln(("Unable to find LSP server %s. Error=%s"):format(server_name, server))
-            goto continue
         end
-        result[server_name] = server
-        ::continue::
     end
     return result
 end
