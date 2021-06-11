@@ -3,7 +3,7 @@ local M = {}
 
 function M.mkdirp(path)
     if os.execute(("mkdir -p %q"):format(path)) ~= 0 then
-        error(("mkdirp: Could not create directory %s"):format(path))
+        error(("mkdirp: Could not create directory %q"):format(path))
     end
 end
 
@@ -31,7 +31,7 @@ end
 function M.rmrf(path)
     -- giggity
     if os.execute(("rm -rf %q"):format(path)) ~= 0 then
-        error(("Could not remove LSP server directory %s"):format(path))
+        error(("rmrf: Could not remove directory %q"):format(path))
     end
 end
 
