@@ -1,4 +1,4 @@
-const VERSION = "2021-06-07";
+const VERSION = "2021-05-10";
 
 const target = (() => {
   switch (os.platform()) {
