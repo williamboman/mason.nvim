@@ -88,6 +88,23 @@ get_uninstalled_servers()
         Return: ~
             |lsp_installer.Server|[] A list of servers that are not installed.
 
+                                                 *lsp_installer.get_server()*
+get_server({server_name})
+        Parameters: ~
+            {server_name} (string) The server instance to retrieve.
+
+        Return: ~
+            ok: boolean, server: |lsp_installer.Server|
+
+        Example: ~
+>
+            local lsp_installer = require'nvim-lsp-installer'
+            local ok, rust_server = lsp_installer.get_server("rust_analyzer")
+            if ok then
+                rust_server.install()
+            end
+<
+
                                                     *lsp_installer.install()*
 install({server_name})
         Installs the provided {server_name}. If {server_name} is already installed, it

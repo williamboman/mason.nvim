@@ -27,14 +27,10 @@ local _SERVERS = {
     "yamlls",
 }
 
-local function get_server(server_name)
-    return pcall(require, ("nvim-lsp-installer.servers.%s"):format(server_name))
-end
-
 local function get_servers(server_names)
     local result = {}
     for _, server_name in pairs(server_names) do
-        local ok, server = get_server(server_name)
+        local ok, server = M.get_server(server_name)
         if not ok then
             vim.api.nvim_err_writeln(("Unable to find LSP server %s. Error=%s"):format(server_name, server))
             goto continue
@@ -43,6 +39,10 @@ local function get_servers(server_names)
         ::continue::
     end
     return result
+end
+
+function M.get_server(server_name)
+    return pcall(require, ("nvim-lsp-installer.servers.%s"):format(server_name))
 end
 
 function M.get_available_servers()
@@ -68,7 +68,7 @@ function M.get_uninstalled_servers()
 end
 
 function M.install(server_name)
-    local ok, server = get_server(server_name)
+    local ok, server = M.get_server(server_name)
     if not ok then
         return vim.api.nvim_err_writeln(("Unable to find LSP server %s. Error=%s"):format(server_name, server))
     end
@@ -80,7 +80,7 @@ function M.install(server_name)
 end
 
 function M.uninstall(server_name)
-    local ok, server = get_server(server_name)
+    local ok, server = M.get_server(server_name)
     if not ok then
         return vim.api.nvim_err_writeln(("Unable to find LSP server %s. Error=%s"):format(server_name, server))
     end
