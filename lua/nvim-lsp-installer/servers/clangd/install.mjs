@@ -1,4 +1,4 @@
-const VERSION = "11.0.0";
+const VERSION = "12.0.0";
 
 const target = (() => {
   const platform = os.platform();
