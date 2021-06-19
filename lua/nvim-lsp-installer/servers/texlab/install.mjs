@@ -1,4 +1,4 @@
-const VERSION = "v2.2.2"
+const VERSION = "v3.2.0"
 
 const platform = os.platform();
 
