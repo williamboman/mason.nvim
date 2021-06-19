@@ -1,4 +1,4 @@
-const VERSION = "2021-06-07";
+const VERSION = "2021-06-14";
 
 const exitNotSupported = () => {
     console.error(
