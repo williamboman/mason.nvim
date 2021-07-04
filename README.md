@@ -88,6 +88,7 @@ end
 - graphql
 - hls (haskell)
 - html
+- intelephense (php)
 - jsonls
 - omnisharp (csharp)
 - pyright

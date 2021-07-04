@@ -21,6 +21,7 @@ local _SERVERS = {
     "graphql",
     "hls",
     "html",
+    "intelephense",
     "jsonls",
     "omnisharp",
     "pyright",
