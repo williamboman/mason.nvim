@@ -96,12 +96,13 @@ end
 - solargraph (ruby)
 - sumneko_lua
 - svelte
+- tailwindcss
+- terraformls
 - texlab
 - tsserver
 - vimls
 - vuels
 - yamlls
-- tailwindcss
 
 ## Extras
 

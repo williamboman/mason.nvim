@@ -29,12 +29,13 @@ local _SERVERS = {
     "solargraph",
     "sumneko_lua",
     "svelte",
+    "tailwindcss",
+    "terraformls",
     "texlab",
     "tsserver",
     "vimls",
     "vuels",
     "yamlls",
-    "tailwindcss",
 }
 
 local function get_servers(server_names)
