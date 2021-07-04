@@ -19,6 +19,7 @@ local _SERVERS = {
     "fortls",
     "gopls",
     "graphql",
+    "hls",
     "html",
     "jsonls",
     "omnisharp",

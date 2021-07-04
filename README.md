@@ -86,6 +86,7 @@ end
 - fortls (fortran)
 - gopls
 - graphql
+- hls (haskell)
 - html
 - jsonls
 - omnisharp (csharp)
