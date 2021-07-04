@@ -79,6 +79,7 @@ end
 - cssls
 - denols
 - dockerls
+- elixirls
 - elmls
 - eslintls
 - gopls

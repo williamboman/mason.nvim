@@ -13,6 +13,7 @@ local _SERVERS = {
     "cssls",
     "denols",
     "dockerls",
+    "elixirls",
     "elmls",
     "eslintls",
     "gopls",
