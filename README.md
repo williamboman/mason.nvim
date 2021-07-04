@@ -8,12 +8,12 @@ Semi-opinionated companion plugin for [nvim-lspconfig](https://github.com/neovim
 It comes with all batteries included, or at least to the extent possible. On top of just providing commands for
 installing & uninsalling LSP servers, it:
 
-- provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
-- provides extra APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
-- has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
-- common install tasks are abstracted behind Lua APIs
-- provides adapters that offer out-of-box integrations with other plugins
-- managed versioning of installed servers (future)
+-   provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
+-   provides extra APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
+-   has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
+-   common install tasks are abstracted behind Lua APIs
+-   provides adapters that offer out-of-box integrations with other plugins
+-   managed versioning of installed servers (future)
 
 Inspired by [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 
@@ -41,10 +41,10 @@ use {
 
 ### Commands
 
-- `:LspInstall <language>` - installs/reinstalls a language server
-- `:LspUninstall <language>` - uninstalls a language server
-- `:LspUninstallAll` - uninstalls all language servers
-- `:LspPrintInstalled` - prints all installed language servers
+-   `:LspInstall <language>` - installs/reinstalls a language server
+-   `:LspUninstall <language>` - uninstalls a language server
+-   `:LspUninstallAll` - uninstalls all language servers
+-   `:LspPrintInstalled` - prints all installed language servers
 
 ### Setup
 
@@ -71,40 +71,53 @@ for _, server in pairs(installed_servers) do
 end
 ```
 
+For more advanced use cases you may also interact with more APIs nvim-lsp-installer has to offer, for example the following (refer to `:help nvim-lsp-installer` for more docs):
+
+```lua
+local lsp_installer = require'nvim-lsp-installer'
+
+local ok, rust_analyzer = lsp_installer.get_server("rust_analyzer")
+if ok then
+    if not rust_analyzer:is_installed() then
+        rust_analyzer:install()
+    end
+end
+```
+
 ## Available LSPs
 
-- angularls
-- bashls
-- clangd
-- clojure_lsp
-- cmake
-- cssls
-- denols
-- dockerls
-- elixirls
-- elmls
-- eslintls
-- fortls (fortran)
-- gopls
-- graphql
-- hls (haskell)
-- html
-- intelephense (php)
-- jsonls
-- omnisharp (csharp)
-- pyright
-- rome
-- rust_analyzer
-- solargraph (ruby)
-- sumneko_lua
-- svelte
-- tailwindcss
-- terraformls
-- texlab
-- tsserver
-- vimls
-- vuels
-- yamlls
+-   angularls
+-   bashls
+-   clangd
+-   clojure_lsp
+-   cmake
+-   cssls
+-   denols
+-   dockerls
+-   elixirls
+-   elmls
+-   eslintls
+-   fortls (fortran)
+-   gopls
+-   graphql
+-   hls (haskell)
+-   html
+-   intelephense (php)
+-   jsonls
+-   omnisharp (csharp)
+-   pyright
+-   rome
+-   rust_analyzer
+-   solargraph (ruby)
+-   sumneko_lua
+-   svelte
+-   tailwindcss
+-   terraformls
+-   texlab
+-   tsserver
+-   vimls
+-   vuels
+-   yamlls
 
 ## Extras
 
@@ -112,17 +125,17 @@ end
 
 The `tsserver` language server comes with the following extras:
 
-- `rename_file(old, new)` Tells the language server that a file was renamed. Useful when refactoring. Refer to the [adapters section](#adapters) to find plugin integrations that automatically executes this for you.
+-   `rename_file(old, new)` Tells the language server that a file was renamed. Useful when refactoring. Refer to the [adapters section](#adapters) to find plugin integrations that automatically executes this for you.
 
-  Usage:
+    Usage:
 
 ```lua
 require'nvim-lsp-installer.extras.tsserver'.rename_file(old, new)
 ```
 
-- `organize_imports(bufname)` Organizes the imports of a file. `bufname` is optional, will default to current buffer.
+-   `organize_imports(bufname)` Organizes the imports of a file. `bufname` is optional, will default to current buffer.
 
-  Usage:
+    Usage:
 
 ```lua
 require'nvim-lsp-installer.extras.tsserver'.organize_imports(bufname)
@@ -140,7 +153,7 @@ require'nvim-lsp-installer.adapters.nvim-tree'.connect()
 
 Supported capabilities:
 
- -  `_typescript.applyRenameFile`. Automatically executes the rename file client request when renaming a node.
+-   `_typescript.applyRenameFile`. Automatically executes the rename file client request when renaming a node.
 
 ## Logo
 
