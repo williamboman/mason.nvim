@@ -25,6 +25,7 @@ local _SERVERS = {
     "jsonls",
     "omnisharp",
     "pyright",
+    "rome",
     "rust_analyzer",
     "solargraph",
     "sumneko_lua",

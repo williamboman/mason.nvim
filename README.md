@@ -92,6 +92,7 @@ end
 - jsonls
 - omnisharp (csharp)
 - pyright
+- rome
 - rust_analyzer
 - solargraph (ruby)
 - sumneko_lua
