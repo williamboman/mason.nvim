@@ -101,7 +101,7 @@ get_server({server_name})
             local lsp_installer = require'nvim-lsp-installer'
             local ok, rust_server = lsp_installer.get_server("rust_analyzer")
             if ok then
-                rust_server.install()
+                rust_server:install()
             end
 <
 
