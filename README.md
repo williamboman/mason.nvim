@@ -12,6 +12,7 @@ installing & uninsalling LSP servers, it:
 - provides extra APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
 - has support for a variety of different install methods (primarily [google/zx](https://github.com/google/zx))
 - provides adapters that offer out-of-box integrations with other plugins
+- managed versioning of installed servers (future)
 
 Inspired by [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 
