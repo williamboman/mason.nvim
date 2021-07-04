@@ -16,6 +16,7 @@ local _SERVERS = {
     "elixirls",
     "elmls",
     "eslintls",
+    "fortls",
     "gopls",
     "graphql",
     "html",

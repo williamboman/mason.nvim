@@ -83,6 +83,7 @@ end
 - elixirls
 - elmls
 - eslintls
+- fortls (fortran)
 - gopls
 - graphql
 - html
