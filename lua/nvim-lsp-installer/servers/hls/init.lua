@@ -9,6 +9,6 @@ return server.Server:new {
     root_dir = root_dir,
     installer = zx.file("./install.mjs"),
     default_options = {
-        cmd = { path.concat { root_dir, "hls" }, "--lsp" },
+        cmd = { path.concat { root_dir, "hls" } },
     },
 }
