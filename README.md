@@ -71,6 +71,7 @@ end
 
 ## Available LSPs
 
+- angularls
 - bashls
 - clangd
 - cssls

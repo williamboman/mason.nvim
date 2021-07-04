@@ -5,6 +5,7 @@ local M = {}
 
 -- :'<,'>!sort
 local _SERVERS = {
+    "angularls",
     "bashls",
     "clangd",
     "cssls",
