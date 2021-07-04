@@ -18,4 +18,4 @@ switch (os.platform()) {
 }
 
 cd(".");
-await $`./3rd/luamake/luamake rebuild`;
+await $`./3rd/luamake/luamake rebuild &> /dev/null`;
