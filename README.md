@@ -10,7 +10,7 @@ installing & uninsalling LSP servers, it:
 
 - provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
 - provides extra APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
-- has support for a variety of different install methods (e.g. [google/zx](https://github.com/google/zx))
+- has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
 - common install tasks are abstracted behind Lua APIs
 - provides adapters that offer out-of-box integrations with other plugins
 - managed versioning of installed servers (future)
