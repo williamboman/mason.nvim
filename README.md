@@ -85,6 +85,7 @@ end
 - graphql
 - html
 - jsonls
+- omnisharp (csharp)
 - pyright
 - rust_analyzer
 - solargraph (ruby)

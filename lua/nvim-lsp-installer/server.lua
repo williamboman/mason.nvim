@@ -19,6 +19,7 @@ local _SERVERS = {
     "graphql",
     "html",
     "jsonls",
+    "omnisharp",
     "pyright",
     "rust_analyzer",
     "solargraph",
