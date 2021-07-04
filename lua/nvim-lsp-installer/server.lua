@@ -9,6 +9,7 @@ local _SERVERS = {
     "bashls",
     "clangd",
     "clojure_lsp",
+    "cmake",
     "cssls",
     "denols",
     "dockerls",

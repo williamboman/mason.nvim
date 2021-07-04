@@ -11,7 +11,7 @@ function M.raw(raw_script, opts)
         vim.o.shell = "/bin/bash"
         vim.cmd [[new]]
         vim.fn.termopen(
-            opts.prefix or default_opts.prefix .. raw_script,
+            (opts.prefix or default_opts.prefix) .. raw_script,
             {
                 cwd = server._root_dir,
                 on_exit = function (_, exit_code)
