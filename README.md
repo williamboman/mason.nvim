@@ -95,6 +95,7 @@ end
 - rust_analyzer
 - solargraph (ruby)
 - sumneko_lua
+- svelte
 - texlab
 - tsserver
 - vimls

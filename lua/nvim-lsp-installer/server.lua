@@ -28,6 +28,7 @@ local _SERVERS = {
     "rust_analyzer",
     "solargraph",
     "sumneko_lua",
+    "svelte",
     "texlab",
     "tsserver",
     "vimls",
