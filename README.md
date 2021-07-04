@@ -74,6 +74,7 @@ end
 - angularls
 - bashls
 - clangd
+- clojure_lsp
 - cssls
 - denols
 - dockerls
