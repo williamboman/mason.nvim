@@ -14,7 +14,7 @@ end
 
 local default_probe_dir = get_probe_dir(vim.fn.getcwd())
 
-local root_dir = server.get_server_root_path("css")
+local root_dir = server.get_server_root_path("angularls")
 
 local executable_path = path.concat { root_dir, "node_modules", ".bin", "ngserver" }
 
