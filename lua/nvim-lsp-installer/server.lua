@@ -34,6 +34,7 @@ local _SERVERS = {
     "vimls",
     "vuels",
     "yamlls",
+    "tailwindcss",
 }
 
 local function get_servers(server_names)

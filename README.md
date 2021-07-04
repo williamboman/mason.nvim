@@ -101,6 +101,7 @@ end
 - vimls
 - vuels
 - yamlls
+- tailwindcss
 
 ## Extras
 
