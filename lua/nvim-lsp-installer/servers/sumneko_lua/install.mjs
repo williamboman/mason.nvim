@@ -1,4 +1,4 @@
-await $`git clone https://github.com/sumneko/lua-language-server.git .`;
+await $`git clone --depth 1 https://github.com/sumneko/lua-language-server.git .`;
 await $`git submodule update --init --recursive`;
 
 cd("3rd/luamake");

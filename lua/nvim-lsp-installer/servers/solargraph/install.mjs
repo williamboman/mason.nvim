@@ -1,4 +1,4 @@
-await $`git clone https://github.com/castwide/solargraph.git .`;
+await $`git clone --depth 1 https://github.com/castwide/solargraph.git .`;
 
 await $`bundle config set --local without 'development'`;
 await $`bundle config set --local path 'vendor/bundle'`;
