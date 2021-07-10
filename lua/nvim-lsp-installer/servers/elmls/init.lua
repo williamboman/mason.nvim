@@ -11,8 +11,8 @@ return server.Server:new {
     cmd = { npm.executable(root_dir, "elm-language-server") },
     init_options = {
       elmPath = npm.executable(root_dir, "elm"),
-      elmFormatPath = npm.exe(root_dir, "elm-format"),
-      elmTestPath = npm.exe(root_dir, "elm-test"),
+      elmFormatPath = npm.executable(root_dir, "elm-format"),
+      elmTestPath = npm.executable(root_dir, "elm-test"),
       elmAnalyseTrigger = "change",
     },
   }
