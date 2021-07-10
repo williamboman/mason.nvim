@@ -2,13 +2,14 @@ local fs = require("nvim-lsp-installer.fs")
 local path = require("nvim-lsp-installer.path")
 local installers = require("nvim-lsp-installer.installers")
 local shell = require("nvim-lsp-installer.installers.shell")
+local npm = require("nvim-lsp-installer.installers.npm")
 
 local uv = vim.loop
 
 local M = {}
 
 local INSTALL_DIR = path.concat { vim.fn.stdpath("data"), "lsp_servers", ".zx" }
-local ZX_EXECUTABLE = path.concat { INSTALL_DIR, "node_modules", ".bin", "zx" }
+local ZX_EXECUTABLE = npm.executable(INSTALL_DIR, "zx")
 
 local has_installed_zx = false
 
