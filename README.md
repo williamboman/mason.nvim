@@ -105,6 +105,7 @@ end
 -   intelephense (php)
 -   jsonls
 -   omnisharp (csharp)
+-   purescriptls
 -   pyright
 -   rome
 -   rust_analyzer

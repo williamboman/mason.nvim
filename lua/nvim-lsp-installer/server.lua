@@ -24,6 +24,7 @@ local _SERVERS = {
     "intelephense",
     "jsonls",
     "omnisharp",
+    "purescriptls",
     "pyright",
     "rome",
     "rust_analyzer",
