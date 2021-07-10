@@ -9,6 +9,10 @@ const exitNotSupported = () => {
 
 const target = (() => {
     switch (os.platform()) {
+        case "win32": {
+            exitNotSupported();
+            break;
+        }
         case "darwin":
             switch (os.arch()) {
                 case "arm64":
@@ -20,10 +24,6 @@ const target = (() => {
                     break;
                 }
             }
-        case "win32": {
-            exitNotSupported();
-            break;
-        }
         default:
             switch (os.arch()) {
                 case "arm64":
@@ -34,11 +34,8 @@ const target = (() => {
     }
 })();
 
-const unpackedTarget = target.replace(/\.gz$/, "");
-
 const downloadUrl = `https://github.com/rust-analyzer/rust-analyzer/releases/download/${VERSION}/${target}`;
 
-await $`wget ${downloadUrl}`;
-await $`gunzip ${target}`;
-await $`chmod +x ${unpackedTarget}`;
-await $`mv ${unpackedTarget} rust-analyzer`;
+await $`wget -O rust-analyzer.gz ${downloadUrl}`;
+await $`gunzip rust-analyzer.gz`;
+await $`chmod +x rust-analyzer`;
