@@ -1,5 +1,3 @@
-local server = require('nvim-lsp-installer.server')
-
 local M = {}
 
 -- :'<,'>!sort | column -t
