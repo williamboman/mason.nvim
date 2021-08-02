@@ -105,6 +105,7 @@ end
 -   html
 -   intelephense (php)
 -   jsonls
+-   kotlin_language_server
 -   omnisharp (csharp)
 -   purescriptls
 -   pyright
