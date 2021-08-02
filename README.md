@@ -96,6 +96,7 @@ end
 -   dockerls
 -   elixirls
 -   elmls
+-   ember
 -   eslintls
 -   fortls (fortran)
 -   gopls

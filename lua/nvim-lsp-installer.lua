@@ -12,6 +12,7 @@ local _SERVERS = {
     ["dockerls"]       =  require("nvim-lsp-installer.servers.dockerls"),
     ["elixirls"]       =  require("nvim-lsp-installer.servers.elixirls"),
     ["elmls"]          =  require("nvim-lsp-installer.servers.elmls"),
+    ["ember"]          =  require("nvim-lsp-installer.servers.ember"),
     ["eslintls"]       =  require("nvim-lsp-installer.servers.eslintls"),
     ["fortls"]         =  require("nvim-lsp-installer.servers.fortls"),
     ["gopls"]          =  require("nvim-lsp-installer.servers.gopls"),
