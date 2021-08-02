@@ -9,11 +9,11 @@ function! s:MapServerName(servers) abort
 endfunction
 
 function! s:LspInstallCompletion(...) abort
-    return join(s:MapServerName(luaeval("require'nvim-lsp-installer'.get_available_servers()")), "\n")
+    return join(sort(s:MapServerName(luaeval("require'nvim-lsp-installer'.get_available_servers()"))), "\n")
 endfunction
 
 function! s:LspUninstallCompletion(...) abort
-    return join(s:MapServerName(luaeval("require'nvim-lsp-installer'.get_installed_servers()")), "\n")
+    return join(sort(s:MapServerName(luaeval("require'nvim-lsp-installer'.get_installed_servers()"))), "\n")
 endfunction
 
 function! s:LspInstall(server_name) abort
