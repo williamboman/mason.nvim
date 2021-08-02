@@ -110,6 +110,8 @@ end
 -   rome
 -   rust_analyzer
 -   solargraph (ruby)
+-   sqlls
+-   sqls
 -   sumneko_lua
 -   svelte
 -   tailwindcss
