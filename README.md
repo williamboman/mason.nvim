@@ -109,6 +109,7 @@ end
 -   kotlin_language_server
 -   omnisharp (csharp)
 -   purescriptls
+-   pylsp
 -   pyright
 -   rome
 -   rust_analyzer

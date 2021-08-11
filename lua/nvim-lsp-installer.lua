@@ -25,6 +25,7 @@ local _SERVERS = {
     ["kotlin_language_server"]  =  require("nvim-lsp-installer.servers.kotlin_language_server"),
     ["omnisharp"]               =  require("nvim-lsp-installer.servers.omnisharp"),
     ["purescript"]              =  require("nvim-lsp-installer.servers.purescriptls"),
+    ["pylsp"]                   =  require("nvim-lsp-installer.servers.pylsp"),
     ["pyright"]                 =  require("nvim-lsp-installer.servers.pyright"),
     ["rome"]                    =  require("nvim-lsp-installer.servers.rome"),
     ["rust_analyzer"]           =  require("nvim-lsp-installer.servers.rust_analyzer"),
