@@ -87,6 +87,7 @@ end
 ## Available LSPs
 
 -   angularls
+-   ansiblels
 -   bashls
 -   clangd
 -   clojure_lsp

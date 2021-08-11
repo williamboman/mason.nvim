@@ -3,6 +3,7 @@ local M = {}
 -- :'<,'>!sort | column -t
 local _SERVERS = {
     ["angularls"]               =  require("nvim-lsp-installer.servers.angularls"),
+    ["ansiblels"]               =  require("nvim-lsp-installer.servers.ansiblels"),
     ["bashls"]                  =  require("nvim-lsp-installer.servers.bashls"),
     ["clangd"]                  =  require("nvim-lsp-installer.servers.clangd"),
     ["clojure_lsp"]             =  require("nvim-lsp-installer.servers.clojure_lsp"),
