@@ -105,6 +105,7 @@ end
 -   hls (haskell)
 -   html
 -   intelephense (php)
+-   jedi_language_server
 -   jsonls
 -   kotlin_language_server
 -   omnisharp (csharp)

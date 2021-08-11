@@ -21,6 +21,7 @@ local _SERVERS = {
     ["hls"]                     =  require("nvim-lsp-installer.servers.hls"),
     ["html"]                    =  require("nvim-lsp-installer.servers.html"),
     ["intelephense"]            =  require("nvim-lsp-installer.servers.intelephense"),
+    ["jedi_language_server"]    =  require("nvim-lsp-installer.servers.jedi_language_server"),
     ["jsonls"]                  =  require("nvim-lsp-installer.servers.jsonls"),
     ["kotlin_language_server"]  =  require("nvim-lsp-installer.servers.kotlin_language_server"),
     ["omnisharp"]               =  require("nvim-lsp-installer.servers.omnisharp"),
