@@ -101,6 +101,7 @@ end
 -   fortls (fortran)
 -   gopls
 -   graphql
+-   groovyls
 -   hls (haskell)
 -   html
 -   intelephense (php)

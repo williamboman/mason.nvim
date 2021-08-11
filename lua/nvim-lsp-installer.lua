@@ -17,6 +17,7 @@ local _SERVERS = {
     ["fortls"]                  =  require("nvim-lsp-installer.servers.fortls"),
     ["gopls"]                   =  require("nvim-lsp-installer.servers.gopls"),
     ["graphql"]                 =  require("nvim-lsp-installer.servers.graphql"),
+    ["groovyls"]                =  require("nvim-lsp-installer.servers.groovyls"),
     ["hls"]                     =  require("nvim-lsp-installer.servers.hls"),
     ["html"]                    =  require("nvim-lsp-installer.servers.html"),
     ["intelephense"]            =  require("nvim-lsp-installer.servers.intelephense"),
