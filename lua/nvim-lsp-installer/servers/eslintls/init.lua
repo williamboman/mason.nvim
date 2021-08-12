@@ -78,15 +78,15 @@ return server.Server:new {
                 return ConfirmExecutionResult.approved
             end,
             ["eslint/probeFailed"] = function ()
-                vim.api.nvim_err_writeln("ESLint probe failed.")
+                vim.notify("ESLint probe failed.", vim.log.levels.ERROR)
                 return {id = nil, result = true}
             end,
             ["eslint/noLibrary"] = function ()
-                vim.api.nvim_err_writeln("Unable to find ESLint library.")
+                vim.notify("Unable to find ESLint library.", vim.log.levels.ERROR)
                 return {id = nil, result = true}
             end,
             ["eslint/noConfig"] = function ()
-                vim.api.nvim_err_writeln("Unable to find ESLint configuration.")
+                vim.notify("Unable to find ESLint configuration.", vim.log.levels.ERROR)
                 return {id = nil, result = true}
             end,
         },

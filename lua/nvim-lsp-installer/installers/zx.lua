@@ -30,7 +30,7 @@ local function zx_installer(force)
         local is_zx_already_installed = fs.file_exists(ZX_EXECUTABLE)
         local npm_command = is_zx_already_installed and "update" or "install"
 
-        print(("Preparing for :LspInstall, please wait… ($ npm %s zx)"):format(npm_command))
+        vim.notify(("Preparing for :LspInstall, please wait… ($ npm %s zx)"):format(npm_command))
 
         fs.mkdirp(INSTALL_DIR)
 
