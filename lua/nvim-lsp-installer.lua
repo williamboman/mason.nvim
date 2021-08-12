@@ -1,3 +1,5 @@
+local notify = require("nvim-lsp-installer.notify")
+
 local M = {}
 
 -- :'<,'>!sort | column -t
@@ -78,26 +80,26 @@ end
 function M.install(server_name)
     local ok, server = M.get_server(server_name)
     if not ok then
-        return vim.notify(("Unable to find LSP server %s. Error=%s"):format(server_name, server), vim.log.levels.ERROR)
+        return notify(("Unable to find LSP server %s. Error=%s"):format(server_name, server), vim.log.levels.ERROR)
     end
     local success, error = pcall(server.install, server)
     if not success then
         pcall(server.uninstall, server)
-        return vim.notify(("Failed to install %s. Error=%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
+        return notify(("Failed to install %s. Error=%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
     end
 end
 
 function M.uninstall(server_name)
     local ok, server = M.get_server(server_name)
     if not ok then
-        return vim.notify(("Unable to find LSP server %s. Error=%s"):format(server_name, server), vim.log.levels.ERROR)
+        return notify(("Unable to find LSP server %s. Error=%s"):format(server_name, server), vim.log.levels.ERROR)
     end
     local success, error = pcall(server.uninstall, server)
     if not success then
-        vim.notify(("Unable to uninstall %s. Error=%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
+        notify(("Unable to uninstall %s. Error=%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
         return success
     end
-    vim.notify(("Successfully uninstalled %s"):format(server_name))
+    notify(("Successfully uninstalled %s"):format(server_name))
 end
 
 return M

@@ -1,5 +1,6 @@
 local fs = require("nvim-lsp-installer.fs")
 local path = require("nvim-lsp-installer.path")
+local notify = require("nvim-lsp-installer.notify")
 local installers = require("nvim-lsp-installer.installers")
 local shell = require("nvim-lsp-installer.installers.shell")
 local npm = require("nvim-lsp-installer.installers.npm")
@@ -30,7 +31,7 @@ local function zx_installer(force)
         local is_zx_already_installed = fs.file_exists(ZX_EXECUTABLE)
         local npm_command = is_zx_already_installed and "update" or "install"
 
-        vim.notify(("Preparing for :LspInstall, please wait… ($ npm %s zx)"):format(npm_command))
+        notify(("Preparing for :LspInstall, please wait… ($ npm %s zx)"):format(npm_command))
 
         fs.mkdirp(INSTALL_DIR)
 

@@ -1,6 +1,7 @@
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig/configs")
 
+local notify = require("nvim-lsp-installer.notify")
 local server = require("nvim-lsp-installer.server")
 local path = require("nvim-lsp-installer.path")
 local shell = require("nvim-lsp-installer.installers.shell")
@@ -78,15 +79,15 @@ return server.Server:new {
                 return ConfirmExecutionResult.approved
             end,
             ["eslint/probeFailed"] = function ()
-                vim.notify("ESLint probe failed.", vim.log.levels.ERROR)
+                notify("ESLint probe failed.", vim.log.levels.ERROR)
                 return {id = nil, result = true}
             end,
             ["eslint/noLibrary"] = function ()
-                vim.notify("Unable to find ESLint library.", vim.log.levels.ERROR)
+                notify("Unable to find ESLint library.", vim.log.levels.ERROR)
                 return {id = nil, result = true}
             end,
             ["eslint/noConfig"] = function ()
-                vim.notify("Unable to find ESLint configuration.", vim.log.levels.ERROR)
+                notify("Unable to find ESLint configuration.", vim.log.levels.ERROR)
                 return {id = nil, result = true}
             end,
         },

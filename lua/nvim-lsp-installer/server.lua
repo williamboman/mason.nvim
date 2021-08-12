@@ -1,3 +1,4 @@
+local notify = require("nvim-lsp-installer.notify")
 local fs = require("nvim-lsp-installer.fs")
 local path = require("nvim-lsp-installer.path")
 
@@ -67,12 +68,14 @@ function M.Server:install()
 
     self:create_root_dir()
 
+    notify(("Installing %s…"):format(self.name))
+
     self._installer(self, function (success, result)
         if not success then
-            vim.notify(("Server installation failed for %s. %s"):format(self.name, result), vim.log.levels.ERROR)
+            notify(("Server installation failed for %s. %s"):format(self.name, result), vim.log.levels.ERROR)
             pcall(self.uninstall, self)
         else
-            vim.notify(("Successfully installed %s"):format(self.name))
+            notify(("Successfully installed %s"):format(self.name))
         end
     end)
 end
