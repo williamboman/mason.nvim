@@ -13,7 +13,6 @@ installing & uninsalling LSP servers, it:
 -   has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
 -   common install tasks are abstracted behind Lua APIs
 -   provides adapters that offer out-of-box integrations with other plugins
--   managed versioning of installed servers (future)
 
 Inspired by [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 
@@ -86,47 +85,49 @@ end
 
 ## Available LSPs
 
--   angularls
--   ansiblels
--   bashls
--   clangd
--   clojure_lsp
--   cmake
--   cssls
--   denols
--   dockerls
--   elixirls
--   elmls
--   ember
--   eslintls
--   fortls (fortran)
--   gopls
--   graphql
--   groovyls
--   hls (haskell)
--   html
--   intelephense (php)
--   jedi_language_server
--   jsonls
--   kotlin_language_server
--   omnisharp (csharp)
--   purescriptls
--   pylsp
--   pyright
--   rome
--   rust_analyzer
--   solargraph (ruby)
--   sqlls
--   sqls
--   sumneko_lua
--   svelte
--   tailwindcss
--   terraformls
--   texlab
--   tsserver
--   vimls
--   vuels
--   yamlls
+| Language     | Server name              |
+| ------------ | ------------------------ |
+| Angular      | `angularls`              |
+| Ansible      | `ansiblels`              |
+| Bash         | `bashls`                 |
+| C++          | `clangd`                 |
+| Clojure      | `clojure_lsp`            |
+| CMake        | `cmake`                  |
+| CSS          | `cssls`                  |
+| Deno         | `denols`                 |
+| Docker       | `dockerls`               |
+| Elixir       | `elixirls`               |
+| Elm          | `elmls`                  |
+| Ember        | `ember`                  |
+| ESLint       | `eslintls`               |
+| Fortran      | `fortls`                 |
+| Go           | `gopls`                  |
+| GraphQL      | `graphql`                |
+| Groovy       | `groovyls`               |
+| Haskell      | `hls`                    |
+| HTML         | `html`                   |
+| PHP          | `intelephense`           |
+| Jedi         | `jedi_language_server`   |
+| JSON         | `jsonls`                 |
+| Kotlin       | `kotlin_language_server` |
+| C#           | `omnisharp`              |
+| PureScript   | `purescriptls`           |
+| Python       | `pylsp`                  |
+| Python       | `pyright`                |
+| Rome         | `rome`                   |
+| Rust         | `rust_analyzer`          |
+| Ruby         | `solargraph`             |
+| SQL          | `sqlls`                  |
+| SQL          | `sqls`                   |
+| Lua          | `sumneko_lua`            |
+| Svelte       | `svelte`                 |
+| Tailwind CSS | `tailwindcss`            |
+| Terraform    | `terraformls`            |
+| LaTeX        | `texlab`                 |
+| TypeScript   | `tsserver`               |
+| VimL         | `vimls`                  |
+| Vue          | `vuels`                  |
+| YAML         | `yamlls`                 |
 
 ## Extras
 
@@ -167,3 +168,9 @@ Supported capabilities:
 ## Logo
 
 Illustrations in the logo are derived from [@Kaligule](https://schauderbasis.de/)'s "Robots" collection.
+
+## Roadmap
+
+-   Managed versioning of installed servers
+-   Command (and corresponding Lua API) to update outdated servers (e.g., `:LspUpdate {server}`)
+-   Cross-platform CI for all server installers
