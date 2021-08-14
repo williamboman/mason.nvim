@@ -1,7 +1,7 @@
-local server = require("nvim-lsp-installer.server")
-local pip3 = require("nvim-lsp-installer.installers.pip3")
+local server = require "nvim-lsp-installer.server"
+local pip3 = require "nvim-lsp-installer.installers.pip3"
 
-local root_dir = server.get_server_root_path("jedi_language_server")
+local root_dir = server.get_server_root_path "jedi_language_server"
 
 return server.Server:new {
     name = "jedi_language_server",

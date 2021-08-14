@@ -1,7 +1,7 @@
-local server = require("nvim-lsp-installer.server")
-local npm = require("nvim-lsp-installer.installers.npm")
+local server = require "nvim-lsp-installer.server"
+local npm = require "nvim-lsp-installer.installers.npm"
 
-local root_dir = server.get_server_root_path("yaml")
+local root_dir = server.get_server_root_path "yaml"
 
 return server.Server:new {
     name = "yamlls",
@@ -9,5 +9,5 @@ return server.Server:new {
     installer = npm.packages { "yaml-language-server" },
     default_options = {
         cmd = { npm.executable(root_dir, "yaml-language-server"), "--stdio" },
-    }
+    },
 }

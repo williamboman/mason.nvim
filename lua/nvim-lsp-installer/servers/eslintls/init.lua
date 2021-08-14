@@ -1,14 +1,14 @@
-local lspconfig = require("lspconfig")
-local configs = require("lspconfig/configs")
+local lspconfig = require "lspconfig"
+local configs = require "lspconfig/configs"
 
-local notify = require("nvim-lsp-installer.notify")
-local server = require("nvim-lsp-installer.server")
-local path = require("nvim-lsp-installer.path")
-local shell = require("nvim-lsp-installer.installers.shell")
+local notify = require "nvim-lsp-installer.notify"
+local server = require "nvim-lsp-installer.server"
+local path = require "nvim-lsp-installer.path"
+local shell = require "nvim-lsp-installer.installers.shell"
 
 configs.eslintls = {
     default_config = {
-        filetypes = {"javascript", "javascriptreact", "typescript", "typescriptreact"},
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
         root_dir = lspconfig.util.root_pattern(".eslintrc*", "package.json", ".git"),
         -- Refer to https://github.com/Microsoft/vscode-eslint#settings-options for documentation.
         settings = {
@@ -18,17 +18,17 @@ configs.eslintls = {
                 disableRuleComment = {
                     enable = true,
                     -- "sameLine" might not work as expected, see https://github.com/williamboman/nvim-lsp-installer/issues/4
-                    location = "separateLine"
+                    location = "separateLine",
                 },
                 showDocumentation = {
-                    enable = true
-                }
+                    enable = true,
+                },
             },
             rulesCustomizations = {},
             -- Automatically determine working directory by locating .eslintrc config files.
             --
             -- It's recommended not to change this.
-            workingDirectory = {mode = "auto"},
+            workingDirectory = { mode = "auto" },
             -- If nodePath is a non-null/undefined value the eslint LSP runs into runtime exceptions.
             --
             -- It's recommended not to change this.
@@ -40,20 +40,20 @@ configs.eslintls = {
             -- It's recommended not to change this.
             workspaceFolder = {
                 uri = "/",
-                name = "root"
-            }
-        }
-    }
+                name = "root",
+            },
+        },
+    },
 }
 
 local ConfirmExecutionResult = {
     deny = 1,
     confirmationPending = 2,
     confirmationCanceled = 3,
-    approved = 4
+    approved = 4,
 }
 
-local root_dir = server.get_server_root_path("eslint")
+local root_dir = server.get_server_root_path "eslint"
 local install_cmd = [[
 git clone --depth 1 https://github.com/microsoft/vscode-eslint .;
 npm install;
@@ -69,26 +69,26 @@ return server.Server:new {
     default_options = {
         cmd = { "node", path.concat { root_dir, "server", "out", "eslintServer.js" }, "--stdio" },
         handlers = {
-            ["eslint/openDoc"] = function (_, _, open_doc)
+            ["eslint/openDoc"] = function(_, _, open_doc)
                 os.execute(string.format("open %q", open_doc.url))
-                return {id = nil, result = true}
+                return { id = nil, result = true }
             end,
-            ["eslint/confirmESLintExecution"] = function ()
+            ["eslint/confirmESLintExecution"] = function()
                 -- VSCode language servers have a policy to request explicit approval
                 -- before applying code changes. We just approve it immediately.
                 return ConfirmExecutionResult.approved
             end,
-            ["eslint/probeFailed"] = function ()
+            ["eslint/probeFailed"] = function()
                 notify("ESLint probe failed.", vim.log.levels.ERROR)
-                return {id = nil, result = true}
+                return { id = nil, result = true }
             end,
-            ["eslint/noLibrary"] = function ()
+            ["eslint/noLibrary"] = function()
                 notify("Unable to find ESLint library.", vim.log.levels.ERROR)
-                return {id = nil, result = true}
+                return { id = nil, result = true }
             end,
-            ["eslint/noConfig"] = function ()
+            ["eslint/noConfig"] = function()
                 notify("Unable to find ESLint configuration.", vim.log.levels.ERROR)
-                return {id = nil, result = true}
+                return { id = nil, result = true }
             end,
         },
     },

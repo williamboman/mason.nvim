@@ -1,50 +1,50 @@
-local notify = require("nvim-lsp-installer.notify")
+local notify = require "nvim-lsp-installer.notify"
 
 local M = {}
 
--- :'<,'>!sort | column -t
+-- :'<,'>!sort
 local _SERVERS = {
-    ["angularls"]               =  require("nvim-lsp-installer.servers.angularls"),
-    ["ansiblels"]               =  require("nvim-lsp-installer.servers.ansiblels"),
-    ["bashls"]                  =  require("nvim-lsp-installer.servers.bashls"),
-    ["clangd"]                  =  require("nvim-lsp-installer.servers.clangd"),
-    ["clojure_lsp"]             =  require("nvim-lsp-installer.servers.clojure_lsp"),
-    ["cmake"]                   =  require("nvim-lsp-installer.servers.cmake"),
-    ["cssls"]                   =  require("nvim-lsp-installer.servers.cssls"),
-    ["denols"]                  =  require("nvim-lsp-installer.servers.denols"),
-    ["dockerls"]                =  require("nvim-lsp-installer.servers.dockerls"),
-    ["elixirls"]                =  require("nvim-lsp-installer.servers.elixirls"),
-    ["elmls"]                   =  require("nvim-lsp-installer.servers.elmls"),
-    ["ember"]                   =  require("nvim-lsp-installer.servers.ember"),
-    ["eslintls"]                =  require("nvim-lsp-installer.servers.eslintls"),
-    ["fortls"]                  =  require("nvim-lsp-installer.servers.fortls"),
-    ["gopls"]                   =  require("nvim-lsp-installer.servers.gopls"),
-    ["graphql"]                 =  require("nvim-lsp-installer.servers.graphql"),
-    ["groovyls"]                =  require("nvim-lsp-installer.servers.groovyls"),
-    ["hls"]                     =  require("nvim-lsp-installer.servers.hls"),
-    ["html"]                    =  require("nvim-lsp-installer.servers.html"),
-    ["intelephense"]            =  require("nvim-lsp-installer.servers.intelephense"),
-    ["jedi_language_server"]    =  require("nvim-lsp-installer.servers.jedi_language_server"),
-    ["jsonls"]                  =  require("nvim-lsp-installer.servers.jsonls"),
-    ["kotlin_language_server"]  =  require("nvim-lsp-installer.servers.kotlin_language_server"),
-    ["omnisharp"]               =  require("nvim-lsp-installer.servers.omnisharp"),
-    ["purescript"]              =  require("nvim-lsp-installer.servers.purescriptls"),
-    ["pylsp"]                   =  require("nvim-lsp-installer.servers.pylsp"),
-    ["pyright"]                 =  require("nvim-lsp-installer.servers.pyright"),
-    ["rome"]                    =  require("nvim-lsp-installer.servers.rome"),
-    ["rust_analyzer"]           =  require("nvim-lsp-installer.servers.rust_analyzer"),
-    ["solargraph"]              =  require("nvim-lsp-installer.servers.solargraph"),
-    ["sqlls"]                   =  require("nvim-lsp-installer.servers.sqlls"),
-    ["sqls"]                    =  require("nvim-lsp-installer.servers.sqls"),
-    ["sumneko_lua"]             =  require("nvim-lsp-installer.servers.sumneko_lua"),
-    ["svelte"]                  =  require("nvim-lsp-installer.servers.svelte"),
-    ["tailwindcss"]             =  require("nvim-lsp-installer.servers.tailwindcss"),
-    ["terraformls"]             =  require("nvim-lsp-installer.servers.terraformls"),
-    ["texlab"]                  =  require("nvim-lsp-installer.servers.texlab"),
-    ["tsserver"]                =  require("nvim-lsp-installer.servers.tsserver"),
-    ["vimls"]                   =  require("nvim-lsp-installer.servers.vimls"),
-    ["vuels"]                   =  require("nvim-lsp-installer.servers.vuels"),
-    ["yamlls"]                  =  require("nvim-lsp-installer.servers.yamlls"),
+    ["angularls"] = require "nvim-lsp-installer.servers.angularls",
+    ["ansiblels"] = require "nvim-lsp-installer.servers.ansiblels",
+    ["bashls"] = require "nvim-lsp-installer.servers.bashls",
+    ["clangd"] = require "nvim-lsp-installer.servers.clangd",
+    ["clojure_lsp"] = require "nvim-lsp-installer.servers.clojure_lsp",
+    ["cmake"] = require "nvim-lsp-installer.servers.cmake",
+    ["cssls"] = require "nvim-lsp-installer.servers.cssls",
+    ["denols"] = require "nvim-lsp-installer.servers.denols",
+    ["dockerls"] = require "nvim-lsp-installer.servers.dockerls",
+    ["elixirls"] = require "nvim-lsp-installer.servers.elixirls",
+    ["elmls"] = require "nvim-lsp-installer.servers.elmls",
+    ["ember"] = require "nvim-lsp-installer.servers.ember",
+    ["eslintls"] = require "nvim-lsp-installer.servers.eslintls",
+    ["fortls"] = require "nvim-lsp-installer.servers.fortls",
+    ["gopls"] = require "nvim-lsp-installer.servers.gopls",
+    ["graphql"] = require "nvim-lsp-installer.servers.graphql",
+    ["groovyls"] = require "nvim-lsp-installer.servers.groovyls",
+    ["hls"] = require "nvim-lsp-installer.servers.hls",
+    ["html"] = require "nvim-lsp-installer.servers.html",
+    ["intelephense"] = require "nvim-lsp-installer.servers.intelephense",
+    ["jedi_language_server"] = require "nvim-lsp-installer.servers.jedi_language_server",
+    ["jsonls"] = require "nvim-lsp-installer.servers.jsonls",
+    ["kotlin_language_server"] = require "nvim-lsp-installer.servers.kotlin_language_server",
+    ["omnisharp"] = require "nvim-lsp-installer.servers.omnisharp",
+    ["purescript"] = require "nvim-lsp-installer.servers.purescriptls",
+    ["pylsp"] = require "nvim-lsp-installer.servers.pylsp",
+    ["pyright"] = require "nvim-lsp-installer.servers.pyright",
+    ["rome"] = require "nvim-lsp-installer.servers.rome",
+    ["rust_analyzer"] = require "nvim-lsp-installer.servers.rust_analyzer",
+    ["solargraph"] = require "nvim-lsp-installer.servers.solargraph",
+    ["sqlls"] = require "nvim-lsp-installer.servers.sqlls",
+    ["sqls"] = require "nvim-lsp-installer.servers.sqls",
+    ["sumneko_lua"] = require "nvim-lsp-installer.servers.sumneko_lua",
+    ["svelte"] = require "nvim-lsp-installer.servers.svelte",
+    ["tailwindcss"] = require "nvim-lsp-installer.servers.tailwindcss",
+    ["terraformls"] = require "nvim-lsp-installer.servers.terraformls",
+    ["texlab"] = require "nvim-lsp-installer.servers.texlab",
+    ["tsserver"] = require "nvim-lsp-installer.servers.tsserver",
+    ["vimls"] = require "nvim-lsp-installer.servers.vimls",
+    ["vuels"] = require "nvim-lsp-installer.servers.vuels",
+    ["yamlls"] = require "nvim-lsp-installer.servers.yamlls",
 }
 
 function M.get_server(server_name)
@@ -60,21 +60,15 @@ function M.get_available_servers()
 end
 
 function M.get_installed_servers()
-    return vim.tbl_filter(
-        function (server)
-            return server:is_installed()
-        end,
-        M.get_available_servers()
-    )
+    return vim.tbl_filter(function(server)
+        return server:is_installed()
+    end, M.get_available_servers())
 end
 
 function M.get_uninstalled_servers()
-    return vim.tbl_filter(
-        function (server)
-            return not server:is_installed()
-        end,
-        M.get_available_servers()
-    )
+    return vim.tbl_filter(function(server)
+        return not server:is_installed()
+    end, M.get_available_servers())
 end
 
 function M.install(server_name)

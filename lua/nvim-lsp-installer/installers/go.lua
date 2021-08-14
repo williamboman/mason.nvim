@@ -1,5 +1,5 @@
-local path = require("nvim-lsp-installer.path")
-local shell = require("nvim-lsp-installer.installers.shell")
+local path = require "nvim-lsp-installer.path"
+local shell = require "nvim-lsp-installer.installers.shell"
 
 local M = {}
 

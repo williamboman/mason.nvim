@@ -1,7 +1,7 @@
-local server = require("nvim-lsp-installer.server")
-local npm = require("nvim-lsp-installer.installers.npm")
+local server = require "nvim-lsp-installer.server"
+local npm = require "nvim-lsp-installer.installers.npm"
 
-local root_dir = server.get_server_root_path("php")
+local root_dir = server.get_server_root_path "php"
 
 return server.Server:new {
     name = "intelephense",

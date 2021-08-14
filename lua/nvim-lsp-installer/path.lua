@@ -1,24 +1,24 @@
 local uv = vim.loop
 
 local sep = (function()
----@diagnostic disable-next-line: undefined-global
-  if jit then
----@diagnostic disable-next-line: undefined-global
-    local os = string.lower(jit.os)
-    if os == "linux" or os == "osx" or os == "bsd" then
-      return "/"
+    ---@diagnostic disable-next-line: undefined-global
+    if jit then
+        ---@diagnostic disable-next-line: undefined-global
+        local os = string.lower(jit.os)
+        if os == "linux" or os == "osx" or os == "bsd" then
+            return "/"
+        else
+            return "\\"
+        end
     else
-      return "\\"
+        return package.config:sub(1, 1)
     end
-  else
-    return package.config:sub(1, 1)
-  end
 end)()
 
 local M = {}
 
 function M.cwd()
-    return uv.fs_realpath(".")
+    return uv.fs_realpath "."
 end
 
 function M.concat(path_components)

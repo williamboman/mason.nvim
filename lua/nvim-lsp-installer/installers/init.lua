@@ -2,12 +2,12 @@ local M = {}
 
 function M.compose(installers)
     if #installers == 0 then
-        error("No installers to compose.")
+        error "No installers to compose."
     end
 
-    return function (server, callback)
+    return function(server, callback)
         local function execute(idx)
-            installers[idx](server, function (success, result)
+            installers[idx](server, function(success, result)
                 if not success then
                     -- oh no, error. exit early
                     callback(success, result)

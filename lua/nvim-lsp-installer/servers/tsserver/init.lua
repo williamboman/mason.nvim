@@ -1,7 +1,7 @@
-local server = require("nvim-lsp-installer.server")
-local npm = require("nvim-lsp-installer.installers.npm")
+local server = require "nvim-lsp-installer.server"
+local npm = require "nvim-lsp-installer.installers.npm"
 
-local root_dir = server.get_server_root_path("tsserver")
+local root_dir = server.get_server_root_path "tsserver"
 
 return server.Server:new {
     name = "tsserver",

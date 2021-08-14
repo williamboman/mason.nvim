@@ -1,7 +1,7 @@
-local server = require("nvim-lsp-installer.server")
-local pip3 = require("nvim-lsp-installer.installers.pip3")
+local server = require "nvim-lsp-installer.server"
+local pip3 = require "nvim-lsp-installer.installers.pip3"
 
-local root_dir = server.get_server_root_path("fortls")
+local root_dir = server.get_server_root_path "fortls"
 
 return server.Server:new {
     name = "fortls",
@@ -11,4 +11,3 @@ return server.Server:new {
         cmd = { pip3.executable(root_dir, "fortls") },
     },
 }
-

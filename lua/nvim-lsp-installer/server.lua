@@ -1,11 +1,11 @@
-local notify = require("nvim-lsp-installer.notify")
-local fs = require("nvim-lsp-installer.fs")
-local path = require("nvim-lsp-installer.path")
+local notify = require "nvim-lsp-installer.notify"
+local fs = require "nvim-lsp-installer.fs"
+local path = require "nvim-lsp-installer.path"
 
 local M = {}
 
 function M.get_server_root_path(server)
-    return path.concat { vim.fn.stdpath("data"), "lsp_servers", server }
+    return path.concat { vim.fn.stdpath "data", "lsp_servers", server }
 end
 
 M.Server = {}
@@ -39,9 +39,7 @@ function M.Server:setup(opts)
     -- We require the lspconfig server here in order to do it as late as possible.
     -- The reason for this is because once a lspconfig server has been imported, it's
     -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
-    require("lspconfig")[self.name].setup(
-        vim.tbl_deep_extend("force", self._default_options, opts)
-    )
+    require("lspconfig")[self.name].setup(vim.tbl_deep_extend("force", self._default_options, opts))
 end
 
 function M.Server:get_default_options()
@@ -70,7 +68,7 @@ function M.Server:install()
 
     notify(("Installing %s…"):format(self.name))
 
-    self._installer(self, function (success, result)
+    self._installer(self, function(success, result)
         if not success then
             notify(("Server installation failed for %s. %s"):format(self.name, result), vim.log.levels.ERROR)
             pcall(self.uninstall, self)
