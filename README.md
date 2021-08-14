@@ -85,71 +85,52 @@ end
 
 ## Available LSPs
 
-| Language     | Server name              |
-| ------------ | ------------------------ |
-| Angular      | `angularls`              |
-| Ansible      | `ansiblels`              |
-| Bash         | `bashls`                 |
-| C++          | `clangd`                 |
-| Clojure      | `clojure_lsp`            |
-| CMake        | `cmake`                  |
-| CSS          | `cssls`                  |
-| Deno         | `denols`                 |
-| Docker       | `dockerls`               |
-| Elixir       | `elixirls`               |
-| Elm          | `elmls`                  |
-| Ember        | `ember`                  |
-| ESLint       | `eslintls`               |
-| Fortran      | `fortls`                 |
-| Go           | `gopls`                  |
-| GraphQL      | `graphql`                |
-| Groovy       | `groovyls`               |
-| Haskell      | `hls`                    |
-| HTML         | `html`                   |
-| PHP          | `intelephense`           |
-| Jedi         | `jedi_language_server`   |
-| JSON         | `jsonls`                 |
-| Kotlin       | `kotlin_language_server` |
-| C#           | `omnisharp`              |
-| PureScript   | `purescriptls`           |
-| Python       | `pylsp`                  |
-| Python       | `pyright`                |
-| Rome         | `rome`                   |
-| Rust         | `rust_analyzer`          |
-| Ruby         | `solargraph`             |
-| SQL          | `sqlls`                  |
-| SQL          | `sqls`                   |
-| Lua          | `sumneko_lua`            |
-| Svelte       | `svelte`                 |
-| Tailwind CSS | `tailwindcss`            |
-| Terraform    | `terraformls`            |
-| LaTeX        | `texlab`                 |
-| TypeScript   | `tsserver`               |
-| VimL         | `vimls`                  |
-| Vue          | `vuels`                  |
-| YAML         | `yamlls`                 |
+| Language                      | Server name              |
+| ----------------------------- | ------------------------ |
+| Angular                       | `angularls`              |
+| Ansible                       | `ansiblels`              |
+| Bash                          | `bashls`                 |
+| C++                           | `clangd`                 |
+| Clojure                       | `clojure_lsp`            |
+| CMake                         | `cmake`                  |
+| CSS                           | `cssls`                  |
+| Deno                          | `denols`                 |
+| Docker                        | `dockerls`               |
+| Elixir                        | `elixirls`               |
+| Elm                           | `elmls`                  |
+| Ember                         | `ember`                  |
+| ESLint [(docs)][eslintls]     | `eslintls`               |
+| Fortran                       | `fortls`                 |
+| Go                            | `gopls`                  |
+| GraphQL                       | `graphql`                |
+| Groovy                        | `groovyls`               |
+| Haskell                       | `hls`                    |
+| HTML                          | `html`                   |
+| PHP                           | `intelephense`           |
+| Jedi                          | `jedi_language_server`   |
+| JSON                          | `jsonls`                 |
+| Kotlin                        | `kotlin_language_server` |
+| C#                            | `omnisharp`              |
+| PureScript                    | `purescriptls`           |
+| Python                        | `pylsp`                  |
+| Python                        | `pyright`                |
+| Rome                          | `rome`                   |
+| Rust                          | `rust_analyzer`          |
+| Ruby                          | `solargraph`             |
+| SQL                           | `sqlls`                  |
+| SQL                           | `sqls`                   |
+| Lua                           | `sumneko_lua`            |
+| Svelte                        | `svelte`                 |
+| Tailwind CSS                  | `tailwindcss`            |
+| Terraform                     | `terraformls`            |
+| LaTeX                         | `texlab`                 |
+| TypeScript [(docs)][tsserver] | `tsserver`               |
+| VimL                          | `vimls`                  |
+| Vue                           | `vuels`                  |
+| YAML                          | `yamlls`                 |
 
-## Extras
-
-### tsserver
-
-The `tsserver` language server comes with the following extras:
-
--   `rename_file(old, new)` Tells the language server that a file was renamed. Useful when refactoring. Refer to the [adapters section](#adapters) to find plugin integrations that automatically executes this for you.
-
-    Usage:
-
-```lua
-require'nvim-lsp-installer.extras.tsserver'.rename_file(old, new)
-```
-
--   `organize_imports(bufname)` Organizes the imports of a file. `bufname` is optional, will default to current buffer.
-
-    Usage:
-
-```lua
-require'nvim-lsp-installer.extras.tsserver'.organize_imports(bufname)
-```
+[tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md
+[eslintls]: ./lua/nvim-lsp-installer/servers/eslintls/README.md
 
 ## Adapters
 

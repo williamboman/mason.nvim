@@ -4,8 +4,10 @@ local shell = require("nvim-lsp-installer.installers.shell")
 local M = {}
 
 function M.packages(packages)
-    return shell.raw(("go get %s"):format(table.concat(packages, " ")), {
-        prefix = [[set -euo pipefail; export GO111MODULE=on; export GOBIN="$PWD"; export GOPATH="$PWD";]]
+    return shell.raw(('export GOBIN="$PWD"; export GOPATH="$PWD"; go get %s;'):format(table.concat(packages, " ")), {
+        env = {
+            GO111MODULE = "on",
+        },
     })
 end
 
