@@ -2,8 +2,8 @@ local uv = vim.loop
 local M = {}
 
 function M.mkdirp(path)
-    if os.execute(("mkdir -p %q"):format(path)) ~= 0 then
-        error(("mkdirp: Could not create directory %q"):format(path))
+    if vim.fn.mkdir(path, "p") ~= 1 then
+        error(("mkdirp: Could not create directory %q."):format(path))
     end
 end
 
@@ -29,9 +29,8 @@ function M.fstat(path)
 end
 
 function M.rmrf(path)
-    -- giggity
-    if os.execute(("rm -rf %q"):format(path)) ~= 0 then
-        error(("rmrf: Could not remove directory %q"):format(path))
+    if vim.fn.delete(path, "rf") ~= 0 then
+        error(("rmrf: Could not remove directory %q."):format(path))
     end
 end
 

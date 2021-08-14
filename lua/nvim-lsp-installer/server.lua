@@ -79,7 +79,9 @@ function M.Server:install()
 end
 
 function M.Server:uninstall()
-    fs.rmrf(self._root_dir)
+    if fs.dir_exists(self._root_dir) then
+        fs.rmrf(self._root_dir)
+    end
 end
 
 return M
