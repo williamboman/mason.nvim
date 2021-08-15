@@ -35,4 +35,10 @@ function M.realpath(relpath, depth)
     return M.concat { vim.fn.fnamemodify(callsite_abs_path, ":h"), relpath }
 end
 
+function M.is_subdirectory(root_path, path)
+    return path:find(root_path) == 1
+end
+
+M.SERVERS_ROOT_DIR = M.concat { vim.fn.stdpath "data", "lsp_servers" }
+
 return M

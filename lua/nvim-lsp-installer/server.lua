@@ -5,7 +5,7 @@ local path = require "nvim-lsp-installer.path"
 local M = {}
 
 function M.get_server_root_path(server)
-    return path.concat { vim.fn.stdpath "data", "lsp_servers", server }
+    return path.concat { path.SERVERS_ROOT_DIR, server }
 end
 
 M.Server = {}
