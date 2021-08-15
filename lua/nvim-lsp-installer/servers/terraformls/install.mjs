@@ -1,9 +1,7 @@
 const VERSION = "v0.18.3";
 
 const exitNotSupported = () => {
-    console.error(
-        chalk.red(`${os.platform()} ${os.arch()} is currently not supported.`)
-    );
+    console.error(chalk.red(`${os.platform()} ${os.arch()} is currently not supported.`));
     process.exit(1);
 };
 
@@ -27,9 +25,9 @@ const target = (() => {
         default:
             switch (os.arch()) {
                 case "arm64":
-                    return "terraform-ls_0.18.3_linux_amd64.zip";
-                default:
                     return "terraform-ls_0.18.3_linux_arm64.zip";
+                default:
+                    return "terraform-ls_0.18.3_linux_amd64.zip";
             }
     }
 })();
