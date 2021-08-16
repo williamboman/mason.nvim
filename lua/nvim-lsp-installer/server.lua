@@ -70,10 +70,10 @@ function M.Server:install()
 
     self._installer(self, function(success, result)
         if not success then
-            notify(("Server installation failed for %s. %s"):format(self.name, result), vim.log.levels.ERROR)
+            notify(("Server installation failed for %s.\n\n%s"):format(self.name, result), vim.log.levels.ERROR)
             pcall(self.uninstall, self)
         else
-            notify(("Successfully installed %s"):format(self.name))
+            notify(("Successfully installed %s."):format(self.name))
         end
     end)
 end

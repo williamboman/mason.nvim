@@ -74,26 +74,26 @@ end
 function M.install(server_name)
     local ok, server = M.get_server(server_name)
     if not ok then
-        return notify(("Unable to find LSP server %s. Error=%s"):format(server_name, server), vim.log.levels.ERROR)
+        return notify(("Unable to find LSP server %s.\n\n%s"):format(server_name, server), vim.log.levels.ERROR)
     end
     local success, error = pcall(server.install, server)
     if not success then
         pcall(server.uninstall, server)
-        return notify(("Failed to install %s. Error=%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
+        return notify(("Failed to install %s.\n\n%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
     end
 end
 
 function M.uninstall(server_name)
     local ok, server = M.get_server(server_name)
     if not ok then
-        return notify(("Unable to find LSP server %s. Error=%s"):format(server_name, server), vim.log.levels.ERROR)
+        return notify(("Unable to find LSP server %s.\n\n%s"):format(server_name, server), vim.log.levels.ERROR)
     end
     local success, error = pcall(server.uninstall, server)
     if not success then
-        notify(("Unable to uninstall %s. Error=%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
+        notify(("Unable to uninstall %s.\n\n%s"):format(server_name, vim.inspect(error)), vim.log.levels.ERROR)
         return success
     end
-    notify(("Successfully uninstalled %s"):format(server_name))
+    notify(("Successfully uninstalled %s."):format(server_name))
 end
 
 return M
