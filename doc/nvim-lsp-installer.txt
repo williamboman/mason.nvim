@@ -16,6 +16,9 @@ Requires:
 - (optional) Node.js LTS (https://nodejs.org/). Some LSP servers will need a
   Node runtime in order to be installed.
 
+To write a custom server installer, please refer to the docs at
+https://github.com/williamboman/nvim-lsp-installer/blob/main/CUSTOM_SERVERS.md.
+
 ==============================================================================
 QUICK START                                   *nvim-lsp-installer-quickstart*
 
