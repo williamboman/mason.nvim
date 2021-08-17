@@ -41,6 +41,7 @@ local _SERVERS = {
     ["tailwindcss"] = require "nvim-lsp-installer.servers.tailwindcss",
     ["terraformls"] = require "nvim-lsp-installer.servers.terraformls",
     ["texlab"] = require "nvim-lsp-installer.servers.texlab",
+    ["tflint"] = require "nvim-lsp-installer.servers.tflint",
     ["tsserver"] = require "nvim-lsp-installer.servers.tsserver",
     ["vimls"] = require "nvim-lsp-installer.servers.vimls",
     ["vuels"] = require "nvim-lsp-installer.servers.vuels",

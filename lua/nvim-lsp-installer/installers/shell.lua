@@ -28,8 +28,12 @@ function M.raw(raw_script, opts)
         vim.cmd [[new]]
         vim.fn.termopen((opts.prefix or default_opts.prefix) .. raw_script, jobstart_opts)
         vim.o.shell = shell
-        vim.cmd [[startinsert]]
+        vim.cmd [[startinsert]] -- so that we tail the term log nicely ¯\_(ツ)_/¯
     end
+end
+
+function M.remote(url, opts)
+    return M.raw(("curl -s -f %q | bash"):format(url), opts)
 end
 
 return M

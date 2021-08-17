@@ -90,47 +90,49 @@ end
 | Angular                       | `angularls`              |
 | Ansible                       | `ansiblels`              |
 | Bash                          | `bashls`                 |
+| C#                            | `omnisharp`              |
 | C++                           | `clangd`                 |
-| Clojure                       | `clojure_lsp`            |
 | CMake                         | `cmake`                  |
 | CSS                           | `cssls`                  |
+| Clojure                       | `clojure_lsp`            |
 | Deno                          | `denols`                 |
 | Docker                        | `dockerls`               |
+| ESLint [(docs)][eslintls]     | `eslintls`               |
 | Elixir                        | `elixirls`               |
 | Elm                           | `elmls`                  |
 | Ember                         | `ember`                  |
-| ESLint [(docs)][eslintls]     | `eslintls`               |
 | Fortran                       | `fortls`                 |
 | Go                            | `gopls`                  |
 | GraphQL                       | `graphql`                |
 | Groovy                        | `groovyls`               |
-| Haskell                       | `hls`                    |
 | HTML                          | `html`                   |
-| PHP                           | `intelephense`           |
-| Jedi                          | `jedi_language_server`   |
+| Haskell                       | `hls`                    |
 | JSON                          | `jsonls`                 |
+| Jedi                          | `jedi_language_server`   |
 | Kotlin                        | `kotlin_language_server` |
-| C#                            | `omnisharp`              |
+| LaTeX                         | `texlab`                 |
+| Lua                           | `sumneko_lua`            |
+| PHP                           | `intelephense`           |
 | PureScript                    | `purescriptls`           |
 | Python                        | `pylsp`                  |
 | Python                        | `pyright`                |
 | Rome                          | `rome`                   |
-| Rust                          | `rust_analyzer`          |
 | Ruby                          | `solargraph`             |
+| Rust                          | `rust_analyzer`          |
 | SQL                           | `sqlls`                  |
 | SQL                           | `sqls`                   |
-| Lua                           | `sumneko_lua`            |
 | Svelte                        | `svelte`                 |
 | Tailwind CSS                  | `tailwindcss`            |
 | Terraform                     | `terraformls`            |
-| LaTeX                         | `texlab`                 |
+| Terraform [(docs)][tflint]    | `tflint`                 |
 | TypeScript [(docs)][tsserver] | `tsserver`               |
 | VimL                          | `vimls`                  |
 | Vue                           | `vuels`                  |
 | YAML                          | `yamlls`                 |
 
-[tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md
 [eslintls]: ./lua/nvim-lsp-installer/servers/eslintls/README.md
+[tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
+[tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md
 
 ## Adapters
 

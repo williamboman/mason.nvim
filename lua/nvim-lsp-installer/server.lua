@@ -25,6 +25,11 @@ M.Server.__index = M.Server
 --
 -- @field pre_install_check (function)   An optional function to be executed before the installer. This allows ensuring that any prerequisites are fulfilled.
 --                                       This could for example be verifying that required build tools are installed.
+--
+-- @field post_setup (function)          An optional function to be executed after the setup function has been successfully called.
+--                                       Use this to defer setting up server specific things until they're actually
+--                                       needed, like custom commands.
+--
 function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
@@ -32,6 +37,7 @@ function M.Server:new(opts)
         _root_dir = opts.root_dir,
         _default_options = opts.default_options,
         _pre_install_check = opts.pre_install_check,
+        _post_setup = opts.post_setup,
     }, M.Server)
 end
 
@@ -40,6 +46,9 @@ function M.Server:setup(opts)
     -- The reason for this is because once a lspconfig server has been imported, it's
     -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
     require("lspconfig")[self.name].setup(vim.tbl_deep_extend("force", self._default_options, opts))
+    if self._post_setup then
+        self._post_setup()
+    end
 end
 
 function M.Server:get_default_options()
