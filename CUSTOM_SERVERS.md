@@ -124,7 +124,7 @@ Most likely, nvim-lsp-installer already have the installer implementations you'd
     [zx](https://github.com/google/zx) is a tool for writing better scripts. It's a suitable install method for servers
     that for example have many different steps or branches into different steps depending on some logic.
 
-    #### `zx.file(relpath)`
+    #### `zx.file(relpath: string)`
 
     Returns an installer that executes the provided file as a `zx` script. `relpath` is the relative path (of the current
     Lua file) to the script file.
