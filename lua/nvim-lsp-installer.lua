@@ -99,4 +99,8 @@ function M.uninstall(server_name)
     notify(("Successfully uninstalled %s."):format(server_name))
 end
 
+function M.register(server)
+    _SERVERS[server.name] = server
+end
+
 return M

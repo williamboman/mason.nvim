@@ -136,6 +136,11 @@ end
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
 [tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md
 
+## Custom servers
+
+You can create your own installers by using the same APIs nvim-lsp-installer itself uses. Refer to
+[CUSTOM_SERVERS.md](./CUSTOM_SERVERS.md) for more information.
+
 ## Adapters
 
 Make sure to only attempt connecting adapters once the plugin(s) involved have been loaded.
