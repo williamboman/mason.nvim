@@ -37,6 +37,7 @@ local _SERVERS = {
     ["solargraph"] = require "nvim-lsp-installer.servers.solargraph",
     ["sqlls"] = require "nvim-lsp-installer.servers.sqlls",
     ["sqls"] = require "nvim-lsp-installer.servers.sqls",
+    ["stylelint_lsp"] = require "nvim-lsp-installer.servers.stylelint_lsp",
     ["sumneko_lua"] = require "nvim-lsp-installer.servers.sumneko_lua",
     ["svelte"] = require "nvim-lsp-installer.servers.svelte",
     ["tailwindcss"] = require "nvim-lsp-installer.servers.tailwindcss",

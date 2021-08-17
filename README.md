@@ -122,6 +122,7 @@ end
 | Rust                          | `rust_analyzer`          |
 | SQL                           | `sqlls`                  |
 | SQL                           | `sqls`                   |
+| Stylelint                     | `stylelint_lsp`          |
 | Svelte                        | `svelte`                 |
 | Tailwind CSS                  | `tailwindcss`            |
 | Terraform                     | `terraformls`            |
