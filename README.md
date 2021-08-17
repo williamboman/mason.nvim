@@ -97,6 +97,7 @@ end
 | Clojure                       | `clojure_lsp`            |
 | Deno                          | `denols`                 |
 | Docker                        | `dockerls`               |
+| EFM (general purpose server)  | `efm`                    |
 | ESLint [(docs)][eslintls]     | `eslintls`               |
 | Elixir                        | `elixirls`               |
 | Elm                           | `elmls`                  |
