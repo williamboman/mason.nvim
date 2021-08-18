@@ -83,8 +83,8 @@ available installers that are available out of the box.
 
     `opts` is an optional table, with the following defaults:
 
-    -   `prefix = "set -euo pipefail;"` - Prefix added to the beginning of the script.
-    -   `env = nil` - A table (dict) with environment variables to be set in the shell.
+    -   `prefix: string` (default `"set -euo pipefail;"`) - Prefix added to the beginning of the script.
+    -   `env = table?` (default `nil`) - A table (dict) with environment variables to be set in the shell.
 
     Example:
 
@@ -105,8 +105,8 @@ available installers that are available out of the box.
 
     `opts` is an optional table, with the following defaults:
 
-    -   `prefix = "set -euo pipefail;"` - Prefix added to the beginning of the script.
-    -   `env = nil` - A table (dict) with environment variables to be set in the shell.
+    -   `prefix: string` (default `"set -euo pipefail;"`) - Prefix added to the beginning of the script.
+    -   `env = table?` (default `nil`) - A table (dict) with environment variables to be set in the shell.
 
     Example:
 
