@@ -140,7 +140,7 @@ end
 You can create your own installers by using the same APIs nvim-lsp-installer itself uses. Refer to
 [CUSTOM_SERVERS.md](./CUSTOM_SERVERS.md) for more information.
 
-## Adapters
+## Adapters (experimental)
 
 Make sure to only attempt connecting adapters once the plugin(s) involved have been loaded.
 
