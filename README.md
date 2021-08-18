@@ -48,16 +48,14 @@ use {
 ### Setup
 
 ```lua
-local lsp_installer = require'nvim-lsp-installer'
+local lsp_installer = require("nvim-lsp-installer")
 
 function common_on_attach(client, bufnr)
-    -- setup buffer keymaps etc.
+    -- ... set up buffer keymaps, etc.
 end
 
-local installed_servers = lsp_installer.get_installed_servers()
-
-for _, server in pairs(installed_servers) do
-    opts = {
+lsp_installer.on_server_ready(function(server)
+    local opts = {
         on_attach = common_on_attach,
     }
 
@@ -67,7 +65,8 @@ for _, server in pairs(installed_servers) do
     -- end
 
     server:setup(opts)
-end
+    vim.cmd [[ do User LspAttachBuffers ]]
+end)
 ```
 
 For more advanced use cases you may also interact with more APIs nvim-lsp-installer has to offer, for example the following (refer to `:help nvim-lsp-installer` for more docs):

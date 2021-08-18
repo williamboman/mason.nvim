@@ -29,14 +29,14 @@ Install a language server via `:LspInstall`, for example: >
 
 Then, somewhere in your initialization script (see `:h init.lua`): >
 
+    local lsp_installer = require("nvim-lsp-installer")
+
     function common_on_attach(client, bufnr)
-        -- .. set up keymaps, etc.
+        -- ... set up buffer keymaps, etc.
     end
 
-    local installed_servers = lsp_installer.get_installed_servers()
-
-    for _, server in pairs(installed_servers) do
-        opts = {
+    lsp_installer.on_server_ready(function(server)
+        local opts = {
             on_attach = common_on_attach,
         }
 
@@ -46,7 +46,8 @@ Then, somewhere in your initialization script (see `:h init.lua`): >
         -- end
 
         server:setup(opts)
-    end
+        vim.cmd [[ do User LspAttachBuffers ]]
+    end)
 <
 
 ==============================================================================
@@ -122,6 +123,30 @@ uninstall({server_name})
 
         Parameters: ~
             {server_name} (string) The server to uninstall.
+
+register({server})
+        Registers a {server} instance with nvim-lsp-installer.
+
+        {server} must be an instance of |lsp_installer.Server|.
+
+        Parameters: ~
+            {server} (|lsp_installer.Server|) The server to register.
+
+on_server_ready({cb})
+        Registers a callback to be executed each time a server is
+        ready to be initiated.
+
+        When called, all currently installed servers will be
+        considered ready to be initiated and will each
+        individually be invoked on {cb}.
+
+        Parameters: ~
+            {cb} (function) Function to be invoked when a server is ready to
+            be initiated.
+
+        Return: ~
+            Returns a function which when called will de-register the
+            cb} from any future dispatches.
 
 ==============================================================================
 Lua module: nvim-lsp-installer.server                  *lsp_installer.server*

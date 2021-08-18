@@ -11,9 +11,10 @@ to the [Lua docs](./lua/nvim-lsp-installer/server.lua) for more details.
 Each `Server` instance must provide an `installer` property. This _must_ be a function with the signature `function (server, callback)`, where `server` is the server instance that is being installed, and `callback` is a function that
 _must_ be called upon completion (successful or not) by the installer implementation.
 
-Most likely, nvim-lsp-installer already have the installer implementations you'd need. You may find the available installers below.
-
 ## Core installers
+
+Most likely, nvim-lsp-installer already have the installer implementations you need. Below are all the currently
+available installers that are available out of the box.
 
 -   ### Go
 
@@ -36,7 +37,7 @@ Most likely, nvim-lsp-installer already have the installer implementations you'd
 
 -   ### npm
 
-    #### `npm3.packages(packages: table)`
+    #### `npm.packages(packages: table)`
 
     Returns an installer that installs the provided list of `packages`.
 
@@ -45,7 +46,7 @@ Most likely, nvim-lsp-installer already have the installer implementations you'd
     ```lua
     local npm = require "nvim-lsp-installer.installers.npm"
 
-    local installer = npm.packages { "graphql-language-service-cli", "graphql" },
+    local installer = npm.packages { "graphql-language-service-cli", "graphql" }
     ```
 
     #### `npm.executable(root_dir: string, executable: string)`

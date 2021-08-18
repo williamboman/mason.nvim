@@ -40,5 +40,7 @@ command! -nargs=1 -complete=custom,s:LspUninstallCompletion LspUninstall exe s:L
 command! LspUninstallAll call s:LspUninstallAll()
 command! LspPrintInstalled call s:LspPrintInstalled()
 
+autocmd User LspAttachBuffers lua require"nvim-lsp-installer".lsp_attach_proxy()
+
 let &cpo = s:save_cpo
 unlet s:save_cpo

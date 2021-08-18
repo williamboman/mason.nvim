@@ -1,4 +1,5 @@
 local notify = require "nvim-lsp-installer.notify"
+local dispatcher = require "nvim-lsp-installer.dispatcher"
 local fs = require "nvim-lsp-installer.fs"
 local path = require "nvim-lsp-installer.path"
 
@@ -83,6 +84,7 @@ function M.Server:install()
             pcall(self.uninstall, self)
         else
             notify(("Successfully installed %s."):format(self.name))
+            dispatcher.dispatch_server_ready(self)
         end
     end)
 end
