@@ -4,28 +4,30 @@
 
 ## About
 
-Semi-opinionated companion plugin for [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
-It comes with all batteries included, or at least to the extent possible. On top of just providing commands for
-installing & uninsalling LSP servers, it:
+Companion plugin for [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) that allows you to seamlessly install
+LSP servers locally (inside `:echo stdpath("data")`).
+
+On top of just providing commands for installing & uninstalling LSP servers, it:
 
 -   provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
--   provides extra APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
+-   provides Lua APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
 -   has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
 -   common install tasks are abstracted behind Lua APIs
--   provides adapters that offer out-of-box integrations with other plugins
+-   provides adapters that offer out-of-the-box integrations with other plugins
 
 Inspired by [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 
 ## Installation
 
-Some install scripts are written in [google/zx](https://github.com/google/zx) and will require a [Node.js LTS](https://nodejs.org/) runtime to be installed.
+Requires:
 
-### vim-plug
-
-```vim
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
-```
+-   neovim `>= 0.5.0`
+-   [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+-   bash(1), git(1), wget(1), curl(1), unzip(1), tar(1)
+-   (optional) Node.js (LTS) & npm. Some LSP servers will need a Node runtime.
+-   (optional) Python3 & pip3. Some LSP servers will need a Python3 runtime.
+-   (optional) go. Some LSP servers will need a Go runtime.
+-   (optional) javac. Some LSP servers will need a Javac (1.8+) compiler.
 
 ### [Packer](https://github.com/wbthomason/packer.nvim)
 
@@ -36,12 +38,19 @@ use {
 }
 ```
 
+### vim-plug
+
+```vim
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
+```
+
 ## Usage
 
 ### Commands
 
--   `:LspInstall <language>` - installs/reinstalls a language server
--   `:LspUninstall <language>` - uninstalls a language server
+-   `:LspInstall <server>` - installs/reinstalls a language server
+-   `:LspUninstall <server>` - uninstalls a language server
 -   `:LspUninstallAll` - uninstalls all language servers
 -   `:LspPrintInstalled` - prints all installed language servers
 
