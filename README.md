@@ -2,6 +2,8 @@
   <img src="https://user-images.githubusercontent.com/6705160/118490159-f064bb00-b71d-11eb-883e-4affbd020074.png" alt="nvim-lsp-installer" width="60%" />
 </p>
 
+![nvim-lsp-installer](https://user-images.githubusercontent.com/6705160/130286473-c1a1faf6-2e8f-4724-b9d9-f9d1b5804c70.gif)
+
 ## About
 
 Companion plugin for [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) that allows you to seamlessly install
