@@ -9,9 +9,9 @@ return server.Server:new {
     root_dir = root_dir,
     installer = shell.raw [[
     git clone --depth 1 https://github.com/ansible/ansible-language-server .;
-    yarn install;
-    yarn build;
-    yarn install --production;
+    npm install;
+    npm run build;
+    npm install --production;
     ]],
     default_options = {
         filetypes = { "yaml", "yaml.ansible" },
