@@ -2,7 +2,9 @@
   <img src="https://user-images.githubusercontent.com/6705160/118490159-f064bb00-b71d-11eb-883e-4affbd020074.png" alt="nvim-lsp-installer" width="60%" />
 </p>
 
-![nvim-lsp-installer](https://user-images.githubusercontent.com/6705160/130286473-c1a1faf6-2e8f-4724-b9d9-f9d1b5804c70.gif)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/6705160/130315792-43865221-9574-4f24-90fb-3de745fff1ef.gif" width="650" />
+</p>
 
 ## About
 
