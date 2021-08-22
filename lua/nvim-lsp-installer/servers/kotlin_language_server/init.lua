@@ -8,7 +8,7 @@ return server.Server:new {
     name = "kotlin_language_server",
     root_dir = root_dir,
     installer = shell.raw [[
-    curl -fLO https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip;
+    wget -O server.zip https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip;
     unzip server.zip;
     rm server.zip;
     ]],

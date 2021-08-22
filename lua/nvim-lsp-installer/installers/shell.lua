@@ -33,7 +33,7 @@ function M.raw(raw_script, opts)
 end
 
 function M.remote(url, opts)
-    return M.raw(("curl -s -f %q | bash"):format(url), opts)
+    return M.raw(("wget -nv -O - %q | bash"):format(url), opts)
 end
 
 return M

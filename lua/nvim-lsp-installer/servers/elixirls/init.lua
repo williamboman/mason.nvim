@@ -8,7 +8,7 @@ return server.Server:new {
     name = "elixirls",
     root_dir = root_dir,
     installer = shell.raw [[
-    curl -fLO https://github.com/elixir-lsp/elixir-ls/releases/download/v0.7.0/elixir-ls.zip;
+    wget -O elixir-ls.zip https://github.com/elixir-lsp/elixir-ls/releases/download/v0.7.0/elixir-ls.zip;
     unzip elixir-ls.zip -d elixir-ls;
     rm elixir-ls.zip;
     chmod +x elixir-ls/language_server.sh;

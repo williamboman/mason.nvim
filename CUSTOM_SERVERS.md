@@ -92,7 +92,7 @@ available installers that are available out of the box.
     local shell = require "nvim-lsp-installer.installers.shell"
 
     shell.raw [[
-    curl -fLO https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip;
+    wget -O server.zip https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip;
     unzip server.zip;
     rm server.zip;
     ]]

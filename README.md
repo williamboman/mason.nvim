@@ -27,7 +27,7 @@ Requires:
 
 -   neovim `>= 0.5.0`
 -   [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
--   bash(1), git(1), wget(1), curl(1), unzip(1), tar(1)
+-   bash(1), git(1), wget(1), unzip(1), tar(1)
 -   (optional) Node.js (LTS) & npm. Some LSP servers will need a Node runtime.
 -   (optional) Python3 & pip3. Some LSP servers will need a Python3 runtime.
 -   (optional) go. Some LSP servers will need a Go runtime.
