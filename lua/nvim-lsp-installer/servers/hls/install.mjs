@@ -22,7 +22,9 @@ await $`rm hls.tar.gz`;
 await $`chmod +x haskell*`;
 
 const scriptContent = `#!/usr/bin/env bash
-PATH="$PATH:${__dirname}" "${__dirname}/haskell-language-server-wrapper" --lsp`;
+HLS_DIR=$(dirname "$0")
+export PATH=$PATH:$HLS_DIR
+haskell-language-server-wrapper --lsp`;
 
 await fs.writeFile("./hls", scriptContent);
 await $`chmod +x hls`
