@@ -31,6 +31,9 @@ M.Server.__index = M.Server
 --                                       Use this to defer setting up server specific things until they're actually
 --                                       needed, like custom commands.
 --
+-- @field pre_setup (function)           An optional function to be executed prior to calling lspconfig's setup().
+--                                       Use this to defer setting up server specific things until they're actually needed.
+--
 function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
@@ -39,10 +42,14 @@ function M.Server:new(opts)
         _default_options = opts.default_options,
         _pre_install_check = opts.pre_install_check,
         _post_setup = opts.post_setup,
+        _pre_setup = opts.pre_setup,
     }, M.Server)
 end
 
 function M.Server:setup(opts)
+    if self._pre_setup then
+        self._pre_setup()
+    end
     -- We require the lspconfig server here in order to do it as late as possible.
     -- The reason for this is because once a lspconfig server has been imported, it's
     -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
