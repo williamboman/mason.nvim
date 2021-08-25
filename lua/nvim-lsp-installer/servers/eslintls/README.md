@@ -16,6 +16,9 @@ for _, server in pairs(installed_servers) do
     }
 
     if server.name == "eslintls" then
+        -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
+        -- the resolved capabilities of the eslintls server ourselves!
+        client.resolved_capabilities.document_formatting = true
         opts.settings = {
             format = { enable = true }, -- this will enable formatting
         }
