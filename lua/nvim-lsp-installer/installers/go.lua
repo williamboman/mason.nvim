@@ -4,11 +4,17 @@ local shell = require "nvim-lsp-installer.installers.shell"
 local M = {}
 
 function M.packages(packages)
-    return shell.raw(('export GOBIN="$PWD"; export GOPATH="$PWD"; go get %s;'):format(table.concat(packages, " ")), {
-        env = {
-            GO111MODULE = "on",
-        },
-    })
+    return function(server, callback)
+        local shell_installer = shell.raw(("go get -v %s; go clean -modcache;"):format(table.concat(packages, " ")), {
+            env = {
+                GO111MODULE = "on",
+                GOBIN = server._root_dir,
+                GOPATH = server._root_dir,
+            },
+        })
+
+        shell_installer(server, callback)
+    end
 end
 
 function M.executable(root_dir, executable)
