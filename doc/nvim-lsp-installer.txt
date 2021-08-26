@@ -79,6 +79,31 @@ Prints all installed language servers.
 
 
 ==============================================================================
+OPTIONS                                         *nvim-lsp-installer-options*
+
+                                   *g:lsp_installer_allow_federated_servers*
+                               *vim.g.lsp_installer_allow_federated_servers*
+VimL: g:lsp_installer_allow_federated_servers
+Lua:  vim.g.lsp_installer_allow_federated_servers
+
+    Type: |Boolean|
+    Default: `true` (`1`)
+
+    Whether to allow LSP servers to share the same installation directory.
+    For some servers, this effectively causes more than one server to be
+    installed (and uninstalled) when executing `:LspInstall` and
+    `:LspUninstall`.
+
+    For example, installing `cssls` will also install both `jsonls` and `html`
+    (and the other ways around), as these all share the same underlying
+    package.
+
+    Example: >
+        let g:lsp_installer_allow_federated_servers = 0
+        vim.g.lsp_installer_allow_federated_servers = false
+<
+
+==============================================================================
 Lua module: nvim-lsp-installer                                *lsp_installer*
 
                                       *lsp_installer.get_available_servers()*
