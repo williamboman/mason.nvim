@@ -87,7 +87,7 @@ VimL: g:lsp_installer_allow_federated_servers
 Lua:  vim.g.lsp_installer_allow_federated_servers
 
     Type: |Boolean|
-    Default: `true` (`1`)
+    Default: `true` (`v:true`)
 
     Whether to allow LSP servers to share the same installation directory.
     For some servers, this effectively causes more than one server to be
@@ -99,7 +99,7 @@ Lua:  vim.g.lsp_installer_allow_federated_servers
     package.
 
     Example: >
-        let g:lsp_installer_allow_federated_servers = 0
+        let g:lsp_installer_allow_federated_servers = v:false
         vim.g.lsp_installer_allow_federated_servers = false
 <
 

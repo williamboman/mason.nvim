@@ -1,6 +1,6 @@
 if exists('g:loaded_nvim_lsp_installer') | finish | endif
-let g:loaded_nvim_lsp_installer = 1
-let g:lsp_installer_allow_federated_servers = get(g:, "lsp_installer_allow_federated_servers", 1)
+let g:loaded_nvim_lsp_installer = v:true
+let g:lsp_installer_allow_federated_servers = get(g:, "lsp_installer_allow_federated_servers", v:true)
 
 let s:save_cpo = &cpo
 set cpo&vim
