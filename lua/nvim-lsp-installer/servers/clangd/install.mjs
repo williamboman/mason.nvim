@@ -3,10 +3,6 @@ const VERSION = "12.0.0";
 const target = (() => {
     const platform = os.platform();
     switch (platform) {
-        case "win32": {
-            console.error(chalk.red(`${platform} is not yet supported.`));
-            process.exit(1);
-        }
         case "darwin":
             return `clangd-mac-${VERSION}.zip`;
         default:

@@ -1,4 +1,5 @@
 local server = require "nvim-lsp-installer.server"
+local installers = require "nvim-lsp-installer.installers"
 local path = require "nvim-lsp-installer.path"
 local zx = require "nvim-lsp-installer.installers.zx"
 
@@ -13,7 +14,9 @@ local bin_dir = uname_alias[uname] or uname
 return server.Server:new {
     name = "sumneko_lua",
     root_dir = root_dir,
-    installer = zx.file "./install.mjs",
+    installer = installers.when {
+        unix = zx.file "./install.mjs",
+    },
     pre_install_check = function()
         if vim.fn.executable "ninja" ~= 1 then
             error "ninja not installed (see https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages)"

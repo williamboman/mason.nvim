@@ -2,6 +2,7 @@ local fs = require "nvim-lsp-installer.fs"
 local path = require "nvim-lsp-installer.path"
 local notify = require "nvim-lsp-installer.notify"
 local installers = require "nvim-lsp-installer.installers"
+local platform = require "nvim-lsp-installer.platform"
 local shell = require "nvim-lsp-installer.installers.shell"
 local npm = require "nvim-lsp-installer.installers.npm"
 
@@ -37,8 +38,8 @@ local function zx_installer(force)
 
         fs.mkdirp(INSTALL_DIR)
 
-        uv.spawn(
-            "npm",
+        local handle, pid = uv.spawn(
+            platform.is_win() and "npm.cmd" or "npm",
             {
                 args = { npm_command, "zx@1" },
                 cwd = INSTALL_DIR,
@@ -53,13 +54,17 @@ local function zx_installer(force)
                 callback(true, nil)
             end)
         )
+
+        if handle == nil then
+            callback(false, ("Failed to install/update zx. %s"):format(pid))
+        end
     end
 end
 
 function M.file(relpath)
     local script_path = path.realpath(relpath, 3)
     return installers.compose {
-        shell.raw(("%q %q"):format(ZX_EXECUTABLE, script_path)),
+        shell.polyshell(("%q %q"):format(ZX_EXECUTABLE, ("file:///%s"):format(script_path))),
         zx_installer(false),
     }
 end

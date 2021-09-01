@@ -3,10 +3,6 @@ const VERSION = "1.3.0";
 const target = (() => {
     const platform = os.platform();
     switch (platform) {
-        case "win32": {
-            console.error(chalk.red(`${platform} is not yet supported.`));
-            process.exit(1);
-        }
         case "darwin":
             return `haskell-language-server-macOS-${VERSION}.tar.gz`;
         default:

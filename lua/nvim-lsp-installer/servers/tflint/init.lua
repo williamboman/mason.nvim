@@ -1,6 +1,7 @@
 local server = require "nvim-lsp-installer.server"
 local notify = require "nvim-lsp-installer.notify"
 local path = require "nvim-lsp-installer.path"
+local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
 
 local root_dir = server.get_server_root_path "tflint"
@@ -10,12 +11,14 @@ local bin_path = path.concat { root_dir, "tflint" }
 return server.Server:new {
     name = "tflint",
     root_dir = root_dir,
-    installer = shell.remote("https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh", {
-        env = {
-            TFLINT_INSTALL_PATH = root_dir,
-            TFLINT_INSTALL_NO_ROOT = 1,
-        },
-    }),
+    installer = installers.when {
+        unix = shell.remote_bash("https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh", {
+            env = {
+                TFLINT_INSTALL_PATH = root_dir,
+                TFLINT_INSTALL_NO_ROOT = 1,
+            },
+        }),
+    },
     default_options = {
         cmd = { bin_path, "--langserver" },
     },

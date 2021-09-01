@@ -12,10 +12,9 @@ local idx = 0
 function M.register_server_ready_callback(callback)
     local key = idx + 1
     registered_callbacks[("%d"):format(key)] = callback
-    return function ()
+    return function()
         table.remove(registered_callbacks, key)
     end
 end
-
 
 return M

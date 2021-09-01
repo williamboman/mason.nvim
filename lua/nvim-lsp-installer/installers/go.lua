@@ -5,13 +5,16 @@ local M = {}
 
 function M.packages(packages)
     return function(server, callback)
-        local shell_installer = shell.raw(("go get -v %s; go clean -modcache;"):format(table.concat(packages, " ")), {
-            env = {
-                GO111MODULE = "on",
-                GOBIN = server._root_dir,
-                GOPATH = server._root_dir,
-            },
-        })
+        local shell_installer = shell.polyshell(
+            ("go get -v %s && go clean -modcache"):format(table.concat(packages, " ")),
+            {
+                env = {
+                    GO111MODULE = "on",
+                    GOBIN = server._root_dir,
+                    GOPATH = server._root_dir,
+                },
+            }
+        )
 
         shell_installer(server, callback)
     end

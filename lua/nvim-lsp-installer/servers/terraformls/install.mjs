@@ -7,10 +7,6 @@ const exitNotSupported = () => {
 
 const target = (() => {
     switch (os.platform()) {
-        case "win32": {
-            exitNotSupported();
-            break;
-        }
         case "darwin":
             switch (os.arch()) {
                 case "arm64":

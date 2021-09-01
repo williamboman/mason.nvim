@@ -1,3 +1,5 @@
+local platform = require "nvim-lsp-installer.platform"
+
 local M = {}
 
 function M.compose(installers)
@@ -22,6 +24,26 @@ function M.compose(installers)
         end
 
         execute(#installers)
+    end
+end
+
+function M.when(platform_table)
+    return function(server, callback)
+        if platform.is_unix() then
+            if platform_table.unix then
+                platform_table.unix(server, callback)
+            else
+                callback(false, ("Unix is not yet supported for server %q."):format(server.name))
+            end
+        elseif platform.is_win() then
+            if platform_table.win then
+                platform_table.win(server, callback)
+            else
+                callback(false, ("Windows is not yet supported for server %q."):format(server.name))
+            end
+        else
+            callback(false, "installers.when: Could not find installer for current platform.")
+        end
     end
 end
 

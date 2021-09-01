@@ -11,18 +11,11 @@ local ConfirmExecutionResult = {
 }
 
 local root_dir = server.get_server_root_path "eslint"
-local install_cmd = [[
-git clone --depth 1 https://github.com/microsoft/vscode-eslint .;
-npm install;
-cd server;
-npm install;
-../node_modules/.bin/tsc;
-]]
 
 return server.Server:new {
     name = "eslintls",
     root_dir = root_dir,
-    installer = shell.raw(install_cmd),
+    installer = shell.polyshell [[ git clone --depth 1 https://github.com/microsoft/vscode-eslint . && npm install && npm run compile:server ]],
     pre_setup = function()
         local lspconfig = require "lspconfig"
         local configs = require "lspconfig/configs"
