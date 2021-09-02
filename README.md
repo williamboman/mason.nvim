@@ -90,52 +90,53 @@ end
 
 ## Available LSPs
 
-| Language                      | Server name              |
-| ----------------------------- | ------------------------ |
-| Angular                       | `angularls`              |
-| Ansible                       | `ansiblels`              |
-| Bash                          | `bashls`                 |
-| C#                            | `omnisharp`              |
-| C++                           | `clangd`                 |
-| CMake                         | `cmake`                  |
-| CSS                           | `cssls`                  |
-| Clojure                       | `clojure_lsp`            |
-| Deno                          | `denols`                 |
-| Docker                        | `dockerls`               |
-| EFM (general purpose server)  | `efm`                    |
-| ESLint [(docs)][eslintls]     | `eslintls`               |
-| Elixir                        | `elixirls`               |
-| Elm                           | `elmls`                  |
-| Ember                         | `ember`                  |
-| Fortran                       | `fortls`                 |
-| Go                            | `gopls`                  |
-| GraphQL                       | `graphql`                |
-| Groovy                        | `groovyls`               |
-| HTML                          | `html`                   |
-| Haskell                       | `hls`                    |
-| JSON                          | `jsonls`                 |
-| Jedi                          | `jedi_language_server`   |
-| Kotlin                        | `kotlin_language_server` |
-| LaTeX                         | `texlab`                 |
-| Lua                           | `sumneko_lua`            |
-| PHP                           | `intelephense`           |
-| PureScript                    | `purescriptls`           |
-| Python                        | `pylsp`                  |
-| Python                        | `pyright`                |
-| Rome                          | `rome`                   |
-| Ruby                          | `solargraph`             |
-| Rust                          | `rust_analyzer`          |
-| SQL                           | `sqlls`                  |
-| SQL                           | `sqls`                   |
-| Stylelint                     | `stylelint_lsp`          |
-| Svelte                        | `svelte`                 |
-| Tailwind CSS                  | `tailwindcss`            |
-| Terraform                     | `terraformls`            |
-| Terraform [(docs)][tflint]    | `tflint`                 |
-| TypeScript [(docs)][tsserver] | `tsserver`               |
-| VimL                          | `vimls`                  |
-| Vue                           | `vuels`                  |
-| YAML                          | `yamlls`                 |
+| Language                            | Server name              |
+| ----------------------------------- | ------------------------ |
+| Angular                             | `angularls`              |
+| Ansible                             | `ansiblels`              |
+| Bash                                | `bashls`                 |
+| C#                                  | `omnisharp`              |
+| C++                                 | `clangd`                 |
+| CMake                               | `cmake`                  |
+| CSS                                 | `cssls`                  |
+| Clojure                             | `clojure_lsp`            |
+| Deno                                | `denols`                 |
+| Diagnostic (general purpose server) | `diagnosticls`           |
+| Docker                              | `dockerls`               |
+| EFM (general purpose server)        | `efm`                    |
+| ESLint [(docs)][eslintls]           | `eslintls`               |
+| Elixir                              | `elixirls`               |
+| Elm                                 | `elmls`                  |
+| Ember                               | `ember`                  |
+| Fortran                             | `fortls`                 |
+| Go                                  | `gopls`                  |
+| GraphQL                             | `graphql`                |
+| Groovy                              | `groovyls`               |
+| HTML                                | `html`                   |
+| Haskell                             | `hls`                    |
+| JSON                                | `jsonls`                 |
+| Jedi                                | `jedi_language_server`   |
+| Kotlin                              | `kotlin_language_server` |
+| LaTeX                               | `texlab`                 |
+| Lua                                 | `sumneko_lua`            |
+| PHP                                 | `intelephense`           |
+| PureScript                          | `purescriptls`           |
+| Python                              | `pylsp`                  |
+| Python                              | `pyright`                |
+| Rome                                | `rome`                   |
+| Ruby                                | `solargraph`             |
+| Rust                                | `rust_analyzer`          |
+| SQL                                 | `sqlls`                  |
+| SQL                                 | `sqls`                   |
+| Stylelint                           | `stylelint_lsp`          |
+| Svelte                              | `svelte`                 |
+| Tailwind CSS                        | `tailwindcss`            |
+| Terraform                           | `terraformls`            |
+| Terraform [(docs)][tflint]          | `tflint`                 |
+| TypeScript [(docs)][tsserver]       | `tsserver`               |
+| VimL                                | `vimls`                  |
+| Vue                                 | `vuels`                  |
+| YAML                                | `yamlls`                 |
 
 [eslintls]: ./lua/nvim-lsp-installer/servers/eslintls/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md

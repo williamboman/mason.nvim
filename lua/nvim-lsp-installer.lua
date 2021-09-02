@@ -13,6 +13,7 @@ local _SERVERS = {
     ["cmake"] = require "nvim-lsp-installer.servers.cmake",
     ["cssls"] = require "nvim-lsp-installer.servers.cssls",
     ["denols"] = require "nvim-lsp-installer.servers.denols",
+    ["diagnosticls"] = require "nvim-lsp-installer.servers.diagnosticls",
     ["dockerls"] = require "nvim-lsp-installer.servers.dockerls",
     ["efm"] = require "nvim-lsp-installer.servers.efm",
     ["elixirls"] = require "nvim-lsp-installer.servers.elixirls",
