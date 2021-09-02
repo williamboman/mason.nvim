@@ -10,7 +10,7 @@ return server.Server:new {
     root_dir = root_dir,
     installer = installers.when {
         unix = shell.bash [[
-        wget -O elixir-ls.zip https://github.com/elixir-lsp/elixir-ls/releases/download/v0.7.0/elixir-ls.zip;
+        wget -O elixir-ls.zip https://github.com/elixir-lsp/elixir-ls/releases/download/v0.8.1/elixir-ls.zip;
         unzip elixir-ls.zip -d elixir-ls;
         rm elixir-ls.zip;
         chmod +x elixir-ls/language_server.sh;
