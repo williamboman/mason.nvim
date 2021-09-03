@@ -16,6 +16,7 @@ return server.Server:new {
                   | tr -d '"' \
                   | wget -i - -O vscode-rescript.vsix;
             unzip -q -o vscode-rescript.vsix;
+            rm -f vscode-rescript.vsix;
         ]],
     },
     default_options = {
