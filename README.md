@@ -14,7 +14,6 @@ LSP servers locally (inside `:echo stdpath("data")`).
 On top of just providing commands for installing & uninstalling LSP servers, it:
 
 -   provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
--   provides Lua APIs for non-standard LSP functionalities, for example `_typescript.applyRenameFile`
 -   has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
 -   common install tasks are abstracted behind Lua APIs
 -   <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20"> supports Windows for a majority of server installations
@@ -147,20 +146,6 @@ end
 
 You can create your own installers by using the same APIs nvim-lsp-installer itself uses. Refer to
 [CUSTOM_SERVERS.md](./CUSTOM_SERVERS.md) for more information.
-
-## Adapters (experimental)
-
-Make sure to only attempt connecting adapters once the plugin(s) involved have been loaded.
-
-### [kyazdani42/nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
-
-```lua
-require'nvim-lsp-installer.adapters.nvim-tree'.connect()
-```
-
-Supported capabilities:
-
--   `_typescript.applyRenameFile`. Automatically executes the rename file client request when renaming a node.
 
 ## Logo
 
