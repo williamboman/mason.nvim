@@ -34,6 +34,7 @@ local _SERVERS = {
     ["purescriptls"] = require "nvim-lsp-installer.servers.purescriptls",
     ["pylsp"] = require "nvim-lsp-installer.servers.pylsp",
     ["pyright"] = require "nvim-lsp-installer.servers.pyright",
+    ["rescriptls"] = require "nvim-lsp-installer.servers.rescriptls",
     ["rome"] = require "nvim-lsp-installer.servers.rome",
     ["rust_analyzer"] = require "nvim-lsp-installer.servers.rust_analyzer",
     ["solargraph"] = require "nvim-lsp-installer.servers.solargraph",

@@ -123,6 +123,7 @@ end
 | PureScript                          | `purescriptls`           |
 | Python                              | `pylsp`                  |
 | Python                              | `pyright`                |
+| ReScript                            | `rescriptls`             |
 | Rome                                | `rome`                   |
 | Ruby                                | `solargraph`             |
 | Rust                                | `rust_analyzer`          |
