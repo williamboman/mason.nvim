@@ -3,66 +3,96 @@ local dispatcher = require "nvim-lsp-installer.dispatcher"
 
 local M = {}
 
+function Set(list)
+    local set = {}
+    for _, l in ipairs(list) do
+        set[l] = true
+    end
+    return set
+end
+
 -- :'<,'>!sort
-local _SERVERS = {
-    ["angularls"] = require "nvim-lsp-installer.servers.angularls",
-    ["ansiblels"] = require "nvim-lsp-installer.servers.ansiblels",
-    ["bashls"] = require "nvim-lsp-installer.servers.bashls",
-    ["clangd"] = require "nvim-lsp-installer.servers.clangd",
-    ["clojure_lsp"] = require "nvim-lsp-installer.servers.clojure_lsp",
-    ["cmake"] = require "nvim-lsp-installer.servers.cmake",
-    ["cssls"] = require "nvim-lsp-installer.servers.cssls",
-    ["denols"] = require "nvim-lsp-installer.servers.denols",
-    ["diagnosticls"] = require "nvim-lsp-installer.servers.diagnosticls",
-    ["dockerls"] = require "nvim-lsp-installer.servers.dockerls",
-    ["efm"] = require "nvim-lsp-installer.servers.efm",
-    ["elixirls"] = require "nvim-lsp-installer.servers.elixirls",
-    ["elmls"] = require "nvim-lsp-installer.servers.elmls",
-    ["ember"] = require "nvim-lsp-installer.servers.ember",
-    ["eslintls"] = require "nvim-lsp-installer.servers.eslintls",
-    ["fortls"] = require "nvim-lsp-installer.servers.fortls",
-    ["gopls"] = require "nvim-lsp-installer.servers.gopls",
-    ["graphql"] = require "nvim-lsp-installer.servers.graphql",
-    ["groovyls"] = require "nvim-lsp-installer.servers.groovyls",
-    ["hls"] = require "nvim-lsp-installer.servers.hls",
-    ["html"] = require "nvim-lsp-installer.servers.html",
-    ["intelephense"] = require "nvim-lsp-installer.servers.intelephense",
-    ["jedi_language_server"] = require "nvim-lsp-installer.servers.jedi_language_server",
-    ["jsonls"] = require "nvim-lsp-installer.servers.jsonls",
-    ["kotlin_language_server"] = require "nvim-lsp-installer.servers.kotlin_language_server",
-    ["omnisharp"] = require "nvim-lsp-installer.servers.omnisharp",
-    ["purescriptls"] = require "nvim-lsp-installer.servers.purescriptls",
-    ["pylsp"] = require "nvim-lsp-installer.servers.pylsp",
-    ["pyright"] = require "nvim-lsp-installer.servers.pyright",
-    ["rescriptls"] = require "nvim-lsp-installer.servers.rescriptls",
-    ["rome"] = require "nvim-lsp-installer.servers.rome",
-    ["rust_analyzer"] = require "nvim-lsp-installer.servers.rust_analyzer",
-    ["solargraph"] = require "nvim-lsp-installer.servers.solargraph",
-    ["sqlls"] = require "nvim-lsp-installer.servers.sqlls",
-    ["sqls"] = require "nvim-lsp-installer.servers.sqls",
-    ["stylelint_lsp"] = require "nvim-lsp-installer.servers.stylelint_lsp",
-    ["sumneko_lua"] = require "nvim-lsp-installer.servers.sumneko_lua",
-    ["svelte"] = require "nvim-lsp-installer.servers.svelte",
-    ["tailwindcss"] = require "nvim-lsp-installer.servers.tailwindcss",
-    ["terraformls"] = require "nvim-lsp-installer.servers.terraformls",
-    ["texlab"] = require "nvim-lsp-installer.servers.texlab",
-    ["tflint"] = require "nvim-lsp-installer.servers.tflint",
-    ["tsserver"] = require "nvim-lsp-installer.servers.tsserver",
-    ["vimls"] = require "nvim-lsp-installer.servers.vimls",
-    ["vuels"] = require "nvim-lsp-installer.servers.vuels",
-    ["yamlls"] = require "nvim-lsp-installer.servers.yamlls",
+local CORE_SERVERS = Set {
+    "angularls",
+    "ansiblels",
+    "bashls",
+    "clangd",
+    "clojure_lsp",
+    "cmake",
+    "cssls",
+    "denols",
+    "diagnosticls",
+    "dockerls",
+    "efm",
+    "elixirls",
+    "elmls",
+    "ember",
+    "eslintls",
+    "fortls",
+    "gopls",
+    "graphql",
+    "groovyls",
+    "hls",
+    "html",
+    "intelephense",
+    "jedi_language_server",
+    "jsonls",
+    "kotlin_language_server",
+    "omnisharp",
+    "purescriptls",
+    "pylsp",
+    "pyright",
+    "rescriptls",
+    "rome",
+    "rust_analyzer",
+    "solargraph",
+    "sqlls",
+    "sqls",
+    "stylelint_lsp",
+    "sumneko_lua",
+    "svelte",
+    "tailwindcss",
+    "terraformls",
+    "texlab",
+    "tflint",
+    "tsserver",
+    "vimls",
+    "vuels",
+    "yamlls",
 }
 
+local CUSTOM_SERVERS_MAP = {}
+
 function M.get_server(server_name)
-    local server = _SERVERS[server_name]
-    if server then
+    -- Registered custom servers have precedence
+    if CUSTOM_SERVERS_MAP[server_name] then
+        return true, CUSTOM_SERVERS_MAP[server_name]
+    end
+
+    if not CORE_SERVERS[server_name] then
+        return false, ("Server %s does not exist."):format(server_name)
+    end
+
+    local ok, server = pcall(require, ("nvim-lsp-installer.servers.%s"):format(server_name))
+    if ok then
         return true, server
     end
-    return false, ("Server %s does not exist."):format(server_name)
+    return false,
+        (
+            "Unable to import server %s.\n\nThis is an unexpected error, please file an issue at %s with the following information:\n%s"
+        ):format(server_name, "https://github.com/williamboman/nvim-lsp-installer", server)
 end
 
 function M.get_available_servers()
-    return vim.tbl_values(_SERVERS)
+    return vim.tbl_map(function(server_name)
+        local ok, server = M.get_server(server_name)
+        if not ok then
+            error(server)
+        end
+        return server
+    end, vim.tbl_keys(
+        vim.tbl_extend("force", CORE_SERVERS, CUSTOM_SERVERS_MAP)
+    ))
 end
 
 function M.get_installed_servers()
@@ -103,23 +133,31 @@ function M.uninstall(server_name)
 end
 
 function M.register(server)
-    _SERVERS[server.name] = server
+    CUSTOM_SERVERS_MAP[server.name] = server
 end
 
 function M.on_server_ready(cb)
     dispatcher.register_server_ready_callback(cb)
-    for _, server in pairs(M.get_installed_servers()) do
-        dispatcher.dispatch_server_ready(server)
-    end
+    vim.schedule(function()
+        for _, server in pairs(M.get_installed_servers()) do
+            dispatcher.dispatch_server_ready(server)
+        end
+    end)
 end
 
 -- "Proxy" function for triggering attachment of LSP servers to all buffers (useful when just installed a new server
 -- that wasn't installed at launch)
+local queued = false
 function M.lsp_attach_proxy()
-    -- As of writing, if the lspconfig server provides a filetypes setting, it uses FileType as trigger, otherwise it uses BufReadPost
-    local cur_bufnr = vim.fn.bufnr "%"
-    vim.cmd [[ bufdo do FileType | do BufReadPost ]]
-    vim.cmd(("buffer %s"):format(cur_bufnr)) -- restore buffer
+    if queued then
+        return
+    end
+    queued = true
+    vim.schedule(function()
+        -- As of writing, if the lspconfig server provides a filetypes setting, it uses FileType as trigger, otherwise it uses BufReadPost
+        vim.cmd [[ doautoall FileType | doautoall BufReadPost ]]
+        queued = false
+    end)
 end
 
 return M
