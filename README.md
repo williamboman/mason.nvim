@@ -3,7 +3,9 @@
 </p>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/6705160/130315792-43865221-9574-4f24-90fb-3de745fff1ef.gif" width="650" />
+  <a href="https://asciinema.org/a/434365" target="_blank" rel="noopener">
+    <img src="https://user-images.githubusercontent.com/6705160/132266914-e0f89b07-35e2-45ff-a55e-560f612f8a45.gif" width="650" />
+  </a>
 </p>
 
 ## About
@@ -13,9 +15,10 @@ LSP servers locally (inside `:echo stdpath("data")`).
 
 On top of just providing commands for installing & uninstalling LSP servers, it:
 
+-   provides a graphical UI
 -   provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
 -   has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
--   common install tasks are abstracted behind Lua APIs
+-   common install tasks are abstracted behind Lua APIs (has direct integration with libuv via vim.loop)
 -   <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20"> supports Windows for a majority of server installations
 
 ## Installation
@@ -50,8 +53,9 @@ Plug 'williamboman/nvim-lsp-installer'
 
 ### Commands
 
--   `:LspInstall <server>` - installs/reinstalls a language server
--   `:LspUninstall <server>` - uninstalls a language server
+-   `:LspInstallInfo` - opens the UI
+-   `:LspInstall <server> ...` - installs/reinstalls language servers
+-   `:LspUninstall <server> ...` - uninstalls language servers
 -   `:LspUninstallAll` - uninstalls all language servers
 -   `:LspPrintInstalled` - prints all installed language servers
 
@@ -77,9 +81,9 @@ end)
 For more advanced use cases you may also interact with more APIs nvim-lsp-installer has to offer, for example the following (refer to `:help nvim-lsp-installer` for more docs):
 
 ```lua
-local lsp_installer = require'nvim-lsp-installer'
+local lsp_installer_servers = require'nvim-lsp-installer.servers'
 
-local ok, rust_analyzer = lsp_installer.get_server("rust_analyzer")
+local ok, rust_analyzer = lsp_installer_servers.get_server("rust_analyzer")
 if ok then
     if not rust_analyzer:is_installed() then
         rust_analyzer:install()

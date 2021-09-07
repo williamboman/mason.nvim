@@ -1,22 +1,23 @@
 local path = require "nvim-lsp-installer.path"
 local platform = require "nvim-lsp-installer.platform"
-local shell = require "nvim-lsp-installer.installers.shell"
+local process = require "nvim-lsp-installer.process"
 
 local M = {}
 
 local REL_INSTALL_DIR = "venv"
 
 function M.packages(packages)
-    local venv_activate_cmd = platform.is_win() and (".\\%s\\Scripts\\activate"):format(REL_INSTALL_DIR)
-        or ("source ./%s/bin/activate"):format(REL_INSTALL_DIR)
+    return function(server, callback, context)
+        local c = process.chain {
+            cwd = server.root_dir,
+            stdio_sink = context.stdio_sink,
+        }
 
-    return shell.polyshell(
-        ("python3 -m venv %q && %s && pip3 install -U %s"):format(
-            REL_INSTALL_DIR,
-            venv_activate_cmd,
-            table.concat(packages, " ")
-        )
-    )
+        c.run("python3", { "-m", "venv", REL_INSTALL_DIR })
+        c.run(M.executable(server.root_dir, "pip3"), vim.list_extend({ "install", "-U" }, packages))
+
+        c.spawn(callback)
+    end
 end
 
 function M.executable(root_dir, executable)

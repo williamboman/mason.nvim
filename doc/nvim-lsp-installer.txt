@@ -26,9 +26,21 @@ https://github.com/williamboman/nvim-lsp-installer/blob/main/CUSTOM_SERVERS.md.
 ==============================================================================
 QUICK START                                   *nvim-lsp-installer-quickstart*
 
+To view the UI for nvim-lsp-installer, run: >
+
+    :LspInstallInfo
+
+<
+
 Install a language server via `:LspInstall`, for example: >
 
     :LspInstall tsserver
+<
+
+You may also install multiple languages at a time: >
+
+    :LspInstall tsserver graphql eslintls
+
 <
 
 Then, somewhere in your initialization script (see `:h init.lua`): >
@@ -57,15 +69,20 @@ Then, somewhere in your initialization script (see `:h init.lua`): >
 ==============================================================================
 COMMANDS                                        *nvim-lsp-installer-commands*
 
-                                                                *:LspInstall*
-:LspInstall {server_name}
+                                                            *:LspInstallInfo*
+:LspInstallInfo
 
-Installs a language server
+Opens the UI for nvim-lsp-installer.
+
+                                                                *:LspInstall*
+:LspInstall {server_name} ...
+
+Installs language servers.
 
                                                               *:LspUninstall*
-:LspUninstall {server_name}
+:LspUninstall {server_name} ...
 
-Uninstalls a language server.
+Uninstalls language servers.
 
                                                            *:LspUninstallAll*
 :LspUninstallAll
@@ -104,41 +121,9 @@ Lua:  vim.g.lsp_installer_allow_federated_servers
 <
 
 ==============================================================================
-Lua module: nvim-lsp-installer                                *lsp_installer*
+Lua module: nvim-lsp-installer
 
-                                      *lsp_installer.get_available_servers()*
-get_available_servers()
-        Return: ~
-            |lsp_installer.Server|[] A list containing all available language servers.
-
-                                      *lsp_installer.get_installed_servers()*
-get_installed_servers()
-        Return: ~
-            |lsp_installer.Server|[] A list of servers that are currently installed.
-
-                                    *lsp_installer.get_uninstalled_servers()*
-get_uninstalled_servers()
-        Return: ~
-            |lsp_installer.Server|[] A list of servers that are not installed.
-
-                                                 *lsp_installer.get_server()*
-get_server({server_name})
-        Parameters: ~
-            {server_name} (string) The server instance to retrieve.
-
-        Return: ~
-            ok: boolean, server: |lsp_installer.Server|
-
-        Example: ~
->
-            local lsp_installer = require'nvim-lsp-installer'
-            local ok, rust_server = lsp_installer.get_server("rust_analyzer")
-            if ok then
-                rust_server:install()
-            end
-<
-
-                                                    *lsp_installer.install()*
+                                               *nvim-lsp-installer.install()*
 install({server_name})
         Installs the provided {server_name}. If {server_name} is already installed, it
         is reinstalled.
@@ -146,21 +131,14 @@ install({server_name})
         Parameters: ~
             {server_name} (string) The server to install.
 
-                                                  *lsp_installer.uninstall()*
+                                             *nvim-lsp-installer.uninstall()*
 uninstall({server_name})
         Uninstalls the provided {server_name}.
 
         Parameters: ~
             {server_name} (string) The server to uninstall.
 
-register({server})
-        Registers a {server} instance with nvim-lsp-installer.
-
-        {server} must be an instance of |lsp_installer.Server|.
-
-        Parameters: ~
-            {server} (|lsp_installer.Server|) The server to register.
-
+                                       *nvim-lsp-installer.on_server_ready()*
 on_server_ready({cb})
         Registers a callback to be executed each time a server is
         ready to be initiated.
@@ -178,9 +156,54 @@ on_server_ready({cb})
             cb} from any future dispatches.
 
 ==============================================================================
-Lua module: nvim-lsp-installer.server                  *lsp_installer.server*
+Lua module: nvim-lsp-installer.servers           *nvim-lsp-installer.servers*
 
-                                                       *lsp_installer.Server*
+                                 *nvim-lsp-installer.get_available_servers()*
+get_available_servers()
+        Return: ~
+            |lsp_installer.Server|[] A list containing all available language servers.
+
+                                 *nvim-lsp-installer.get_installed_servers()*
+get_installed_servers()
+        Return: ~
+            |lsp_installer.Server|[] A list of servers that are currently installed.
+
+                               *nvim-lsp-installer.get_uninstalled_servers()*
+get_uninstalled_servers()
+        Return: ~
+            |lsp_installer.Server|[] A list of servers that are not installed.
+
+                                              *nvim-lsp-installer.register()*
+register({server})
+        Registers a {server} instance with nvim-lsp-installer.
+
+        {server} must be an instance of |lsp_installer.Server|.
+
+        Parameters: ~
+            {server} (|lsp_installer.Server|) The server to register.
+
+                                            *nvim-lsp-installer.get_server()*
+get_server({server_name})
+        Parameters: ~
+            {server_name} (string) The server instance to retrieve.
+
+        Return: ~
+            ok: boolean, server: |lsp_installer.Server|
+
+        Example: ~
+>
+            local lsp_installer = require'nvim-lsp-installer'
+            local ok, rust_server = lsp_installer.get_server("rust_analyzer")
+            if ok then
+                rust_server:install()
+            end
+<
+
+
+==============================================================================
+Lua module: nvim-lsp-installer.server             *nvim-lsp-installer.server*
+
+                                                  *nvim-lsp-installer.Server*
 class: Server
         This class enables installing, uninstalling, and setting up language
         servers.

@@ -3,6 +3,7 @@ local notify = require "nvim-lsp-installer.notify"
 local path = require "nvim-lsp-installer.path"
 local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
+local process = require "nvim-lsp-installer.process"
 
 local root_dir = server.get_server_root_path "tflint"
 
@@ -25,17 +26,21 @@ return server.Server:new {
     post_setup = function()
         function _G.lsp_installer_tflint_init()
             notify "Installing TFLint plugins…"
-            vim.fn.termopen(("%q --init"):format(bin_path), {
-                cwd = path.cwd(),
-                on_exit = function(_, exit_code)
-                    if exit_code ~= 0 then
-                        notify(("Failed to install TFLint (exit code %)."):format(exit_code))
-                    else
+            process.spawn(
+                bin_path,
+                {
+                    args = { "--init" },
+                    cwd = path.cwd(),
+                    stdio_sink = process.simple_sink(),
+                },
+                vim.schedule_wrap(function(success)
+                    if success then
                         notify "Successfully installed TFLint plugins."
+                    else
+                        notify "Failed to install TFLint."
                     end
-                end,
-            })
-            vim.cmd [[startinsert]] -- so that we tail the term log nicely ¯\_(ツ)_/¯
+                end)
+            )
         end
 
         vim.cmd [[ command! TFLintInit call v:lua.lsp_installer_tflint_init() ]]

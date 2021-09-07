@@ -1,31 +1,21 @@
 local installers = require "nvim-lsp-installer.installers"
+local process = require "nvim-lsp-installer.process"
 
 local M = {}
 
-local function termopen(opts)
-    return function(server, callback)
-        local jobstart_opts = {
-            cwd = server._root_dir,
-            on_exit = function(_, exit_code)
-                if exit_code ~= 0 then
-                    callback(false, ("Exit code %d"):format(exit_code))
-                else
-                    callback(true, nil)
-                end
-            end,
-        }
+local function shell(opts)
+    return function(server, callback, installer_opts)
+        local _, stdio = process.spawn(opts.shell, {
+            cwd = server.root_dir,
+            stdio_sink = installer_opts.stdio_sink,
+            env = process.graft_env(opts.env or {}),
+        }, callback)
 
-        if type(opts.env) == "table" and vim.tbl_count(opts.env) > 0 then
-            -- passing an empty Lua table causes E475, for whatever reason
-            jobstart_opts.env = opts.env
-        end
+        local stdin = stdio[1]
 
-        local orig_shell = vim.o.shell
-        vim.o.shell = opts.shell
-        vim.cmd [[new]]
-        vim.fn.termopen(opts.cmd, jobstart_opts)
-        vim.o.shell = orig_shell
-        vim.cmd [[startinsert]] -- so that we tail the term log nicely ¯\_(ツ)_/¯
+        stdin:write(opts.cmd)
+        stdin:write "\n"
+        stdin:close()
     end
 end
 
@@ -36,7 +26,7 @@ function M.bash(raw_script, opts)
     }
     opts = vim.tbl_deep_extend("force", default_opts, opts or {})
 
-    return termopen {
+    return shell {
         shell = "/bin/bash",
         cmd = (opts.prefix or "") .. raw_script,
         env = opts.env,
@@ -53,7 +43,7 @@ function M.cmd(raw_script, opts)
     }
     opts = vim.tbl_deep_extend("force", default_opts, opts or {})
 
-    return termopen {
+    return shell {
         shell = "cmd.exe",
         cmd = raw_script,
         env = opts.env,

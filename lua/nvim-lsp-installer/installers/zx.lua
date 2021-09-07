@@ -1,12 +1,9 @@
 local fs = require "nvim-lsp-installer.fs"
 local path = require "nvim-lsp-installer.path"
-local notify = require "nvim-lsp-installer.notify"
 local installers = require "nvim-lsp-installer.installers"
 local platform = require "nvim-lsp-installer.platform"
-local shell = require "nvim-lsp-installer.installers.shell"
 local npm = require "nvim-lsp-installer.installers.npm"
-
-local uv = vim.loop
+local process = require "nvim-lsp-installer.process"
 
 local M = {}
 
@@ -18,7 +15,7 @@ local has_installed_zx = false
 local function zx_installer(force)
     force = force or false -- be careful with boolean logic if flipping this
 
-    return function(_, callback)
+    return function(_, callback, opts)
         if has_installed_zx and not force then
             callback(true, "zx already installed")
             return
@@ -33,38 +30,47 @@ local function zx_installer(force)
         local npm_command = is_zx_already_installed and "update" or "install"
 
         if not is_zx_already_installed then
-            notify(("Preparing for :LspInstall… ($ npm %s zx)"):format(npm_command))
+            opts.stdio_sink.stdout(("Preparing for installation… (npm %s zx)"):format(npm_command))
         end
 
         fs.mkdirp(INSTALL_DIR)
 
-        local handle, pid = uv.spawn(
-            platform.is_win() and "npm.cmd" or "npm",
-            {
-                args = { npm_command, "zx@1" },
-                cwd = INSTALL_DIR,
-            },
-            vim.schedule_wrap(function(code)
-                if code ~= 0 then
-                    callback(false, "Failed to install zx.")
-                    return
-                end
+        -- todo use process installer
+        local handle, pid = process.spawn(platform.is_win() and "npm.cmd" or "npm", {
+            args = { npm_command, "zx@1" },
+            cwd = INSTALL_DIR,
+            stdio_sink = opts.stdio_sink,
+        }, function(success)
+            if success then
                 has_installed_zx = true
-                vim.cmd [[ echon "" ]] -- clear the previously printed feedback message… ¯\_(ツ)_/¯
-                callback(true, nil)
-            end)
-        )
+                callback(true)
+            else
+                opts.stdio_sink.stderr "Failed to install zx."
+                callback(false)
+            end
+        end)
 
         if handle == nil then
-            callback(false, ("Failed to install/update zx. %s"):format(pid))
+            opts.stdio_sink.stderr(("Failed to install/update zx. %s"):format(pid))
+            callback(false)
         end
+    end
+end
+
+local function exec(file)
+    return function(server, callback, context)
+        process.spawn(ZX_EXECUTABLE, {
+            args = { file },
+            cwd = server.root_dir,
+            stdio_sink = context.stdio_sink,
+        }, callback)
     end
 end
 
 function M.file(relpath)
     local script_path = path.realpath(relpath, 3)
     return installers.compose {
-        shell.polyshell(("%q %q"):format(ZX_EXECUTABLE, ("file:///%s"):format(script_path))),
+        exec(("file:///%s"):format(script_path)),
         zx_installer(false),
     }
 end

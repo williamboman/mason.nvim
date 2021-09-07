@@ -1,22 +1,24 @@
 local path = require "nvim-lsp-installer.path"
-local shell = require "nvim-lsp-installer.installers.shell"
+local process = require "nvim-lsp-installer.process"
 
 local M = {}
 
 function M.packages(packages)
-    return function(server, callback)
-        local shell_installer = shell.polyshell(
-            ("go get -v %s && go clean -modcache"):format(table.concat(packages, " ")),
-            {
-                env = {
-                    GO111MODULE = "on",
-                    GOBIN = server._root_dir,
-                    GOPATH = server._root_dir,
-                },
-            }
-        )
+    return function(server, callback, context)
+        local c = process.chain {
+            env = process.graft_env {
+                GO111MODULE = "on",
+                GOBIN = server.root_dir,
+                GOPATH = server.root_dir,
+            },
+            cwd = server.root_dir,
+            stdio_sink = context.stdio_sink,
+        }
 
-        shell_installer(server, callback)
+        c.run("go", vim.list_extend({ "get", "-v" }, packages))
+        c.run("go", { "clean", "-modcache" })
+
+        c.spawn(callback)
     end
 end
 

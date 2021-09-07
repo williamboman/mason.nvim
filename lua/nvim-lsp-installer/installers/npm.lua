@@ -1,11 +1,17 @@
 local path = require "nvim-lsp-installer.path"
 local platform = require "nvim-lsp-installer.platform"
-local shell = require "nvim-lsp-installer.installers.shell"
+local process = require "nvim-lsp-installer.process"
 
 local M = {}
 
 function M.packages(packages)
-    return shell.polyshell(("npm install %s"):format(table.concat(packages, " ")))
+    return function(server, callback, context)
+        process.spawn(platform.is_win() and "npm.cmd" or "npm", {
+            args = vim.list_extend({ "install" }, packages),
+            cwd = server.root_dir,
+            stdio_sink = context.stdio_sink,
+        }, callback)
+    end
 end
 
 function M.executable(root_dir, executable)

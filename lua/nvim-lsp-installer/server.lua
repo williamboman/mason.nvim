@@ -1,7 +1,7 @@
-local notify = require "nvim-lsp-installer.notify"
 local dispatcher = require "nvim-lsp-installer.dispatcher"
 local fs = require "nvim-lsp-installer.fs"
 local path = require "nvim-lsp-installer.path"
+local status_win = require "nvim-lsp-installer.ui.status-win"
 
 local M = {}
 
@@ -37,8 +37,9 @@ M.Server.__index = M.Server
 function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
+        root_dir = opts.root_dir,
+        _root_dir = opts.root_dir, -- @deprecated Use the `root_dir` property instead.
         _installer = opts.installer,
-        _root_dir = opts.root_dir,
         _default_options = opts.default_options,
         _pre_install_check = opts.pre_install_check,
         _post_setup = opts.post_setup,
@@ -72,6 +73,27 @@ function M.Server:create_root_dir()
 end
 
 function M.Server:install()
+    status_win().install_server(self)
+end
+
+function M.Server:install_attached(opts, callback)
+    local ok, err = pcall(self.pre_install, self)
+    if not ok then
+        opts.stdio_sink.stderr(tostring(err))
+        callback(false)
+        return
+    end
+    self._installer(self, function(success)
+        if not success then
+            pcall(self.uninstall, self)
+        else
+            dispatcher.dispatch_server_ready(self)
+        end
+        callback(success)
+    end, opts)
+end
+
+function M.Server:pre_install()
     if self._pre_install_check then
         self._pre_install_check()
     end
@@ -82,18 +104,6 @@ function M.Server:install()
     self:uninstall()
 
     self:create_root_dir()
-
-    notify(("Installing %s…"):format(self.name))
-
-    self._installer(self, function(success, result)
-        if not success then
-            notify(("Server installation failed for %s.\n\n%s"):format(self.name, result), vim.log.levels.ERROR)
-            pcall(self.uninstall, self)
-        else
-            notify(("Successfully installed %s."):format(self.name))
-            dispatcher.dispatch_server_ready(self)
-        end
-    end)
 end
 
 function M.Server:uninstall()

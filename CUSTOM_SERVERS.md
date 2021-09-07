@@ -8,8 +8,11 @@ to the [Lua docs](./lua/nvim-lsp-installer/server.lua) for more details.
 
 # Installers
 
-Each `Server` instance must provide an `installer` property. This _must_ be a function with the signature `function (server, callback)`, where `server` is the server instance that is being installed, and `callback` is a function that
-_must_ be called upon completion (successful or not) by the installer implementation.
+Each `Server` instance must provide an `installer` property. This _must_ be a function with the signature `function (server, callback, context)`, where:
+
+-   `server` is the server instance that is being installed,
+-   `callback` is a function that _must_ be called upon completion (successful or not) by the installer implementation
+-   `context` is a table containing contextual data, such as `stdio_sink` (see existing installer implementations for reference)
 
 ## Core installers
 
@@ -149,11 +152,11 @@ Example:
 local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
 
-installers.compose {
-    shell.raw [[ echo "I won't run at all because the previous installer failed." ]],
-    shell.raw [[ exit 1 ]],
-    pip3.packages { "another-package" },
+installers.join {
     npm.packages { "some-package" },
+    pip3.packages { "another-package" },
+    shell.raw [[ exit 1 ]],
+    shell.raw [[ echo "I won't run at all because the previous installer failed." ]],
 }
 ```
 
@@ -164,7 +167,7 @@ The following is a full example of setting up a completely custom server install
 ```lua
 local lspconfig = require "lspconfig"
 local configs = require "lspconfig/configs"
-local lsp_installer = require "nvim-lsp-installer"
+local servers = require "nvim-lsp-installer.servers"
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
 
@@ -182,12 +185,12 @@ configs[server_name] = {
 local root_dir = server.get_server_root_path(server_name)
 
 -- You may also use one of the prebuilt installers (e.g., npm, pip3, go, shell, zx).
-local my_installer = function(server, callback)
+local my_installer = function(server, callback, context)
     local is_success = code_that_installs_given_server(server)
     if is_success then
-        callback(true, nil)
+        callback(true)
     else
-        callback(false, "Error message here.")
+        callback(false)
     end
 end
 
@@ -203,5 +206,5 @@ local my_server = server.Server:new {
 
 -- 3. (optional, recommended) Register your server with nvim-lsp-installer.
 --    This makes it available via other APIs (e.g., :LspInstall, lsp_installer.get_available_servers()).
-lsp_installer.register(my_server)
+servers.register(my_server)
 ```
