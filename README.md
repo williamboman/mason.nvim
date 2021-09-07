@@ -53,7 +53,7 @@ Plug 'williamboman/nvim-lsp-installer'
 
 ### Commands
 
--   `:LspInstallInfo` - opens the UI
+-   `:LspInstallInfo` - opens a graphical overview of your language servers
 -   `:LspInstall <server> ...` - installs/reinstalls language servers
 -   `:LspUninstall <server> ...` - uninstalls language servers
 -   `:LspUninstallAll` - uninstalls all language servers
