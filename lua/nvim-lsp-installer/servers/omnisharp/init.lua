@@ -15,7 +15,7 @@ return server.Server:new {
     },
     default_options = {
         cmd = {
-            platform.is_win() and path.concat { root_dir, "OmniSharp.exe" }
+            platform.is_win and path.concat { root_dir, "OmniSharp.exe" }
                 or path.concat { root_dir, "omnisharp", "run" },
             "--languageserver",
             "--hostPID",

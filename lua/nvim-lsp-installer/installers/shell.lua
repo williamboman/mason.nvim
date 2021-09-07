@@ -11,11 +11,13 @@ local function shell(opts)
             env = process.graft_env(opts.env or {}),
         }, callback)
 
-        local stdin = stdio[1]
+        if stdio then
+            local stdin = stdio[1]
 
-        stdin:write(opts.cmd)
-        stdin:write "\n"
-        stdin:close()
+            stdin:write(opts.cmd)
+            stdin:write "\n"
+            stdin:close()
+        end
     end
 end
 

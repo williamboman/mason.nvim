@@ -21,7 +21,7 @@ function M.packages(packages)
 end
 
 function M.executable(root_dir, executable)
-    return path.concat { root_dir, REL_INSTALL_DIR, platform.is_win() and "Scripts" or "bin", executable }
+    return path.concat { root_dir, REL_INSTALL_DIR, platform.is_win and "Scripts" or "bin", executable }
 end
 
 return M

@@ -36,7 +36,7 @@ local function zx_installer(force)
         fs.mkdirp(INSTALL_DIR)
 
         -- todo use process installer
-        local handle, pid = process.spawn(platform.is_win() and "npm.cmd" or "npm", {
+        local handle, pid = process.spawn(platform.is_win and "npm.cmd" or "npm", {
             args = { npm_command, "zx@1" },
             cwd = INSTALL_DIR,
             stdio_sink = opts.stdio_sink,

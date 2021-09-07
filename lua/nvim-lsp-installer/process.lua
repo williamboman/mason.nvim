@@ -20,9 +20,13 @@ local function connect_sink(pipe, sink)
     end
 end
 
+-- We gather the root env immediately, primarily because of E5560.
+-- Also, there's no particular reason we need to refresh the environment (yet).
+local environ = vim.fn.environ()
+
 function M.graft_env(env)
     local root_env = {}
-    for key, val in pairs(vim.fn.environ()) do
+    for key, val in pairs(environ) do
         root_env[#root_env + 1] = key .. "=" .. val
     end
     for key, val in pairs(env) do

@@ -1,11 +1,6 @@
 local M = {}
 
-function M.is_win()
-    return vim.fn.has "win32" == 1
-end
-
-function M.is_unix()
-    return vim.fn.has "unix" == 1
-end
+M.is_win = vim.fn.has "win32" == 1
+M.is_unix = vim.fn.has "unix" == 1
 
 return M

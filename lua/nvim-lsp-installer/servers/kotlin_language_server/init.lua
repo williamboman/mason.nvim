@@ -23,7 +23,7 @@ return server.Server:new {
                 root_dir,
                 "server",
                 "bin",
-                platform.is_win() and "kotlin-language-server.bat" or "kotlin-language-server",
+                platform.is_win and "kotlin-language-server.bat" or "kotlin-language-server",
             },
         },
     },

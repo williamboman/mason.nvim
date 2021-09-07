@@ -6,7 +6,7 @@ local M = {}
 
 function M.packages(packages)
     return function(server, callback, context)
-        process.spawn(platform.is_win() and "npm.cmd" or "npm", {
+        process.spawn(platform.is_win and "npm.cmd" or "npm", {
             args = vim.list_extend({ "install" }, packages),
             cwd = server.root_dir,
             stdio_sink = context.stdio_sink,
@@ -19,7 +19,7 @@ function M.executable(root_dir, executable)
         root_dir,
         "node_modules",
         ".bin",
-        platform.is_win() and ("%s.cmd"):format(executable) or executable,
+        platform.is_win and ("%s.cmd"):format(executable) or executable,
     }
 end
 

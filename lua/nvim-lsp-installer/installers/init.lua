@@ -35,14 +35,14 @@ end
 
 function M.when(platform_table)
     return function(server, callback, context)
-        if platform.is_unix() then
+        if platform.is_unix then
             if platform_table.unix then
                 platform_table.unix(server, callback, context)
             else
                 context.stdio_sink.stderr(("Unix is not yet supported for server %q."):format(server.name))
                 callback(false)
             end
-        elseif platform.is_win() then
+        elseif platform.is_win then
             if platform_table.win then
                 platform_table.win(server, callback, context)
             else
