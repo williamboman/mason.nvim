@@ -2,11 +2,11 @@ local M = {}
 
 local registered_callbacks = {}
 
-M.dispatch_server_ready = vim.schedule_wrap(function(server)
-    for _, callback in pairs(registered_callbacks) do
-        callback(server)
+M.dispatch_server_ready = function(server)
+    for i = 1, #registered_callbacks do
+        registered_callbacks[i](server)
     end
-end)
+end
 
 local idx = 0
 function M.register_server_ready_callback(callback)

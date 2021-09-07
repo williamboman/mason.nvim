@@ -97,14 +97,14 @@ local function render_node(context, node, _render_context, _output)
 
             output.lines[#output.lines + 1] = full_line
         end
-    elseif node.type == Ui.NodeType.NODE or node.type == Ui.NodeType.STYLE_BLOCK then
-        if node.type == Ui.NodeType.STYLE_BLOCK then
+    elseif node.type == Ui.NodeType.NODE or node.type == Ui.NodeType.CASCADING_STYLE then
+        if node.type == Ui.NodeType.CASCADING_STYLE then
             render_context.applied_block_styles[#render_context.applied_block_styles + 1] = node.styles
         end
         for i = 1, #node.children do
             render_node(context, node.children[i], render_context, output)
         end
-        if node.type == Ui.NodeType.STYLE_BLOCK then
+        if node.type == Ui.NodeType.CASCADING_STYLE then
             render_context.applied_block_styles[#render_context.applied_block_styles] = nil
         end
     end

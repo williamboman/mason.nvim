@@ -87,7 +87,9 @@ function M.Server:install_attached(opts, callback)
         if not success then
             pcall(self.uninstall, self)
         else
-            dispatcher.dispatch_server_ready(self)
+            vim.schedule(function()
+                dispatcher.dispatch_server_ready(self)
+            end)
         end
         callback(success)
     end, opts)

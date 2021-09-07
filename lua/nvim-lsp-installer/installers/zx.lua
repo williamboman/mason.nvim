@@ -15,7 +15,7 @@ local has_installed_zx = false
 local function zx_installer(force)
     force = force or false -- be careful with boolean logic if flipping this
 
-    return function(_, callback, opts)
+    return function(_, callback, context)
         if has_installed_zx and not force then
             callback(true, "zx already installed")
             return
@@ -30,7 +30,7 @@ local function zx_installer(force)
         local npm_command = is_zx_already_installed and "update" or "install"
 
         if not is_zx_already_installed then
-            opts.stdio_sink.stdout(("Preparing for installation… (npm %s zx)"):format(npm_command))
+            context.stdio_sink.stdout(("Preparing for installation… (npm %s zx)"):format(npm_command))
         end
 
         fs.mkdirp(INSTALL_DIR)
@@ -39,19 +39,19 @@ local function zx_installer(force)
         local handle, pid = process.spawn(platform.is_win and "npm.cmd" or "npm", {
             args = { npm_command, "zx@1" },
             cwd = INSTALL_DIR,
-            stdio_sink = opts.stdio_sink,
+            stdio_sink = context.stdio_sink,
         }, function(success)
             if success then
                 has_installed_zx = true
                 callback(true)
             else
-                opts.stdio_sink.stderr "Failed to install zx."
+                context.stdio_sink.stderr "Failed to install zx."
                 callback(false)
             end
         end)
 
         if handle == nil then
-            opts.stdio_sink.stderr(("Failed to install/update zx. %s"):format(pid))
+            context.stdio_sink.stderr(("Failed to install/update zx. %s"):format(pid))
             callback(false)
         end
     end

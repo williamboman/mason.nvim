@@ -45,8 +45,9 @@ end
 function M.on_server_ready(cb)
     dispatcher.register_server_ready_callback(cb)
     vim.schedule(function()
-        for _, server in pairs(servers.get_installed_servers()) do
-            dispatcher.dispatch_server_ready(server)
+        local installed_servers = servers.get_installed_servers()
+        for i = 1, #installed_servers do
+            dispatcher.dispatch_server_ready(installed_servers[i])
         end
     end)
 end

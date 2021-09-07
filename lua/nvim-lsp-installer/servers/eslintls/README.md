@@ -10,7 +10,7 @@ local lsp_installer = require "nvim-lsp-installer"
 
 function common_on_attach(client, bufnr) ... end
 
-for _, server in pairs(installed_servers) do
+lsp_installer.on_server_ready(function (server)
     local opts = {
         on_attach = common_on_attach,
     }
@@ -28,7 +28,7 @@ for _, server in pairs(installed_servers) do
     end
 
     server:setup(opts)
-end
+end)
 ```
 
 This will make `eslintls` respond to formatting requests, for example when triggered through:

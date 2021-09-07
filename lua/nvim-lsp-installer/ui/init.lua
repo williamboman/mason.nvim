@@ -3,7 +3,7 @@ local M = {}
 
 M.NodeType = Data.enum {
     "NODE",
-    "STYLE_BLOCK",
+    "CASCADING_STYLE",
     "VIRTUAL_TEXT",
     "HL_TEXT",
 }
@@ -39,7 +39,7 @@ M.CascadingStyle = Data.enum {
 
 function M.CascadingStyleNode(styles, children)
     return {
-        type = M.NodeType.STYLE_BLOCK,
+        type = M.NodeType.CASCADING_STYLE,
         styles = styles,
         children = children,
     }

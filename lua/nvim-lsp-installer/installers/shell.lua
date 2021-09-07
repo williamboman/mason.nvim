@@ -4,10 +4,10 @@ local process = require "nvim-lsp-installer.process"
 local M = {}
 
 local function shell(opts)
-    return function(server, callback, installer_opts)
+    return function(server, callback, context)
         local _, stdio = process.spawn(opts.shell, {
             cwd = server.root_dir,
-            stdio_sink = installer_opts.stdio_sink,
+            stdio_sink = context.stdio_sink,
             env = process.graft_env(opts.env or {}),
         }, callback)
 
