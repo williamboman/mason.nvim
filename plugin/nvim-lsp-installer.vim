@@ -30,9 +30,7 @@ function! s:LspUninstall(server_names) abort
 endfunction
 
 function! s:LspUninstallAll() abort
-    for server in s:MapServerName(luaeval("require'nvim-lsp-installer.servers'.get_installed_servers()"))
-        call s:LspUninstall(server)
-    endfor
+    lua require'nvim-lsp-installer'.uninstall_all()
 endfunction
 
 function! s:LspPrintInstalled() abort

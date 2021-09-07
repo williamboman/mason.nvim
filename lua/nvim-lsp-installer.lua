@@ -27,6 +27,21 @@ function M.uninstall(server_name)
     status_win().open()
 end
 
+function M.uninstall_all()
+    local installed_servers = servers.get_installed_servers()
+    if #installed_servers > 0 then
+        local function uninstall(idx)
+            status_win().uninstall_server(installed_servers[idx])
+            if installed_servers[idx + 1] then
+                vim.schedule(function()
+                    uninstall(idx + 1)
+                end)
+            end
+        end
+        uninstall(1)
+    end
+end
+
 function M.on_server_ready(cb)
     dispatcher.register_server_ready_callback(cb)
     vim.schedule(function()
