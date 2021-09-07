@@ -3,8 +3,8 @@ local M = {}
 local registered_callbacks = {}
 
 M.dispatch_server_ready = function(server)
-    for i = 1, #registered_callbacks do
-        registered_callbacks[i](server)
+    for _, callback in pairs(registered_callbacks) do
+        callback(server)
     end
 end
 
