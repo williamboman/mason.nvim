@@ -78,11 +78,9 @@ available installers that are available out of the box.
 
 -   ### Shell
 
-    #### `shell.raw(raw_script: string, opts?: table)`
+    #### `shell.bash(raw_script: string, opts?: table)`
 
-    Returns an installer that runs the provided `raw_script` in a new terminal window.
-
-    Runs as a bash script (`/bin/bash`).
+    Returns an installer that runs the provided `raw_script` as a bash script (`/bin/bash`).
 
     `opts` is an optional table, with the following defaults:
 
@@ -94,17 +92,17 @@ available installers that are available out of the box.
     ```lua
     local shell = require "nvim-lsp-installer.installers.shell"
 
-    shell.raw [[
+    shell.bash [[
     wget -O server.zip https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip;
     unzip server.zip;
     rm server.zip;
     ]]
     ```
 
-    #### `shell.remote(url: string, opts?: table)`
+    #### `shell.remote_bash(url: string, opts?: table)`
 
-    Returns an installer that downloads the content at `url` and executes its content by passing it to the `shell.raw()`
-    installer.
+    Returns an installer that downloads the content at `url` and executes its content by passing it to the
+    `shell.bash()` installer.
 
     `opts` is an optional table, with the following defaults:
 
@@ -116,11 +114,44 @@ available installers that are available out of the box.
     ```lua
     local shell = require "nvim-lsp-installer.installers.shell"
 
-    shell.remote("https://raw.githubusercontent.com/my_server/my_server_lsp/install.sh", {
+    shell.remote_bash("https://raw.githubusercontent.com/my_server/my_server_lsp/install.sh", {
         env = {
             MY_ENV = "true"
         }
     })
+    ```
+
+    #### `shell.cmd(raw_script: string, opts?: table)`
+
+    Returns an installer that runs the provided `raw_script` as a `cmd.exe` script.
+
+    `opts` is an optional table, with the following defaults:
+
+    -   `env = table?` (default `nil`) - A table (dict) with environment variables to be set in the shell.
+
+    Example:
+
+    ```lua
+    local shell = require "nvim-lsp-installer.installers.shell"
+
+    shell.cmd("git clone --depth 1 https://github.com/microsoft/vscode-eslint . && npm install && npm run compile:server")
+    ```
+
+    #### `shell.polyshell(raw_script: string, opts?: table)`
+
+    Returns an installer that runs the provided `raw_script` as a platform agnostic shell script. This installer expects
+    the provided `raw_script` is syntactically valid across all platform shells (`/bin/bash` and `cmd.exe`).
+
+    `opts` is an optional table, with the following defaults:
+
+    -   `env = table?` (default `nil`) - A table (dict) with environment variables to be set in the shell.
+
+    Example:
+
+    ```lua
+    local shell = require "nvim-lsp-installer.installers.shell"
+
+    shell.polyshell("git clone --depth 1 https://github.com/microsoft/vscode-eslint . && npm install && npm run compile:server")
     ```
 
 -   ### zx
