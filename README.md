@@ -120,6 +120,7 @@ end
 | JSON                                | `jsonls`                 |
 | Jedi                                | `jedi_language_server`   |
 | Kotlin                              | `kotlin_language_server` |
+| OCaml                               | `ocamlls`                |
 | LaTeX                               | `texlab`                 |
 | Lua                                 | `sumneko_lua`            |
 | PHP                                 | `intelephense`           |
