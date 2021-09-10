@@ -1,10 +1,15 @@
+local notify = require("nvim-lsp-installer.notify")
+
 local M = {}
 
 local registered_callbacks = {}
 
 M.dispatch_server_ready = function(server)
     for _, callback in pairs(registered_callbacks) do
-        callback(server)
+        local ok, err = pcall(callback, server)
+        if not ok then
+            notify(tostring(err), vim.log.levels.ERROR)
+        end
     end
 end
 
