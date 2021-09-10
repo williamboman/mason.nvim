@@ -29,6 +29,7 @@ end
 
 function M.uninstall_all()
     local installed_servers = servers.get_installed_servers()
+    status_win().open()
     if #installed_servers > 0 then
         local function uninstall(idx)
             status_win().uninstall_server(installed_servers[idx])
