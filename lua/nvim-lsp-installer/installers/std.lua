@@ -30,7 +30,7 @@ function M.unzip(file, dest)
             end,
             win = shell.powershell(("Expand-Archive -Path %q -DestinationPath %q"):format(file, dest)),
         },
-        installers.always_succeed(M.delete_file, file),
+        installers.always_succeed(M.delete_file(file)),
     }
 end
 
