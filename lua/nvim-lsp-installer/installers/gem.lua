@@ -1,11 +1,14 @@
 local path = require "nvim-lsp-installer.path"
 local process = require "nvim-lsp-installer.process"
+local platform = require "nvim-lsp-installer.platform"
 
 local M = {}
 
+local gem = platform.is_win and "gem.cmd" or "gem"
+
 function M.packages(packages)
     return function(server, callback, context)
-        process.spawn("gem", {
+        process.spawn(gem, {
             args = {
                 "install",
                 "--no-user-install",
