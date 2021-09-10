@@ -106,6 +106,7 @@ end
 | Deno                                | `denols`                 |
 | Diagnostic (general purpose server) | `diagnosticls`           |
 | Docker                              | `dockerls`               |
+| Dot                                 | `dotls`                  |
 | EFM (general purpose server)        | `efm`                    |
 | ESLint [(docs)][eslintls]           | `eslintls`               |
 | Elixir                              | `elixirls`               |

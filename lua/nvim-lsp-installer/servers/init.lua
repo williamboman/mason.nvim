@@ -14,6 +14,7 @@ local CORE_SERVERS = Data.set_of {
     "denols",
     "diagnosticls",
     "dockerls",
+    "dotls",
     "efm",
     "elixirls",
     "elmls",
