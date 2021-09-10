@@ -88,8 +88,8 @@ local function render_node(context, node, _render_context, _output)
 
             -- apply indentation
             full_line = (" "):rep(active_styles.indentation) .. full_line
-            for i = 1, #line_highlights do
-                local highlight = line_highlights[i]
+            for j = 1, #line_highlights do
+                local highlight = line_highlights[j]
                 highlight.col_start = highlight.col_start + active_styles.indentation
                 highlight.col_end = highlight.col_end + active_styles.indentation
                 output.highlights[#output.highlights + 1] = highlight
@@ -114,7 +114,7 @@ end
 
 function M.new_view_only_win(name)
     local namespace = vim.api.nvim_create_namespace(("lsp_installer_%s"):format(name))
-    local win, buf, renderer, mutate_state, get_state, unsubscribe
+    local buf, renderer, mutate_state, get_state, unsubscribe
     local has_initiated = false
 
     local function open(opts)
@@ -127,7 +127,7 @@ function M.new_view_only_win(name)
             vim.cmd [[vnew]]
         end
 
-        win = vim.api.nvim_get_current_win()
+        local win = vim.api.nvim_get_current_win()
         buf = vim.api.nvim_get_current_buf()
 
         vim.api.nvim_buf_set_option(buf, "modifiable", false)
@@ -157,13 +157,16 @@ function M.new_view_only_win(name)
                 vim.cmd(highlight_groups[i])
             end
         end
+
+        return win
     end
 
     local draw = debounced(function(view)
-        if not win or not vim.api.nvim_win_is_valid(win) then
-            -- the window has been closed, e.g, by the user
+        local win = vim.fn.win_findbuf(buf)[1]
+        if not win or not vim.api.nvim_buf_is_valid(buf) then
+            -- the window has been closed or the buffer is somehow no longer valid
             unsubscribe(true)
-            return log.debug { "Window is no longer valid", name, win }
+            return log.debug { "Buffer or window is no longer valid", name, win, buf }
         end
 
         local win_width = vim.api.nvim_win_get_width(win)
@@ -213,13 +216,14 @@ function M.new_view_only_win(name)
         open = vim.schedule_wrap(function(opts)
             log.debug { "opening window" }
             assert(has_initiated, "Display has not been initiated, cannot open.")
+            local win = vim.fn.win_findbuf(buf)[1]
             if win and vim.api.nvim_win_is_valid(win) then
                 return
             end
             unsubscribe(false)
-            open(opts)
+            local opened_win = open(opts)
             draw(renderer(get_state()))
-            redraw_by_winnr[win] = function()
+            redraw_by_winnr[opened_win] = function()
                 draw(renderer(get_state()))
             end
         end),
