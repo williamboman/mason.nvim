@@ -123,6 +123,7 @@ end
 | LaTeX                               | `texlab`                 |
 | Lua                                 | `sumneko_lua`            |
 | PHP                                 | `intelephense`           |
+| Prisma                              | `prismals`               |
 | PureScript                          | `purescriptls`           |
 | Python                              | `pylsp`                  |
 | Python                              | `pyright`                |

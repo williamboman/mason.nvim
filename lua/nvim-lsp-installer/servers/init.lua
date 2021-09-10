@@ -30,6 +30,7 @@ local CORE_SERVERS = Data.set_of {
     "jsonls",
     "kotlin_language_server",
     "omnisharp",
+    "prismals",
     "purescriptls",
     "pylsp",
     "pyright",
