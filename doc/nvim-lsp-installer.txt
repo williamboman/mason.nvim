@@ -10,15 +10,17 @@ INTRODUCTION                                *nvim-lsp-installer-introduction*
 Semi-opinionated companion plugin for nvim-lspconfig. It comes with all
 batteries included, or at least to the extent possible.
 
-Requires:
+Requires neovim `>= 0.5.0`. These are the full requirements to install all
+servers:
 
--   neovim `nightly (>= 0.5.0)`
 -   neovim/nvim-lspconfig (https://github.com/neovim/nvim-lspconfig)
--   bash(1), git(1), wget(1), unzip(1), tar(1)
--   (optional) Node.js (LTS) & npm. Some LSP servers will need a Node runtime.
--   (optional) Python3 & pip3. Some LSP servers will need a Python3 runtime.
--   (optional) go. Some LSP servers will need a Go runtime.
--   (optional) javac. Some LSP servers will need a Javac (1.8+) compiler.
+-   For Unix systems: bash(1), git(1), wget(1), unzip(1), tar(1), gzip(1)
+-   For Windows systems: powershell.exe, tar, git
+-   Node.js (LTS) & npm
+-   Python3 & pip3
+-   go
+-   javac
+-   Ruby & gem
 
 To write a custom server installer, please refer to the docs at
 https://github.com/williamboman/nvim-lsp-installer/blob/main/CUSTOM_SERVERS.md.

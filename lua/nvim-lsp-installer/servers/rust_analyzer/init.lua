@@ -1,16 +1,46 @@
 local server = require "nvim-lsp-installer.server"
-local installers = require "nvim-lsp-installer.installers"
 local path = require "nvim-lsp-installer.path"
-local zx = require "nvim-lsp-installer.installers.zx"
+local platform = require "nvim-lsp-installer.platform"
+local std = require "nvim-lsp-installer.installers.std"
+local Data = require "nvim-lsp-installer.data"
 
 local root_dir = server.get_server_root_path "rust"
+
+local VERSION = "2021-06-28"
+
+local target = Data.coalesce(
+    Data.when(
+        platform.is_mac,
+        Data.coalesce(
+            Data.when(platform.arch == "arm64", "rust-analyzer-aarch64-apple-darwin.gz"),
+            Data.when(platform.arch == "x64", "rust-analyzer-x86_64-apple-darwin.gz")
+        )
+    ),
+    Data.when(
+        platform.is_unix,
+        Data.coalesce(
+            Data.when(platform.arch == "arm64", "rust-analyzer-aarch64-unknown-linux-gnu.gz"),
+            Data.when(platform.arch == "x64", "rust-analyzer-x86_64-unknown-linux-gnu.gz")
+        )
+    ),
+    Data.when(
+        platform.is_win,
+        Data.coalesce(
+            Data.when(platform.arch == "arm64", "rust-analyzer-aarch64-pc-windows-msvc.gz"),
+            Data.when(platform.arch == "x64", "rust-analyzer-x86_64-pc-windows-msvc.gz")
+        )
+    )
+)
 
 return server.Server:new {
     name = "rust_analyzer",
     root_dir = root_dir,
-    installer = installers.when {
-        unix = zx.file "./install.mjs",
-        win = zx.file "./install.win.mjs",
+    installer = {
+        std.gunzip_remote(
+            ("https://github.com/rust-analyzer/rust-analyzer/releases/download/%s/%s"):format(VERSION, target),
+            platform.is_win and "rust-analyzer.exe" or "rust-analyzer"
+        ),
+        std.chmod("+x", { "rust-analyzer" }),
     },
     default_options = {
         cmd = { path.concat { root_dir, "rust-analyzer" } },

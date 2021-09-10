@@ -17,21 +17,21 @@ On top of just providing commands for installing & uninstalling LSP servers, it:
 
 -   provides a graphical UI
 -   provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
--   has support for a variety of different install methods (e.g., [google/zx](https://github.com/google/zx))
 -   common install tasks are abstracted behind Lua APIs (has direct integration with libuv via vim.loop)
--   <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20"> supports Windows for a majority of server installations
+-   <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20"> full support for Windows
 
 ## Installation
 
-Requires:
+Requires neovim `>= 0.5.0`. These are the full requirements to install all servers:
 
--   neovim `>= 0.5.0`
--   [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
--   bash(1), git(1), wget(1), unzip(1), tar(1)
--   (optional) Node.js (LTS) & npm. Some LSP servers will need a Node runtime.
--   (optional) Python3 & pip3. Some LSP servers will need a Python3 runtime.
--   (optional) go. Some LSP servers will need a Go runtime.
--   (optional) javac. Some LSP servers will need a Javac (1.8+) compiler.
+-   neovim/nvim-lspconfig (https://github.com/neovim/nvim-lspconfig)
+-   For Unix systems: bash(1), git(1), wget(1), unzip(1), tar(1), gzip(1)
+-   For Windows systems: powershell.exe, tar, git
+-   Node.js (LTS) & npm
+-   Python3 & pip3
+-   go
+-   javac
+-   Ruby & gem
 
 ### [Packer](https://github.com/wbthomason/packer.nvim)
 

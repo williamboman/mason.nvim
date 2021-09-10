@@ -33,4 +33,22 @@ function Data.list_map(fn, list)
     return result
 end
 
+function Data.tbl_pack(...)
+    return { n = select("#", ...), ... }
+end
+
+function Data.when(condition, value)
+    return condition and value or nil
+end
+
+function Data.coalesce(...)
+    local args = Data.tbl_pack(...)
+    for i = 1, args.n do
+        local variable = args[i]
+        if variable ~= nil then
+            return variable
+        end
+    end
+end
+
 return Data

@@ -154,23 +154,10 @@ available installers that are available out of the box.
     shell.polyshell("git clone --depth 1 https://github.com/microsoft/vscode-eslint . && npm install && npm run compile:server")
     ```
 
--   ### zx
+-   ### std
 
-    [zx](https://github.com/google/zx) is a tool for writing better scripts. It's a suitable install method for servers
-    that for example have many different steps or branches into different steps depending on some logic.
-
-    #### `zx.file(relpath: string)`
-
-    Returns an installer that executes the provided file as a `zx` script. `relpath` is the relative path (of the current
-    Lua file) to the script file.
-
-    Example:
-
-    ```lua
-    local zx = require "nvim-lsp-installer.installers.zx"
-
-    local installer = zx.file("./install.mjs")
-    ```
+    `std` is a collection of standard installers that provides cross-platform implementations for common tasks. Refer to
+    the source code for more information.
 
 ## Composing installers
 
@@ -182,12 +169,17 @@ Example:
 ```lua
 local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
+local std = require "nvim-lsp-installer.installers.std"
 
-installers.join {
+installers.pipe {
+    std.download_file("Https://my.file/stuff.zip", "out.zip"),
+    std.unzip("out.zip"),
+    std.delete_file("out.zip"),
     npm.packages { "some-package" },
     pip3.packages { "another-package" },
-    shell.raw [[ exit 1 ]],
-    shell.raw [[ echo "I won't run at all because the previous installer failed." ]],
+    installers.on {
+        unix = shell.bash [[ chmod +x something ]],
+    },
 }
 ```
 
@@ -215,7 +207,7 @@ configs[server_name] = {
 
 local root_dir = server.get_server_root_path(server_name)
 
--- You may also use one of the prebuilt installers (e.g., npm, pip3, go, shell, zx).
+-- You may also use one of the prebuilt installers (e.g., std, npm, pip3, go, gem, shell).
 local my_installer = function(server, callback, context)
     local is_success = code_that_installs_given_server(server)
     if is_success then

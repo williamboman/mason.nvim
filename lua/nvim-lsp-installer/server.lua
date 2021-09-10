@@ -1,5 +1,6 @@
 local dispatcher = require "nvim-lsp-installer.dispatcher"
 local fs = require "nvim-lsp-installer.fs"
+local installers = require "nvim-lsp-installer.installers"
 local path = require "nvim-lsp-installer.path"
 local status_win = require "nvim-lsp-installer.ui.status-win"
 
@@ -24,8 +25,6 @@ M.Server.__index = M.Server
 --
 -- @field default_options (table)        The default options to be passed to lspconfig's .setup() function. Each server should provide at least the `cmd` field.
 --
--- @field pre_install_check (function)   An optional function to be executed before the installer. This allows ensuring that any prerequisites are fulfilled.
---                                       This could for example be verifying that required build tools are installed.
 --
 -- @field post_setup (function)          An optional function to be executed after the setup function has been successfully called.
 --                                       Use this to defer setting up server specific things until they're actually
@@ -39,9 +38,8 @@ function M.Server:new(opts)
         name = opts.name,
         root_dir = opts.root_dir,
         _root_dir = opts.root_dir, -- @deprecated Use the `root_dir` property instead.
-        _installer = opts.installer,
+        _installer = type(opts.installer) == "function" and opts.installer or installers.pipe(opts.installer),
         _default_options = opts.default_options,
-        _pre_install_check = opts.pre_install_check,
         _post_setup = opts.post_setup,
         _pre_setup = opts.pre_setup,
     }, M.Server)
@@ -65,11 +63,11 @@ function M.Server:get_default_options()
 end
 
 function M.Server:is_installed()
-    return fs.dir_exists(self._root_dir)
+    return fs.dir_exists(self.root_dir)
 end
 
 function M.Server:create_root_dir()
-    fs.mkdirp(self._root_dir)
+    fs.mkdirp(self.root_dir)
 end
 
 function M.Server:install()
@@ -77,15 +75,13 @@ function M.Server:install()
 end
 
 function M.Server:install_attached(opts, callback)
-    local ok, err = pcall(self.pre_install, self)
-    if not ok then
-        opts.stdio_sink.stderr(tostring(err))
-        callback(false)
-        return
-    end
-    self._installer(self, function(success)
+    self:uninstall()
+    self:create_root_dir()
+    local install_ok, install_err = pcall(self._installer, self, function(success)
         if not success then
-            pcall(self.uninstall, self)
+            vim.schedule(function()
+                pcall(self.uninstall, self)
+            end)
         else
             vim.schedule(function()
                 dispatcher.dispatch_server_ready(self)
@@ -93,24 +89,15 @@ function M.Server:install_attached(opts, callback)
         end
         callback(success)
     end, opts)
-end
-
-function M.Server:pre_install()
-    if self._pre_install_check then
-        self._pre_install_check()
+    if not install_ok then
+        opts.stdio_sink.stderr(tostring(install_err))
+        callback(false)
     end
-
-    -- We run uninstall after pre_install_check because we don't want to
-    -- unnecessarily uninstall a server should it no longer pass the
-    -- pre_install_check.
-    self:uninstall()
-
-    self:create_root_dir()
 end
 
 function M.Server:uninstall()
-    if fs.dir_exists(self._root_dir) then
-        fs.rmrf(self._root_dir)
+    if fs.dir_exists(self.root_dir) then
+        fs.rmrf(self.root_dir)
     end
 end
 

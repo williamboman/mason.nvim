@@ -1,23 +1,26 @@
 local server = require "nvim-lsp-installer.server"
-local installers = require "nvim-lsp-installer.installers"
 local path = require "nvim-lsp-installer.path"
-local zx = require "nvim-lsp-installer.installers.zx"
+local std = require "nvim-lsp-installer.installers.std"
+local Data = require "nvim-lsp-installer.data"
+local platform = require "nvim-lsp-installer.platform"
 
 local root_dir = server.get_server_root_path "latex"
+
+local VERSION = "v3.2.0"
+
+local target = Data.coalesce(
+    Data.when(platform.is_mac, "texlab-x86_64-macos.tar.gz"),
+    Data.when(platform.is_unix, "texlab-x86_64-linux.tar.gz"),
+    Data.when(platform.is_win, "texlab-x86_64-windows.tar.gz")
+)
 
 return server.Server:new {
     name = "texlab",
     root_dir = root_dir,
-    installer = installers.when {
-        unix = zx.file "./install.mjs",
+    installer = {
+        std.ensure_executables { "pdflatex" },
+        std.untargz_remote(("https://github.com/latex-lsp/texlab/releases/download/%s/%s"):format(VERSION, target)),
     },
-    pre_install_check = function()
-        if vim.fn.executable "wget" ~= 1 then
-            error "Missing wget. Please, refer to https://www.gnu.org/software/wget/ to install it."
-        elseif vim.fn.executable "pdflatex" ~= 1 then
-            error "The program pdflatex wasn't found. Please install a TeX distribution: https://www.latex-project.org/get/#tex-distributions"
-        end
-    end,
     default_options = {
         cmd = { path.concat { root_dir, "texlab" } },
     },

@@ -35,7 +35,6 @@ local function zx_installer(force)
 
         fs.mkdirp(INSTALL_DIR)
 
-        -- todo use process installer
         local handle, pid = process.spawn(platform.is_win and "npm.cmd" or "npm", {
             args = { npm_command, "zx@1" },
             cwd = INSTALL_DIR,
@@ -67,11 +66,12 @@ local function exec(file)
     end
 end
 
+-- @deprecated Compose your installer using the Lua `std` installers instead.
 function M.file(relpath)
     local script_path = path.realpath(relpath, 3)
-    return installers.compose {
-        exec(("file:///%s"):format(script_path)),
+    return installers.pipe {
         zx_installer(false),
+        exec(("file:///%s"):format(script_path)),
     }
 end
 

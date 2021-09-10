@@ -1,22 +1,14 @@
 local server = require "nvim-lsp-installer.server"
-local installers = require "nvim-lsp-installer.installers"
-local path = require "nvim-lsp-installer.path"
-local zx = require "nvim-lsp-installer.installers.zx"
+local gem = require "nvim-lsp-installer.installers.gem"
 
-local root_dir = server.get_server_root_path "ruby"
+local root_dir = server.get_server_root_path "solargraph"
 
 return server.Server:new {
     name = "solargraph",
     root_dir = root_dir,
-    installer = installers.when {
-        unix = zx.file "./install.mjs",
-    },
-    pre_install_check = function()
-        if vim.fn.executable "bundle" ~= 1 then
-            error "bundle not installed"
-        end
-    end,
+    installer = gem.packages { "solargraph" },
     default_options = {
-        cmd = { path.concat { root_dir, "solargraph", "solargraph" }, "stdio" },
+        cmd = { gem.executable(root_dir, "solargraph"), "stdio" },
+        cmd_env = gem.env(root_dir),
     },
 }
