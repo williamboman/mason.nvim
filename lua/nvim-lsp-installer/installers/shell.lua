@@ -67,6 +67,10 @@ function M.powershell(raw_script, opts)
     }
 end
 
+function M.remote_powershell(url, opts)
+    return M.powershell(("iwr %q -useb | iex"):format(url), opts)
+end
+
 function M.polyshell(raw_script, opts)
     local default_opts = {
         env = {},

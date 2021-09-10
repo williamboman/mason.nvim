@@ -14,6 +14,11 @@ return server.Server:new {
                 DENO_INSTALL = root_dir,
             },
         }),
+        win = shell.remote_powershell("https://deno.land/x/install/install.ps1", {
+            env = {
+                DENO_INSTALL = root_dir,
+            },
+        }),
     },
     default_options = {
         cmd = { path.concat { root_dir, "bin", "deno" }, "lsp" },
