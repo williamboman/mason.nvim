@@ -19,15 +19,18 @@ function M.download_file(url, out_file)
 end
 
 function M.unzip(file, dest)
-    return installers.when {
-        unix = function(server, callback, context)
-            process.spawn("unzip", {
-                args = { "-d", dest, file },
-                cwd = server.root_dir,
-                stdio_sink = context.stdio_sink,
-            }, callback)
-        end,
-        win = shell.powershell(("Expand-Archive -Path %q -DestinationPath %q"):format(file, dest)),
+    return installers.pipe {
+        installers.when {
+            unix = function(server, callback, context)
+                process.spawn("unzip", {
+                    args = { "-d", dest, file },
+                    cwd = server.root_dir,
+                    stdio_sink = context.stdio_sink,
+                }, callback)
+            end,
+            win = shell.powershell(("Expand-Archive -Path %q -DestinationPath %q"):format(file, dest)),
+        },
+        installers.always_succeed(M.delete_file, file),
     }
 end
 
@@ -35,7 +38,6 @@ function M.unzip_remote(url, dest)
     return installers.pipe {
         M.download_file(url, "archive.zip"),
         M.unzip("archive.zip", dest or "."),
-        installers.always_succeed(M.delete_file "archive.zip"),
     }
 end
 
@@ -57,7 +59,6 @@ function M.untargz_remote(url)
         M.download_file(url, "archive.tar.gz"),
         M.gunzip "archive.tar.gz",
         M.untar "archive.tar",
-        installers.always_succeed(M.delete_file "archive.tar"),
     }
 end
 
