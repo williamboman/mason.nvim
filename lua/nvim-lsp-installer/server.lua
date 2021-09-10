@@ -52,9 +52,14 @@ function M.Server:setup(opts)
     -- We require the lspconfig server here in order to do it as late as possible.
     -- The reason for this is because once a lspconfig server has been imported, it's
     -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
-    require("lspconfig")[self.name].setup(vim.tbl_deep_extend("force", self._default_options, opts or {}))
-    if self._post_setup then
-        self._post_setup()
+    local lsp_server = require("lspconfig")[self.name]
+    if lsp_server then
+        lsp_server.setup(vim.tbl_deep_extend("force", self._default_options, opts or {}))
+        if self._post_setup then
+            self._post_setup()
+        end
+    else
+        error(("Unable to setup server %q: Could not find lspconfig server entry."):format(self.name))
     end
 end
 
