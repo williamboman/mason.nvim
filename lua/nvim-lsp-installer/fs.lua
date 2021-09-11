@@ -41,7 +41,9 @@ end
 
 function M.fstat(path)
     local fd = assert(uv.fs_open(path, "r", 438))
-    return assert(uv.fs_fstat(fd))
+    local fstat = assert(uv.fs_fstat(fd))
+    assert(uv.fs_close(fd))
+    return fstat
 end
 
 return M
