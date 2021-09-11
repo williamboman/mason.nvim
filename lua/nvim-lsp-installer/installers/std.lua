@@ -1,5 +1,6 @@
 local path = require "nvim-lsp-installer.path"
 local process = require "nvim-lsp-installer.process"
+local platform = require "nvim-lsp-installer.platform"
 local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
 
@@ -106,7 +107,7 @@ end
 
 function M.gradlew(opts)
     return function(server, callback, context)
-        process.spawn(path.concat { server.root_dir, "gradlew" }, {
+        process.spawn(path.concat { server.root_dir, platform.is_win and "gradlew.bat" or "gradlew" }, {
             args = opts.args,
             cwd = server.root_dir,
             stdio_sink = context.stdio_sink,
