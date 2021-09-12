@@ -1,4 +1,5 @@
 local Ui = require "nvim-lsp-installer.ui"
+local fs = require "nvim-lsp-installer.fs"
 local log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
 local display = require "nvim-lsp-installer.ui.display"
@@ -25,6 +26,31 @@ end
 -- TODO make configurable
 local LIST_ICON = "◍"
 
+local Seconds = {
+    DAY = 86400, -- 60 * 60 * 24
+    WEEK = 604800, -- 60 * 60 * 24 * 7
+    MONTH = 2419200, -- 60 * 60 * 24 * 7 * 4
+    YEAR = 29030400, -- 60 * 60 * 24 * 7 * 4 * 12
+}
+
+local function get_relative_install_time(time)
+    local now = os.time()
+    local delta = math.max(now - time, 0)
+    if delta < Seconds.DAY then
+        return "today"
+    elseif delta < Seconds.WEEK then
+        return "this week"
+    elseif delta < Seconds.MONTH then
+        return "this month"
+    elseif delta < (Seconds.MONTH * 2) then
+        return "last month"
+    elseif delta < Seconds.YEAR then
+        return ("%d months ago"):format(math.floor((delta / 2419200) + 0.5))
+    else
+        return "more than a year ago"
+    end
+end
+
 local function InstalledServers(servers)
     return Ui.Node(Data.list_map(function(server)
         return Ui.Node {
@@ -32,7 +58,10 @@ local function InstalledServers(servers)
                 {
                     { LIST_ICON, "LspInstallerGreen" },
                     { " " .. server.name, "Normal" },
-                    { (server.installer.has_run and " (new)" or ""), "Comment" },
+                    {
+                        (" installed %s"):format(get_relative_install_time(server.creation_time)),
+                        "Comment",
+                    },
                 },
             },
         }
@@ -180,9 +209,16 @@ local function Servers(servers)
 end
 
 local function create_server_state(server)
+    local ok, fstat = pcall(fs.fstat, server.root_dir)
+    local creation_time
+    if ok then
+        creation_time = fstat.mtime.sec
+    end
+
     return {
         name = server.name,
         is_installed = server:is_installed(),
+        creation_time = creation_time,
         installer = {
             is_queued = false,
             is_running = false,
@@ -256,6 +292,7 @@ local function init(all_servers)
                     state.servers[server.name].installer.tailed_output = {}
                 end
                 state.servers[server.name].is_installed = success
+                state.servers[server.name].creation_time = os.time()
                 state.servers[server.name].installer.is_running = false
                 state.servers[server.name].installer.has_run = true
             end)
