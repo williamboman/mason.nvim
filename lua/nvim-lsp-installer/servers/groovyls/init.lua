@@ -8,7 +8,7 @@ return server.Server:new {
     name = "groovyls",
     root_dir = root_dir,
     installer = {
-        std.ensure_executables { "javac" },
+        std.ensure_executables { { "javac", "javac was not found in path." } },
         std.git_clone "https://github.com/GroovyLanguageServer/groovy-language-server",
         std.gradlew {
             args = { "build" },

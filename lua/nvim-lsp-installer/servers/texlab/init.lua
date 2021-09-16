@@ -18,7 +18,10 @@ return server.Server:new {
     name = "texlab",
     root_dir = root_dir,
     installer = {
-        std.ensure_executables { "pdflatex" },
+        std.ensure_executables {
+            { "pdflatex" },
+            "A TeX distribution is not installed. Refer to https://www.latex-project.org/get/.",
+        },
         std.untargz_remote(("https://github.com/latex-lsp/texlab/releases/download/%s/%s"):format(VERSION, target)),
     },
     default_options = {

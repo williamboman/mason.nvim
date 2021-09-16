@@ -118,9 +118,11 @@ end
 function M.ensure_executables(executables)
     return vim.schedule_wrap(function(_, callback, context)
         for i = 1, #executables do
-            local executable = executables[i]
+            local entry = executables[i]
+            local executable = entry[1]
+            local error_msg = entry[2]
             if vim.fn.executable(executable) ~= 1 then
-                context.stdio_sink.stderr(("Missing required %q executable."):format(executable))
+                context.stdio_sink.stderr(error_msg)
                 callback(false)
                 return
             end
