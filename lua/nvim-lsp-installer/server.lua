@@ -1,14 +1,13 @@
 local dispatcher = require "nvim-lsp-installer.dispatcher"
 local fs = require "nvim-lsp-installer.fs"
 local installers = require "nvim-lsp-installer.installers"
-local path = require "nvim-lsp-installer.path"
+local servers = require "nvim-lsp-installer.servers"
 local status_win = require "nvim-lsp-installer.ui.status-win"
 
 local M = {}
 
-function M.get_server_root_path(server)
-    return path.concat { path.SERVERS_ROOT_DIR, server }
-end
+-- old, but also somewhat convenient, API
+M.get_server_root_path = servers.get_server_install_path
 
 M.Server = {}
 M.Server.__index = M.Server
@@ -17,14 +16,14 @@ M.Server.__index = M.Server
 --@param opts table
 -- @field name (string)                  The name of the LSP server. This MUST correspond with lspconfig's naming.
 --
--- @field root_dir (string)              The root directory of the installation. Most servers will make use of server.get_server_root_path() to produce its root_dir path.
---
 -- @field installer (function)           The function that installs the LSP (see the .installers module). The function signature should be `function (server, callback)`, where
 --                                       `server` is the Server instance being installed, and `callback` is a function that must be called upon completion. The `callback` function
 --                                       has the signature `function (success, result)`, where `success` is a boolean and `result` is of any type (similar to `pcall`).
 --
 -- @field default_options (table)        The default options to be passed to lspconfig's .setup() function. Each server should provide at least the `cmd` field.
 --
+-- @field root_dir (string)              The absolute path to the directory of the installation.
+--                                       This MUST be a directory inside nvim-lsp-installer's designated root install directory inside stdpath("data"). Most servers will make use of server.get_server_root_path() to produce its root_dir path.
 --
 -- @field post_setup (function)          An optional function to be executed after the setup function has been successfully called.
 --                                       Use this to defer setting up server specific things until they're actually
@@ -68,7 +67,7 @@ function M.Server:get_default_options()
 end
 
 function M.Server:is_installed()
-    return fs.dir_exists(self.root_dir)
+    return servers.is_server_installed(self.name)
 end
 
 function M.Server:create_root_dir()

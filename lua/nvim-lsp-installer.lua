@@ -1,5 +1,6 @@
 local notify = require "nvim-lsp-installer.notify"
 local dispatcher = require "nvim-lsp-installer.dispatcher"
+local process = require "nvim-lsp-installer.process"
 local status_win = require "nvim-lsp-installer.ui.status-win"
 local servers = require "nvim-lsp-installer.servers"
 
@@ -55,18 +56,10 @@ end
 
 -- "Proxy" function for triggering attachment of LSP servers to all buffers (useful when just installed a new server
 -- that wasn't installed at launch)
-local queued = false
-function M.lsp_attach_proxy()
-    if queued then
-        return
-    end
-    queued = true
-    vim.schedule(function()
-        -- As of writing, if the lspconfig server provides a filetypes setting, it uses FileType as trigger, otherwise it uses BufReadPost
-        vim.cmd [[ doautoall FileType | doautoall BufReadPost ]]
-        queued = false
-    end)
-end
+M.lsp_attach_proxy = process.debounced(function()
+    -- As of writing, if the lspconfig server provides a filetypes setting, it uses FileType as trigger, otherwise it uses BufReadPost
+    vim.cmd [[ doautoall FileType | doautoall BufReadPost ]]
+end)
 
 -- old API
 M.get_server = servers.get_server

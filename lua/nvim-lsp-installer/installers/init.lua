@@ -42,7 +42,11 @@ function M.always_succeed(installer)
 end
 
 local function get_by_platform(platform_table)
-    if platform.is_unix then
+    if platform.is_mac then
+        return platform_table.mac or platform_table.unix
+    elseif platform.is_linux then
+        return platform_table.linux or platform_table.unix
+    elseif platform.is_unix then
         return platform_table.unix
     elseif platform.is_win then
         return platform_table.win

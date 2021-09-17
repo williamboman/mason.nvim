@@ -1,4 +1,5 @@
 local log = require "nvim-lsp-installer.log"
+local platform = require "nvim-lsp-installer.platform"
 local uv = vim.loop
 
 local M = {}
@@ -22,11 +23,19 @@ end
 
 -- We gather the root env immediately, primarily because of E5560.
 -- Also, there's no particular reason we need to refresh the environment (yet).
-local environ = vim.fn.environ()
+local initial_environ = vim.fn.environ()
+
+function M.extend_path(new_paths)
+    local new_path_str = table.concat(new_paths, platform.path_sep)
+    if initial_environ["PATH"] then
+        return new_path_str .. platform.path_sep .. initial_environ["PATH"]
+    end
+    return new_path_str
+end
 
 function M.graft_env(env)
     local root_env = {}
-    for key, val in pairs(environ) do
+    for key, val in pairs(initial_environ) do
         root_env[#root_env + 1] = key .. "=" .. val
     end
     for key, val in pairs(env) do
@@ -81,7 +90,6 @@ function M.spawn(cmd, opts, callback)
         return nil, nil
     end
 
-    handle:unref()
     log.debug { "Spawned with pid", pid }
 
     stdout:read_start(connect_sink(stdout, opts.stdio_sink.stdout))
@@ -134,6 +142,23 @@ function M.simple_sink()
         stdout = vim.schedule_wrap(print),
         stderr = vim.schedule_wrap(vim.api.nvim_err_writeln),
     }
+end
+
+-- this prob belongs elsewhere ¯\_(ツ)_/¯
+function M.debounced(debounced_fn)
+    local queued = false
+    local last_arg = nil
+    return function(a)
+        last_arg = a
+        if queued then
+            return
+        end
+        queued = true
+        vim.schedule(function()
+            debounced_fn(last_arg)
+            queued = false
+        end)
+    end
 end
 
 return M

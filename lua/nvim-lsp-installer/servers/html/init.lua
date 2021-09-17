@@ -1,3 +1,1 @@
-local create_server = require "nvim-lsp-installer.servers.vscode-langservers-extracted"
-
-return create_server("html", "vscode-html-language-server")
+return require "nvim-lsp-installer.servers.vscode-langservers-extracted" "vscode-html-language-server"

@@ -1,4 +1,4 @@
-local pathm = require("nvim-lsp-installer.path")
+local pathm = require "nvim-lsp-installer.path"
 
 local uv = vim.loop
 local M = {}
@@ -44,6 +44,27 @@ function M.fstat(path)
     local fstat = assert(uv.fs_fstat(fd))
     assert(uv.fs_close(fd))
     return fstat
+end
+
+function M.readdir(path)
+    local dir = assert(uv.fs_opendir(path, nil, 25))
+    local all_entries = {}
+    local exhausted = false
+
+    repeat
+        local entries = uv.fs_readdir(dir)
+        if entries and #entries > 0 then
+            for i = 1, #entries do
+                all_entries[#all_entries + 1] = entries[i]
+            end
+        else
+            exhausted = true
+        end
+    until exhausted
+
+    assert(uv.fs_closedir(dir))
+
+    return all_entries
 end
 
 return M

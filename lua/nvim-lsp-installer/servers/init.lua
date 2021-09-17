@@ -1,6 +1,40 @@
 local Data = require "nvim-lsp-installer.data"
+local path = require "nvim-lsp-installer.path"
+local fs = require "nvim-lsp-installer.fs"
+local opts = require "nvim-lsp-installer.opts"
 
 local M = {}
+
+local function vscode_langservers_extracted(name)
+    return opts.allow_federated_servers() and "vscode-langservers-extracted" or "vscode-langservers-extracted_" .. name
+end
+
+-- By default the install dir will be the same as the server's name.
+-- There are two cases when servers should install to a different location:
+--  1. federated server installations, (see :help vim.g.lsp_installer_allow_federated_servers)
+--  2. legacy reasons, where some servers were previously installed to a location different than their name
+local INSTALL_DIRS = {
+    ["bashls"] = "bash",
+    ["cssls"] = vscode_langservers_extracted "cssls",
+    ["dockerls"] = "dockerfile",
+    ["elixirls"] = "elixir",
+    ["elmls"] = "elm",
+    ["eslintls"] = "eslint",
+    ["gopls"] = "go",
+    ["hls"] = "haskell",
+    ["html"] = vscode_langservers_extracted "html",
+    ["intelephense"] = "php",
+    ["jsonls"] = vscode_langservers_extracted "jsonls",
+    ["kotlin_language_server"] = "kotlin",
+    ["purescriptls"] = "purescript",
+    ["pyright"] = "python",
+    ["rust_analyzer"] = "rust",
+    ["tailwindcss"] = "tailwindcss_npm",
+    ["terraformls"] = "terraform",
+    ["texlab"] = "latex",
+    ["vimls"] = "vim",
+    ["yamlls"] = "yaml",
+}
 
 -- :'<,'>!sort
 local CORE_SERVERS = Data.set_of {
@@ -55,54 +89,104 @@ local CORE_SERVERS = Data.set_of {
     "yamlls",
 }
 
-local CUSTOM_SERVERS_MAP = {}
+local INITIALIZED_SERVERS = {}
+
+local cached_server_roots
+
+-- TODO rename me and maybe not export
+local function scan_server_roots()
+    if cached_server_roots then
+        return cached_server_roots
+    end
+    local result = {}
+    local ok, entries = pcall(fs.readdir, path.SERVERS_ROOT_DIR)
+    if not ok then
+        -- presume servers root dir has not been created yet (i.e., no servers installed)
+        return {}
+    end
+    for i = 1, #entries do
+        local entry = entries[i]
+        if entry.type == "directory" then
+            result[#result + 1] = entry.name
+        end
+    end
+    cached_server_roots = Data.set_of(result)
+    vim.schedule(function()
+        cached_server_roots = nil
+    end)
+    return cached_server_roots
+end
+
+local function get_server_install_dir(server_name)
+    return INSTALL_DIRS[server_name] or server_name
+end
+
+function M.get_server_install_path(dirname)
+    return path.concat { path.SERVERS_ROOT_DIR, dirname }
+end
+
+function M.is_server_installed(server_name)
+    local scanned_server_dirs = scan_server_roots()
+    local dirname = get_server_install_dir(server_name)
+    return scanned_server_dirs[dirname] or false
+end
 
 function M.get_server(server_name)
-    -- Registered custom servers have precedence
-    if CUSTOM_SERVERS_MAP[server_name] then
-        return true, CUSTOM_SERVERS_MAP[server_name]
+    if INITIALIZED_SERVERS[server_name] then
+        return true, INITIALIZED_SERVERS[server_name]
     end
 
     if not CORE_SERVERS[server_name] then
         return false, ("Server %s does not exist."):format(server_name)
     end
 
-    local ok, server = pcall(require, ("nvim-lsp-installer.servers.%s"):format(server_name))
+    local ok, server_factory = pcall(require, ("nvim-lsp-installer.servers.%s"):format(server_name))
     if ok then
-        return true, server
+        INITIALIZED_SERVERS[server_name] = server_factory(
+            server_name,
+            M.get_server_install_path(get_server_install_dir(server_name))
+        )
+        return true, INITIALIZED_SERVERS[server_name]
     end
     return false,
         (
             "Unable to import server %s.\n\nThis is an unexpected error, please file an issue at %s with the following information:\n%s"
-        ):format(server_name, "https://github.com/williamboman/nvim-lsp-installer", server)
+        ):format(server_name, "https://github.com/williamboman/nvim-lsp-installer", server_factory)
 end
 
-function M.get_available_servers()
+local function get_available_server_names()
+    return vim.tbl_keys(vim.tbl_extend("force", CORE_SERVERS, INITIALIZED_SERVERS))
+end
+
+local function resolve_servers(server_names)
     return Data.list_map(function(server_name)
         local ok, server = M.get_server(server_name)
         if not ok then
             error(server)
         end
         return server
-    end, vim.tbl_keys(
-        vim.tbl_extend("force", CORE_SERVERS, CUSTOM_SERVERS_MAP)
-    ))
+    end, server_names)
+end
+
+function M.get_available_servers()
+    return resolve_servers(get_available_server_names())
 end
 
 function M.get_installed_servers()
-    return vim.tbl_filter(function(server)
-        return server:is_installed()
-    end, M.get_available_servers())
+    return resolve_servers(vim.tbl_filter(function(server_name)
+        return M.is_server_installed(server_name)
+    end, get_available_server_names()))
 end
 
 function M.get_uninstalled_servers()
-    return vim.tbl_filter(function(server)
-        return not server:is_installed()
-    end, M.get_available_servers())
+    return resolve_servers(vim.tbl_filter(function(server_name)
+        return not M.is_server_installed(server_name)
+    end, get_available_server_names()))
 end
 
 function M.register(server)
-    CUSTOM_SERVERS_MAP[server.name] = server
+    INSTALL_DIRS[server.name] = vim.fn.fnamemodify(server.root_dir, ":t")
+    INITIALIZED_SERVERS[server.name] = server
 end
 
 return M

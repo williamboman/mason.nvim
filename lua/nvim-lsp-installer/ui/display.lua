@@ -1,5 +1,6 @@
 local Ui = require "nvim-lsp-installer.ui"
 local log = require "nvim-lsp-installer.log"
+local process = require "nvim-lsp-installer.process"
 local state = require "nvim-lsp-installer.ui.state"
 
 local M = {}
@@ -10,22 +11,6 @@ function _G.lsp_install_redraw(winnr)
     local fn = redraw_by_winnr[winnr]
     if fn then
         fn()
-    end
-end
-
-local function debounced(debounced_fn)
-    local queued = false
-    local last_arg = nil
-    return function(a)
-        last_arg = a
-        if queued then
-            return
-        end
-        queued = true
-        vim.schedule(function()
-            debounced_fn(last_arg)
-            queued = false
-        end)
     end
 end
 
@@ -161,7 +146,7 @@ function M.new_view_only_win(name)
         return win
     end
 
-    local draw = debounced(function(view)
+    local draw = process.debounced(function(view)
         local win = vim.fn.win_findbuf(buf)[1]
         if not win or not vim.api.nvim_buf_is_valid(buf) then
             -- the window has been closed or the buffer is somehow no longer valid
