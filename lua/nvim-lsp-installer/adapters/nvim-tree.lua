@@ -1,8 +1,10 @@
 local notify = require "nvim-lsp-installer.notify"
 local tsserverExtras = require "nvim-lsp-installer.extras.tsserver"
 
+-- @deprecated
 local M = {}
 
+-- @deprecated
 function M.connect()
     local ok, events = pcall(require, "nvim-tree.events")
     if not ok then
@@ -18,4 +20,5 @@ function M.connect()
     end)
 end
 
+-- @deprecated
 return M
