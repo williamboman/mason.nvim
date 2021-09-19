@@ -93,7 +93,6 @@ local INITIALIZED_SERVERS = {}
 
 local cached_server_roots
 
--- TODO rename me and maybe not export
 local function scan_server_roots()
     if cached_server_roots then
         return cached_server_roots

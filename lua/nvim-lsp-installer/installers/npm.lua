@@ -31,14 +31,24 @@ function M.packages(packages)
     end)
 end
 
-function M.install(production)
+function M.install(args)
     return ensure_npm(function(server, callback, context)
         process.spawn(npm, {
-            args = production and { "install", "--production" } or { "install" },
+            args = vim.list_extend({ "install" }, args),
             cwd = server.root_dir,
             stdio_sink = context.stdio_sink,
         }, callback)
     end)
+end
+
+function M.exec(executable, args)
+    return function(server, callback, context)
+        process.spawn(M.executable(server.root_dir, executable), {
+            args = args,
+            cwd = server.root_dir,
+            stdio_sink = context.stdio_sink,
+        }, callback)
+    end
 end
 
 function M.run(script)
