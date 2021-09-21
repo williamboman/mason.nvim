@@ -1,4 +1,5 @@
 local path = require "nvim-lsp-installer.path"
+local fs = require "nvim-lsp-installer.fs"
 local installers = require "nvim-lsp-installer.installers"
 local std = require "nvim-lsp-installer.installers.std"
 local platform = require "nvim-lsp-installer.platform"
@@ -23,23 +24,24 @@ end
 
 function M.packages(packages)
     return ensure_npm(function(server, callback, context)
-        process.spawn(npm, {
-            args = vim.list_extend({ "install" }, packages),
+        local c = process.chain {
             cwd = server.root_dir,
             stdio_sink = context.stdio_sink,
-        }, callback)
+        }
+        -- stylua: ignore start
+        if not (fs.dir_exists(path.concat { server.root_dir, "node_modules" }) or
+               fs.file_exists(path.concat { server.root_dir, "package.json" }))
+        then
+            c.run(npm, { "init", "--yes" })
+        end
+        -- stylua: ignore end
+        c.run(npm, vim.list_extend({ "install" }, packages))
+        c.spawn(callback)
     end)
 end
 
-function M.install(args)
-    return ensure_npm(function(server, callback, context)
-        process.spawn(npm, {
-            args = vim.list_extend({ "install" }, args),
-            cwd = server.root_dir,
-            stdio_sink = context.stdio_sink,
-        }, callback)
-    end)
-end
+-- @alias for packages
+M.install = M.packages
 
 function M.exec(executable, args)
     return function(server, callback, context)
