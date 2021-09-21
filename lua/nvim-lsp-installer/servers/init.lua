@@ -61,6 +61,7 @@ local CORE_SERVERS = Data.set_of {
     "hls",
     "html",
     "intelephense",
+    "jdtls",
     "jedi_language_server",
     "jsonls",
     "kotlin_language_server",
