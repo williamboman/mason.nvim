@@ -32,7 +32,7 @@ function M.packages(packages)
         if not (fs.dir_exists(path.concat { server.root_dir, "node_modules" }) or
                fs.file_exists(path.concat { server.root_dir, "package.json" }))
         then
-            c.run(npm, { "init", "--yes" })
+            c.run(npm, { "init", "--yes", "--scope=lsp-installer" })
         end
         -- stylua: ignore end
         c.run(npm, vim.list_extend({ "install" }, packages))
