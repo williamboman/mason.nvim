@@ -137,6 +137,9 @@ function M.new_view_only_win(name)
             vim.cmd(("autocmd %s <buffer> call v:lua.lsp_install_redraw(%d)"):format(redraw_event, win))
         end
 
+        vim.api.nvim_buf_set_keymap(buf, "n", "<esc>", "<cmd>bd<CR>", { noremap = true })
+        vim.lsp.util.close_preview_autocmd({ "BufHidden", "BufLeave" }, win)
+
         if highlight_groups then
             for i = 1, #highlight_groups do
                 vim.cmd(highlight_groups[i])
