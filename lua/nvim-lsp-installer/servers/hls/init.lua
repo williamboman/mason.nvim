@@ -6,7 +6,7 @@ local std = require "nvim-lsp-installer.installers.std"
 local shell = require "nvim-lsp-installer.installers.shell"
 local Data = require "nvim-lsp-installer.data"
 
-local VERSION = "1.3.0"
+local VERSION = "1.4.0"
 
 local target = Data.coalesce(
     Data.when(platform.is_mac, "haskell-language-server-macOS-%s.tar.gz"),
