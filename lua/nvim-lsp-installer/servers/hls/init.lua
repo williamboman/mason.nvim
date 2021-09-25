@@ -28,7 +28,7 @@ return function(name, root_dir)
             },
         },
         default_options = {
-            cmd = { path.concat { root_dir, "haskell-language-server-wrapper", "--lsp" } },
+            cmd = { path.concat { root_dir, "haskell-language-server-wrapper" }, "--lsp" },
             cmd_env = {
                 PATH = table.concat({ root_dir, vim.env.PATH }, platform.path_sep),
             },
