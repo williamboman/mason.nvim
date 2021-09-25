@@ -154,7 +154,8 @@ function M.new_view_only_win(name)
         if not win or not vim.api.nvim_buf_is_valid(buf) then
             -- the window has been closed or the buffer is somehow no longer valid
             unsubscribe(true)
-            return log.debug { "Buffer or window is no longer valid", name, win, buf }
+            -- return log.debug { "Buffer or window is no longer valid", name, win, buf }
+            return
         end
 
         local win_width = vim.api.nvim_win_get_width(win)
@@ -202,7 +203,7 @@ function M.new_view_only_win(name)
             return mutate_state, get_state
         end,
         open = vim.schedule_wrap(function(opts)
-            log.debug { "opening window" }
+            -- log.debug { "opening window" }
             assert(has_initiated, "Display has not been initiated, cannot open.")
             local win = vim.fn.win_findbuf(buf)[1]
             if win and vim.api.nvim_win_is_valid(win) then

@@ -327,10 +327,10 @@ local function init(all_servers)
     return {
         open = open,
         install_server = function(server)
-            log.debug { "installing server", server }
+            -- log.debug { "installing server", server }
             local server_state = get_state().servers[server.name]
             if server_state and (server_state.installer.is_running or server_state.installer.is_queued) then
-                log.debug { "Installer is already queued/running", server.name }
+                -- log.debug { "Installer is already queued/running", server.name }
                 return
             end
             mutate_state(function(state)
@@ -343,7 +343,7 @@ local function init(all_servers)
         uninstall_server = function(server)
             local server_state = get_state().servers[server.name]
             if server_state and (server_state.installer.is_running or server_state.installer.is_queued) then
-                log.debug { "Installer is already queued/running", server.name }
+                -- log.debug { "Installer is already queued/running", server.name }
                 return
             end
 

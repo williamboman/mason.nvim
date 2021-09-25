@@ -7,7 +7,7 @@ local M = {}
 local function connect_sink(pipe, sink)
     return function(err, data)
         if err then
-            log.error { "Unexpected error when reading pipe.", err }
+            -- log.error { "Unexpected error when reading pipe.", err }
         end
         if data ~= nil then
             local lines = vim.split(data, "\n")
@@ -51,7 +51,7 @@ function M.spawn(cmd, opts, callback)
 
     local stdio = { stdin, stdout, stderr }
 
-    log.debug { "Spawning", cmd, opts }
+    -- log.debug { "Spawning", cmd, opts }
 
     local spawn_opts = {
         env = opts.env,
@@ -90,7 +90,7 @@ function M.spawn(cmd, opts, callback)
         return nil, nil
     end
 
-    log.debug { "Spawned with pid", pid }
+    -- log.debug { "Spawned with pid", pid }
 
     stdout:read_start(connect_sink(stdout, opts.stdio_sink.stdout))
     stderr:read_start(connect_sink(stderr, opts.stdio_sink.stderr))
