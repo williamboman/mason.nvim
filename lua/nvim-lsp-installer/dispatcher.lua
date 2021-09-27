@@ -1,4 +1,4 @@
-local notify = require("nvim-lsp-installer.notify")
+local notify = require "nvim-lsp-installer.notify"
 
 local M = {}
 
