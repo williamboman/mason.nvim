@@ -94,7 +94,10 @@ local function PendingServers(servers)
                     { LIST_ICON, has_failed and "LspInstallerError" or "LspInstallerOrange" },
                     { " " .. server.name, server.installer.is_running and "Normal" or "LspInstallerGray" },
                     { " " .. note, "Comment" },
-                    { has_failed and "" or (" " .. get_last_non_empty_line(server.installer.tailed_output)), "Comment" },
+                    {
+                        has_failed and "" or (" " .. get_last_non_empty_line(server.installer.tailed_output)),
+                        "Comment",
+                    },
                 },
             },
             Ui.When(has_failed, function()
