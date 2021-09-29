@@ -1,21 +1,19 @@
-name: Format Checker
+name: Stylua check
 
 on:
     push:
         branches:
-            - '*'
+            - 'main'
     pull_request:
-        branches:
-            - '*'
 
 jobs:
-    fmt:
+    stylua:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: Setup FMT
+            - name: Run Stylua check
               uses: JohnnyMorganz/stylua-action@1.0.0
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
                 # CLI arguments
-                args: ./lua/ --check
+                args: --check .
