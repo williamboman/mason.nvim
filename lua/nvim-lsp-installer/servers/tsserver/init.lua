@@ -5,7 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        installer = npm.packages { "typescript", "typescript-language-server" },
+        installer = npm.packages { "typescript-language-server", "typescript" },
         default_options = {
             cmd = { npm.executable(root_dir, "typescript-language-server"), "--stdio" },
         },

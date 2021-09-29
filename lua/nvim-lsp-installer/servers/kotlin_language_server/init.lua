@@ -2,12 +2,18 @@ local server = require "nvim-lsp-installer.server"
 local platform = require "nvim-lsp-installer.platform"
 local path = require "nvim-lsp-installer.path"
 local std = require "nvim-lsp-installer.installers.std"
+local context = require "nvim-lsp-installer.installers.context"
 
 return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        installer = std.unzip_remote "https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip",
+        installer = {
+            context.github_release_file("fwcd/kotlin-language-server", "server.zip"),
+            context.capture(function(ctx)
+                return std.unzip_remote(ctx.github_release_file)
+            end),
+        },
         default_options = {
             cmd = {
                 path.concat {

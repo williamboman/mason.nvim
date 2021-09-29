@@ -3,19 +3,25 @@ local path = require "nvim-lsp-installer.path"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
-
-local bin_dir = Data.coalesce(
-    Data.when(platform.is_mac, "macOS"),
-    Data.when(platform.is_linux, "Linux"),
-    Data.when(platform.is_win, "Windows")
-)
+local context = require "nvim-lsp-installer.installers.context"
 
 return function(name, root_dir)
+    local bin_dir = Data.coalesce(
+        Data.when(platform.is_mac, "macOS"),
+        Data.when(platform.is_linux, "Linux"),
+        Data.when(platform.is_win, "Windows")
+    )
+
     return server.Server:new {
         name = name,
         root_dir = root_dir,
         installer = {
-            std.unzip_remote "https://github.com/sumneko/vscode-lua/releases/download/v2.3.6/lua-2.3.6.vsix",
+            context.github_release_file("sumneko/vscode-lua", function(version)
+                return ("lua-%s.vsix"):format(version:gsub("^v", ""))
+            end),
+            context.capture(function(ctx)
+                return std.unzip_remote(ctx.github_release_file)
+            end),
             -- see https://github.com/sumneko/vscode-lua/pull/43
             std.chmod(
                 "+x",

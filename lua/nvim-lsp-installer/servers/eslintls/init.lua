@@ -1,7 +1,8 @@
 local notify = require "nvim-lsp-installer.notify"
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
-local shell = require "nvim-lsp-installer.installers.shell"
+local std = require "nvim-lsp-installer.installers.std"
+local npm = require "nvim-lsp-installer.installers.npm"
 
 local ConfirmExecutionResult = {
     deny = 1,
@@ -14,7 +15,11 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        installer = shell.polyshell [[ git clone --depth 1 https://github.com/microsoft/vscode-eslint . && npm install && npm run compile:server ]],
+        installer = {
+            std.git_clone "https://github.com/microsoft/vscode-eslint",
+            npm.install(),
+            npm.run "compile:server",
+        },
         pre_setup = function()
             local lspconfig = require "lspconfig"
             local configs = require "lspconfig/configs"

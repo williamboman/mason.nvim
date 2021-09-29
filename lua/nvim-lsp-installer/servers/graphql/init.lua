@@ -5,7 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        installer = npm.packages { "graphql-language-service-cli@latest", "graphql" },
+        installer = npm.packages { "graphql-language-service-cli", "graphql" },
         default_options = {
             cmd = { npm.executable(root_dir, "graphql-lsp"), "server", "-m", "stream" },
             filetypes = { "typescriptreact", "javascriptreact", "graphql" },

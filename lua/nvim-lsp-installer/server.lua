@@ -78,7 +78,7 @@ function M.Server:install()
     status_win().install_server(self)
 end
 
-function M.Server:install_attached(opts, callback)
+function M.Server:install_attached(context, callback)
     self:uninstall()
     self:create_root_dir()
     local install_ok, install_err = pcall(self._installer, self, function(success)
@@ -92,9 +92,9 @@ function M.Server:install_attached(opts, callback)
             end)
         end
         callback(success)
-    end, opts)
+    end, context)
     if not install_ok then
-        opts.stdio_sink.stderr(tostring(install_err))
+        context.stdio_sink.stderr(tostring(install_err))
         callback(false)
     end
 end

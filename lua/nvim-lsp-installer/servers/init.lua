@@ -131,6 +131,11 @@ function M.is_server_installed(server_name)
     return scanned_server_dirs[dirname] or false
 end
 
+-- returns a tuple of [server_name, requested_version], where requested_version may be nil
+function M.parse_server_tuple(server_name)
+    return vim.split(server_name, "@")
+end
+
 function M.get_server(server_name)
     if INITIALIZED_SERVERS[server_name] then
         return true, INITIALIZED_SERVERS[server_name]

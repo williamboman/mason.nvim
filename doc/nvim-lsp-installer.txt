@@ -10,8 +10,8 @@ INTRODUCTION                                *nvim-lsp-installer-introduction*
 Semi-opinionated companion plugin for nvim-lspconfig. It comes with all
 batteries included, or at least to the extent possible.
 
-Requires neovim `>= 0.5.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig). The full requirements to
-install all servers are:
+Requires neovim `>= 0.5.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
+The full requirements to install all servers are:
 
 -   For Unix systems: bash(1), git(1), wget(1), unzip(1), tar(1), gzip(1)
 -   For Windows systems: powershell, git, gzip, tar
@@ -30,7 +30,6 @@ QUICK START                                   *nvim-lsp-installer-quickstart*
 To view the UI for nvim-lsp-installer, run: >
 
     :LspInstallInfo
-
 <
 
 Install a language server via `:LspInstall`, for example: >
@@ -41,8 +40,16 @@ Install a language server via `:LspInstall`, for example: >
 You may also install multiple languages at a time: >
 
     :LspInstall tsserver graphql eslintls
-
 <
+
+To install a specific version of a language server, you may provide it as part
+of the server name, like so: >
+
+    :LspInstall tsserver@0.6.3 graphql@latest eslintls@03bfc83
+<
+
+Please refer to each server's own release page to find which versions are
+available.
 
 Then, somewhere in your initialization script (see `:h init.lua`): >
 
@@ -126,8 +133,10 @@ Lua module: nvim-lsp-installer
 
                                                *nvim-lsp-installer.install()*
 install({server_name})
-        Installs the provided {server_name}. If {server_name} is already installed, it
-        is reinstalled.
+        Installs the provided {server_name}. If {server_name} is already
+        installed, it is reinstalled. Note that you may also provide the
+        desired version of the server here, through the @version notation, for
+        example `"rust_analyzer@nightly"`.
 
         Parameters: ~
             {server_name} (string) The server to install.

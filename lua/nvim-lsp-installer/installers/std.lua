@@ -97,11 +97,19 @@ end
 
 function M.git_clone(repo_url)
     return function(server, callback, context)
-        process.spawn("git", {
-            args = { "clone", "--depth", "1", repo_url, "." },
+        local c = process.chain {
             cwd = server.root_dir,
             stdio_sink = context.stdio_sink,
-        }, callback)
+        }
+
+        c.run("git", { "clone", "--depth", "1", repo_url, "." })
+
+        if context.requested_server_version then
+            c.run("git", { "fetch", "--depth", "1", "origin", context.requested_server_version })
+            c.run("git", { "checkout", "FETCH_HEAD" })
+        end
+
+        c.spawn(callback)
     end
 end
 

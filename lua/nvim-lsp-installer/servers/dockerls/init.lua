@@ -5,7 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        installer = npm.packages { "dockerfile-language-server-nodejs@latest" },
+        installer = npm.packages { "dockerfile-language-server-nodejs" },
         default_options = {
             cmd = { npm.executable(root_dir, "docker-langserver"), "--stdio" },
         },

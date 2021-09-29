@@ -51,4 +51,16 @@ function Data.coalesce(...)
     end
 end
 
+function Data.list_copy(list)
+    local result = {}
+    for i = 1, #list do
+        result[#result + 1] = list[i]
+    end
+    return result
+end
+
+function Data.json_decode(data)
+    return vim.fn.json_decode(data)
+end
+
 return Data

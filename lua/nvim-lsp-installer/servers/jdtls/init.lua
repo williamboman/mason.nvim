@@ -1,6 +1,7 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
 local std = require "nvim-lsp-installer.installers.std"
+local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
 
@@ -41,7 +42,12 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         installer = {
-            std.untargz_remote "https://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz",
+            context.capture(function(ctx)
+                local version = ctx.requested_server_version or "latest"
+                return std.untargz_remote(
+                    ("https://download.eclipse.org/jdtls/snapshots/jdt-language-server-%s.tar.gz"):format(version)
+                )
+            end),
             std.download_file("https://projectlombok.org/downloads/lombok.jar", "lombok.jar"),
         },
         default_options = {

@@ -5,7 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        installer = npm.packages { "bash-language-server@latest" },
+        installer = npm.packages { "bash-language-server" },
         default_options = {
             cmd = { npm.executable(root_dir, "bash-language-server"), "start" },
         },

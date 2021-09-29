@@ -1,6 +1,6 @@
 local Ui = require "nvim-lsp-installer.ui"
 local fs = require "nvim-lsp-installer.fs"
-local log = require "nvim-lsp-installer.log"
+local Log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
 local display = require "nvim-lsp-installer.ui.display"
 
@@ -267,29 +267,41 @@ local function init(all_servers)
         }
     end
 
-    local function start_install(server, on_complete)
+    local function start_install(server_tuple, on_complete)
+        local server, requested_version = unpack(server_tuple)
         mutate_state(function(state)
             state.servers[server.name].installer.is_queued = false
             state.servers[server.name].installer.is_running = true
         end)
 
+        Log.debug("Starting install", server.name, requested_version)
+
         server:install_attached({
+            requested_server_version = requested_version,
             stdio_sink = {
-                stdout = function(line)
+                stdout = function(chunk)
                     mutate_state(function(state)
                         local tailed_output = state.servers[server.name].installer.tailed_output
-                        tailed_output[#tailed_output + 1] = line
+                        local lines = vim.split(chunk, "\n")
+                        for i = 1, #lines do
+                            tailed_output[#tailed_output + 1] = lines[i]
+                        end
                     end)
                 end,
-                stderr = function(line)
+                stderr = function(chunk)
                     mutate_state(function(state)
                         local tailed_output = state.servers[server.name].installer.tailed_output
-                        tailed_output[#tailed_output + 1] = line
+                        local lines = vim.split(chunk, "\n")
+                        for i = 1, #lines do
+                            tailed_output[#tailed_output + 1] = lines[i]
+                        end
                     end)
                 end,
             },
         }, function(success)
             mutate_state(function(state)
+                -- can we log each line separately?
+                Log.debug("Installer output", server.name, state.servers[server.name].installer.tailed_output)
                 if success then
                     -- release stdout/err output table.. hopefully ¯\_(ツ)_/¯
                     state.servers[server.name].installer.tailed_output = {}
@@ -321,19 +333,19 @@ local function init(all_servers)
             end
         end)
 
-        return function(server)
-            q[#q + 1] = server
+        return function(server, version)
+            q[#q + 1] = { server, version }
             check_queue()
         end
     end)()
 
     return {
         open = open,
-        install_server = function(server)
-            -- log.debug { "installing server", server }
+        install_server = function(server, version)
+            Log.debug("Installing server", server, version)
             local server_state = get_state().servers[server.name]
             if server_state and (server_state.installer.is_running or server_state.installer.is_queued) then
-                -- log.debug { "Installer is already queued/running", server.name }
+                Log.debug("Installer is already queued/running", server.name)
                 return
             end
             mutate_state(function(state)
@@ -341,12 +353,12 @@ local function init(all_servers)
                 state.servers[server.name] = create_server_state(server)
                 state.servers[server.name].installer.is_queued = true
             end)
-            queue(server)
+            queue(server, version)
         end,
         uninstall_server = function(server)
             local server_state = get_state().servers[server.name]
             if server_state and (server_state.installer.is_running or server_state.installer.is_queued) then
-                -- log.debug { "Installer is already queued/running", server.name }
+                Log.debug("Installer is already queued/running", server.name)
                 return
             end
 

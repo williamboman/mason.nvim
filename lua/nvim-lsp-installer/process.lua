@@ -1,4 +1,4 @@
-local log = require "nvim-lsp-installer.log"
+local Log = require "nvim-lsp-installer.log"
 local platform = require "nvim-lsp-installer.platform"
 local uv = vim.loop
 
@@ -7,13 +7,10 @@ local M = {}
 local function connect_sink(pipe, sink)
     return function(err, data)
         if err then
-            -- log.error { "Unexpected error when reading pipe.", err }
+            Log.error("Unexpected error when reading pipe.", err)
         end
         if data ~= nil then
-            local lines = vim.split(data, "\n")
-            for i = 1, #lines do
-                sink(lines[i])
-            end
+            sink(data)
         else
             pipe:read_stop()
             pipe:close()
@@ -51,7 +48,7 @@ function M.spawn(cmd, opts, callback)
 
     local stdio = { stdin, stdout, stderr }
 
-    -- log.debug { "Spawning", cmd, opts }
+    Log.debug("Spawning", cmd, opts)
 
     local spawn_opts = {
         env = opts.env,
@@ -85,12 +82,13 @@ function M.spawn(cmd, opts, callback)
     end)
 
     if handle == nil then
+        Log.error("Failed to spawn process", cmd, pid)
         opts.stdio_sink.stderr(("Failed to spawn process cmd=%s pid=%s"):format(cmd, pid))
         callback(false)
         return nil, nil
     end
 
-    -- log.debug { "Spawned with pid", pid }
+    Log.debug("Spawned with pid", pid)
 
     stdout:read_start(connect_sink(stdout, opts.stdio_sink.stdout))
     stderr:read_start(connect_sink(stderr, opts.stdio_sink.stderr))
@@ -144,6 +142,21 @@ function M.simple_sink()
     }
 end
 
+function M.in_memory_sink()
+    local buffers = { stdout = {}, stderr = {} }
+    return {
+        buffers = buffers,
+        sink = {
+            stdout = function(chunk)
+                buffers.stdout[#buffers.stdout + 1] = chunk
+            end,
+            stderr = function(chunk)
+                buffers.stderr[#buffers.stderr + 1] = chunk
+            end,
+        },
+    }
+end
+
 -- this prob belongs elsewhere ¯\_(ツ)_/¯
 function M.debounced(debounced_fn)
     local queued = false
@@ -157,6 +170,7 @@ function M.debounced(debounced_fn)
         vim.schedule(function()
             debounced_fn(last_arg)
             queued = false
+            last_arg = nil
         end)
     end
 end

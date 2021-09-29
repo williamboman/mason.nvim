@@ -3,30 +3,30 @@ local platform = require "nvim-lsp-installer.platform"
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
-
-local VERSION = "v1.37.15"
-
-local target = Data.coalesce(
-    Data.when(platform.is_mac, "omnisharp-osx.zip"),
-    Data.when(platform.is_linux and platform.arch == "x64", "omnisharp-linux-x64.zip"),
-    Data.when(
-        platform.is_win,
-        Data.coalesce(
-            Data.when(platform.arch == "x64", "omnisharp-win-x64.zip"),
-            Data.when(platform.arch == "arm64", "omnisharp-win-arm64.zip")
-        )
-    )
-)
+local context = require "nvim-lsp-installer.installers.context"
 
 return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
         installer = {
-            std.unzip_remote(
-                ("https://github.com/OmniSharp/omnisharp-roslyn/releases/download/%s/%s"):format(VERSION, target),
-                "omnisharp"
+            context.github_release_file(
+                "OmniSharp/omnisharp-roslyn",
+                Data.coalesce(
+                    Data.when(platform.is_mac, "omnisharp-osx.zip"),
+                    Data.when(platform.is_linux and platform.arch == "x64", "omnisharp-linux-x64.zip"),
+                    Data.when(
+                        platform.is_win,
+                        Data.coalesce(
+                            Data.when(platform.arch == "x64", "omnisharp-win-x64.zip"),
+                            Data.when(platform.arch == "arm64", "omnisharp-win-arm64.zip")
+                        )
+                    )
+                )
             ),
+            context.capture(function(ctx)
+                return std.unzip_remote(ctx.github_release_file, "omnisharp")
+            end),
             std.chmod("+x", { "omnisharp/run" }),
         },
         default_options = {

@@ -1,9 +1,21 @@
 local server = require "nvim-lsp-installer.server"
 local notify = require "nvim-lsp-installer.notify"
 local path = require "nvim-lsp-installer.path"
-local installers = require "nvim-lsp-installer.installers"
-local shell = require "nvim-lsp-installer.installers.shell"
+local Data = require "nvim-lsp-installer.data"
+local platform = require "nvim-lsp-installer.platform"
+local std = require "nvim-lsp-installer.installers.std"
+local context = require "nvim-lsp-installer.installers.context"
 local process = require "nvim-lsp-installer.process"
+
+local os = Data.coalesce(
+    Data.when(platform.is_mac, "darwin"),
+    Data.when(platform.is_linux, "linux"),
+    Data.when(platform.is_win, "windows")
+)
+
+local arch = Data.coalesce(Data.when(platform.arch == "x64", "amd64"), platform.arch)
+
+local target = ("tflint_%s_%s.zip"):format(os, arch)
 
 return function(name, root_dir)
     local bin_path = path.concat { root_dir, "tflint" }
@@ -11,16 +23,11 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        installer = installers.when {
-            unix = shell.remote_bash(
-                "https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh",
-                {
-                    env = {
-                        TFLINT_INSTALL_PATH = root_dir,
-                        TFLINT_INSTALL_NO_ROOT = 1,
-                    },
-                }
-            ),
+        installer = {
+            context.github_release_file("terraform-linters/tflint", target),
+            context.capture(function(ctx)
+                return std.unzip_remote(ctx.github_release_file)
+            end),
         },
         default_options = {
             cmd = { bin_path, "--langserver" },

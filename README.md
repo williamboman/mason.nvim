@@ -17,6 +17,7 @@ On top of just providing commands for installing & uninstalling LSP servers, it:
 
 -   provides a graphical UI
 -   optimized for blazing fast startup times
+-   supports installing custom versions of LSP servers (for example `:LspInstall rust_analyzer@nightly`)
 -   provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
 -   common install tasks are abstracted behind Lua APIs (has direct integration with libuv via vim.loop)
 -   <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20"> full support for Windows

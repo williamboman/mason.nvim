@@ -10,12 +10,13 @@ function M.display()
     status_win().open()
 end
 
-function M.install(server_name)
+function M.install(server_tuple)
+    local server_name, version = unpack(servers.parse_server_tuple(server_tuple))
     local ok, server = servers.get_server(server_name)
     if not ok then
         return notify(("Unable to find LSP server %s.\n\n%s"):format(server_name, server), vim.log.levels.ERROR)
     end
-    status_win().install_server(server)
+    status_win().install_server(server, version)
     status_win().open()
 end
 
