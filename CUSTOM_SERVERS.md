@@ -80,7 +80,7 @@ available installers that are available out of the box.
 
     #### `shell.bash(raw_script: string, opts?: table)`
 
-    Returns an installer that runs the provided `raw_script` as a bash script (`/bin/bash`).
+    Returns an installer that runs the provided `raw_script` as a bash script.
 
     `opts` is an optional table, with the following defaults:
 
@@ -140,7 +140,7 @@ available installers that are available out of the box.
     #### `shell.polyshell(raw_script: string, opts?: table)`
 
     Returns an installer that runs the provided `raw_script` as a platform agnostic shell script. This installer expects
-    the provided `raw_script` is syntactically valid across all platform shells (`/bin/bash` and `cmd.exe`).
+    the provided `raw_script` is syntactically valid across all platform shells (`bash` and `cmd.exe`).
 
     `opts` is an optional table, with the following defaults:
 
