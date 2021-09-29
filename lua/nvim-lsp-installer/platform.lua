@@ -4,6 +4,7 @@ local uname = vim.loop.os_uname()
 
 local arch_aliases = {
     ["x86_64"] = "x64",
+    ["aarch64"] = "arm64",
 }
 
 M.arch = arch_aliases[uname.machine] or uname.machine
