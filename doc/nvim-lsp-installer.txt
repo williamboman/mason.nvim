@@ -104,28 +104,57 @@ Prints all installed language servers.
 
 
 ==============================================================================
-OPTIONS                                         *nvim-lsp-installer-options*
+SETTINGS                                       *nvim-lsp-installer-settings*
 
-                                   *g:lsp_installer_allow_federated_servers*
-                               *vim.g.lsp_installer_allow_federated_servers*
-VimL: g:lsp_installer_allow_federated_servers
-Lua:  vim.g.lsp_installer_allow_federated_servers
+You can configure certain behavior of nvim-lsp-installer by calling the
+`.settings()` function.
 
-    Type: |Boolean|
-    Default: `true` (`v:true`)
+Refer to the |nvim-lsp-installer-default-settings| for all available settings.
 
-    Whether to allow LSP servers to share the same installation directory.
-    For some servers, this effectively causes more than one server to be
-    installed (and uninstalled) when executing `:LspInstall` and
-    `:LspUninstall`.
+Example: >
 
-    For example, installing `cssls` will also install both `jsonls` and `html`
-    (and the other ways around), as these all share the same underlying
-    package.
+    require("nvim-lsp-installer").settings {
+        ui = {
+            icons = {
+                server_installed = "✓",
+                server_pending = "➜",
+                server_uninstalled = "✗"
+            }
+        }
+    }
+<
 
-    Example: >
-        let g:lsp_installer_allow_federated_servers = v:false
-        vim.g.lsp_installer_allow_federated_servers = false
+                                       *nvim-lsp-installer-default-settings*
+
+The following settings are applied by default.
+
+>
+    local DEFAULT_SETTINGS = {
+        ui = {
+            icons = {
+                -- The list icon to use for installed servers.
+                server_installed = "◍",
+                -- The list icon to use for servers that are pending installation.
+                server_pending = "◍",
+                -- The list icon to use for servers that are not installed.
+                server_uninstalled = "◍",
+            },
+        },
+
+        -- Controls to which degree logs are written to the log file. For example, it's useful to set this to
+        -- vim.log.levels.TRACE when debugging issues with server installations.
+        log_level = vim.log.levels.WARN,
+
+        -- Whether to allow LSP servers to share the same installation directory.
+        -- For some servers, this effectively causes more than one server to be
+        -- installed (and uninstalled) when executing `:LspInstall` and
+        -- `:LspUninstall`.
+
+        -- For example, installing `cssls` will also install both `jsonls` and `html`
+        -- (and the other ways around), as these all share the same underlying
+        -- package.
+        allow_federated_servers = true,
+    }
 <
 
 ==============================================================================
@@ -223,8 +252,7 @@ class: Server
                     Sets up the language server. This has the same function
                     signature as the setup function in nvim-lspconfig.
 
-                    See |lspconfig-custom-config| for more information on
-                    {opts}.
+                    Refer to nvim-lspconfig for more information on {opts}.
 
             - get_default_options()
                     Returns a deep copy of the default options provided to

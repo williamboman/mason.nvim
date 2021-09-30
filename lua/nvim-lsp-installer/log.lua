@@ -1,3 +1,5 @@
+local settings = require "nvim-lsp-installer.settings"
+
 local config = {
     -- Name of the plugin. Prepended to log messages
     name = "lsp-installer",
@@ -27,9 +29,6 @@ local config = {
 }
 
 local log = {}
-
--- Default log level is warn.
-vim.g.lsp_installer_log_level = vim.g.lsp_installer_log_level or vim.log.levels.WARN
 
 local unpack = unpack or table.unpack
 
@@ -62,7 +61,7 @@ do
 
     local log_at_level = function(level, level_config, message_maker, ...)
         -- Return early if we're below the current_log_level
-        if level < vim.g.lsp_installer_log_level then
+        if level < settings.current.log_level then
             return
         end
         local nameupper = level_config.name:upper()

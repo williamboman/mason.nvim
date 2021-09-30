@@ -93,6 +93,56 @@ if ok then
 end
 ```
 
+### Configuration
+
+You can configure certain behavior of nvim-lsp-installer by calling the `.settings()` function.
+Refer to the [default configuration](#default-configuration) for all available settings.
+
+Example:
+
+```lua
+require("nvim-lsp-installer").settings {
+    ui = {
+        icons = {
+            server_installed = "✓",
+            server_pending = "➜",
+            server_uninstalled = "✗"
+        }
+    }
+}
+```
+
+#### Default configuration
+
+```lua
+local DEFAULT_SETTINGS = {
+    ui = {
+        icons = {
+            -- The list icon to use for installed servers.
+            server_installed = "◍",
+            -- The list icon to use for servers that are pending installation.
+            server_pending = "◍",
+            -- The list icon to use for servers that are not installed.
+            server_uninstalled = "◍",
+        },
+    },
+
+    -- Controls to which degree logs are written to the log file. For example, it's useful to set this to
+    -- vim.log.levels.TRACE when debugging issues with server installations.
+    log_level = vim.log.levels.WARN,
+
+    -- Whether to allow LSP servers to share the same installation directory.
+    -- For some servers, this effectively causes more than one server to be
+    -- installed (and uninstalled) when executing `:LspInstall` and
+    -- `:LspUninstall`.
+
+    -- For example, installing `cssls` will also install both `jsonls` and `html`
+    -- (and the other ways around), as these all share the same underlying
+    -- package.
+    allow_federated_servers = true,
+}
+```
+
 ## Available LSPs
 
 | Language                            | Server name              |
@@ -163,6 +213,6 @@ Illustrations in the logo are derived from [@Kaligule](https://schauderbasis.de/
 
 ## Roadmap
 
--   Managed versioning of installed servers
 -   Command (and corresponding Lua API) to update outdated servers (e.g., `:LspUpdate {server}`)
+-   More helpful metadata displayed in the UI window
 -   Cross-platform CI for all server installers

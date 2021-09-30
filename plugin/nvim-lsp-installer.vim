@@ -1,6 +1,5 @@
 if exists('g:loaded_nvim_lsp_installer') | finish | endif
 let g:loaded_nvim_lsp_installer = v:true
-let g:lsp_installer_allow_federated_servers = get(g:, "lsp_installer_allow_federated_servers", v:true)
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -52,3 +51,20 @@ autocmd User LspAttachBuffers lua require"nvim-lsp-installer".lsp_attach_proxy()
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
+
+
+
+"""
+""" Backward compat for deprecated g:lsp_installer* options. Remove by 2021-12-01-ish.
+"""
+if exists("g:lsp_installer_allow_federated_servers")
+    " legacy global variable option
+    call luaeval("require('nvim-lsp-installer').settings { allow_federated_servers = _A }", g:lsp_installer_allow_federated_servers)
+    lua vim.notify("[Deprecation notice] Providing settings via global variables (g:lsp_installer_allow_federated_servers) is deprecated. Please refer to https://github.com/williamboman/nvim-lsp-installer#configuration.", vim.log.levels.WARN)
+endif
+
+if exists("g:lsp_installer_log_level")
+    " legacy global variable option
+    call luaeval("require('nvim-lsp-installer').settings { log_level = _A }", g:lsp_installer_log_level)
+    lua vim.notify("[Deprecation notice] Providing settings via global variables (g:lsp_installer_log_level) is deprecated. Please refer to https://github.com/williamboman/nvim-lsp-installer#configuration.", vim.log.levels.WARN)
+endif

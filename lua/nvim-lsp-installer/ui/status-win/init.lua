@@ -1,5 +1,6 @@
 local Ui = require "nvim-lsp-installer.ui"
 local fs = require "nvim-lsp-installer.fs"
+local settings = require "nvim-lsp-installer.settings"
 local Log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
 local display = require "nvim-lsp-installer.ui.display"
@@ -23,9 +24,6 @@ local function Header()
     })
 end
 
--- TODO make configurable
-local LIST_ICON = "◍"
-
 local Seconds = {
     DAY = 86400, -- 60 * 60 * 24
     WEEK = 604800, -- 60 * 60 * 24 * 7
@@ -45,7 +43,7 @@ local function get_relative_install_time(time)
     elseif delta < (Seconds.MONTH * 2) then
         return "last month"
     elseif delta < Seconds.YEAR then
-        return ("%d months ago"):format(math.floor((delta / 2419200) + 0.5))
+        return ("%d months ago"):format(math.floor((delta / Seconds.MONTH) + 0.5))
     else
         return "more than a year ago"
     end
@@ -56,7 +54,7 @@ local function InstalledServers(servers)
         return Ui.Node {
             Ui.HlTextNode {
                 {
-                    { LIST_ICON, "LspInstallerGreen" },
+                    { settings.current.ui.icons.server_installed, "LspInstallerGreen" },
                     { " " .. server.name, "Normal" },
                     {
                         (" installed %s"):format(get_relative_install_time(server.creation_time)),
@@ -91,7 +89,10 @@ local function PendingServers(servers)
         return Ui.Node {
             Ui.HlTextNode {
                 {
-                    { LIST_ICON, has_failed and "LspInstallerError" or "LspInstallerOrange" },
+                    {
+                        settings.current.ui.icons.server_pending,
+                        has_failed and "LspInstallerError" or "LspInstallerOrange",
+                    },
                     { " " .. server.name, server.installer.is_running and "Normal" or "LspInstallerGray" },
                     { " " .. note, "Comment" },
                     {
@@ -118,7 +119,7 @@ local function UninstalledServers(servers)
         return Ui.Node {
             Ui.HlTextNode {
                 {
-                    { LIST_ICON, "LspInstallerGray" },
+                    { settings.current.ui.icons.server_uninstalled, "LspInstallerGray" },
                     { " " .. server.name, "Comment" },
                     { server.uninstaller.has_run and " (just uninstalled)" or "", "Comment" },
                 },

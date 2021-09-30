@@ -1,5 +1,8 @@
 # Custom servers
 
+*Note that there may be breaking changes introduced over time that may have an impact on the functionality of custom
+servers. These breaking changes should generally be easy to address.*
+
 You may create your own server installers by using the same APIs that nvim-lsp-installer itself uses.
 
 Each installable LSP server is represented as an instance of the `Server` class. This class is responsible for
