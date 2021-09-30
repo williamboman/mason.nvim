@@ -37,7 +37,7 @@ end
 
 function M.sh(raw_script, opts)
     local default_opts = {
-        prefix = "set -euo pipefail;",
+        prefix = "set -eu;",
         env = {},
     }
     opts = vim.tbl_deep_extend("force", default_opts, opts or {})
