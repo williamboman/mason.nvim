@@ -1,9 +1,9 @@
 local Ui = require "nvim-lsp-installer.ui"
 local fs = require "nvim-lsp-installer.fs"
-local settings = require "nvim-lsp-installer.settings"
 local log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
 local display = require "nvim-lsp-installer.ui.display"
+local settings = require "nvim-lsp-installer.settings"
 
 local function ServerGroupHeading(props)
     return Ui.HlTextNode {
@@ -233,6 +233,14 @@ local function create_server_state(server)
     }
 end
 
+local function normalize_chunks_line_endings(chunk, dest)
+    local chunk_lines = vim.split(chunk, "\n")
+    dest[#dest] = (dest[#dest] or "") .. chunk_lines[1]
+    for i = 2, #chunk_lines do
+        dest[#dest + 1] = chunk_lines[i]
+    end
+end
+
 local function init(all_servers)
     local window = display.new_view_only_win "LSP servers"
 
@@ -283,26 +291,18 @@ local function init(all_servers)
                 stdout = function(chunk)
                     mutate_state(function(state)
                         local tailed_output = state.servers[server.name].installer.tailed_output
-                        local lines = vim.split(chunk, "\n")
-                        for i = 1, #lines do
-                            tailed_output[#tailed_output + 1] = lines[i]
-                        end
+                        normalize_chunks_line_endings(chunk, tailed_output)
                     end)
                 end,
                 stderr = function(chunk)
                     mutate_state(function(state)
                         local tailed_output = state.servers[server.name].installer.tailed_output
-                        local lines = vim.split(chunk, "\n")
-                        for i = 1, #lines do
-                            tailed_output[#tailed_output + 1] = lines[i]
-                        end
+                        normalize_chunks_line_endings(chunk, tailed_output)
                     end)
                 end,
             },
         }, function(success)
             mutate_state(function(state)
-                -- can we log each line separately?
-                log.debug("Installer output", server.name, state.servers[server.name].installer.tailed_output)
                 if success then
                     -- release stdout/err output table.. hopefully ¯\_(ツ)_/¯
                     state.servers[server.name].installer.tailed_output = {}
@@ -317,7 +317,8 @@ local function init(all_servers)
     end
 
     -- We have a queue because installers have a tendency to hog resources.
-    local queue = (function()
+    local queue
+    do
         local max_running = 2
         local q = {}
         local r = 0
@@ -334,11 +335,11 @@ local function init(all_servers)
             end
         end)
 
-        return function(server, version)
+        queue = function(server, version)
             q[#q + 1] = { server, version }
             check_queue()
         end
-    end)()
+    end
 
     return {
         open = open,
