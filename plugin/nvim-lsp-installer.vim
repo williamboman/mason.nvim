@@ -40,12 +40,19 @@ function! s:LspInstallInfo() abort
     lua require'nvim-lsp-installer'.display()
 endfunction
 
+function! s:LspInstallLog() abort
+    let l:log_file = luaeval("require'nvim-lsp-installer.log'.outfile")
+    tabnew
+    exe 'e' .. l:log_file
+endfunction
+
 command! -nargs=+ -complete=custom,s:LspInstallCompletion LspInstall exe s:LspInstall("<args>")
 command! -nargs=+ -complete=custom,s:LspUninstallCompletion LspUninstall exe s:LspUninstall("<args>")
 
 command! LspUninstallAll call s:LspUninstallAll()
 command! LspPrintInstalled call s:LspPrintInstalled()
 command! LspInstallInfo call s:LspInstallInfo()
+command! LspInstallLog call s:LspInstallLog()
 
 autocmd User LspAttachBuffers lua require"nvim-lsp-installer".lsp_attach_proxy()
 

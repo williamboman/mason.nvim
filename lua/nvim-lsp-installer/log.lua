@@ -16,25 +16,24 @@ local config = {
 
     -- Level configuration
     modes = {
-        { name = "trace", hl = "Comment" },
-        { name = "debug", hl = "Comment" },
-        { name = "info", hl = "None" },
-        { name = "warn", hl = "WarningMsg" },
-        { name = "error", hl = "ErrorMsg" },
-        { name = "fatal", hl = "ErrorMsg" },
+        { name = "trace", hl = "Comment", level = vim.log.levels.TRACE },
+        { name = "debug", hl = "Comment", level = vim.log.levels.DEBUG },
+        { name = "info", hl = "None", level = vim.log.levels.INFO },
+        { name = "warn", hl = "WarningMsg", level = vim.log.levels.WARN },
+        { name = "error", hl = "ErrorMsg", level = vim.log.levels.ERROR },
     },
 
     -- Can limit the number of decimals displayed for floats
     float_precision = 0.01,
 }
 
-local log = {}
+local log = {
+    outfile = string.format("%s/%s.log", vim.api.nvim_call_function("stdpath", { "cache" }), config.name),
+}
 
 local unpack = unpack or table.unpack
 
 do
-    local outfile = string.format("%s/%s.log", vim.api.nvim_call_function("stdpath", { "cache" }), config.name)
-
     local round = function(x, increment)
         increment = increment or 1
         x = x / increment
@@ -59,9 +58,9 @@ do
         return table.concat(t, " ")
     end
 
-    local log_at_level = function(level, level_config, message_maker, ...)
+    local log_at_level = function(level_config, message_maker, ...)
         -- Return early if we're below the current_log_level
-        if level < settings.current.log_level then
+        if level_config.level < settings.current.log_level then
             return
         end
         local nameupper = level_config.name:upper()
@@ -102,22 +101,22 @@ do
 
         -- Output to log file
         if config.use_file then
-            local fp = assert(io.open(outfile, "a"))
+            local fp = assert(io.open(log.outfile, "a"))
             local str = string.format("[%-6s%s] %s: %s\n", nameupper, os.date(), lineinfo, msg)
             fp:write(str)
             fp:close()
         end
     end
 
-    for i, x in ipairs(config.modes) do
+    for _, x in ipairs(config.modes) do
         -- log.info("these", "are", "separated")
         log[x.name] = function(...)
-            return log_at_level(i, x, make_string, ...)
+            return log_at_level(x, make_string, ...)
         end
 
         -- log.fmt_info("These are %s strings", "formatted")
         log[("fmt_%s"):format(x.name)] = function(...)
-            return log_at_level(i, x, function(...)
+            return log_at_level(x, function(...)
                 local passed = { ... }
                 local fmt = table.remove(passed, 1)
                 local inspected = {}
@@ -130,7 +129,7 @@ do
 
         -- log.lazy_info(expensive_to_calculate)
         log[("lazy_%s"):format(x.name)] = function()
-            return log_at_level(i, x, function(f)
+            return log_at_level(x, function(f)
                 return f()
             end)
         end
@@ -140,7 +139,7 @@ do
             local original_console = config.use_console
             config.use_console = false
             config.info_level = override.info_level
-            log_at_level(i, x, make_string, unpack(vals))
+            log_at_level(x, make_string, unpack(vals))
             config.use_console = original_console
             config.info_level = nil
         end

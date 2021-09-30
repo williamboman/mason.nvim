@@ -59,6 +59,7 @@ Plug 'williamboman/nvim-lsp-installer'
 -   `:LspInstall <server> ...` - installs/reinstalls language servers
 -   `:LspUninstall <server> ...` - uninstalls language servers
 -   `:LspUninstallAll` - uninstalls all language servers
+-   `:LspInstallLog` - opens the log file in a new tab window
 -   `:LspPrintInstalled` - prints all installed language servers
 
 ### Setup
@@ -127,18 +128,14 @@ local DEFAULT_SETTINGS = {
         },
     },
 
-    -- Controls to which degree logs are written to the log file. For example, it's useful to set this to
-    -- vim.log.levels.TRACE when debugging issues with server installations.
+    -- Controls to which degree logs are written to the log file. It's useful to set this to vim.log.levels.DEBUG when
+    -- debugging issues with server installations.
     log_level = vim.log.levels.WARN,
 
-    -- Whether to allow LSP servers to share the same installation directory.
-    -- For some servers, this effectively causes more than one server to be
-    -- installed (and uninstalled) when executing `:LspInstall` and
-    -- `:LspUninstall`.
-
-    -- For example, installing `cssls` will also install both `jsonls` and `html`
-    -- (and the other ways around), as these all share the same underlying
-    -- package.
+    -- Whether to allow LSP servers to share the same installation directory. For some servers, this effectively causes
+    -- more than one server to be installed (and uninstalled) when executing `:LspInstall` and `:LspUninstall`. For
+    -- example, installing `cssls` will also install both `jsonls` and `html` (and the other ways around), as these all
+    -- share the same underlying package.
     allow_federated_servers = true,
 }
 ```

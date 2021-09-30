@@ -1,5 +1,5 @@
 local Data = require "nvim-lsp-installer.data"
-local Log = require "nvim-lsp-installer.log"
+local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
 local platform = require "nvim-lsp-installer.platform"
 
@@ -61,7 +61,7 @@ function M.github_release_file(repo, file)
                         return callback(false)
                     else
                         local version = Data.json_decode(response).tag_name
-                        Log.debug("Resolved latest version", server.name, version)
+                        log.debug("Resolved latest version", server.name, version)
                         context.requested_server_version = version
                         context.github_release_file = get_download_url(version)
                         callback(true)
