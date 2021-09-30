@@ -55,7 +55,7 @@ local function InstalledServers(servers)
             Ui.HlTextNode {
                 {
                     { settings.current.ui.icons.server_installed, "LspInstallerGreen" },
-                    { " " .. server.name, "Normal" },
+                    { " " .. server.name, "" },
                     {
                         (" installed %s"):format(get_relative_install_time(server.creation_time)),
                         "Comment",
@@ -93,7 +93,7 @@ local function PendingServers(servers)
                         settings.current.ui.icons.server_pending,
                         has_failed and "LspInstallerError" or "LspInstallerOrange",
                     },
-                    { " " .. server.name, server.installer.is_running and "Normal" or "LspInstallerGray" },
+                    { " " .. server.name, server.installer.is_running and "" or "LspInstallerGray" },
                     { " " .. note, "Comment" },
                     {
                         has_failed and "" or (" " .. get_last_non_empty_line(server.installer.tailed_output)),
@@ -237,7 +237,7 @@ local function init(all_servers)
     local window = display.new_view_only_win "LSP servers"
 
     window.view(function(state)
-        return Ui.Node {
+        return Indent {
             Header(),
             Servers(state.servers),
         }

@@ -3,17 +3,6 @@ local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
 local state = require "nvim-lsp-installer.ui.state"
 
-local M = {}
-
-local redraw_by_winnr = {}
-
-function _G.lsp_install_redraw(winnr)
-    local fn = redraw_by_winnr[winnr]
-    if fn then
-        fn()
-    end
-end
-
 local function get_styles(line, render_context)
     local indentation = 0
 
@@ -97,48 +86,106 @@ local function render_node(context, node, _render_context, _output)
     return output
 end
 
+local function create_popup_window_opts()
+    local win_height = vim.o.lines - vim.o.cmdheight - 2 -- Add margin for status and buffer line
+    local win_width = vim.o.columns
+    local popup_layout = {
+        relative = "editor",
+        height = math.floor(win_height * 0.9),
+        width = math.floor(win_width * 0.8),
+        style = "minimal",
+        border = "rounded",
+    }
+    popup_layout.row = math.floor((win_height - popup_layout.height) / 2)
+    popup_layout.col = math.floor((win_width - popup_layout.width) / 2)
+
+    return popup_layout
+end
+
+local M = {}
+
+local redraw_by_win_id = {}
+
+function M.redraw_win(win_id)
+    local fn = redraw_by_win_id[win_id]
+    if fn then
+        fn()
+    end
+end
+
+function M.delete_win_buf(win_id, bufnr)
+    -- We queue the win_buf to be deleted in a schedule call, otherwise when used with folke/which-key (and
+    -- set timeoutlen=0) we run into a weird segfault.
+    -- It should probably be unnecessary once https://github.com/neovim/neovim/issues/15548 is resolved
+    vim.schedule(function()
+        if win_id and vim.api.nvim_win_is_valid(win_id) then
+            log.debug "Deleting window"
+            vim.api.nvim_win_close(win_id, true)
+        end
+        if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
+            log.debug "Deleting buffer"
+            vim.api.nvim_buf_delete(bufnr, { force = true })
+        end
+        if redraw_by_win_id[win_id] then
+            redraw_by_win_id[win_id] = nil
+        end
+    end)
+end
+
 function M.new_view_only_win(name)
     local namespace = vim.api.nvim_create_namespace(("lsp_installer_%s"):format(name))
-    local buf, renderer, mutate_state, get_state, unsubscribe
+    local bufnr, renderer, mutate_state, get_state, unsubscribe, win_id
     local has_initiated = false
 
     local function open(opts)
         opts = opts or {}
-        local win_width, highlight_groups = opts.win_width, opts.highlight_groups
+        local highlight_groups = opts.highlight_groups
+        bufnr = vim.api.nvim_create_buf(false, true)
+        win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts())
 
-        if win_width then
-            vim.cmd(("%dvnew"):format(win_width))
-        else
-            vim.cmd [[vnew]]
+        local buf_opts = {
+            modifiable = false,
+            swapfile = false,
+            textwidth = 0,
+            buftype = "nofile",
+            bufhidden = "wipe",
+            buflisted = false,
+            filetype = "lsp-installer",
+        }
+
+        local win_opts = {
+            number = false,
+            relativenumber = false,
+            wrap = false,
+            spell = false,
+            foldenable = false,
+            signcolumn = "no",
+            colorcolumn = "",
+            cursorline = true,
+        }
+
+        -- window options
+        for key, value in pairs(win_opts) do
+            vim.api.nvim_win_set_option(win_id, key, value)
         end
 
-        local win = vim.api.nvim_get_current_win()
-        buf = vim.api.nvim_get_current_buf()
-
-        vim.api.nvim_buf_set_option(buf, "modifiable", false)
-        vim.api.nvim_buf_set_option(buf, "swapfile", false)
-        vim.api.nvim_buf_set_option(buf, "textwidth", 0)
-        vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-        vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-        vim.api.nvim_buf_set_option(buf, "buflisted", false)
-        vim.api.nvim_buf_set_option(buf, "filetype", "lsp-installer")
-
-        vim.api.nvim_win_set_option(win, "wrap", false)
-        vim.api.nvim_win_set_option(win, "spell", false)
-        vim.api.nvim_win_set_option(win, "number", false)
-        vim.api.nvim_win_set_option(win, "relativenumber", false)
-        vim.api.nvim_win_set_option(win, "foldenable", false)
-        vim.api.nvim_win_set_option(win, "signcolumn", "no")
-        vim.api.nvim_win_set_option(win, "colorcolumn", "")
+        -- buffer options
+        for key, value in pairs(buf_opts) do
+            vim.api.nvim_buf_set_option(bufnr, key, value)
+        end
 
         vim.cmd [[ syntax clear ]]
 
-        for _, redraw_event in ipairs { "WinEnter", "WinLeave", "VimResized" } do
-            vim.cmd(("autocmd %s <buffer> call v:lua.lsp_install_redraw(%d)"):format(redraw_event, win))
-        end
+        vim.cmd(
+            ("autocmd VimResized <buffer> lua require('nvim-lsp-installer.ui.display').redraw_win(%d)"):format(win_id)
+        )
+        vim.cmd(
+            (
+                "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua vim.schedule(function() require('nvim-lsp-installer.ui.display').delete_win_buf(%d, %d) end)"
+            ):format(win_id, bufnr)
+        )
 
-        vim.api.nvim_buf_set_keymap(buf, "n", "<esc>", "<cmd>bd<CR>", { noremap = true })
-        vim.lsp.util.close_preview_autocmd({ "BufHidden", "BufLeave" }, win)
+        vim.api.nvim_buf_set_keymap(bufnr, "n", "<esc>", "<cmd>bd<CR>", { noremap = true })
 
         if highlight_groups then
             for i = 1, #highlight_groups do
@@ -146,19 +193,23 @@ function M.new_view_only_win(name)
             end
         end
 
-        return win
+        return win_id
     end
 
     local draw = process.debounced(function(view)
-        local win = vim.fn.win_findbuf(buf)[1]
-        if not win or not vim.api.nvim_buf_is_valid(buf) then
+        local win_valid = win_id ~= nil and vim.api.nvim_win_is_valid(win_id)
+        local buf_valid = bufnr ~= nil and vim.api.nvim_buf_is_valid(bufnr)
+        log.fmt_debug("got bufnr=%s", bufnr)
+        log.fmt_debug("got win_id=%s", win_id)
+
+        if not win_valid or not buf_valid then
             -- the window has been closed or the buffer is somehow no longer valid
             unsubscribe(true)
-            -- return log.debug { "Buffer or window is no longer valid", name, win, buf }
+            log.debug("Buffer or window is no longer valid", win_id, bufnr)
             return
         end
 
-        local win_width = vim.api.nvim_win_get_width(win)
+        local win_width = vim.api.nvim_win_get_width(win_id)
         local context = {
             win_width = win_width,
         }
@@ -166,19 +217,20 @@ function M.new_view_only_win(name)
         local lines, virt_texts, highlights = output.lines, output.virt_texts, output.highlights
 
         vim.api.nvim_buf_clear_namespace(0, namespace, 0, -1)
-        vim.api.nvim_buf_set_option(buf, "modifiable", true)
-        vim.api.nvim_buf_set_lines(buf, 0, -1, true, lines)
-        vim.api.nvim_buf_set_option(buf, "modifiable", false)
+        vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
+        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+        vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
+
         for i = 1, #virt_texts do
             local virt_text = virt_texts[i]
-            vim.api.nvim_buf_set_extmark(buf, namespace, virt_text.line, 0, {
+            vim.api.nvim_buf_set_extmark(bufnr, namespace, virt_text.line, 0, {
                 virt_text = virt_text.content,
             })
         end
         for i = 1, #highlights do
             local highlight = highlights[i]
             vim.api.nvim_buf_add_highlight(
-                buf,
+                bufnr,
                 namespace,
                 highlight.hl_group,
                 highlight.line,
@@ -200,20 +252,26 @@ function M.new_view_only_win(name)
                 draw(renderer(new_state))
             end)
 
+            -- we don't need to subscribe to state changes until the window is actually opened
+            unsubscribe(true)
+
             return mutate_state, get_state
         end,
         open = vim.schedule_wrap(function(opts)
-            -- log.debug { "opening window" }
+            log.debug "Opening window"
             assert(has_initiated, "Display has not been initiated, cannot open.")
-            local win = vim.fn.win_findbuf(buf)[1]
-            if win and vim.api.nvim_win_is_valid(win) then
+            if win_id and vim.api.nvim_win_is_valid(win_id) then
+                -- window is already open
                 return
             end
             unsubscribe(false)
-            local opened_win = open(opts)
+            local opened_win_id = open(opts)
             draw(renderer(get_state()))
-            redraw_by_winnr[opened_win] = function()
-                draw(renderer(get_state()))
+            redraw_by_win_id[opened_win_id] = function()
+                if vim.api.nvim_win_is_valid(opened_win_id) then
+                    draw(renderer(get_state()))
+                    vim.api.nvim_win_set_config(opened_win_id, create_popup_window_opts())
+                end
             end
         end),
         -- This is probably not needed.
@@ -221,9 +279,9 @@ function M.new_view_only_win(name)
         --     assert(has_initiated, "Display has not been initiated, cannot destroy.")
         --     TODO: what happens with the state container, etc?
         --     unsubscribe(true)
-        --     redraw_by_winnr[win] = nil
-        --     if win then
-        --         vim.api.nvim_win_close(win, true)
+        --     redraw_by_winnr[win_id] = nil
+        --     if win_id then
+        --         vim.api.nvim_win_close(win_id, true)
         --     end
         -- end),
     }

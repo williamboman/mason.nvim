@@ -28,7 +28,7 @@ end
 
 function M.Text(lines)
     return M.HlTextNode(Data.list_map(function(line)
-        return { { line, "Normal" } }
+        return { { line, "" } }
     end, lines))
 end
 
