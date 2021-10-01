@@ -25,53 +25,48 @@ return function(name, root_dir)
             end),
             installers.when {
                 unix = function(server, callback, context)
-                    local path = path.concat {
+                    local executable = path.concat {
                         server.root_dir,
                         ("clangd_%s"):format(context.requested_server_version),
                         "bin",
                         "clangd",
                     }
                     local new_path = path.concat { server.root_dir, "clangd" }
-                    context.stdio_sink.stdout(("Creating symlink from %s to %s\n"):format(path, new_path))
-                    uv.fs_symlink(
-                        path,
-                        new_path,
-                        function(err, success)
-                            if not success then
-                                context.stdio_sink.stderr(tostring(err) .. "\n")
-                                callback(false)
-                            else
-                                callback(true)
-                            end
+                    context.stdio_sink.stdout(("Creating symlink from %s to %s\n"):format(executable, new_path))
+                    uv.fs_symlink(executable, new_path, function(err, success)
+                        if not success then
+                            context.stdio_sink.stderr(tostring(err) .. "\n")
+                            callback(false)
+                        else
+                            callback(true)
                         end
-                        )
-                    print(vim.inspect(test))
+                    end)
                 end,
-                win = function (server,callback,context)
-                    context.stdio_sink.stdout("Creating clangd.bat...\n")
-                    uv.fs_open(path.concat { server.root_dir, "clangd.bat" }, "w", 438, function (err, fd)
-                        local path = path.concat {
+                win = function(server, callback, context)
+                    context.stdio_sink.stdout "Creating clangd.bat...\n"
+                    uv.fs_open(path.concat { server.root_dir, "clangd.bat" }, "w", 438, function(open_err, fd)
+                        local executable = path.concat {
                             server.root_dir,
                             ("clangd_%s"):format(context.requested_server_version),
                             "bin",
                             "clangd.exe",
                         }
-                        if err then
-                            context.stdio_sink.stderr(tostring(err) .. "\n")
+                        if open_err then
+                            context.stdio_sink.stderr(tostring(open_err) .. "\n")
                             return callback(false)
                         end
-                        uv.fs_write(fd, ("@call %q %%*"):format(path), -1, function (err)
-                            if err then
-                                context.stdio_sink.stderr(tostring(err) .. "\n")
+                        uv.fs_write(fd, ("@call %q %%*"):format(executable), -1, function(write_err)
+                            if write_err then
+                                context.stdio_sink.stderr(tostring(write_err) .. "\n")
                                 callback(false)
                             else
-                                context.stdio_sink.stdout("Created clangd.bat\n")
+                                context.stdio_sink.stdout "Created clangd.bat\n"
                                 callback(true)
                             end
                             assert(uv.fs_close(fd))
                         end)
                     end)
-                end
+                end,
             },
         },
         default_options = {
