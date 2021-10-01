@@ -130,7 +130,7 @@ function M.ensure_executables(executables)
             local executable = entry[1]
             local error_msg = entry[2]
             if vim.fn.executable(executable) ~= 1 then
-                context.stdio_sink.stderr(error_msg)
+                context.stdio_sink.stderr(error_msg .. "\n")
                 callback(false)
                 return
             end

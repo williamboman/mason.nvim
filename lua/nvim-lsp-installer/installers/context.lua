@@ -52,12 +52,12 @@ function M.github_release_file(repo, file)
             context.github_release_file = get_download_url(context.requested_server_version)
             callback(true)
         else
-            context.stdio_sink.stdout "Fetching latest release version from GitHub API..."
+            context.stdio_sink.stdout "Fetching latest release version from GitHub API...\n"
             fetch(
                 ("https://api.github.com/repos/%s/releases/latest"):format(repo),
                 vim.schedule_wrap(function(err, response)
                     if err then
-                        context.stdio_sink.stderr "Failed to fetch latest release version from GitHub API."
+                        context.stdio_sink.stderr "Failed to fetch latest release version from GitHub API.\n"
                         return callback(false)
                     else
                         local version = Data.json_decode(response).tag_name

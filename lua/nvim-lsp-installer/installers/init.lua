@@ -10,7 +10,7 @@ function M.pipe(installers)
 
     return function(server, callback, context)
         local function execute(idx)
-            installers[idx](server, function(success)
+            local ok, err = pcall(installers[idx], server, function(success)
                 if not success then
                     -- oh no, error. exit early
                     callback(success)
@@ -22,6 +22,10 @@ function M.pipe(installers)
                     callback(success)
                 end
             end, context)
+            if not ok then
+                context.stdio_sink.stderr(tostring(err) .. "\n")
+                callback(false)
+            end
         end
 
         execute(1)
@@ -75,7 +79,7 @@ function M.when(platform_table)
             installer(server, callback, context)
         else
             context.stdio_sink.stderr(
-                ("Current operating system is not yet supported for server %q."):format(server.name)
+                ("Current operating system is not yet supported for server %q.\n"):format(server.name)
             )
             callback(false)
         end

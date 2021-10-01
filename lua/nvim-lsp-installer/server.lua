@@ -79,8 +79,15 @@ function M.Server:install()
 end
 
 function M.Server:install_attached(context, callback)
-    self:uninstall()
+    local uninstall_ok, uninstall_err = pcall(self.uninstall, self)
+    if not uninstall_ok then
+        context.stdio_sink.stderr(tostring(uninstall_err) .. "\n")
+        callback(false)
+        return
+    end
+
     self:create_root_dir()
+
     local install_ok, install_err = pcall(self._installer, self, function(success)
         if not success then
             vim.schedule(function()
@@ -94,7 +101,7 @@ function M.Server:install_attached(context, callback)
         callback(success)
     end, context)
     if not install_ok then
-        context.stdio_sink.stderr(tostring(install_err))
+        context.stdio_sink.stderr(tostring(install_err) .. "\n")
         callback(false)
     end
 end

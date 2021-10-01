@@ -83,7 +83,7 @@ function M.spawn(cmd, opts, callback)
 
     if handle == nil then
         log.error("Failed to spawn process", cmd, pid)
-        opts.stdio_sink.stderr(("Failed to spawn process cmd=%s pid=%s"):format(cmd, pid))
+        opts.stdio_sink.stderr(("Failed to spawn process cmd=%s pid=%s\n"):format(cmd, pid))
         callback(false)
         return nil, nil
     end

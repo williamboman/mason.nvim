@@ -227,7 +227,7 @@ local function create_server_state(server)
             is_queued = false,
             is_running = false,
             has_run = false,
-            tailed_output = {},
+            tailed_output = { "" },
         },
         uninstaller = { has_run = false, error = nil },
     }
@@ -235,7 +235,7 @@ end
 
 local function normalize_chunks_line_endings(chunk, dest)
     local chunk_lines = vim.split(chunk, "\n")
-    dest[#dest] = (dest[#dest] or "") .. chunk_lines[1]
+    dest[#dest] = dest[#dest] .. chunk_lines[1]
     for i = 2, #chunk_lines do
         dest[#dest + 1] = chunk_lines[i]
     end

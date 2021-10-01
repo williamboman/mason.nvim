@@ -30,7 +30,7 @@ local function zx_installer(force)
         local npm_command = is_zx_already_installed and "update" or "install"
 
         if not is_zx_already_installed then
-            context.stdio_sink.stdout(("Preparing for installation… (npm %s zx)"):format(npm_command))
+            context.stdio_sink.stdout(("Preparing for installation… (npm %s zx)\n"):format(npm_command))
         end
 
         fs.mkdirp(INSTALL_DIR)
@@ -44,13 +44,13 @@ local function zx_installer(force)
                 has_installed_zx = true
                 callback(true)
             else
-                context.stdio_sink.stderr "Failed to install zx."
+                context.stdio_sink.stderr "Failed to install zx.\n"
                 callback(false)
             end
         end)
 
         if handle == nil then
-            context.stdio_sink.stderr(("Failed to install/update zx. %s"):format(pid))
+            context.stdio_sink.stderr(("Failed to install/update zx. %s\n"):format(pid))
             callback(false)
         end
     end
