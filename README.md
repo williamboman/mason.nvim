@@ -130,7 +130,7 @@ local DEFAULT_SETTINGS = {
 
     -- Controls to which degree logs are written to the log file. It's useful to set this to vim.log.levels.DEBUG when
     -- debugging issues with server installations.
-    log_level = vim.log.levels.WARN,
+    log_level = vim.log.levels.INFO,
 
     -- Whether to allow LSP servers to share the same installation directory. For some servers, this effectively causes
     -- more than one server to be installed (and uninstalled) when executing `:LspInstall` and `:LspUninstall`. For

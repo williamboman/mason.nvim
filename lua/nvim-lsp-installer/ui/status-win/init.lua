@@ -283,7 +283,7 @@ local function init(all_servers)
             state.servers[server.name].installer.is_running = true
         end)
 
-        log.debug("Starting install", server.name, requested_version)
+        log.fmt_info("Starting install server_name=%s, requested_version=%s", server.name, requested_version or "N/A")
 
         server:install_attached({
             requested_server_version = requested_version,
@@ -302,6 +302,7 @@ local function init(all_servers)
                 end,
             },
         }, function(success)
+            log.fmt_info("Installation completed server_name=%s, success=%s", server.name, success)
             mutate_state(function(state)
                 if success then
                     -- release stdout/err output table.. hopefully ¯\_(ツ)_/¯
