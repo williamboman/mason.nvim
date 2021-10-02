@@ -8,7 +8,7 @@ return function(executable)
             root_dir = root_dir,
             installer = npm.packages { "vscode-langservers-extracted" },
             default_options = {
-                cmd = { npm.executable(root_dir, executable) },
+                cmd = { npm.executable(root_dir, executable), "--stdio" },
             },
         }
     end
