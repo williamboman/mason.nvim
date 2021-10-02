@@ -43,7 +43,7 @@ endfunction
 function! s:LspInstallLog() abort
     let l:log_file = luaeval("require'nvim-lsp-installer.log'.outfile")
     tabnew
-    exe 'e' .. l:log_file
+    exe 'e ' .. l:log_file
 endfunction
 
 command! -nargs=+ -complete=custom,s:LspInstallCompletion LspInstall exe s:LspInstall("<args>")
