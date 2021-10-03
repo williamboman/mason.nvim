@@ -176,6 +176,7 @@ local DEFAULT_SETTINGS = {
 | OCaml                               | `ocamlls`                |
 | PHP                                 | `intelephense`           |
 | Prisma                              | `prismals`               |
+| Puppet                              | `puppet`                 |
 | PureScript                          | `purescriptls`           |
 | Python                              | `pylsp`                  |
 | Python                              | `pyright`                |
