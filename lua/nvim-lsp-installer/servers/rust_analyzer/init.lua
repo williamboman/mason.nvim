@@ -5,26 +5,28 @@ local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local Data = require "nvim-lsp-installer.data"
 
-local target = Data.coalesce(
-    Data.when(
+local coalesce, when = Data.coalesce, Data.when
+
+local target = coalesce(
+    when(
         platform.is_mac,
-        Data.coalesce(
-            Data.when(platform.arch == "arm64", "rust-analyzer-aarch64-apple-darwin.gz"),
-            Data.when(platform.arch == "x64", "rust-analyzer-x86_64-apple-darwin.gz")
+        coalesce(
+            when(platform.arch == "arm64", "rust-analyzer-aarch64-apple-darwin.gz"),
+            when(platform.arch == "x64", "rust-analyzer-x86_64-apple-darwin.gz")
         )
     ),
-    Data.when(
+    when(
         platform.is_linux,
-        Data.coalesce(
-            Data.when(platform.arch == "arm64", "rust-analyzer-aarch64-unknown-linux-gnu.gz"),
-            Data.when(platform.arch == "x64", "rust-analyzer-x86_64-unknown-linux-gnu.gz")
+        coalesce(
+            when(platform.arch == "arm64", "rust-analyzer-aarch64-unknown-linux-gnu.gz"),
+            when(platform.arch == "x64", "rust-analyzer-x86_64-unknown-linux-gnu.gz")
         )
     ),
-    Data.when(
+    when(
         platform.is_win,
-        Data.coalesce(
-            Data.when(platform.arch == "arm64", "rust-analyzer-aarch64-pc-windows-msvc.gz"),
-            Data.when(platform.arch == "x64", "rust-analyzer-x86_64-pc-windows-msvc.gz")
+        coalesce(
+            when(platform.arch == "arm64", "rust-analyzer-aarch64-pc-windows-msvc.gz"),
+            when(platform.arch == "x64", "rust-analyzer-x86_64-pc-windows-msvc.gz")
         )
     )
 )

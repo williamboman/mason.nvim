@@ -5,6 +5,8 @@ local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local Data = require "nvim-lsp-installer.data"
 
+local coalesce, when = Data.coalesce, Data.when
+
 return function(name, root_dir)
     return server.Server:new {
         name = name,
@@ -12,25 +14,22 @@ return function(name, root_dir)
         installer = {
             context.github_release_file("hashicorp/terraform-ls", function(version)
                 return Data.coalesce(
-                    Data.when(
+                    when(
                         platform.is_mac,
-                        Data.coalesce(
-                            Data.when(platform.arch == "arm64", "terraform-ls_%s_darwin_arm64.zip"),
-                            Data.when(platform.arch == "x64", "terraform-ls_%s_darwin_amd64.zip")
+                        coalesce(
+                            when(platform.arch == "arm64", "terraform-ls_%s_darwin_arm64.zip"),
+                            when(platform.arch == "x64", "terraform-ls_%s_darwin_amd64.zip")
                         )
                     ),
-                    Data.when(
+                    when(
                         platform.is_linux,
-                        Data.coalesce(
-                            Data.when(platform.arch == "arm64", "terraform-ls_%s_linux_arm64.zip"),
-                            Data.when(platform.arch == "arm", "terraform-ls_%s_linux_arm.zip"),
-                            Data.when(platform.arch == "x64", "terraform-ls_%s_linux_amd64.zip")
+                        coalesce(
+                            when(platform.arch == "arm64", "terraform-ls_%s_linux_arm64.zip"),
+                            when(platform.arch == "arm", "terraform-ls_%s_linux_arm.zip"),
+                            when(platform.arch == "x64", "terraform-ls_%s_linux_amd64.zip")
                         )
                     ),
-                    Data.when(
-                        platform.is_win,
-                        Data.coalesce(Data.when(platform.arch == "x64", "terraform-ls_%s_windows_amd64.zip"))
-                    )
+                    when(platform.is_win, coalesce(when(platform.arch == "x64", "terraform-ls_%s_windows_amd64.zip")))
                 ):format(version:gsub("^v", ""))
             end),
             context.capture(function(ctx)

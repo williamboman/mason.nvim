@@ -5,6 +5,8 @@ local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 
+local coalesce, when = Data.coalesce, Data.when
+
 return function(name, root_dir)
     return server.Server:new {
         name = name,
@@ -12,14 +14,14 @@ return function(name, root_dir)
         installer = {
             context.github_release_file(
                 "OmniSharp/omnisharp-roslyn",
-                Data.coalesce(
-                    Data.when(platform.is_mac, "omnisharp-osx.zip"),
-                    Data.when(platform.is_linux and platform.arch == "x64", "omnisharp-linux-x64.zip"),
-                    Data.when(
+                coalesce(
+                    when(platform.is_mac, "omnisharp-osx.zip"),
+                    when(platform.is_linux and platform.arch == "x64", "omnisharp-linux-x64.zip"),
+                    when(
                         platform.is_win,
-                        Data.coalesce(
-                            Data.when(platform.arch == "x64", "omnisharp-win-x64.zip"),
-                            Data.when(platform.arch == "arm64", "omnisharp-win-arm64.zip")
+                        coalesce(
+                            when(platform.arch == "x64", "omnisharp-win-x64.zip"),
+                            when(platform.arch == "arm64", "omnisharp-win-arm64.zip")
                         )
                     )
                 )
