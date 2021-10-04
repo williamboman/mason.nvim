@@ -1,4 +1,7 @@
+local Data = require("nvim-lsp-installer.data")
 local settings = require "nvim-lsp-installer.settings"
+
+local tbl_pack = Data.tbl_pack
 
 local config = {
     -- Name of the plugin. Prepended to log messages
@@ -128,9 +131,15 @@ do
         end
 
         -- log.lazy_info(expensive_to_calculate)
-        log[("lazy_%s"):format(x.name)] = function()
-            return log_at_level(x, function(f)
-                return f()
+        log[("lazy_%s"):format(x.name)] = function(f)
+            return log_at_level(x, function()
+                local passed = tbl_pack(f())
+                local fmt = table.remove(passed, 1)
+                local inspected = {}
+                for _, v in ipairs(passed) do
+                    table.insert(inspected, vim.inspect(v))
+                end
+                return string.format(fmt, unpack(inspected))
             end)
         end
 

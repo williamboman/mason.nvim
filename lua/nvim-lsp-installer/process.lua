@@ -1,6 +1,9 @@
 local log = require "nvim-lsp-installer.log"
+local Data = require "nvim-lsp-installer.data"
 local platform = require "nvim-lsp-installer.platform"
 local uv = vim.loop
+
+local list_any = Data.list_any
 
 local M = {}
 
@@ -41,14 +44,36 @@ function M.graft_env(env)
     return root_env
 end
 
+local function sanitize_env_list(env_list)
+    local sanitized_list = {}
+    for _, env in ipairs(env_list) do
+        local safe_envs = {
+            "GO111MODULE",
+            "GOBIN",
+            "GOPATH",
+            "PATH",
+            "GEM_HOME",
+            "GEM_PATH",
+        }
+        local is_safe_env = list_any(safe_envs, function(safe_env)
+            return env:find(safe_env .. "=") == 1
+        end)
+        if is_safe_env then
+            sanitized_list[#sanitized_list+1] = env
+        else
+            local idx = env:find "="
+            sanitized_list[#sanitized_list+1] = env:sub(1, idx) .. "=<redacted>"
+        end
+    end
+    return sanitized_list
+end
+
 function M.spawn(cmd, opts, callback)
     local stdin = uv.new_pipe(false)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
 
     local stdio = { stdin, stdout, stderr }
-
-    log.debug("Spawning", cmd, opts)
 
     local spawn_opts = {
         env = opts.env,
@@ -58,6 +83,11 @@ function M.spawn(cmd, opts, callback)
         detached = false,
         hide = true,
     }
+
+    log.lazy_debug(function()
+        local sanitized_env = sanitize_env_list(opts.env)
+        return "Spawning cmd=%s, args=%s, cwd=%s, env=%s", cmd, opts.args, opts.cwd, sanitized_env
+    end)
 
     local handle, pid
     handle, pid = uv.spawn(cmd, spawn_opts, function(exit_code, signal)

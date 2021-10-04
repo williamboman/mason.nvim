@@ -59,6 +59,15 @@ function Data.list_copy(list)
     return result
 end
 
+function Data.list_any(list, predicate)
+    for i = 1, #list do
+        if predicate(list[i]) then
+            return true
+        end
+    end
+    return false
+end
+
 function Data.json_decode(data)
     if vim.json and vim.json.decode then
         return vim.json.decode(data)
