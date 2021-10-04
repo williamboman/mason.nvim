@@ -1,4 +1,4 @@
-local Data = require("nvim-lsp-installer.data")
+local Data = require "nvim-lsp-installer.data"
 local settings = require "nvim-lsp-installer.settings"
 
 local tbl_pack = Data.tbl_pack

@@ -59,10 +59,10 @@ local function sanitize_env_list(env_list)
             return env:find(safe_env .. "=") == 1
         end)
         if is_safe_env then
-            sanitized_list[#sanitized_list+1] = env
+            sanitized_list[#sanitized_list + 1] = env
         else
             local idx = env:find "="
-            sanitized_list[#sanitized_list+1] = env:sub(1, idx) .. "=<redacted>"
+            sanitized_list[#sanitized_list + 1] = env:sub(1, idx) .. "=<redacted>"
         end
     end
     return sanitized_list
