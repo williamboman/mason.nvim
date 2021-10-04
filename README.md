@@ -3,9 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://asciinema.org/a/434365" target="_blank" rel="noopener">
-    <img src="https://user-images.githubusercontent.com/6705160/132266914-e0f89b07-35e2-45ff-a55e-560f612f8a45.gif" width="650" />
-  </a>
+    <img src="https://user-images.githubusercontent.com/6705160/135912610-9d7ac377-b3bc-4db5-b72c-aa987ae23da4.gif" width="650" />
 </p>
 
 ## About
