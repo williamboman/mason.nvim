@@ -53,9 +53,10 @@ function M.unzip_remote(url, dest)
 end
 
 function M.untar(file, opts)
-    opts = opts or {
+    local default_opts = {
         strip_components = 0,
     }
+    opts = vim.tbl_deep_extend("force", default_opts, opts or {})
     return installers.pipe {
         function(server, callback, context)
             process.spawn("tar", {

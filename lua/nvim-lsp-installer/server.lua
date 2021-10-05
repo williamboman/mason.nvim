@@ -1,5 +1,6 @@
 local dispatcher = require "nvim-lsp-installer.dispatcher"
 local fs = require "nvim-lsp-installer.fs"
+local log = require "nvim-lsp-installer.log"
 local installers = require "nvim-lsp-installer.installers"
 local servers = require "nvim-lsp-installer.servers"
 local status_win = require "nvim-lsp-installer.ui.status-win"
@@ -46,6 +47,7 @@ end
 
 function M.Server:setup(opts)
     if self._pre_setup then
+        log.fmt_debug("Calling pre_setup for server=%s", self.name)
         self._pre_setup()
     end
     -- We require the lspconfig server here in order to do it as late as possible.
@@ -55,6 +57,7 @@ function M.Server:setup(opts)
     if lsp_server then
         lsp_server.setup(vim.tbl_deep_extend("force", self._default_options, opts or {}))
         if self._post_setup then
+            log.fmt_debug("Calling post_setup for server=%s", self.name)
             self._post_setup()
         end
     else

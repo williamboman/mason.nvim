@@ -172,6 +172,7 @@ local DEFAULT_SETTINGS = {
 | Java                                | `jdtls`                  |
 | Jedi                                | `jedi_language_server`   |
 | Kotlin                              | `kotlin_language_server` |
+| LaTeX (unstable preview)            | `ltex`                   |
 | LaTeX                               | `texlab`                 |
 | Lua                                 | `sumneko_lua`            |
 | OCaml                               | `ocamlls`                |

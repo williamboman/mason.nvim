@@ -5,6 +5,8 @@ local context = require "nvim-lsp-installer.installers.context"
 local Data = require "nvim-lsp-installer.data"
 local platform = require "nvim-lsp-installer.platform"
 
+local coalesce, when = Data.coalesce, Data.when
+
 return function(name, root_dir)
     return server.Server:new {
         name = name,
@@ -15,10 +17,10 @@ return function(name, root_dir)
             },
             context.github_release_file(
                 "latex-lsp/texlab",
-                Data.coalesce(
-                    Data.when(platform.is_mac, "texlab-x86_64-macos.tar.gz"),
-                    Data.when(platform.is_linux, "texlab-x86_64-linux.tar.gz"),
-                    Data.when(platform.is_win, "texlab-x86_64-windows.tar.gz")
+                coalesce(
+                    when(platform.is_mac, "texlab-x86_64-macos.tar.gz"),
+                    when(platform.is_linux, "texlab-x86_64-linux.tar.gz"),
+                    when(platform.is_win, "texlab-x86_64-windows.tar.gz")
                 )
             ),
             context.capture(function(ctx)
