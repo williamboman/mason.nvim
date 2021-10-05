@@ -16,6 +16,12 @@ function M.rmrf(path)
     end
 end
 
+function M.rename(path, new_path)
+    assert_ownership(path)
+    assert_ownership(new_path)
+    return uv.fs_rename(path, new_path)
+end
+
 function M.mkdirp(path)
     assert_ownership(path)
     if vim.fn.mkdir(path, "p") ~= 1 then

@@ -171,6 +171,7 @@ local DEFAULT_SETTINGS = {
 | Jedi                                | `jedi_language_server`   |
 | Kotlin                              | `kotlin_language_server` |
 | LaTeX                               | `texlab`                 |
+| Lemminx (XML)                       | `lemminx`                |
 | Lua                                 | `sumneko_lua`            |
 | OCaml                               | `ocamlls`                |
 | PHP                                 | `intelephense`           |

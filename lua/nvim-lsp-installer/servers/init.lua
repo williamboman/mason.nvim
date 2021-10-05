@@ -67,6 +67,7 @@ local CORE_SERVERS = Data.set_of {
     "jedi_language_server",
     "jsonls",
     "kotlin_language_server",
+    "lemminx",
     "ocamlls",
     "omnisharp",
     "prismals",
