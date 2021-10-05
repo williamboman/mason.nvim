@@ -172,7 +172,6 @@ local DEFAULT_SETTINGS = {
 | Jedi                                | `jedi_language_server`   |
 | Kotlin                              | `kotlin_language_server` |
 | LaTeX                               | `texlab`                 |
-| Lemminx (XML)                       | `lemminx`                |
 | Lua                                 | `sumneko_lua`            |
 | OCaml                               | `ocamlls`                |
 | PHP                                 | `intelephense`           |
@@ -194,8 +193,9 @@ local DEFAULT_SETTINGS = {
 | Terraform [(docs)][tflint]          | `tflint`                 |
 | TypeScript [(docs)][tsserver]       | `tsserver`               |
 | VimL                                | `vimls`                  |
-| Volar (Vue)                         | `volar`                  |
+| Vue                                 | `volar`                  |
 | Vue                                 | `vuels`                  |
+| XML                                 | `lemminx`                |
 | YAML                                | `yamlls`                 |
 
 [eslintls]: ./lua/nvim-lsp-installer/servers/eslintls/README.md
