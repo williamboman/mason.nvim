@@ -192,6 +192,7 @@ local DEFAULT_SETTINGS = {
 | Terraform [(docs)][tflint]          | `tflint`                 |
 | TypeScript [(docs)][tsserver]       | `tsserver`               |
 | VimL                                | `vimls`                  |
+| Volar (Vue)                         | `volar`                  |
 | Vue                                 | `vuels`                  |
 | YAML                                | `yamlls`                 |
 

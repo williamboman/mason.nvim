@@ -89,6 +89,7 @@ local CORE_SERVERS = Data.set_of {
     "tflint",
     "tsserver",
     "vimls",
+    "volar",
     "vuels",
     "yamlls",
 }
