@@ -48,7 +48,7 @@ local function fetch(url, callback)
     process.attempt {
         jobs = job_variants,
         on_iterate = function()
-            log.debug("Flushing stdout/stderr buffers.")
+            log.debug "Flushing stdout/stderr buffers."
             stdio.buffers.stdout = {}
             stdio.buffers.stderr = {}
         end,

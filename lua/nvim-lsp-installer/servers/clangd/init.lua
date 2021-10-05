@@ -33,7 +33,7 @@ return function(name, root_dir)
                     }
                     local new_path = path.concat { server.root_dir, "clangd" }
                     context.stdio_sink.stdout(("Creating symlink from %s to %s\n"):format(executable, new_path))
-                    uv.fs_symlink(executable, new_path, function(err, success)
+                    uv.fs_symlink(executable, new_path, { dir = false, junction = false }, function(err, success)
                         if not success then
                             context.stdio_sink.stderr(tostring(err) .. "\n")
                             callback(false)
