@@ -52,11 +52,14 @@ function M.unzip_remote(url, dest)
     }
 end
 
-function M.untar(file)
+function M.untar(file, opts)
+    opts = opts or {
+        strip_components = 0,
+    }
     return installers.pipe {
         function(server, callback, context)
             process.spawn("tar", {
-                args = { "-xvf", file },
+                args = { "-xvf", file, "--strip-components", opts.strip_components },
                 cwd = server.root_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
@@ -65,11 +68,17 @@ function M.untar(file)
     }
 end
 
-function M.untargz_remote(url)
+function M.untarxz_remote(url, tar_opts)
+    return installers.pipe {
+        M.download_file(url, "archive.tar.xz"),
+        M.untar("archive.tar.xz", tar_opts),
+    }
+end
+
+function M.untargz_remote(url, tar_opts)
     return installers.pipe {
         M.download_file(url, "archive.tar.gz"),
-        M.gunzip "archive.tar.gz",
-        M.untar "archive.tar",
+        M.untar("archive.tar", tar_opts),
     }
 end
 

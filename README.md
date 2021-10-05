@@ -153,6 +153,7 @@ local DEFAULT_SETTINGS = {
 | Clojure                             | `clojure_lsp`            |
 | Deno                                | `denols`                 |
 | Diagnostic (general purpose server) | `diagnosticls`           |
+| Dlang                               | `serve_d`                |
 | Docker                              | `dockerls`               |
 | Dot                                 | `dotls`                  |
 | EFM (general purpose server)        | `efm`                    |

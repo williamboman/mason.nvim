@@ -79,6 +79,7 @@ local CORE_SERVERS = Data.set_of {
     "rescriptls",
     "rome",
     "rust_analyzer",
+    "serve_d",
     "solargraph",
     "sqlls",
     "sqls",
