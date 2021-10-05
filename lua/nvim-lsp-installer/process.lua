@@ -95,8 +95,8 @@ function M.spawn(cmd, opts, callback)
             }
     end)
 
-    local handle, pid
-    handle, pid = uv.spawn(cmd, spawn_opts, function(exit_code, signal)
+    local handle, pid_or_err
+    handle, pid_or_err = uv.spawn(cmd, spawn_opts, function(exit_code, signal)
         local successful = exit_code == 0 and signal == 0
         handle:close()
         if not stdin:is_closing() then
@@ -118,13 +118,17 @@ function M.spawn(cmd, opts, callback)
     end)
 
     if handle == nil then
-        log.error("Failed to spawn process", cmd, pid)
-        opts.stdio_sink.stderr(("Failed to spawn process cmd=%s pid=%s\n"):format(cmd, pid))
+        log.fmt_error("Failed to spawn process. cmd=%s, err=%s", cmd, pid_or_err)
+        if type(pid_or_err) == "string" and pid_or_err:find "ENOENT" == 1 then
+            opts.stdio_sink.stderr(("Could not find required executable %q in path.\n"):format(cmd))
+        else
+            opts.stdio_sink.stderr(("Failed to spawn process cmd=%s err=%s\n"):format(cmd, pid_or_err))
+        end
         callback(false)
         return nil, nil
     end
 
-    log.debug("Spawned with pid", pid)
+    log.debug("Spawned with pid", pid_or_err)
 
     stdout:read_start(connect_sink(stdout, opts.stdio_sink.stdout))
     stderr:read_start(connect_sink(stderr, opts.stdio_sink.stderr))
