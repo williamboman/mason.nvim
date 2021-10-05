@@ -18,23 +18,42 @@ local function fetch(url, callback)
             callback(("Failed to fetch url %q.\n%s"):format(url, stderr), nil)
         end
     end
-    if platform.is_unix then
-        process.spawn("wget", {
+
+    local job_variants = {
+        process.lazy_spawn("wget", {
             args = { "-nv", "-O", "-", url },
             stdio_sink = stdio.sink,
-        }, on_exit)
-    elseif platform.is_win then
-        local script = {
+        }),
+        process.lazy_spawn("curl", {
+            args = { "-fsSL", url },
+            stdio_sink = stdio.sink,
+        }),
+    }
+
+    if platform.is_win then
+        local ps_script = {
             "$ProgressPreference = 'SilentlyContinue'",
             ("Write-Output (iwr -Uri %q).Content"):format(url),
         }
-        process.spawn("powershell.exe", {
-            args = { "-Command", table.concat(script, ";") },
-            stdio_sink = stdio.sink,
-        }, on_exit)
-    else
-        error "Unexpected error: Unsupported OS."
+        table.insert(
+            job_variants,
+            1,
+            process.lazy_spawn("powershell.exe", {
+                args = { "-Command", table.concat(ps_script, ";") },
+                stdio_sink = stdio.sink,
+            })
+        )
     end
+
+    process.attempt {
+        jobs = job_variants,
+        on_iterate = function()
+            log.debug("Flushing stdout/stderr buffers.")
+            stdio.buffers.stdout = {}
+            stdio.buffers.stderr = {}
+        end,
+        on_finish = on_exit,
+    }
 end
 
 function M.github_release_file(repo, file)

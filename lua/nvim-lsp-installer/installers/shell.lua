@@ -49,10 +49,6 @@ function M.sh(raw_script, opts)
     }
 end
 
-function M.remote_bash(url, opts)
-    return M.bash(("wget -nv -O - %q | bash"):format(url), opts)
-end
-
 function M.cmd(raw_script, opts)
     local default_opts = {
         env = {},

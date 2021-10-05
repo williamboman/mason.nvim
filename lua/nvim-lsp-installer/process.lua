@@ -120,7 +120,7 @@ function M.spawn(cmd, opts, callback)
     if handle == nil then
         log.fmt_error("Failed to spawn process. cmd=%s, err=%s", cmd, pid_or_err)
         if type(pid_or_err) == "string" and pid_or_err:find "ENOENT" == 1 then
-            opts.stdio_sink.stderr(("Could not find required executable %q in path.\n"):format(cmd))
+            opts.stdio_sink.stderr(("Could not find executable %q in path.\n"):format(cmd))
         else
             opts.stdio_sink.stderr(("Failed to spawn process cmd=%s err=%s\n"):format(cmd, pid_or_err))
         end
@@ -213,6 +213,40 @@ function M.debounced(debounced_fn)
             last_arg = nil
         end)
     end
+end
+
+function M.lazy_spawn(cmd, opts)
+    return function(callback)
+        return M.spawn(cmd, opts, callback)
+    end
+end
+
+function M.attempt(opts)
+    local jobs, on_finish, on_iterate = opts.jobs, opts.on_finish, opts.on_iterate
+    if #jobs == 0 then
+        error "process.attempt(...) need at least one job."
+    end
+    local function spawn(idx)
+        jobs[idx](function(success)
+            if success then
+                -- this job succeeded. exit early
+                on_finish(true)
+            elseif jobs[idx + 1] then
+                -- iterate
+                if on_iterate then
+                    on_iterate()
+                end
+                log.debug "Previous job failed, attempting next."
+                spawn(idx + 1)
+            else
+                -- we exhausted all jobs without success
+                log.debug "All jobs failed."
+                on_finish(false)
+            end
+        end)
+    end
+
+    spawn(1)
 end
 
 return M

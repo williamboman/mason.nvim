@@ -9,11 +9,21 @@ local M = {}
 function M.download_file(url, out_file)
     return installers.when {
         unix = function(server, callback, context)
-            process.spawn("wget", {
-                args = { "-O", out_file, url },
-                cwd = server.root_dir,
-                stdio_sink = context.stdio_sink,
-            }, callback)
+            process.attempt {
+                jobs = {
+                    process.lazy_spawn("wget", {
+                        args = { "-nv", "-O", out_file, url },
+                        cwd = server.root_dir,
+                        stdio_sink = context.stdio_sink,
+                    }),
+                    process.lazy_spawn("curl", {
+                        args = { "-fsSL", "-o", out_file, url },
+                        cwd = server.root_dir,
+                        stdio_sink = context.stdio_sink,
+                    }),
+                },
+                on_finish = callback,
+            }
         end,
         win = shell.powershell(("iwr -Uri %q -OutFile %q"):format(url, out_file)),
     }
