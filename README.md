@@ -145,6 +145,7 @@ local DEFAULT_SETTINGS = {
 | Angular                             | `angularls`              |
 | Ansible                             | `ansiblels`              |
 | Bash                                | `bashls`                 |
+| Bicep                               | `bicep`                  |
 | C#                                  | `omnisharp`              |
 | C++                                 | `clangd`                 |
 | CMake                               | `cmake`                  |

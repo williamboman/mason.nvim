@@ -42,6 +42,7 @@ local CORE_SERVERS = Data.set_of {
     "angularls",
     "ansiblels",
     "bashls",
+    "bicep",
     "clangd",
     "clojure_lsp",
     "cmake",
