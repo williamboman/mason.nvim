@@ -78,7 +78,7 @@ end
 function M.untargz_remote(url, tar_opts)
     return installers.pipe {
         M.download_file(url, "archive.tar.gz"),
-        M.untar("archive.tar", tar_opts),
+        M.untar("archive.tar.gz", tar_opts),
     }
 end
 
