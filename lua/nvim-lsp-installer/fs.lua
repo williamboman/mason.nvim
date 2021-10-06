@@ -1,4 +1,5 @@
 local pathm = require "nvim-lsp-installer.path"
+local log = require "nvim-lsp-installer.log"
 
 local uv = vim.loop
 local M = {}
@@ -10,21 +11,26 @@ local function assert_ownership(path)
 end
 
 function M.rmrf(path)
+    log.debug("fs: rmrf", path)
     assert_ownership(path)
     if vim.fn.delete(path, "rf") ~= 0 then
+        log.debug "fs: rmrf failed"
         error(("rmrf: Could not remove directory %q."):format(path))
     end
 end
 
 function M.rename(path, new_path)
+    log.debug("fs: rename", path, new_path)
     assert_ownership(path)
     assert_ownership(new_path)
     uv.fs_rename(path, new_path)
 end
 
 function M.mkdirp(path)
+    log.debug("fs: mkdirp", path)
     assert_ownership(path)
     if vim.fn.mkdir(path, "p") ~= 1 then
+        log.debug "fs: mkdirp failed"
         error(("mkdirp: Could not create directory %q."):format(path))
     end
 end

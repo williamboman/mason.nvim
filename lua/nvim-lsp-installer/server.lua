@@ -110,6 +110,7 @@ function M.Server:install_attached(context, callback)
 end
 
 function M.Server:uninstall()
+    log.debug("Uninstalling server", self.name)
     if fs.dir_exists(self.root_dir) then
         fs.rmrf(self.root_dir)
     end
