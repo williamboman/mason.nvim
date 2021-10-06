@@ -26,12 +26,17 @@ Requires neovim `>= 0.5.0` and [nvim-lspconfig](https://github.com/neovim/nvim-l
 install all servers are:
 
 -   For Unix systems: bash(1), git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
--   For Windows systems: powershell, git, gzip, tar
+-   For Windows systems: powershell, git, tar, and [7zip](7zip) or [peazip](peazip) or [archiver](archiver) or [winzip](winzip)
 -   Node.js (LTS) & npm
 -   Python3 & pip3
 -   go
 -   javac
 -   Ruby & gem
+
+[7zip]: https://www.7-zip.org/
+[archiver]: https://github.com/mholt/archiver
+[peazip]: https://peazip.github.io/
+[winzip]: https://www.winzip.com/
 
 ### [Packer](https://github.com/wbthomason/packer.nvim)
 

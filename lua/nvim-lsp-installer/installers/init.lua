@@ -1,4 +1,5 @@
 local platform = require "nvim-lsp-installer.platform"
+local log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
 
 local M = {}
@@ -25,6 +26,37 @@ function M.pipe(installers)
             if not ok then
                 context.stdio_sink.stderr(tostring(err) .. "\n")
                 callback(false)
+            end
+        end
+
+        execute(1)
+    end
+end
+
+function M.first_successful(installers)
+    if #installers == 0 then
+        error "No installers to pipe."
+    end
+
+    return function(server, callback, context)
+        local function execute(idx)
+            log.fmt_trace("Executing installer idx=%d", idx)
+            local ok, err = pcall(installers[idx], server, function(success)
+                log.fmt_trace("Installer idx=%d on exit with success=%s", idx, success)
+                if not success and installers[idx + 1] then
+                    -- iterate
+                    execute(idx + 1)
+                else
+                    callback(success)
+                end
+            end, context)
+            if not ok then
+                context.stdio_sink.stderr(tostring(err) .. "\n")
+                if installers[idx + 1] then
+                    execute(idx + 1)
+                else
+                    callback(false)
+                end
             end
         end
 
@@ -64,7 +96,11 @@ function M.on(platform_table)
     return function(server, callback, context)
         local installer = get_by_platform(platform_table)
         if installer then
-            installer(server, callback, context)
+            if type(installer) == "function" then
+                installer(server, callback, context)
+            else
+                M.pipe(installer)(server, callback, context)
+            end
         else
             callback(true)
         end
@@ -76,7 +112,11 @@ function M.when(platform_table)
     return function(server, callback, context)
         local installer = get_by_platform(platform_table)
         if installer then
-            installer(server, callback, context)
+            if type(installer) == "function" then
+                installer(server, callback, context)
+            else
+                M.pipe(installer)(server, callback, context)
+            end
         else
             context.stdio_sink.stderr(
                 ("Current operating system is not yet supported for server %q.\n"):format(server.name)

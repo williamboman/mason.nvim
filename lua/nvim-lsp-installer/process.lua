@@ -62,7 +62,7 @@ local function sanitize_env_list(env_list)
             sanitized_list[#sanitized_list + 1] = env
         else
             local idx = env:find "="
-            sanitized_list[#sanitized_list + 1] = env:sub(1, idx) .. "=<redacted>"
+            sanitized_list[#sanitized_list + 1] = env:sub(1, idx) .. "<redacted>"
         end
     end
     return sanitized_list
@@ -115,6 +115,8 @@ function M.spawn(cmd, opts, callback)
             check:stop()
             callback(successful)
         end)
+
+        log.fmt_debug("Job pid=%s exited with exit_code=%s, signal=%s", pid_or_err, exit_code, signal)
     end)
 
     if handle == nil then
@@ -137,29 +139,31 @@ function M.spawn(cmd, opts, callback)
 end
 
 function M.chain(opts)
-    local stack = {}
+    local jobs = {}
     return {
         run = function(cmd, args)
-            stack[#stack + 1] = { cmd = cmd, args = args }
+            jobs[#jobs + 1] = M.lazy_spawn(
+                cmd,
+                vim.tbl_deep_extend("force", opts, {
+                    args = args,
+                })
+            )
         end,
         spawn = function(callback)
             local function execute(idx)
-                local item = stack[idx]
-                M.spawn(
-                    item.cmd,
-                    vim.tbl_deep_extend("force", opts, {
-                        args = item.args,
-                    }),
-                    function(successful)
-                        if successful and stack[idx + 1] then
-                            -- iterate
-                            execute(idx + 1)
-                        else
-                            -- we done
-                            callback(successful)
-                        end
+                local ok, err = pcall(jobs[idx], function(successful)
+                    if successful and jobs[idx + 1] then
+                        -- iterate
+                        execute(idx + 1)
+                    else
+                        -- we done
+                        callback(successful)
                     end
-                )
+                end)
+                if not ok then
+                    log.fmt_error("Chained job failed to execute. Error=%s", tostring(err))
+                    callback(false)
+                end
             end
 
             execute(1)
@@ -226,24 +230,36 @@ function M.attempt(opts)
     if #jobs == 0 then
         error "process.attempt(...) need at least one job."
     end
-    local function spawn(idx)
-        jobs[idx](function(success)
-            if success then
-                -- this job succeeded. exit early
-                on_finish(true)
-            elseif jobs[idx + 1] then
-                -- iterate
-                if on_iterate then
-                    on_iterate()
-                end
-                log.debug "Previous job failed, attempting next."
-                spawn(idx + 1)
-            else
-                -- we exhausted all jobs without success
-                log.debug "All jobs failed."
-                on_finish(false)
+
+    local spawn, on_job_exit
+
+    on_job_exit = function(cur_idx, success)
+        if success then
+            -- this job succeeded. exit early
+            on_finish(true)
+        elseif jobs[cur_idx + 1] then
+            -- iterate
+            if on_iterate then
+                on_iterate()
             end
+            log.debug "Previous job failed, attempting next."
+            spawn(cur_idx + 1)
+        else
+            -- we exhausted all jobs without success
+            log.debug "All jobs failed."
+            on_finish(false)
+        end
+    end
+
+    spawn = function(idx)
+        local ok, err = pcall(jobs[idx], function(success)
+            on_job_exit(idx, success)
         end)
+        if not ok then
+            log.fmt_error("Job failed to execute. Error=%s", tostring(err))
+            on_job_exit(idx, false)
+            on_finish(false)
+        end
     end
 
     spawn(1)

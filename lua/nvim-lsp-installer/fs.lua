@@ -19,7 +19,7 @@ end
 function M.rename(path, new_path)
     assert_ownership(path)
     assert_ownership(new_path)
-    return uv.fs_rename(path, new_path)
+    uv.fs_rename(path, new_path)
 end
 
 function M.mkdirp(path)
