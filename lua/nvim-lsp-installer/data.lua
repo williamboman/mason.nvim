@@ -59,6 +59,17 @@ function Data.list_copy(list)
     return result
 end
 
+function Data.list_find_first(list, predicate)
+    local result
+    for i = 1, #list do
+        local entry = list[i]
+        if predicate(entry) then
+            return entry
+        end
+    end
+    return result
+end
+
 function Data.list_any(list, predicate)
     for i = 1, #list do
         if predicate(list[i]) then
