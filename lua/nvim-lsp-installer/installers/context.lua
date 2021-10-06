@@ -33,7 +33,7 @@ local function fetch(url, callback)
     if platform.is_win then
         local ps_script = {
             "$ProgressPreference = 'SilentlyContinue'",
-            ("Write-Output (iwr -Uri %q).Content"):format(url),
+            ("Write-Output (iwr -UseBasicParsing -Uri %q).Content"):format(url),
         }
         table.insert(
             job_variants,

@@ -25,7 +25,7 @@ function M.download_file(url, out_file)
                 on_finish = callback,
             }
         end,
-        win = shell.powershell(("iwr -Uri %q -OutFile %q"):format(url, out_file)),
+        win = shell.powershell(("iwr -UseBasicParsing -Uri %q -OutFile %q"):format(url, out_file)),
     }
 end
 
