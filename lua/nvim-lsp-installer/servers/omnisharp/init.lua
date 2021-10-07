@@ -33,7 +33,7 @@ return function(name, root_dir)
         },
         default_options = {
             cmd = {
-                platform.is_win and path.concat { root_dir, "OmniSharp.exe" } or path.concat {
+                platform.is_win and path.concat { root_dir, "omnisharp", "OmniSharp.exe" } or path.concat {
                     root_dir,
                     "omnisharp",
                     "run",
