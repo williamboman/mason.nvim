@@ -43,7 +43,7 @@ return function(name, root_dir)
             std.rename(
                 platform.is_win and ("%s.exe"):format(unzipped_file) or unzipped_file,
                 platform.is_win and "lemminx.exe" or "lemminx"
-            )
+            ),
         },
         default_options = {
             cmd = { path.concat { root_dir, "lemminx" } },

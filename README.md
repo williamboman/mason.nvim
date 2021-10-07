@@ -182,6 +182,7 @@ local DEFAULT_SETTINGS = {
 | Lua                                 | `sumneko_lua`            |
 | OCaml                               | `ocamlls`                |
 | PHP                                 | `intelephense`           |
+| PHP                                 | `phpactor`               |
 | Prisma                              | `prismals`               |
 | Puppet                              | `puppet`                 |
 | PureScript                          | `purescriptls`           |

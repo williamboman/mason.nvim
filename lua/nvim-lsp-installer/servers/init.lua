@@ -72,6 +72,7 @@ local CORE_SERVERS = Data.set_of {
     "ltex",
     "ocamlls",
     "omnisharp",
+    "phpactor",
     "prismals",
     "puppet",
     "purescriptls",
