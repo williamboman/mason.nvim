@@ -194,6 +194,7 @@ local DEFAULT_SETTINGS = {
 | Rust                                | `rust_analyzer`          |
 | SQL                                 | `sqlls`                  |
 | SQL                                 | `sqls`                   |
+| Solang Solidity                     | `solang`                 |
 | Stylelint                           | `stylelint_lsp`          |
 | Svelte                              | `svelte`                 |
 | Tailwind CSS                        | `tailwindcss`            |
