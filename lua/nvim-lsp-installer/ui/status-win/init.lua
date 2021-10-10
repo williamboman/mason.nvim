@@ -145,10 +145,6 @@ local function ServerMetadata(server)
             { "path", "LspInstallerMuted" },
             { server.metadata.install_dir, "" },
         }),
-        Data.when(server.is_installed, {
-            { "startup command", "LspInstallerMuted" },
-            { server.metadata.cmd, "" },
-        }),
         {
             { "homepage", "LspInstallerMuted" },
             { server.metadata.homepage or "-", "" },
@@ -341,7 +337,6 @@ local function create_initial_server_state(server)
         name = server.name,
         is_installed = server:is_installed(),
         metadata = {
-            cmd = table.concat(server._default_options.cmd, " "),
             homepage = server.homepage,
             install_timestamp_seconds = nil, -- lazy
             install_dir = server.root_dir,
