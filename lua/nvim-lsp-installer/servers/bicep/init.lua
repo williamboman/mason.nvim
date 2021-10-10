@@ -7,6 +7,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/Azure/bicep",
         installer = {
             std.ensure_executables {
                 { "dotnet", "dotnet is required to run the bicep language server." },

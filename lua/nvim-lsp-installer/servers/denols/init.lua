@@ -11,6 +11,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://deno.land/x/deno/cli/lsp",
         installer = {
             context.github_release_file(
                 "denoland/deno",

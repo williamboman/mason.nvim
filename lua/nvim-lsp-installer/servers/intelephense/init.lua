@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://intelephense.com",
         installer = npm.packages { "intelephense" },
         default_options = {
             cmd = { npm.executable(root_dir, "intelephense"), "--stdio" },

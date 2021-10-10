@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/sveltejs/language-tools",
         installer = npm.packages { "svelte-language-server" },
         default_options = {
             cmd = { npm.executable(root_dir, "svelteserver"), "--stdio" },

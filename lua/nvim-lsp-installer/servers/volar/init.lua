@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/johnsoncodehk/volar",
         installer = npm.packages { "@volar/server" },
         default_options = {
             cmd = { npm.executable(root_dir, "volar-server"), "--stdio" },

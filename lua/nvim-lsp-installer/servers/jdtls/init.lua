@@ -42,6 +42,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/eclipse/eclipse.jdt.ls",
         installer = {
             context.capture(function(ctx)
                 local version = ctx.requested_server_version or "latest"

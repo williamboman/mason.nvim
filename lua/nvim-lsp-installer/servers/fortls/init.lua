@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/hansec/fortran-language-server",
         installer = pip3.packages { "fortran-language-server" },
         default_options = {
             cmd = { pip3.executable(root_dir, "fortls") },

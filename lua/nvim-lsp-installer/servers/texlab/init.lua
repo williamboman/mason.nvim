@@ -11,6 +11,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/latex-lsp/texlab",
         installer = {
             std.ensure_executables {
                 { "pdflatex", "A TeX distribution is not installed. Refer to https://www.latex-project.org/get/." },

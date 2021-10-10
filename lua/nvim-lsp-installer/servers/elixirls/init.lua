@@ -7,6 +7,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/elixir-lsp/elixir-ls",
         installer = {
             context.github_release_file("elixir-lsp/elixir-ls", "elixir-ls.zip"),
             context.capture(function(ctx)

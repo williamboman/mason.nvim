@@ -18,6 +18,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://angular.io/guide/language-service",
         installer = npm.packages { "@angular/language-server" },
         default_options = {
             cmd = {

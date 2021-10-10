@@ -12,6 +12,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://clangd.llvm.org",
         installer = {
             context.github_release_file("clangd/clangd", function(version)
                 return Data.coalesce(

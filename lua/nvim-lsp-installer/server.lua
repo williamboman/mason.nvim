@@ -17,6 +17,9 @@ M.Server.__index = M.Server
 --@param opts table
 -- @field name (string)                  The name of the LSP server. This MUST correspond with lspconfig's naming.
 --
+-- @field homepage (string)              A URL to the homepage of this server. This is for example where users can
+--                                       report issues and receive support.
+--
 -- @field installer (function)           The function that installs the LSP (see the .installers module). The function signature should be `function (server, callback)`, where
 --                                       `server` is the Server instance being installed, and `callback` is a function that must be called upon completion. The `callback` function
 --                                       has the signature `function (success, result)`, where `success` is a boolean and `result` is of any type (similar to `pcall`).
@@ -37,6 +40,7 @@ function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
         root_dir = opts.root_dir,
+        homepage = opts.homepage,
         _root_dir = opts.root_dir, -- @deprecated Use the `root_dir` property instead.
         _installer = type(opts.installer) == "function" and opts.installer or installers.pipe(opts.installer),
         _default_options = opts.default_options,

@@ -11,6 +11,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://haskell-language-server.readthedocs.io/en/latest/",
         installer = {
             context.github_release_file("haskell/haskell-language-server", function(version)
                 return Data.coalesce(

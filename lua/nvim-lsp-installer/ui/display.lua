@@ -3,6 +3,20 @@ local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
 local state = require "nvim-lsp-installer.ui.state"
 
+local M = {}
+
+local function from_hex(str)
+    return (str:gsub("..", function(cc)
+        return string.char(tonumber(cc, 16))
+    end))
+end
+
+local function to_hex(str)
+    return (str:gsub(".", function(c)
+        return string.format("%02X", string.byte(c))
+    end))
+end
+
 local function get_styles(line, render_context)
     local indentation = 0
 
@@ -29,11 +43,13 @@ local function render_node(context, node, _render_context, _output)
         context = context,
         applied_block_styles = {},
     }
-    local output = _output or {
-        lines = {},
-        virt_texts = {},
-        highlights = {},
-    }
+    local output = _output
+        or {
+            lines = {},
+            virt_texts = {},
+            highlights = {},
+            keybinds = {},
+        }
 
     if node.type == Ui.NodeType.VIRTUAL_TEXT then
         output.virt_texts[#output.virt_texts + 1] = {
@@ -81,6 +97,13 @@ local function render_node(context, node, _render_context, _output)
         if node.type == Ui.NodeType.CASCADING_STYLE then
             render_context.applied_block_styles[#render_context.applied_block_styles] = nil
         end
+    elseif node.type == Ui.NodeType.KEYBIND_HANDLER then
+        output.keybinds[#output.keybinds + 1] = {
+            line = node.is_global and -1 or #output.lines,
+            key = node.key,
+            effect = node.effect,
+            payload = node.payload,
+        }
     end
 
     return output
@@ -102,9 +125,34 @@ local function create_popup_window_opts()
     return popup_layout
 end
 
-local M = {}
-
+local registered_effect_handlers_by_bufnr = {}
+local active_keybinds_by_bufnr = {}
+local registered_keymaps_by_bufnr = {}
 local redraw_by_win_id = {}
+
+local function call_effect_handler(bufnr, line, key)
+    local line_keybinds = active_keybinds_by_bufnr[bufnr][line]
+    if line_keybinds then
+        local keybind = line_keybinds[key]
+        if keybind then
+            local effect_handler = registered_effect_handlers_by_bufnr[bufnr][keybind.effect]
+            if effect_handler then
+                log.fmt_trace("Calling handler for effect %s on line %d for key %s", keybind.effect, line, key)
+                effect_handler { payload = keybind.payload }
+                return true
+            end
+        end
+    end
+    return false
+end
+
+M.dispatch_effect = vim.schedule_wrap(function(bufnr, hex_key)
+    local key = from_hex(hex_key)
+    local line = vim.api.nvim_win_get_cursor(0)[1]
+    log.fmt_trace("Dispatching effect on line %d, key %s, bufnr %s", line, key, bufnr)
+    call_effect_handler(bufnr, line, key) -- line keybinds
+    call_effect_handler(bufnr, -1, key) -- global keybinds
+end)
 
 function M.redraw_win(win_id)
     local fn = redraw_by_win_id[win_id]
@@ -129,6 +177,15 @@ function M.delete_win_buf(win_id, bufnr)
         if redraw_by_win_id[win_id] then
             redraw_by_win_id[win_id] = nil
         end
+        if active_keybinds_by_bufnr[bufnr] then
+            active_keybinds_by_bufnr[bufnr] = nil
+        end
+        if registered_effect_handlers_by_bufnr[bufnr] then
+            registered_effect_handlers_by_bufnr[bufnr] = nil
+        end
+        if registered_keymaps_by_bufnr[bufnr] then
+            registered_keymaps_by_bufnr[bufnr] = nil
+        end
     end)
 end
 
@@ -142,6 +199,10 @@ function M.new_view_only_win(name)
         local highlight_groups = opts.highlight_groups
         bufnr = vim.api.nvim_create_buf(false, true)
         win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts())
+
+        registered_effect_handlers_by_bufnr[bufnr] = {}
+        active_keybinds_by_bufnr[bufnr] = {}
+        registered_keymaps_by_bufnr[bufnr] = {}
 
         local buf_opts = {
             modifiable = false,
@@ -185,8 +246,6 @@ function M.new_view_only_win(name)
             ):format(win_id, bufnr)
         )
 
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<esc>", "<cmd>bd<CR>", { noremap = true })
-
         if highlight_groups then
             for i = 1, #highlight_groups do
                 vim.cmd(highlight_groups[i])
@@ -214,8 +273,10 @@ function M.new_view_only_win(name)
             win_width = win_width,
         }
         local output = render_node(context, view)
-        local lines, virt_texts, highlights = output.lines, output.virt_texts, output.highlights
+        local lines, virt_texts, highlights, keybinds =
+            output.lines, output.virt_texts, output.highlights, output.keybinds
 
+        -- set line contents
         vim.api.nvim_buf_clear_namespace(0, namespace, 0, -1)
         vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
         vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
@@ -227,6 +288,8 @@ function M.new_view_only_win(name)
                 virt_text = virt_text.content,
             })
         end
+
+        -- set highlights
         for i = 1, #highlights do
             local highlight = highlights[i]
             vim.api.nvim_buf_add_highlight(
@@ -237,6 +300,32 @@ function M.new_view_only_win(name)
                 highlight.col_start,
                 highlight.col_end
             )
+        end
+
+        -- set keybinds
+        local buf_keybinds = {}
+        active_keybinds_by_bufnr[bufnr] = buf_keybinds
+        for i = 1, #keybinds do
+            local keybind = keybinds[i]
+            if not buf_keybinds[keybind.line] then
+                buf_keybinds[keybind.line] = {}
+            end
+            buf_keybinds[keybind.line][keybind.key] = keybind
+            if not registered_keymaps_by_bufnr[bufnr][keybind.key] then
+                vim.api.nvim_buf_set_keymap(
+                    bufnr,
+                    "n",
+                    keybind.key,
+                    ("<cmd>lua require('nvim-lsp-installer.ui.display').dispatch_effect(%d, %q)<cr>"):format(
+                        bufnr,
+                        -- We transfer the keybinding as hex to avoid issues with (neo)vim interpreting the key as a
+                        -- literal input to the command. For example, "<CR>" would cause vim to issue an actual carriage
+                        -- return - even if it's quoted as a string.
+                        to_hex(keybind.key)
+                    ),
+                    { nowait = true, silent = true, noremap = true }
+                )
+            end
         end
     end)
 
@@ -267,6 +356,7 @@ function M.new_view_only_win(name)
             unsubscribe(false)
             local opened_win_id = open(opts)
             draw(renderer(get_state()))
+            registered_effect_handlers_by_bufnr[bufnr] = opts.effects
             redraw_by_win_id[opened_win_id] = function()
                 if vim.api.nvim_win_is_valid(opened_win_id) then
                     draw(renderer(get_state()))
@@ -274,16 +364,19 @@ function M.new_view_only_win(name)
                 end
             end
         end),
-        -- This is probably not needed.
-        -- destroy = vim.schedule_wrap(function()
-        --     assert(has_initiated, "Display has not been initiated, cannot destroy.")
-        --     TODO: what happens with the state container, etc?
-        --     unsubscribe(true)
-        --     redraw_by_winnr[win_id] = nil
-        --     if win_id then
-        --         vim.api.nvim_win_close(win_id, true)
-        --     end
-        -- end),
+        close = vim.schedule_wrap(function()
+            assert(has_initiated, "Display has not been initiated, cannot close.")
+            unsubscribe(true)
+            M.delete_win_buf(win_id, bufnr)
+        end),
+        set_cursor = function(pos)
+            assert(win_id ~= nil, "Window has not been opened, cannot set cursor.")
+            return vim.api.nvim_win_set_cursor(win_id, pos)
+        end,
+        get_cursor = function()
+            assert(win_id ~= nil, "Window has not been opened, cannot get cursor.")
+            return vim.api.nvim_win_get_cursor(win_id)
+        end,
     }
 end
 

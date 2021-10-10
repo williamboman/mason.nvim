@@ -14,6 +14,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://valentjn.github.io/vscode-ltex",
         installer = {
             context.github_release_file("valentjn/ltex-ls", function(version)
                 return coalesce(

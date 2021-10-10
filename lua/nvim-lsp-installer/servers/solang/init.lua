@@ -47,6 +47,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://solang.readthedocs.io/en/latest/",
         installer = {
             solang_executable_installer,
             llvm_installer,

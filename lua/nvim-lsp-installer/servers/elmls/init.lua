@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/elm-tooling/elm-language-server",
         installer = npm.packages { "@elm-tooling/elm-language-server", "elm", "elm-test", "elm-format" },
         default_options = {
             cmd = { npm.executable(root_dir, "elm-language-server") },

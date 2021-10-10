@@ -23,6 +23,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://github.com/terraform-linters/tflint",
         installer = {
             context.github_release_file("terraform-linters/tflint", target),
             context.capture(function(ctx)
