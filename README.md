@@ -16,8 +16,7 @@ On top of just providing commands for installing & uninstalling LSP servers, it:
 -   provides a graphical UI
 -   optimized for blazing fast startup times
 -   supports installing custom versions of LSP servers (for example `:LspInstall rust_analyzer@nightly`)
--   provides configurations for servers that aren't supported by nvim-lspconfig (`eslint`)
--   common install tasks are abstracted behind Lua APIs (has direct integration with libuv via vim.loop)
+-   common install tasks are abstracted behind composable Lua APIs (has direct integration with libuv via vim.loop)
 -   <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20"> full support for Windows
 
 ## Installation
@@ -26,7 +25,7 @@ Requires neovim `>= 0.5.0` and [nvim-lspconfig](https://github.com/neovim/nvim-l
 install all servers are:
 
 -   For Unix systems: bash(1), git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
--   For Windows systems: powershell, git, tar, and [7zip](7zip) or [peazip](peazip) or [archiver](archiver) or [winzip](winzip)
+-   For Windows systems: powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip]
 -   Node.js (LTS) & npm
 -   Python3 & pip3
 -   go
