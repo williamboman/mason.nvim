@@ -22,7 +22,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/zigtools/zls",
         installer = {
-            context.github_release_file("zigtools/zls", ("%s.tar.xz"):format(archive_name)),
+            context.github_release_file("zigtools/zls", archive_name and ("%s.tar.xz"):format(archive_name)),
             context.capture(function(ctx)
                 return std.untarxz_remote(ctx.github_release_file)
             end),
