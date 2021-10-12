@@ -17,7 +17,7 @@ return function(name, root_dir)
             context.github_release_file("clangd/clangd", function(version)
                 return Data.coalesce(
                     Data.when(platform.is_mac, "clangd-mac-%s.zip"),
-                    Data.when(platform.is_linux, "clangd-linux-%s.zip"),
+                    Data.when(platform.is_linux and platform.arch == "x64", "clangd-linux-%s.zip"),
                     Data.when(platform.is_win, "clangd-windows-%s.zip")
                 ):format(version)
             end),
