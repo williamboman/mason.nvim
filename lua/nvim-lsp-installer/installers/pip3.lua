@@ -9,11 +9,14 @@ local M = {}
 
 local REL_INSTALL_DIR = "venv"
 
-function M.packages(packages)
+local function create_installer(python_executable, pip_executable, packages)
     return installers.pipe {
         std.ensure_executables {
-            { "python3", "python3 was not found in path. Refer to https://www.python.org/downloads/." },
-            { "pip3", "pip3 was not found in path." },
+            {
+                python_executable,
+                ("%s was not found in path. Refer to https://www.python.org/downloads/."):format(python_executable),
+            },
+            { pip_executable, ("%s was not found in path."):format(pip_executable) },
         },
         function(server, callback, context)
             local pkgs = Data.list_copy(packages or {})
@@ -22,16 +25,22 @@ function M.packages(packages)
                 stdio_sink = context.stdio_sink,
             }
 
-            c.run("python3", { "-m", "venv", REL_INSTALL_DIR })
+            c.run(python_executable, { "-m", "venv", REL_INSTALL_DIR })
             if context.requested_server_version then
                 -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
                 pkgs[1] = ("%s==%s"):format(pkgs[1], context.requested_server_version)
             end
-            c.run(M.executable(server.root_dir, "pip3"), vim.list_extend({ "install", "-U" }, pkgs))
+            c.run(M.executable(server.root_dir, pip_executable), vim.list_extend({ "install", "-U" }, pkgs))
 
             c.spawn(callback)
         end,
     }
+end
+
+function M.packages(packages)
+    local py3 = create_installer("python3", "pip3", packages)
+    local py = create_installer("python", "pip", packages)
+    return installers.first_successful(platform.is_win and { py, py3 } or { py3, py }) -- see https://github.com/williamboman/nvim-lsp-installer/issues/128
 end
 
 function M.executable(root_dir, executable)
