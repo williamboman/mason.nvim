@@ -50,6 +50,10 @@ local function Help(is_current_settings_expanded)
 
     return Ui.Node {
         Ui.EmptyLine(),
+        Ui.HlTextNode {
+            { { "Installer log: ", "LspInstallerMuted" }, { log.outfile, "" } },
+        },
+        Ui.EmptyLine(),
         Ui.Table(vim.list_extend(
             {
                 {
