@@ -140,6 +140,7 @@ require("nvim-lsp-installer").settings {
 | Elm                                 | `elmls`                  |
 | Ember                               | `ember`                  |
 | Emmet                               | `emmet_ls`               |
+| Erlang                              | `erlangls`              |
 | Fortran                             | `fortls`                 |
 | Go                                  | `gopls`                  |
 | GraphQL                             | `graphql`                |

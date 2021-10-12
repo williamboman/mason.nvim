@@ -56,6 +56,7 @@ local CORE_SERVERS = Data.set_of {
     "elmls",
     "ember",
     "emmet_ls",
+    "erlangls",
     "eslintls",
     "fortls",
     "gopls",

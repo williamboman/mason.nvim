@@ -1,6 +1,7 @@
 local Data = require "nvim-lsp-installer.data"
 local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
+local installers = require "nvim-lsp-installer.installers"
 local platform = require "nvim-lsp-installer.platform"
 
 local M = {}
@@ -56,34 +57,12 @@ local function fetch(url, callback)
     }
 end
 
-function M.github_release_file(repo, file)
+function M.latest_github_release(repo)
     return function(server, callback, context)
-        local function get_download_url(version)
-            local target_file = type(file) == "function" and file(version) or file
-            if not target_file then
-                log.fmt_error(
-                    "Unable to find which release file to download. server_name=%s, repo=%s",
-                    server.name,
-                    repo
-                )
-                context.stdio_sink.stderr(
-                    (
-                        "Could not find which release file to download. Most likely, the current operating system or architecture (%s) is not supported.\n"
-                    ):format(platform.arch)
-                )
-                return nil
-            end
-
-            return ("https://github.com/%s/releases/download/%s/%s"):format(repo, version, target_file)
-        end
+        context.github_repo = repo
         if context.requested_server_version then
             -- User has already provided a version - don't fetch the latest version from GitHub
-            local download_url = get_download_url(context.requested_server_version)
-            if not download_url then
-                return callback(false)
-            end
-            context.github_release_file = download_url
-            callback(true)
+            return callback(true)
         else
             context.stdio_sink.stdout "Fetching latest release version from GitHub API...\n"
             fetch(
@@ -94,18 +73,46 @@ function M.github_release_file(repo, file)
                         return callback(false)
                     end
                     local version = Data.json_decode(response).tag_name
-                    log.debug("Resolved latest version", server.name, version)
+                    log.debug("Resolved latest version", server.name, repo, version)
                     context.requested_server_version = version
-                    local download_url = get_download_url(version)
-                    if not download_url then
-                        return callback(false)
-                    end
-                    context.github_release_file = download_url
                     callback(true)
                 end)
             )
         end
     end
+end
+
+function M.github_release_file(repo, file)
+    return installers.pipe {
+        M.latest_github_release(repo),
+        function(server, callback, context)
+            local function get_download_url(version)
+                local target_file = type(file) == "function" and file(version) or file
+                if not target_file then
+                    log.fmt_error(
+                        "Unable to find which release file to download. server_name=%s, repo=%s",
+                        server.name,
+                        repo
+                    )
+                    context.stdio_sink.stderr(
+                        (
+                            "Could not find which release file to download. Most likely, the current operating system or architecture (%s) is not supported.\n"
+                        ):format(platform.arch)
+                    )
+                    return nil
+                end
+
+                return ("https://github.com/%s/releases/download/%s/%s"):format(repo, version, target_file)
+            end
+
+            local download_url = get_download_url(context.requested_server_version)
+            if not download_url then
+                return callback(false)
+            end
+            context.github_release_file = download_url
+            callback(true)
+        end,
+    }
 end
 
 function M.capture(fn)
