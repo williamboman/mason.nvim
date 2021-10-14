@@ -7,14 +7,29 @@ Author: William Boman <william@redwill.se>
 ==============================================================================
 INTRODUCTION                                *nvim-lsp-installer-introduction*
 
-Semi-opinionated companion plugin for nvim-lspconfig. It comes with all
-batteries included, or at least to the extent possible.
+Companion plugin for nvim-lspconfig (https://github.com/neovim/nvim-lspconfig)
+that allows you to seamlessly install LSP servers locally (inside `:echo stdpath("data")`).
 
-Requires neovim `>= 0.5.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
-The full requirements to install all servers are:
+On top of just providing commands for installing & uninstalling LSP servers, it:
 
--   For Unix systems: bash(1), git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
--   For Windows systems: powershell, git, gzip, tar, and 7zip or peazip or archiver or winzip
+-   provides a graphical UI
+-   optimized for blazing fast startup times
+-   supports installing custom versions of LSP servers (for example
+    `:LspInstall rust_analyzer@nightly`)
+-   common install tasks are abstracted behind composable Lua APIs (has direct
+    integration with libuv via vim.loop)
+-   minimum requirements are relaxed by attempting multiple different
+    utilities (for example, only one of `wget`, `curl`, or `Invoke-WebRequest`
+    is required for HTTP requests)
+-   full support for Windows
+
+Requires neovim `>= 0.5.0` and nvim-lspconfig. The full requirements to
+install all servers are:
+
+-   For Unix systems: bash(1), git(1), curl(1) or wget(1), unzip(1), tar(1),
+    gzip(1)
+-   For Windows systems: powershell, git, gzip, tar, and 7zip or peazip or
+    archiver or winzip
 -   Node.js (LTS) & npm
 -   Python3 & pip3
 -   go
@@ -138,7 +153,7 @@ The following settings are applied by default. >
 		icons = {
 		    -- The list icon to use for installed servers.
 		    server_installed = "◍",
-		    -- The list icon to use for servers that are pending installation.
+            -- The list icon to use for servers that are pending installation.
 		    server_pending = "◍",
 		    -- The list icon to use for servers that are not installed.
 		    server_uninstalled = "◍",
@@ -205,20 +220,19 @@ uninstall({server_name})
 
                                        *nvim-lsp-installer.on_server_ready()*
 on_server_ready({cb})
-        Registers a callback to be executed each time a server is
-        ready to be initiated.
+        Registers a callback to be executed each time a server is ready to be
+        initiated.
 
-        When called, all currently installed servers will be
-        considered ready to be initiated and will each
-        individually be invoked on {cb}.
+        When called, all currently installed servers will be considered ready
+        to be initiated and will each individually be invoked on {cb}.
 
         Parameters: ~
             {cb} (function) Function to be invoked when a server is ready to
             be initiated.
 
         Return: ~
-            Returns a function which when called will de-register the
-            cb} from any future dispatches.
+            Returns a function which when called will de-register the {cb}
+            from any future dispatches.
 
 ==============================================================================
 Lua module: nvim-lsp-installer.servers           *nvim-lsp-installer.servers*
