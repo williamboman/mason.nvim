@@ -138,21 +138,40 @@ local function get_relative_install_time(time)
 end
 
 local function ServerMetadata(server)
-    return Ui.Table(Data.list_not_nil(
-        Data.lazy(server.metadata.install_timestamp_seconds, function()
-            return {
-                { "last updated", "LspInstallerMuted" },
-                { get_relative_install_time(server.metadata.install_timestamp_seconds), "" },
-            }
+    return Ui.Node(Data.list_not_nil(
+        Data.lazy(server.is_installed and server.deprecated, function()
+            return Ui.Node(Data.list_not_nil(
+                Ui.HlTextNode { server.deprecated.message, "Comment" },
+                Data.lazy(server.deprecated.replace_with, function()
+                    return Ui.Node {
+                        Ui.HlTextNode {
+                            {
+                                { "Replace with: ", "LspInstallerMuted" },
+                                { server.deprecated.replace_with, "LspInstallerHighlighted" },
+                            },
+                        },
+                        Ui.Keybind("<CR>", "REPLACE_SERVER", { server.name, server.deprecated.replace_with }),
+                        Ui.EmptyLine(),
+                    }
+                end)
+            ))
         end),
-        Data.when(server.is_installed, {
-            { "path", "LspInstallerMuted" },
-            { server.metadata.install_dir, "" },
-        }),
-        {
-            { "homepage", "LspInstallerMuted" },
-            { server.metadata.homepage or "-", "" },
-        }
+        Ui.Table(Data.list_not_nil(
+            Data.lazy(server.metadata.install_timestamp_seconds, function()
+                return {
+                    { "last updated", "LspInstallerMuted" },
+                    { get_relative_install_time(server.metadata.install_timestamp_seconds), "" },
+                }
+            end),
+            Data.when(server.is_installed, {
+                { "path", "LspInstallerMuted" },
+                { server.metadata.install_dir, "" },
+            }),
+            {
+                { "homepage", "LspInstallerMuted" },
+                { server.metadata.homepage or "-", "" },
+            }
+        ))
     ))
 end
 
@@ -163,7 +182,8 @@ local function InstalledServers(servers, expanded_server)
             Ui.HlTextNode {
                 Data.list_not_nil(
                     { settings.current.ui.icons.server_installed, "LspInstallerGreen" },
-                    { " " .. server.name, "" }
+                    { " " .. server.name, "" },
+                    Data.when(server.deprecated, { " deprecated", "LspInstallerOrange" })
                 ),
             },
             Ui.Keybind(settings.current.ui.keymaps.toggle_server_expand, "EXPAND_SERVER", { server.name }),
@@ -340,6 +360,7 @@ local function create_initial_server_state(server)
     return {
         name = server.name,
         is_installed = server:is_installed(),
+        deprecated = server.deprecated,
         metadata = {
             homepage = server.homepage,
             install_timestamp_seconds = nil, -- lazy
@@ -569,6 +590,15 @@ local function init(all_servers)
                     local ok, server = lsp_servers.get_server(server_name)
                     if ok then
                         uninstall_server(server)
+                    end
+                end,
+                ["REPLACE_SERVER"] = function(e)
+                    local old_server_name, new_server_name = e.payload[1], e.payload[2]
+                    local old_ok, old_server = lsp_servers.get_server(old_server_name)
+                    local new_ok, new_server = lsp_servers.get_server(new_server_name)
+                    if old_ok and new_ok then
+                        uninstall_server(old_server)
+                        install_server(new_server)
                     end
                 end,
             },

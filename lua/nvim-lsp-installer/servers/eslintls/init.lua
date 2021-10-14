@@ -15,6 +15,10 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        deprecated = {
+            message = "eslintls has been replaced with eslint. It's still the same server - just a different name and upstream dependencies.",
+            replace_with = "eslint",
+        },
         installer = {
             std.git_clone "https://github.com/microsoft/vscode-eslint",
             npm.install(),

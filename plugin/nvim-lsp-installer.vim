@@ -9,7 +9,9 @@ function! s:MapServerName(servers) abort
 endfunction
 
 function! s:LspInstallCompletion(...) abort
-    return join(sort(s:MapServerName(luaeval("require'nvim-lsp-installer.servers'.get_available_servers()"))), "\n")
+    return join(sort(s:MapServerName(filter(
+    \     luaeval("require'nvim-lsp-installer.servers'.get_available_servers()"), {_, val -> val.is_deprecated != v:true}
+    \ ))), "\n")
 endfunction
 
 function! s:LspUninstallCompletion(...) abort

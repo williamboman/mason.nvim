@@ -135,12 +135,12 @@ require("nvim-lsp-installer").settings {
 | Docker                              | `dockerls`               |
 | Dot                                 | `dotls`                  |
 | EFM (general purpose server)        | `efm`                    |
-| ESLint [(docs)][eslintls]           | `eslintls`               |
+| ESLint [(docs)][eslint]             | `eslint`                 |
 | Elixir                              | `elixirls`               |
 | Elm                                 | `elmls`                  |
 | Ember                               | `ember`                  |
 | Emmet                               | `emmet_ls`               |
-| Erlang                              | `erlangls`              |
+| Erlang                              | `erlangls`               |
 | Fortran                             | `fortls`                 |
 | Go                                  | `gopls`                  |
 | GraphQL                             | `graphql`                |
@@ -182,7 +182,7 @@ require("nvim-lsp-installer").settings {
 | YAML                                | `yamlls`                 |
 | Zig                                 | `zls`                    |
 
-[eslintls]: ./lua/nvim-lsp-installer/servers/eslintls/README.md
+[eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
 [tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md
 

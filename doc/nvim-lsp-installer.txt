@@ -54,13 +54,13 @@ Install a language server via `:LspInstall`, for example: >
 
 You may also install multiple languages at a time: >
 
-    :LspInstall tsserver graphql eslintls
+    :LspInstall tsserver graphql rust_analyzer
 <
 
 To install a specific version of a language server, you may provide it as part
 of the server name, like so: >
 
-    :LspInstall tsserver@0.6.3 graphql@latest eslintls@03bfc83
+    :LspInstall tsserver@0.6.3 graphql@latest rust_analyzer@nightly
 <
 
 Please refer to each server's own release page to find which versions are
