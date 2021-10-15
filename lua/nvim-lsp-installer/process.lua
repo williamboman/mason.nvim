@@ -34,14 +34,16 @@ function M.extend_path(new_paths)
 end
 
 function M.graft_env(env)
-    local root_env = {}
+    local merged_env = {}
     for key, val in pairs(initial_environ) do
-        root_env[#root_env + 1] = key .. "=" .. val
+        if env[key] == nil then
+            merged_env[#merged_env + 1] = key .. "=" .. val
+        end
     end
     for key, val in pairs(env) do
-        root_env[#root_env + 1] = key .. "=" .. val
+        merged_env[#merged_env + 1] = key .. "=" .. val
     end
-    return root_env
+    return merged_env
 end
 
 local function sanitize_env_list(env_list)
