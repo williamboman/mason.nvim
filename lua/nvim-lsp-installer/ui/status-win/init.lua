@@ -107,7 +107,11 @@ local function Header()
     return Ui.CascadingStyleNode({ Ui.CascadingStyle.CENTERED }, {
         Ui.HlTextNode {
             { { ":help ", "LspInstallerMuted" }, { "nvim-lsp-installer", "LspInstallerHeader" } },
-            { { "press ", "LspInstallerMuted" }, { "?", "LspInstallerHighlighted" }, { " for help", "LspInstallerMuted" } },
+            {
+                { "press ", "LspInstallerMuted" },
+                { "?", "LspInstallerHighlighted" },
+                { " for help", "LspInstallerMuted" },
+            },
             { { "https://github.com/williamboman/nvim-lsp-installer", "Comment" } },
         },
     })
