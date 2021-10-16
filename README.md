@@ -42,7 +42,7 @@ install all servers are:
 
 ```lua
 use {
-    'neovim/nvim-lsp-config',
+    'neovim/nvim-lspconfig',
     'williamboman/nvim-lsp-installer',
 }
 ```
