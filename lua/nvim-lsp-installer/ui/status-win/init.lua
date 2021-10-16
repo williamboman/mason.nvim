@@ -103,16 +103,26 @@ local function Help(is_current_settings_expanded)
     }
 end
 
-local function Header()
+local function Header(props)
     return Ui.CascadingStyleNode({ Ui.CascadingStyle.CENTERED }, {
         Ui.HlTextNode {
-            { { ":help ", "LspInstallerMuted" }, { "nvim-lsp-installer", "LspInstallerHeader" } },
             {
-                { "press ", "LspInstallerMuted" },
-                { "?", "LspInstallerHighlighted" },
-                { " for help", "LspInstallerMuted" },
+                { props.is_showing_help and props.help_command_text or "", "LspInstallerHighlighted" },
+                {
+                    props.is_showing_help
+                            and "nvim-lsp-installer" .. (" "):rep(#props.help_command_text)
+                        or "nvim-lsp-installer",
+                    props.is_showing_help and "LspInstallerHighlighted" or "LspInstallerHeader",
+                },
             },
-            { { "https://github.com/williamboman/nvim-lsp-installer", "Comment" } },
+            {
+                { props.is_showing_help and "       press " or "press ", "LspInstallerMuted" },
+                { "?", props.is_showing_help and "LspInstallerOrange" or "LspInstallerHighlighted" },
+                { props.is_showing_help and " for server list" or " for help", "LspInstallerMuted" },
+            },
+            {
+                { "https://github.com/williamboman/nvim-lsp-installer", "Comment" },
+            },
         },
     })
 end
@@ -397,7 +407,10 @@ local function init(all_servers)
             Ui.Keybind(HELP_KEYMAP, "TOGGLE_HELP", nil, true),
             Ui.Keybind(CLOSE_WINDOW_KEYMAP_1, "CLOSE_WINDOW", nil, true),
             Ui.Keybind(CLOSE_WINDOW_KEYMAP_2, "CLOSE_WINDOW", nil, true),
-            Header(),
+            Header {
+                is_showing_help = state.is_showing_help,
+                help_command_text = state.help_command_text,
+            },
             Ui.When(state.is_showing_help, function()
                 return Help(state.is_current_settings_expanded)
             end),
@@ -416,6 +429,7 @@ local function init(all_servers)
     local mutate_state, get_state = window.init {
         servers = servers,
         is_showing_help = false,
+        help_command_text = 0, -- for "animating" the ":help" text when toggling the help window
         expanded_server = nil,
     }
 
@@ -544,6 +558,33 @@ local function init(all_servers)
         end)
     end
 
+    local start_help_command_animation
+    do
+        local help_command = ":help "
+        local help_command_len = #help_command
+        local is_animating = false
+        start_help_command_animation = function()
+            if is_animating then
+                return
+            end
+            local tick
+            is_animating = true
+            tick = function(length)
+                mutate_state(function(state)
+                    state.help_command_text = help_command:sub(help_command_len - length, help_command_len)
+                end)
+                if length < help_command_len then
+                    vim.defer_fn(function()
+                        tick(length + 1)
+                    end, 80)
+                else
+                    is_animating = false
+                end
+            end
+            tick(0)
+        end
+    end
+
     local function open()
         mutate_state(function(state)
             state.is_showing_help = false
@@ -564,6 +605,7 @@ local function init(all_servers)
             },
             effects = {
                 ["TOGGLE_HELP"] = function()
+                    start_help_command_animation()
                     if not get_state().is_showing_help then
                         window.set_cursor { 1, 1 }
                     end
