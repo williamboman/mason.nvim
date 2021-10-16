@@ -23,33 +23,35 @@ local function ensure_npm(installer)
     }
 end
 
-function M.packages(packages)
-    return ensure_npm(function(server, callback, context)
-        local pkgs = Data.list_copy(packages or {})
-        local c = process.chain {
-            cwd = server.root_dir,
-            stdio_sink = context.stdio_sink,
-        }
-        -- stylua: ignore start
-        if not (fs.dir_exists(path.concat { server.root_dir, "node_modules" }) or
-               fs.file_exists(path.concat { server.root_dir, "package.json" }))
-        then
-            c.run(npm, { "init", "--yes", "--scope=lsp-installer" })
-        end
+local function create_installer(read_version_from_context)
+    return function(packages)
+        return ensure_npm(function(server, callback, context)
+            local pkgs = Data.list_copy(packages or {})
+            local c = process.chain {
+                cwd = server.root_dir,
+                stdio_sink = context.stdio_sink,
+            }
+            -- stylua: ignore start
+            if not (fs.dir_exists(path.concat { server.root_dir, "node_modules" }) or
+                   fs.file_exists(path.concat { server.root_dir, "package.json" }))
+            then
+                c.run(npm, { "init", "--yes", "--scope=lsp-installer" })
+            end
 
-        if context.requested_server_version and #pkgs > 0 then
-            -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
-            pkgs[1] = ("%s@%s"):format(pkgs[1], context.requested_server_version)
-        end
+            if read_version_from_context and context.requested_server_version and #pkgs > 0 then
+                -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
+                pkgs[1] = ("%s@%s"):format(pkgs[1], context.requested_server_version)
+            end
 
-        -- stylua: ignore end
-        c.run(npm, vim.list_extend({ "install" }, pkgs))
-        c.spawn(callback)
-    end)
+            -- stylua: ignore end
+            c.run(npm, vim.list_extend({ "install" }, pkgs))
+            c.spawn(callback)
+        end)
+    end
 end
 
--- @alias for packages
-M.install = M.packages
+M.packages = create_installer(true)
+M.install = create_installer(false)
 
 function M.exec(executable, args)
     return function(server, callback, context)
