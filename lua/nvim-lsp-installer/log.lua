@@ -1,4 +1,5 @@
 local Data = require "nvim-lsp-installer.data"
+local path = require "nvim-lsp-installer.path"
 local settings = require "nvim-lsp-installer.settings"
 
 local tbl_pack = Data.tbl_pack
@@ -31,7 +32,7 @@ local config = {
 }
 
 local log = {
-    outfile = string.format("%s/%s.log", vim.api.nvim_call_function("stdpath", { "cache" }), config.name),
+    outfile = path.concat { vim.fn.stdpath "cache", ("%s.log"):format(config.name) },
 }
 
 local unpack = unpack or table.unpack
