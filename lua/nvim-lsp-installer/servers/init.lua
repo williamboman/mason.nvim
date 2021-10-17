@@ -28,6 +28,7 @@ local INSTALL_DIRS = {
     ["intelephense"] = "php",
     ["jsonls"] = vscode_langservers_extracted "jsonls",
     ["kotlin_language_server"] = "kotlin",
+    ["phpactor"] = "phpactor-source",
     ["purescriptls"] = "purescript",
     ["pyright"] = "python",
     ["rust_analyzer"] = "rust",
