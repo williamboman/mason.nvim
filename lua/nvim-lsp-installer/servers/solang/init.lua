@@ -10,7 +10,7 @@ local coalesce, when = Data.coalesce, Data.when
 
 return function(name, root_dir)
     local solang_executable_installer = installers.pipe {
-        context.github_release_file(
+        context.use_github_release_file(
             "hyperledger-labs/solang",
             coalesce(
                 when(platform.is_mac and platform.arch == "x64", "solang-mac-intel"),
@@ -26,7 +26,7 @@ return function(name, root_dir)
     }
 
     local llvm_installer = installers.pipe {
-        context.github_release_file(
+        context.use_github_release_file(
             "hyperledger-labs/solang",
             coalesce(
                 when(platform.is_mac and platform.arch == "x64", "llvm12.0-mac-intel.tar.xz"),

@@ -17,7 +17,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/sumneko/lua-language-server",
         installer = {
-            context.github_release_file("sumneko/vscode-lua", function(version)
+            context.use_github_release_file("sumneko/vscode-lua", function(version)
                 return ("lua-%s.vsix"):format(version:gsub("^v", ""))
             end),
             context.capture(function(ctx)

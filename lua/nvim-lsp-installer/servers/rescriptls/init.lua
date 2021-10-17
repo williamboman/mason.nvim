@@ -9,7 +9,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/rescript-lang/rescript-vscode",
         installer = {
-            context.github_release_file("rescript-lang/rescript-vscode", function(version)
+            context.use_github_release_file("rescript-lang/rescript-vscode", function(version)
                 return ("rescript-vscode-%s.vsix"):format(version)
             end),
             context.capture(function(ctx)

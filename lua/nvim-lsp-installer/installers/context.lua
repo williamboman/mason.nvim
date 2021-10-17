@@ -57,34 +57,36 @@ local function fetch(url, callback)
     }
 end
 
-function M.latest_github_release(repo)
+function M.use_github_release(repo)
     return function(server, callback, context)
-        context.github_repo = repo
         if context.requested_server_version then
+            log.fmt_debug(
+                "Requested server version already provided (%s), skipping fetching latest release from GitHub.",
+                context.requested_server_version
+            )
             -- User has already provided a version - don't fetch the latest version from GitHub
             return callback(true)
-        else
-            context.stdio_sink.stdout "Fetching latest release version from GitHub API...\n"
-            fetch(
-                ("https://api.github.com/repos/%s/releases/latest"):format(repo),
-                vim.schedule_wrap(function(err, response)
-                    if err then
-                        context.stdio_sink.stderr(tostring(err))
-                        return callback(false)
-                    end
-                    local version = Data.json_decode(response).tag_name
-                    log.debug("Resolved latest version", server.name, repo, version)
-                    context.requested_server_version = version
-                    callback(true)
-                end)
-            )
         end
+        context.stdio_sink.stdout "Fetching latest release version from GitHub API...\n"
+        fetch(
+            ("https://api.github.com/repos/%s/releases/latest"):format(repo),
+            vim.schedule_wrap(function(err, response)
+                if err then
+                    context.stdio_sink.stderr(tostring(err))
+                    return callback(false)
+                end
+                local version = Data.json_decode(response).tag_name
+                log.debug("Resolved latest version", server.name, repo, version)
+                context.requested_server_version = version
+                callback(true)
+            end)
+        )
     end
 end
 
-function M.github_release_file(repo, file)
+function M.use_github_release_file(repo, file)
     return installers.pipe {
-        M.latest_github_release(repo),
+        M.use_github_release(repo),
         function(server, callback, context)
             local function get_download_url(version)
                 local target_file = type(file) == "function" and file(version) or file

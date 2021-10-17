@@ -16,7 +16,7 @@ return function(name, root_dir)
                 { "ninja", "ninja was not found in path. Refer to https://ninja-build.org/" },
                 { "valac", "valac was not found in path. Refer to https://wiki.gnome.org/Projects/Vala" },
             },
-            context.github_release_file("Prince781/vala-language-server", function(version)
+            context.use_github_release_file("Prince781/vala-language-server", function(version)
                 return ("vala-language-server-%s.tar.xz"):format(version)
             end),
             context.capture(function(ctx)

@@ -11,7 +11,7 @@ return function(name, root_dir)
         homepage = "https://github.com/PowerShell/PowerShellEditorServices",
         installer = installers.when {
             win = {
-                context.github_release_file("PowerShell/PowerShellEditorServices", "PowerShellEditorServices.zip"),
+                context.use_github_release_file("PowerShell/PowerShellEditorServices", "PowerShellEditorServices.zip"),
                 context.capture(function(ctx)
                     return std.unzip_remote(ctx.github_release_file)
                 end),

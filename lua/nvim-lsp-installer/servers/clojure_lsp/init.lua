@@ -11,7 +11,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://clojure-lsp.io",
         installer = {
-            context.github_release_file(
+            context.use_github_release_file(
                 "clojure-lsp/clojure-lsp",
                 Data.coalesce(
                     Data.when(platform.is_mac, "clojure-lsp-native-macos-amd64.zip"),

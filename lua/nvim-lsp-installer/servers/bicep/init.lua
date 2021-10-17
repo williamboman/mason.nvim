@@ -12,7 +12,7 @@ return function(name, root_dir)
             std.ensure_executables {
                 { "dotnet", "dotnet is required to run the bicep language server." },
             },
-            context.github_release_file("Azure/bicep", "bicep-langserver.zip"),
+            context.use_github_release_file("Azure/bicep", "bicep-langserver.zip"),
             context.capture(function(ctx)
                 return std.unzip_remote(ctx.github_release_file)
             end),

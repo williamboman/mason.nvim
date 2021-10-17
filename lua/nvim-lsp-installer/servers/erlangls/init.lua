@@ -15,7 +15,7 @@ return function(name, root_dir)
             std.ensure_executables {
                 { "rebar3", "rebar3 was not found in path. Refer to http://rebar3.org/docs/." },
             },
-            context.latest_github_release "erlang-ls/erlang_ls",
+            context.use_github_release "erlang-ls/erlang_ls",
             std.git_clone "https://github.com/erlang-ls/erlang_ls.git",
             function(server, callback, context)
                 local c = process.chain {

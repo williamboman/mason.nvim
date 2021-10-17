@@ -16,7 +16,7 @@ return function(name, root_dir)
             std.ensure_executables {
                 { "pdflatex", "A TeX distribution is not installed. Refer to https://www.latex-project.org/get/." },
             },
-            context.github_release_file(
+            context.use_github_release_file(
                 "latex-lsp/texlab",
                 coalesce(
                     when(platform.is_mac, "texlab-x86_64-macos.tar.gz"),

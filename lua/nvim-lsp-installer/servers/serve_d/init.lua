@@ -17,7 +17,7 @@ return function(name, root_dir)
                 -- available 0.6.0 vs 0.7.0 beta releases.
                 ctx.requested_server_version = Data.coalesce(ctx.requested_server_version, "v0.7.0-beta.7")
             end),
-            context.github_release_file("Pure-D/serve-d", function(version)
+            context.use_github_release_file("Pure-D/serve-d", function(version)
                 return Data.coalesce(
                     Data.when(platform.is_mac, "serve-d_%s-osx-x86_64.tar.xz"),
                     Data.when(platform.is_linux, "serve-d_%s-linux-x86_64.tar.xz"),

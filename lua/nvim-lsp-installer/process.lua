@@ -87,7 +87,7 @@ function M.spawn(cmd, opts, callback)
     }
 
     log.lazy_debug(function()
-        local sanitized_env = sanitize_env_list(opts.env or {})
+        local sanitized_env = opts.env and sanitize_env_list(opts.env) or nil
         return "Spawning cmd=%s, spawn_opts=%s",
             cmd,
             {

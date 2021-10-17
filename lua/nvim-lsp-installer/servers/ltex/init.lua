@@ -16,7 +16,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://valentjn.github.io/vscode-ltex",
         installer = {
-            context.github_release_file("valentjn/ltex-ls", function(version)
+            context.use_github_release_file("valentjn/ltex-ls", function(version)
                 return coalesce(
                     when(platform.is_mac, "ltex-ls-%s-mac-x64.tar.gz"),
                     when(platform.is_linux, "ltex-ls-%s-linux-x64.tar.gz"),

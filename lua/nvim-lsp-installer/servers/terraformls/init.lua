@@ -13,7 +13,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/hashicorp/terraform-ls",
         installer = {
-            context.github_release_file("hashicorp/terraform-ls", function(version)
+            context.use_github_release_file("hashicorp/terraform-ls", function(version)
                 return Data.coalesce(
                     when(
                         platform.is_mac,

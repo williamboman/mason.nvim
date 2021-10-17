@@ -13,7 +13,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://deno.land/x/deno/cli/lsp",
         installer = {
-            context.github_release_file(
+            context.use_github_release_file(
                 "denoland/deno",
                 coalesce(
                     when(
