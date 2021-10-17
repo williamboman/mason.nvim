@@ -1,12 +1,18 @@
 local pathm = require "nvim-lsp-installer.path"
 local log = require "nvim-lsp-installer.log"
+local settings = require "nvim-lsp-installer.settings"
 
 local uv = vim.loop
 local M = {}
 
 local function assert_ownership(path)
-    if not pathm.is_subdirectory(pathm.SERVERS_ROOT_DIR, path) then
-        error(("Refusing to operate on path outside of the servers root dir (%s)."):format(pathm.SERVERS_ROOT_DIR))
+    if not pathm.is_subdirectory(settings.current.install_root_dir, path) then
+        error(
+            ("Refusing to operate on path (%s) outside of the servers root dir (%s)."):format(
+                path,
+                settings.current.install_root_dir
+            )
+        )
     end
 end
 

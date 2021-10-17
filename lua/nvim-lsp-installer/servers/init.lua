@@ -116,7 +116,7 @@ local function scan_server_roots()
         return cached_server_roots
     end
     local result = {}
-    local ok, entries = pcall(fs.readdir, path.SERVERS_ROOT_DIR)
+    local ok, entries = pcall(fs.readdir, settings.current.install_root_dir)
     if not ok then
         -- presume servers root dir has not been created yet (i.e., no servers installed)
         return {}
@@ -139,7 +139,7 @@ local function get_server_install_dir(server_name)
 end
 
 function M.get_server_install_path(dirname)
-    return path.concat { path.SERVERS_ROOT_DIR, dirname }
+    return path.concat { settings.current.install_root_dir, dirname }
 end
 
 function M.is_server_installed(server_name)

@@ -40,6 +40,4 @@ function M.is_subdirectory(root_path, path)
     return path:sub(1, #root_path) == root_path
 end
 
-M.SERVERS_ROOT_DIR = M.concat { vim.fn.stdpath "data", "lsp_servers" }
-
 return M
