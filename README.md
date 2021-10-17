@@ -176,6 +176,7 @@ require("nvim-lsp-installer").settings {
 | Terraform                           | `terraformls`            |
 | Terraform [(docs)][tflint]          | `tflint`                 |
 | TypeScript [(docs)][tsserver]       | `tsserver`               |
+| Vala                                | `vala_ls`                |
 | VimL                                | `vimls`                  |
 | Vue                                 | `volar`                  |
 | Vue                                 | `vuels`                  |
