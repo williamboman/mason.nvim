@@ -157,6 +157,7 @@ require("nvim-lsp-installer").settings {
 | OCaml                               | `ocamlls`                |
 | PHP                                 | `intelephense`           |
 | PHP                                 | `phpactor`               |
+| Powershell                          | `powershell_es`          |
 | Prisma                              | `prismals`               |
 | Puppet                              | `puppet`                 |
 | PureScript                          | `purescriptls`           |
