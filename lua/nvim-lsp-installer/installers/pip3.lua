@@ -4,19 +4,19 @@ local installers = require "nvim-lsp-installer.installers"
 local std = require "nvim-lsp-installer.installers.std"
 local platform = require "nvim-lsp-installer.platform"
 local process = require "nvim-lsp-installer.process"
+local settings = require "nvim-lsp-installer.settings"
 
 local M = {}
 
 local REL_INSTALL_DIR = "venv"
 
-local function create_installer(python_executable, pip_executable, packages)
+local function create_installer(python_executable, packages)
     return installers.pipe {
         std.ensure_executables {
             {
                 python_executable,
                 ("%s was not found in path. Refer to https://www.python.org/downloads/."):format(python_executable),
             },
-            { pip_executable, ("%s was not found in path."):format(pip_executable) },
         },
         function(server, callback, context)
             local pkgs = Data.list_copy(packages or {})
@@ -30,7 +30,10 @@ local function create_installer(python_executable, pip_executable, packages)
                 -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
                 pkgs[1] = ("%s==%s"):format(pkgs[1], context.requested_server_version)
             end
-            c.run(M.executable(server.root_dir, pip_executable), vim.list_extend({ "install", "-U" }, pkgs))
+
+            local install_command = { "-m", "pip", "install", "-U" }
+            vim.list_extend(install_command, settings.current.pip.install_args)
+            c.run(M.executable(server.root_dir, "python"), vim.list_extend(install_command, pkgs))
 
             c.spawn(callback)
         end,
@@ -38,8 +41,8 @@ local function create_installer(python_executable, pip_executable, packages)
 end
 
 function M.packages(packages)
-    local py3 = create_installer("python3", "pip3", packages)
-    local py = create_installer("python", "pip", packages)
+    local py3 = create_installer("python3", packages)
+    local py = create_installer("python", packages)
     return installers.first_successful(platform.is_win and { py, py3 } or { py3, py }) -- see https://github.com/williamboman/nvim-lsp-installer/issues/128
 end
 

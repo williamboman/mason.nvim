@@ -230,7 +230,7 @@ end
 function M.attempt(opts)
     local jobs, on_finish, on_iterate = opts.jobs, opts.on_finish, opts.on_iterate
     if #jobs == 0 then
-        error "process.attempt(...) need at least one job."
+        error "process.attempt(...) needs at least one job."
     end
 
     local spawn, on_job_exit

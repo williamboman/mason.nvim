@@ -10,7 +10,7 @@ local M = {}
 function M.download_file(url, out_file)
     return installers.when {
         unix = function(server, callback, context)
-            context.stdio_sink.stdout(("Downloading file %q..."):format(url))
+            context.stdio_sink.stdout(("Downloading file %q...\n"):format(url))
             process.attempt {
                 jobs = {
                     process.lazy_spawn("wget", {
