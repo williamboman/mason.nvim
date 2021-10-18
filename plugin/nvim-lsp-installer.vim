@@ -5,11 +5,11 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! s:LspInstallCompletion(...) abort
-    return join(luaeval("require'nvim-lsp-installer.servers'.get_available_server_names()"), "\n")
+    return join(sort(luaeval("require'nvim-lsp-installer.servers'.get_available_server_names()")), "\n")
 endfunction
 
 function! s:LspUninstallCompletion(...) abort
-    return join(luaeval("require'nvim-lsp-installer.servers'.get_installed_server_names()"), "\n")
+    return join(sort(luaeval("require'nvim-lsp-installer.servers'.get_installed_server_names()")), "\n")
 endfunction
 
 function! s:LspInstall(server_names) abort
