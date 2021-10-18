@@ -589,7 +589,6 @@ local function init(all_servers)
             if is_animating then
                 return
             end
-            is_animating = true
             local tick, start
 
             tick = function(current_tick)
@@ -607,6 +606,7 @@ local function init(all_servers)
             end
 
             start = function(delay_ms)
+                is_animating = true
                 if delay_ms then
                     vim.defer_fn(function()
                         tick(opts.start_tick)
