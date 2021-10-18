@@ -178,6 +178,10 @@ local function ServerMetadata(server)
                     { get_relative_install_time(server.metadata.install_timestamp_seconds), "" },
                 }
             end),
+            {
+                { "filetypes", "LspInstallerMuted" },
+                { server.metadata.filetypes, "" },
+            },
             Data.when(server.is_installed, {
                 { "path", "LspInstallerMuted" },
                 { server.metadata.install_dir, "" },
@@ -380,6 +384,7 @@ local function create_initial_server_state(server)
             homepage = server.homepage,
             install_timestamp_seconds = nil, -- lazy
             install_dir = server.root_dir,
+            filetypes = table.concat(server:get_supported_filetypes(), ", "),
         },
         installer = {
             is_queued = false,

@@ -81,6 +81,7 @@ return function(name, root_dir)
             require "nvim-lsp-installer.servers.ltex.configure"
         end,
         default_options = {
+            filetypes = { "tex", "bib", "markdown" },
             cmd = { path.concat { root_dir, platform.is_win and "ltex-ls.bat" or "ltex-ls" } },
         },
     }

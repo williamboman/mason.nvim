@@ -31,7 +31,6 @@ return function(name, root_dir)
             if not configs.eslintls then
                 configs.eslintls = {
                     default_config = {
-                        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
                         root_dir = lspconfig.util.root_pattern(".eslintrc*", "package.json", ".git"),
                         -- Refer to https://github.com/Microsoft/vscode-eslint#settings-options for documentation.
                         settings = {
@@ -71,6 +70,7 @@ return function(name, root_dir)
             end
         end,
         default_options = {
+            filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
             cmd = { "node", path.concat { root_dir, "server", "out", "eslintServer.js" }, "--stdio" },
             handlers = {
                 ["eslint/openDoc"] = function(_, _, open_doc)

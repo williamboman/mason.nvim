@@ -1,17 +1,18 @@
-local util = require "lspconfig/util"
 local server = require "nvim-lsp-installer.server"
 local npm = require "nvim-lsp-installer.installers.npm"
 
--- Angular requires a node_modules directory to probe for @angular/language-service and typescript
--- in order to use your projects configured versions.
--- This defaults to the vim cwd, but will get overwritten by the resolved root of the file.
-local function get_probe_dir(root_dir)
-    local project_root = util.find_node_modules_ancestor(root_dir)
-
-    return project_root and (project_root .. "/node_modules") or ""
-end
-
 return function(name, root_dir)
+    local util = require "lspconfig/util"
+    --
+    -- Angular requires a node_modules directory to probe for @angular/language-service and typescript
+    -- in order to use your projects configured versions.
+    -- This defaults to the vim cwd, but will get overwritten by the resolved root of the file.
+    local function get_probe_dir(root_dir)
+        local project_root = util.find_node_modules_ancestor(root_dir)
+
+        return project_root and (project_root .. "/node_modules") or ""
+    end
+
     local default_probe_dir = get_probe_dir(vim.fn.getcwd())
     local executable_path = npm.executable(root_dir, "ngserver")
 
