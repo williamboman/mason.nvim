@@ -20,24 +20,26 @@ local function Indent(children)
     return Ui.CascadingStyleNode({ Ui.CascadingStyle.INDENT }, children)
 end
 
--- stylua: ignore start
-local very_reasonable_cow = {
-    { { [[ _______________________________________________________________________ ]], "LspInstallerMuted" } },
-    { { [[ < Help sponsor Neovim development! ]], "LspInstallerMuted" }, { "https://github.com/sponsors/neovim", "LspInstallerHighlighted"}, {[[ > ]], "LspInstallerMuted" } },
-    { { [[ ----------------------------------------------------------------------- ]], "LspInstallerMuted" } },
-    { { [[        \    ,-^-.                                                       ]], "LspInstallerMuted" } },
-    { { [[         \   !oYo!                                                       ]], "LspInstallerMuted" } },
-    { { [[          \ /./=\.\______                                                ]], "LspInstallerMuted" } },
-    { { [[               ##        )\/\                                            ]], "LspInstallerMuted" } },
-    { { [[                ||-----w||                                               ]], "LspInstallerMuted" } },
-    { { [[                ||      ||                                               ]], "LspInstallerMuted" } },
-    { { [[                                                                         ]], "LspInstallerMuted" } },
-    { { [[         Cowth Vader (alleged Neovim user)                               ]], "LspInstallerMuted" } },
-    { { [[                                                                         ]], "LspInstallerMuted" } },
-}
--- stylua: ignore end
+local create_vader = Data.memoize(function(saber_ticks)
+    -- stylua: ignore start
+    return {
+        { { [[ _______________________________________________________________________ ]], "LspInstallerMuted" } },
+        { { [[ < Help sponsor Neovim development! ]], "LspInstallerMuted" }, { "https://github.com/sponsors/neovim", "LspInstallerHighlighted"}, {[[ > ]], "LspInstallerMuted" } },
+        { { [[ ----------------------------------------------------------------------- ]], "LspInstallerMuted" } },
+        { { [[        ]], ""}, {[[\]], saber_ticks >= 3 and "LspInstallerVaderSaber" or "LspInstallerMuted"}, {[[    ,-^-.                                                       ]], "LspInstallerMuted" } },
+        { { [[         ]], ""}, {[[\]], saber_ticks >= 2 and "LspInstallerVaderSaber" or "LspInstallerMuted"}, {[[   !oYo!                                                       ]], "LspInstallerMuted" } },
+        { { [[          ]], ""}, {[[\]], saber_ticks >= 1 and "LspInstallerVaderSaber" or "LspInstallerMuted"}, {[[ /./=\.\______                                                ]], "LspInstallerMuted" } },
+        { { [[               ##        )\/\                                            ]], "LspInstallerMuted" } },
+        { { [[                ||-----w||                                               ]], "LspInstallerMuted" } },
+        { { [[                ||      ||                                               ]], "LspInstallerMuted" } },
+        { { [[                                                                         ]], "LspInstallerMuted" } },
+        { { [[         Cowth Vader (alleged Neovim user)                               ]], "LspInstallerMuted" } },
+        { { [[                                                                         ]], "LspInstallerMuted" } },
+    }
+    -- stylua: ignore end
+end)
 
-local function Help(is_current_settings_expanded)
+local function Help(is_current_settings_expanded, vader_saber_ticks)
     local keymap_tuples = {
         { "Toggle help", HELP_KEYMAP },
         { "Toggle server info", settings.current.ui.keymaps.toggle_server_expand },
@@ -47,6 +49,8 @@ local function Help(is_current_settings_expanded)
         { "Close window", CLOSE_WINDOW_KEYMAP_1 },
         { "Close window", CLOSE_WINDOW_KEYMAP_2 },
     }
+
+    local very_reasonable_cow = create_vader(vader_saber_ticks)
 
     return Ui.Node {
         Ui.EmptyLine(),
@@ -184,11 +188,14 @@ local function ServerMetadata(server)
             },
             Data.when(server.is_installed, {
                 { "path", "LspInstallerMuted" },
-                { server.metadata.install_dir, "" },
+                { server.metadata.install_dir, "String" },
             }),
             {
                 { "homepage", "LspInstallerMuted" },
-                { server.metadata.homepage or "-", "" },
+                server.metadata.homepage and { server.metadata.homepage, "LspInstallerLink" } or {
+                    "-",
+                    "LspInstallerMuted",
+                },
             }
         ))
     ))
@@ -383,7 +390,7 @@ local function create_initial_server_state(server)
         metadata = {
             homepage = server.homepage,
             install_timestamp_seconds = nil, -- lazy
-            install_dir = server.root_dir,
+            install_dir = vim.fn.fnamemodify(server.root_dir, ":~"),
             filetypes = table.concat(server:get_supported_filetypes(), ", "),
         },
         installer = {
@@ -417,7 +424,7 @@ local function init(all_servers)
                 help_command_text = state.help_command_text,
             },
             Ui.When(state.is_showing_help, function()
-                return Help(state.is_current_settings_expanded)
+                return Help(state.is_current_settings_expanded, state.vader_saber_ticks)
             end),
             Ui.When(not state.is_showing_help, function()
                 return Servers(state.servers, state.expanded_server)
@@ -434,8 +441,9 @@ local function init(all_servers)
     local mutate_state, get_state = window.init {
         servers = servers,
         is_showing_help = false,
-        help_command_text = 0, -- for "animating" the ":help" text when toggling the help window
         expanded_server = nil,
+        help_command_text = "", -- for "animating" the ":help" text when toggling the help window
+        vader_saber_ticks = 0, -- for "animating" the cowthvader lightsaber
     }
 
     -- TODO: memoize or throttle.. or cache. Do something. Also, as opposed to what the naming currently suggests, this
@@ -574,32 +582,80 @@ local function init(all_servers)
         end)
     end
 
+    local make_animation = function(opts)
+        local animation_fn = opts[1]
+        local is_animating = false
+        local start_animation = function()
+            if is_animating then
+                return
+            end
+            is_animating = true
+            local tick, start
+
+            tick = function(current_tick)
+                animation_fn(current_tick)
+                if current_tick < opts.end_tick then
+                    vim.defer_fn(function()
+                        tick(current_tick + 1)
+                    end, opts.delay_ms)
+                else
+                    is_animating = false
+                    if opts.iteration_delay_ms then
+                        start(opts.iteration_delay_ms)
+                    end
+                end
+            end
+
+            start = function(delay_ms)
+                if delay_ms then
+                    vim.defer_fn(function()
+                        tick(opts.start_tick)
+                    end, delay_ms)
+                else
+                    tick(opts.start_tick)
+                end
+            end
+
+            start(opts.start_delay_ms)
+
+            local function cancel()
+                is_animating = false
+            end
+
+            return cancel
+        end
+
+        return start_animation
+    end
+
     local start_help_command_animation
     do
         local help_command = ":help "
         local help_command_len = #help_command
-        local is_animating = false
-        start_help_command_animation = function()
-            if is_animating then
-                return
-            end
-            local tick
-            is_animating = true
-            tick = function(length)
+        start_help_command_animation = make_animation {
+            function(tick)
                 mutate_state(function(state)
-                    state.help_command_text = help_command:sub(help_command_len - length, help_command_len)
+                    state.help_command_text = help_command:sub(help_command_len - tick, help_command_len)
                 end)
-                if length < help_command_len then
-                    vim.defer_fn(function()
-                        tick(length + 1)
-                    end, 80)
-                else
-                    is_animating = false
-                end
-            end
-            tick(0)
-        end
+            end,
+            start_tick = 0,
+            end_tick = help_command_len,
+            delay_ms = 80,
+        }
     end
+
+    local start_vader_saber_animation = make_animation {
+        function(tick)
+            mutate_state(function(state)
+                state.vader_saber_ticks = tick
+            end)
+        end,
+        start_tick = 0,
+        end_tick = 3,
+        delay_ms = 350,
+        iteration_delay_ms = 10000,
+        start_delay_ms = 1000,
+    }
 
     local function open()
         mutate_state(function(state)
@@ -613,16 +669,19 @@ local function init(all_servers)
                 "hi def LspInstallerServerExpanded gui=italic",
                 "hi def LspInstallerHeading gui=bold",
                 "hi def LspInstallerGreen guifg=#a3be8c",
+                "hi def LspInstallerVaderSaber guifg=#f44747 gui=bold",
                 "hi def LspInstallerOrange ctermfg=222 guifg=#ebcb8b",
                 "hi def LspInstallerMuted guifg=#888888 ctermfg=144",
                 "hi def LspInstallerLabel gui=bold",
                 "hi def LspInstallerError ctermfg=203 guifg=#f44747",
                 "hi def LspInstallerHighlighted guifg=#56B6C2",
+                "hi def link LspInstallerLink LspInstallerHighlighted",
             },
             effects = {
                 ["TOGGLE_HELP"] = function()
-                    start_help_command_animation()
                     if not get_state().is_showing_help then
+                        start_help_command_animation()
+                        start_vader_saber_animation()
                         window.set_cursor { 1, 1 }
                     end
                     mutate_state(function(state)

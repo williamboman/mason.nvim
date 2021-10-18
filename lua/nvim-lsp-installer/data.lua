@@ -106,4 +106,18 @@ function Data.json_decode(data)
     end
 end
 
+function Data.memoize(fn, cache_key_generator)
+    cache_key_generator = cache_key_generator or function(a)
+        return a
+    end
+    local cache = {}
+    return function(...)
+        local key = cache_key_generator(...)
+        if not cache[key] then
+            cache[key] = fn(...)
+        end
+        return cache[key]
+    end
+end
+
 return Data
