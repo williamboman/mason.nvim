@@ -1,9 +1,11 @@
+local fs = require "nvim-lsp-installer.fs"
 local notify = require "nvim-lsp-installer.notify"
 local dispatcher = require "nvim-lsp-installer.dispatcher"
 local process = require "nvim-lsp-installer.process"
 local status_win = require "nvim-lsp-installer.ui.status-win"
 local servers = require "nvim-lsp-installer.servers"
 local settings = require "nvim-lsp-installer.settings"
+local log = require "nvim-lsp-installer.log"
 
 local M = {}
 
@@ -33,18 +35,31 @@ function M.uninstall(server_name)
 end
 
 function M.uninstall_all()
-    local installed_servers = servers.get_installed_servers()
-    status_win().open()
-    if #installed_servers > 0 then
-        local function uninstall(idx)
-            status_win().uninstall_server(installed_servers[idx])
-            if installed_servers[idx + 1] then
-                vim.schedule(function()
-                    uninstall(idx + 1)
-                end)
-            end
+    local choice = vim.fn.confirm(
+        ("This will uninstall all servers currently installed at %q. Continue?"):format(
+            vim.fn.fnamemodify(settings.current.install_root_dir, ":~")
+        ),
+        "&Yes\n&No",
+        2
+    )
+    if settings.current.install_root_dir ~= settings._DEFAULT_SETTINGS.install_root_dir then
+        choice = vim.fn.confirm(
+            (
+                "WARNING: You are using a non-default install_root_dir (%q). This command will delete the entire directory. Continue?"
+            ):format(vim.fn.fnamemodify(settings.current.install_root_dir, ":~")),
+            "&Yes\n&No",
+            2
+        )
+    end
+    if choice == 1 then
+        log.info "Uninstalling all servers."
+        if fs.dir_exists(settings.current.install_root_dir) then
+            fs.rmrf(settings.current.install_root_dir)
         end
-        uninstall(1)
+        status_win().mark_all_servers_uninstalled()
+        status_win().open()
+    else
+        print "Uninstalling all servers was aborted."
     end
 end
 

@@ -176,10 +176,6 @@ function M.get_server(server_name)
         ):format(server_name, "https://github.com/williamboman/nvim-lsp-installer", server_factory)
 end
 
-local function get_available_server_names()
-    return vim.tbl_keys(vim.tbl_extend("force", CORE_SERVERS, INITIALIZED_SERVERS))
-end
-
 local function resolve_servers(server_names)
     return Data.list_map(function(server_name)
         local ok, server = M.get_server(server_name)
@@ -190,20 +186,35 @@ local function resolve_servers(server_names)
     end, server_names)
 end
 
-function M.get_available_servers()
-    return resolve_servers(get_available_server_names())
+function M.get_available_server_names()
+    return vim.tbl_keys(vim.tbl_extend("force", CORE_SERVERS, INITIALIZED_SERVERS))
 end
 
-function M.get_installed_servers()
-    return resolve_servers(vim.tbl_filter(function(server_name)
+function M.get_installed_server_names()
+    return vim.tbl_filter(function(server_name)
         return M.is_server_installed(server_name)
-    end, get_available_server_names()))
+    end, M.get_available_server_names())
 end
 
-function M.get_uninstalled_servers()
-    return resolve_servers(vim.tbl_filter(function(server_name)
+function M.get_uninstalled_server_names()
+    return vim.tbl_filter(function(server_name)
         return not M.is_server_installed(server_name)
-    end, get_available_server_names()))
+    end, M.get_available_server_names())
+end
+
+-- Expensive to call the first time - loads all server modules.
+function M.get_available_servers()
+    return resolve_servers(M.get_available_server_names())
+end
+
+-- Somewhat expensive to call the first time (depends on how many servers are currently installed).
+function M.get_installed_servers()
+    return resolve_servers(M.get_installed_server_names())
+end
+
+-- Expensive to call the first time (depends on how many servers are currently not installed).
+function M.get_uninstalled_servers()
+    return resolve_servers(M.get_uninstalled_server_names())
 end
 
 function M.register(server)

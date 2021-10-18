@@ -270,7 +270,7 @@ local function UninstalledServers(servers, expanded_server)
                 Data.list_not_nil(
                     { settings.current.ui.icons.server_uninstalled, "LspInstallerMuted" },
                     { " " .. server.name, "LspInstallerMuted" },
-                    Data.when(server.uninstaller.has_run, { " (just uninstalled)", "Comment" })
+                    Data.when(server.uninstaller.has_run, { " (uninstalled)", "Comment" })
                 ),
             },
             Ui.Keybind(settings.current.ui.keymaps.toggle_server_expand, "EXPAND_SERVER", { server.name }),
@@ -558,6 +558,17 @@ local function init(all_servers)
         end)
     end
 
+    local function mark_all_servers_uninstalled()
+        mutate_state(function(state)
+            for _, server_name in ipairs(lsp_servers.get_available_server_names()) do
+                if state.servers[server_name].is_installed then
+                    state.servers[server_name].is_installed = false
+                    state.servers[server_name].uninstaller.has_run = true
+                end
+            end
+        end)
+    end
+
     local start_help_command_animation
     do
         local help_command = ":help "
@@ -656,6 +667,7 @@ local function init(all_servers)
         open = open,
         install_server = install_server,
         uninstall_server = uninstall_server,
+        mark_all_servers_uninstalled = mark_all_servers_uninstalled,
     }
 end
 

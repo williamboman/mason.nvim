@@ -4,16 +4,12 @@ let g:loaded_nvim_lsp_installer = v:true
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! s:MapServerName(servers) abort
-    return map(a:servers, {_, val -> val.name})
-endfunction
-
 function! s:LspInstallCompletion(...) abort
-    return join(sort(s:MapServerName(luaeval("require'nvim-lsp-installer.servers'.get_available_servers()"))), "\n")
+    return join(luaeval("require'nvim-lsp-installer.servers'.get_available_server_names()"), "\n")
 endfunction
 
 function! s:LspUninstallCompletion(...) abort
-    return join(sort(s:MapServerName(luaeval("require'nvim-lsp-installer.servers'.get_installed_servers()"))), "\n")
+    return join(luaeval("require'nvim-lsp-installer.servers'.get_installed_server_names()"), "\n")
 endfunction
 
 function! s:LspInstall(server_names) abort
