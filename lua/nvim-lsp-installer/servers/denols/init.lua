@@ -32,7 +32,7 @@ return function(name, root_dir)
             end),
         },
         default_options = {
-            cmd = { path.concat { root_dir, "bin", "deno" }, "lsp" },
+            cmd = { path.concat { root_dir, "deno" }, "lsp" },
         },
     }
 end
