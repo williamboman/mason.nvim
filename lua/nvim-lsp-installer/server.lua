@@ -66,7 +66,11 @@ function M.Server:setup(opts)
             self._post_setup()
         end
     else
-        error(("Unable to setup server %q: Could not find lspconfig server entry."):format(self.name))
+        error(
+            (
+                "Unable to setup server %q: Could not find lspconfig server entry. Make sure you are running a recent version of lspconfig."
+            ):format(self.name)
+        )
     end
 end
 
