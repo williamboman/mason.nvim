@@ -53,11 +53,13 @@ function M.uninstall_all()
     end
     if choice == 1 then
         log.info "Uninstalling all servers."
-        if fs.dir_exists(settings.current.install_root_dir) then
-            fs.rmrf(settings.current.install_root_dir)
-        end
-        status_win().mark_all_servers_uninstalled()
         status_win().open()
+        vim.schedule(function()
+            if fs.dir_exists(settings.current.install_root_dir) then
+                fs.rmrf(settings.current.install_root_dir)
+                status_win().mark_all_servers_uninstalled()
+            end
+        end)
     else
         print "Uninstalling all servers was aborted."
     end
