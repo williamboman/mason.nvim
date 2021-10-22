@@ -21,21 +21,19 @@ local function connect_sink(pipe, sink)
     end
 end
 
--- We gather the root env immediately, primarily because of E5560.
--- Also, there's no particular reason we need to refresh the environment (yet).
-local initial_environ = vim.fn.environ()
-
 function M.extend_path(new_paths)
+    local environ = vim.loop.os_environ()
     local new_path_str = table.concat(new_paths, platform.path_sep)
-    if initial_environ["PATH"] then
-        return new_path_str .. platform.path_sep .. initial_environ["PATH"]
+    if environ["PATH"] then
+        return new_path_str .. platform.path_sep .. environ["PATH"]
     end
     return new_path_str
 end
 
 function M.graft_env(env)
+    local base_env = vim.loop.os_environ()
     local merged_env = {}
-    for key, val in pairs(initial_environ) do
+    for key, val in pairs(base_env) do
         if env[key] == nil then
             merged_env[#merged_env + 1] = key .. "=" .. val
         end
@@ -183,8 +181,8 @@ end
 
 function M.simple_sink()
     return {
-        stdout = vim.schedule_wrap(print),
-        stderr = vim.schedule_wrap(vim.api.nvim_err_writeln),
+        stdout = vim.schedule_wrap(vim.api.nvim_out_write),
+        stderr = vim.schedule_wrap(vim.api.nvim_err_write),
     }
 end
 
