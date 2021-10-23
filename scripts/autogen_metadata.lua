@@ -21,12 +21,21 @@ end
 local function write_file(path, txt, flag)
     uv.fs_open(path, flag, 438, function(open_err, fd)
         assert(not open_err, open_err)
-        uv.fs_write(fd, txt, -1, function(write_err)
-            assert(not write_err, write_err)
-            uv.fs_close(fd, function(close_err)
-                assert(not close_err, close_err)
-            end)
-        end)
+        uv.fs_write(
+            fd,
+            table.concat({
+                "-- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.",
+                "-- stylua: ignore start",
+                txt,
+            }, "\n"),
+            -1,
+            function(write_err)
+                assert(not write_err, write_err)
+                uv.fs_close(fd, function(close_err)
+                    assert(not close_err, close_err)
+                end)
+            end
+        )
     end)
 end
 
@@ -44,12 +53,26 @@ local function get_supported_filetypes(server)
         lspconfig_server_ok and configs[server.name].document_config.default_config.filetypes,
         {}
     )
-    -- it's probably still not safe to do this in runtime, but just in case
-    package.loaded["lspconfig/configs"] = nil
     return filetypes
 end
 
-local function generate_metadata_table()
+do
+    local filetype_map = {}
+
+    local available_servers = servers.get_available_servers()
+    for _, server in pairs(available_servers) do
+        for _, filetype in pairs(get_supported_filetypes(server)) do
+            if not filetype_map[filetype] then
+                filetype_map[filetype] = {}
+            end
+            table.insert(filetype_map[filetype], server.name)
+        end
+    end
+
+    write_file(Path.concat { generated_dir, "filetype_map.lua" }, "return " .. vim.inspect(filetype_map), "w")
+end
+
+do
     local metadata = {}
 
     local function create_metadata_entry(server)
@@ -60,20 +83,6 @@ local function generate_metadata_table()
     for _, server in pairs(available_servers) do
         metadata[server.name] = create_metadata_entry(server)
     end
-    print(string.format("found [%s] configurations", #vim.tbl_keys(metadata)))
 
-    return metadata
+    write_file(Path.concat { generated_dir, "metadata.lua" }, "return " .. vim.inspect(metadata), "w")
 end
-
-local mt = generate_metadata_table()
-
-local metadata_file_lua = Path.concat { generated_dir, "metadata.lua" }
-write_file(
-    metadata_file_lua,
-    table.concat({
-        "-- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.",
-        "-- stylua: ignore start",
-        "return " .. vim.inspect(mt),
-    }, "\n"),
-    "w"
-)

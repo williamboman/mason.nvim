@@ -5,6 +5,7 @@ local Data = require "nvim-lsp-installer.data"
 local display = require "nvim-lsp-installer.ui.display"
 local settings = require "nvim-lsp-installer.settings"
 local lsp_servers = require "nvim-lsp-installer.servers"
+local filetype_map = require "nvim-lsp-installer._generated.filetype_map"
 
 local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
@@ -201,9 +202,9 @@ local function ServerMetadata(server)
     ))
 end
 
-local function InstalledServers(servers, expanded_server)
+local function InstalledServers(servers, props)
     return Ui.Node(Data.list_map(function(server)
-        local is_expanded = expanded_server == server.name
+        local is_expanded = props.expanded_server == server.name
         return Ui.Node {
             Ui.HlTextNode {
                 Data.list_not_nil(
@@ -273,15 +274,20 @@ local function PendingServers(servers)
     end, servers))
 end
 
-local function UninstalledServers(servers, expanded_server)
+local function UninstalledServers(servers, props)
     return Ui.Node(Data.list_map(function(server)
-        local is_expanded = expanded_server == server.name
+        local is_prioritized = props.prioritized_servers[server.name]
+        local is_expanded = props.expanded_server == server.name
         return Ui.Node {
             Ui.HlTextNode {
                 Data.list_not_nil(
-                    { settings.current.ui.icons.server_uninstalled, "LspInstallerMuted" },
+                    {
+                        settings.current.ui.icons.server_uninstalled,
+                        is_prioritized and "LspInstallerHighlighted" or "LspInstallerMuted",
+                    },
                     { " " .. server.name, "LspInstallerMuted" },
-                    Data.when(server.uninstaller.has_run, { " (uninstalled)", "Comment" })
+                    Data.when(server.uninstaller.has_run, { " (uninstalled)", "Comment" }),
+                    Data.when(server.deprecated, { " deprecated", "LspInstallerOrange" })
                 ),
             },
             Ui.Keybind(settings.current.ui.keymaps.toggle_server_expand, "EXPAND_SERVER", { server.name }),
@@ -311,13 +317,13 @@ local function ServerGroup(props)
                 count = total_server_count,
             },
             Indent(Data.list_map(function(servers)
-                return props.renderer(servers, props.expanded_server)
+                return props.renderer(servers, props)
             end, props.servers)),
         }
     end)
 end
 
-local function Servers(servers, expanded_server)
+local function Servers(servers, expanded_server, prioritized_servers)
     local grouped_servers = {
         installed = {},
         queued = {},
@@ -325,6 +331,7 @@ local function Servers(servers, expanded_server)
         uninstall_failed = {},
         installing = {},
         install_failed = {},
+        uninstalled_prioritized = {},
         uninstalled = {},
         session_uninstalled = {},
     }
@@ -350,7 +357,11 @@ local function Servers(servers, expanded_server)
         elseif server.installer.has_run then
             grouped_servers.install_failed[#grouped_servers.install_failed + 1] = server
         else
-            grouped_servers.uninstalled[#grouped_servers.uninstalled + 1] = server
+            if prioritized_servers[server.name] then
+                grouped_servers.uninstalled_prioritized[#grouped_servers.uninstalled_prioritized + 1] = server
+            else
+                grouped_servers.uninstalled[#grouped_servers.uninstalled + 1] = server
+            end
         end
     end
 
@@ -376,8 +387,13 @@ local function Servers(servers, expanded_server)
         ServerGroup {
             title = "Available servers",
             renderer = UninstalledServers,
-            servers = { grouped_servers.session_uninstalled, grouped_servers.uninstalled },
+            servers = {
+                grouped_servers.session_uninstalled,
+                grouped_servers.uninstalled_prioritized,
+                grouped_servers.uninstalled,
+            },
             expanded_server = expanded_server,
+            prioritized_servers = prioritized_servers,
         },
     }
 end
@@ -427,7 +443,7 @@ local function init(all_servers)
                 return Help(state.is_current_settings_expanded, state.vader_saber_ticks)
             end),
             Ui.When(not state.is_showing_help, function()
-                return Servers(state.servers, state.expanded_server)
+                return Servers(state.servers, state.expanded_server, state.prioritized_servers)
             end),
         }
     end)
@@ -441,6 +457,7 @@ local function init(all_servers)
     local mutate_state, get_state = window.init {
         servers = servers,
         is_showing_help = false,
+        prioritized_servers = {},
         expanded_server = nil,
         help_command_text = "", -- for "animating" the ":help" text when toggling the help window
         vader_saber_ticks = 0, -- for "animating" the cowthvader lightsaber
@@ -658,8 +675,20 @@ local function init(all_servers)
     }
 
     local function open()
+        local current_buf = vim.fn.bufnr "%"
+        local open_filetypes = vim.split(vim.api.nvim_exec([[ bufdo echo &filetype ]], true), "\n")
+        vim.cmd(("buffer %d"):format(current_buf))
+        local prioritized_servers = {}
+
+        for _, filetype in ipairs(open_filetypes) do
+            if filetype_map[filetype] then
+                vim.list_extend(prioritized_servers, filetype_map[filetype])
+            end
+        end
+
         mutate_state(function(state)
             state.is_showing_help = false
+            state.prioritized_servers = Data.set_of(prioritized_servers)
         end)
 
         window.open {
