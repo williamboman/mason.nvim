@@ -66,6 +66,7 @@ do
                 filetype_map[filetype] = {}
             end
             table.insert(filetype_map[filetype], server.name)
+            table.sort(filetype_map[filetype])
         end
     end
 
