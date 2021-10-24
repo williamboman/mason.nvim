@@ -29,7 +29,7 @@ function! s:LspUninstallAll() abort
 endfunction
 
 function! s:LspPrintInstalled() abort
-    echo s:MapServerName(luaeval("require'nvim-lsp-installer.servers'.get_installed_servers()"))
+    echo luaeval("require'nvim-lsp-installer.servers'.get_installed_server_names()")
 endfunction
 
 function! s:LspInstallInfo() abort
