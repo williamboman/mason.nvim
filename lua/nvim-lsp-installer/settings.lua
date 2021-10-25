@@ -2,7 +2,8 @@ local path = require "nvim-lsp-installer.path"
 
 local M = {}
 
-M._DEFAULT_SETTINGS = {
+---@class LspInstallerSettings
+local DEFAULT_SETTINGS = {
     ui = {
         icons = {
             -- The list icon to use for installed servers.
@@ -50,8 +51,10 @@ M._DEFAULT_SETTINGS = {
     max_concurrent_installers = 4,
 }
 
+M._DEFAULT_SETTINGS = DEFAULT_SETTINGS
 M.current = M._DEFAULT_SETTINGS
 
+---@param opts LspInstallerSettings
 function M.set(opts)
     M.current = vim.tbl_deep_extend("force", M.current, opts)
 end

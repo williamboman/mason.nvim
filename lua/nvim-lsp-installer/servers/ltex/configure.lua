@@ -145,7 +145,7 @@ configs.ltex = {
                 hiddenFalsePositives = {},
             },
         },
-        on_attach = function(client, bufnr)
+        on_attach = function(client)
             -- local lang = client.config.settings.ltex.language
             for lang, _ in ipairs(client.config.dictionary_files) do --
                 updateConfig(lang, "dictionary")

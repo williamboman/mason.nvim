@@ -6,9 +6,11 @@ local process = require "nvim-lsp-installer.process"
 
 local M = {}
 
+---@param packages string[] @The Go packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
 function M.packages(packages)
     return installers.pipe {
         std.ensure_executables { { "go", "go was not found in path, refer to https://golang.org/doc/install." } },
+        ---@type ServerInstallerFunction
         function(server, callback, context)
             local pkgs = Data.list_copy(packages or {})
             local c = process.chain {
@@ -34,6 +36,8 @@ function M.packages(packages)
     }
 end
 
+---@param root_dir string @The directory to resolve the executable from.
+---@param executable string
 function M.executable(root_dir, executable)
     return path.concat { root_dir, executable }
 end

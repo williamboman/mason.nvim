@@ -1,5 +1,8 @@
 local Data = {}
 
+---@generic T : string
+---@param values T[]
+---@return table<T, T>
 function Data.enum(values)
     local result = {}
     for i = 1, #values do
@@ -9,6 +12,9 @@ function Data.enum(values)
     return result
 end
 
+---@generic T
+---@param list T[]
+---@return table<T, boolean>
 function Data.set_of(list)
     local set = {}
     for i = 1, #list do
@@ -17,6 +23,9 @@ function Data.set_of(list)
     return set
 end
 
+---@generic T
+---@param list T[]
+---@return T[]
 function Data.list_reverse(list)
     local result = {}
     for i = #list, 1, -1 do
@@ -25,6 +34,10 @@ function Data.list_reverse(list)
     return result
 end
 
+---@generic T, U
+---@param fn fun(item: T): U
+---@param list T[]
+---@return U[]
 function Data.list_map(fn, list)
     local result = {}
     for i = 1, #list do
@@ -70,6 +83,9 @@ function Data.coalesce(...)
     end
 end
 
+---@generic T
+---@param list T[]
+---@return T[] @A shallow copy of the list.
 function Data.list_copy(list)
     local result = {}
     for i = 1, #list do
@@ -78,6 +94,10 @@ function Data.list_copy(list)
     return result
 end
 
+---@generic T
+---@param list T[]
+---@param predicate fun(item: T): boolean
+---@return T | nil
 function Data.list_find_first(list, predicate)
     local result
     for i = 1, #list do
@@ -89,6 +109,10 @@ function Data.list_find_first(list, predicate)
     return result
 end
 
+---@generic T
+---@param list T[]
+---@param predicate fun(item: T): boolean
+---@return boolean
 function Data.list_any(list, predicate)
     for i = 1, #list do
         if predicate(list[i]) then
@@ -98,6 +122,8 @@ function Data.list_any(list, predicate)
     return false
 end
 
+---@param data string @The JSON data to decode/deserialize.
+---@return table
 function Data.json_decode(data)
     if vim.json and vim.json.decode then
         return vim.json.decode(data)
@@ -106,6 +132,10 @@ function Data.json_decode(data)
     end
 end
 
+---@generic T : fun(...)
+---@param fn T
+---@param cache_key_generator fun(...): string | nil
+---@return T
 function Data.memoize(fn, cache_key_generator)
     cache_key_generator = cache_key_generator or function(a)
         return a

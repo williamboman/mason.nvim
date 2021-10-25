@@ -7,8 +7,11 @@ local shell = require "nvim-lsp-installer.installers.shell"
 
 local M = {}
 
+---@param url string @The url to download.
+---@param out_file string @The relative path to where to write the contents of the url.
 function M.download_file(url, out_file)
     return installers.when {
+        ---@type ServerInstallerFunction
         unix = function(server, callback, context)
             context.stdio_sink.stdout(("Downloading file %q...\n"):format(url))
             process.attempt {
@@ -31,9 +34,12 @@ function M.download_file(url, out_file)
     }
 end
 
+---@param file string @The relative path to the file to unzip.
+---@param dest string|nil @The destination of the unzip (defaults to ".").
 function M.unzip(file, dest)
     return installers.pipe {
         installers.when {
+            ---@type ServerInstallerFunction
             unix = function(server, callback, context)
                 process.spawn("unzip", {
                     args = { "-d", dest, file },
@@ -47,6 +53,8 @@ function M.unzip(file, dest)
     }
 end
 
+---@see unzip().
+---@param url string @The url of the .zip file.
 function M.unzip_remote(url, dest)
     return installers.pipe {
         M.download_file(url, "archive.zip"),
@@ -54,8 +62,10 @@ function M.unzip_remote(url, dest)
     }
 end
 
+---@param file string @The relative path to the tar file to extract.
 function M.untar(file)
     return installers.pipe {
+        ---@type ServerInstallerFunction
         function(server, callback, context)
             process.spawn("tar", {
                 args = { "-xvf", file },
@@ -67,8 +77,10 @@ function M.untar(file)
     }
 end
 
+---@param file string
 local function win_extract(file)
     return installers.pipe {
+        ---@type ServerInstallerFunction
         function(server, callback, context)
             -- The trademarked "throw shit until it sticks" technique
             local sevenzip = process.lazy_spawn("7z", {
@@ -95,6 +107,7 @@ local function win_extract(file)
     }
 end
 
+---@param file string
 local function win_untarxz(file)
     return installers.pipe {
         win_extract(file),
@@ -102,8 +115,10 @@ local function win_untarxz(file)
     }
 end
 
+---@param file string
 local function win_arc_unarchive(file)
     return installers.pipe {
+        ---@type ServerInstallerFunction
         function(server, callback, context)
             context.stdio_sink.stdout "Attempting to unarchive using arc."
             process.spawn("arc", {
@@ -116,6 +131,7 @@ local function win_arc_unarchive(file)
     }
 end
 
+---@param url string @The url to the .tar.xz file to extract.
 function M.untarxz_remote(url)
     return installers.pipe {
         M.download_file(url, "archive.tar.xz"),
@@ -129,6 +145,7 @@ function M.untarxz_remote(url)
     }
 end
 
+---@param url string @The url to the .tar.gz file to extract.
 function M.untargz_remote(url)
     return installers.pipe {
         M.download_file(url, "archive.tar.gz"),
@@ -136,8 +153,10 @@ function M.untargz_remote(url)
     }
 end
 
+---@param file string @The relative path to the file to gunzip.
 function M.gunzip(file)
     return installers.when {
+        ---@type ServerInstallerFunction
         unix = function(server, callback, context)
             process.spawn("gzip", {
                 args = { "-d", file },
@@ -149,6 +168,9 @@ function M.gunzip(file)
     }
 end
 
+---@see gunzip()
+---@param url string @The url to the .gz file to extract.
+---@param out_file string|nil @The name of the extracted .gz file.
 function M.gunzip_remote(url, out_file)
     local archive = ("%s.gz"):format(out_file or "archive")
     return installers.pipe {
@@ -158,7 +180,10 @@ function M.gunzip_remote(url, out_file)
     }
 end
 
+---Recursively deletes the provided path. Will fail on paths that are not inside the configured install_root_dir.
+---@param rel_path string @The relative path to the file/directory to remove.
 function M.rmrf(rel_path)
+    ---@type ServerInstallerFunction
     return function(server, callback, context)
         local abs_path = path.concat { server.root_dir, rel_path }
         context.stdio_sink.stdout(("Deleting %q\n"):format(abs_path))
@@ -174,7 +199,10 @@ function M.rmrf(rel_path)
     end
 end
 
+---Shallow git clone.
+---@param repo_url string
 function M.git_clone(repo_url)
+    ---@type ServerInstallerFunction
     return function(server, callback, context)
         local c = process.chain {
             cwd = server.root_dir,
@@ -192,7 +220,9 @@ function M.git_clone(repo_url)
     end
 end
 
+---@param opts {args: string[]}
 function M.gradlew(opts)
+    ---@type ServerInstallerFunction
     return function(server, callback, context)
         process.spawn(path.concat { server.root_dir, platform.is_win and "gradlew.bat" or "gradlew" }, {
             args = opts.args,
@@ -202,23 +232,32 @@ function M.gradlew(opts)
     end
 end
 
+---Creates an installer that ensures that the provided executables are available in the current runtime.
+---@param executables string[][] @A list of (executable, error_msg) tuples.
+---@return ServerInstallerFunction
 function M.ensure_executables(executables)
-    return vim.schedule_wrap(function(_, callback, context)
-        local has_error = false
-        for i = 1, #executables do
-            local entry = executables[i]
-            local executable = entry[1]
-            local error_msg = entry[2]
-            if vim.fn.executable(executable) ~= 1 then
-                has_error = true
-                context.stdio_sink.stderr(error_msg .. "\n")
+    return vim.schedule_wrap(
+        ---@type ServerInstallerFunction
+        function(_, callback, context)
+            local has_error = false
+            for i = 1, #executables do
+                local entry = executables[i]
+                local executable = entry[1]
+                local error_msg = entry[2]
+                if vim.fn.executable(executable) ~= 1 then
+                    has_error = true
+                    context.stdio_sink.stderr(error_msg .. "\n")
+                end
             end
+            callback(not has_error)
         end
-        callback(not has_error)
-    end)
+    )
 end
 
+---@path old_path string @The relative path to the file/dir to rename.
+---@path new_path string @The relative path to what to rename the file/dir to.
 function M.rename(old_path, new_path)
+    ---@type ServerInstallerFunction
     return function(server, callback, context)
         local ok = pcall(
             fs.rename,
@@ -232,8 +271,11 @@ function M.rename(old_path, new_path)
     end
 end
 
+---@param flags string[] @The chmod flags to apply.
+---@param files string[] @A list of relative paths to apply the chmod on.
 function M.chmod(flags, files)
     return installers.on {
+        ---@type ServerInstallerFunction
         unix = function(server, callback, context)
             process.spawn("chmod", {
                 args = vim.list_extend({ flags }, files),

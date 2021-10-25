@@ -11,12 +11,16 @@ local M = {}
 
 M.settings = settings.set
 
+--- Opens the status window.
 function M.display()
     status_win().open()
 end
 
-function M.install(server_tuple)
-    local server_name, version = unpack(servers.parse_server_tuple(server_tuple))
+--- Queues a server to be installed. Will also open the status window.
+--- Use the .on_server_ready(cb) function to register a handler to be executed when a server is ready to be set up.
+---@param server_identifier string @The server to install. This can also include a requested version, for example "rust_analyzer@nightly".
+function M.install(server_identifier)
+    local server_name, version = unpack(servers.parse_server_identifier(server_identifier))
     local ok, server = servers.get_server(server_name)
     if not ok then
         return notify(("Unable to find LSP server %s.\n\n%s"):format(server_name, server), vim.log.levels.ERROR)
@@ -25,6 +29,8 @@ function M.install(server_tuple)
     status_win().open()
 end
 
+--- Queues a server to be uninstalled. Will also open the status window.
+---@param server_name string The server to uninstall.
 function M.uninstall(server_name)
     local ok, server = servers.get_server(server_name)
     if not ok then
@@ -34,6 +40,7 @@ function M.uninstall(server_name)
     status_win().open()
 end
 
+--- Queues all servers to be uninstalled. Will also open the status window.
 function M.uninstall_all()
     local choice = vim.fn.confirm(
         ("This will uninstall all servers currently installed at %q. Continue?"):format(
@@ -65,6 +72,7 @@ function M.uninstall_all()
     end
 end
 
+---@param cb fun(server: Server) @Callback to be executed whenever a server is ready to be set up.
 function M.on_server_ready(cb)
     dispatcher.register_server_ready_callback(cb)
     vim.schedule(function()

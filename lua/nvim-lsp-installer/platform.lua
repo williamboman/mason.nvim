@@ -2,6 +2,12 @@ local M = {}
 
 local uname = vim.loop.os_uname()
 
+---@alias Platform
+---| '"win"'
+---| '"unix"'
+---| '"linux"'
+---| '"mac"'
+
 local arch_aliases = {
     ["x86_64"] = "x64",
     ["i386"] = "x86",

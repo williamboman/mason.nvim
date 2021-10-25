@@ -4,6 +4,18 @@ local Data = require "nvim-lsp-installer.data"
 
 local M = {}
 
+---@alias ServerInstallCallback fun(success: boolean)
+
+---@class ServerInstallContext
+---@field requested_server_version string|nil @The version requested by the user.
+---@field stdio_sink StdioSink
+---@field github_release_file string|nil @Only available if context.use_github_release_file has been called.
+
+---@alias ServerInstallerFunction fun(server: Server, callback: ServerInstallCallback, context: ServerInstallContext)
+
+--- Composes multiple installer functions into one.
+---@param installers ServerInstallerFunction[]
+---@return ServerInstallerFunction
 function M.pipe(installers)
     if #installers == 0 then
         error "No installers to pipe."
@@ -33,6 +45,14 @@ function M.pipe(installers)
     end
 end
 
+--- Composes multiple installer function into one - in reversed order.
+---@param installers ServerInstallerFunction[]
+function M.compose(installers)
+    return M.pipe(Data.list_reverse(installers))
+end
+
+---@param installers ServerInstallerFunction[]
+---@return ServerInstallerFunction @An installer function that will serially execute the provided installers, until the first one succeeds.
 function M.first_successful(installers)
     if #installers == 0 then
         error "No installers to pipe."
@@ -64,11 +84,9 @@ function M.first_successful(installers)
     end
 end
 
--- much fp, very wow
-function M.compose(installers)
-    return M.pipe(Data.list_reverse(installers))
-end
-
+--- Wraps the provided server installer to always succeeds.
+---@param installer ServerInstallerFunction
+---@return ServerInstallerFunction
 function M.always_succeed(installer)
     return function(server, callback, context)
         installer(server, function()
@@ -77,8 +95,11 @@ function M.always_succeed(installer)
     end
 end
 
+---@param platform_table table<Platform, ServerInstallerFunction>
+---@return ServerInstallerFunction | nil
 local function get_by_platform(platform_table)
     if platform.is_mac then
+        platform_table.mac()
         return platform_table.mac or platform_table.unix
     elseif platform.is_linux then
         return platform_table.linux or platform_table.unix
@@ -91,7 +112,10 @@ local function get_by_platform(platform_table)
     end
 end
 
--- non-exhaustive
+--- Creates a server installer that executes the given installer for the current platform.
+--- If there is no server installer provided for the current platform, the installer will instantly exit successfully.
+---@param platform_table table<Platform, ServerInstallerFunction>
+---@return ServerInstallerFunction
 function M.on(platform_table)
     return function(server, callback, context)
         local installer = get_by_platform(platform_table)
@@ -107,7 +131,10 @@ function M.on(platform_table)
     end
 end
 
--- exhaustive
+--- Creates a server installer that executes the given installer for the current platform.
+--- If there is no server installer provided for the current platform, the installer will instantly exit with a failure.
+---@param platform_table table<Platform, ServerInstallerFunction>
+---@return ServerInstallerFunction
 function M.when(platform_table)
     return function(server, callback, context)
         local installer = get_by_platform(platform_table)

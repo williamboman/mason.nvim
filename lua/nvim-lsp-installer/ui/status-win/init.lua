@@ -11,6 +11,7 @@ local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
 local CLOSE_WINDOW_KEYMAP_2 = "q"
 
+---@param props {title: string, count: number}
 local function ServerGroupHeading(props)
     return Ui.HlTextNode {
         { { props.title, props.highlight or "LspInstallerHeading" }, { (" (%d)"):format(props.count), "Comment" } },
@@ -18,10 +19,12 @@ local function ServerGroupHeading(props)
 end
 
 local function Indent(children)
-    return Ui.CascadingStyleNode({ Ui.CascadingStyle.INDENT }, children)
+    return Ui.CascadingStyleNode({ "INDENT" }, children)
 end
 
-local create_vader = Data.memoize(function(saber_ticks)
+local create_vader = Data.memoize(
+    ---@param saber_ticks number
+    function(saber_ticks)
     -- stylua: ignore start
     return {
         { { [[ _______________________________________________________________________ ]], "LspInstallerMuted" } },
@@ -37,9 +40,12 @@ local create_vader = Data.memoize(function(saber_ticks)
         { { [[         Cowth Vader (alleged Neovim user)                               ]], "LspInstallerMuted" } },
         { { [[                                                                         ]], "LspInstallerMuted" } },
     }
-    -- stylua: ignore end
-end)
+        -- stylua: ignore end
+    end
+)
 
+---@param is_current_settings_expanded boolean
+---@param vader_saber_ticks number
 local function Help(is_current_settings_expanded, vader_saber_ticks)
     local keymap_tuples = {
         { "Toggle help", HELP_KEYMAP },
@@ -108,8 +114,9 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
     }
 end
 
+---@param props {is_showing_help: boolean, help_command_text: string}
 local function Header(props)
-    return Ui.CascadingStyleNode({ Ui.CascadingStyle.CENTERED }, {
+    return Ui.CascadingStyleNode({ "CENTERED" }, {
         Ui.HlTextNode {
             {
                 { props.is_showing_help and props.help_command_text or "", "LspInstallerHighlighted" },
@@ -139,6 +146,7 @@ local Seconds = {
     YEAR = 29030400, -- 60 * 60 * 24 * 7 * 4 * 12
 }
 
+---@param time number
 local function get_relative_install_time(time)
     local now = os.time()
     local delta = math.max(now - time, 0)
@@ -157,6 +165,7 @@ local function get_relative_install_time(time)
     end
 end
 
+---@param server ServerState
 local function ServerMetadata(server)
     return Ui.Node(Data.list_not_nil(
         Data.lazy(server.is_installed and server.deprecated, function()
@@ -202,6 +211,8 @@ local function ServerMetadata(server)
     ))
 end
 
+---@param servers ServerState[]
+---@param props ServerGroupProps
 local function InstalledServers(servers, props)
     return Ui.Node(Data.list_map(function(server)
         local is_expanded = props.expanded_server == server.name
@@ -225,12 +236,15 @@ local function InstalledServers(servers, props)
     end, servers))
 end
 
+---@param server ServerState
 local function TailedOutput(server)
     return Ui.HlTextNode(Data.list_map(function(line)
         return { { line, "LspInstallerMuted" } }
     end, server.installer.tailed_output))
 end
 
+---@param output string[]
+---@return string
 local function get_last_non_empty_line(output)
     for i = #output, 1, -1 do
         local line = output[i]
@@ -241,8 +255,11 @@ local function get_last_non_empty_line(output)
     return ""
 end
 
+---@param servers ServerState[]
 local function PendingServers(servers)
-    return Ui.Node(Data.list_map(function(server)
+    return Ui.Node(Data.list_map(function(_server)
+        ---@type ServerState
+        local server = _server
         local has_failed = server.installer.has_run or server.uninstaller.has_run
         local note = has_failed and "(failed)" or (server.installer.is_queued and "(queued)" or "(installing)")
         return Ui.Node {
@@ -274,6 +291,8 @@ local function PendingServers(servers)
     end, servers))
 end
 
+---@param servers ServerState[]
+---@param props ServerGroupProps
 local function UninstalledServers(servers, props)
     return Ui.Node(Data.list_map(function(server)
         local is_prioritized = props.prioritized_servers[server.name]
@@ -301,6 +320,9 @@ local function UninstalledServers(servers, props)
     end, servers))
 end
 
+---@alias ServerGroupProps {title: string, hide_when_empty: boolean|nil, servers: ServerState[][], expanded_server: string|nil, renderer: fun(servers: ServerState[], props: ServerGroupProps)}
+
+---@param props ServerGroupProps
 local function ServerGroup(props)
     local total_server_count = 0
     local chunks = props.servers
@@ -323,6 +345,9 @@ local function ServerGroup(props)
     end)
 end
 
+---@param servers table<string, ServerState>
+---@param expanded_server string|nil
+---@param prioritized_servers string[]
 local function Servers(servers, expanded_server, prioritized_servers)
     local grouped_servers = {
         installed = {},
@@ -398,8 +423,10 @@ local function Servers(servers, expanded_server, prioritized_servers)
     }
 end
 
+---@param server Server
 local function create_initial_server_state(server)
-    return {
+    ---@class ServerState
+    local server_state = {
         name = server.name,
         is_installed = server:is_installed(),
         deprecated = server.deprecated,
@@ -415,8 +442,12 @@ local function create_initial_server_state(server)
             has_run = false,
             tailed_output = { "" },
         },
-        uninstaller = { has_run = false, error = nil },
+        uninstaller = {
+            has_run = false,
+            error = nil,
+        },
     }
+    return server_state
 end
 
 local function normalize_chunks_line_endings(chunk, dest)
@@ -430,38 +461,52 @@ end
 local function init(all_servers)
     local window = display.new_view_only_win "LSP servers"
 
-    window.view(function(state)
-        return Indent {
-            Ui.Keybind(HELP_KEYMAP, "TOGGLE_HELP", nil, true),
-            Ui.Keybind(CLOSE_WINDOW_KEYMAP_1, "CLOSE_WINDOW", nil, true),
-            Ui.Keybind(CLOSE_WINDOW_KEYMAP_2, "CLOSE_WINDOW", nil, true),
-            Header {
-                is_showing_help = state.is_showing_help,
-                help_command_text = state.help_command_text,
-            },
-            Ui.When(state.is_showing_help, function()
-                return Help(state.is_current_settings_expanded, state.vader_saber_ticks)
-            end),
-            Ui.When(not state.is_showing_help, function()
-                return Servers(state.servers, state.expanded_server, state.prioritized_servers)
-            end),
-        }
-    end)
+    window.view(
+        --- @param state StatusWinState
+        function(state)
+            return Indent {
+                Ui.Keybind(HELP_KEYMAP, "TOGGLE_HELP", nil, true),
+                Ui.Keybind(CLOSE_WINDOW_KEYMAP_1, "CLOSE_WINDOW", nil, true),
+                Ui.Keybind(CLOSE_WINDOW_KEYMAP_2, "CLOSE_WINDOW", nil, true),
+                Header {
+                    is_showing_help = state.is_showing_help,
+                    help_command_text = state.help_command_text,
+                },
+                Ui.When(state.is_showing_help, function()
+                    return Help(state.is_current_settings_expanded, state.vader_saber_ticks)
+                end),
+                Ui.When(not state.is_showing_help, function()
+                    return Servers(state.servers, state.expanded_server, state.prioritized_servers)
+                end),
+            }
+        end
+    )
 
+    ---@type table<string, ServerState>
     local servers = {}
     for i = 1, #all_servers do
         local server = all_servers[i]
         servers[server.name] = create_initial_server_state(server)
     end
 
-    local mutate_state, get_state = window.init {
+    ---@class StatusWinState
+    ---@field prioritized_servers string[]
+    local initial_state = {
         servers = servers,
         is_showing_help = false,
+        is_current_settings_expanded = false,
         prioritized_servers = {},
         expanded_server = nil,
         help_command_text = "", -- for "animating" the ":help" text when toggling the help window
         vader_saber_ticks = 0, -- for "animating" the cowthvader lightsaber
     }
+
+    local mutate_state_generic, get_state_generic = window.init(initial_state)
+    -- Generics don't really work with higher-order functions so we cast it here.
+    ---@type fun(mutate_fn: fun(current_state: StatusWinState))
+    local mutate_state = mutate_state_generic
+    ---@type fun(): StatusWinState
+    local get_state = get_state_generic
 
     -- TODO: memoize or throttle.. or cache. Do something. Also, as opposed to what the naming currently suggests, this
     -- is not really doing anything async stuff, but will very likely do so in the future :tm:.
@@ -488,8 +533,12 @@ local function init(all_servers)
         end)
     end
 
+    ---@alias ServerInstallTuple {[1]:Server, [2]: string|nil}
+
+    ---@param server_tuple ServerInstallTuple
+    ---@param on_complete fun()
     local function start_install(server_tuple, on_complete)
-        local server, requested_version = unpack(server_tuple)
+        local server, requested_version = server_tuple[1], server_tuple[2]
         mutate_state(function(state)
             state.servers[server.name].installer.is_queued = false
             state.servers[server.name].installer.is_running = true
@@ -533,6 +582,7 @@ local function init(all_servers)
     local queue
     do
         local max_running = settings.current.max_concurrent_installers
+        ---@type ServerInstallTuple[]
         local q = {}
         local r = 0
 
@@ -548,12 +598,16 @@ local function init(all_servers)
             end
         end)
 
+        ---@param server Server
+        ---@param version string|nil
         queue = function(server, version)
             q[#q + 1] = { server, version }
             check_queue()
         end
     end
 
+    ---@param server Server
+    ---@param version string|nil
     local function install_server(server, version)
         log.debug("Installing server", server, version)
         local server_state = get_state().servers[server.name]
@@ -569,6 +623,7 @@ local function init(all_servers)
         queue(server, version)
     end
 
+    ---@param server Server
     local function uninstall_server(server)
         local server_state = get_state().servers[server.name]
         if server_state and (server_state.installer.is_running or server_state.installer.is_queued) then

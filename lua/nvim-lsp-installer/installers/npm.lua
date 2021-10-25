@@ -10,6 +10,7 @@ local M = {}
 
 local npm = platform.is_win and "npm.cmd" or "npm"
 
+---@param installer ServerInstallerFunction
 local function ensure_npm(installer)
     return installers.pipe {
         std.ensure_executables {
@@ -24,13 +25,16 @@ local function ensure_npm(installer)
 end
 
 local function create_installer(read_version_from_context)
+    ---@param packages string[]
     return function(packages)
-        return ensure_npm(function(server, callback, context)
-            local pkgs = Data.list_copy(packages or {})
-            local c = process.chain {
-                cwd = server.root_dir,
-                stdio_sink = context.stdio_sink,
-            }
+        return ensure_npm(
+            ---@type ServerInstallerFunction
+            function(server, callback, context)
+                local pkgs = Data.list_copy(packages or {})
+                local c = process.chain {
+                    cwd = server.root_dir,
+                    stdio_sink = context.stdio_sink,
+                }
             -- stylua: ignore start
             if not (fs.dir_exists(path.concat { server.root_dir, "node_modules" }) or
                    fs.file_exists(path.concat { server.root_dir, "package.json" }))
@@ -43,17 +47,25 @@ local function create_installer(read_version_from_context)
                 pkgs[1] = ("%s@%s"):format(pkgs[1], context.requested_server_version)
             end
 
-            -- stylua: ignore end
-            c.run(npm, vim.list_extend({ "install" }, pkgs))
-            c.spawn(callback)
-        end)
+                -- stylua: ignore end
+                c.run(npm, vim.list_extend({ "install" }, pkgs))
+                c.spawn(callback)
+            end
+        )
     end
 end
 
+---Creates an installer that installs the provided packages. Will respect user's requested version.
 M.packages = create_installer(true)
+---Creates an installer that installs the provided packages. Will NOT respect user's requested version.
+---This is useful in situation where there's a need to install an auxiliary npm package.
 M.install = create_installer(false)
 
+---Creates a server installer that executes the given executable.
+---@param executable string
+---@param args string[]
 function M.exec(executable, args)
+    ---@type ServerInstallerFunction
     return function(server, callback, context)
         process.spawn(M.executable(server.root_dir, executable), {
             args = args,
@@ -63,16 +75,23 @@ function M.exec(executable, args)
     end
 end
 
+---Creates a server installer that runs the given script.
+---@param script string @The npm script to run (npm run).
 function M.run(script)
-    return ensure_npm(function(server, callback, context)
-        process.spawn(npm, {
-            args = { "run", script },
-            cwd = server.root_dir,
-            stdio_sink = context.stdio_sink,
-        }, callback)
-    end)
+    return ensure_npm(
+        ---@type ServerInstallerFunction
+        function(server, callback, context)
+            process.spawn(npm, {
+                args = { "run", script },
+                cwd = server.root_dir,
+                stdio_sink = context.stdio_sink,
+            }, callback)
+        end
+    )
 end
 
+---@param root_dir string @The directory to resolve the executable from.
+---@param executable string
 function M.executable(root_dir, executable)
     return path.concat {
         root_dir,

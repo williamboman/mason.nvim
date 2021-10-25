@@ -5,9 +5,20 @@ local uv = vim.loop
 
 local list_any = Data.list_any
 
+---@alias luv_pipe any
+---@alias luv_handle any
+
+---@class StdioSink
+---@field stdout fun(chunk: string)
+---@field stderr fun(chunk: string)
+
 local M = {}
 
+---@param pipe luv_pipe
+---@param sink fun(chunk: string)
 local function connect_sink(pipe, sink)
+    ---@param err string | nil
+    ---@param data string | nil
     return function(err, data)
         if err then
             log.error("Unexpected error when reading pipe.", err)
@@ -25,6 +36,7 @@ end
 -- Also, there's no particular reason we need to refresh the environment (yet).
 local initial_environ = vim.fn.environ()
 
+---@param new_paths string[] @A list of paths to prepend the existing PATH with.
 function M.extend_path(new_paths)
     local new_path_str = table.concat(new_paths, platform.path_sep)
     if initial_environ["PATH"] then
@@ -33,6 +45,8 @@ function M.extend_path(new_paths)
     return new_path_str
 end
 
+---Merges the provided env param with the user's full environent. Provided env has precedence.
+---@param env table<string, string>
 function M.graft_env(env)
     local merged_env = {}
     for key, val in pairs(initial_environ) do
@@ -46,6 +60,7 @@ function M.graft_env(env)
     return merged_env
 end
 
+---@param env_list string[]
 local function sanitize_env_list(env_list)
     local sanitized_list = {}
     for _, env in ipairs(env_list) do
@@ -70,6 +85,18 @@ local function sanitize_env_list(env_list)
     return sanitized_list
 end
 
+---@alias JobSpawnCallback fun(success: boolean)
+
+---@class JobSpawnOpts
+---@field env string[] @List of "key=value" string.
+---@field args string[]
+---@field cwd string
+---@field stdio_sink StdioSink
+
+---@param cmd string @The command/executable.
+---@param opts JobSpawnOpts
+---@param callback JobSpawnCallback
+---@return luv_handle,luv_pipe[]|nil @Returns the job handle and the stdio array on success, otherwise returns nil.
 function M.spawn(cmd, opts, callback)
     local stdin = uv.new_pipe(false)
     local stdout = uv.new_pipe(false)
@@ -140,9 +167,12 @@ function M.spawn(cmd, opts, callback)
     return handle, stdio
 end
 
+---@param opts JobSpawnOpts @The job spawn opts to apply in every job in this "chain".
 function M.chain(opts)
     local jobs = {}
     return {
+        ---@param cmd string
+        ---@param args string[]
         run = function(cmd, args)
             jobs[#jobs + 1] = M.lazy_spawn(
                 cmd,
@@ -151,6 +181,7 @@ function M.chain(opts)
                 })
             )
         end,
+        ---@param callback JobSpawnCallback
         spawn = function(callback)
             local function execute(idx)
                 local ok, err = pcall(jobs[idx], function(successful)
@@ -203,7 +234,10 @@ function M.in_memory_sink()
     }
 end
 
--- this prob belongs elsewhere ¯\_(ツ)_/¯
+--- This probably belongs elsewhere ¯\_(ツ)_/¯
+---@generic T
+---@param debounced_fn fun(arg1: T)
+---@return fun(arg1: T)
 function M.debounced(debounced_fn)
     local queued = false
     local last_arg = nil
@@ -221,12 +255,23 @@ function M.debounced(debounced_fn)
     end
 end
 
+---@alias LazyJob fun(callback: JobSpawnCallback)
+
+---@param cmd string
+---@param opts JobSpawnOpts
 function M.lazy_spawn(cmd, opts)
+    ---@param callback JobSpawnCallback
     return function(callback)
         return M.spawn(cmd, opts, callback)
     end
 end
 
+---@class JobAttemptOpts
+---@field jobs LazyJob[]
+---@field on_finish JobSpawnCallback
+---@field on_iterate fun()
+
+---@param opts JobAttemptOpts
 function M.attempt(opts)
     local jobs, on_finish, on_iterate = opts.jobs, opts.on_finish, opts.on_iterate
     if #jobs == 0 then

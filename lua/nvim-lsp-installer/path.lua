@@ -21,6 +21,8 @@ function M.cwd()
     return uv.fs_realpath "."
 end
 
+---@param path_components string[]
+---@return string
 function M.concat(path_components)
     return table.concat(path_components, sep)
 end

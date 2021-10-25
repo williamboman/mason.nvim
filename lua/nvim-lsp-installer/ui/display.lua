@@ -1,4 +1,3 @@
-local Ui = require "nvim-lsp-installer.ui"
 local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
 local state = require "nvim-lsp-installer.ui.state"
@@ -17,6 +16,8 @@ local function to_hex(str)
     end))
 end
 
+---@param line string
+---@param render_context RenderContext
 local function get_styles(line, render_context)
     local indentation = 0
 
@@ -24,10 +25,10 @@ local function get_styles(line, render_context)
         local styles = render_context.applied_block_styles[i]
         for j = 1, #styles do
             local style = styles[j]
-            if style == Ui.CascadingStyle.INDENT then
+            if style == "INDENT" then
                 indentation = indentation + 2
-            elseif style == Ui.CascadingStyle.CENTERED then
-                local padding = math.floor((render_context.context.win_width - #line) / 2)
+            elseif style == "CENTERED" then
+                local padding = math.floor((render_context.viewport_context.win_width - #line) / 2)
                 indentation = math.max(0, padding) -- CENTERED overrides any already applied indentation
             end
         end
@@ -38,11 +39,36 @@ local function get_styles(line, render_context)
     }
 end
 
-local function render_node(context, node, _render_context, _output)
-    local render_context = _render_context or {
-        context = context,
-        applied_block_styles = {},
-    }
+---@param viewport_context ViewportContext
+---@param node INode
+---@param _render_context RenderContext|nil
+---@param _output RenderOutput|nil
+local function render_node(viewport_context, node, _render_context, _output)
+    ---@class RenderContext
+    ---@field viewport_context ViewportContext
+    ---@field applied_block_styles CascadingStyle[]
+    local render_context = _render_context
+        or {
+            viewport_context = viewport_context,
+            applied_block_styles = {},
+        }
+    ---@class RenderHighlight
+    ---@field hl_group string
+    ---@field line number
+    ---@field col_start number
+    ---@field col_end number
+
+    ---@class RenderKeybind
+    ---@field line number
+    ---@field key string
+    ---@field effect string
+    ---@field payload any
+
+    ---@class RenderOutput
+    ---@field lines string[] @The buffer lines.
+    ---@field virt_texts string[][] @List of (text, highlight) tuples.
+    ---@field highlights RenderHighlight[]
+    ---@field keybinds RenderKeybind[]
     local output = _output
         or {
             lines = {},
@@ -51,12 +77,12 @@ local function render_node(context, node, _render_context, _output)
             keybinds = {},
         }
 
-    if node.type == Ui.NodeType.VIRTUAL_TEXT then
+    if node.type == "VIRTUAL_TEXT" then
         output.virt_texts[#output.virt_texts + 1] = {
             line = #output.lines - 1,
             content = node.virt_text,
         }
-    elseif node.type == Ui.NodeType.HL_TEXT then
+    elseif node.type == "HL_TEXT" then
         for i = 1, #node.lines do
             local line = node.lines[i]
             local line_highlights = {}
@@ -87,17 +113,17 @@ local function render_node(context, node, _render_context, _output)
 
             output.lines[#output.lines + 1] = full_line
         end
-    elseif node.type == Ui.NodeType.NODE or node.type == Ui.NodeType.CASCADING_STYLE then
-        if node.type == Ui.NodeType.CASCADING_STYLE then
+    elseif node.type == "NODE" or node.type == "CASCADING_STYLE" then
+        if node.type == "CASCADING_STYLE" then
             render_context.applied_block_styles[#render_context.applied_block_styles + 1] = node.styles
         end
         for i = 1, #node.children do
-            render_node(context, node.children[i], render_context, output)
+            render_node(viewport_context, node.children[i], render_context, output)
         end
-        if node.type == Ui.NodeType.CASCADING_STYLE then
+        if node.type == "CASCADING_STYLE" then
             render_context.applied_block_styles[#render_context.applied_block_styles] = nil
         end
-    elseif node.type == Ui.NodeType.KEYBIND_HANDLER then
+    elseif node.type == "KEYBIND_HANDLER" then
         output.keybinds[#output.keybinds + 1] = {
             line = node.is_global and -1 or #output.lines,
             key = node.key,
@@ -130,6 +156,9 @@ local active_keybinds_by_bufnr = {}
 local registered_keymaps_by_bufnr = {}
 local redraw_by_win_id = {}
 
+---@param bufnr number
+---@param line number
+---@param key string
 local function call_effect_handler(bufnr, line, key)
     local line_keybinds = active_keybinds_by_bufnr[bufnr][line]
     if line_keybinds then
@@ -194,6 +223,7 @@ function M.new_view_only_win(name)
     local bufnr, renderer, mutate_state, get_state, unsubscribe, win_id
     local has_initiated = false
 
+    ---@param opts DisplayOpenOpts
     local function open(opts)
         opts = opts or {}
         local highlight_groups = opts.highlight_groups
@@ -269,10 +299,11 @@ function M.new_view_only_win(name)
         end
 
         local win_width = vim.api.nvim_win_get_width(win_id)
-        local context = {
+        ---@class ViewportContext
+        local viewport_context = {
             win_width = win_width,
         }
-        local output = render_node(context, view)
+        local output = render_node(viewport_context, view)
         local lines, virt_texts, highlights, keybinds =
             output.lines, output.virt_texts, output.highlights, output.keybinds
 
@@ -330,9 +361,13 @@ function M.new_view_only_win(name)
     end)
 
     return {
-        view = function(x)
-            renderer = x
+        ---@param _renderer fun(state: table): table
+        view = function(_renderer)
+            renderer = _renderer
         end,
+        ---@generic T : table
+        ---@param initial_state T
+        ---@return fun(mutate_fn: fun(current_state: T)), fun(): T
         init = function(initial_state)
             assert(renderer ~= nil, "No view function has been registered. Call .view() before .init().")
             has_initiated = true
@@ -346,6 +381,8 @@ function M.new_view_only_win(name)
 
             return mutate_state, get_state
         end,
+        ---@alias DisplayOpenOpts {effects: table<string, fun()>, highlight_groups: string[]|nil}
+        ---@type fun(opts: DisplayOpenOpts)
         open = vim.schedule_wrap(function(opts)
             log.debug "Opening window"
             assert(has_initiated, "Display has not been initiated, cannot open.")
@@ -364,15 +401,18 @@ function M.new_view_only_win(name)
                 end
             end
         end),
+        ---@type fun()
         close = vim.schedule_wrap(function()
             assert(has_initiated, "Display has not been initiated, cannot close.")
             unsubscribe(true)
             M.delete_win_buf(win_id, bufnr)
         end),
+        ---@param pos number[] @(row, col) tuple
         set_cursor = function(pos)
             assert(win_id ~= nil, "Window has not been opened, cannot set cursor.")
             return vim.api.nvim_win_set_cursor(win_id, pos)
         end,
+        ---@return number[] @(row, col) tuple
         get_cursor = function()
             assert(win_id ~= nil, "Window has not been opened, cannot get cursor.")
             return vim.api.nvim_win_get_cursor(win_id)

@@ -10,46 +10,37 @@ local M = {}
 -- old, but also somewhat convenient, API
 M.get_server_root_path = servers.get_server_install_path
 
+---@alias ServerDeprecation {message:string, replace_with:string|nil}
+---@alias ServerOpts {name:string, root_dir:string, homepage:string|nil, deprecated:ServerDeprecation, installer:ServerInstallerFunction|ServerInstallerFunction[], default_options:table, pre_setup:fun()|nil, post_setup:fun()|nil}
+
+---@class Server
+---@field public  name string @The server name. This is the same as lspconfig's server names.
+---@field public  root_dir string @The directory where the server should be installed in.
+---@field public  homepage string|nil @The homepage where users can find more information. This is shown to users in the UI.
+---@field public  deprecated ServerDeprecation|nil @The existence (not nil) of this field indicates this server is depracted.
+---@field private _installer ServerInstallerFunction
+---@field private _default_options table @The server's default options. This is used in @see Server#setup.
+---@field private _pre_setup fun()|nil @Function to be called in @see Server#setup, before trying to setup.
+---@field private _post_setup fun()|nil @Function to be called in @see Server#setup, after successful setup.
 M.Server = {}
 M.Server.__index = M.Server
 
----@class Server
---@param opts table
--- @field name (string)                  The name of the LSP server. This MUST correspond with lspconfig's naming.
---
--- @field homepage (string)              A URL to the homepage of this server. This is for example where users can
---                                       report issues and receive support.
---
--- @field installer (function)           The function that installs the LSP (see the .installers module). The function signature should be `function (server, callback)`, where
---                                       `server` is the Server instance being installed, and `callback` is a function that must be called upon completion. The `callback` function
---                                       has the signature `function (success, result)`, where `success` is a boolean and `result` is of any type (similar to `pcall`).
---
--- @field default_options (table)        The default options to be passed to lspconfig's .setup() function. Each server should provide at least the `cmd` field.
---
--- @field root_dir (string)              The absolute path to the directory of the installation.
---                                       This MUST be a directory inside nvim-lsp-installer's designated root install directory inside stdpath("data"). Most servers will make use of server.get_server_root_path() to produce its root_dir path.
---
--- @field post_setup (function)          An optional function to be executed after the setup function has been successfully called.
---                                       Use this to defer setting up server specific things until they're actually
---                                       needed, like custom commands.
---
--- @field pre_setup (function)           An optional function to be executed prior to calling lspconfig's setup().
---                                       Use this to defer setting up server specific things until they're actually needed.
---
+---@param opts ServerOpts
+---@return Server
 function M.Server:new(opts)
     return setmetatable({
         name = opts.name,
         root_dir = opts.root_dir,
         homepage = opts.homepage,
         deprecated = opts.deprecated,
-        _root_dir = opts.root_dir, -- @deprecated Use the `root_dir` property instead.
         _installer = type(opts.installer) == "function" and opts.installer or installers.pipe(opts.installer),
         _default_options = opts.default_options,
-        _post_setup = opts.post_setup,
         _pre_setup = opts.pre_setup,
+        _post_setup = opts.post_setup,
     }, M.Server)
 end
 
+---@param opts table @User-defined options. This is directly passed to the lspconfig's setup() method.
 function M.Server:setup(opts)
     if self._pre_setup then
         log.fmt_debug("Calling pre_setup for server=%s", self.name)
