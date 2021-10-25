@@ -99,7 +99,6 @@ end
 ---@return ServerInstallerFunction | nil
 local function get_by_platform(platform_table)
     if platform.is_mac then
-        platform_table.mac()
         return platform_table.mac or platform_table.unix
     elseif platform.is_linux then
         return platform_table.linux or platform_table.unix
