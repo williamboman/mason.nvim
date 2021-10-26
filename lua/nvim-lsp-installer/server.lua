@@ -65,10 +65,12 @@ function M.Server:setup(opts)
     end
 end
 
+---@return table @A deep copy of this server's default options. Note that these default options are nvim-lsp-installer specific, and does not include any default options provided by lspconfig.
 function M.Server:get_default_options()
     return vim.deepcopy(self._default_options)
 end
 
+---@return string[] @The list of supported filetypes.
 function M.Server:get_supported_filetypes()
     local metadata = require "nvim-lsp-installer._generated.metadata"
 
@@ -79,6 +81,7 @@ function M.Server:get_supported_filetypes()
     return {}
 end
 
+---@return boolean
 function M.Server:is_installed()
     return servers.is_server_installed(self.name)
 end
@@ -87,10 +90,13 @@ function M.Server:create_root_dir()
     fs.mkdirp(self.root_dir)
 end
 
+---Queues the server to be asynchronously installed. Also opens the UI window.
 function M.Server:install()
     status_win().install_server(self)
 end
 
+---@param context ServerInstallContext
+---@param callback ServerInstallCallback
 function M.Server:install_attached(context, callback)
     local uninstall_ok, uninstall_err = pcall(self.uninstall, self)
     if not uninstall_ok then

@@ -28,4 +28,6 @@ M.is_linux = not M.is_mac and M.is_unix
 -- PATH separator
 M.path_sep = M.is_win and ";" or ":"
 
+M.is_headless = #vim.api.nvim_list_uis() == 0
+
 return M

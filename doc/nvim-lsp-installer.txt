@@ -98,19 +98,30 @@ COMMANDS                                        *nvim-lsp-installer-commands*
 Opens the UI for nvim-lsp-installer.
 
                                                                 *:LspInstall*
-:LspInstall {server_name} ...
+:LspInstall [--sync] {server_name} ...
 
-Installs language servers.
+Installs language servers. If the `--sync` argument is passed, the command will
+be blocking until all installations complete. This is useful for headless
+installations, for example: >
 
+    $ nvim --headless -c "LspInstall --sync rust_analyzer clangd clojure_lsp" -c q
+
+<
                                                               *:LspUninstall*
-:LspUninstall {server_name} ...
+:LspUninstall [--sync] {server_name} ...
 
-Uninstalls language servers.
+Uninstalls language servers. If the `--sync` argument is passed, the command will
+be blocking until all installations complete. This is useful for headless
+installations, for example: >
+
+    $ nvim --headless -c "LspUninstall --sync rust_analyzer clangd clojure_lsp" -c q
+<
 
                                                            *:LspUninstallAll*
-:LspUninstallAll
+:LspUninstallAll [--no-confirm]
 
-Uninstalls all installed language servers.
+Uninstalls all installed language servers. If the --no-confirm argument is
+passed, there will be no confirmation prompt before uninstalling all servers.
 
                                                              *:LspInstallLog*
 :LspInstallLog

@@ -214,8 +214,8 @@ end
 
 function M.simple_sink()
     return {
-        stdout = vim.schedule_wrap(print),
-        stderr = vim.schedule_wrap(vim.api.nvim_err_writeln),
+        stdout = vim.schedule_wrap(vim.api.nvim_out_write),
+        stderr = vim.schedule_wrap(vim.api.nvim_err_write),
     }
 end
 

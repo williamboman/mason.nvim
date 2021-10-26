@@ -1,6 +1,7 @@
 local Data = require "nvim-lsp-installer.data"
 local path = require "nvim-lsp-installer.path"
 local settings = require "nvim-lsp-installer.settings"
+local platform = require "nvim-lsp-installer.platform"
 
 local tbl_pack = Data.tbl_pack
 
@@ -10,7 +11,7 @@ local config = {
 
     -- Should print the output to neovim while running
     -- values: 'sync','async',false
-    use_console = false,
+    use_console = platform.is_headless,
 
     -- Should highlighting be used in console (using echohl)
     highlights = true,

@@ -154,14 +154,10 @@ function M.is_server_installed(server_name)
     return scanned_server_dirs[dirname] or false
 end
 
----@class ServerTuple
----@field public [1] string The server name.
----@field public [2] string|nil The requested server version.
-
 ---@param server_identifier string @The server identifier to parse.
----@return ServerTuple
+---@return string, string|nil @Returns a (server_name, requested_version) tuple, where requested_version may be nil.
 function M.parse_server_identifier(server_identifier)
-    return vim.split(server_identifier, "@")
+    return unpack(vim.split(server_identifier, "@"))
 end
 
 ---@param server_name string
