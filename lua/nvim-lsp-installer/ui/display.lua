@@ -267,14 +267,20 @@ function M.new_view_only_win(name)
 
         vim.cmd [[ syntax clear ]]
 
-        vim.cmd(
-            ("autocmd VimResized <buffer> lua require('nvim-lsp-installer.ui.display').redraw_win(%d)"):format(win_id)
-        )
-        vim.cmd(
-            (
-                "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua vim.schedule(function() require('nvim-lsp-installer.ui.display').delete_win_buf(%d, %d) end)"
-            ):format(win_id, bufnr)
-        )
+        local resize_autocmd = (
+            "autocmd VimResized <buffer> lua require('nvim-lsp-installer.ui.display').redraw_win(%d)"
+        ):format(win_id)
+        local autoclose_autocmd = (
+            "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua vim.schedule(function() require('nvim-lsp-installer.ui.display').delete_win_buf(%d, %d) end)"
+        ):format(win_id, bufnr)
+
+        vim.cmd(([[
+            augroup LspInstallerWindow
+                autocmd!
+                %s
+                %s
+            augroup END
+        ]]):format(resize_autocmd, autoclose_autocmd))
 
         if highlight_groups then
             for i = 1, #highlight_groups do

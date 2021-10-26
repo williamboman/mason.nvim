@@ -271,7 +271,7 @@ function M.rename(old_path, new_path)
     end
 end
 
----@param flags string[] @The chmod flags to apply.
+---@param flags string @The chmod flag to apply.
 ---@param files string[] @A list of relative paths to apply the chmod on.
 function M.chmod(flags, files)
     return installers.on {
