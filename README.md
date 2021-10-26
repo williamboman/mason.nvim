@@ -1,10 +1,11 @@
+![repo size](https://img.shields.io/github/repo-size/williamboman/nvim-lsp-installer?style=flat-square)
+![checks status](https://img.shields.io/github/checks-status/williamboman/nvim-lsp-installer/main?style=flat-square)
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/6705160/118490159-f064bb00-b71d-11eb-883e-4affbd020074.png" alt="nvim-lsp-installer" width="60%" />
 </p>
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/6705160/135912610-9d7ac377-b3bc-4db5-b72c-aa987ae23da4.gif" width="650" />
-</p>
+<img src="https://user-images.githubusercontent.com/6705160/138860384-ec041595-2c23-43b7-a5a7-979b0efb3daf.gif" />
 
 ## About
 
