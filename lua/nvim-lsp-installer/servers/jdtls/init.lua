@@ -26,7 +26,7 @@ return function(name, root_dir)
                 Data.coalesce(
                     Data.when(platform.is_mac, "config_mac"),
                     Data.when(platform.is_linux, "config_linux"),
-                    Data.when(platform.is_win, "config_windows")
+                    Data.when(platform.is_win, "config_win")
                 ),
             },
             "-data",
