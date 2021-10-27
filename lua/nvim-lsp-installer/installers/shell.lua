@@ -8,6 +8,7 @@ local function shell(opts)
     ---@type ServerInstallerFunction
     return function(server, callback, context)
         local _, stdio = process.spawn(opts.shell, {
+            args = opts.args,
             cwd = server.root_dir,
             stdio_sink = context.stdio_sink,
             env = process.graft_env(opts.env or {}),
@@ -82,6 +83,7 @@ function M.powershell(raw_script, opts)
 
     return shell {
         shell = "powershell.exe",
+        args = { "-NoProfile" },
         cmd = (opts.prefix or "") .. raw_script,
         env = opts.env,
     }

@@ -42,7 +42,7 @@ local function fetch(url, callback)
             job_variants,
             1,
             process.lazy_spawn("powershell.exe", {
-                args = { "-Command", table.concat(ps_script, ";") },
+                args = { "-NoProfile", "-Command", table.concat(ps_script, ";") },
                 stdio_sink = stdio.sink,
             })
         )
