@@ -90,7 +90,7 @@ function M.Server:create_root_dir()
     fs.mkdirp(self.root_dir)
 end
 
----Queues the server to be asynchronously installed. Also opens the UI window.
+---Queues the server to be asynchronously installed.
 function M.Server:install()
     status_win().install_server(self)
 end
