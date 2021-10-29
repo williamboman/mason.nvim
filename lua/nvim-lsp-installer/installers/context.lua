@@ -89,7 +89,7 @@ function M.use_github_release(repo)
 end
 
 ---@param repo string @The GitHub report ("username/repo").
----@param file string @The name of a file availabine in the provided repo's GitHub releases.
+---@param file string|fun(resolved_version: string): string @The name of a file available in the provided repo's GitHub releases.
 function M.use_github_release_file(repo, file)
     return installers.pipe {
         M.use_github_release(repo),

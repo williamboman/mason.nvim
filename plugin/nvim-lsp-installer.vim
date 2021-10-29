@@ -56,7 +56,7 @@ function! s:LspPrintInstalled() abort
 endfunction
 
 function! s:LspInstallInfo() abort
-    lua require'nvim-lsp-installer'.display()
+    lua require'nvim-lsp-installer'.info_window.open()
 endfunction
 
 function! s:LspInstallLog() abort

@@ -12,8 +12,23 @@ local M = {}
 
 M.settings = settings.set
 
---- Opens the status window.
+M.info_window = {
+    ---Opens the status window.
+    open = function()
+        status_win().open()
+    end,
+    ---Closes the status window.
+    close = function()
+        status_win().close()
+    end,
+}
+
+---Deprecated. Use info_window.open().
 function M.display()
+    notify(
+        "The lsp_installer.display() function has been deprecated. Use lsp_installer.info_window.open() instead.",
+        vim.log.levels.WARN
+    )
     status_win().open()
 end
 
