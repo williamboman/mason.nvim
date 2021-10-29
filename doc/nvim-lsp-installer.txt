@@ -231,6 +231,9 @@ install({server_name})
         desired version of the server here, through the @version notation, for
         example `"rust_analyzer@nightly"`.
 
+        This will also open the `:LspInstallInfo` UI window. To install a
+        server without opening the window, see |nvim-lsp-installer.Server|.
+
         Parameters: ~
             {server_name} (string) The server to install.
 
@@ -256,6 +259,14 @@ on_server_ready({cb})
         Return: ~
             Returns a function which when called will de-register the {cb}
             from any future dispatches.
+
+                                      *nvim-lsp-installer.info_window.open()*
+info_window.open()
+    Opens the `:LspInstallInfo` UI window.
+
+                                      *nvim-lsp-installer.info_window.close()*
+info_window.close()
+    Closes the `:LspInstallInfo` UI window.
 
 ==============================================================================
 Lua module: nvim-lsp-installer.servers           *nvim-lsp-installer.servers*
