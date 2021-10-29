@@ -203,12 +203,6 @@ The following settings are applied by default. >
         -- debugging issues with server installations.
         log_level = vim.log.levels.INFO,
 
-        -- Whether to allow LSP servers to share the same installation directory. For some servers, this effectively causes
-        -- more than one server to be installed (and uninstalled) when executing `:LspInstall` and `:LspUninstall`. For
-        -- example, installing `cssls` will also install both `jsonls` and `html` (and the other ways around), as these all
-        -- share the same underlying package.
-        allow_federated_servers = true,
-
         -- Limit for the maximum amount of servers to be installed at the same time. Once this limit is reached, any further
         -- servers that are requested to be installed will be put in a queue.
         max_concurrent_installers = 4,

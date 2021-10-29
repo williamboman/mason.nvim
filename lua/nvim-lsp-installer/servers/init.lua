@@ -5,20 +5,12 @@ local settings = require "nvim-lsp-installer.settings"
 
 local M = {}
 
----@param name string
----@return string
-local function vscode_langservers_extracted(name)
-    return settings.current.allow_federated_servers and "vscode-langservers-extracted"
-        or "vscode-langservers-extracted_" .. name
-end
-
 -- By default the install dir will be the same as the server's name.
 -- There are two cases when servers should install to a different location:
---  1. federated server installations, (see :help nvim-lsp-installer-settings)
---  2. legacy reasons, where some servers were previously installed to a location different than their name
+--  1. Legacy reasons, where some servers were previously installed to a location different than their name
+--  2. There is a breaking change to a server that motivates changing its install dir (e.g. to "bust" existing installations).
 local INSTALL_DIRS = {
     ["bashls"] = "bash",
-    ["cssls"] = vscode_langservers_extracted "cssls",
     ["dockerls"] = "dockerfile",
     ["elixirls"] = "elixir",
     ["elmls"] = "elm",
@@ -26,9 +18,7 @@ local INSTALL_DIRS = {
     ["eslintls"] = "eslint",
     ["gopls"] = "go",
     ["hls"] = "haskell",
-    ["html"] = vscode_langservers_extracted "html",
     ["intelephense"] = "php",
-    ["jsonls"] = vscode_langservers_extracted "jsonls",
     ["kotlin_language_server"] = "kotlin",
     ["phpactor"] = "phpactor-source",
     ["purescriptls"] = "purescript",
