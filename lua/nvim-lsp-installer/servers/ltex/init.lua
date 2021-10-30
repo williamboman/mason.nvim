@@ -48,12 +48,25 @@ return function(name, root_dir)
             end),
             std.chmod("+x", { "ltex-ls" }),
         },
-        pre_setup = function()
-            require "nvim-lsp-installer.servers.ltex.configure"
-        end,
         default_options = {
             filetypes = { "tex", "bib", "markdown" },
             cmd = { path.concat { root_dir, script_name } },
+            settings = {
+                ltex = {
+                    enabled = { "latex", "tex", "bib", "markdown" },
+                    checkFrequency = "edit",
+                    language = "en",
+                    diagnosticSeverity = "information",
+                    setenceCacheSize = 2000,
+                    additionalRules = {
+                        enablePickyRules = true,
+                        motherTongue = "en",
+                    },
+                    dictionary = {},
+                    disabledRules = {},
+                    hiddenFalsePositives = {},
+                },
+            },
         },
     }
 end
