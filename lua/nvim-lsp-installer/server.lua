@@ -5,6 +5,7 @@ local settings = require "nvim-lsp-installer.settings"
 local installers = require "nvim-lsp-installer.installers"
 local servers = require "nvim-lsp-installer.servers"
 local status_win = require "nvim-lsp-installer.ui.status-win"
+local path = require "nvim-lsp-installer.path"
 
 local M = {}
 
@@ -104,26 +105,21 @@ function M.Server:install()
 end
 
 ---@param context ServerInstallContext
+function M.Server:_setup_install_context(context)
+    context.install_dir = path.concat { settings.current.install_root_dir, ("%s.tmp"):format(self.name) }
+    fs.rm_mkdirp(context.install_dir)
+
+    if not fs.dir_exists(settings.current.install_root_dir) then
+        fs.mkdirp(settings.current.install_root_dir)
+    end
+end
+
+---@param context ServerInstallContext
 ---@param callback ServerInstallCallback
 function M.Server:install_attached(context, callback)
-    ---@param path string
-    local function mkdir(path)
-        local mkdir_ok, mkdir_err = pcall(fs.mkdir, path)
-        if not mkdir_ok then
-            log.fmt_error("Failed to mkdir. path=%s error=%s", path, mkdir_err)
-            context.stdio_sink.stderr(("Failed to create directory %q.\n"):format(path))
-            context.stdio_sink.stderr(tostring(mkdir_err) .. "\n")
-            return false
-        end
-        return true
-    end
-
-    context.install_dir = vim.fn.tempname()
-    if not mkdir(context.install_dir) then
-        callback(false)
-        return
-    end
-    if not fs.dir_exists(settings.current.install_root_dir) and not mkdir(settings.current.install_root_dir) then
+    local context_ok, context_err = pcall(self._setup_install_context, self, context)
+    if not context_ok then
+        log.error("Failed to setup installation context.", context_err)
         callback(false)
         return
     end
@@ -132,17 +128,20 @@ function M.Server:install_attached(context, callback)
         self,
         vim.schedule_wrap(function(success)
             if success then
-                if fs.dir_exists(self.root_dir) then
-                    local rmrf_ok, rmrf_err = pcall(fs.rmrf, self.root_dir)
-                    if not rmrf_ok then
-                        log.fmt_error("Failed to rmrf. path=%s error=%s", self.root_dir, rmrf_err)
-                        context.stdio_sink.stderr "Failed to delete existing installation.\n"
-                        context.stdio_sink.stderr(tostring(rmrf_err) .. "\n")
-                        return
-                    end
+                -- 1. Remove and recreate final installation directory
+                local rmrf_ok, rmrf_err = pcall(fs.rm_mkdirp, self.root_dir)
+                if not rmrf_ok then
+                    log.fmt_error("Failed to rm_mkdirp. path=%s error=%s", self.root_dir, rmrf_err)
+                    context.stdio_sink.stderr "Failed to remove and recreate final installation directory.\n"
+                    context.stdio_sink.stderr(tostring(rmrf_err) .. "\n")
+                    callback(false)
+                    return
                 end
+
+                -- 2. Move the temporary install dir to the final installation directory
                 local rename_ok, rename_err = pcall(fs.rename, context.install_dir, self.root_dir)
                 if rename_ok then
+                    -- 3a. Dispatch the server is ready
                     vim.schedule(function()
                         dispatcher.dispatch_server_ready(self)
                         for _, on_ready_handler in ipairs(self._on_ready_handlers) do
@@ -150,6 +149,7 @@ function M.Server:install_attached(context, callback)
                         end
                     end)
                 else
+                    --- 3b. We failed to rename the temporary dir to the final installation dir
                     log.fmt_error(
                         "Failed to rename. path=%s new_path=%s error=%s",
                         context.install_dir,

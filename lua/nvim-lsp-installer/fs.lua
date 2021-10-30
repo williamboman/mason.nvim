@@ -5,13 +5,8 @@ local settings = require "nvim-lsp-installer.settings"
 local uv = vim.loop
 local M = {}
 
-local tmpdir_root = vim.fn.fnamemodify(vim.fn.tempname(), ":h")
-
 local function assert_ownership(path)
-    if
-        not pathm.is_subdirectory(settings.current.install_root_dir, path)
-        and not pathm.is_subdirectory(tmpdir_root, path)
-    then
+    if not pathm.is_subdirectory(settings.current.install_root_dir, path) then
         log.fmt_error("assert_ownership() failed on path %s", path)
         error(
             ("Refusing to operate on path (%s) outside of the servers root dir (%s)."):format(
@@ -22,7 +17,7 @@ local function assert_ownership(path)
     end
 end
 
----@param path @The full path to the file/dir to recursively delete. Will refuse to operate on paths outside of the install_root dir setting.
+---@param path string @The full path to the file/dir to recursively delete. Will refuse to operate on paths outside of the install_root dir setting.
 function M.rmrf(path)
     log.debug("fs: rmrf", path)
     assert_ownership(path)
@@ -56,6 +51,15 @@ function M.mkdir(path)
     log.debug("fs: mkdir", path)
     assert_ownership(path)
     assert(uv.fs_mkdir(path, 493)) -- 493(10) == 755(8)
+end
+
+---Recursively removes the path if it exists before creating a directory.
+---@param path string @The full path to the directory to create. Will refuse to operate on paths outside of the install_root dir setting.
+function M.rm_mkdirp(path)
+    if M.dir_exists(path) then
+        M.rmrf(path)
+    end
+    return M.mkdirp(path)
 end
 
 ---@param path string @The full path to check if it 1) exists, and 2) is a directory.
