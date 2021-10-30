@@ -1,6 +1,7 @@
 local dispatcher = require "nvim-lsp-installer.dispatcher"
 local fs = require "nvim-lsp-installer.fs"
 local log = require "nvim-lsp-installer.log"
+local platform = require "nvim-lsp-installer.platform"
 local settings = require "nvim-lsp-installer.settings"
 local installers = require "nvim-lsp-installer.installers"
 local servers = require "nvim-lsp-installer.servers"
@@ -128,17 +129,28 @@ function M.Server:install_attached(context, callback)
         self,
         vim.schedule_wrap(function(success)
             if success then
-                -- 1. Remove and recreate final installation directory
-                local rmrf_ok, rmrf_err = pcall(fs.rm_mkdirp, self.root_dir)
-                if not rmrf_ok then
-                    log.fmt_error("Failed to rm_mkdirp. path=%s error=%s", self.root_dir, rmrf_err)
-                    context.stdio_sink.stderr "Failed to remove and recreate final installation directory.\n"
-                    context.stdio_sink.stderr(tostring(rmrf_err) .. "\n")
-                    callback(false)
-                    return
+                -- 1. Remove final installation directory, if it exists
+                if fs.dir_exists(self.root_dir) then
+                    local rmrf_ok, rmrf_err = pcall(fs.rmrf, self.root_dir)
+                    if not rmrf_ok then
+                        log.fmt_error(
+                            "Failed to remove final installation directory. path=%s error=%s",
+                            self.root_dir,
+                            rmrf_err
+                        )
+                        context.stdio_sink.stderr "Failed to remove final installation directory.\n"
+                        context.stdio_sink.stderr(tostring(rmrf_err) .. "\n")
+                        callback(false)
+                        return
+                    end
                 end
 
                 -- 2. Move the temporary install dir to the final installation directory
+                if platform.is_unix then
+                    -- Some Unix systems will raise an error when renaming a directory to a destination that does not
+                    -- already exist.
+                    fs.mkdir(self.root_dir)
+                end
                 local rename_ok, rename_err = pcall(fs.rename, context.install_dir, self.root_dir)
                 if rename_ok then
                     -- 3a. Dispatch the server is ready
