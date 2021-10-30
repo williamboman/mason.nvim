@@ -57,10 +57,11 @@ local function zx_installer(force)
 end
 
 local function exec(file)
-    return function(server, callback, context)
+    ---@type ServerInstallerFunction
+    return function(_, callback, context)
         process.spawn(ZX_EXECUTABLE, {
             args = { file },
-            cwd = server.root_dir,
+            cwd = context.install_dir,
             stdio_sink = context.stdio_sink,
         }, callback)
     end

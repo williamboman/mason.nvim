@@ -10,6 +10,7 @@ local M = {}
 ---@field requested_server_version string|nil @The version requested by the user.
 ---@field stdio_sink StdioSink
 ---@field github_release_file string|nil @Only available if context.use_github_release_file has been called.
+---@field install_dir string
 
 ---@alias ServerInstallerFunction fun(server: Server, callback: ServerInstallCallback, context: ServerInstallContext)
 

@@ -21,10 +21,10 @@ local function create_installer(python_executable, packages)
             },
         },
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             local pkgs = Data.list_copy(packages or {})
             local c = process.chain {
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }
 
@@ -36,7 +36,7 @@ local function create_installer(python_executable, packages)
 
             local install_command = { "-m", "pip", "install", "-U" }
             vim.list_extend(install_command, settings.current.pip.install_args)
-            c.run(M.executable(server.root_dir, "python"), vim.list_extend(install_command, pkgs))
+            c.run(M.executable(context.install_dir, "python"), vim.list_extend(install_command, pkgs))
 
             c.spawn(callback)
         end,

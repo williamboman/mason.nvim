@@ -17,10 +17,10 @@ return function(name, root_dir)
             },
             context.use_github_release "erlang-ls/erlang_ls",
             std.git_clone "https://github.com/erlang-ls/erlang_ls.git",
-            function(server, callback, context)
+            function(_, callback, ctx)
                 local c = process.chain {
-                    cwd = server.root_dir,
-                    stdio_sink = context.stdio_sink,
+                    cwd = ctx.install_dir,
+                    stdio_sink = ctx.stdio_sink,
                 }
                 local rebar3 = platform.is_win and "rebar3.cmd" or "rebar3"
                 c.run(rebar3, { "escriptize" })

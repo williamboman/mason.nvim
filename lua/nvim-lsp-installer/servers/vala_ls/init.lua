@@ -25,13 +25,13 @@ return function(name, root_dir)
                     std.rename(("vala-language-server-%s"):format(ctx.requested_server_version), "vala-language-server"),
                 }
             end),
-            function(server, callback, context)
+            function(_, callback, ctx)
                 local c = process.chain {
-                    cwd = path.concat { server.root_dir, "vala-language-server" },
-                    stdio_sink = context.stdio_sink,
+                    cwd = path.concat { cwd.install_dir, "vala-language-server" },
+                    stdio_sink = ctx.stdio_sink,
                 }
 
-                c.run("meson", { ("-Dprefix=%s"):format(server.root_dir), "build" })
+                c.run("meson", { ("-Dprefix=%s"):format(ctx.install_dir), "build" })
                 c.run("ninja", { "-C", "build", "install" })
 
                 c.spawn(callback)

@@ -17,7 +17,7 @@ function M.packages(packages)
             { "gem", "gem was not found in path, refer to https://wiki.openstack.org/wiki/RubyGems." },
         },
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             local pkgs = Data.list_copy(packages or {})
             if context.requested_server_version then
                 -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
@@ -33,7 +33,7 @@ function M.packages(packages)
                     "--no-document",
                     table.concat(pkgs, " "),
                 },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
         end,

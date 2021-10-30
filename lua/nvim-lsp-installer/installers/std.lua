@@ -12,18 +12,18 @@ local M = {}
 function M.download_file(url, out_file)
     return installers.when {
         ---@type ServerInstallerFunction
-        unix = function(server, callback, context)
+        unix = function(_, callback, context)
             context.stdio_sink.stdout(("Downloading file %q...\n"):format(url))
             process.attempt {
                 jobs = {
                     process.lazy_spawn("wget", {
                         args = { "-nv", "-O", out_file, url },
-                        cwd = server.root_dir,
+                        cwd = context.install_dir,
                         stdio_sink = context.stdio_sink,
                     }),
                     process.lazy_spawn("curl", {
                         args = { "-fsSL", "-o", out_file, url },
-                        cwd = server.root_dir,
+                        cwd = context.install_dir,
                         stdio_sink = context.stdio_sink,
                     }),
                 },
@@ -40,10 +40,10 @@ function M.unzip(file, dest)
     return installers.pipe {
         installers.when {
             ---@type ServerInstallerFunction
-            unix = function(server, callback, context)
+            unix = function(_, callback, context)
                 process.spawn("unzip", {
                     args = { "-d", dest, file },
-                    cwd = server.root_dir,
+                    cwd = context.install_dir,
                     stdio_sink = context.stdio_sink,
                 }, callback)
             end,
@@ -66,10 +66,10 @@ end
 function M.untar(file)
     return installers.pipe {
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             process.spawn("tar", {
                 args = { "-xvf", file },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
         end,
@@ -81,21 +81,21 @@ end
 local function win_extract(file)
     return installers.pipe {
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             -- The trademarked "throw shit until it sticks" technique
             local sevenzip = process.lazy_spawn("7z", {
                 args = { "x", "-y", "-r", file },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             })
             local peazip = process.lazy_spawn("peazip", {
-                args = { "-ext2here", path.concat { server.root_dir, file } }, -- peazip require absolute paths, or else!
-                cwd = server.root_dir,
+                args = { "-ext2here", path.concat { context.install_dir, file } }, -- peazip require absolute paths, or else!
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             })
             local winzip = process.lazy_spawn("wzunzip", {
                 args = { file },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             })
             process.attempt {
@@ -119,11 +119,11 @@ end
 local function win_arc_unarchive(file)
     return installers.pipe {
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             context.stdio_sink.stdout "Attempting to unarchive using arc."
             process.spawn("arc", {
                 args = { "unarchive", file },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
         end,
@@ -157,10 +157,10 @@ end
 function M.gunzip(file)
     return installers.when {
         ---@type ServerInstallerFunction
-        unix = function(server, callback, context)
+        unix = function(_, callback, context)
             process.spawn("gzip", {
                 args = { "-d", file },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
         end,
@@ -184,8 +184,8 @@ end
 ---@param rel_path string @The relative path to the file/directory to remove.
 function M.rmrf(rel_path)
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
-        local abs_path = path.concat { server.root_dir, rel_path }
+    return function(_, callback, context)
+        local abs_path = path.concat { context.install_dir, rel_path }
         context.stdio_sink.stdout(("Deleting %q\n"):format(abs_path))
         vim.schedule(function()
             local ok = pcall(fs.rmrf, abs_path)
@@ -199,13 +199,38 @@ function M.rmrf(rel_path)
     end
 end
 
+---@param rel_path string @The relative path to the file to write.
+---@param contents string @The file contents.
+function M.write_file(rel_path, contents)
+    ---@type ServerInstallerFunction
+    return function(_, callback, ctx)
+        local file = path.concat { ctx.install_dir, rel_path }
+        ctx.stdio_sink.stdout(("Writing file %q\n"):format(file))
+        fs.write_file(file, contents)
+        callback(true)
+    end
+end
+
+---@param script_rel_path string @The relative path to the script file to write.
+---@param abs_target_executable_path string @The absolute path to the executable that is being aliased.
+function M.executable_alias(script_rel_path, abs_target_executable_path)
+    local windows_script = "@call %q %%"
+    local unix_script = [[#!/usr/bin/env sh
+exec %q
+]]
+    return installers.when {
+        unix = M.write_file(script_rel_path, unix_script:format(abs_target_executable_path)),
+        win = M.write_file(script_rel_path, windows_script:format(abs_target_executable_path)),
+    }
+end
+
 ---Shallow git clone.
 ---@param repo_url string
 function M.git_clone(repo_url)
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
+    return function(_, callback, context)
         local c = process.chain {
-            cwd = server.root_dir,
+            cwd = context.install_dir,
             stdio_sink = context.stdio_sink,
         }
 
@@ -223,10 +248,10 @@ end
 ---@param opts {args: string[]}
 function M.gradlew(opts)
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
-        process.spawn(path.concat { server.root_dir, platform.is_win and "gradlew.bat" or "gradlew" }, {
+    return function(_, callback, context)
+        process.spawn(path.concat { context.install_dir, platform.is_win and "gradlew.bat" or "gradlew" }, {
             args = opts.args,
-            cwd = server.root_dir,
+            cwd = context.install_dir,
             stdio_sink = context.stdio_sink,
         }, callback)
     end
@@ -258,11 +283,11 @@ end
 ---@path new_path string @The relative path to what to rename the file/dir to.
 function M.rename(old_path, new_path)
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
+    return function(_, callback, context)
         local ok = pcall(
             fs.rename,
-            path.concat { server.root_dir, old_path },
-            path.concat { server.root_dir, new_path }
+            path.concat { context.install_dir, old_path },
+            path.concat { context.install_dir, new_path }
         )
         if not ok then
             context.stdio_sink.stderr(("Failed to rename %q to %q.\n"):format(old_path, new_path))
@@ -276,10 +301,10 @@ end
 function M.chmod(flags, files)
     return installers.on {
         ---@type ServerInstallerFunction
-        unix = function(server, callback, context)
+        unix = function(_, callback, context)
             process.spawn("chmod", {
                 args = vim.list_extend({ flags }, files),
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
         end,

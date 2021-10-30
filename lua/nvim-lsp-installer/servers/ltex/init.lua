@@ -11,6 +11,8 @@ local uv = vim.loop
 local coalesce, when = Data.coalesce, Data.when
 
 return function(name, root_dir)
+    local script_name = platform.is_win and "ltex-ls.bat" or "ltex-ls"
+
     return server.Server:new {
         name = name,
         root_dir = root_dir,
@@ -31,58 +33,27 @@ return function(name, root_dir)
                     return std.untargz_remote(ctx.github_release_file)
                 end
             end),
-            installers.when {
-                unix = function(server, callback, context)
-                    local executable = path.concat {
-                        server.root_dir,
-                        ("ltex-ls-%s"):format(context.requested_server_version),
+            context.capture(function(ctx)
+                -- Preferably we'd not have to write a script file that captures the installed version.
+                -- But in order to not break backwards compatibility for existing installations of ltex, we do it.
+                return std.executable_alias(
+                    script_name,
+                    path.concat {
+                        root_dir,
+                        ("ltex-ls-%s"):format(ctx.requested_server_version),
                         "bin",
-                        "ltex-ls",
+                        platform.is_win and "ltex-ls.bat" or "ltex-ls",
                     }
-                    local new_path = path.concat { server.root_dir, "ltex-ls" }
-                    context.stdio_sink.stdout(("Creating symlink from %s to %s\n"):format(executable, new_path))
-                    uv.fs_symlink(executable, new_path, { dir = false, junction = false }, function(err, success)
-                        if not success then
-                            context.stdio_sink.stderr(tostring(err) .. "\n")
-                            callback(false)
-                        else
-                            callback(true)
-                        end
-                    end)
-                end,
-                win = function(server, callback, context)
-                    context.stdio_sink.stdout "Creating ltex-ls.bat...\n"
-                    uv.fs_open(path.concat { server.root_dir, "ltex-ls.bat" }, "w", 438, function(open_err, fd)
-                        local executable = path.concat {
-                            server.root_dir,
-                            ("ltex-ls-%s"):format(context.requested_server_version),
-                            "bin",
-                            "ltex-ls.bat",
-                        }
-                        if open_err then
-                            context.stdio_sink.stderr(tostring(open_err) .. "\n")
-                            return callback(false)
-                        end
-                        uv.fs_write(fd, ("@call %q %%*"):format(executable), -1, function(write_err)
-                            if write_err then
-                                context.stdio_sink.stderr(tostring(write_err) .. "\n")
-                                callback(false)
-                            else
-                                context.stdio_sink.stdout "Created ltex-ls.bat\n"
-                                callback(true)
-                            end
-                            assert(uv.fs_close(fd))
-                        end)
-                    end)
-                end,
-            },
+                )
+            end),
+            std.chmod("+x", { "ltex-ls" }),
         },
         pre_setup = function()
             require "nvim-lsp-installer.servers.ltex.configure"
         end,
         default_options = {
             filetypes = { "tex", "bib", "markdown" },
-            cmd = { path.concat { root_dir, platform.is_win and "ltex-ls.bat" or "ltex-ls" } },
+            cmd = { path.concat { root_dir, script_name } },
         },
     }
 end

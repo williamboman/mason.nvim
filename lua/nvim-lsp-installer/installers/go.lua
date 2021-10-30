@@ -11,15 +11,15 @@ function M.packages(packages)
     return installers.pipe {
         std.ensure_executables { { "go", "go was not found in path, refer to https://golang.org/doc/install." } },
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             local pkgs = Data.list_copy(packages or {})
             local c = process.chain {
                 env = process.graft_env {
                     GO111MODULE = "on",
-                    GOBIN = server.root_dir,
-                    GOPATH = server.root_dir,
+                    GOBIN = context.install_dir,
+                    GOPATH = context.install_dir,
                 },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }
 

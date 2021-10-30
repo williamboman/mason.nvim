@@ -1,6 +1,7 @@
 local dispatcher = require "nvim-lsp-installer.dispatcher"
 local fs = require "nvim-lsp-installer.fs"
 local log = require "nvim-lsp-installer.log"
+local settings = require "nvim-lsp-installer.settings"
 local installers = require "nvim-lsp-installer.installers"
 local servers = require "nvim-lsp-installer.servers"
 local status_win = require "nvim-lsp-installer.ui.status-win"
@@ -86,10 +87,6 @@ function M.Server:is_installed()
     return servers.is_server_installed(self.name)
 end
 
-function M.Server:create_root_dir()
-    fs.mkdirp(self.root_dir)
-end
-
 ---Queues the server to be asynchronously installed.
 function M.Server:install()
     status_win().install_server(self)
@@ -98,27 +95,57 @@ end
 ---@param context ServerInstallContext
 ---@param callback ServerInstallCallback
 function M.Server:install_attached(context, callback)
-    local uninstall_ok, uninstall_err = pcall(self.uninstall, self)
-    if not uninstall_ok then
-        context.stdio_sink.stderr(tostring(uninstall_err) .. "\n")
+    ---@param path string
+    local function mkdir(path)
+        local mkdir_ok, mkdir_err = pcall(fs.mkdir, path)
+        if not mkdir_ok then
+            context.stdio_sink.stderr(("Failed to create directory %q.\n"):format(path))
+            context.stdio_sink.stderr(tostring(mkdir_err) .. "\n")
+            return false
+        end
+        return true
+    end
+
+    context.install_dir = vim.fn.tempname()
+    if not mkdir(context.install_dir) then
         callback(false)
         return
     end
-
-    self:create_root_dir()
-
-    local install_ok, install_err = pcall(self._installer, self, function(success)
-        if not success then
-            vim.schedule(function()
-                pcall(self.uninstall, self)
-            end)
-        else
-            vim.schedule(function()
-                dispatcher.dispatch_server_ready(self)
-            end)
-        end
-        callback(success)
-    end, context)
+    if not fs.dir_exists(settings.current.install_root_dir) and not mkdir(settings.current.install_root_dir) then
+        callback(false)
+        return
+    end
+    local install_ok, install_err = pcall(
+        self._installer,
+        self,
+        vim.schedule_wrap(function(success)
+            if success then
+                if fs.dir_exists(self.root_dir) then
+                    local rmrf_ok, rmrf_err = pcall(fs.rmrf, self.root_dir)
+                    if not rmrf_ok then
+                        context.stdio_sink.stderr "Failed to delete existing installation.\n"
+                        context.stdio_sink.stderr(tostring(rmrf_err) .. "\n")
+                        return
+                    end
+                end
+                local rename_ok, rename_err = pcall(fs.rename, context.install_dir, self.root_dir)
+                if rename_ok then
+                    vim.schedule(function()
+                        dispatcher.dispatch_server_ready(self)
+                    end)
+                else
+                    context.stdio_sink.stderr(
+                        ("Failed to rename %q to %q.\n"):format(context.install_dir, self.root_dir)
+                    )
+                    context.stdio_sink.stderr(tostring(rename_err) .. "\n")
+                    callback(false)
+                    return
+                end
+            end
+            callback(success)
+        end),
+        context
+    )
     if not install_ok then
         context.stdio_sink.stderr(tostring(install_err) .. "\n")
         callback(false)

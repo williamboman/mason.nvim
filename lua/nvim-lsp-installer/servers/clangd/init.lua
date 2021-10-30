@@ -1,14 +1,14 @@
+local fs = require "nvim-lsp-installer.fs"
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
 local platform = require "nvim-lsp-installer.platform"
 local context = require "nvim-lsp-installer.installers.context"
-local installers = require "nvim-lsp-installer.installers"
-
-local uv = vim.loop
 
 return function(name, root_dir)
+    local script_name = platform.is_win and "clangd.bat" or "clangd"
+
     return server.Server:new {
         name = name,
         root_dir = root_dir,
@@ -24,54 +24,23 @@ return function(name, root_dir)
             context.capture(function(ctx)
                 return std.unzip_remote(ctx.github_release_file)
             end),
-            installers.when {
-                unix = function(server, callback, context)
-                    local executable = path.concat {
-                        server.root_dir,
-                        ("clangd_%s"):format(context.requested_server_version),
+            context.capture(function(ctx)
+                -- Preferably we'd not have to write a script file that captures the installed version.
+                -- But in order to not break backwards compatibility for existing installations of clangd, we do it.
+                return std.executable_alias(
+                    script_name,
+                    path.concat {
+                        root_dir,
+                        ("clangd_%s"):format(ctx.requested_server_version),
                         "bin",
-                        "clangd",
+                        platform.is_win and "clangd.exe" or "clangd",
                     }
-                    local new_path = path.concat { server.root_dir, "clangd" }
-                    context.stdio_sink.stdout(("Creating symlink from %s to %s\n"):format(executable, new_path))
-                    uv.fs_symlink(executable, new_path, { dir = false, junction = false }, function(err, success)
-                        if not success then
-                            context.stdio_sink.stderr(tostring(err) .. "\n")
-                            callback(false)
-                        else
-                            callback(true)
-                        end
-                    end)
-                end,
-                win = function(server, callback, context)
-                    context.stdio_sink.stdout "Creating clangd.bat...\n"
-                    uv.fs_open(path.concat { server.root_dir, "clangd.bat" }, "w", 438, function(open_err, fd)
-                        local executable = path.concat {
-                            server.root_dir,
-                            ("clangd_%s"):format(context.requested_server_version),
-                            "bin",
-                            "clangd.exe",
-                        }
-                        if open_err then
-                            context.stdio_sink.stderr(tostring(open_err) .. "\n")
-                            return callback(false)
-                        end
-                        uv.fs_write(fd, ("@call %q %%*"):format(executable), -1, function(write_err)
-                            if write_err then
-                                context.stdio_sink.stderr(tostring(write_err) .. "\n")
-                                callback(false)
-                            else
-                                context.stdio_sink.stdout "Created clangd.bat\n"
-                                callback(true)
-                            end
-                            assert(uv.fs_close(fd))
-                        end)
-                    end)
-                end,
-            },
+                )
+            end),
+            std.chmod("+x", { "clangd" }),
         },
         default_options = {
-            cmd = { path.concat { root_dir, platform.is_win and "clangd.bat" or "clangd" } },
+            cmd = { path.concat { root_dir, script_name } },
         },
     }
 end

@@ -25,13 +25,13 @@ local M = {}
 function M.packages(packages)
     return ensure_composer(
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             local c = process.chain {
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }
 
-            if not (fs.file_exists(path.concat { server.root_dir, "composer.json" })) then
+            if not (fs.file_exists(path.concat { context.install_dir, "composer.json" })) then
                 c.run(composer, { "init", "--no-interaction", "--stability=dev" })
                 c.run(composer, { "config", "prefer-stable", "true" })
             end
@@ -51,7 +51,7 @@ end
 function M.install()
     return ensure_composer(
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             process.spawn(composer, {
                 args = {
                     "install",
@@ -60,7 +60,7 @@ function M.install()
                     "--optimize-autoloader",
                     "--classmap-authoritative",
                 },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
         end

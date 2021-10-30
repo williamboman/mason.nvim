@@ -29,15 +29,15 @@ local function create_installer(read_version_from_context)
     return function(packages)
         return ensure_npm(
             ---@type ServerInstallerFunction
-            function(server, callback, context)
+            function(_, callback, context)
                 local pkgs = Data.list_copy(packages or {})
                 local c = process.chain {
-                    cwd = server.root_dir,
+                    cwd = context.install_dir,
                     stdio_sink = context.stdio_sink,
                 }
             -- stylua: ignore start
-            if not (fs.dir_exists(path.concat { server.root_dir, "node_modules" }) or
-                   fs.file_exists(path.concat { server.root_dir, "package.json" }))
+            if not (fs.dir_exists(path.concat { context.install_dir, "node_modules" }) or
+                   fs.file_exists(path.concat { context.install_dir, "package.json" }))
             then
                 c.run(npm, { "init", "--yes", "--scope=lsp-installer" })
             end
@@ -66,10 +66,10 @@ M.install = create_installer(false)
 ---@param args string[]
 function M.exec(executable, args)
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
-        process.spawn(M.executable(server.root_dir, executable), {
+    return function(_, callback, context)
+        process.spawn(M.executable(context.install_dir, executable), {
             args = args,
-            cwd = server.root_dir,
+            cwd = context.install_dir,
             stdio_sink = context.stdio_sink,
         }, callback)
     end
@@ -80,10 +80,10 @@ end
 function M.run(script)
     return ensure_npm(
         ---@type ServerInstallerFunction
-        function(server, callback, context)
+        function(_, callback, context)
             process.spawn(npm, {
                 args = { "run", script },
-                cwd = server.root_dir,
+                cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             }, callback)
         end
