@@ -155,6 +155,7 @@ function M.Server:install_attached(context, callback)
         context
     )
     if not install_ok then
+        log.error("Installer raised an unexpected error.", install_err)
         context.stdio_sink.stderr(tostring(install_err) .. "\n")
         callback(false)
     end
