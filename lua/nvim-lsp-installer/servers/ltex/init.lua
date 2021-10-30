@@ -4,9 +4,6 @@ local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local Data = require "nvim-lsp-installer.data"
 local platform = require "nvim-lsp-installer.platform"
-local installers = require "nvim-lsp-installer.installers"
-
-local uv = vim.loop
 
 local coalesce, when = Data.coalesce, Data.when
 
@@ -48,25 +45,39 @@ return function(name, root_dir)
             end),
             std.chmod("+x", { "ltex-ls" }),
         },
-        default_options = {
-            filetypes = { "tex", "bib", "markdown" },
-            cmd = { path.concat { root_dir, script_name } },
-            settings = {
-                ltex = {
-                    enabled = { "latex", "tex", "bib", "markdown" },
-                    checkFrequency = "edit",
-                    language = "en",
-                    diagnosticSeverity = "information",
-                    setenceCacheSize = 2000,
-                    additionalRules = {
-                        enablePickyRules = true,
-                        motherTongue = "en",
+        pre_setup = function()
+            local configs = require "lspconfig/configs"
+            local util = require "lspconfig/util"
+
+            if configs.ltex then
+                return
+            end
+
+            configs.ltex = {
+                default_config = {
+                    filetypes = { "tex", "bib", "markdown" },
+                    root_dir = util.find_git_ancestor,
+                    settings = {
+                        ltex = {
+                            enabled = { "latex", "tex", "bib", "markdown" },
+                            checkFrequency = "edit",
+                            language = "en",
+                            diagnosticSeverity = "information",
+                            setenceCacheSize = 2000,
+                            additionalRules = {
+                                enablePickyRules = true,
+                                motherTongue = "en",
+                            },
+                            dictionary = {},
+                            disabledRules = {},
+                            hiddenFalsePositives = {},
+                        },
                     },
-                    dictionary = {},
-                    disabledRules = {},
-                    hiddenFalsePositives = {},
                 },
-            },
+            }
+        end,
+        default_options = {
+            cmd = { path.concat { root_dir, script_name } },
         },
     }
 end
