@@ -18,6 +18,9 @@ for _, file in ipairs(vim.fn.glob(generated_dir .. "*", 1, 1)) do
     vim.fn.delete(file)
 end
 
+---@param path string
+---@param txt string
+---@param flag string|number
 local function write_file(path, txt, flag)
     uv.fs_open(path, flag, 438, function(open_err, fd)
         assert(not open_err, open_err)
@@ -39,18 +42,21 @@ local function write_file(path, txt, flag)
     end)
 end
 
+---@param server Server
 local function get_supported_filetypes(server)
-    local configs = require "lspconfig/configs"
-    local lspconfig_server_ok = pcall(require, ("lspconfig/" .. server.name))
-    if not lspconfig_server_ok then
-        -- This is expected behavior for servers that does not exist in lspconfig.
-        print(("Unable to import lspconfig/%s, continuing..."):format(server.name))
+    local config = require("lspconfig")[server.name]
+    if not config then
+        -- No default server config exists in lspconfig
+        if server._pre_setup then
+            server._pre_setup()
+        end
+        config = require("lspconfig/configs")[server.name]
     end
     local default_options = server:get_default_options()
     local filetypes = coalesce(
         -- nvim-lsp-installer options has precedence
         default_options.filetypes,
-        lspconfig_server_ok and configs[server.name].document_config.default_config.filetypes,
+        config.document_config.default_config.filetypes,
         {}
     )
     return filetypes
@@ -76,6 +82,7 @@ end
 do
     local metadata = {}
 
+    ---@param server Server
     local function create_metadata_entry(server)
         return { filetypes = get_supported_filetypes(server) }
     end
