@@ -99,6 +99,7 @@ function M.Server:install_attached(context, callback)
     local function mkdir(path)
         local mkdir_ok, mkdir_err = pcall(fs.mkdir, path)
         if not mkdir_ok then
+            log.fmt_error("Failed to mkdir. path=%s error=%s", path, mkdir_err)
             context.stdio_sink.stderr(("Failed to create directory %q.\n"):format(path))
             context.stdio_sink.stderr(tostring(mkdir_err) .. "\n")
             return false
@@ -123,6 +124,7 @@ function M.Server:install_attached(context, callback)
                 if fs.dir_exists(self.root_dir) then
                     local rmrf_ok, rmrf_err = pcall(fs.rmrf, self.root_dir)
                     if not rmrf_ok then
+                        log.fmt_error("Failed to rmrf. path=%s error=%s", self.root_dir, rmrf_err)
                         context.stdio_sink.stderr "Failed to delete existing installation.\n"
                         context.stdio_sink.stderr(tostring(rmrf_err) .. "\n")
                         return
@@ -134,6 +136,12 @@ function M.Server:install_attached(context, callback)
                         dispatcher.dispatch_server_ready(self)
                     end)
                 else
+                    log.fmt_error(
+                        "Failed to rename. path=%s new_path=%s error=%s",
+                        context.install_dir,
+                        self.root_dir,
+                        rename_err
+                    )
                     context.stdio_sink.stderr(
                         ("Failed to rename %q to %q.\n"):format(context.install_dir, self.root_dir)
                     )
