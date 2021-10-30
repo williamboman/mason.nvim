@@ -332,6 +332,14 @@ class: Server
                     Returns a deep copy of the default options provided to
                     lspconfig in the setup({opts}) method.
 
+            - on_ready({handler})
+                    Registers the provided {handler} to be called when the
+                    server is ready to be setup.
+
+                    Parameters: ~
+                        {handler} (function) Function to be called when the
+                        server is ready.
+
             - is_installed()
                     Returns {true} is server is installed, else returns {false}.
 

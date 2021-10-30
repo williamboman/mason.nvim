@@ -151,6 +151,7 @@ function M.parse_server_identifier(server_identifier)
 end
 
 ---@param server_name string
+---@return boolean, Server
 function M.get_server(server_name)
     if INITIALIZED_SERVERS[server_name] then
         return true, INITIALIZED_SERVERS[server_name]

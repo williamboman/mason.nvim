@@ -20,6 +20,7 @@ M.get_server_root_path = servers.get_server_install_path
 ---@field public  homepage string|nil @The homepage where users can find more information. This is shown to users in the UI.
 ---@field public  deprecated ServerDeprecation|nil @The existence (not nil) of this field indicates this server is depracted.
 ---@field private _installer ServerInstallerFunction
+---@field private _on_ready_handlers fun(server: Server)[]
 ---@field private _default_options table @The server's default options. This is used in @see Server#setup.
 ---@field private _pre_setup fun()|nil @Function to be called in @see Server#setup, before trying to setup.
 ---@field private _post_setup fun()|nil @Function to be called in @see Server#setup, after successful setup.
@@ -34,6 +35,7 @@ function M.Server:new(opts)
         root_dir = opts.root_dir,
         homepage = opts.homepage,
         deprecated = opts.deprecated,
+        _on_ready_handlers = {},
         _installer = type(opts.installer) == "function" and opts.installer or installers.pipe(opts.installer),
         _default_options = opts.default_options,
         _pre_setup = opts.pre_setup,
@@ -63,6 +65,15 @@ function M.Server:setup(opts)
                 "Unable to setup server %q: Could not find lspconfig server entry. Make sure you are running a recent version of lspconfig."
             ):format(self.name)
         )
+    end
+end
+
+---Registers a handler (callback) to be executed when the server is ready to be setup.
+---@param handler fun(server: Server)
+function M.Server:on_ready(handler)
+    table.insert(self._on_ready_handlers, handler)
+    if self:is_installed() then
+        handler(self)
     end
 end
 
@@ -134,6 +145,9 @@ function M.Server:install_attached(context, callback)
                 if rename_ok then
                     vim.schedule(function()
                         dispatcher.dispatch_server_ready(self)
+                        for _, on_ready_handler in ipairs(self._on_ready_handlers) do
+                            on_ready_handler(self)
+                        end
                     end)
                 else
                     log.fmt_error(
