@@ -75,7 +75,9 @@ end
 ---@param opts table @The lspconfig server configuration.
 function M.Server:setup(opts)
     self:setup_lsp(opts)
-    self:attach_buffers()
+    if not (opts.autostart == false) then
+        self:attach_buffers()
+    end
 end
 
 ---Attaches this server to all current open buffers with a 'filetype' that matches the server's configured filetypes.
