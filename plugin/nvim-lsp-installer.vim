@@ -71,8 +71,6 @@ command! LspPrintInstalled call s:LspPrintInstalled()
 command! LspInstallInfo call s:LspInstallInfo()
 command! LspInstallLog call s:LspInstallLog()
 
-autocmd User LspAttachBuffers lua require"nvim-lsp-installer".lsp_attach_proxy()
-
 let &cpo = s:save_cpo
 unlet s:save_cpo
 

@@ -45,8 +45,9 @@ function M.Server:new(opts)
     }, M.Server)
 end
 
----@param opts table @User-defined options. This is directly passed to the lspconfig's setup() method.
-function M.Server:setup(opts)
+---Sets up the language server via lspconfig. This function has the same signature as the setup function in nvim-lspconfig.
+---@param opts table @The lspconfig server configuration.
+function M.Server:setup_lsp(opts)
     if self._pre_setup then
         log.fmt_debug("Calling pre_setup for server=%s", self.name)
         self._pre_setup()
@@ -68,6 +69,24 @@ function M.Server:setup(opts)
             ):format(self.name)
         )
     end
+end
+
+---Sets up the language server and attaches all open buffers.
+---@param opts table @The lspconfig server configuration.
+function M.Server:setup(opts)
+    self:setup_lsp(opts)
+    self:attach_buffers()
+end
+
+---Attaches this server to all current open buffers with a 'filetype' that matches the server's configured filetypes.
+function M.Server:attach_buffers()
+    log.debug("Attaching server to buffers", self.name)
+    local lsp_server = require("lspconfig")[self.name]
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        log.fmt_trace("Attaching server=%s to bufnr=%s", self.name, bufnr)
+        lsp_server.manager.try_add_wrapper(bufnr)
+    end
+    log.debug("Successfully attached server to buffers", self.name)
 end
 
 ---Registers a handler (callback) to be executed when the server is ready to be setup.

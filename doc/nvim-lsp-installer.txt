@@ -84,8 +84,9 @@ Then, somewhere in your initialization script (see `:h init.lua`): >
         --     opts.root_dir = function() ... end
         -- end
 
+        -- This setup() function is exactly the same as lspconfig's setup function.
+        -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
         server:setup(opts)
-        vim.cmd [[ do User LspAttachBuffers ]]
     end)
 <
 
@@ -160,7 +161,9 @@ Example: >
         }
     }
 
-    lsp_installer.on_server_ready(function (server) server:setup {} end)
+    lsp_installer.on_server_ready(function (server)
+        server:setup {}
+    end)
 <
                                        *nvim-lsp-installer-default-settings*
 
@@ -323,10 +326,28 @@ class: Server
 
         Methods: ~
             - setup({opts})
-                    Sets up the language server. This has the same function
-                    signature as the setup function in nvim-lspconfig.
+                    Sets up the language server and attaches all open buffers.
 
-                    Refer to nvim-lspconfig for more information on {opts}.
+                    See:
+                        - setup_lsp({opts})
+                        - attach_buffers()
+
+                    Parameters: ~
+                        {opts} (table) The lspconfig server configuration.
+                        See https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+
+            - setup_lsp({opts})
+                    Sets up the language server via lspconfig.
+                    This function has the same signature as the setup function
+                    in nvim-lspconfig.
+
+                    Parameters: ~
+                        {opts} (table) The lspconfig server configuration.
+                        See https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+
+            - attach_buffers()
+                    Attaches this server to all current open buffers with a
+                    'filetype' that matches the server's configured filetypes.
 
             - get_default_options()
                     Returns a deep copy of the default options provided to

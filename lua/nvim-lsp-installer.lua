@@ -188,13 +188,6 @@ function M.on_server_ready(cb)
     end)
 end
 
--- "Proxy" function for triggering attachment of LSP servers to all buffers (useful when just installed a new server
--- that wasn't installed at launch)
-M.lsp_attach_proxy = process.debounced(function()
-    -- As of writing, if the lspconfig server provides a filetypes setting, it uses FileType as trigger, otherwise it uses BufReadPost
-    vim.cmd [[ doautoall FileType | doautoall BufReadPost ]]
-end)
-
 -- old API
 M.get_server = servers.get_server
 M.get_available_servers = servers.get_available_servers
