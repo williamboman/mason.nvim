@@ -32,7 +32,7 @@ return {
     filetypes = {}
   },
   dockerls = {
-    filetypes = { "Dockerfile", "dockerfile" }
+    filetypes = { "dockerfile" }
   },
   dotls = {
     filetypes = { "dot" }

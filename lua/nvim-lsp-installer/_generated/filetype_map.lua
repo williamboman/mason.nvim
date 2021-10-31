@@ -1,7 +1,6 @@
 -- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
 -- stylua: ignore start
 return {
-  Dockerfile = { "dockerls" },
   aspnetcorerazor = { "tailwindcss" },
   astro = { "tailwindcss" },
   ["astro-markdown"] = { "tailwindcss" },
