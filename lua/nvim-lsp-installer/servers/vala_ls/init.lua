@@ -27,7 +27,7 @@ return function(name, root_dir)
             end),
             function(_, callback, ctx)
                 local c = process.chain {
-                    cwd = path.concat { cwd.install_dir, "vala-language-server" },
+                    cwd = path.concat { ctx.install_dir, "vala-language-server" },
                     stdio_sink = ctx.stdio_sink,
                 }
 

@@ -136,6 +136,38 @@ function M.Server:_setup_install_context(context)
     end
 end
 
+---Removes any existing installation of the server, and moves/promotes the provided install_dir directory to its place.
+---@param install_dir string @The installation directory to move to the server's root directory.
+function M.Server:promote_install_dir(install_dir)
+    if self.root_dir == install_dir then
+        log.fmt_debug("Install dir %s is already promoted for %s", install_dir, self.name)
+        return true
+    end
+    log.fmt_debug("Promoting installation directory %s for %s", install_dir, self.name)
+    -- 1. Remove final installation directory, if it exists
+    if fs.dir_exists(self.root_dir) then
+        local rmrf_ok, rmrf_err = pcall(fs.rmrf, self.root_dir)
+        if not rmrf_ok then
+            log.fmt_error("Failed to remove final installation directory. path=%s error=%s", self.root_dir, rmrf_err)
+            return false
+        end
+    end
+
+    -- 2. Move the temporary install dir to the final installation directory
+    if platform.is_unix then
+        -- Some Unix systems will raise an error when renaming a directory to a destination that does not already exist.
+        fs.mkdir(self.root_dir)
+    end
+    local rename_ok, rename_err = pcall(fs.rename, install_dir, self.root_dir)
+    if not rename_ok then
+        --- 2a. We failed to rename the temporary dir to the final installation dir
+        log.fmt_error("Failed to rename. path=%s new_path=%s error=%s", install_dir, self.root_dir, rename_err)
+        return false
+    end
+    log.fmt_debug("Successfully promoted install_dir=%s for %s", install_dir, self.name)
+    return true
+end
+
 ---@param context ServerInstallContext
 ---@param callback ServerInstallCallback
 function M.Server:install_attached(context, callback)
@@ -150,54 +182,25 @@ function M.Server:install_attached(context, callback)
         self,
         vim.schedule_wrap(function(success)
             if success then
-                -- 1. Remove final installation directory, if it exists
-                if fs.dir_exists(self.root_dir) then
-                    local rmrf_ok, rmrf_err = pcall(fs.rmrf, self.root_dir)
-                    if not rmrf_ok then
-                        log.fmt_error(
-                            "Failed to remove final installation directory. path=%s error=%s",
-                            self.root_dir,
-                            rmrf_err
-                        )
-                        context.stdio_sink.stderr "Failed to remove final installation directory.\n"
-                        context.stdio_sink.stderr(tostring(rmrf_err) .. "\n")
-                        callback(false)
-                        return
-                    end
-                end
-
-                -- 2. Move the temporary install dir to the final installation directory
-                if platform.is_unix then
-                    -- Some Unix systems will raise an error when renaming a directory to a destination that does not
-                    -- already exist.
-                    fs.mkdir(self.root_dir)
-                end
-                local rename_ok, rename_err = pcall(fs.rename, context.install_dir, self.root_dir)
-                if rename_ok then
-                    -- 3a. Dispatch the server is ready
-                    vim.schedule(function()
-                        dispatcher.dispatch_server_ready(self)
-                        for _, on_ready_handler in ipairs(self._on_ready_handlers) do
-                            on_ready_handler(self)
-                        end
-                    end)
-                else
-                    --- 3b. We failed to rename the temporary dir to the final installation dir
-                    log.fmt_error(
-                        "Failed to rename. path=%s new_path=%s error=%s",
-                        context.install_dir,
-                        self.root_dir,
-                        rename_err
-                    )
+                if not self:promote_install_dir(context.install_dir) then
                     context.stdio_sink.stderr(
-                        ("Failed to rename %q to %q.\n"):format(context.install_dir, self.root_dir)
+                        ("Failed to promote the temporary installation directory %q.\n"):format(context.install_dir)
                     )
-                    context.stdio_sink.stderr(tostring(rename_err) .. "\n")
                     callback(false)
                     return
                 end
+
+                -- Dispatch the server is ready
+                vim.schedule(function()
+                    dispatcher.dispatch_server_ready(self)
+                    for _, on_ready_handler in ipairs(self._on_ready_handlers) do
+                        on_ready_handler(self)
+                    end
+                end)
+                callback(true)
+            else
+                callback(false)
             end
-            callback(success)
         end),
         context
     )

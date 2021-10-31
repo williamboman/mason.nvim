@@ -544,7 +544,7 @@ local function init(all_servers)
             state.servers[server.name].installer.is_running = true
         end)
 
-        log.fmt_info("Starting install server_name=%s, requested_version=%s", server.name, requested_version or "N/A")
+        log.fmt_info("Starting install server_name=%s, requested_version=%s", server.name, requested_version or "")
 
         server:install_attached({
             requested_server_version = requested_version,
@@ -609,7 +609,7 @@ local function init(all_servers)
     ---@param server Server
     ---@param version string|nil
     local function install_server(server, version)
-        log.debug("Installing server", server, version)
+        log.fmt_debug("Queuing server=%s, version=%s for installation", server.name, version or "")
         local server_state = get_state().servers[server.name]
         if server_state and (server_state.installer.is_running or server_state.installer.is_queued) then
             log.debug("Installer is already queued/running", server.name)

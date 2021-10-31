@@ -123,6 +123,22 @@ function M.use_github_release_file(repo, file)
     }
 end
 
+---Creates an installer that moves the current installation directory to the server's root directory.
+function M.promote_install_dir()
+    ---@type ServerInstallerFunction
+    return function(server, callback, context)
+        if server:promote_install_dir(context.install_dir) then
+            context.install_dir = server.root_dir
+            callback(true)
+        else
+            context.stdio_sink.stderr(
+                ("Failed to promote temporary install directory to %s.\n"):format(server.root_dir)
+            )
+            callback(false)
+        end
+    end
+end
+
 ---Access the context ojbect to create a new installer.
 ---@param fn fun(context: ServerInstallContext): ServerInstallerFunction
 function M.capture(fn)

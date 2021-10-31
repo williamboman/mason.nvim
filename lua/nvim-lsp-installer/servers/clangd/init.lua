@@ -1,4 +1,3 @@
-local fs = require "nvim-lsp-installer.fs"
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"

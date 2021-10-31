@@ -97,7 +97,7 @@ function M.always_succeed(installer)
 end
 
 ---@param platform_table table<Platform, ServerInstallerFunction>
----@return ServerInstallerFunction | nil
+---@return ServerInstallerFunction | ServerInstallerFunction[] | nil
 local function get_by_platform(platform_table)
     if platform.is_mac then
         return platform_table.mac or platform_table.unix
@@ -133,7 +133,7 @@ end
 
 --- Creates a server installer that executes the given installer for the current platform.
 --- If there is no server installer provided for the current platform, the installer will instantly exit with a failure.
----@param platform_table table<Platform, ServerInstallerFunction>
+---@param platform_table table<Platform, ServerInstallerFunction|ServerInstallerFunction[]>
 ---@return ServerInstallerFunction
 function M.when(platform_table)
     return function(server, callback, context)

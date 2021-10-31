@@ -5,6 +5,7 @@ local std = require "nvim-lsp-installer.installers.std"
 local platform = require "nvim-lsp-installer.platform"
 local process = require "nvim-lsp-installer.process"
 local settings = require "nvim-lsp-installer.settings"
+local context = require "nvim-lsp-installer.installers.context"
 
 local M = {}
 
@@ -47,7 +48,10 @@ end
 function M.packages(packages)
     local py3 = create_installer("python3", packages)
     local py = create_installer("python", packages)
-    return installers.first_successful(platform.is_win and { py, py3 } or { py3, py }) -- see https://github.com/williamboman/nvim-lsp-installer/issues/128
+    return installers.pipe {
+        context.promote_install_dir(),
+        installers.first_successful(platform.is_win and { py, py3 } or { py3, py }), -- see https://github.com/williamboman/nvim-lsp-installer/issues/128
+    }
 end
 
 ---@param root_dir string @The directory to resolve the executable from.
