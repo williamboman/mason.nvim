@@ -199,6 +199,7 @@ function M.Server:install_attached(context, callback)
                 end)
                 callback(true)
             else
+                pcall(fs.rmrf, context.install_dir)
                 callback(false)
             end
         end),
