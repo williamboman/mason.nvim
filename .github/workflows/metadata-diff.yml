@@ -1,17 +1,26 @@
 name: Metadata diff checker
 
 on:
+    schedule:
+        - cron: '0 * * * *'
     push:
         branches:
             - 'main'
     pull_request:
 
 jobs:
-    setup-project:
-        uses: williamboman/nvim-lsp-installer/.github/workflows/setup-project.yml@main
     metadata-diff-check:
-        needs: setup-project
+        runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v2
+            - uses: rhysd/action-setup-vim@v1
+              with:
+                neovim: true
+                version: v0.5.1
+            - name: Clone latest lspconfig
+              run: |
+                mkdir -p ~/.local/share/nvim/site/pack/packer/start
+                git clone --depth 1 https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
             - name: Run autogen_metadata.sh script
               run: ./scripts/autogen_metadata.sh
             - name: Ensure there are no diffs
