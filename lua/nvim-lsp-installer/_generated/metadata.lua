@@ -98,7 +98,7 @@ return {
     filetypes = { "xml", "xsd", "svg" }
   },
   ltex = {
-    filetypes = { "tex", "bib", "markdown" }
+    filetypes = { "bib", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }
   },
   ocamlls = {
     filetypes = { "ocaml", "reason" }
