@@ -45,37 +45,6 @@ return function(name, root_dir)
             end),
             std.chmod("+x", { "ltex-ls" }),
         },
-        pre_setup = function()
-            local configs = require "lspconfig/configs"
-            local util = require "lspconfig/util"
-
-            if configs.ltex then
-                return
-            end
-
-            configs.ltex = {
-                default_config = {
-                    filetypes = { "tex", "bib", "markdown" },
-                    root_dir = util.find_git_ancestor,
-                    settings = {
-                        ltex = {
-                            enabled = { "latex", "tex", "bib", "markdown" },
-                            checkFrequency = "edit",
-                            language = "en",
-                            diagnosticSeverity = "information",
-                            setenceCacheSize = 2000,
-                            additionalRules = {
-                                enablePickyRules = true,
-                                motherTongue = "en",
-                            },
-                            dictionary = {},
-                            disabledRules = {},
-                            hiddenFalsePositives = {},
-                        },
-                    },
-                },
-            }
-        end,
         default_options = {
             cmd = { path.concat { root_dir, script_name } },
         },
