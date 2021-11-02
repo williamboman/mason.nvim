@@ -1,0 +1,18 @@
+name: Setup project
+
+on:
+  workflow_call:
+
+jobs:
+    setup-project:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: rhysd/action-setup-vim@v1
+              with:
+                neovim: true
+                version: v0.5.1
+            - name: Clone latest lspconfig
+              run: |
+                mkdir -p ~/.local/share/nvim/site/pack/packer/start
+                git clone --depth 1 https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig

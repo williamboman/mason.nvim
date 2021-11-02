@@ -1,0 +1,17 @@
+name: Push generated metadata
+
+on:
+    schedule:
+        - cron: '0 * * * *'
+
+jobs:
+    setup-project:
+        uses: williamboman/nvim-lsp-installer/.github/workflows/setup-project.yml@main
+    metadata-push:
+        needs: setup-project
+        steps:
+            - name: Run autogen_metadata.sh script
+              run: ./scripts/autogen_metadata.sh
+            - uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                commit_message: Update generated metadata
