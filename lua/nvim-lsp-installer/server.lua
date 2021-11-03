@@ -85,8 +85,13 @@ function M.Server:attach_buffers()
     log.debug("Attaching server to buffers", self.name)
     local lsp_server = require("lspconfig")[self.name]
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-        log.fmt_trace("Attaching server=%s to bufnr=%s", self.name, bufnr)
-        lsp_server.manager.try_add_wrapper(bufnr)
+        if lsp_server.filetypes then
+            log.fmt_trace("Attaching server=%s to bufnr=%s using filetypes wrapper", self.name, bufnr)
+            lsp_server.manager.try_add_wrapper(bufnr)
+        else
+            log.fmt_trace("Attaching server=%s to bufnr=%s", self.name, bufnr)
+            lsp_server.manager.try_add(bufnr)
+        end
     end
     log.debug("Successfully attached server to buffers", self.name)
 end
