@@ -70,14 +70,10 @@ Then, somewhere in your initialization script (see `:h init.lua`): >
 
     local lsp_installer = require("nvim-lsp-installer")
 
-    function common_on_attach(client, bufnr)
-        -- ... set up buffer keymaps, etc.
-    end
-
+    -- Register a handler that will be called for all installed servers.
+    -- Alternatively, you may also register handlers on specific server instances instead (see example below).
     lsp_installer.on_server_ready(function(server)
-        local opts = {
-            on_attach = common_on_attach,
-        }
+        local opts = {}
 
         -- (optional) Customize the options passed to the server
         -- if server.name == "tsserver" then
@@ -88,6 +84,25 @@ Then, somewhere in your initialization script (see `:h init.lua`): >
         -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
         server:setup(opts)
     end)
+<
+
+For more advanced use cases you may also interact with more APIs
+nvim-lsp-installer has to offer, for example the following (refer
+to `:help nvim-lsp-installer` for more docs): >
+
+    local lsp_installer_servers = require'nvim-lsp-installer.servers'
+
+    local server_available, requested_server = lsp_installer_servers.get_server("rust_analyzer")
+    if server_available then
+        requested_server:on_ready(function ()
+            local opts = {}
+            requested_server:setup(opts)
+        end)
+        if not requested_server:is_installed() then
+             -- Queue the server to be installed
+            requested_server:install()
+        end
+    end
 <
 
 ==============================================================================
