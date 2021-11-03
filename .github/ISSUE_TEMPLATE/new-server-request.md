@@ -12,4 +12,4 @@ Server name:
 Server homepage (e.g., GitHub page):
 
 **Which languages does this server target?**
-Languages: 
+Languages:
