@@ -21,6 +21,11 @@ return function(name, root_dir)
             "-Xms1g",
             "-Xmx2G",
             "-javaagent:" .. lombok,
+            "--add-modules=ALL-SYSTEM",
+            "--add-opens",
+            "java.base/java.util=ALL-UNNAMED",
+            "--add-opens",
+            "java.base/java.lang=ALL-UNNAMED",
             "-jar",
             jar,
             "-configuration",
@@ -34,11 +39,6 @@ return function(name, root_dir)
             },
             "-data",
             workspace_name,
-            "--add-modules=ALL-SYSTEM",
-            "--add-opens",
-            "java.base/java.util=ALL-UNNAMED",
-            "--add-opens",
-            "java.base/java.lang=ALL-UNNAMED",
         }
     end
 
