@@ -12,6 +12,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://haskell-language-server.readthedocs.io/en/latest/",
+        languages = { "haskell" },
         installer = {
             context.use_github_release_file("haskell/haskell-language-server", function(version)
                 return Data.coalesce(

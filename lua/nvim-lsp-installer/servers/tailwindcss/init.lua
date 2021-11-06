@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "tailwind" },
         installer = npm.packages { "@tailwindcss/language-server" },
         default_options = {
             cmd = { npm.executable(root_dir, "tailwindcss-language-server"), "--stdio" },

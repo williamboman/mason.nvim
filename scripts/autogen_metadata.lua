@@ -13,7 +13,7 @@ local generated_dir = Path.concat { vim.fn.getcwd(), "lua", "nvim-lsp-installer"
 print("Creating directory " .. generated_dir)
 vim.fn.mkdir(generated_dir, "p")
 
-for _, file in ipairs(vim.fn.glob(generated_dir .. "*", 1, 1)) do
+for _, file in ipairs(vim.fn.glob(Path.concat { generated_dir, "*" }, 1, 1)) do
     print("Deleting " .. file)
     vim.fn.delete(file)
 end
@@ -77,6 +77,52 @@ do
     end
 
     write_file(Path.concat { generated_dir, "filetype_map.lua" }, "return " .. vim.inspect(filetype_map), "w")
+end
+
+do
+    ---@type table<string, Server>
+    local language_map = {}
+
+    local available_servers = servers.get_available_servers()
+    for _, server in pairs(available_servers) do
+        local languages = server.languages
+        for _, language in pairs(languages) do
+            if not language_map[language] then
+                language_map[language] = {}
+            end
+            table.insert(language_map[language], server)
+        end
+    end
+
+    local autocomplete_candidates = {}
+    for language, language_servers in pairs(language_map) do
+        local non_deprecated_servers = vim.tbl_filter(function(server)
+            return server.deprecated == nil
+        end, language_servers)
+        local is_candidate = #non_deprecated_servers > 0
+
+        if #non_deprecated_servers == 1 then
+            local server = non_deprecated_servers[1]
+            local server_name_similarity_check = server.name:find(language, 1, true) == 1
+            if server_name_similarity_check then
+                -- There's only one server that supports this language, and it's name is similar enough to the language name.
+                is_candidate = false
+            end
+        end
+
+        if is_candidate then
+            autocomplete_candidates[language] = vim.tbl_map(function(server)
+                return server.name
+            end, non_deprecated_servers)
+            table.sort(autocomplete_candidates[language])
+        end
+    end
+
+    write_file(
+        Path.concat { generated_dir, "language_autocomplete_map.lua" },
+        "return " .. vim.inspect(autocomplete_candidates),
+        "w"
+    )
 end
 
 do

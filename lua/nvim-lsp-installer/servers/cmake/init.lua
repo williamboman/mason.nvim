@@ -6,6 +6,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/regen100/cmake-language-server",
+        languages = { "cmake" },
         installer = pip3.packages { "cmake-language-server" },
         default_options = {
             cmd = { pip3.executable(root_dir, "cmake-language-server") },

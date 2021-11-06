@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "bash" },
         homepage = "https://github.com/bash-lsp/bash-language-server",
         installer = npm.packages { "bash-language-server" },
         default_options = {

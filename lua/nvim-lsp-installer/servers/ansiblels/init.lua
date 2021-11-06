@@ -7,6 +7,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "ansible" },
         homepage = "https://github.com/ansible/ansible-language-server",
         installer = {
             std.git_clone "https://github.com/ansible/ansible-language-server",

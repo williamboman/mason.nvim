@@ -10,6 +10,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "erlang" },
         homepage = "https://erlang-ls.github.io/",
         installer = {
             std.ensure_executables {

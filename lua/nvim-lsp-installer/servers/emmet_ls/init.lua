@@ -6,6 +6,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/aca/emmet-ls",
+        languages = { "emmet" },
         installer = npm.packages { "emmet-ls" },
         default_options = {
             cmd = { npm.executable(root_dir, "emmet-ls"), "--stdio" },

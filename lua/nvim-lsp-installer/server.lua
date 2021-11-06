@@ -14,13 +14,14 @@ local M = {}
 M.get_server_root_path = servers.get_server_install_path
 
 ---@alias ServerDeprecation {message:string, replace_with:string|nil}
----@alias ServerOpts {name:string, root_dir:string, homepage:string|nil, deprecated:ServerDeprecation, installer:ServerInstallerFunction|ServerInstallerFunction[], default_options:table, pre_setup:fun()|nil, post_setup:fun()|nil}
+---@alias ServerOpts {name:string, root_dir:string, homepage:string|nil, deprecated:ServerDeprecation, installer:ServerInstallerFunction|ServerInstallerFunction[], default_options:table, pre_setup:fun()|nil, post_setup:fun()|nil, languages: string[]}
 
 ---@class Server
 ---@field public  name string @The server name. This is the same as lspconfig's server names.
 ---@field public  root_dir string @The directory where the server should be installed in.
 ---@field public  homepage string|nil @The homepage where users can find more information. This is shown to users in the UI.
 ---@field public  deprecated ServerDeprecation|nil @The existence (not nil) of this field indicates this server is depracted.
+---@field public  languages string[]
 ---@field private _installer ServerInstallerFunction
 ---@field private _on_ready_handlers fun(server: Server)[]
 ---@field private _default_options table @The server's default options. This is used in @see Server#setup.
@@ -37,6 +38,7 @@ function M.Server:new(opts)
         root_dir = opts.root_dir,
         homepage = opts.homepage,
         deprecated = opts.deprecated,
+        languages = opts.languages or {},
         _on_ready_handlers = {},
         _installer = type(opts.installer) == "function" and opts.installer or installers.pipe(opts.installer),
         _default_options = opts.default_options,

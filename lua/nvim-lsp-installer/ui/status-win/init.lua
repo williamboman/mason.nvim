@@ -5,7 +5,6 @@ local Data = require "nvim-lsp-installer.data"
 local display = require "nvim-lsp-installer.ui.display"
 local settings = require "nvim-lsp-installer.settings"
 local lsp_servers = require "nvim-lsp-installer.servers"
-local filetype_map = require "nvim-lsp-installer._generated.filetype_map"
 
 local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
@@ -459,6 +458,7 @@ local function normalize_chunks_line_endings(chunk, dest)
 end
 
 local function init(all_servers)
+    local filetype_map = require "nvim-lsp-installer._generated.filetype_map"
     local window = display.new_view_only_win "LSP servers"
 
     window.view(

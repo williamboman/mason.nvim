@@ -8,6 +8,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/elixir-lsp/elixir-ls",
+        languages = { "elixir" },
         installer = {
             context.use_github_release_file("elixir-lsp/elixir-ls", "elixir-ls.zip"),
             context.capture(function(ctx)

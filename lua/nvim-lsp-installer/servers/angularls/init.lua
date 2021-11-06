@@ -20,6 +20,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://angular.io/guide/language-service",
+        languages = { "angular" },
         installer = npm.packages { "@angular/language-server" },
         default_options = {
             cmd = {

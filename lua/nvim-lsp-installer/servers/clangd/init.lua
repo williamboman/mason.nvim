@@ -12,6 +12,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://clangd.llvm.org",
+        languages = { "c", "c++" },
         installer = {
             context.use_github_release_file("clangd/clangd", function(version)
                 return Data.coalesce(

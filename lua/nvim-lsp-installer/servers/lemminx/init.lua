@@ -17,6 +17,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "xml" },
         homepage = "https://github.com/eclipse/lemminx",
         installer = {
             function(_, callback, ctx)

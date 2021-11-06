@@ -8,6 +8,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/puppetlabs/puppet-editor-services",
+        languages = { "puppet" },
         installer = {
             context.use_github_release_file("puppetlabs/puppet-editor-services", function(version)
                 return ("puppet_editor_services_%s.zip"):format(version)

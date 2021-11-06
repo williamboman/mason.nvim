@@ -9,6 +9,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/fwcd/kotlin-language-server",
+        languages = { "kotlin" },
         installer = {
             context.use_github_release_file("fwcd/kotlin-language-server", "server.zip"),
             context.capture(function(ctx)

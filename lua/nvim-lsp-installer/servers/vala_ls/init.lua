@@ -10,6 +10,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://wiki.gnome.org/Projects/Vala",
+        languages = { "vala" },
         installer = {
             std.ensure_executables {
                 { "meson", "meson was not found in path. Refer to https://mesonbuild.com/Getting-meson.html" },

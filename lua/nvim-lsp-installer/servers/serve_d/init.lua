@@ -10,6 +10,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/Pure-D/serve-d",
+        languages = { "d" },
         installer = {
             context.set(function(ctx)
                 -- Consider the latest (as of writing) beta release as "latest", instead of 0.6.0.

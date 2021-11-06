@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "vim" },
         homepage = "https://github.com/iamcco/vim-language-server",
         installer = npm.packages { "vim-language-server" },
         default_options = {

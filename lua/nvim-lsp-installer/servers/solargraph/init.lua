@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "ruby" },
         homepage = "https://solargraph.org",
         installer = gem.packages { "solargraph" },
         default_options = {

@@ -7,6 +7,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "typescript", "javascript" },
         homepage = "https://rome.tools",
         installer = {
             context.set(function(ctx)

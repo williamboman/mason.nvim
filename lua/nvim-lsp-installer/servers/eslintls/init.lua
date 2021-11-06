@@ -19,6 +19,7 @@ return function(name, root_dir)
             message = "eslintls has been replaced with eslint. It's still the same server - just a different name and upstream dependencies.",
             replace_with = "eslint",
         },
+        languages = { "eslint" },
         installer = {
             std.git_clone "https://github.com/microsoft/vscode-eslint",
             npm.install(),

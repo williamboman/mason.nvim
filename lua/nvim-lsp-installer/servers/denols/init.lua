@@ -12,6 +12,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://deno.land/x/deno/cli/lsp",
+        languages = { "deno" },
         installer = {
             context.use_github_release_file(
                 "denoland/deno",

@@ -9,6 +9,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://phpactor.readthedocs.io/en/master/",
+        languages = { "php" },
         installer = installers.when {
             unix = {
                 std.git_clone "https://github.com/phpactor/phpactor.git",

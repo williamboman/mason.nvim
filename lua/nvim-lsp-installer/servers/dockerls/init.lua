@@ -6,6 +6,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/rcjsuen/dockerfile-language-server-nodejs",
+        languages = { "docker" },
         installer = npm.packages { "dockerfile-language-server-nodejs" },
         default_options = {
             cmd = { npm.executable(root_dir, "docker-langserver"), "--stdio" },

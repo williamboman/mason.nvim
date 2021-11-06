@@ -9,6 +9,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/PowerShell/PowerShellEditorServices",
+        languages = { "powershell" },
         installer = installers.when {
             win = {
                 context.use_github_release_file("PowerShell/PowerShellEditorServices", "PowerShellEditorServices.zip"),

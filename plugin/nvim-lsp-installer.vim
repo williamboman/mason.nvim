@@ -7,7 +7,7 @@ set cpo&vim
 let s:no_confirm_flag = "--no-confirm"
 
 function! s:LspInstallCompletion(...) abort
-    return join(sort(luaeval("require'nvim-lsp-installer.servers'.get_available_server_names()")), "\n")
+    return join(sort(luaeval("require'nvim-lsp-installer'.get_install_completion()")), "\n")
 endfunction
 
 function! s:LspUninstallCompletion(...) abort

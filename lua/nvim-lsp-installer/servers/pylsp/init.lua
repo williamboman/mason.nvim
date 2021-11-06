@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "python" },
         homepage = "https://github.com/python-lsp/python-lsp-server",
         installer = pip3.packages { "python-lsp-server[all]" },
         default_options = {

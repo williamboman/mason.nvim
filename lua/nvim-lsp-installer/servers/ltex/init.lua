@@ -14,6 +14,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://valentjn.github.io/vscode-ltex",
+        languages = { "latex" },
         installer = {
             context.use_github_release_file("valentjn/ltex-ls", function(version)
                 return coalesce(

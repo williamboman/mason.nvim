@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = {},
         homepage = "https://github.com/iamcco/diagnostic-languageserver",
         installer = npm.packages { "diagnostic-languageserver" },
         default_options = {

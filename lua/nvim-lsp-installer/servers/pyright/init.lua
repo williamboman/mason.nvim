@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "python" },
         homepage = "https://github.com/microsoft/pyright",
         installer = npm.packages { "pyright" },
         default_options = {

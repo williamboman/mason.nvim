@@ -10,6 +10,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://clojure-lsp.io",
+        languages = { "clojure" },
         installer = {
             context.use_github_release_file(
                 "clojure-lsp/clojure-lsp",

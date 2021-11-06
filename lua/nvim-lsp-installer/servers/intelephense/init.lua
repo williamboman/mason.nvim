@@ -6,6 +6,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://intelephense.com",
+        languages = { "php" },
         installer = npm.packages { "intelephense" },
         default_options = {
             cmd = { npm.executable(root_dir, "intelephense"), "--stdio" },

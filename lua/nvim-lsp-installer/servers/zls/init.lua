@@ -21,6 +21,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/zigtools/zls",
+        languages = { "zig" },
         installer = {
             context.use_github_release_file("zigtools/zls", archive_name and ("%s.tar.xz"):format(archive_name)),
             context.capture(function(ctx)

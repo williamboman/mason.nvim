@@ -7,6 +7,7 @@ local servers = require "nvim-lsp-installer.servers"
 local settings = require "nvim-lsp-installer.settings"
 local log = require "nvim-lsp-installer.log"
 local platform = require "nvim-lsp-installer.platform"
+local language_autocomplete_map = require "nvim-lsp-installer._generated.language_autocomplete_map"
 
 local M = {}
 
@@ -30,6 +31,14 @@ function M.display()
         vim.log.levels.WARN
     )
     status_win().open()
+end
+
+function M.get_install_completion()
+    local result = {}
+    local server_names = servers.get_available_server_names()
+    vim.list_extend(result, server_names)
+    vim.list_extend(result, vim.tbl_keys(language_autocomplete_map))
+    return result
 end
 
 ---Raises an error with the provided message. If in a headless environment,
@@ -114,11 +123,36 @@ function M.uninstall_sync(server_identifiers)
     end
 end
 
+---@param server_identifier string
+---@return string,string|nil
+local function translate_language_alias(server_identifier, version)
+    local language_aliases = language_autocomplete_map[server_identifier]
+    if language_aliases then
+        local choices = {}
+        for idx, server_alias in ipairs(language_aliases) do
+            table.insert(choices, ("&%d %s"):format(idx, server_alias))
+        end
+        local choice = vim.fn.confirm(
+            ("The following servers were found for language %q, please select which one you want to install:"):format(
+                server_identifier
+            ),
+            table.concat(choices, "\n"),
+            0
+        )
+        return language_aliases[choice]
+    end
+    return server_identifier, version
+end
+
 --- Queues a server to be installed. Will also open the status window.
 --- Use the .on_server_ready(cb) function to register a handler to be executed when a server is ready to be set up.
 ---@param server_identifier string @The server to install. This can also include a requested version, for example "rust_analyzer@nightly".
 function M.install(server_identifier)
-    local server_name, version = servers.parse_server_identifier(server_identifier)
+    local server_name, version = translate_language_alias(servers.parse_server_identifier(server_identifier))
+    if not server_name then
+        -- No selection was made
+        return
+    end
     local ok, server = servers.get_server(server_name)
     if not ok then
         return notify(("Unable to find LSP server %s.\n\n%s"):format(server_name, server), vim.log.levels.ERROR)

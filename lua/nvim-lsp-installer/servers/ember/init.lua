@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "ember" },
         homepage = "https://github.com/lifeart/ember-language-server",
         installer = npm.packages { "@lifeart/ember-language-server" },
         default_options = {

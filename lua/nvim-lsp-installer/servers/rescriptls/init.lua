@@ -7,6 +7,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "rescript" },
         homepage = "https://github.com/rescript-lang/rescript-vscode",
         installer = {
             context.use_github_release_file("rescript-lang/rescript-vscode", function(version)

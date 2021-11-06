@@ -15,6 +15,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        languages = { "lua" },
         homepage = "https://github.com/sumneko/lua-language-server",
         installer = {
             context.use_github_release_file("sumneko/vscode-lua", function(version)

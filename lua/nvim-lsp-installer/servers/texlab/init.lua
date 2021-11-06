@@ -12,6 +12,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/latex-lsp/texlab",
+        languages = { "latex" },
         installer = {
             context.use_github_release_file(
                 "latex-lsp/texlab",
