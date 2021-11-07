@@ -89,13 +89,6 @@ function M.powershell(raw_script, opts)
     }
 end
 
----@deprecated Unsafe.
----@param url string @The url to the powershell script to execute.
----@param opts {prefix: string, env: table}
-function M.remote_powershell(url, opts)
-    return M.powershell(("iwr -UseBasicParsing %q | iex"):format(url), opts)
-end
-
 ---@param raw_script string @A script that is compatible with bash and cmd.exe.
 ---@param opts {env: table}
 function M.polyshell(raw_script, opts)
