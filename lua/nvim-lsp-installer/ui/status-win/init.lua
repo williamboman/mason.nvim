@@ -88,7 +88,12 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
         Ui.EmptyLine(),
         Ui.HlTextNode {
             { { "Problems with server functionality", "LspInstallerLabel" } },
-            { { "Please refer to each language server's own homepage for further assistance.", "LspInstallerMuted" } },
+            {
+                {
+                    "Please refer to each language server's own homepage for further assistance.",
+                    "LspInstallerMuted",
+                },
+            },
         },
         Ui.EmptyLine(),
         Ui.HlTextNode {
@@ -120,8 +125,7 @@ local function Header(props)
             {
                 { props.is_showing_help and props.help_command_text or "", "LspInstallerHighlighted" },
                 {
-                    props.is_showing_help
-                            and "nvim-lsp-installer" .. (" "):rep(#props.help_command_text)
+                    props.is_showing_help and "nvim-lsp-installer" .. (" "):rep(#props.help_command_text)
                         or "nvim-lsp-installer",
                     props.is_showing_help and "LspInstallerHighlighted" or "LspInstallerHeader",
                 },

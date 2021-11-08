@@ -33,28 +33,29 @@ return function(name, root_dir)
         },
         default_options = {
             cmd = { bin_path, "--langserver" },
+            commands = {
+                TFLintInit = {
+                    function()
+                        notify "Installing TFLint plugins…"
+                        process.spawn(
+                            bin_path,
+                            {
+                                args = { "--init" },
+                                cwd = path.cwd(),
+                                stdio_sink = process.simple_sink(),
+                            },
+                            vim.schedule_wrap(function(success)
+                                if success then
+                                    notify "Successfully installed TFLint plugins."
+                                else
+                                    notify "Failed to install TFLint plugins."
+                                end
+                            end)
+                        )
+                    end,
+                    description = "Runs tflint --init in the current working directory.",
+                },
+            },
         },
-        post_setup = function()
-            function _G.lsp_installer_tflint_init()
-                notify "Installing TFLint plugins…"
-                process.spawn(
-                    bin_path,
-                    {
-                        args = { "--init" },
-                        cwd = path.cwd(),
-                        stdio_sink = process.simple_sink(),
-                    },
-                    vim.schedule_wrap(function(success)
-                        if success then
-                            notify "Successfully installed TFLint plugins."
-                        else
-                            notify "Failed to install TFLint."
-                        end
-                    end)
-                )
-            end
-
-            vim.cmd [[ command! TFLintInit call v:lua.lsp_installer_tflint_init() ]]
-        end,
     }
 end

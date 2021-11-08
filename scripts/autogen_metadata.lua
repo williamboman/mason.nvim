@@ -45,13 +45,6 @@ end
 ---@param server Server
 local function get_supported_filetypes(server)
     local config = require("lspconfig")[server.name]
-    if not config then
-        -- No default server config exists in lspconfig
-        if server._pre_setup then
-            server._pre_setup()
-        end
-        config = require("lspconfig/configs")[server.name]
-    end
     local default_options = server:get_default_options()
     local filetypes = coalesce(
         -- nvim-lsp-installer options has precedence

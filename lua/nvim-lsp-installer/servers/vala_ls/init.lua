@@ -23,7 +23,10 @@ return function(name, root_dir)
             context.capture(function(ctx)
                 return installers.pipe {
                     std.untarxz_remote(ctx.github_release_file),
-                    std.rename(("vala-language-server-%s"):format(ctx.requested_server_version), "vala-language-server"),
+                    std.rename(
+                        ("vala-language-server-%s"):format(ctx.requested_server_version),
+                        "vala-language-server"
+                    ),
                 }
             end),
             function(_, callback, ctx)

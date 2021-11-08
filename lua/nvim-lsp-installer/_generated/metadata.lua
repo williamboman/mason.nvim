@@ -61,9 +61,6 @@ return {
   eslint = {
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue" }
   },
-  eslintls = {
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
-  },
   fortls = {
     filetypes = { "fortran" }
   },
