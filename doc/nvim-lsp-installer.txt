@@ -166,7 +166,7 @@ Example: >
     local lsp_installer = require("nvim-lsp-installer")
 
     -- Provide settings first!
-    lsp_installer.settings {
+    lsp_installer.settings({
         ui = {
             icons = {
                 server_installed = "✓",
@@ -174,7 +174,7 @@ Example: >
                 server_uninstalled = "✗"
             }
         }
-    }
+    })
 
     lsp_installer.on_server_ready(function (server)
         server:setup {}
@@ -233,7 +233,7 @@ DEBUGGING                                      *nvim-lsp-installer-debugging*
 To help with debugging issues with installing/uninstall servers, please make
 sure to set nvim-lsp-installer's log level to DEBUG or TRACE, like so: >
 
-    :lua require("nvim-lsp-installer").settings { log_level = vim.log.levels.DEBUG }
+    :lua require("nvim-lsp-installer").settings({ log_level = vim.log.levels.DEBUG })
 <
 
 You may find the logs by entering the command `:LspInstallLog`. Providing the

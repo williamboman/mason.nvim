@@ -119,7 +119,7 @@ Example:
 local lsp_installer = require("nvim-lsp-installer")
 
 -- Provide settings first!
-lsp_installer.settings {
+lsp_installer.settings({
     ui = {
         icons = {
             server_installed = "✓",
@@ -127,7 +127,7 @@ lsp_installer.settings {
             server_uninstalled = "✗"
         }
     }
-}
+})
 
 lsp_installer.on_server_ready(function (server) server:setup {} end)
 ```
