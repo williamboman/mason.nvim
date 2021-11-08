@@ -145,6 +145,7 @@ lsp_installer.on_server_ready(function (server) server:setup {} end)
 | CMake                               | `cmake`                  |
 | CSS                                 | `cssls`                  |
 | Clojure                             | `clojure_lsp`            |
+| CodeQL                              | `codeqlls`               |
 | Deno                                | `denols`                 |
 | Diagnostic (general purpose server) | `diagnosticls`           |
 | Dlang                               | `serve_d`                |

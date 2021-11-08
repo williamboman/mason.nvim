@@ -39,6 +39,7 @@ local CORE_SERVERS = Data.set_of {
     "clangd",
     "clojure_lsp",
     "cmake",
+    "codeqlls",
     "cssls",
     "denols",
     "diagnosticls",

@@ -22,6 +22,9 @@ return {
   cmake = {
     filetypes = { "cmake" }
   },
+  codeqlls = {
+    filetypes = { "ql" }
+  },
   cssls = {
     filetypes = { "css", "scss", "less" }
   },

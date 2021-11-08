@@ -69,6 +69,7 @@ return {
   puppet = { "puppet" },
   purescript = { "purescriptls" },
   python = { "jedi_language_server", "pylsp", "pyright" },
+  ql = { "codeqlls" },
   razor = { "tailwindcss" },
   reason = { "ocamlls", "tailwindcss" },
   rescript = { "rescriptls", "tailwindcss" },
