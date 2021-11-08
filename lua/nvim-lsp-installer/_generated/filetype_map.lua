@@ -75,7 +75,7 @@ return {
   rescript = { "rescriptls", "tailwindcss" },
   rnoweb = { "ltex" },
   rst = { "ltex" },
-  ruby = { "solargraph" },
+  ruby = { "solargraph", "sorbet" },
   rust = { "rust_analyzer" },
   sass = { "tailwindcss" },
   scss = { "cssls", "stylelint_lsp", "tailwindcss" },

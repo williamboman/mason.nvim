@@ -187,6 +187,7 @@ lsp_installer.on_server_ready(function (server) server:setup {} end)
 | SQL                                 | `sqlls`                  |
 | SQL                                 | `sqls`                   |
 | Solang Solidity                     | `solang`                 |
+| Sorbet                              | `sorbet`                 |
 | Stylelint                           | `stylelint_lsp`          |
 | Svelte                              | `svelte`                 |
 | Tailwind CSS                        | `tailwindcss`            |

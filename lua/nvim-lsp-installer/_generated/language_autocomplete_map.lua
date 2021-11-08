@@ -12,7 +12,7 @@ return {
   lua = { "sumneko_lua" },
   php = { "intelephense", "phpactor" },
   python = { "jedi_language_server", "pylsp", "pyright" },
-  ruby = { "solargraph" },
+  ruby = { "solargraph", "sorbet" },
   sql = { "sqlls", "sqls" },
   terraform = { "terraformls", "tflint" },
   typescript = { "rome", "tsserver" },

@@ -148,6 +148,9 @@ return {
   solargraph = {
     filetypes = { "ruby" }
   },
+  sorbet = {
+    filetypes = { "ruby" }
+  },
   sqlls = {
     filetypes = { "sql", "mysql" }
   },
