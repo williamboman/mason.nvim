@@ -54,7 +54,7 @@ return function(name, root_dir)
             llvm_installer,
         },
         default_options = {
-            cmd = { path.concat { root_dir, "solang" }, "--language-server" },
+            cmd = { path.concat { root_dir, "solang" }, "--language-server", "--target", "ewasm" },
             cmd_env = {
                 PATH = table.concat({ path.concat { root_dir, "llvm12.0", "bin" }, vim.env.PATH }, platform.path_sep),
             },
