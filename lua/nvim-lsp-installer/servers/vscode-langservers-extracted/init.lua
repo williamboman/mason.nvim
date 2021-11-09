@@ -2,7 +2,7 @@ local server = require "nvim-lsp-installer.server"
 local npm = require "nvim-lsp-installer.installers.npm"
 
 ---@param executable string @The vscode-langservers-extracted executable to use for the server.
----@param languages Language[]
+---@param languages string[]
 return function(executable, languages)
     return function(name, root_dir)
         return server.Server:new {
