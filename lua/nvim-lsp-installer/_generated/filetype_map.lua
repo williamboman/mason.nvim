@@ -27,6 +27,7 @@ return {
   erlang = { "erlangls" },
   eruby = { "tailwindcss" },
   fortran = { "fortls" },
+  fsharp = { "fsautocomplete" },
   genie = { "vala_ls" },
   go = { "gopls" },
   gohtml = { "tailwindcss" },

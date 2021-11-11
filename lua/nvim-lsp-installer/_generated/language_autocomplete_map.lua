@@ -5,6 +5,7 @@ return {
   csharp = { "omnisharp" },
   d = { "serve_d" },
   fortran = { "fortls" },
+  fsharp = { "fsautocomplete" },
   haskell = { "hls" },
   java = { "jdtls" },
   javascript = { "rome", "tsserver" },

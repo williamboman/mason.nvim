@@ -64,6 +64,9 @@ return {
   fortls = {
     filetypes = { "fortran" }
   },
+  fsautocomplete = {
+    filetypes = { "fsharp" }
+  },
   gopls = {
     filetypes = { "go", "gomod" }
   },
