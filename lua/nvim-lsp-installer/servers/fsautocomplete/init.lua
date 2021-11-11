@@ -7,7 +7,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        languages = { "fsharp" },
+        languages = { "f#" },
         homepage = "https://github.com/fsharp/FsAutoComplete",
         installer = {
             std.ensure_executables {

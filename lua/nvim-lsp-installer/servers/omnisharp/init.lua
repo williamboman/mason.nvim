@@ -12,7 +12,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/OmniSharp/omnisharp-roslyn",
-        languages = { "csharp" },
+        languages = { "c#" },
         installer = {
             context.use_github_release_file(
                 "OmniSharp/omnisharp-roslyn",
