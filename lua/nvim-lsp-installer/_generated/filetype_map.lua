@@ -75,7 +75,7 @@ return {
   reason = { "ocamlls", "tailwindcss" },
   rescript = { "rescriptls", "tailwindcss" },
   rnoweb = { "ltex" },
-  rst = { "ltex" },
+  rst = { "esbonio", "ltex" },
   ruby = { "solargraph", "sorbet" },
   rust = { "rust_analyzer" },
   sass = { "tailwindcss" },

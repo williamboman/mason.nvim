@@ -50,6 +50,7 @@ local CORE_SERVERS = Data.set_of {
     "ember",
     "emmet_ls",
     "erlangls",
+    "esbonio",
     "eslint",
     "fortls",
     "fsautocomplete",
