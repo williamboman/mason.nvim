@@ -31,11 +31,11 @@ return function(name, root_dir)
                 end
             end,
             context.set(function(ctx)
-                ctx.requested_server_version = coalesce(ctx.requested_server_version, "0.18.0-400")
+                ctx.requested_server_version = coalesce(ctx.requested_server_version, "LATEST")
             end),
             context.capture(function(ctx)
                 return std.unzip_remote(
-                    ("https://download.jboss.org/jbosstools/vscode/stable/lemminx-binary/%s/%s.zip"):format(
+                    ("https://download.jboss.org/jbosstools/vscode/snapshots/lemminx-binary/%s/%s.zip"):format(
                         ctx.requested_server_version,
                         unzipped_file
                     )

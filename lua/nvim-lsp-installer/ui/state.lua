@@ -14,13 +14,11 @@ function M.create_state_container(initial_state, subscriber)
         if not has_unsubscribed then
             subscriber(state)
         end
-    end,
-        function()
-            return state
-        end,
-        function(val)
-            has_unsubscribed = val
-        end
+    end, function()
+        return state
+    end, function(val)
+        has_unsubscribed = val
+    end
 end
 
 return M
