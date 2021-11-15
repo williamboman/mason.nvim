@@ -168,6 +168,7 @@ lsp_installer.on_server_ready(function (server) server:setup {} end)
 | JSON                                | `jsonls`                 |
 | Java                                | `jdtls`                  |
 | Jedi                                | `jedi_language_server`   |
+| Jsonnet                             | `jsonnet_ls`                |
 | Kotlin                              | `kotlin_language_server` |
 | LaTeX                               | `ltex`                   |
 | LaTeX                               | `texlab`                 |
