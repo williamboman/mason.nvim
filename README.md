@@ -158,8 +158,8 @@ lsp_installer.on_server_ready(function (server) server:setup {} end)
 | Ember                               | `ember`                  |
 | Emmet                               | `emmet_ls`               |
 | Erlang                              | `erlangls`               |
-| Fortran                             | `fortls`                 |
 | F#                                  | `fsautocomplete`         |
+| Fortran                             | `fortls`                 |
 | Go                                  | `gopls`                  |
 | GraphQL                             | `graphql`                |
 | Groovy                              | `groovyls`               |
@@ -169,7 +169,7 @@ lsp_installer.on_server_ready(function (server) server:setup {} end)
 | Java                                | `jdtls`                  |
 | Jedi                                | `jedi_language_server`   |
 | Kotlin                              | `kotlin_language_server` |
-| LaTeX (unstable preview)            | `ltex`                   |
+| LaTeX                               | `ltex`                   |
 | LaTeX                               | `texlab`                 |
 | Lua                                 | `sumneko_lua`            |
 | OCaml                               | `ocamlls`                |
@@ -189,6 +189,7 @@ lsp_installer.on_server_ready(function (server) server:setup {} end)
 | SQL                                 | `sqls`                   |
 | Solang Solidity                     | `solang`                 |
 | Sorbet                              | `sorbet`                 |
+| Sphinx                              | `esbonio`                |
 | Stylelint                           | `stylelint_lsp`          |
 | Svelte                              | `svelte`                 |
 | Tailwind CSS                        | `tailwindcss`            |
