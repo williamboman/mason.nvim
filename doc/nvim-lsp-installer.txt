@@ -379,8 +379,12 @@ class: Server
             - is_installed()
                     Returns {true} is server is installed, else returns {false}.
 
-            - install()
+            - install({version})
                     Installs this instance of an LSP server.
+
+                    Parameters: ~
+                        {version} (string|nil) The version of the server to
+                        install. If nil, the latest version will be installed.
 
             - uninstall()
                     Uninstalls this instance of an LSP server.

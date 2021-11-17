@@ -117,8 +117,9 @@ function M.Server:is_installed()
 end
 
 ---Queues the server to be asynchronously installed.
-function M.Server:install()
-    status_win().install_server(self)
+---@param version string|nil @The version of the server to install. If nil, the latest version will be installed.
+function M.Server:install(version)
+    status_win().install_server(self, version)
 end
 
 ---@param context ServerInstallContext
