@@ -21,7 +21,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://angular.io/guide/language-service",
         languages = { "angular" },
-        installer = npm.packages { "@angular/language-server" },
+        installer = npm.packages { "@angular/language-server", "typescript" },
         default_options = {
             cmd = {
                 executable_path,
