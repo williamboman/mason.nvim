@@ -175,13 +175,13 @@ local function call_effect_handler(bufnr, line, key)
     return false
 end
 
-M.dispatch_effect = vim.schedule_wrap(function(bufnr, hex_key)
+M.dispatch_effect = function(bufnr, hex_key)
     local key = from_hex(hex_key)
     local line = vim.api.nvim_win_get_cursor(0)[1]
     log.fmt_trace("Dispatching effect on line %d, key %s, bufnr %s", line, key, bufnr)
     call_effect_handler(bufnr, line, key) -- line keybinds
     call_effect_handler(bufnr, -1, key) -- global keybinds
-end)
+end
 
 function M.redraw_win(win_id)
     local fn = redraw_by_win_id[win_id]
@@ -271,7 +271,7 @@ function M.new_view_only_win(name)
             "autocmd VimResized <buffer> lua require('nvim-lsp-installer.ui.display').redraw_win(%d)"
         ):format(win_id)
         local autoclose_autocmd = (
-            "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua vim.schedule(function() require('nvim-lsp-installer.ui.display').delete_win_buf(%d, %d) end)"
+            "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua require('nvim-lsp-installer.ui.display').delete_win_buf(%d, %d)"
         ):format(win_id, bufnr)
 
         vim.cmd(([[
@@ -291,7 +291,7 @@ function M.new_view_only_win(name)
         return win_id
     end
 
-    local draw = process.debounced(function(view)
+    local draw = function(view)
         local win_valid = win_id ~= nil and vim.api.nvim_win_is_valid(win_id)
         local buf_valid = bufnr ~= nil and vim.api.nvim_buf_is_valid(bufnr)
         log.fmt_trace("got bufnr=%s", bufnr)
@@ -364,7 +364,7 @@ function M.new_view_only_win(name)
                 )
             end
         end
-    end)
+    end
 
     return {
         ---@param _renderer fun(state: table): table
@@ -378,9 +378,12 @@ function M.new_view_only_win(name)
             assert(renderer ~= nil, "No view function has been registered. Call .view() before .init().")
             has_initiated = true
 
-            mutate_state, get_state, unsubscribe = state.create_state_container(initial_state, function(new_state)
-                draw(renderer(new_state))
-            end)
+            mutate_state, get_state, unsubscribe = state.create_state_container(
+                initial_state,
+                process.debounced(function(new_state)
+                    draw(renderer(new_state))
+                end)
+            )
 
             -- we don't need to subscribe to state changes until the window is actually opened
             unsubscribe(true)
