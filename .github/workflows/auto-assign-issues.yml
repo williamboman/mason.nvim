@@ -1,0 +1,19 @@
+name: Automatically assign issues to Issue Triaging project
+
+on:
+    issues:
+        types: [opened]
+
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+    assign-issue:
+        runs-on: ubuntu-latest
+        name: Assign to Issue Triaging prjoect
+        steps:
+            - name: Assign new issues to triaging project
+              uses: srggrs/assign-one-project-github-action@1.2.1
+              if: github.event.action == 'opened'
+              with:
+                  project: "https://github.com/williamboman/nvim-lsp-installer/projects/1"
