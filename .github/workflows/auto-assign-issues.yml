@@ -17,3 +17,4 @@ jobs:
               if: github.event.action == 'opened'
               with:
                   project: "https://github.com/williamboman/nvim-lsp-installer/projects/1"
+                  column_name: "Needs triage"
