@@ -14,6 +14,7 @@ return {
   cs = { "omnisharp" },
   css = { "cssls", "emmet_ls", "stylelint_lsp", "tailwindcss" },
   d = { "serve_d" },
+  dart = { "dartls" },
   ["django-html"] = { "tailwindcss" },
   dockerfile = { "dockerls" },
   dot = { "dotls" },

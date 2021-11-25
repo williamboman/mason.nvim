@@ -40,6 +40,7 @@ local CORE_SERVERS = Data.set_of {
     "cmake",
     "codeqlls",
     "cssls",
+    "dartls",
     "denols",
     "diagnosticls",
     "dockerls",

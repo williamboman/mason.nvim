@@ -28,6 +28,9 @@ return {
   cssls = {
     filetypes = { "css", "scss", "less" }
   },
+  dartls = {
+    filetypes = { "dart" }
+  },
   denols = {
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
   },
