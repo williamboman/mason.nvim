@@ -44,6 +44,7 @@ local function fetch(url, callback)
             process.lazy_spawn("powershell.exe", {
                 args = { "-NoProfile", "-Command", table.concat(ps_script, ";") },
                 stdio_sink = stdio.sink,
+                env = process.graft_env({}, { "PSMODULEPATH" }),
             })
         )
     end

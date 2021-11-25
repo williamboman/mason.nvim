@@ -11,7 +11,9 @@ local function shell(opts)
             args = opts.args,
             cwd = context.install_dir,
             stdio_sink = context.stdio_sink,
-            env = process.graft_env(opts.env or {}),
+            env = process.graft_env(opts.env or {}, {
+                "PSMODULEPATH", -- https://github.com/williamboman/nvim-lsp-installer/issues/271
+            }),
         }, callback)
 
         if stdio then
