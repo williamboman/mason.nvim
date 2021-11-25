@@ -47,7 +47,9 @@ function M.unzip(file, dest)
                     stdio_sink = context.stdio_sink,
                 }, callback)
             end,
-            win = shell.powershell(("Expand-Archive -Path %q -DestinationPath %q"):format(file, dest)),
+            win = shell.powershell(
+                ("Microsoft.PowerShell.Archive\\Expand-Archive -Path %q -DestinationPath %q"):format(file, dest)
+            ),
         },
         installers.always_succeed(M.rmrf(file)),
     }
