@@ -34,7 +34,7 @@ return function(name, root_dir)
         },
         default_options = {
             cmd = {
-                path.concat { root_dir, "fsautocomplete", "dotnet-fsautocomplete" },
+                path.concat { root_dir, "fsautocomplete" },
                 "--background-service-enabled",
             },
         },
