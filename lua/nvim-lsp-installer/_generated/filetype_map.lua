@@ -106,6 +106,7 @@ return {
   xsd = { "lemminx" },
   yaml = { "ansiblels", "yamlls" },
   ["yaml.ansible"] = { "ansiblels" },
+  ["yaml.docker-compose"] = { "yamlls" },
   zig = { "zls" },
   zir = { "zls" }
 }

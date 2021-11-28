@@ -203,7 +203,7 @@ return {
     filetypes = { "vue" }
   },
   yamlls = {
-    filetypes = { "yaml" }
+    filetypes = { "yaml", "yaml.docker-compose" }
   },
   zls = {
     filetypes = { "zig", "zir" }
