@@ -8,7 +8,9 @@ setting. This is done when setting up the LSP server, like so:
 ```lua
 local lsp_installer = require "nvim-lsp-installer"
 
-function common_on_attach(client, bufnr) ... end
+function common_on_attach(client, bufnr) 
+  -- add your code here
+end
 
 lsp_installer.on_server_ready(function (server)
     local opts = {
@@ -56,3 +58,5 @@ lsp_installer.on_server_ready(function (server)
     server:setup(opts)
 end)
 ```
+
+*NOTE*: You will have to install the [`eslint` package](https://www.npmjs.com/package/eslint) either locally or globally for the server to run successfully.
