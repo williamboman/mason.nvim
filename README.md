@@ -137,6 +137,7 @@ lsp_installer.settings({
 | Ansible                             | `ansiblels`              |
 | Bash                                | `bashls`                 |
 | Bicep                               | `bicep`                  |
+| C#                                  | `csharpls`               |
 | C#                                  | `omnisharp`              |
 | C++                                 | `clangd`                 |
 | CMake                               | `cmake`                  |
