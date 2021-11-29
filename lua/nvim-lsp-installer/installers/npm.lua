@@ -35,17 +35,29 @@ local function create_installer(read_version_from_context)
                     cwd = context.install_dir,
                     stdio_sink = context.stdio_sink,
                 }
-            -- stylua: ignore start
-            if not (fs.dir_exists(path.concat { context.install_dir, "node_modules" }) or
-                   fs.file_exists(path.concat { context.install_dir, "package.json" }))
-            then
-                c.run(npm, { "init", "--yes", "--scope=lsp-installer" })
-            end
 
-            if read_version_from_context and context.requested_server_version and #pkgs > 0 then
-                -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
-                pkgs[1] = ("%s@%s"):format(pkgs[1], context.requested_server_version)
-            end
+                -- Use global-style. The reasons for this are:
+                --   a) To avoid polluting the executables (aka bin-links) that npm creates.
+                --   b) The installation is, after all, more similar to a "global" installation. We don't really gain
+                --      any of the benefits of not using global style (e.g., deduping the dependency tree).
+                --
+                --  We write to .npmrc manually instead of going through npm because managing a local .npmrc file
+                --  is a bit unreliable across npm versions (especially <7), so we take extra measures to avoid
+                --  inadvertently polluting global npm config.
+                fs.append_file(path.concat { context.install_dir, ".npmrc" }, "global-style=true")
+
+                -- stylua: ignore start
+                if not (fs.dir_exists(path.concat { context.install_dir, "node_modules" }) or
+                       fs.file_exists(path.concat { context.install_dir, "package.json" }))
+                then
+                    -- Create a package.json to set a boundary for where npm installs packages.
+                    c.run(npm, { "init", "--yes", "--scope=lsp-installer" })
+                end
+
+                if read_version_from_context and context.requested_server_version and #pkgs > 0 then
+                    -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
+                    pkgs[1] = ("%s@%s"):format(pkgs[1], context.requested_server_version)
+                end
 
                 -- stylua: ignore end
                 c.run(npm, vim.list_extend({ "install" }, pkgs))

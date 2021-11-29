@@ -101,6 +101,14 @@ function M.write_file(path, contents)
     assert(uv.fs_close(fd))
 end
 
+function M.append_file(path, contents)
+    log.fmt_debug("fs: append_file %s", path)
+    assert_ownership(path)
+    local fd = assert(uv.fs_open(path, "a", 438))
+    uv.fs_write(fd, contents, -1)
+    assert(uv.fs_close(fd))
+end
+
 ---@alias ReaddirEntry {name: string, type: string}
 
 ---@param path string @The full path to the directory to read.
