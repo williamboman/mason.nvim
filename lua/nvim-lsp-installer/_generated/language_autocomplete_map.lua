@@ -14,6 +14,7 @@ return {
   php = { "intelephense", "phpactor" },
   python = { "jedi_language_server", "pylsp", "pyright" },
   ruby = { "solargraph", "sorbet" },
+  solidity = { "solang" },
   sphinx = { "esbonio" },
   sql = { "sqlls", "sqls" },
   terraform = { "terraformls", "tflint" },
