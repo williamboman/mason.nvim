@@ -102,28 +102,6 @@ available installers that are available out of the box.
     ]]
     ```
 
-    #### `shell.remote_bash(url: string, opts?: table)`
-
-    Returns an installer that downloads the content at `url` and executes its content by passing it to the
-    `shell.bash()` installer.
-
-    `opts` is an optional table, with the following defaults:
-
-    -   `prefix: string` (default `"set -euo pipefail;"`) - Prefix added to the beginning of the script.
-    -   `env = table?` (default `nil`) - A table (dict) with environment variables to be set in the shell.
-
-    Example:
-
-    ```lua
-    local shell = require "nvim-lsp-installer.installers.shell"
-
-    shell.remote_bash("https://raw.githubusercontent.com/my_server/my_server_lsp/install.sh", {
-        env = {
-            MY_ENV = "true"
-        }
-    })
-    ```
-
     #### `shell.cmd(raw_script: string, opts?: table)`
 
     Returns an installer that runs the provided `raw_script` as a `cmd.exe` script.
