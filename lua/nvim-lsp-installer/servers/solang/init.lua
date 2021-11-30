@@ -48,7 +48,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://solang.readthedocs.io/en/latest/",
-        languages = { "solang" },
+        languages = { "solidity" },
         installer = {
             solang_executable_installer,
             llvm_installer,
