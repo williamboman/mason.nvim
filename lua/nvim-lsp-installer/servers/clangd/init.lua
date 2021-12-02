@@ -15,11 +15,12 @@ return function(name, root_dir)
         languages = { "c", "c++" },
         installer = {
             context.use_github_release_file("clangd/clangd", function(version)
-                return Data.coalesce(
+                local target_file = Data.coalesce(
                     Data.when(platform.is_mac, "clangd-mac-%s.zip"),
                     Data.when(platform.is_linux and platform.arch == "x64", "clangd-linux-%s.zip"),
                     Data.when(platform.is_win, "clangd-windows-%s.zip")
-                ):format(version)
+                )
+                return target_file and target_file:format(version)
             end),
             context.capture(function(ctx)
                 return std.unzip_remote(ctx.github_release_file)
