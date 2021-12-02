@@ -122,9 +122,13 @@ function M.Server:install(version)
     status_win().install_server(self, version)
 end
 
+function M.Server:get_tmp_install_dir()
+    return path.concat { settings.current.install_root_dir, ("%s.tmp"):format(self.name) }
+end
+
 ---@param context ServerInstallContext
 function M.Server:_setup_install_context(context)
-    context.install_dir = path.concat { settings.current.install_root_dir, ("%s.tmp"):format(self.name) }
+    context.install_dir = self:get_tmp_install_dir()
     fs.rm_mkdirp(context.install_dir)
 
     if not fs.dir_exists(settings.current.install_root_dir) then
@@ -182,6 +186,7 @@ function M.Server:install_attached(context, callback)
                     context.stdio_sink.stderr(
                         ("Failed to promote the temporary installation directory %q.\n"):format(context.install_dir)
                     )
+                    pcall(fs.rmrf, self:get_tmp_install_dir())
                     callback(false)
                     return
                 end
@@ -195,7 +200,7 @@ function M.Server:install_attached(context, callback)
                 end)
                 callback(true)
             else
-                pcall(fs.rmrf, context.install_dir)
+                pcall(fs.rmrf, self:get_tmp_install_dir())
                 callback(false)
             end
         end),
