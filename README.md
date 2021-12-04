@@ -68,6 +68,18 @@ Plug 'williamboman/nvim-lsp-installer'
 
 ### Setup
 
+nvim-lsp-installer installs server executables in a local directory that doesn't exist on PATH. In order for the neovim
+LSP client to be able to locate these executables, the full path to the executable needs to be provided when setting up
+a server. In lspconfig, this is provided via the `cmd` property in the table provided to the `.setup()` function, for
+example (`lspconfig.sumneko_lua.setup { cmd = { "/path/to/lua-server" } }`).
+
+The recommended way of setting up your installed servers is to do it directly through nvim-lsp-installer. By doing so,
+nvim-lsp-installer will make sure to inject any necessary properties before calling lspconfig's setup function for you.
+You may find a minimal example below. To see how you can override the default settings for a server, refer to the
+[Wiki][overriding-default-settings].
+
+[overriding-default-settings]: https://github.com/williamboman/nvim-lsp-installer/wiki/Advanced-Configuration#overriding-the-default-lsp-server-options
+
 ```lua
 local lsp_installer = require("nvim-lsp-installer")
 
