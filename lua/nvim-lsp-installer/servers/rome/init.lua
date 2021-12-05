@@ -13,7 +13,7 @@ return function(name, root_dir)
             context.set(function(ctx)
                 ctx.requested_server_version = Data.coalesce(
                     ctx.requested_server_version,
-                    "10.0.7-nightly.2021.7.2" -- https://github.com/rome/tools/pull/1409
+                    "10.0.7-nightly.2021.7.27" -- https://github.com/rome/tools/pull/1409
                 )
             end),
             npm.packages { "rome" },

@@ -26,7 +26,7 @@ return function(name, root_dir)
             end),
             installers.on {
                 -- we can't use std.chmod because of shell wildcard expansion
-                unix = shell.sh [[ chmod +x haskell*]],
+                unix = shell.sh [[ chmod +x haskell* ]],
             },
         },
         default_options = {
