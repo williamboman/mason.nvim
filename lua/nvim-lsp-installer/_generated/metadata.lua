@@ -83,7 +83,7 @@ return {
     filetypes = { "go", "gomod" }
   },
   graphql = {
-    filetypes = { "typescriptreact", "javascriptreact", "graphql" }
+    filetypes = { "graphql", "typescriptreact", "javascriptreact" }
   },
   groovyls = {
     filetypes = { "groovy" }
