@@ -16,7 +16,7 @@ local function shell(opts)
             }),
         }, callback)
 
-        if stdio then
+        if stdio and opts.cmd then
             local stdin = stdio[1]
 
             stdin:write(opts.cmd)
@@ -37,7 +37,7 @@ function M.bash(raw_script, opts)
 
     return shell {
         shell = "bash",
-        cmd = (opts.prefix or "") .. raw_script,
+        args = { "-c", (opts.prefix or "") .. raw_script },
         env = opts.env,
     }
 end
@@ -68,7 +68,7 @@ function M.cmd(raw_script, opts)
 
     return shell {
         shell = "cmd.exe",
-        cmd = raw_script,
+        args = { "/C", raw_script },
         env = opts.env,
     }
 end
@@ -85,8 +85,7 @@ function M.powershell(raw_script, opts)
 
     return shell {
         shell = "powershell.exe",
-        args = { "-NoProfile" },
-        cmd = (opts.prefix or "") .. raw_script,
+        args = { "-NoProfile", "-Command", (opts.prefix or "") .. raw_script },
         env = opts.env,
     }
 end
