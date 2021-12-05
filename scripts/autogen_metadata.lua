@@ -44,12 +44,12 @@ end
 
 ---@param server Server
 local function get_supported_filetypes(server)
-    local config = require("lspconfig")[server.name]
+    local config = require(("lspconfig.server_configurations.%s"):format(server.name))
     local default_options = server:get_default_options()
     local filetypes = coalesce(
         -- nvim-lsp-installer options has precedence
         default_options.filetypes,
-        config.document_config.default_config.filetypes,
+        config.default_config.filetypes,
         {}
     )
     return filetypes
