@@ -1,8 +1,20 @@
 local platform = require "nvim-lsp-installer.platform"
 local log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
+local fs = require "nvim-lsp-installer.fs"
+local path = require "nvim-lsp-installer.path"
 
 local M = {}
+
+---@param installer ServerInstallerFunction[]|ServerInstallerFunction
+---@return ServerInstallerFunction
+local function normalize_installer(installer)
+    if type(installer) == "table" then
+        return M.pipe(installer)
+    else
+        return installer
+    end
+end
 
 ---@alias ServerInstallCallback fun(success: boolean)
 
@@ -120,11 +132,7 @@ function M.on(platform_table)
     return function(server, callback, context)
         local installer = get_by_platform(platform_table)
         if installer then
-            if type(installer) == "function" then
-                installer(server, callback, context)
-            else
-                M.pipe(installer)(server, callback, context)
-            end
+            normalize_installer(installer)(server, callback, context)
         else
             callback(true)
         end
@@ -139,17 +147,22 @@ function M.when(platform_table)
     return function(server, callback, context)
         local installer = get_by_platform(platform_table)
         if installer then
-            if type(installer) == "function" then
-                installer(server, callback, context)
-            else
-                M.pipe(installer)(server, callback, context)
-            end
+            normalize_installer(installer)(server, callback, context)
         else
             context.stdio_sink.stderr(
                 ("Current operating system is not yet supported for server %q.\n"):format(server.name)
             )
             callback(false)
         end
+    end
+end
+
+---@param installer ServerInstallerFunction|ServerInstallerFunction[] @The installer to execute in a new installer context.
+function M.branch_context(installer)
+    ---@type ServerInstallerFunction
+    return function(server, callback, context)
+        local new_context = vim.deepcopy(context)
+        normalize_installer(installer)(server, callback, new_context)
     end
 end
 

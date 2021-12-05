@@ -13,6 +13,9 @@ return {
   bicep = {
     filetypes = { "bicep" }
   },
+  ccls = {
+    filetypes = { "c", "cpp", "objc", "objcpp" }
+  },
   clangd = {
     filetypes = { "c", "cpp", "objc", "objcpp" }
   },

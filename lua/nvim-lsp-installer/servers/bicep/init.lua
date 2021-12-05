@@ -21,9 +21,7 @@ return function(name, root_dir)
             end),
             std.rename(path.concat { "vscode", "extension", "bicepLanguageServer" }, "langserver"),
             std.rmrf "vscode",
-            context.set(function(ctx)
-                ctx.install_dir = path.concat { ctx.install_dir, "langserver" }
-            end),
+            context.set_working_dir "langserver",
         },
         default_options = {
             cmd = { "dotnet", path.concat { root_dir, "Bicep.LangServer.dll" } },

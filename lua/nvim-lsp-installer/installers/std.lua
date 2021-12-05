@@ -248,6 +248,17 @@ function M.git_clone(repo_url)
     end
 end
 
+function M.git_submodule_update()
+    ---@type ServerInstallerFunction
+    return function(_, callback, context)
+        process.spawn("git", {
+            args = { "submodule", "update", "--init", "--recursive" },
+            cwd = context.install_dir,
+            stdio_sink = context.stdio_sink,
+        }, callback)
+    end
+end
+
 ---@param opts {args: string[]}
 function M.gradlew(opts)
     ---@type ServerInstallerFunction

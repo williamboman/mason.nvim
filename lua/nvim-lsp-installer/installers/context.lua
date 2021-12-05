@@ -3,6 +3,8 @@ local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
 local installers = require "nvim-lsp-installer.installers"
 local platform = require "nvim-lsp-installer.platform"
+local fs = require "nvim-lsp-installer.fs"
+local path = require "nvim-lsp-installer.path"
 
 local M = {}
 
@@ -96,7 +98,12 @@ function M.use_github_release_file(repo, file)
         M.use_github_release(repo),
         function(server, callback, context)
             local function get_download_url(version)
-                local target_file = type(file) == "function" and file(version) or file
+                local target_file
+                if type(file) == "function" then
+                    target_file = file(version)
+                else
+                    target_file = file
+                end
                 if not target_file then
                     log.fmt_error(
                         "Unable to find which release file to download. server_name=%s, repo=%s",
@@ -158,6 +165,24 @@ function M.set(fn)
         fn(context)
         callback(true)
     end
+end
+
+---@param rel_path string @The relative path from the current installation working directory.
+function M.set_working_dir(rel_path)
+    ---@type ServerInstallerFunction
+    return vim.schedule_wrap(function(server, callback, context)
+        log.fmt_debug("Changing installation working directory for %s", server.name)
+        local new_dir = path.concat { context.install_dir, rel_path }
+        if not fs.dir_exists(new_dir) then
+            local ok = pcall(fs.mkdirp, new_dir)
+            if not ok then
+                context.stdio_sink.stderr(("Failed to create directory %s.\n"):format(new_dir))
+                return callback(false)
+            end
+        end
+        context.install_dir = new_dir
+        callback(true)
+    end)
 end
 
 return M

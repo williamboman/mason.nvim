@@ -187,9 +187,15 @@ function M.Server:install_attached(context, callback)
                         ("Failed to promote the temporary installation directory %q.\n"):format(context.install_dir)
                     )
                     pcall(fs.rmrf, self:get_tmp_install_dir())
+                    pcall(fs.rmrf, context.install_dir)
                     callback(false)
                     return
                 end
+
+                -- The tmp dir should in most cases have been "promoted" and already renamed to its final destination,
+                -- but we make sure to delete it should the installer modify the installation working directory during
+                -- installation.
+                pcall(fs.rmrf, self:get_tmp_install_dir())
 
                 -- Dispatch the server is ready
                 vim.schedule(function()
@@ -201,6 +207,7 @@ function M.Server:install_attached(context, callback)
                 callback(true)
             else
                 pcall(fs.rmrf, self:get_tmp_install_dir())
+                pcall(fs.rmrf, context.install_dir)
                 callback(false)
             end
         end),

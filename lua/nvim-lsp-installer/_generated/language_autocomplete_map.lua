@@ -1,8 +1,9 @@
 -- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
 -- stylua: ignore start
 return {
+  c = { "ccls", "clangd" },
   ["c#"] = { "csharp_ls", "omnisharp" },
-  ["c++"] = { "clangd" },
+  ["c++"] = { "ccls", "clangd" },
   d = { "serve_d" },
   ["f#"] = { "fsautocomplete" },
   fortran = { "fortls" },
@@ -11,6 +12,7 @@ return {
   javascript = { "rome", "tsserver" },
   latex = { "ltex", "texlab" },
   lua = { "sumneko_lua" },
+  ["objective-c"] = { "ccls" },
   php = { "intelephense", "phpactor" },
   python = { "jedi_language_server", "pylsp", "pyright" },
   ruby = { "solargraph", "sorbet" },
