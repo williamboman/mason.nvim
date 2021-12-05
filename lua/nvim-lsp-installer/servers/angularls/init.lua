@@ -12,6 +12,17 @@ local function append_node_modules(dirs)
 end
 
 return function(name, root_dir)
+    local function get_cmd(workspace_dir)
+        return {
+            npm.executable(root_dir, "ngserver"),
+            "--stdio",
+            "--tsProbeLocations",
+            table.concat(append_node_modules { root_dir, workspace_dir }, ","),
+            "--ngProbeLocations",
+            table.concat(append_node_modules { root_dir, workspace_dir }, ","),
+        }
+    end
+
     return server.Server:new {
         name = name,
         root_dir = root_dir,
@@ -19,15 +30,9 @@ return function(name, root_dir)
         languages = { "angular" },
         installer = npm.packages { "@angular/language-server", "typescript" },
         default_options = {
+            cmd = get_cmd(path.cwd()),
             on_new_config = function(new_config, new_root_dir)
-                new_config.cmd = {
-                    npm.executable(root_dir, "ngserver"),
-                    "--stdio",
-                    "--tsProbeLocations",
-                    table.concat(append_node_modules { root_dir, new_root_dir }, ","),
-                    "--ngProbeLocations",
-                    table.concat(append_node_modules { root_dir, new_root_dir }, ","),
-                }
+                new_config.cmd = get_cmd(new_root_dir)
             end,
         },
     }
