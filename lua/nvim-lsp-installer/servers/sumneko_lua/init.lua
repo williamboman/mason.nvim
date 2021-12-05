@@ -31,12 +31,7 @@ return function(name, root_dir)
             ),
         },
         default_options = {
-            cmd = {
-                -- We need to provide a _full path_ to the executable (sumneko_lua uses it to determine... things)
-                path.concat { root_dir, "extension", "server", "bin", bin_dir, "lua-language-server" },
-                "-E",
-                path.concat { root_dir, "extension", "server", "main.lua" },
-            },
+            cmd = { path.concat { root_dir, "extension", "server", "bin", bin_dir, "lua-language-server" } },
         },
     }
 end
