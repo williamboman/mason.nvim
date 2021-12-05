@@ -12,12 +12,6 @@ return function(name, root_dir)
         homepage = "https://github.com/Pure-D/serve-d",
         languages = { "d" },
         installer = {
-            context.set(function(ctx)
-                -- Consider the latest (as of writing) beta release as "latest", instead of 0.6.0.
-                -- This is because 1) 0.6.0 is really old, but mostly 2) there are inconcistencies in which assets are
-                -- available 0.6.0 vs 0.7.0 beta releases.
-                ctx.requested_server_version = Data.coalesce(ctx.requested_server_version, "v0.7.0-beta.7")
-            end),
             context.use_github_release_file("Pure-D/serve-d", function(version)
                 return Data.coalesce(
                     Data.when(platform.is_mac, "serve-d_%s-osx-x86_64.tar.xz"),
