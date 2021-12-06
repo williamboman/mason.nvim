@@ -33,6 +33,7 @@ local INSTALL_DIRS = {
 local CORE_SERVERS = Data.set_of {
     "angularls",
     "ansiblels",
+    "arduino_language_server",
     "bashls",
     "bicep",
     "ccls",
