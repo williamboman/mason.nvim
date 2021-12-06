@@ -123,42 +123,44 @@ function M.uninstall_sync(server_identifiers)
     end
 end
 
----@param server_identifier string
+---@param server_name string
+---@param callback fun(server_name: string, version: string|nil)
 ---@return string,string|nil
-local function translate_language_alias(server_identifier, version)
-    local language_aliases = language_autocomplete_map[server_identifier]
+local function resolve_language_alias(server_name, callback)
+    local language_aliases = language_autocomplete_map[server_name]
     if language_aliases then
-        local choices = {}
-        for idx, server_alias in ipairs(language_aliases) do
-            table.insert(choices, ("&%d %s"):format(idx, server_alias))
-        end
-        local choice = vim.fn.confirm(
-            ("The following servers were found for language %q, please select which one you want to install:"):format(
-                server_identifier
-            ),
-            table.concat(choices, "\n"),
-            0
-        )
-        return language_aliases[choice]
+        vim.ui.select(language_aliases, {
+            prompt = ("Please select which %q server you want to install:"):format(server_name),
+        }, function(choice)
+            if choice then
+                callback(choice)
+            end
+        end)
+    else
+        callback(server_name)
     end
-    return server_identifier, version
 end
 
 --- Queues a server to be installed. Will also open the status window.
 --- Use the .on_server_ready(cb) function to register a handler to be executed when a server is ready to be set up.
 ---@param server_identifier string @The server to install. This can also include a requested version, for example "rust_analyzer@nightly".
 function M.install(server_identifier)
-    local server_name, version = translate_language_alias(servers.parse_server_identifier(server_identifier))
-    if not server_name then
-        -- No selection was made
-        return
-    end
-    local ok, server = servers.get_server(server_name)
-    if not ok then
-        return notify(("Unable to find LSP server %s.\n\n%s"):format(server_name, server), vim.log.levels.ERROR)
-    end
-    status_win().install_server(server, version)
-    status_win().open()
+    local server_name, version = servers.parse_server_identifier(server_identifier)
+    resolve_language_alias(server_name, function(resolved_server_name)
+        if not resolved_server_name then
+            -- No selection was made
+            return
+        end
+        local ok, server = servers.get_server(resolved_server_name)
+        if not ok then
+            return notify(
+                ("Unable to find LSP server %s.\n\n%s"):format(resolved_server_name, server),
+                vim.log.levels.ERROR
+            )
+        end
+        status_win().install_server(server, version)
+        status_win().open()
+    end)
 end
 
 --- Queues a server to be uninstalled. Will also open the status window.
