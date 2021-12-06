@@ -2,6 +2,7 @@ local server = require "nvim-lsp-installer.server"
 local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
+local installers = require "nvim-lsp-installer.installers"
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 
@@ -25,7 +26,7 @@ return function(name, root_dir)
             )
         ),
         when(
-            platform.is_windows,
+            platform.is_win,
             coalesce(
                 when(platform.arch == "x64", "windows.zip"),
                 when(platform.arch == "arm64", "windows-arm64.zip"),
@@ -49,9 +50,12 @@ return function(name, root_dir)
                     return std.untargz_remote(url:format(ctx.requested_server_version, release_file))
                 end
             end),
+            installers.on {
+                unix = context.set_working_dir "quick-lint-js",
+            },
         },
         default_options = {
-            cmd = { path.concat { root_dir, "quick-lint-js", "bin", "quick-lint-js" }, "--lsp-server" },
+            cmd = { path.concat { root_dir, "bin", "quick-lint-js" }, "--lsp-server" },
         },
     }
 end
