@@ -182,6 +182,8 @@ lsp_installer.settings({
 | Haskell                             | `hls`                     |
 | JSON                                | `jsonls`                  |
 | Java                                | `jdtls`                   |
+| JavaScript                          | `tsserver`                |
+| JavaScript                          | `quick_lint_js`           |
 | Jsonnet                             | `jsonnet_ls`              |
 | Kotlin                              | `kotlin_language_server`  |
 | LaTeX                               | `ltex`                    |
@@ -220,7 +222,6 @@ lsp_installer.settings({
 | XML                                 | `lemminx`                 |
 | YAML                                | `yamlls`                  |
 | Zig                                 | `zls`                     |
-| quick-lint-js                       | `quick_lint_js`           |
 
 [eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md

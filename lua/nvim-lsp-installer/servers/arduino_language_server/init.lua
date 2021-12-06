@@ -42,7 +42,7 @@ return function(name, root_dir)
         end),
         context.capture(function(ctx)
             if platform.is_win then
-                return std.unzip_remote(ctx.github_release_file, "arduino-cli.exe")
+                return std.unzip_remote(ctx.github_release_file)
             else
                 return std.untargz_remote(ctx.github_release_file)
             end
