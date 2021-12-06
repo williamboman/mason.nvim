@@ -9,7 +9,7 @@ return {
   fortran = { "fortls" },
   haskell = { "hls" },
   java = { "jdtls" },
-  javascript = { "quick_lint_js", "rome", "tsserver" },
+  javascript = { "eslint", "quick_lint_js", "rome", "tsserver" },
   latex = { "ltex", "texlab" },
   lua = { "sumneko_lua" },
   ["objective-c"] = { "ccls" },
@@ -20,7 +20,7 @@ return {
   sphinx = { "esbonio" },
   sql = { "sqlls", "sqls" },
   terraform = { "terraformls", "tflint" },
-  typescript = { "rome", "tsserver" },
+  typescript = { "eslint", "rome", "tsserver" },
   vue = { "volar", "vuels" },
   xml = { "lemminx" },
   zig = { "zls" }
