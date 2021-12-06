@@ -198,7 +198,6 @@ lsp_installer.settings({
 | Python                              | `jedi_language_server`    |
 | Python                              | `pylsp`                   |
 | Python                              | `pyright`                 |
-| Quick Lint JS                       | `quick_lint_js`           |
 | ReScript                            | `rescriptls`              |
 | Rome                                | `rome`                    |
 | Ruby                                | `solargraph`              |
@@ -221,6 +220,7 @@ lsp_installer.settings({
 | XML                                 | `lemminx`                 |
 | YAML                                | `yamlls`                  |
 | Zig                                 | `zls`                     |
+| quick-lint-js                       | `quick_lint_js`           |
 
 [eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
