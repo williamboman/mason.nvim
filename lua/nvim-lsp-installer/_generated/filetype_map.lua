@@ -44,7 +44,7 @@ return {
   ["html-eex"] = { "tailwindcss" },
   jade = { "tailwindcss" },
   java = { "jdtls" },
-  javascript = { "denols", "ember", "eslint", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
+  javascript = { "denols", "ember", "eslint", "quick_lint_js", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
   ["javascript.jsx"] = { "denols", "eslint", "tsserver" },
   javascriptreact = { "denols", "eslint", "graphql", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
   json = { "jsonls", "rome" },

@@ -63,6 +63,41 @@ local function fetch(url, callback)
 end
 
 ---@param repo string @The GitHub repo ("username/repo").
+function M.use_github_latest_tag(repo)
+    ---@type ServerInstallerFunction
+    return function(_, callback, context)
+        if context.requested_server_version then
+            log.fmt_debug(
+                "Requested server version already provided (%s), skipping fetching tags from GitHub.",
+                context.requested_server_version
+            )
+            -- User has already provided a version - don't fetch the tags from GitHub
+            return callback(true)
+        end
+        context.stdio_sink.stdout "Fetching tags from GitHub API...\n"
+        fetch(
+            ("https://api.github.com/repos/%s/tags"):format(repo),
+            vim.schedule_wrap(function(err, raw_data)
+                if err then
+                    context.stdio_sink.stderr(tostring(err) .. "\n")
+                    callback(false)
+                    return
+                end
+
+                local data = Data.json_decode(raw_data)
+                if vim.tbl_count(data) == 0 then
+                    context.stdio_sink.stderr("No tags found for GitHub repo %s.\n", repo)
+                    callback(false)
+                    return
+                end
+                context.requested_server_version = data[1].name
+                callback(true)
+            end)
+        )
+    end
+end
+
+---@param repo string @The GitHub repo ("username/repo").
 function M.use_github_release(repo)
     ---@type ServerInstallerFunction
     return function(server, callback, context)
@@ -79,7 +114,7 @@ function M.use_github_release(repo)
             ("https://api.github.com/repos/%s/releases/latest"):format(repo),
             vim.schedule_wrap(function(err, response)
                 if err then
-                    context.stdio_sink.stderr(tostring(err))
+                    context.stdio_sink.stderr(tostring(err) .. "\n")
                     return callback(false)
                 end
                 local version = Data.json_decode(response).tag_name

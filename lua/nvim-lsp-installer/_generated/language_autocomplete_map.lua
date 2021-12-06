@@ -9,7 +9,7 @@ return {
   fortran = { "fortls" },
   haskell = { "hls" },
   java = { "jdtls" },
-  javascript = { "rome", "tsserver" },
+  javascript = { "quick_lint_js", "rome", "tsserver" },
   latex = { "ltex", "texlab" },
   lua = { "sumneko_lua" },
   ["objective-c"] = { "ccls" },

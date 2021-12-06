@@ -80,6 +80,7 @@ local CORE_SERVERS = Data.set_of {
     "purescriptls",
     "pylsp",
     "pyright",
+    "quick_lint_js",
     "rescriptls",
     "rome",
     "rust_analyzer",
