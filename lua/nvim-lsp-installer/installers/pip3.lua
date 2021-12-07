@@ -23,22 +23,22 @@ local function create_installer(python_executable, packages)
             },
         },
         ---@type ServerInstallerFunction
-        function(_, callback, context)
+        function(_, callback, ctx)
             local pkgs = Data.list_copy(packages or {})
             local c = process.chain {
-                cwd = context.install_dir,
-                stdio_sink = context.stdio_sink,
+                cwd = ctx.install_dir,
+                stdio_sink = ctx.stdio_sink,
             }
 
             c.run(python_executable, { "-m", "venv", REL_INSTALL_DIR })
-            if context.requested_server_version then
+            if ctx.requested_server_version then
                 -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
-                pkgs[1] = ("%s==%s"):format(pkgs[1], context.requested_server_version)
+                pkgs[1] = ("%s==%s"):format(pkgs[1], ctx.requested_server_version)
             end
 
             local install_command = { "-m", "pip", "install", "-U" }
             vim.list_extend(install_command, settings.current.pip.install_args)
-            c.run(M.executable(context.install_dir, "python"), vim.list_extend(install_command, pkgs))
+            c.run(M.executable(ctx.install_dir, "python"), vim.list_extend(install_command, pkgs))
 
             c.spawn(callback)
         end,
