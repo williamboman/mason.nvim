@@ -1,6 +1,7 @@
 local platform = require "nvim-lsp-installer.platform"
 local log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
+local process = require "nvim-lsp-installer.process"
 local fs = require "nvim-lsp-installer.fs"
 local path = require "nvim-lsp-installer.path"
 

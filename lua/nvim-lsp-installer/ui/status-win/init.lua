@@ -79,10 +79,19 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
             { { "Problems installing/uninstalling servers", "LspInstallerLabel" } },
             {
                 {
-                    "Make sure you meet the minimum requirements to install servers. For debugging, refer to ",
+                    "Make sure you meet the minimum requirements to install servers. For debugging, refer to:",
                     "LspInstallerMuted",
                 },
-                { ":help nvim-lsp-installer-debugging", "LspInstallerHighlighted" },
+            },
+        },
+        Indent {
+            Ui.HlTextNode {
+                {
+                    { ":help nvim-lsp-installer-debugging", "LspInstallerHighlighted" },
+                },
+                {
+                    { ":checkhealth nvim-lsp-installer", "LspInstallerHighlighted" },
+                },
             },
         },
         Ui.EmptyLine(),

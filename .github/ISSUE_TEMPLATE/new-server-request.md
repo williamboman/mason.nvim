@@ -1,10 +1,9 @@
 ---
 name: New server request
 about: Request a new server not currently available
-title: ''
+title: ""
 labels: new-server-request
-assignees: ''
-
+assignees: ""
 ---
 
 **Which server would you like to request to be added?**

@@ -6,20 +6,20 @@ local std = require "nvim-lsp-installer.installers.std"
 local platform = require "nvim-lsp-installer.platform"
 local process = require "nvim-lsp-installer.process"
 
-local composer = platform.is_win and "composer.bat" or "composer"
+local M = {}
+
+M.composer_cmd = platform.is_win and "composer.bat" or "composer"
 
 ---@param installer ServerInstallerFunction
 local function ensure_composer(installer)
     return installers.pipe {
         std.ensure_executables {
             { "php", "php was not found in path. Refer to https://www.php.net/." },
-            { composer, "composer was not found in path. Refer to https://getcomposer.org/download/." },
+            { M.composer_cmd, "composer was not found in path. Refer to https://getcomposer.org/download/." },
         },
         installer,
     }
 end
-
-local M = {}
 
 ---@param packages string[] @The Gem packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
 function M.packages(packages)
@@ -32,8 +32,8 @@ function M.packages(packages)
             }
 
             if not (fs.file_exists(path.concat { context.install_dir, "composer.json" })) then
-                c.run(composer, { "init", "--no-interaction", "--stability=dev" })
-                c.run(composer, { "config", "prefer-stable", "true" })
+                c.run(M.composer_cmd, { "init", "--no-interaction", "--stability=dev" })
+                c.run(M.composer_cmd, { "config", "prefer-stable", "true" })
             end
 
             local pkgs = Data.list_copy(packages or {})
@@ -42,7 +42,7 @@ function M.packages(packages)
                 pkgs[1] = ("%s:%s"):format(pkgs[1], context.requested_server_version)
             end
 
-            c.run(composer, vim.list_extend({ "require" }, pkgs))
+            c.run(M.composer_cmd, vim.list_extend({ "require" }, pkgs))
             c.spawn(callback)
         end
     )
@@ -52,7 +52,7 @@ function M.install()
     return ensure_composer(
         ---@type ServerInstallerFunction
         function(_, callback, context)
-            process.spawn(composer, {
+            process.spawn(M.composer_cmd, {
                 args = {
                     "install",
                     "--no-interaction",

@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: Report an issue with nvim-lsp-installer
-title: ''
+title: ""
 labels: bug
-assignees: ''
-
+assignees: ""
 ---
 
 **Describe the bug**
@@ -17,8 +16,15 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **System info (please complete the following information):**
- - OS: [e.g. macOS 12.1]
- - Neovim version:
+
+-   OS: [e.g. macOS 12.1]
+-   Neovim version:
+
+Checkhealth output (`:checkhealth nvim-lsp-installer`):
+
+```
+Paste `:checkhealth nvim-lsp-installer` output here
+```
 
 Please also include any other system information you think is relevant!
 

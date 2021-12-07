@@ -10,7 +10,7 @@ local list_copy = Data.list_copy
 
 local M = {}
 
-local npm = platform.is_win and "npm.cmd" or "npm"
+M.npm_command = platform.is_win and "npm.cmd" or "npm"
 
 ---@param installer ServerInstallerFunction
 local function ensure_npm(installer)
@@ -56,7 +56,7 @@ local function create_installer(standalone)
                        fs.file_exists(path.concat { ctx.install_dir, "package.json" }))
                 then
                     -- Create a package.json to set a boundary for where npm installs packages.
-                    c.run(npm, { "init", "--yes", "--scope=lsp-installer" })
+                    c.run(M.npm_command, { "init", "--yes", "--scope=lsp-installer" })
                 end
 
                 if not standalone and ctx.requested_server_version and #pkgs > 0 then
@@ -65,7 +65,7 @@ local function create_installer(standalone)
                 end
 
                 -- stylua: ignore end
-                c.run(npm, vim.list_extend({ "install" }, pkgs))
+                c.run(M.npm_command, vim.list_extend({ "install" }, pkgs))
                 c.spawn(callback)
             end
         )
@@ -99,7 +99,7 @@ function M.run(script)
     return ensure_npm(
         ---@type ServerInstallerFunction
         function(_, callback, ctx)
-            process.spawn(npm, {
+            process.spawn(M.npm_command, {
                 args = { "run", script },
                 cwd = ctx.install_dir,
                 stdio_sink = ctx.stdio_sink,

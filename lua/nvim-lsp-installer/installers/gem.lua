@@ -7,7 +7,7 @@ local platform = require "nvim-lsp-installer.platform"
 
 local M = {}
 
-local gem = platform.is_win and "gem.cmd" or "gem"
+M.gem_cmd = platform.is_win and "gem.cmd" or "gem"
 
 ---@param packages string[] @The Gem packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
 function M.packages(packages)
@@ -24,7 +24,7 @@ function M.packages(packages)
                 pkgs[1] = ("%s:%s"):format(pkgs[1], context.requested_server_version)
             end
 
-            process.spawn(gem, {
+            process.spawn(M.gem_cmd, {
                 args = {
                     "install",
                     "--no-user-install",

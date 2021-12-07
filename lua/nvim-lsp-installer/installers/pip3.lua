@@ -54,7 +54,7 @@ function M.packages(packages)
 
     local py3_host_prog = vim.g.python3_host_prog
     if py3_host_prog then
-        log.fmt_debug("Found python3_host_prog (%s)", py3_host_prog)
+        log.fmt_trace("Found python3_host_prog (%s)", py3_host_prog)
         table.insert(installer_variants, 1, create_installer(py3_host_prog, packages))
     end
 
