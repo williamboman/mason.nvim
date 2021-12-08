@@ -205,7 +205,7 @@ lsp_installer.settings({
 | ReScript                            | `rescriptls`              |
 | Rome                                | `rome`                    |
 | Ruby                                | `solargraph`              |
-| Rust                                | `rust_analyzer`           |
+| Rust [(wiki)][rust_analyzer]        | `rust_analyzer`           |
 | SQL                                 | `sqlls`                   |
 | SQL                                 | `sqls`                    |
 | Solang Solidity                     | `solang`                  |
@@ -229,6 +229,7 @@ lsp_installer.settings({
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
 [tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md
 [pylsp]: ./lua/nvim-lsp-installer/servers/pylsp/README.md
+[rust_analyzer]: https://github.com/williamboman/nvim-lsp-installer/wiki/Rust
 
 ## Custom servers
 
