@@ -88,6 +88,7 @@ local CORE_SERVERS = Data.set_of {
     "solang",
     "solargraph",
     "sorbet",
+    "spectral",
     "sqlls",
     "sqls",
     "stylelint_lsp",

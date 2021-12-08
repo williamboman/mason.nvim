@@ -1,6 +1,7 @@
 -- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
 -- stylua: ignore start
 return {
+  asyncapi = { "spectral" },
   c = { "ccls", "clangd" },
   ["c#"] = { "csharp_ls", "omnisharp" },
   ["c++"] = { "ccls", "clangd" },
@@ -13,6 +14,7 @@ return {
   latex = { "ltex", "texlab" },
   lua = { "sumneko_lua" },
   ["objective-c"] = { "ccls" },
+  openapi = { "spectral" },
   php = { "intelephense", "phpactor" },
   python = { "jedi_language_server", "pylsp", "pyright" },
   ruby = { "solargraph", "sorbet" },
