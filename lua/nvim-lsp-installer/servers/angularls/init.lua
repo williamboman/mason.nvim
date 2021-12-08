@@ -19,7 +19,13 @@ return function(name, root_dir)
             "--tsProbeLocations",
             table.concat(append_node_modules { root_dir, workspace_dir }, ","),
             "--ngProbeLocations",
-            table.concat(append_node_modules { root_dir, workspace_dir }, ","),
+            table.concat(
+                append_node_modules {
+                    path.concat { root_dir, "node_modules", "@angular", "language-server" },
+                    workspace_dir,
+                },
+                ","
+            ),
         }
     end
 
