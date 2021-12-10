@@ -91,7 +91,7 @@ function M.install_sync(server_identifiers)
     if not vim.wait(60000 * 15, function()
         return #completed_servers >= #server_identifiers
     end, 100) then
-        raise_error("Timed out waiting for server(s) to complete installing.")
+        raise_error "Timed out waiting for server(s) to complete installing."
     end
 
     if #failed_servers > 0 then
