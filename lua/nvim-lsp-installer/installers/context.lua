@@ -206,8 +206,13 @@ end
 function M.set_working_dir(rel_path)
     ---@type ServerInstallerFunction
     return vim.schedule_wrap(function(server, callback, context)
-        log.fmt_debug("Changing installation working directory for %s", server.name)
         local new_dir = path.concat { context.install_dir, rel_path }
+        log.fmt_debug(
+            "Changing installation working directory for %s from %s to %s",
+            server.name,
+            context.install_dir,
+            new_dir
+        )
         if not fs.dir_exists(new_dir) then
             local ok = pcall(fs.mkdirp, new_dir)
             if not ok then

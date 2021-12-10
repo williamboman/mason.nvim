@@ -242,8 +242,7 @@ Illustrations in the logo are derived from [@Kaligule](https://schauderbasis.de/
 
 ## Roadmap
 
--   Command (and corresponding Lua API) to update outdated servers (e.g., `:LspUpdate {server}`)
--   More helpful metadata displayed in the UI window
+-   Command (and corresponding Lua API) to update outdated servers (e.g., `:LspUpdateAll`)
 -   Cross-platform CI for all server installers
 
 ## Default configuration
