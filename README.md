@@ -209,6 +209,7 @@ lsp_installer.settings({
 | SQL                                 | `sqlls`                   |
 | SQL                                 | `sqls`                    |
 | Solang Solidity                     | `solang`                  |
+| Solidity (vscode)                   | `solidity_ls`             |
 | Sorbet                              | `sorbet`                  |
 | Sphinx                              | `esbonio`                 |
 | Stylelint                           | `stylelint_lsp`           |

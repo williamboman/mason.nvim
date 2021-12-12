@@ -86,7 +86,7 @@ return {
   scss = { "cssls", "stylelint_lsp", "tailwindcss" },
   sh = { "bashls" },
   slim = { "tailwindcss" },
-  solidity = { "solang" },
+  solidity = { "solang", "solidity_ls" },
   sql = { "sqlls", "sqls" },
   stylus = { "tailwindcss" },
   sugarss = { "stylelint_lsp", "tailwindcss" },
