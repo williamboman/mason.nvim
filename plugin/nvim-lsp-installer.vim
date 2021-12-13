@@ -19,6 +19,9 @@ function! s:LspUninstallAllCompletion(...) abort
 endfunction
 
 function! s:ParseArgs(args)
+    if len(a:args) == 0
+        return { 'sync': v:false, 'servers': [] }
+    endif
     let sync = a:args[0] == "--sync"
     let servers = sync ? a:args[1:] : a:args
     return { 'sync': sync, 'servers': servers }
@@ -29,9 +32,13 @@ function! s:LspInstall(args) abort
     if parsed_args.sync
         call luaeval("require'nvim-lsp-installer'.install_sync(_A)", parsed_args.servers)
     else
-        for server_name in l:parsed_args.servers
-            call luaeval("require'nvim-lsp-installer'.install(_A)", server_name)
-        endfor
+        if len(parsed_args.servers) == 0
+            call luaeval("require'nvim-lsp-installer'.install_by_filetype(_A)", &filetype)
+        else
+            for server_name in l:parsed_args.servers
+                call luaeval("require'nvim-lsp-installer'.install(_A)", server_name)
+            endfor
+        endif
     endif
 endfunction
 
@@ -63,7 +70,7 @@ function! s:LspInstallLog() abort
     exe 'tabnew ' .. luaeval("require'nvim-lsp-installer.log'.outfile")
 endfunction
 
-command! -bar -nargs=+ -complete=custom,s:LspInstallCompletion      LspInstall call s:LspInstall([<f-args>])
+command! -bar -nargs=* -complete=custom,s:LspInstallCompletion      LspInstall call s:LspInstall([<f-args>])
 command! -bar -nargs=+ -complete=custom,s:LspUninstallCompletion    LspUninstall call s:LspUninstall([<f-args>])
 command! -bar -nargs=? -complete=custom,s:LspUninstallAllCompletion LspUninstallAll call s:LspUninstallAll([<f-args>])
 

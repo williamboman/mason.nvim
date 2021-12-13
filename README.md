@@ -60,7 +60,7 @@ Plug 'williamboman/nvim-lsp-installer'
 ### Commands
 
 -   `:LspInstallInfo` - opens a graphical overview of your language servers
--   `:LspInstall [--sync] <server> ...` - installs/reinstalls language servers. Runs in a blocking fashion if the `--sync` argument is passed (only recommended for scripting purposes).
+-   `:LspInstall [--sync] [server] ...` - installs/reinstalls language servers. Runs in a blocking fashion if the `--sync` argument is passed (only recommended for scripting purposes).
 -   `:LspUninstall [--sync] <server> ...` - uninstalls language servers. Runs in a blocking fashion if the `--sync` argument is passed (only recommended for scripting purposes).
 -   `:LspUninstallAll [--no-confirm]` - uninstalls all language servers
 -   `:LspInstallLog` - opens the log file in a new tab window

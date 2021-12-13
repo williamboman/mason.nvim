@@ -79,6 +79,12 @@ of the server name, like so: >
     :LspInstall tsserver@0.6.3 graphql@latest rust_analyzer@nightly
 <
 
+To install a server associated with the filetype of the currently opened
+buffer, simply just run: >
+
+    :LspInstall
+<
+
 Please refer to each server's own release page to find which versions are
 available.
 
@@ -130,15 +136,20 @@ COMMANDS                                        *nvim-lsp-installer-commands*
 Opens the UI for nvim-lsp-installer.
 
                                                                 *:LspInstall*
-:LspInstall [--sync] {server_name} ...
+:LspInstall [--sync] [server_name] ...
 
 Installs language servers. If the `--sync` argument is passed, the command will
 be blocking until all installations complete. This is useful for headless
 installations, for example: >
 
     $ nvim --headless -c "LspInstall --sync rust_analyzer clangd clojure_lsp" -c q
-
 <
+
+If no server names are provided (`:LspInstall`), you will be prompted to
+select which server associated with the currently opened buffer's filetype you
+want to install. If none are associated, an error message will be printed
+instead.
+
                                                               *:LspUninstall*
 :LspUninstall [--sync] {server_name} ...
 
