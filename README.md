@@ -159,6 +159,7 @@ lsp_installer.settings({
 | C++                                 | `clangd`                  |
 | CMake                               | `cmake`                   |
 | CSS                                 | `cssls`                   |
+| CSS                                 | `cssmodules_ls`           |
 | Clojure                             | `clojure_lsp`             |
 | CodeQL                              | `codeqlls`                |
 | Dart                                | `dartls`                  |

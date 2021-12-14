@@ -43,6 +43,7 @@ local CORE_SERVERS = Data.set_of {
     "codeqlls",
     "csharp_ls",
     "cssls",
+    "cssmodules_ls",
     "dartls",
     "denols",
     "diagnosticls",

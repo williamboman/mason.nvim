@@ -5,6 +5,7 @@ return {
   c = { "ccls", "clangd" },
   ["c#"] = { "csharp_ls", "omnisharp" },
   ["c++"] = { "ccls", "clangd" },
+  css = { "cssls", "cssmodules_ls" },
   d = { "serve_d" },
   ["f#"] = { "fsautocomplete" },
   fortran = { "fortls" },

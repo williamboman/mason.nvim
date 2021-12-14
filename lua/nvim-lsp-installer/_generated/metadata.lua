@@ -37,6 +37,9 @@ return {
   cssls = {
     filetypes = { "css", "scss", "less" }
   },
+  cssmodules_ls = {
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+  },
   dartls = {
     filetypes = { "dart" }
   },
