@@ -178,6 +178,9 @@ return {
   sorbet = {
     filetypes = { "ruby" }
   },
+  sourcekit = {
+    filetypes = { "swift", "c", "cpp", "objective-c", "objective-cpp" }
+  },
   spectral = {
     filetypes = { "yaml", "json", "yml" }
   },

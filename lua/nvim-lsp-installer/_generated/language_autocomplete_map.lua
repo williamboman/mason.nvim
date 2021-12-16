@@ -22,6 +22,7 @@ return {
   solidity = { "solang", "solidity_ls" },
   sphinx = { "esbonio" },
   sql = { "sqlls", "sqls" },
+  swift = { "sourcekit" },
   terraform = { "terraformls", "tflint" },
   typescript = { "eslint", "rome", "tsserver" },
   vue = { "volar", "vuels" },
