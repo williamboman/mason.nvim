@@ -9,7 +9,7 @@ local coalesce, when = Data.coalesce, Data.when
 
 return function(name, root_dir)
     local archive_name = coalesce(
-        when(platform.is_mac and platform.arch == "x64", "x86_64-macos"),
+        when(platform.is_mac, "x86_64-macos"),
         when(
             platform.is_linux,
             coalesce(when(platform.arch == "x64", "x86_64-linux"), when(platform.arch == "x86", "i386-linux.tar.zx"))
