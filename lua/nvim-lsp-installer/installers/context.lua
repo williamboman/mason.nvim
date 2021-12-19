@@ -169,7 +169,7 @@ end
 ---Creates an installer that moves the current installation directory to the server's root directory.
 function M.promote_install_dir()
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
+    return vim.schedule_wrap(function(server, callback, context)
         if server:promote_install_dir(context.install_dir) then
             context.install_dir = server.root_dir
             callback(true)
@@ -179,7 +179,7 @@ function M.promote_install_dir()
             )
             callback(false)
         end
-    end
+    end)
 end
 
 ---Access the context ojbect to create a new installer.
@@ -223,6 +223,78 @@ function M.set_working_dir(rel_path)
         context.install_dir = new_dir
         callback(true)
     end)
+end
+
+function M.use_os_distribution()
+    ---Parses the provided contents of an /etc/\*-release file and identifies the Linux distribution.
+    ---@param contents string @The contents of a /etc/\*-release file.
+    ---@return table<string, any>
+    local function parse_linux_dist(contents)
+        local lines = vim.split(contents, "\n")
+
+        local entries = {}
+
+        for i = 1, #lines do
+            local line = lines[i]
+            local index = line:find "="
+            if index then
+                local key = line:sub(1, index - 1)
+                local value = line:sub(index + 1)
+                entries[key] = value
+            end
+        end
+
+        if entries.ID == "ubuntu" then
+            -- Parses the Ubuntu OS VERSION_ID into their version components, e.g. "18.04" -> {major=18, minor=04}
+            local version_id = entries.VERSION_ID:gsub([["]], "")
+            local version_parts = vim.split(version_id, "%.")
+            local major = tonumber(version_parts[1])
+            local minor = tonumber(version_parts[2])
+
+            return {
+                id = "ubuntu",
+                version_id = version_id,
+                version = { major = major, minor = minor },
+            }
+        else
+            return {
+                id = "linux-generic",
+            }
+        end
+    end
+
+    return installers.when {
+        ---@type ServerInstallerFunction
+        linux = function(_, callback, ctx)
+            local stdio = process.in_memory_sink()
+            process.spawn("bash", {
+                args = { "-c", "cat /etc/*-release" },
+                stdio_sink = stdio.sink,
+            }, function(success)
+                if success then
+                    ctx.os_distribution = parse_linux_dist(table.concat(stdio.buffers.stdout, ""))
+                    callback(true)
+                else
+                    ctx.os_distribution = {
+                        id = "linux-generic",
+                    }
+                    callback(true)
+                end
+            end)
+        end,
+        mac = function(_, callback, ctx)
+            ctx.os_distribution = {
+                id = "macOS",
+            }
+            callback(true)
+        end,
+        win = function(_, callback, ctx)
+            ctx.os_distribution = {
+                id = "windows",
+            }
+            callback(true)
+        end,
+    }
 end
 
 return M

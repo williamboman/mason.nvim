@@ -1,9 +1,6 @@
 local platform = require "nvim-lsp-installer.platform"
 local log = require "nvim-lsp-installer.log"
 local Data = require "nvim-lsp-installer.data"
-local process = require "nvim-lsp-installer.process"
-local fs = require "nvim-lsp-installer.fs"
-local path = require "nvim-lsp-installer.path"
 
 local M = {}
 
@@ -23,6 +20,7 @@ end
 ---@field requested_server_version string|nil @The version requested by the user.
 ---@field stdio_sink StdioSink
 ---@field github_release_file string|nil @Only available if context.use_github_release_file has been called.
+---@field os_distribution table<string, any> @Only available if context.use_os_distribution has been called.
 ---@field install_dir string
 
 ---@alias ServerInstallerFunction fun(server: Server, callback: ServerInstallCallback, context: ServerInstallContext)
