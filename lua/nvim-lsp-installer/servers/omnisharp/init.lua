@@ -18,7 +18,13 @@ return function(name, root_dir)
                 "OmniSharp/omnisharp-roslyn",
                 coalesce(
                     when(platform.is_mac, "omnisharp-osx.zip"),
-                    when(platform.is_linux and platform.arch == "x64", "omnisharp-linux-x64.zip"),
+                    when(
+                        platform.is_linux,
+                        coalesce(
+                            when(platform.arch == "x64", "omnisharp-linux-x64.zip"),
+                            when(platform.arch == "arm64", "omnisharp-linux-arm64.zip")
+                        )
+                    ),
                     when(
                         platform.is_win,
                         coalesce(
