@@ -9,12 +9,15 @@ local coalesce, when = Data.coalesce, Data.when
 
 return function(name, root_dir)
     local archive_name = coalesce(
-        when(platform.is_mac, "x86_64-macos"),
+        when(platform.is_mac, "x86_64-macos.tar.xz"),
         when(
             platform.is_linux,
-            coalesce(when(platform.arch == "x64", "x86_64-linux"), when(platform.arch == "x86", "i386-linux.tar.zx"))
+            coalesce(
+                when(platform.arch == "x64", "x86_64-linux.tar.xz"),
+                when(platform.arch == "x86", "i386-linux.tar.xz")
+            )
         ),
-        when(platform.is_win and platform.arch == "x64", "x86_64-windows")
+        when(platform.is_win and platform.arch == "x64", "x86_64-windows.tar.xz")
     )
 
     return server.Server:new {
@@ -23,7 +26,7 @@ return function(name, root_dir)
         homepage = "https://github.com/zigtools/zls",
         languages = { "zig" },
         installer = {
-            context.use_github_release_file("zigtools/zls", archive_name and ("%s.tar.xz"):format(archive_name)),
+            context.use_github_release_file("zigtools/zls", archive_name),
             context.capture(function(ctx)
                 return std.untarxz_remote(ctx.github_release_file)
             end),
