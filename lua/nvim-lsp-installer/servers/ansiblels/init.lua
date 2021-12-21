@@ -17,7 +17,6 @@ return function(name, root_dir)
             npm.exec("npm", { "install", "--production" }),
         },
         default_options = {
-            filetypes = { "yaml", "yaml.ansible" },
             cmd = { "node", path.concat { root_dir, "out", "server", "src", "server.js" }, "--stdio" },
         },
     }
