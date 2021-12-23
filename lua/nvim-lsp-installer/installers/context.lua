@@ -297,4 +297,24 @@ function M.use_os_distribution()
     }
 end
 
+function M.use_homebrew_prefix()
+    return installers.on {
+        mac = function(_, callback, ctx)
+            local stdio = process.in_memory_sink()
+            process.spawn("brew", {
+                args = { "--prefix" },
+                stdio_sink = stdio.sink,
+            }, function(success)
+                if success then
+                    ctx.homebrew_prefix = vim.trim(table.concat(stdio.buffers.stdout, ""))
+                    callback(true)
+                else
+                    ctx.stdio_sink.stderr "Failed to locate Homebrew installation.\n"
+                    callback(false)
+                end
+            end)
+        end,
+    }
+end
+
 return M

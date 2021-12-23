@@ -4,6 +4,9 @@ local process = require "nvim-lsp-installer.process"
 local platform = require "nvim-lsp-installer.platform"
 local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
+local Data = require "nvim-lsp-installer.data"
+
+local list_not_nil, when = Data.list_not_nil, Data.when
 
 local M = {}
 
@@ -229,33 +232,39 @@ end
 
 ---Shallow git clone.
 ---@param repo_url string
-function M.git_clone(repo_url)
+---@param opts {directory: string, recursive: boolean}
+function M.git_clone(repo_url, opts)
     ---@type ServerInstallerFunction
     return function(_, callback, context)
+        opts = vim.tbl_deep_extend("force", {
+            directory = ".",
+            recursive = false,
+        }, opts)
+
         local c = process.chain {
             cwd = context.install_dir,
             stdio_sink = context.stdio_sink,
         }
 
-        c.run("git", { "clone", "--depth", "1", repo_url, "." })
+        c.run(
+            "git",
+            list_not_nil(
+                "clone",
+                "--depth",
+                "1",
+                when(opts.recursive, "--recursive"),
+                when(opts.recursive, "--shallow-submodules"),
+                repo_url,
+                opts.directory
+            )
+        )
 
         if context.requested_server_version then
-            c.run("git", { "fetch", "--depth", "1", "origin", context.requested_server_version })
-            c.run("git", { "checkout", "FETCH_HEAD" })
+            c.run("git", { "-C", opts.directory, "fetch", "--depth", "1", "origin", context.requested_server_version })
+            c.run("git", { "-C", opts.directory, "checkout", "FETCH_HEAD" })
         end
 
         c.spawn(callback)
-    end
-end
-
-function M.git_submodule_update()
-    ---@type ServerInstallerFunction
-    return function(_, callback, context)
-        process.spawn("git", {
-            args = { "submodule", "update", "--init", "--recursive" },
-            cwd = context.install_dir,
-            stdio_sink = context.stdio_sink,
-        }, callback)
     end
 end
 

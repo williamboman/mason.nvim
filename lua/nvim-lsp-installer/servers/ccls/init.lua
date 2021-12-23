@@ -1,3 +1,24 @@
+--  __________________
+-- < Here be dragons! >
+--  ------------------
+--                        \                    ^    /^
+--                         \                  / \  // \
+--                          \   |\___/|      /   \//  .\
+--                           \  /O  O  \__  /    //  | \ \           *----*
+--                             /     /  \/_/    //   |  \  \          \   |
+--                             @___@`    \/_   //    |   \   \         \/\ \
+--                            0/0/|       \/_ //     |    \    \         \  \
+--                        0/0/0/0/|        \///      |     \     \       |  |
+--                     0/0/0/0/0/_|_ /   (  //       |      \     _\     |  /
+--                  0/0/0/0/0/0/`/,_ _ _/  ) ; -.    |    _ _\.-~       /   /
+--                              ,-}        _      *-.|.-~-.           .~    ~
+--             \     \__/        `/\      /                 ~-. _ .-~      /
+--              \____(@@)           *.   }            {                   /
+--              (    (--)          .----~-.\        \-`                 .~
+--              //__\\  \__ Ack!   ///.----..<        \             _ -~
+--             //    \\               ///-._ _ _ _ _ _ _{^ - - - - ~
+--
+
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
 local installers = require "nvim-lsp-installer.installers"
@@ -6,8 +27,9 @@ local std = require "nvim-lsp-installer.installers.std"
 local platform = require "nvim-lsp-installer.platform"
 local context = require "nvim-lsp-installer.installers.context"
 local process = require "nvim-lsp-installer.process"
+local fs = require "nvim-lsp-installer.fs"
 
-local coalesce, when = Data.coalesce, Data.when
+local coalesce, when, list_not_nil = Data.coalesce, Data.when, Data.list_not_nil
 
 return function(name, root_dir)
     local llvm_installer
@@ -17,32 +39,29 @@ return function(name, root_dir)
         ---@param os_distribution table<string, string>|nil
         ---@return string|nil
         local function get_archive_name(version, os_distribution)
-            local name_template = coalesce(
-                when(platform.is_mac, "clang+llvm-%s-x86_64-apple-darwin"),
-                when(
-                    platform.is_linux,
-                    coalesce(
-                        when(
-                            platform.arch == "x64",
-                            coalesce(
-                                when(
-                                    os_distribution.id == "ubuntu" and os_distribution.version.major >= 20,
-                                    "clang+llvm-%s-x86_64-linux-gnu-ubuntu-20.04"
-                                ),
-                                when(
-                                    os_distribution.id == "ubuntu" and os_distribution.version.major >= 16,
-                                    "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
-                                ),
-                                -- the Ubuntu dist is allegedly the most suitable cross-platform one, so we default to it
+            local name_template = coalesce(when(
+                platform.is_linux,
+                coalesce(
+                    when(
+                        platform.arch == "x64",
+                        coalesce(
+                            when(
+                                os_distribution.id == "ubuntu" and os_distribution.version.major >= 20,
+                                "clang+llvm-%s-x86_64-linux-gnu-ubuntu-20.04"
+                            ),
+                            when(
+                                os_distribution.id == "ubuntu" and os_distribution.version.major >= 16,
                                 "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
-                            )
-                        ),
-                        when(platform.arch == "arm64", "clang+llvm-%s-aarch64-linux-gnu"),
-                        when(platform.arch == "armv7", "clang+llvm-%s-armv7a-linux-gnueabihf"),
-                        when(platform.arch == "x86", "clang+llvm-%s-i386-unknown-freebsd13")
-                    )
+                            ),
+                            -- the Ubuntu dist is allegedly the most suitable cross-platform one, so we default to it
+                            "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
+                        )
+                    ),
+                    when(platform.arch == "arm64", "clang+llvm-%s-aarch64-linux-gnu"),
+                    when(platform.arch == "armv7", "clang+llvm-%s-armv7a-linux-gnueabihf"),
+                    when(platform.arch == "x86", "clang+llvm-%s-i386-unknown-freebsd13")
                 )
-            )
+            ))
             return name_template and name_template:format(version)
         end
 
@@ -53,6 +72,7 @@ return function(name, root_dir)
         end
 
         llvm_installer = installers.branch_context {
+            context.use_os_distribution(),
             context.set(function(ctx)
                 -- We unset the requested version for llvm because it's not the primary target - the user's requested version should only apply to ccls.
                 ctx.requested_server_version = nil
@@ -71,6 +91,7 @@ return function(name, root_dir)
                         get_archive_name(normalize_version(ctx.requested_server_version), ctx.os_distribution),
                         "llvm"
                     ),
+                    -- We move the clang headers out, because they need to be persisted
                     std.rename(
                         path.concat { "llvm", "lib", "clang", normalize_version(ctx.requested_server_version) },
                         "clang-resource"
@@ -80,33 +101,65 @@ return function(name, root_dir)
         }
     end
 
-    local ccls_installer = installers.branch_context {
-        context.set(function(ctx)
-            ctx.llvm_install_dir = path.concat { ctx.install_dir, "llvm" }
-            ctx.clang_resource_dir = path.concat { ctx.install_dir, "clang-resource" }
-        end),
-        installers.branch_context {
-            context.set_working_dir "ccls-git",
-            std.git_clone "https://github.com/MaskRay/ccls",
-            std.git_submodule_update(),
-            function(_, callback, ctx)
-                local c = process.chain {
-                    cwd = ctx.install_dir,
-                    stdio_sink = ctx.stdio_sink,
-                }
+    local ccls_installer = installers.pipe {
+        std.git_clone("https://github.com/MaskRay/ccls", {
+            directory = "ccls-git",
+            recursive = true,
+        }),
+        function(server, callback, ctx)
+            local c = process.chain {
+                cwd = path.concat { ctx.install_dir, "ccls-git" },
+                stdio_sink = ctx.stdio_sink,
+            }
 
-                c.run("cmake", {
-                    "-H.",
-                    "-BRelease",
+            local clang_resource_dir = path.concat { server.root_dir, "clang-resource" }
+
+            c.run(
+                "cmake",
+                list_not_nil(
                     "-DCMAKE_BUILD_TYPE=Release",
-                    ("-DCMAKE_PREFIX_PATH=%s"):format(ctx.llvm_install_dir),
-                    ("-DCLANG_RESOURCE_DIR=%s"):format(ctx.clang_resource_dir),
-                })
-                c.run("cmake", { "--build", "Release" })
-                c.spawn(callback)
-            end,
-        },
-        std.rename(path.concat { "ccls-git", "Release", "ccls" }, "ccls"),
+                    "-DUSE_SYSTEM_RAPIDJSON=OFF",
+                    "-DCMAKE_FIND_FRAMEWORK=LAST",
+                    "-Wno-dev",
+                    ("-DCMAKE_INSTALL_PREFIX=%s"):format(ctx.install_dir),
+                    ("-DCMAKE_PREFIX_PATH=%s"):format(ctx.llvm_dir),
+                    when(platform.is_mac, "-DCMAKE_OSX_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"),
+                    when(platform.is_linux, ("-DCLANG_RESOURCE_DIR=%s"):format(clang_resource_dir))
+                )
+            )
+            c.run("make", { "install" })
+            c.spawn(callback)
+        end,
+        std.rmrf "ccls-git",
+    }
+
+    local linux_ccls_installer = installers.pipe {
+        llvm_installer,
+        context.set(function(ctx)
+            ctx.llvm_dir = path.concat { ctx.install_dir, "llvm" }
+        end),
+        ccls_installer,
+        std.rmrf "llvm",
+    }
+
+    local mac_ccls_installer = installers.pipe {
+        context.use_homebrew_prefix(),
+        context.set(function(ctx)
+            ctx.llvm_dir = path.concat { ctx.homebrew_prefix, "opt", "llvm" }
+        end),
+        function(_, callback, ctx)
+            if not fs.dir_exists(ctx.llvm_dir) then
+                ctx.stdio_sink.stderr(
+                    (
+                        "LLVM does not seem to be installed on this system (looked in %q). Please install LLVM via Homebrew:\n  $ brew install llvm\n"
+                    ):format(ctx.llvm_dir)
+                )
+                callback(false)
+                return
+            end
+            callback(true)
+        end,
+        ccls_installer,
     }
 
     return server.Server:new {
@@ -115,17 +168,11 @@ return function(name, root_dir)
         homepage = "https://github.com/MaskRay/ccls",
         languages = { "c", "c++", "objective-c" },
         installer = installers.when {
-            unix = {
-                context.use_os_distribution(),
-                context.promote_install_dir(), -- ccls hardcodes the path to llvm at compile time, so we need to compile everything in the final directory
-                llvm_installer,
-                ccls_installer,
-                std.rmrf "llvm",
-                std.rmrf "ccls-git",
-            },
+            mac = mac_ccls_installer,
+            linux = linux_ccls_installer,
         },
         default_options = {
-            cmd = { path.concat { root_dir, "ccls" } },
+            cmd = { path.concat { root_dir, "bin", "ccls" } },
         },
     }
 end
