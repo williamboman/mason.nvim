@@ -179,6 +179,7 @@ lsp_installer.settings({
 | F#                                  | `fsautocomplete`          |
 | Fortran                             | `fortls`                  |
 | Go                                  | `gopls`                   |
+| Grammarly                           | `grammarly`               |
 | GraphQL                             | `graphql`                 |
 | Groovy                              | `groovyls`                |
 | HTML                                | `html`                    |
@@ -202,8 +203,8 @@ lsp_installer.settings({
 | Puppet                              | `puppet`                  |
 | PureScript                          | `purescriptls`            |
 | Python                              | `jedi_language_server`    |
-| Python [(docs)][pylsp]              | `pylsp`                   |
 | Python                              | `pyright`                 |
+| Python [(docs)][pylsp]              | `pylsp`                   |
 | ReScript                            | `rescriptls`              |
 | Rome                                | `rome`                    |
 | Ruby                                | `solargraph`              |

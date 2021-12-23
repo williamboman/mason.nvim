@@ -88,6 +88,9 @@ return {
   gopls = {
     filetypes = { "go", "gomod" }
   },
+  grammarly = {
+    filetypes = { "markdown" }
+  },
   graphql = {
     filetypes = { "graphql", "typescriptreact", "javascriptreact" }
   },
