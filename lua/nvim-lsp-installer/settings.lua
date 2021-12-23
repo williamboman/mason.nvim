@@ -20,6 +20,8 @@ local DEFAULT_SETTINGS = {
             install_server = "i",
             -- Keymap to reinstall/update a server
             update_server = "u",
+            -- Keymap to update all installed servers
+            update_all_servers = "U",
             -- Keymap to uninstall a server
             uninstall_server = "X",
         },

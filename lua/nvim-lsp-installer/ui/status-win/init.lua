@@ -50,6 +50,7 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
         { "Toggle help", HELP_KEYMAP },
         { "Toggle server info", settings.current.ui.keymaps.toggle_server_expand },
         { "Update server", settings.current.ui.keymaps.update_server },
+        { "Update all installed server", settings.current.ui.keymaps.update_all_servers },
         { "Uninstall server", settings.current.ui.keymaps.uninstall_server },
         { "Install server", settings.current.ui.keymaps.install_server },
         { "Close window", CLOSE_WINDOW_KEYMAP_1 },
@@ -481,6 +482,7 @@ local function init(all_servers)
                 Ui.Keybind(HELP_KEYMAP, "TOGGLE_HELP", nil, true),
                 Ui.Keybind(CLOSE_WINDOW_KEYMAP_1, "CLOSE_WINDOW", nil, true),
                 Ui.Keybind(CLOSE_WINDOW_KEYMAP_2, "CLOSE_WINDOW", nil, true),
+                Ui.Keybind(settings.current.ui.keymaps.update_all_servers, "UPDATE_ALL_SERVERS", nil, true),
                 Header {
                     is_showing_help = state.is_showing_help,
                     help_command_text = state.help_command_text,
@@ -808,6 +810,11 @@ local function init(all_servers)
                     local server_name = e.payload[1]
                     local ok, server = lsp_servers.get_server(server_name)
                     if ok then
+                        install_server(server, nil)
+                    end
+                end,
+                ["UPDATE_ALL_SERVERS"] = function()
+                    for _, server in ipairs(lsp_servers.get_installed_servers()) do
                         install_server(server, nil)
                     end
                 end,
