@@ -239,7 +239,7 @@ function M.git_clone(repo_url, opts)
         opts = vim.tbl_deep_extend("force", {
             directory = ".",
             recursive = false,
-        }, opts)
+        }, opts or {})
 
         local c = process.chain {
             cwd = context.install_dir,
