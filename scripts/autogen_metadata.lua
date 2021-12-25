@@ -96,11 +96,7 @@ do
 
         if #non_deprecated_servers == 1 then
             local server = non_deprecated_servers[1]
-            local server_name_similarity_check = server.name:find(language, 1, true) == 1
-            if server_name_similarity_check then
-                -- There's only one server that supports this language, and it's name is similar enough to the language name.
-                is_candidate = false
-            end
+            is_candidate = not vim.startswith(server.name, language)
         end
 
         if is_candidate then

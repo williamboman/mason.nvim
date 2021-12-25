@@ -5,6 +5,7 @@ local Data = require "nvim-lsp-installer.data"
 local display = require "nvim-lsp-installer.ui.display"
 local settings = require "nvim-lsp-installer.settings"
 local lsp_servers = require "nvim-lsp-installer.servers"
+local ServerHints = require "nvim-lsp-installer.ui.status-win.server_hints"
 
 local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
@@ -307,7 +308,9 @@ end
 ---@param servers ServerState[]
 ---@param props ServerGroupProps
 local function UninstalledServers(servers, props)
-    return Ui.Node(Data.list_map(function(server)
+    return Ui.Node(Data.list_map(function(_server)
+        ---@type ServerState
+        local server = _server
         local is_prioritized = props.prioritized_servers[server.name]
         local is_expanded = props.expanded_server == server.name
         return Ui.Node {
@@ -317,9 +320,10 @@ local function UninstalledServers(servers, props)
                         settings.current.ui.icons.server_uninstalled,
                         is_prioritized and "LspInstallerHighlighted" or "LspInstallerMuted",
                     },
-                    { " " .. server.name, "LspInstallerMuted" },
-                    Data.when(server.uninstaller.has_run, { " (uninstalled)", "Comment" }),
-                    Data.when(server.deprecated, { " deprecated", "LspInstallerOrange" })
+                    { " " .. server.name .. " ", "LspInstallerMuted" },
+                    { server.hints, "Comment" },
+                    Data.when(server.uninstaller.has_run, { " (uninstalled) ", "Comment" }),
+                    Data.when(server.deprecated, { "deprecated ", "LspInstallerOrange" })
                 ),
             },
             Ui.Keybind(settings.current.ui.keymaps.toggle_server_expand, "EXPAND_SERVER", { server.name }),
@@ -361,7 +365,8 @@ end
 ---@param servers table<string, ServerState>
 ---@param expanded_server string|nil
 ---@param prioritized_servers string[]
-local function Servers(servers, expanded_server, prioritized_servers)
+---@param server_name_order string[]
+local function Servers(servers, expanded_server, prioritized_servers, server_name_order)
     local grouped_servers = {
         installed = {},
         queued = {},
@@ -375,7 +380,8 @@ local function Servers(servers, expanded_server, prioritized_servers)
     }
 
     -- giggity
-    for _, server in pairs(servers) do
+    for _, server_name in ipairs(server_name_order) do
+        local server = servers[server_name]
         if server.installer.is_running then
             grouped_servers.installing[#grouped_servers.installing + 1] = server
         elseif server.installer.is_queued then
@@ -443,6 +449,7 @@ local function create_initial_server_state(server)
         name = server.name,
         is_installed = server:is_installed(),
         deprecated = server.deprecated,
+        hints = tostring(ServerHints.new(server)),
         metadata = {
             homepage = server.homepage,
             install_timestamp_seconds = nil, -- lazy
@@ -491,7 +498,12 @@ local function init(all_servers)
                     return Help(state.is_current_settings_expanded, state.vader_saber_ticks)
                 end),
                 Ui.When(not state.is_showing_help, function()
-                    return Servers(state.servers, state.expanded_server, state.prioritized_servers)
+                    return Servers(
+                        state.servers,
+                        state.expanded_server,
+                        state.prioritized_servers,
+                        state.server_name_order
+                    )
                 end),
             }
         end
@@ -499,14 +511,20 @@ local function init(all_servers)
 
     ---@type table<string, ServerState>
     local servers = {}
+    ---@type string[]
+    local server_name_order = {}
     for i = 1, #all_servers do
         local server = all_servers[i]
         servers[server.name] = create_initial_server_state(server)
+        server_name_order[#server_name_order + 1] = server.name
     end
+
+    table.sort(server_name_order)
 
     ---@class StatusWinState
     ---@field prioritized_servers string[]
     local initial_state = {
+        server_name_order = server_name_order,
         servers = servers,
         is_showing_help = false,
         is_current_settings_expanded = false,

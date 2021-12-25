@@ -10,15 +10,9 @@ describe("server", function()
 
         lsp_installer.on_server_ready(generic_handler)
 
-        local srv = server.Server:new {
+        local srv = ServerGenerator {
             name = "on_ready_fixture",
             root_dir = server.get_server_root_path "on_ready_fixture",
-            installer = function(_, callback)
-                callback(true)
-            end,
-            default_options = {
-                cmd = { "my-server" },
-            },
         }
         srv:on_ready(on_ready_handler)
         srv:install()
@@ -36,15 +30,9 @@ describe("server", function()
 
         lsp_installer.on_server_ready(generic_handler)
 
-        local srv = server.Server:new {
+        local srv = FailingServerGenerator {
             name = "on_ready_fixture_failing",
             root_dir = server.get_server_root_path "on_ready_fixture_failing",
-            installer = function(_, callback)
-                callback(false)
-            end,
-            default_options = {
-                cmd = { "my-server" },
-            },
         }
         srv:on_ready(on_ready_handler)
         srv:install()
