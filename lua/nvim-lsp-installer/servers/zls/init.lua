@@ -31,6 +31,7 @@ return function(name, root_dir)
                 return std.untarxz_remote(ctx.github_release_file)
             end),
             std.rename("bin", "package"),
+            std.chmod("+x", { path.concat { "package", "zls" } }),
         },
         default_options = {
             cmd = { path.concat { root_dir, "package", "zls" } },
