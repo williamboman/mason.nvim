@@ -769,7 +769,6 @@ local function init(all_servers)
         end)
 
         window.open {
-            win_width = 95,
             highlight_groups = {
                 "hi def LspInstallerHeader gui=bold guifg=#ebcb8b",
                 "hi def LspInstallerServerExpanded gui=italic",

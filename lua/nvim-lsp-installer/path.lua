@@ -39,7 +39,7 @@ function M.realpath(relpath, depth)
 end
 
 function M.is_subdirectory(root_path, path)
-    return path:sub(1, #root_path) == root_path
+    return root_path == path or path:sub(1, #root_path + 1) == root_path .. sep
 end
 
 return M

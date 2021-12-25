@@ -1,0 +1,19 @@
+name: Tests
+
+on:
+    push:
+        branches:
+            - "main"
+    pull_request:
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: rhysd/action-setup-vim@v1
+              with:
+                  neovim: true
+                  version: v0.6.0
+            - name: Run tests
+              run: make test

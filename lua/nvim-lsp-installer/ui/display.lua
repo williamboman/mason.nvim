@@ -92,12 +92,14 @@ local function render_node(viewport_context, node, _render_context, _output)
                 local content, hl_group = span[1], span[2]
                 local col_start = #full_line
                 full_line = full_line .. content
-                line_highlights[#line_highlights + 1] = {
-                    hl_group = hl_group,
-                    line = #output.lines,
-                    col_start = col_start,
-                    col_end = col_start + #content,
-                }
+                if hl_group ~= "" then
+                    line_highlights[#line_highlights + 1] = {
+                        hl_group = hl_group,
+                        line = #output.lines,
+                        col_start = col_start,
+                        col_end = col_start + #content,
+                    }
+                end
             end
 
             local active_styles = get_styles(full_line, render_context)
@@ -134,6 +136,9 @@ local function render_node(viewport_context, node, _render_context, _output)
 
     return output
 end
+
+-- exported for tests
+M._render_node = render_node
 
 local function create_popup_window_opts()
     local win_height = vim.o.lines - vim.o.cmdheight - 2 -- Add margin for status and buffer line
@@ -314,7 +319,7 @@ function M.new_view_only_win(name)
             output.lines, output.virt_texts, output.highlights, output.keybinds
 
         -- set line contents
-        vim.api.nvim_buf_clear_namespace(0, namespace, 0, -1)
+        vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
         vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
         vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
         vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
