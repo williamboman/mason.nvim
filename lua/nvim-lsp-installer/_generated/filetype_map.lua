@@ -34,6 +34,7 @@ return {
   go = { "gopls" },
   gohtml = { "tailwindcss" },
   gomod = { "gopls" },
+  gotmpl = { "gopls" },
   graphql = { "graphql" },
   groovy = { "groovyls" },
   haml = { "tailwindcss" },
