@@ -148,7 +148,7 @@ lsp_installer.settings({
 | ----------------------------------- | ------------------------- |
 | Angular                             | `angularls`               |
 | Ansible                             | `ansiblels`               |
-| Arduino                             | `arduino_language_server` |
+| Arduino [(docs!!!)][arduino]        | `arduino_language_server` |
 | AsyncAPI                            | `spectral`                |
 | Bash                                | `bashls`                  |
 | Bicep                               | `bicep`                   |
@@ -230,6 +230,7 @@ lsp_installer.settings({
 | YAML                                | `yamlls`                  |
 | Zig                                 | `zls`                     |
 
+[arduino]: ./lua/nvim-lsp-installer/servers/arduino_language_server/README.md
 [eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
 [tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md

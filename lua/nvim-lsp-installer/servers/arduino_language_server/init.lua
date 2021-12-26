@@ -63,22 +63,47 @@ return function(name, root_dir)
         go.packages { "github.com/arduino/arduino-language-server" },
     }
 
+    local clangd_installer = installers.branch_context {
+        context.set(function(ctx)
+            -- The user's requested version should not apply to clangd.
+            ctx.requested_server_version = nil
+        end),
+        context.use_github_release_file("clangd/clangd", function(version)
+            local target_file = coalesce(
+                when(platform.is_mac, "clangd-mac-%s.zip"),
+                when(platform.is_linux and platform.arch == "x64", "clangd-linux-%s.zip"),
+                when(platform.is_win, "clangd-windows-%s.zip")
+            )
+            return target_file and target_file:format(version)
+        end),
+        context.capture(function(ctx)
+            return installers.pipe {
+                std.unzip_remote(ctx.github_release_file),
+                std.rename(("clangd_%s"):format(ctx.requested_server_version), "clangd"),
+            }
+        end),
+    }
+
     return server.Server:new {
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/arduino/arduino-language-server",
         languages = { "arduino" },
         installer = {
+            clangd_installer,
             arduino_cli_installer,
             arduino_language_server_installer,
         },
         default_options = {
             cmd = {
+                -- This cmd is incomplete. Users need to manually append their FQBN (e.g., -fqbn arduino:avr:nano)
                 go.executable(path.concat { root_dir, "arduino-language-server" }, "arduino-language-server"),
                 "-cli",
                 path.concat { root_dir, "arduino-cli", platform.is_win and "arduino-cli.exe" or "arduino-cli" },
                 "-cli-config",
                 path.concat { root_dir, "arduino-cli", "arduino-cli.yaml" },
+                "-clangd",
+                path.concat { root_dir, "clangd", "bin", platform.is_win and "clangd.bat" or "clangd" },
             },
         },
     }
