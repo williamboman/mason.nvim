@@ -18,3 +18,20 @@ jobs:
               with:
                   project: "https://github.com/williamboman/nvim-lsp-installer/projects/1"
                   column_name: "Needs triage"
+
+            - name: Assign new server requests to high priority column
+              uses: srggrs/assign-one-project-github-action@1.2.1
+              if: contains(github.event.issue.labels.*.name, 'new-server-request')
+              with:
+                  project: "https://github.com/williamboman/nvim-lsp-installer/projects/1"
+                  column_name: "High priority"
+
+            - name: Create a PR comment
+              uses: peter-evans/create-or-update-comment@v1
+              if: contains(github.event.issue.labels.*.name, 'new-server-request')
+              with:
+                issue_number: ${{ github.event.issue.number }}
+                body: |
+                    Hello! Cool! Pull requests are always very welcomed to add new servers. If the distribution of the
+                    server is simple, the installation will most likely be so as well (existing server installers may be
+                    used for reference!). Otherwise, @williamboman will get around to looking into this ASAP!
