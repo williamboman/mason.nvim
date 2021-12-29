@@ -232,6 +232,9 @@ return {
   yamlls = {
     filetypes = { "yaml", "yaml.docker-compose" }
   },
+  zk = {
+    filetypes = { "markdown" }
+  },
   zls = {
     filetypes = { "zig", "zir" }
   }
