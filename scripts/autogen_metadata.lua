@@ -1,4 +1,6 @@
 local uv = vim.loop
+local a = require "plenary.async"
+local curl = require "plenary.curl"
 local Path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 
@@ -9,11 +11,20 @@ package.loaded["nvim-lsp-installer.fs"] = nil
 local servers = require "nvim-lsp-installer.servers"
 
 local generated_dir = Path.concat { vim.fn.getcwd(), "lua", "nvim-lsp-installer", "_generated" }
+local schemas_dir = Path.concat { generated_dir, "schemas" }
 
 print("Creating directory " .. generated_dir)
 vim.fn.mkdir(generated_dir, "p")
 
+print("Creating directory " .. schemas_dir)
+vim.fn.mkdir(schemas_dir, "p")
+
 for _, file in ipairs(vim.fn.glob(Path.concat { generated_dir, "*" }, 1, 1)) do
+    print("Deleting " .. file)
+    vim.fn.delete(file)
+end
+
+for _, file in ipairs(vim.fn.glob(Path.concat { schemas_dir, "*" }, 1, 1)) do
     print("Deleting " .. file)
     vim.fn.delete(file)
 end
@@ -42,9 +53,13 @@ local function write_file(path, txt, flag)
     end)
 end
 
+local function get_lspconfig(name)
+    return require(("lspconfig.server_configurations.%s"):format(name))
+end
+
 ---@param server Server
 local function get_supported_filetypes(server)
-    local config = require(("lspconfig.server_configurations.%s"):format(server.name))
+    local config = get_lspconfig(server.name)
     local default_options = server:get_default_options()
     local filetypes = coalesce(
         -- nvim-lsp-installer options has precedence
@@ -55,7 +70,7 @@ local function get_supported_filetypes(server)
     return filetypes
 end
 
-do
+local create_filetype_map = a.void(function()
     local filetype_map = {}
 
     local available_servers = servers.get_available_servers()
@@ -70,9 +85,9 @@ do
     end
 
     write_file(Path.concat { generated_dir, "filetype_map.lua" }, "return " .. vim.inspect(filetype_map), "w")
-end
+end)
 
-do
+local create_autocomplete_map = a.void(function()
     ---@type table<string, Server>
     local language_map = {}
 
@@ -112,9 +127,9 @@ do
         "return " .. vim.inspect(autocomplete_candidates),
         "w"
     )
-end
+end)
 
-do
+local create_server_metadata = a.void(function()
     local metadata = {}
 
     ---@param server Server
@@ -128,4 +143,34 @@ do
     end
 
     write_file(Path.concat { generated_dir, "metadata.lua" }, "return " .. vim.inspect(metadata), "w")
-end
+end)
+
+local create_setting_schema_files = a.void(function()
+    local available_servers = servers.get_available_servers()
+
+    for _, server in pairs(available_servers) do
+        local config = get_lspconfig(server.name)
+        if config.docs.package_json then
+            local package_json_url = config.docs.package_json
+            print(("Fetching %q..."):format(package_json_url))
+            local response = a.wrap(curl.get, 2)(package_json_url, {})
+            assert(response.status == 200, "Failed to fetch package.json for " .. server.name)
+            local schema = vim.json.decode(response.body).contributes.configuration
+            if not schema.properties then
+                -- Some servers (like dartls) seem to provide an array of configurations (for more than just LSP stuff)
+                print(("Could not find appropriate schema structure for %s."):format(server.name))
+            else
+                write_file(
+                    Path.concat { schemas_dir, ("%s.lua"):format(server.name) },
+                    "return " .. vim.inspect(schema, { newline = "", indent = "" }),
+                    "w"
+                )
+            end
+        end
+    end
+end)
+
+create_filetype_map()
+create_autocomplete_map()
+create_server_metadata()
+create_setting_schema_files()

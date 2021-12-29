@@ -108,7 +108,7 @@ function M.Table(rows)
         for j = 1, #row do
             local col = row[j]
             local content = col[1]
-            col_maxwidth[j] = math.max(#content, col_maxwidth[j] or 0)
+            col_maxwidth[j] = math.max(vim.api.nvim_strwidth(content), col_maxwidth[j] or 0)
         end
     end
 
@@ -117,7 +117,7 @@ function M.Table(rows)
         for j = 1, #row do
             local col = row[j]
             local content = col[1]
-            col[1] = content .. string.rep(" ", (col_maxwidth[j] - #content) + 1) -- +1 for default minimum padding
+            col[1] = content .. string.rep(" ", col_maxwidth[j] - vim.api.nvim_strwidth(content) + 1) -- +1 for default minimum padding
         end
     end
 

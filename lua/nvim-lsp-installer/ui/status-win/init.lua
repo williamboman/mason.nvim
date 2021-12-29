@@ -6,6 +6,7 @@ local display = require "nvim-lsp-installer.ui.display"
 local settings = require "nvim-lsp-installer.settings"
 local lsp_servers = require "nvim-lsp-installer.servers"
 local ServerHints = require "nvim-lsp-installer.ui.status-win.server_hints"
+local ServerSettingsSchema = require "nvim-lsp-installer.ui.status-win.components.settings-schema"
 
 local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
@@ -110,7 +111,7 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
         Ui.HlTextNode {
             {
                 {
-                    ("%s Current settings"):format(is_current_settings_expanded and "v" or ">"),
+                    ("%s Current settings"):format(is_current_settings_expanded and "↓" or "→"),
                     "LspInstallerLabel",
                 },
                 { " :help nvim-lsp-installer-settings", "LspInstallerHighlighted" },
@@ -221,7 +222,31 @@ local function ServerMetadata(server)
                     "LspInstallerMuted",
                 },
             }
-        ))
+        )),
+        Ui.When(server.schema, function()
+            return Ui.Node {
+                Ui.EmptyLine(),
+                Ui.HlTextNode {
+                    {
+                        {
+                            ("%s Server configuration schema"):format(server.has_expanded_schema and "↓" or "→"),
+                            "LspInstallerLabel",
+                        },
+                        {
+                            (" (press enter to %s)"):format(server.has_expanded_schema and "collapse" or "expand"),
+                            "Comment",
+                        },
+                    },
+                },
+                Ui.Keybind("<CR>", "TOGGLE_SERVER_SETTINGS_SCHEMA", { server.name }),
+                Ui.When(server.has_expanded_schema, function()
+                    return Indent {
+                        ServerSettingsSchema(server, server.schema),
+                    }
+                end),
+                Ui.EmptyLine(),
+            }
+        end)
     ))
 end
 
@@ -450,8 +475,13 @@ local function create_initial_server_state(server)
         is_installed = server:is_installed(),
         deprecated = server.deprecated,
         hints = tostring(ServerHints.new(server)),
+        expanded_schema_properties = {},
+        has_expanded_schema = false,
+        ---@type table
+        schema = nil, -- lazy
         metadata = {
             homepage = server.homepage,
+            ---@type number
             install_timestamp_seconds = nil, -- lazy
             install_dir = vim.fn.fnamemodify(server.root_dir, ":~"),
             filetypes = table.concat(server:get_supported_filetypes(), ", "),
@@ -553,9 +583,11 @@ local function init(all_servers)
             if fstat_ok then
                 state.servers[server.name].metadata.install_timestamp_seconds = fstat.mtime.sec
             end
+            state.servers[server_name].schema = server:get_settings_schema()
         end)
     end)
 
+    ---@param server_name string
     local function expand_server(server_name)
         mutate_state(function(state)
             local should_expand = state.expanded_server ~= server_name
@@ -606,7 +638,9 @@ local function init(all_servers)
                 state.servers[server.name].installer.is_running = false
                 state.servers[server.name].installer.has_run = true
             end)
-            expand_server(server.name)
+            if not get_state().expanded_server then
+                expand_server(server.name)
+            end
             on_complete()
         end)
     end
@@ -822,6 +856,21 @@ local function init(all_servers)
                 ["EXPAND_SERVER"] = function(e)
                     local server_name = e.payload[1]
                     expand_server(server_name)
+                end,
+                ["TOGGLE_SERVER_SETTINGS_SCHEMA"] = function(e)
+                    local server_name = e.payload[1]
+                    mutate_state(function(state)
+                        state.servers[server_name].has_expanded_schema =
+                            not state.servers[server_name].has_expanded_schema
+                    end)
+                end,
+                ["TOGGLE_SERVER_SCHEMA_SETTING"] = function(e)
+                    local server_name = e.payload.name
+                    local key = e.payload.key
+                    mutate_state(function(state)
+                        state.servers[server_name].expanded_schema_properties[key] =
+                            not state.servers[server_name].expanded_schema_properties[key]
+                    end)
                 end,
                 ["INSTALL_SERVER"] = function(e)
                     local server_name = e.payload[1]

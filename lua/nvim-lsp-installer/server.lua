@@ -111,6 +111,11 @@ function M.Server:get_supported_filetypes()
     return {}
 end
 
+function M.Server:get_settings_schema()
+    local ok, schema = pcall(require, ("nvim-lsp-installer._generated.schemas.%s"):format(self.name))
+    return (ok and schema) or nil
+end
+
 ---@return boolean
 function M.Server:is_installed()
     return servers.is_server_installed(self.name)
