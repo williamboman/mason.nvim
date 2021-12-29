@@ -1,0 +1,4 @@
+contact_links:
+  - name: Ask a question about nvim-lsp-installer or get support
+    url: https://github.com/williamboman/nvim-lsp-installer/discussions/new?category=q-a
+    about: Ask a question or request support for using nvim-lsp-installer
