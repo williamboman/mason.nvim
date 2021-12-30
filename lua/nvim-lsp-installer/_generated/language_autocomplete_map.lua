@@ -20,7 +20,7 @@ return {
   php = { "intelephense", "phpactor" },
   python = { "jedi_language_server", "pylsp", "pyright" },
   ruby = { "solargraph", "sorbet" },
-  solidity = { "solang", "solidity_ls" },
+  solidity = { "solang", "solc", "solidity_ls" },
   sphinx = { "esbonio" },
   sql = { "sqlls", "sqls" },
   swift = { "sourcekit" },

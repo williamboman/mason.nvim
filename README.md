@@ -212,8 +212,9 @@ lsp_installer.settings({
 | Rust [(wiki)][rust_analyzer]        | `rust_analyzer`           |
 | SQL                                 | `sqlls`                   |
 | SQL                                 | `sqls`                    |
-| Solang Solidity                     | `solang`                  |
-| Solidity (vscode)                   | `solidity_ls`             |
+| Solidity                            | `solang`                  |
+| Solidity                            | `solc`                    |
+| Solidity (VSCode)                   | `solidity_ls`             |
 | Sorbet                              | `sorbet`                  |
 | Sphinx                              | `esbonio`                 |
 | Stylelint                           | `stylelint_lsp`           |
