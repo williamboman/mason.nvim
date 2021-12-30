@@ -176,7 +176,8 @@ function M.check()
         ),
         check { cmd = "python3", args = { "--version" }, name = "python3", relaxed = true },
         check { cmd = "python3", args = { "-m", "pip", "--version" }, name = "pip3", relaxed = true },
-        check { cmd = "javac", args = { "-version" }, name = "java", relaxed = true },
+        check { cmd = "javac", args = { "-version" }, name = "javac", relaxed = true },
+        check { cmd = "java", args = { "-version" }, name = "java", relaxed = true },
         check { cmd = "wget", args = { "--version" }, name = "wget" },
         -- wget is used interchangeably with curl, but with higher priority, so we mark curl as relaxed
         check { cmd = "curl", args = { "--version" }, name = "curl", relaxed = true },
