@@ -97,8 +97,12 @@ function M.use_github_latest_tag(repo)
     end
 end
 
+---@alias UseGithubReleaseOpts {tag_name_pattern:string}
+
 ---@param repo string @The GitHub repo ("username/repo").
-function M.use_github_release(repo)
+---@param opts UseGithubReleaseOpts|nil
+function M.use_github_release(repo, opts)
+    opts = opts or {}
     ---@type ServerInstallerFunction
     return function(server, callback, context)
         if context.requested_server_version then
@@ -111,15 +115,29 @@ function M.use_github_release(repo)
         end
         context.stdio_sink.stdout "Fetching latest release version from GitHub API...\n"
         fetch(
-            ("https://api.github.com/repos/%s/releases/latest"):format(repo),
+            ("https://api.github.com/repos/%s/releases"):format(repo),
             vim.schedule_wrap(function(err, response)
                 if err then
+                    log.fmt_error("Failed to fetch releases for repo=%s", repo)
                     context.stdio_sink.stderr(tostring(err) .. "\n")
                     return callback(false)
                 end
-                local version = Data.json_decode(response).tag_name
-                log.debug("Resolved latest version", server.name, repo, version)
-                context.requested_server_version = version
+
+                local latest_release = Data.list_find_first(Data.json_decode(response), function(release)
+                    local is_stable_release = not release.prerelease and not release.draft
+                    if opts.tag_name_pattern then
+                        return is_stable_release and release.tag_name:match(opts.tag_name_pattern)
+                    end
+                    return is_stable_release
+                end)
+
+                if not latest_release then
+                    log.fmt_info("Failed to find latest release. repo=%s, opts=%s", repo, opts)
+                    callback(false)
+                    return
+                end
+                log.debug("Resolved latest version", server.name, repo, latest_release.tag_name)
+                context.requested_server_version = latest_release.tag_name
                 callback(true)
             end)
         )
@@ -128,9 +146,10 @@ end
 
 ---@param repo string @The GitHub report ("username/repo").
 ---@param file string|fun(resolved_version: string): string @The name of a file available in the provided repo's GitHub releases.
-function M.use_github_release_file(repo, file)
+---@param opts UseGithubReleaseOpts
+function M.use_github_release_file(repo, file, opts)
     return installers.pipe {
-        M.use_github_release(repo),
+        M.use_github_release(repo, opts),
         function(server, callback, context)
             local function get_download_url(version)
                 local target_file
