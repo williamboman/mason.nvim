@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/edag94/vscode-solidity",
         installer = npm.packages { "solidity-language-server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "solidity-language-server"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

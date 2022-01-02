@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "fortran" },
         installer = pip3.packages { "fortran-language-server" },
         default_options = {
-            cmd = { pip3.executable(root_dir, "fortls") },
+            cmd_env = pip3.env(root_dir),
         },
     }
 end

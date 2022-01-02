@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "php" },
         installer = npm.packages { "intelephense" },
         default_options = {
-            cmd = { npm.executable(root_dir, "intelephense"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

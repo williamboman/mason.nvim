@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://pypi.org/project/esbonio/",
         installer = pip3.packages { "esbonio" },
         default_options = {
-            cmd = { pip3.executable(root_dir, "esbonio") },
+            cmd_env = pip3.env(root_dir),
         },
     }
 end

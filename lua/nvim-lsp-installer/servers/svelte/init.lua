@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/sveltejs/language-tools",
         installer = npm.packages { "svelte-language-server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "svelteserver"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

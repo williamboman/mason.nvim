@@ -8,7 +8,7 @@ setting. This is done when setting up the LSP server, like so:
 ```lua
 local lsp_installer = require "nvim-lsp-installer"
 
-function common_on_attach(client, bufnr) 
+function common_on_attach(client, bufnr)
   -- add your code here
 end
 
@@ -51,8 +51,8 @@ lsp_installer.on_server_ready(function (server)
     }
 
     if server.name == "eslint" then
-      local default_opts = server:get_default_options()
-      opts.cmd = vim.list_extend({"yarn", "node"}, default_opts.cmd)
+      local eslint_config = require("lspconfig.server_configurations.eslint")
+      opts.cmd = vim.list_extend({"yarn", "node"}, eslint_config.default_config.cmd)
     end
 
     server:setup(opts)

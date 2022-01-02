@@ -39,10 +39,7 @@ local initial_environ = vim.fn.environ()
 ---@param new_paths string[] @A list of paths to prepend the existing PATH with.
 function M.extend_path(new_paths)
     local new_path_str = table.concat(new_paths, platform.path_sep)
-    if initial_environ["PATH"] then
-        return new_path_str .. platform.path_sep .. initial_environ["PATH"]
-    end
-    return new_path_str
+    return ("%s%s%s"):format(new_path_str, platform.path_sep, initial_environ.PATH or "")
 end
 
 ---Merges the provided env param with the user's full environent. Provided env has precedence.

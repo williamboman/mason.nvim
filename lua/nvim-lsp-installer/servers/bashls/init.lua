@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/bash-lsp/bash-language-server",
         installer = npm.packages { "bash-language-server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "bash-language-server"), "start" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

@@ -30,14 +30,8 @@ return function(name, root_dir)
             end,
         },
         default_options = {
-            cmd = {
-                path.concat {
-                    root_dir,
-                    "_build",
-                    "default",
-                    "bin",
-                    platform.is_win and "erlang_ls.cmd" or "erlang_ls",
-                },
+            cmd_env = {
+                PATH = process.extend_path { path.concat { root_dir, "_build", "default", "bin" } },
             },
         },
     }

@@ -97,7 +97,7 @@ return function(name, root_dir)
         default_options = {
             cmd = {
                 -- This cmd is incomplete. Users need to manually append their FQBN (e.g., -fqbn arduino:avr:nano)
-                go.executable(path.concat { root_dir, "arduino-language-server" }, "arduino-language-server"),
+                "arduino-language-server",
                 "-cli",
                 path.concat { root_dir, "arduino-cli", platform.is_win and "arduino-cli.exe" or "arduino-cli" },
                 "-cli-config",
@@ -105,6 +105,7 @@ return function(name, root_dir)
                 "-clangd",
                 path.concat { root_dir, "clangd", "bin", platform.is_win and "clangd.bat" or "clangd" },
             },
+            cmd_env = go.env(path.concat { root_dir, "arduino-language-server" }),
         },
     }
 end

@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/joe-re/sql-language-server",
         installer = npm.packages { "sql-language-server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "sql-language-server"), "up", "--method", "stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

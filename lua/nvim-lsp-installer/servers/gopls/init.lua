@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "go" },
         installer = go.packages { "golang.org/x/tools/gopls" },
         default_options = {
-            cmd = { go.executable(root_dir, "gopls") },
+            cmd_env = go.env(root_dir),
         },
     }
 end

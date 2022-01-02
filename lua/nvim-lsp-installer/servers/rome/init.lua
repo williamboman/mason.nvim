@@ -19,7 +19,7 @@ return function(name, root_dir)
             npm.packages { "rome" },
         },
         default_options = {
-            cmd = { npm.executable(root_dir, "rome"), "lsp" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

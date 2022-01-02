@@ -4,7 +4,7 @@ local platform = require "nvim-lsp-installer.platform"
 local installers = require "nvim-lsp-installer.installers"
 local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
-local path = require "nvim-lsp-installer.path"
+local process = require "nvim-lsp-installer.process"
 
 local coalesce, when = Data.coalesce, Data.when
 
@@ -34,7 +34,9 @@ return function(name, root_dir)
             end),
         },
         default_options = {
-            cmd = { path.concat { root_dir, "taplo-lsp" }, "run" },
+            cmd_env = {
+                PATH = process.extend_path { root_dir },
+            },
         },
     }
 end

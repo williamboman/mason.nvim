@@ -9,10 +9,7 @@ return function(name, root_dir)
         languages = {},
         installer = npm.packages { "@emacs-grammarly/unofficial-grammarly-language-server" },
         default_options = {
-            cmd = {
-                npm.executable(root_dir, "unofficial-grammarly-language-server"),
-                "--stdio",
-            },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

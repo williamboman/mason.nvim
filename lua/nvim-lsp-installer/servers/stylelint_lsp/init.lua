@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "stylelint" },
         installer = npm.packages { "stylelint-lsp" },
         default_options = {
-            cmd = { npm.executable(root_dir, "stylelint-lsp"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "ocaml" },
         installer = npm.packages { "ocaml-language-server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "ocaml-language-server"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

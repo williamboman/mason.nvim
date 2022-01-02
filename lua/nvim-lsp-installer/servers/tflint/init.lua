@@ -1,24 +1,22 @@
 local server = require "nvim-lsp-installer.server"
-local notify = require "nvim-lsp-installer.notify"
-local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 local platform = require "nvim-lsp-installer.platform"
 local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local process = require "nvim-lsp-installer.process"
 
-local os = Data.coalesce(
-    Data.when(platform.is_mac, "darwin"),
-    Data.when(platform.is_linux, "linux"),
-    Data.when(platform.is_win, "windows")
-)
-
-local arch = Data.coalesce(Data.when(platform.arch == "x64", "amd64"), platform.arch)
-
-local target = ("tflint_%s_%s.zip"):format(os, arch)
+local coalesce, when = Data.coalesce, Data.when
 
 return function(name, root_dir)
-    local bin_path = path.concat { root_dir, "tflint" }
+    local os = coalesce(
+        when(platform.is_mac, "darwin"),
+        when(platform.is_linux, "linux"),
+        when(platform.is_win, "windows")
+    )
+
+    local arch = coalesce(when(platform.arch == "x64", "amd64"), platform.arch)
+
+    local target = ("tflint_%s_%s.zip"):format(os, arch)
 
     return server.Server:new {
         name = name,
@@ -32,17 +30,26 @@ return function(name, root_dir)
             end),
         },
         default_options = {
-            cmd = { bin_path, "--langserver" },
+            cmd_env = {
+                PATH = process.extend_path { root_dir },
+            },
             commands = {
                 TFLintInit = {
                     function()
+                        local process = require "nvim-lsp-installer.process"
+                        local notify = require "nvim-lsp-installer.notify"
+                        local path = require "nvim-lsp-installer.path"
+
                         notify "Installing TFLint plugins…"
                         process.spawn(
-                            bin_path,
+                            "tflint",
                             {
                                 args = { "--init" },
                                 cwd = path.cwd(),
                                 stdio_sink = process.simple_sink(),
+                                env = process.graft_env {
+                                    PATH = process.extend_path { root_dir },
+                                },
                             },
                             vim.schedule_wrap(function(success)
                                 if success then

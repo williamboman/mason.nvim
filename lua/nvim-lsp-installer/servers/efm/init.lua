@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = {},
         installer = go.packages { "github.com/mattn/efm-langserver" },
         default_options = {
-            cmd = { go.executable(root_dir, "efm-langserver") },
+            cmd_env = go.env(root_dir),
         },
     }
 end

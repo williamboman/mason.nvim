@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "cmake" },
         installer = pip3.packages { "cmake-language-server" },
         default_options = {
-            cmd = { pip3.executable(root_dir, "cmake-language-server") },
+            cmd_env = pip3.env(root_dir),
         },
     }
 end

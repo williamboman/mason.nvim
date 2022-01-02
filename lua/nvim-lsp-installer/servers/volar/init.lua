@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "vue" },
         installer = npm.packages { "@volar/server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "volar-server"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

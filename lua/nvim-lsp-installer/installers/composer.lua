@@ -67,10 +67,4 @@ function M.install()
     )
 end
 
----@param root_dir string @The directory to resolve the executable from.
----@param executable string
-function M.executable(root_dir, executable)
-    return path.concat { root_dir, "vendor", "bin", platform.is_win and ("%s.bat"):format(executable) or executable }
-end
-
 return M

@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "docker" },
         installer = npm.packages { "dockerfile-language-server-nodejs" },
         default_options = {
-            cmd = { npm.executable(root_dir, "docker-langserver"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

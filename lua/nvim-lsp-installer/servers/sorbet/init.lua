@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "ruby" },
         installer = gem.packages { "sorbet" },
         default_options = {
-            cmd = { gem.executable(root_dir, "srb"), "tc", "--lsp" },
             cmd_env = gem.env(root_dir),
         },
     }

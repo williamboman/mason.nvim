@@ -11,7 +11,7 @@ return function(name, root_dir)
         homepage = "https://github.com/python-lsp/python-lsp-server",
         installer = pip3.packages { "python-lsp-server[all]" },
         default_options = {
-            cmd = { pip3.executable(root_dir, "pylsp") },
+            cmd_env = pip3.env(root_dir),
             commands = {
                 PylspInstall = {
                     function(...)
@@ -20,10 +20,11 @@ return function(name, root_dir)
                         local plugins_str = table.concat(plugins, ", ")
                         notify(("Installing %q..."):format(plugins_str))
                         process.spawn(
-                            pip3.executable(root_dir, "pip"),
+                            "pip",
                             {
                                 args = vim.list_extend({ "install", "-U", "--disable-pip-version-check" }, plugins),
                                 stdio_sink = process.simple_sink(),
+                                env = process.graft_env(pip3.env(root_dir)),
                             },
                             vim.schedule_wrap(function(success)
                                 if success then

@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/vuejs/vetur",
         installer = npm.packages { "vls" },
         default_options = {
-            cmd = { npm.executable(root_dir, "vls"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

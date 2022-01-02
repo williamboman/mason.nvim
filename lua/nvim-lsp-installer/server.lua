@@ -72,7 +72,7 @@ end
 
 ---Attaches this server to all current open buffers with a 'filetype' that matches the server's configured filetypes.
 function M.Server:attach_buffers()
-    log.debug("Attaching server to buffers", self.name)
+    log.trace("Attaching server to buffers", self.name)
     local lsp_server = require("lspconfig")[self.name]
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if lsp_server.filetypes then
@@ -83,7 +83,7 @@ function M.Server:attach_buffers()
             lsp_server.manager.try_add(bufnr)
         end
     end
-    log.debug("Successfully attached server to buffers", self.name)
+    log.trace("Successfully attached server to buffers", self.name)
 end
 
 ---Registers a handler (callback) to be executed when the server is ready to be setup.

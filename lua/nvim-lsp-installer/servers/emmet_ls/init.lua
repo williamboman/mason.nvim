@@ -9,7 +9,7 @@ return function(name, root_dir)
         languages = { "emmet" },
         installer = npm.packages { "emmet-ls" },
         default_options = {
-            cmd = { npm.executable(root_dir, "emmet-ls"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

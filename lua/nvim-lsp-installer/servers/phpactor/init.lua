@@ -3,6 +3,7 @@ local path = require "nvim-lsp-installer.path"
 local server = require "nvim-lsp-installer.server"
 local composer = require "nvim-lsp-installer.installers.composer"
 local std = require "nvim-lsp-installer.installers.std"
+local process = require "nvim-lsp-installer.process"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -17,7 +18,9 @@ return function(name, root_dir)
             },
         },
         default_options = {
-            cmd = { path.concat { root_dir, "bin", "phpactor" }, "language-server" },
+            cmd_env = {
+                PATH = process.extend_path { path.concat { root_dir, "bin" } },
+            },
         },
     }
 end

@@ -36,11 +36,6 @@ available installers that are available out of the box.
     local installer = go.packages { "golang.org/x/tools/gopls@latest" }
     ```
 
-    #### `go.executable(root_dir: string, executable: string)`
-
-    Returns the absolute path to an `executable` that was installed via `go.packages()`. `root_dir` should be the same as
-    the root_dir provided to the relevant server instance.
-
 -   ### npm
 
     #### `npm.packages(packages: table)`
@@ -55,11 +50,6 @@ available installers that are available out of the box.
     local installer = npm.packages { "graphql-language-service-cli", "graphql" }
     ```
 
-    #### `npm.executable(root_dir: string, executable: string)`
-
-    Returns the absolute path to an `executable` that was installed via `npm.packages()`. `root_dir` should be the same as
-    the root_dir provided to the relevant server instance.
-
 -   ### pip3
 
     #### `pip3.packages(packages: table)`
@@ -73,11 +63,6 @@ available installers that are available out of the box.
 
     local installer = pip3.packages { "python-lsp-server[all]" }
     ```
-
-    #### `pip3.executable(root_dir: string, executable: string)`
-
-    Returns the absolute path to an `executable` that was installed via `pip3.packages()`. `root_dir` should be the same as
-    the root_dir provided to the relevant server instance.
 
 -   ### Shell
 

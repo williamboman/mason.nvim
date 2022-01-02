@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/lighttiger2505/sqls",
         installer = go.packages { "github.com/lighttiger2505/sqls" },
         default_options = {
-            cmd = { go.executable(root_dir, "sqls") },
+            cmd_env = go.env(root_dir),
         },
     }
 end

@@ -8,7 +8,7 @@ return function(name, root_dir)
         languages = { "tailwind" },
         installer = npm.packages { "@tailwindcss/language-server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "tailwindcss-language-server"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

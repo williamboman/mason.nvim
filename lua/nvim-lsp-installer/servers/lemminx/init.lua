@@ -1,9 +1,9 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
 local std = require "nvim-lsp-installer.installers.std"
 local Data = require "nvim-lsp-installer.data"
 local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
+local process = require "nvim-lsp-installer.process"
 
 local coalesce, when = Data.coalesce, Data.when
 
@@ -47,7 +47,9 @@ return function(name, root_dir)
             ),
         },
         default_options = {
-            cmd = { path.concat { root_dir, "lemminx" } },
+            cmd_env = {
+                PATH = process.extend_path { root_dir },
+            },
         },
     }
 end

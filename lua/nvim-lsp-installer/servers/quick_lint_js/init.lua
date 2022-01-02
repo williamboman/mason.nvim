@@ -5,6 +5,7 @@ local platform = require "nvim-lsp-installer.platform"
 local installers = require "nvim-lsp-installer.installers"
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
+local process = require "nvim-lsp-installer.process"
 
 local coalesce, when = Data.coalesce, Data.when
 
@@ -56,7 +57,9 @@ return function(name, root_dir)
             },
         },
         default_options = {
-            cmd = { path.concat { root_dir, "bin", "quick-lint-js" }, "--lsp-server" },
+            cmd_env = {
+                PATH = process.extend_path { path.concat { root_dir, "bin" } },
+            },
         },
     }
 end

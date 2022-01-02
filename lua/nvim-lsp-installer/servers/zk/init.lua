@@ -3,7 +3,7 @@ local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
-local path = require "nvim-lsp-installer.path"
+local process = require "nvim-lsp-installer.process"
 
 local coalesce, when = Data.coalesce, Data.when
 return function(name, root_dir)
@@ -53,7 +53,9 @@ return function(name, root_dir)
             )),
         },
         default_options = {
-            cmd = { path.concat { root_dir, "zk" }, "lsp" },
+            cmd_env = {
+                PATH = process.extend_path { root_dir },
+            },
         },
     }
 end

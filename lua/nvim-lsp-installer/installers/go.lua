@@ -1,4 +1,3 @@
-local path = require "nvim-lsp-installer.path"
 local std = require "nvim-lsp-installer.installers.std"
 local installers = require "nvim-lsp-installer.installers"
 local Data = require "nvim-lsp-installer.data"
@@ -36,10 +35,10 @@ function M.packages(packages)
     }
 end
 
----@param root_dir string @The directory to resolve the executable from.
----@param executable string
-function M.executable(root_dir, executable)
-    return path.concat { root_dir, executable }
+function M.env(root_dir)
+    return {
+        PATH = process.extend_path { root_dir },
+    }
 end
 
 return M

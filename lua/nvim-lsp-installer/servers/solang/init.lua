@@ -5,6 +5,7 @@ local context = require "nvim-lsp-installer.installers.context"
 local Data = require "nvim-lsp-installer.data"
 local platform = require "nvim-lsp-installer.platform"
 local installers = require "nvim-lsp-installer.installers"
+local process = require "nvim-lsp-installer.process"
 
 local coalesce, when = Data.coalesce, Data.when
 
@@ -54,9 +55,11 @@ return function(name, root_dir)
             llvm_installer,
         },
         default_options = {
-            cmd = { path.concat { root_dir, "solang" }, "--language-server", "--target", "ewasm" },
             cmd_env = {
-                PATH = table.concat({ path.concat { root_dir, "llvm12.0", "bin" }, vim.env.PATH }, platform.path_sep),
+                PATH = process.extend_path {
+                    path.concat { root_dir },
+                    path.concat { root_dir, "llvm12.0", "bin" },
+                },
             },
         },
     }

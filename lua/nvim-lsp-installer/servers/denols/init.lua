@@ -1,5 +1,5 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
+local process = require "nvim-lsp-installer.process"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
@@ -33,7 +33,9 @@ return function(name, root_dir)
             end),
         },
         default_options = {
-            cmd = { path.concat { root_dir, "deno" }, "lsp" },
+            cmd_env = {
+                PATH = process.extend_path { root_dir },
+            },
         },
     }
 end

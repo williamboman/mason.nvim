@@ -14,7 +14,7 @@ end
 return function(name, root_dir)
     local function get_cmd(workspace_dir)
         return {
-            npm.executable(root_dir, "ngserver"),
+            "ngserver",
             "--stdio",
             "--tsProbeLocations",
             table.concat(append_node_modules { root_dir, workspace_dir }, ","),
@@ -37,6 +37,7 @@ return function(name, root_dir)
         installer = npm.packages { "@angular/language-server", "typescript" },
         default_options = {
             cmd = get_cmd(path.cwd()),
+            cmd_env = npm.env(root_dir),
             on_new_config = function(new_config, new_root_dir)
                 new_config.cmd = get_cmd(new_root_dir)
             end,

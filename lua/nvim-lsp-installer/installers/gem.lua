@@ -40,17 +40,12 @@ function M.packages(packages)
     }
 end
 
----@param root_dir string @The directory to resolve the executable from.
----@param executable string
-function M.executable(root_dir, executable)
-    return path.concat { root_dir, "bin", executable }
-end
-
 ---@param root_dir string
 function M.env(root_dir)
     return {
         GEM_HOME = root_dir,
         GEM_PATH = root_dir,
+        PATH = process.extend_path { path.concat { root_dir, "bin" } },
     }
 end
 

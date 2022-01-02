@@ -1,5 +1,4 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
 local process = require "nvim-lsp-installer.process"
 local std = require "nvim-lsp-installer.installers.std"
 
@@ -33,9 +32,8 @@ return function(name, root_dir)
             end,
         },
         default_options = {
-            cmd = {
-                path.concat { root_dir, "fsautocomplete" },
-                "--background-service-enabled",
+            cmd_env = {
+                PATH = process.extend_path { root_dir },
             },
         },
     }

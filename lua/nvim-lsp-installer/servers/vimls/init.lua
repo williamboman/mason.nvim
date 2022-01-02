@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/iamcco/vim-language-server",
         installer = npm.packages { "vim-language-server" },
         default_options = {
-            cmd = { npm.executable(root_dir, "vim-language-server"), "--stdio" },
+            cmd_env = npm.env(root_dir),
         },
     }
 end

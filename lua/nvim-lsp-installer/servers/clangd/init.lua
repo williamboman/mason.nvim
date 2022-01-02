@@ -1,13 +1,12 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
+local process = require "nvim-lsp-installer.process"
 local Data = require "nvim-lsp-installer.data"
 local std = require "nvim-lsp-installer.installers.std"
 local platform = require "nvim-lsp-installer.platform"
 local context = require "nvim-lsp-installer.installers.context"
 
 return function(name, root_dir)
-    local script_name = platform.is_win and "clangd.bat" or "clangd"
-
     return server.Server:new {
         name = name,
         root_dir = root_dir,
@@ -26,22 +25,13 @@ return function(name, root_dir)
                 return std.unzip_remote(ctx.github_release_file)
             end),
             context.capture(function(ctx)
-                -- Preferably we'd not have to write a script file that captures the installed version.
-                -- But in order to not break backwards compatibility for existing installations of clangd, we do it.
-                return std.executable_alias(
-                    script_name,
-                    path.concat {
-                        root_dir,
-                        ("clangd_%s"):format(ctx.requested_server_version),
-                        "bin",
-                        platform.is_win and "clangd.exe" or "clangd",
-                    }
-                )
+                return std.rename(("clangd_%s"):format(ctx.requested_server_version), "clangd")
             end),
-            std.chmod("+x", { "clangd" }),
         },
         default_options = {
-            cmd = { path.concat { root_dir, script_name } },
+            cmd_env = {
+                PATH = process.extend_path { path.concat { root_dir, "clangd", "bin" } },
+            },
         },
     }
 end

@@ -172,7 +172,9 @@ return function(name, root_dir)
             linux = linux_ccls_installer,
         },
         default_options = {
-            cmd = { path.concat { root_dir, "bin", "ccls" } },
+            cmd_env = {
+                PATH = process.extend_path { path.concat { root_dir, "bin" } },
+            },
         },
     }
 end

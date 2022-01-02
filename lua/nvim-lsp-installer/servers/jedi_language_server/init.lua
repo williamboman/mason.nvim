@@ -9,7 +9,7 @@ return function(name, root_dir)
         homepage = "https://github.com/pappasam/jedi-language-server",
         installer = pip3.packages { "jedi-language-server" },
         default_options = {
-            cmd = { pip3.executable(root_dir, "jedi-language-server") },
+            cmd_env = pip3.env(root_dir),
         },
     }
 end
