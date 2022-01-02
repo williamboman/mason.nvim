@@ -4,6 +4,7 @@ local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local Data = require "nvim-lsp-installer.data"
 local platform = require "nvim-lsp-installer.platform"
+local installers = require "nvim-lsp-installer.installers"
 
 local coalesce, when = Data.coalesce, Data.when
 
@@ -19,11 +20,14 @@ return function(name, root_dir)
                 coalesce(
                     when(platform.is_mac, "texlab-x86_64-macos.tar.gz"),
                     when(platform.is_linux, "texlab-x86_64-linux.tar.gz"),
-                    when(platform.is_win, "texlab-x86_64-windows.tar.gz")
+                    when(platform.is_win, "texlab-x86_64-windows.zip")
                 )
             ),
             context.capture(function(ctx)
-                return std.untargz_remote(ctx.github_release_file)
+                return installers.when {
+                    unix = std.untargz_remote(ctx.github_release_file),
+                    win = std.unzip_remote(ctx.github_release_file),
+                }
             end),
         },
         default_options = {
