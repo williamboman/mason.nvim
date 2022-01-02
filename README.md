@@ -220,6 +220,7 @@ lsp_installer.settings({
 | Stylelint                           | `stylelint_lsp`           |
 | Svelte                              | `svelte`                  |
 | Swift                               | `sourcekit`               |
+| TOML                                | `taplo`                   |
 | Tailwind CSS                        | `tailwindcss`             |
 | Terraform                           | `terraformls`             |
 | Terraform [(docs)][tflint]          | `tflint`                  |

@@ -98,6 +98,7 @@ return {
   swift = { "sourcekit" },
   terraform = { "terraformls", "tflint" },
   tex = { "ltex", "texlab" },
+  toml = { "taplo" },
   twig = { "tailwindcss" },
   typescript = { "angularls", "cssmodules_ls", "denols", "ember", "eslint", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
   ["typescript.tsx"] = { "angularls", "denols", "eslint", "rome", "tsserver" },

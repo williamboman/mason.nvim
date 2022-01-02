@@ -25,6 +25,7 @@ return {
   sql = { "sqlls", "sqls" },
   swift = { "sourcekit" },
   terraform = { "terraformls", "tflint" },
+  toml = { "taplo" },
   typescript = { "eslint", "rome", "tsserver" },
   vue = { "volar", "vuels" },
   xml = { "lemminx" },
