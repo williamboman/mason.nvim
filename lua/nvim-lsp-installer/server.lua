@@ -7,6 +7,7 @@ local installers = require "nvim-lsp-installer.installers"
 local servers = require "nvim-lsp-installer.servers"
 local status_win = require "nvim-lsp-installer.ui.status-win"
 local path = require "nvim-lsp-installer.path"
+local receipt = require "nvim-lsp-installer.core.receipt"
 
 local M = {}
 
@@ -173,9 +174,24 @@ function M.Server:promote_install_dir(install_dir)
     return true
 end
 
+---@param receipt_builder InstallReceiptBuilder
+function M.Server:_write_receipt(receipt_builder)
+    receipt_builder:with_name(self.name):with_schema_version("1.0"):with_completion_time(vim.loop.gettimeofday())
+
+    local receipt_success, install_receipt = pcall(receipt_builder.build, receipt_builder)
+    if receipt_success then
+        local install_receipt_path = path.concat { self.root_dir, "nvim-lsp-installer-receipt.json" }
+        pcall(fs.write_file, install_receipt_path, vim.json.encode(install_receipt))
+    else
+        log.fmt_error("Failed to build receipt for server=%s. Error=%s", self.name, install_receipt)
+    end
+end
+
 ---@param context ServerInstallContext
 ---@param callback ServerInstallCallback
 function M.Server:install_attached(context, callback)
+    context.receipt = receipt.InstallReceiptBuilder.new()
+    context.receipt:with_start_time(vim.loop.gettimeofday())
     local context_ok, context_err = pcall(self._setup_install_context, self, context)
     if not context_ok then
         log.error("Failed to setup installation context.", context_err)
@@ -201,6 +217,8 @@ function M.Server:install_attached(context, callback)
                 -- but we make sure to delete it should the installer modify the installation working directory during
                 -- installation.
                 pcall(fs.rmrf, self:get_tmp_install_dir())
+
+                self:_write_receipt(context.receipt)
 
                 -- Dispatch the server is ready
                 vim.schedule(function()

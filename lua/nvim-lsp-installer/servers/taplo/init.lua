@@ -32,6 +32,11 @@ return function(name, root_dir)
                     win = std.unzip_remote(ctx.github_release_file),
                 }
             end),
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx, {
+                    tag_name_pattern = "^release%-lsp%-",
+                }))
+            end),
         },
         default_options = {
             cmd_env = {

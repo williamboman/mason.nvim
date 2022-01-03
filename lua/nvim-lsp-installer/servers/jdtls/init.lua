@@ -4,6 +4,7 @@ local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
+local fetch = require "nvim-lsp-installer.core.fetch"
 
 return function(name, root_dir)
     local function get_cmd(workspace_name)
@@ -49,13 +50,38 @@ return function(name, root_dir)
         languages = { "java" },
         homepage = "https://github.com/eclipse/eclipse.jdt.ls",
         installer = {
+            ---@type ServerInstallerFunction
+            function(_, callback, ctx)
+                if ctx.requested_server_version then
+                    callback(true)
+                    return
+                end
+                fetch("https://download.eclipse.org/jdtls/snapshots/latest.txt", function(err, data)
+                    if err then
+                        ctx.stdio_sink.stderr "Failed to fetch latest verison.\n"
+                        callback(false)
+                    else
+                        ctx.requested_server_version = vim.trim(data)
+                            :gsub("^jdt%-language%-server%-", "")
+                            :gsub("%.tar%.gz$", "")
+                        callback(true)
+                    end
+                end)
+            end,
             context.capture(function(ctx)
-                local version = ctx.requested_server_version or "latest"
                 return std.untargz_remote(
-                    ("https://download.eclipse.org/jdtls/snapshots/jdt-language-server-%s.tar.gz"):format(version)
+                    ("https://download.eclipse.org/jdtls/snapshots/jdt-language-server-%s.tar.gz"):format(
+                        ctx.requested_server_version
+                    )
                 )
             end),
             std.download_file("https://projectlombok.org/downloads/lombok.jar", "lombok.jar"),
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source {
+                    type = "jdtls",
+                    version = ctx.requested_server_version,
+                }
+            end),
         },
         default_options = {
             cmd = get_cmd(vim.env.WORKSPACE and vim.env.WORKSPACE or path.concat { vim.env.HOME, "workspace" }),

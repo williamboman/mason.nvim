@@ -17,9 +17,11 @@ end
 ---@alias ServerInstallCallback fun(success: boolean)
 
 ---@class ServerInstallContext
+---@field receipt InstallReceiptBuilder
 ---@field requested_server_version string|nil @The version requested by the user.
 ---@field stdio_sink StdioSink
 ---@field github_release_file string|nil @Only available if context.use_github_release_file has been called.
+---@field github_repo string|nil @Only available if context.use_github_release_file has been called.
 ---@field os_distribution table<string, any> @Only available if context.use_os_distribution has been called.
 ---@field homebrew_prefix string @Only available if context.use_homebrew_prefix has been called.
 ---@field install_dir string
@@ -165,10 +167,20 @@ end
 ---@param installer ServerInstallerFunction|ServerInstallerFunction[] @The installer to execute in a new installer context.
 function M.branch_context(installer)
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
-        local new_context = vim.deepcopy(context)
+    return function(server, callback, ctx)
+        local receipt = ctx.receipt
+        -- This temporary nil assignment is done to avoid deepcopy traversing the receipt builder unnecessarily
+        ctx.receipt = nil
+        local new_context = vim.deepcopy(ctx)
+        ctx.receipt = receipt
+        new_context.receipt = receipt
         normalize_installer(installer)(server, callback, new_context)
     end
+end
+
+---@type ServerInstallerFunction
+function M.noop(_, callback)
+    callback(true)
 end
 
 return M

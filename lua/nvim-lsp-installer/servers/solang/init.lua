@@ -24,6 +24,9 @@ return function(name, root_dir)
             return std.download_file(ctx.github_release_file, platform.is_win and "solang.exe" or "solang")
         end),
         std.chmod("+x", { "solang" }),
+        context.receipt(function(receipt, ctx)
+            receipt:with_primary_source(receipt.github_release_file(ctx))
+        end),
     }
 
     local llvm_installer = installers.pipe {

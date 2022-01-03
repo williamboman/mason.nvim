@@ -24,6 +24,9 @@ return function(name, root_dir)
                 return std.unzip_remote(ctx.github_release_file)
             end),
             std.chmod("+x", { "clojure-lsp" }),
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx))
+            end),
         },
         default_options = {
             cmd_env = {

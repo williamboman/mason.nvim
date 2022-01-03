@@ -45,6 +45,9 @@ return function(name, root_dir)
                 platform.is_win and ("%s.exe"):format(unzipped_file) or unzipped_file,
                 platform.is_win and "lemminx.exe" or "lemminx"
             ),
+            context.receipt(function(receipt)
+                receipt:with_primary_source(receipt.unmanaged)
+            end),
         },
         default_options = {
             cmd_env = {

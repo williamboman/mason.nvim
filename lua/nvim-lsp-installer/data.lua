@@ -122,16 +122,6 @@ function Data.list_any(list, predicate)
     return false
 end
 
----@param data string @The JSON data to decode/deserialize.
----@return table
-function Data.json_decode(data)
-    if vim.json and vim.json.decode then
-        return vim.json.decode(data)
-    else
-        return vim.fn.json_decode(data)
-    end
-end
-
 ---@generic T : fun(...)
 ---@param fn T
 ---@param cache_key_generator fun(...): string | nil

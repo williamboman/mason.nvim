@@ -37,6 +37,11 @@ local function create_installer(python_executable, packages)
                 pkgs[1] = ("%s==%s"):format(pkgs[1], ctx.requested_server_version)
             end
 
+            ctx.receipt:with_primary_source(ctx.receipt.pip3(pkgs[1]))
+            for i = 2, #pkgs do
+                ctx.receipt:with_secondary_source(ctx.receipt.pip3(pkgs[i]))
+            end
+
             local install_command = { "-m", "pip", "install", "-U" }
             vim.list_extend(install_command, settings.current.pip.install_args)
             c.run("python", vim.list_extend(install_command, pkgs))

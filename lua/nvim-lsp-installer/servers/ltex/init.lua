@@ -32,6 +32,9 @@ return function(name, root_dir)
             context.capture(function(ctx)
                 return std.rename(("ltex-ls-%s"):format(ctx.requested_server_version), "ltex-ls")
             end),
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx))
+            end),
         },
         default_options = {
             cmd_env = {

@@ -49,6 +49,11 @@ local function create_installer(standalone)
                     --  is a bit unreliable across npm versions (especially <7), so we take extra measures to avoid
                     --  inadvertently polluting global npm config.
                     fs.append_file(path.concat { ctx.install_dir, ".npmrc" }, "global-style=true")
+
+                    ctx.receipt:with_primary_source(ctx.receipt.npm(pkgs[1]))
+                    for i = 2, #pkgs do
+                        ctx.receipt:with_secondary_source(ctx.receipt.npm(pkgs[i]))
+                    end
                 end
 
                 -- stylua: ignore start

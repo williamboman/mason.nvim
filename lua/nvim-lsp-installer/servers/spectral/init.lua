@@ -20,6 +20,9 @@ return function(name, root_dir)
             },
             installers.always_succeed(npm.run "compile"),
             context.set_working_dir "server",
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx))
+            end),
         },
         default_options = {
             cmd = { "node", path.concat { root_dir, "out", "server.js" }, "--stdio" },

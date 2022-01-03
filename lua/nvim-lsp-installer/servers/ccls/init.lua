@@ -98,6 +98,9 @@ return function(name, root_dir)
                     ),
                 }
             end),
+            context.receipt(function(receipt, ctx)
+                receipt:with_secondary_source(receipt.github_release_file(ctx))
+            end),
         }
     end
 
@@ -106,13 +109,13 @@ return function(name, root_dir)
             directory = "ccls-git",
             recursive = true,
         }),
-        function(server, callback, ctx)
+        function(srv, callback, ctx)
             local c = process.chain {
                 cwd = path.concat { ctx.install_dir, "ccls-git" },
                 stdio_sink = ctx.stdio_sink,
             }
 
-            local clang_resource_dir = path.concat { server.root_dir, "clang-resource" }
+            local clang_resource_dir = path.concat { srv.root_dir, "clang-resource" }
 
             c.run(
                 "cmake",
@@ -131,6 +134,11 @@ return function(name, root_dir)
             c.spawn(callback)
         end,
         std.rmrf "ccls-git",
+        context.receipt(function(receipt, ctx)
+            receipt:with_primary_source(
+                receipt.git_remote("https://github.com/MaskRay/ccls", ctx.requested_server_version)
+            )
+        end),
     }
 
     local linux_ccls_installer = installers.pipe {

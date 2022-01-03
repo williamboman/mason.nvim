@@ -42,19 +42,22 @@ return function(name, root_dir)
         homepage = "https://quick-lint-js.com/",
         languages = { "javascript" },
         installer = {
+            context.use_github_latest_tag "quick-lint/quick-lint-js",
             context.capture(function(ctx)
-                local requested_server_version = coalesce(ctx.requested_server_version, "latest")
                 local url = "https://c.quick-lint-js.com/releases/%s/manual/%s"
 
                 if platform.is_windows then
-                    return std.unzip_remote(url:format(requested_server_version, release_file))
+                    return std.unzip_remote(url:format(ctx.requested_server_version, release_file))
                 else
-                    return std.untargz_remote(url:format(requested_server_version, release_file))
+                    return std.untargz_remote(url:format(ctx.requested_server_version, release_file))
                 end
             end),
             installers.on {
                 unix = context.set_working_dir "quick-lint-js",
             },
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_tag(ctx))
+            end),
         },
         default_options = {
             cmd_env = {

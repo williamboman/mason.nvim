@@ -17,11 +17,16 @@ function M.packages(packages)
             { "gem", "gem was not found in path, refer to https://wiki.openstack.org/wiki/RubyGems." },
         },
         ---@type ServerInstallerFunction
-        function(_, callback, context)
+        function(_, callback, ctx)
             local pkgs = Data.list_copy(packages or {})
-            if context.requested_server_version then
+            if ctx.requested_server_version then
                 -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
-                pkgs[1] = ("%s:%s"):format(pkgs[1], context.requested_server_version)
+                pkgs[1] = ("%s:%s"):format(pkgs[1], ctx.requested_server_version)
+            end
+
+            ctx.receipt:with_primary_source(ctx.receipt.gem(pkgs[1]))
+            for i = 2, #pkgs do
+                ctx.receipt:with_secondary_source(ctx.receipt.gem(pkgs[i]))
             end
 
             process.spawn(M.gem_cmd, {
@@ -33,8 +38,8 @@ function M.packages(packages)
                     "--no-document",
                     table.concat(pkgs, " "),
                 },
-                cwd = context.install_dir,
-                stdio_sink = context.stdio_sink,
+                cwd = ctx.install_dir,
+                stdio_sink = ctx.stdio_sink,
             }, callback)
         end,
     }

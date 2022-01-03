@@ -16,6 +16,9 @@ return function(name, root_dir)
                 return std.unzip_remote(ctx.github_release_file, "elixir-ls")
             end),
             std.chmod("+x", { "elixir-ls/language_server.sh" }),
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx))
+            end),
         },
         default_options = {
             cmd = {

@@ -56,6 +56,9 @@ return function(name, root_dir)
                 stdio_sink = ctx.stdio_sink,
             }, callback)
         end,
+        context.receipt(function(receipt, ctx)
+            receipt:with_secondary_source(receipt.github_release_file(ctx))
+        end),
     }
 
     local arduino_language_server_installer = installers.branch_context {
@@ -81,6 +84,9 @@ return function(name, root_dir)
                 std.unzip_remote(ctx.github_release_file),
                 std.rename(("clangd_%s"):format(ctx.requested_server_version), "clangd"),
             }
+        end),
+        context.receipt(function(receipt, ctx)
+            receipt:with_secondary_source(receipt.github_release_file(ctx))
         end),
     }
 

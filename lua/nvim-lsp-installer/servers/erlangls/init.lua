@@ -17,7 +17,7 @@ return function(name, root_dir)
             std.ensure_executables {
                 { rebar3, ("%s was not found in path. Refer to http://rebar3.org/docs/."):format(rebar3) },
             },
-            context.use_github_release "erlang-ls/erlang_ls",
+            context.use_github_latest_tag "erlang-ls/erlang_ls",
             std.git_clone "https://github.com/erlang-ls/erlang_ls.git",
             function(_, callback, ctx)
                 local c = process.chain {
@@ -28,6 +28,9 @@ return function(name, root_dir)
                 c.run(rebar3, { "as", "dap", "escriptize" })
                 c.spawn(callback)
             end,
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_tag(ctx))
+            end),
         },
         default_options = {
             cmd_env = {

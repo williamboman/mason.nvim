@@ -28,6 +28,9 @@ return function(name, root_dir)
                 -- we can't use std.chmod because of shell wildcard expansion
                 unix = shell.sh [[ chmod +x haskell* ]],
             },
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx))
+            end),
         },
         default_options = {
             cmd_env = {

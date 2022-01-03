@@ -51,6 +51,9 @@ return function(name, root_dir)
                     return std.untargz_remote(ctx.github_release_file)
                 end)
             )),
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx))
+            end),
         },
         default_options = {
             cmd_env = {

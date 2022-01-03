@@ -46,6 +46,9 @@ return function(name, root_dir)
                 )
             end),
             std.chmod("+x", { "rust-analyzer" }),
+            context.receipt(function(receipt, ctx)
+                receipt:with_primary_source(receipt.github_release_file(ctx))
+            end),
         },
         default_options = {
             cmd_env = {
