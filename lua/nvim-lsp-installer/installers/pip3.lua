@@ -31,15 +31,15 @@ local function create_installer(python_executable, packages)
                 env = process.graft_env(M.env(ctx.install_dir)),
             }
 
+            ctx.receipt:with_primary_source(ctx.receipt.pip3(pkgs[1]))
+            for i = 2, #pkgs do
+                ctx.receipt:with_secondary_source(ctx.receipt.pip3(pkgs[i]))
+            end
+
             c.run(python_executable, { "-m", "venv", REL_INSTALL_DIR })
             if ctx.requested_server_version then
                 -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
                 pkgs[1] = ("%s==%s"):format(pkgs[1], ctx.requested_server_version)
-            end
-
-            ctx.receipt:with_primary_source(ctx.receipt.pip3(pkgs[1]))
-            for i = 2, #pkgs do
-                ctx.receipt:with_secondary_source(ctx.receipt.pip3(pkgs[i]))
             end
 
             local install_command = { "-m", "pip", "install", "-U" }

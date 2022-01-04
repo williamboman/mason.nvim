@@ -22,14 +22,14 @@ function M.packages(packages)
                 stdio_sink = ctx.stdio_sink,
             }
 
-            if ctx.requested_server_version then
-                -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
-                pkgs[1] = ("%s@%s"):format(pkgs[1], ctx.requested_server_version)
-            end
-
             ctx.receipt:with_primary_source(ctx.receipt.go(pkgs[1]))
             for i = 2, #pkgs do
                 ctx.receipt:with_secondary_source(ctx.receipt.go(pkgs[i]))
+            end
+
+            if ctx.requested_server_version then
+                -- The "head" package is the recipient for the requested version. It's.. by design... don't ask.
+                pkgs[1] = ("%s@%s"):format(pkgs[1], ctx.requested_server_version)
             end
 
             c.run("go", vim.list_extend({ "get", "-v" }, pkgs))
