@@ -6,7 +6,9 @@ labels:
 assignees: ""
 ---
 
-<!-- This is not an issue template for questions! Please refer to https://github.com/williamboman/nvim-lsp-installer/discussions. -->
+<!--
+👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/nvim-lsp-installer/discussions/categories/q-a :)
+-->
 
 <!--
 Before filing an issue, make sure that:

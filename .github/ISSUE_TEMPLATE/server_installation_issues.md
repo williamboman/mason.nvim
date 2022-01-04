@@ -1,12 +1,14 @@
 ---
-name: Server installation issues
-about: Report an issue with installing servers via nvim-lsp-installer
+name: Server installation issue
+about: Report an issue with installing a server via nvim-lsp-installer
 title: ""
 labels: server-issue
 assignees: ""
 ---
 
-<!-- For questions, refer to https://github.com/williamboman/nvim-lsp-installer/discussions. -->
+<!--
+👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/nvim-lsp-installer/discussions/categories/q-a :)
+-->
 
 <!--
 Before filing an issue, make sure that:
