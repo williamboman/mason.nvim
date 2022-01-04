@@ -6,6 +6,8 @@ labels: enhancement
 assignees: ""
 ---
 
+<!-- For questions, refer to https://github.com/williamboman/nvim-lsp-installer/discussions. -->
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

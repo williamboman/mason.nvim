@@ -6,6 +6,8 @@ labels: new-server-request
 assignees: ""
 ---
 
+<!-- For questions, refer to https://github.com/williamboman/nvim-lsp-installer/discussions. -->
+
 **Which server would you like to request to be added?**
 
 -   Server name:
