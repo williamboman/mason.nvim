@@ -19,7 +19,7 @@ return function(name, root_dir)
                 "tamasfe/taplo",
                 coalesce(
                     when(platform.is_mac, "taplo-lsp-x86_64-apple-darwin-gnu.tar.gz"),
-                    when(platform.is_linux and platform.arch == "x64", "taplo-lsp-x86_64-unknown-linux.tar.gz"),
+                    when(platform.is_linux and platform.arch == "x64", "taplo-lsp-x86_64-unknown-linux-gnu.tar.gz"),
                     when(platform.is_win and platform.arch == "x64", "taplo-lsp-windows-x86_64.zip")
                 ),
                 {
