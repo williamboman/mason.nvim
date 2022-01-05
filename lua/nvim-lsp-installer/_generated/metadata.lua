@@ -125,7 +125,7 @@ return {
     filetypes = { "xml", "xsd", "svg" }
   },
   ltex = {
-    filetypes = { "bib", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }
+    filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }
   },
   ocamlls = {
     filetypes = { "ocaml", "reason" }

@@ -31,6 +31,7 @@ return {
   fortran = { "fortls" },
   fsharp = { "fsautocomplete" },
   genie = { "vala_ls" },
+  gitcommit = { "ltex" },
   go = { "gopls" },
   gohtml = { "tailwindcss" },
   gomod = { "gopls" },
