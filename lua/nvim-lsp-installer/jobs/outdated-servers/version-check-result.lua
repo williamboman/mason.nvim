@@ -1,4 +1,4 @@
----@class CheckResult
+---@class VersionCheckResult
 ---@field public server Server
 ---@field public success boolean
 ---@field public outdated_packages OutdatedPackage[]

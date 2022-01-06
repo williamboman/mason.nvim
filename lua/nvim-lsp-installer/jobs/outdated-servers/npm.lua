@@ -1,4 +1,5 @@
 local process = require "nvim-lsp-installer.process"
+local npm = require "nvim-lsp-installer.installers.npm"
 local log = require "nvim-lsp-installer.log"
 local VersionCheckResult = require "nvim-lsp-installer.jobs.outdated-servers.version-check-result"
 
@@ -8,7 +9,7 @@ local VersionCheckResult = require "nvim-lsp-installer.jobs.outdated-servers.ver
 return function(server, source, on_check_complete)
     local stdio = process.in_memory_sink()
     process.spawn(
-        "npm",
+        npm.npm_command,
         {
             args = vim.list_extend({ "outdated", "--json" }, { source.package }),
             cwd = server.root_dir,
