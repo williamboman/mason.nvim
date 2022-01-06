@@ -98,9 +98,6 @@ return function(name, root_dir)
                     ),
                 }
             end),
-            context.receipt(function(receipt, ctx)
-                receipt:with_secondary_source(receipt.github_release_file(ctx))
-            end),
         }
     end
 
@@ -134,11 +131,6 @@ return function(name, root_dir)
             c.spawn(callback)
         end,
         std.rmrf "ccls-git",
-        context.receipt(function(receipt, ctx)
-            receipt:with_primary_source(
-                receipt.git_remote("https://github.com/MaskRay/ccls", ctx.requested_server_version)
-            )
-        end),
     }
 
     local linux_ccls_installer = installers.pipe {
@@ -175,9 +167,15 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/MaskRay/ccls",
         languages = { "c", "c++", "objective-c" },
-        installer = installers.when {
-            mac = mac_ccls_installer,
-            linux = linux_ccls_installer,
+        installer = {
+            installers.when {
+                mac = mac_ccls_installer,
+                linux = linux_ccls_installer,
+            },
+            context.receipt(function(receipt)
+                -- The cloned ccls git repo gets deleted during installation, so we have no local copy.
+                receipt:mark_invalid()
+            end),
         },
         default_options = {
             cmd_env = {

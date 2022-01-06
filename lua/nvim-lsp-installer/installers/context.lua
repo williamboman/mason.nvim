@@ -4,10 +4,7 @@ local installers = require "nvim-lsp-installer.installers"
 local platform = require "nvim-lsp-installer.platform"
 local fs = require "nvim-lsp-installer.fs"
 local path = require "nvim-lsp-installer.path"
-local fetch = require "nvim-lsp-installer.core.fetch"
-local Data = require "nvim-lsp-installer.data"
-
-local list_find_first = Data.list_find_first
+local github = require "nvim-lsp-installer.core.clients.github"
 
 local M = {}
 
@@ -15,6 +12,7 @@ local M = {}
 function M.use_github_latest_tag(repo)
     ---@type ServerInstallerFunction
     return function(_, callback, context)
+        context.github_repo = repo
         if context.requested_server_version then
             log.fmt_debug(
                 "Requested server version already provided (%s), skipping fetching tags from GitHub.",
@@ -24,37 +22,26 @@ function M.use_github_latest_tag(repo)
             return callback(true)
         end
         context.stdio_sink.stdout "Fetching tags from GitHub API...\n"
-        fetch(
-            ("https://api.github.com/repos/%s/tags"):format(repo),
-            vim.schedule_wrap(function(err, raw_data)
-                if err then
-                    context.stdio_sink.stderr(tostring(err) .. "\n")
-                    callback(false)
-                    return
-                end
+        github.fetch_latest_tag(repo, function(err, latest_tag)
+            if err then
+                context.stdio_sink.stderr(tostring(err) .. "\n")
+                callback(false)
+                return
+            end
 
-                local data = vim.json.decode(raw_data)
-                if vim.tbl_count(data) == 0 then
-                    context.stdio_sink.stderr("No tags found for GitHub repo %s.\n", repo)
-                    callback(false)
-                    return
-                end
-                context.requested_server_version = data[1].name
-                context.github_repo = repo
-                callback(true)
-            end)
-        )
+            context.requested_server_version = latest_tag.name
+            callback(true)
+        end)
     end
 end
 
----@alias UseGithubReleaseOpts {tag_name_pattern:string}
-
 ---@param repo string @The GitHub repo ("username/repo").
----@param opts UseGithubReleaseOpts|nil
+---@param opts FetchLatestGithubReleaseOpts|nil
 function M.use_github_release(repo, opts)
     opts = opts or {}
     ---@type ServerInstallerFunction
-    return function(server, callback, context)
+    return function(_, callback, context)
+        context.github_repo = repo
         if context.requested_server_version then
             log.fmt_debug(
                 "Requested server version already provided (%s), skipping fetching latest release from GitHub.",
@@ -64,40 +51,20 @@ function M.use_github_release(repo, opts)
             return callback(true)
         end
         context.stdio_sink.stdout "Fetching latest release version from GitHub API...\n"
-        fetch(
-            ("https://api.github.com/repos/%s/releases"):format(repo),
-            vim.schedule_wrap(function(err, response)
-                if err then
-                    log.fmt_error("Failed to fetch releases for repo=%s", repo)
-                    context.stdio_sink.stderr(tostring(err) .. "\n")
-                    return callback(false)
-                end
-
-                local latest_release = list_find_first(vim.json.decode(response), function(release)
-                    local is_stable_release = not release.prerelease and not release.draft
-                    if opts.tag_name_pattern then
-                        return is_stable_release and release.tag_name:match(opts.tag_name_pattern)
-                    end
-                    return is_stable_release
-                end)
-
-                if not latest_release then
-                    log.fmt_info("Failed to find latest release. repo=%s, opts=%s", repo, opts)
-                    callback(false)
-                    return
-                end
-                log.debug("Resolved latest version", server.name, repo, latest_release.tag_name)
-                context.requested_server_version = latest_release.tag_name
-                context.github_repo = repo
-                callback(true)
-            end)
-        )
+        github.fetch_latest_release(repo, opts, function(err, latest_release)
+            if err then
+                context.stdio_sink.stderr(tostring(err) .. "\n")
+                return callback(false)
+            end
+            context.requested_server_version = latest_release.tag_name
+            callback(true)
+        end)
     end
 end
 
 ---@param repo string @The GitHub report ("username/repo").
 ---@param file string|fun(resolved_version: string): string @The name of a file available in the provided repo's GitHub releases.
----@param opts UseGithubReleaseOpts
+---@param opts FetchLatestGithubReleaseOpts
 function M.use_github_release_file(repo, file, opts)
     return installers.pipe {
         M.use_github_release(repo, opts),

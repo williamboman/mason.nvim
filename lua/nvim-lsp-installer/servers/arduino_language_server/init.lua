@@ -99,6 +99,11 @@ return function(name, root_dir)
             clangd_installer,
             arduino_cli_installer,
             arduino_language_server_installer,
+            context.receipt(function(receipt)
+                -- We install 3 different components to 3 different subdirectories. This is currently not captured in
+                -- the receipt structure.
+                receipt:mark_invalid()
+            end),
         },
         default_options = {
             cmd = {

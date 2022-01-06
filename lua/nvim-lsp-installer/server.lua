@@ -174,17 +174,34 @@ function M.Server:promote_install_dir(install_dir)
     return true
 end
 
+function M.Server:_get_receipt_path()
+    return path.concat { self.root_dir, "nvim-lsp-installer-receipt.json" }
+end
+
 ---@param receipt_builder InstallReceiptBuilder
 function M.Server:_write_receipt(receipt_builder)
-    receipt_builder:with_name(self.name):with_schema_version("1.0"):with_completion_time(vim.loop.gettimeofday())
+    if receipt_builder.is_marked_invalid then
+        log.fmt_debug("Skipping writing receipt for %s because it is marked as invalid.", self.name)
+        return
+    end
+    receipt_builder:with_name(self.name):with_schema_version("1.0a"):with_completion_time(vim.loop.gettimeofday())
 
     local receipt_success, install_receipt = pcall(receipt_builder.build, receipt_builder)
     if receipt_success then
-        local install_receipt_path = path.concat { self.root_dir, "nvim-lsp-installer-receipt.json" }
-        pcall(fs.write_file, install_receipt_path, vim.json.encode(install_receipt))
+        pcall(fs.write_file, self:_get_receipt_path(), vim.json.encode(install_receipt))
     else
         log.fmt_error("Failed to build receipt for server=%s. Error=%s", self.name, install_receipt)
     end
+end
+
+---@return InstallReceipt|nil
+function M.Server:get_receipt()
+    local receipt_path = self:_get_receipt_path()
+    if fs.file_exists(receipt_path) then
+        local receipt_json = vim.json.decode(fs.read_file(receipt_path))
+        return receipt.InstallReceipt.from_json(receipt_json)
+    end
+    return nil
 end
 
 ---@param context ServerInstallContext

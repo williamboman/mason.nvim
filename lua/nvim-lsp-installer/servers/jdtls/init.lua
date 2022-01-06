@@ -5,6 +5,7 @@ local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
 local fetch = require "nvim-lsp-installer.core.fetch"
+local eclipse = require "nvim-lsp-installer.core.clients.eclipse"
 
 return function(name, root_dir)
     local function get_cmd(workspace_name)
@@ -56,14 +57,12 @@ return function(name, root_dir)
                     callback(true)
                     return
                 end
-                fetch("https://download.eclipse.org/jdtls/snapshots/latest.txt", function(err, data)
+                eclipse.fetch_latest_jdtls_version(function(err, latest_version)
                     if err then
                         ctx.stdio_sink.stderr "Failed to fetch latest verison.\n"
                         callback(false)
                     else
-                        ctx.requested_server_version = vim.trim(data)
-                            :gsub("^jdt%-language%-server%-", "")
-                            :gsub("%.tar%.gz$", "")
+                        ctx.requested_server_version = latest_version
                         callback(true)
                     end
                 end)

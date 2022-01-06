@@ -16,10 +16,8 @@ return function(name, root_dir)
             unix = {
                 std.git_clone "https://github.com/phpactor/phpactor.git",
                 composer.install(),
-                context.receipt(function(receipt, ctx)
-                    receipt:with_primary_source(
-                        receipt.git_remote("https://github.com/phpactor/phpactor.git", ctx.requested_server_version)
-                    )
+                context.receipt(function(receipt)
+                    receipt:with_primary_source(receipt.git_remote "https://github.com/phpactor/phpactor.git")
                 end),
             },
         },

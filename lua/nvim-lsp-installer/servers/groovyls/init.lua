@@ -16,12 +16,9 @@ return function(name, root_dir)
             std.gradlew {
                 args = { "build" },
             },
-            context.receipt(function(receipt, ctx)
+            context.receipt(function(receipt)
                 receipt:with_primary_source(
-                    receipt.git_remote(
-                        "https://github.com/GroovyLanguageServer/groovy-language-server",
-                        ctx.requested_server_version
-                    )
+                    receipt.git_remote "https://github.com/GroovyLanguageServer/groovy-language-server"
                 )
             end),
         },

@@ -1,17 +1,41 @@
 local M = {}
 
----@alias InstallerReceiptSource table
+---@alias InstallReceiptSchemaVersion
+---| '"1.0"'
+---| '"1.0a"'
+
+---@alias InstallReceiptSourceType
+---| '"npm"'
+---| '"pip3"'
+---| '"gem"'
+---| '"go"'
+---| '"dotnet"'
+---| '"unmanaged"'
+---| '"system"'
+---| '"jdtls"'
+---| '"git"'
+---| '"github_tag"'
+---| '"github_release_file"'
+
+---@alias InstallReceiptSource {type: InstallReceiptSourceType}
 
 ---@class InstallReceiptBuilder
----@field private secondary_sources InstallerReceiptSource[]
+---@field public is_marked_invalid boolean Whether this instance of the builder has been marked as invalid. This is an exception that only apply to a few select servers whose installation is not yet compatible with the receipt schema due to having a too complicated installation structure.
+---@field private secondary_sources InstallReceiptSource[]
 ---@field private epoch_time number
 local InstallReceiptBuilder = {}
 InstallReceiptBuilder.__index = InstallReceiptBuilder
 
 function InstallReceiptBuilder.new()
     return setmetatable({
+        is_marked_invalid = false,
         secondary_sources = {},
     }, InstallReceiptBuilder)
+end
+
+function InstallReceiptBuilder:mark_invalid()
+    self.is_marked_invalid = true
+    return self
 end
 
 ---@param name string
@@ -20,22 +44,19 @@ function InstallReceiptBuilder:with_name(name)
     return self
 end
 
----@alias InstallerReceiptSchemaVersion
----| '"1.0"'
-
----@param version InstallerReceiptSchemaVersion
+---@param version InstallReceiptSchemaVersion
 function InstallReceiptBuilder:with_schema_version(version)
     self.schema_version = version
     return self
 end
 
----@param source InstallerReceiptSource
+---@param source InstallReceiptSource
 function InstallReceiptBuilder:with_primary_source(source)
     self.primary_source = source
     return self
 end
 
----@param source InstallerReceiptSource
+---@param source InstallReceiptSource
 function InstallReceiptBuilder:with_secondary_source(source)
     table.insert(self.secondary_sources, source)
     return self
@@ -81,7 +102,7 @@ function InstallReceiptBuilder:build()
     }
 end
 
----@param type string
+---@param type InstallReceiptSourceType
 local function package_source(type)
     ---@param package string
     return function(package)
@@ -103,13 +124,12 @@ function InstallReceiptBuilder.system(dependency)
 end
 
 ---@param remote_url string
----@param revision string
-function InstallReceiptBuilder.git_remote(remote_url, revision)
-    return { type = "git", remote = remote_url, revision = revision }
+function InstallReceiptBuilder.git_remote(remote_url)
+    return { type = "git", remote = remote_url }
 end
 
 ---@param ctx ServerInstallContext
----@param opts UseGithubReleaseOpts|nil
+---@param opts FetchLatestGithubReleaseOpts|nil
 function InstallReceiptBuilder.github_release_file(ctx, opts)
     opts = opts or {}
     return {
@@ -129,6 +149,24 @@ function InstallReceiptBuilder.github_tag(ctx)
     }
 end
 
+---@class InstallReceipt
+---@field public name string
+---@field public schema_version InstallReceiptSchemaVersion
+---@field public metrics {start_time:integer, completion_time:integer}
+---@field public primary_source InstallReceiptSource
+---@field public secondary_sources InstallReceiptSource[]
+local InstallReceipt = {}
+InstallReceipt.__index = InstallReceipt
+
+function InstallReceipt.new(props)
+    return setmetatable(props, InstallReceipt)
+end
+
+function InstallReceipt.from_json(json)
+    return InstallReceipt.new(json)
+end
+
 M.InstallReceiptBuilder = InstallReceiptBuilder
+M.InstallReceipt = InstallReceipt
 
 return M
