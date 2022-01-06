@@ -36,17 +36,21 @@ local checkers = {
 
 local pending_servers = {}
 
+---@alias VersionCheckResultProgress {completed: integer, total: integer}
+
 ---@param servers Server[]
----@param on_check_start fun(server: Server)
----@param on_result fun(result: VersionCheckResult)
-function M.identify_outdated_servers(servers, on_check_start, on_result)
+---@param on_result fun(result: VersionCheckResult, progress: VersionCheckResultProgress)
+function M.identify_outdated_servers(servers, on_result)
+    local total_checks = #servers
+    local completed_checks = 0
     for _, server in ipairs(servers) do
         if not pending_servers[server.name] then
             pending_servers[server.name] = true
             jobpool:supply(function(_done)
-                local function complete(...)
+                local function complete(result)
+                    completed_checks = completed_checks + 1
                     pending_servers[server.name] = nil
-                    on_result(...)
+                    on_result(result, { completed = completed_checks, total = total_checks })
                     _done()
                 end
 
@@ -62,7 +66,6 @@ function M.identify_outdated_servers(servers, on_check_start, on_result)
 
                     local checker = checkers[receipt.primary_source.type]
                     if checker then
-                        on_check_start(server)
                         checker(server, receipt.primary_source, complete)
                     else
                         complete(VersionCheckResult.empty(server))

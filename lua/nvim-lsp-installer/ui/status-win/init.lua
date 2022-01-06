@@ -14,10 +14,14 @@ local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
 local CLOSE_WINDOW_KEYMAP_2 = "q"
 
----@param props {title: string, count: number}
+---@param props {title: string, subtitle: string|nil, count: number}
 local function ServerGroupHeading(props)
     return Ui.HlTextNode {
-        { { props.title, props.highlight or "LspInstallerHeading" }, { (" (%d)"):format(props.count), "Comment" } },
+        {
+            { props.title, props.highlight or "LspInstallerHeading" },
+            { " (" .. props.count .. ") ", "Comment" },
+            { props.subtitle and props.subtitle or "", "Comment" },
+        },
     }
 end
 
@@ -290,14 +294,7 @@ local function InstalledServers(servers, props)
                         { settings.current.ui.icons.server_installed, "LspInstallerGreen" },
                         { " " .. server.name, "" },
                         Data.when(server.deprecated, { " deprecated", "LspInstallerOrange" }),
-                        Data.when(server.is_checking_outdated_packages, {
-                            " (checking for updates)",
-                            "LspInstallerMuted",
-                        }),
-                        Data.when(
-                            #server.metadata.outdated_packages > 0,
-                            { " new version available", "LspInstallerGreen" }
-                        )
+                        Data.when(#server.metadata.outdated_packages > 0, { " new version available", "Comment" })
                     ),
                 },
                 Ui.Keybind(settings.current.ui.keymaps.toggle_server_expand, "EXPAND_SERVER", { server.name }),
@@ -402,7 +399,7 @@ local function UninstalledServers(servers, props)
     end, servers))
 end
 
----@alias ServerGroupProps {title: string, hide_when_empty: boolean|nil, servers: ServerState[][], expanded_server: string|nil, renderer: fun(servers: ServerState[], props: ServerGroupProps)}
+---@alias ServerGroupProps {title: string, subtitle: string|nil, hide_when_empty: boolean|nil, servers: ServerState[][], expanded_server: string|nil, renderer: fun(servers: ServerState[], props: ServerGroupProps)}
 
 ---@param props ServerGroupProps
 local function ServerGroup(props)
@@ -418,6 +415,7 @@ local function ServerGroup(props)
             Ui.EmptyLine(),
             ServerGroupHeading {
                 title = props.title,
+                subtitle = props.subtitle,
                 count = total_server_count,
             },
             Indent(Data.list_map(function(servers)
@@ -427,11 +425,8 @@ local function ServerGroup(props)
     end)
 end
 
----@param servers table<string, ServerState>
----@param expanded_server string|nil
----@param prioritized_servers string[]
----@param server_name_order string[]
-local function Servers(servers, expanded_server, prioritized_servers, server_name_order)
+---@param state StatusWinState
+local function Servers(state)
     local grouped_servers = {
         installed = {},
         queued = {},
@@ -443,6 +438,9 @@ local function Servers(servers, expanded_server, prioritized_servers, server_nam
         uninstalled = {},
         session_uninstalled = {},
     }
+
+    local servers, server_name_order, prioritized_servers, expanded_server =
+        state.servers, state.server_name_order, state.prioritized_servers, state.expanded_server
 
     -- giggity
     for _, server_name in ipairs(server_name_order) do
@@ -477,6 +475,8 @@ local function Servers(servers, expanded_server, prioritized_servers, server_nam
     return Ui.Node {
         ServerGroup {
             title = "Installed servers",
+            subtitle = state.server_version_check_completed_percentage ~= nil
+                and ("checking for new versions (" .. state.server_version_check_completed_percentage .. "%)"),
             renderer = InstalledServers,
             servers = { grouped_servers.session_installed, grouped_servers.installed },
             expanded_server = expanded_server,
@@ -513,7 +513,6 @@ local function create_initial_server_state(server)
     local server_state = {
         name = server.name,
         is_installed = server:is_installed(),
-        is_checking_outdated_packages = false,
         deprecated = server.deprecated,
         hints = tostring(ServerHints.new(server)),
         expanded_schema_properties = {},
@@ -572,12 +571,7 @@ local function init(all_servers)
                     return Help(state.is_current_settings_expanded, state.vader_saber_ticks)
                 end),
                 Ui.When(not state.is_showing_help, function()
-                    return Servers(
-                        state.servers,
-                        state.expanded_server,
-                        state.prioritized_servers,
-                        state.server_name_order
-                    )
+                    return Servers(state)
                 end),
             }
         end
@@ -600,6 +594,7 @@ local function init(all_servers)
     local initial_state = {
         server_name_order = server_name_order,
         servers = servers,
+        server_version_check_completed_percentage = nil,
         is_showing_help = false,
         is_current_settings_expanded = false,
         prioritized_servers = {},
@@ -832,13 +827,23 @@ local function init(all_servers)
         table.sort(servers, function(a, b)
             return a.name < b.name
         end)
-        jobs.identify_outdated_servers(servers, function(server)
+        if #servers > 0 then
             mutate_state(function(state)
-                state.servers[server.name].is_checking_outdated_packages = true
+                state.server_version_check_completed_percentage = 0
             end)
-        end, function(check_result)
+        end
+        jobs.identify_outdated_servers(servers, function(check_result, progress)
             mutate_state(function(state)
-                state.servers[check_result.server.name].is_checking_outdated_packages = false
+                local completed_percentage = progress.completed / progress.total
+                state.server_version_check_completed_percentage = math.floor(completed_percentage * 100)
+                if completed_percentage == 1 then
+                    vim.defer_fn(function()
+                        mutate_state(function(state)
+                            state.server_version_check_completed_percentage = nil
+                        end)
+                    end, 700)
+                end
+
                 if check_result.success and check_result:has_outdated_packages() then
                     state.servers[check_result.server.name].metadata.outdated_packages = check_result.outdated_packages
                 end
