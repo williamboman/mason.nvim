@@ -5,6 +5,7 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
+        homepage = "https://sorbet.org/",
         languages = { "ruby" },
         installer = gem.packages { "sorbet" },
         default_options = {
