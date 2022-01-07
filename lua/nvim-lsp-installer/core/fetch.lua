@@ -4,7 +4,9 @@ local platform = require "nvim-lsp-installer.platform"
 
 ---@param url string The url to fetch.
 ---@param callback fun(err: string|nil, raw_data: string)
-local function fetch(url, callback)
+---@param opts {custom_fetcher: { cmd: string, args: string[] }}
+local function fetch(url, callback, opts)
+    opts = opts or {}
     local stdio = process.in_memory_sink()
     log.fmt_debug("Fetching URL %s", url)
     local on_exit = function(success)
@@ -41,6 +43,17 @@ local function fetch(url, callback)
                 args = { "-NoProfile", "-Command", table.concat(ps_script, ";") },
                 stdio_sink = stdio.sink,
                 env = process.graft_env({}, { "PSMODULEPATH" }),
+            })
+        )
+    end
+
+    if opts.custom_fetcher then
+        table.insert(
+            job_variants,
+            1,
+            process.lazy_spawn(opts.custom_fetcher.cmd, {
+                args = opts.custom_fetcher.args,
+                stdio_sink = stdio.sink,
             })
         )
     end

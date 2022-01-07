@@ -20,7 +20,7 @@ local function ServerGroupHeading(props)
         {
             { props.title, props.highlight or "LspInstallerHeading" },
             { " (" .. props.count .. ") ", "Comment" },
-            { props.subtitle and props.subtitle or "", "Comment" },
+            { props.subtitle or "", "Comment" },
         },
     }
 end
