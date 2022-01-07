@@ -58,7 +58,7 @@ return {
   libsonnet = { "jsonnet_ls" },
   liquid = { "tailwindcss" },
   lua = { "sumneko_lua" },
-  markdown = { "grammarly", "ltex", "tailwindcss", "zk" },
+  markdown = { "grammarly", "ltex", "remark_ls", "tailwindcss", "zk" },
   mdx = { "tailwindcss" },
   mustache = { "tailwindcss" },
   mysql = { "sqlls", "sqls" },

@@ -157,6 +157,9 @@ return {
   quick_lint_js = {
     filetypes = { "javascript" }
   },
+  remark_ls = {
+    filetypes = { "markdown" }
+  },
   rescriptls = {
     filetypes = { "rescript" }
   },

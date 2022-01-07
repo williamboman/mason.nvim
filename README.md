@@ -193,6 +193,7 @@ lsp_installer.settings({
 | LaTeX                               | `ltex`                    |
 | LaTeX                               | `texlab`                  |
 | Lua                                 | `sumneko_lua`             |
+| Markdown                            | `remark_ls`               |
 | Markdown                            | `zk`                      |
 | OCaml                               | `ocamlls`                 |
 | Objective C                         | `ccls`                    |

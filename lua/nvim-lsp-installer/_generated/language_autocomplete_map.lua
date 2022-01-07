@@ -14,7 +14,7 @@ return {
   javascript = { "eslint", "quick_lint_js", "rome", "tsserver" },
   latex = { "ltex", "texlab" },
   lua = { "sumneko_lua" },
-  markdown = { "zk" },
+  markdown = { "remark_ls", "zk" },
   ["objective-c"] = { "ccls" },
   openapi = { "spectral" },
   php = { "intelephense", "phpactor" },
