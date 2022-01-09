@@ -62,6 +62,7 @@ return {
   mdx = { "tailwindcss" },
   mustache = { "tailwindcss" },
   mysql = { "sqlls", "sqls" },
+  nim = { "nimls" },
   njk = { "tailwindcss" },
   nunjucks = { "tailwindcss" },
   objc = { "ccls", "clangd" },

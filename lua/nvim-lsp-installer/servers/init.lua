@@ -73,6 +73,7 @@ local CORE_SERVERS = Data.set_of {
     "kotlin_language_server",
     "lemminx",
     "ltex",
+    "nimls",
     "ocamlls",
     "omnisharp",
     "phpactor",

@@ -127,6 +127,9 @@ return {
   ltex = {
     filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }
   },
+  nimls = {
+    filetypes = { "nim" }
+  },
   ocamlls = {
     filetypes = { "ocaml", "reason" }
   },
