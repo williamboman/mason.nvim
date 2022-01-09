@@ -1,6 +1,7 @@
 -- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
 -- stylua: ignore start
 return {
+  OpenFOAM = { "foam_ls" },
   arduino = { "arduino_language_server" },
   aspnetcorerazor = { "tailwindcss" },
   astro = { "tailwindcss" },
@@ -28,6 +29,7 @@ return {
   erb = { "tailwindcss" },
   erlang = { "erlangls" },
   eruby = { "tailwindcss" },
+  foam = { "foam_ls" },
   fortran = { "fortls" },
   fsharp = { "fsautocomplete" },
   genie = { "vala_ls" },

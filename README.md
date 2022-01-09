@@ -177,6 +177,7 @@ lsp_installer.settings({
 | Emmet                               | `emmet_ls`                |
 | Erlang                              | `erlangls`                |
 | F#                                  | `fsautocomplete`          |
+| Foam (OpenFOAM)                     | `foam_ls`                 |
 | Fortran                             | `fortls`                  |
 | Go                                  | `gopls`                   |
 | Grammarly                           | `grammarly`               |
