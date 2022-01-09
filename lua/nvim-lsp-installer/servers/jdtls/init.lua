@@ -51,6 +51,9 @@ return function(name, root_dir)
         languages = { "java" },
         homepage = "https://github.com/eclipse/eclipse.jdt.ls",
         installer = {
+            std.ensure_executables {
+                { "java", "java was not found in path." },
+            },
             ---@type ServerInstallerFunction
             function(_, callback, ctx)
                 if ctx.requested_server_version then
