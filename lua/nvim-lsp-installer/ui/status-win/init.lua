@@ -14,15 +14,16 @@ local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
 local CLOSE_WINDOW_KEYMAP_2 = "q"
 
----@param props {title: string, subtitle: string|nil, count: number}
+---@param props {title: string, subtitle: string[][], count: number}
 local function ServerGroupHeading(props)
-    return Ui.HlTextNode {
-        {
-            { props.title, props.highlight or "LspInstallerHeading" },
-            { " (" .. props.count .. ") ", "Comment" },
-            { props.subtitle or "", "Comment" },
-        },
+    local line = {
+        { props.title, props.highlight or "LspInstallerHeading" },
+        { " (" .. props.count .. ") ", "Comment" },
     }
+    if props.subtitle then
+        vim.list_extend(line, props.subtitle)
+    end
+    return Ui.HlTextNode { line }
 end
 
 local function Indent(children)
@@ -475,8 +476,22 @@ local function Servers(state)
     return Ui.Node {
         ServerGroup {
             title = "Installed servers",
-            subtitle = state.server_version_check_completed_percentage ~= nil
-                and ("checking for new versions (" .. state.server_version_check_completed_percentage .. "%)"),
+            subtitle = state.server_version_check_completed_percentage ~= nil and {
+                {
+                    "checking for new versions ",
+                    "Comment",
+                },
+                {
+                    state.server_version_check_completed_percentage .. "%",
+                    state.server_version_check_completed_percentage == 100 and "LspInstallerVersionCheckLoaderDone"
+                        or "LspInstallerVersionCheckLoader",
+                },
+                {
+                    string.rep(" ", math.floor(state.server_version_check_completed_percentage / 5)),
+                    state.server_version_check_completed_percentage == 100 and "LspInstallerVersionCheckLoaderDone"
+                        or "LspInstallerVersionCheckLoader",
+                },
+            },
             renderer = InstalledServers,
             servers = { grouped_servers.session_installed, grouped_servers.installed },
             expanded_server = expanded_server,
@@ -888,6 +903,8 @@ local function init(all_servers)
                 "hi def LspInstallerLabel gui=bold",
                 "hi def LspInstallerError ctermfg=203 guifg=#f44747",
                 "hi def LspInstallerHighlighted guifg=#56B6C2",
+                "hi def LspInstallerVersionCheckLoader gui=bold guifg=#222222 guibg=#888888",
+                "hi def LspInstallerVersionCheckLoaderDone gui=bold guifg=#222222 guibg=#a3be8c",
                 "hi def link LspInstallerLink LspInstallerHighlighted",
             },
             effects = {
@@ -948,7 +965,14 @@ local function init(all_servers)
                     end
                 end,
                 ["UPDATE_ALL_SERVERS"] = function()
-                    for _, server in ipairs(lsp_servers.get_installed_servers()) do
+                    local installed_servers = lsp_servers.get_installed_servers()
+                    local state = get_state()
+                    local outdated_servers = vim.tbl_filter(function(server)
+                        return #state.servers[server.name].metadata.outdated_packages > 0
+                    end, installed_servers)
+                    -- Install servers that are identified as outdated, otherwise update all installed servers.
+                    local servers_to_update = #outdated_servers > 0 and outdated_servers or installed_servers
+                    for _, server in ipairs(servers_to_update) do
                         install_server(server, nil)
                     end
                 end,

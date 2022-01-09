@@ -76,6 +76,9 @@ function M.identify_outdated_servers(servers, on_result)
                     log.fmt_trace("No receipt found for server=%s", server.name)
                 end
             end)
+        else
+            completed_checks = completed_checks + 1
+            on_result(VersionCheckResult.fail(server), { completed = completed_checks, total = total_checks })
         end
     end
 end
