@@ -5,6 +5,7 @@ local platform = require "nvim-lsp-installer.platform"
 local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
 local Data = require "nvim-lsp-installer.data"
+local fetch = require "nvim-lsp-installer.core.fetch"
 
 local list_not_nil, when = Data.list_not_nil, Data.when
 
@@ -20,12 +21,12 @@ function M.download_file(url, out_file)
             process.attempt {
                 jobs = {
                     process.lazy_spawn("wget", {
-                        args = { "-nv", "-O", out_file, url },
+                        args = fetch.with_headers(fetch.HEADERS.wget, { "-nv", "-O", out_file, url }),
                         cwd = context.install_dir,
                         stdio_sink = context.stdio_sink,
                     }),
                     process.lazy_spawn("curl", {
-                        args = { "-fsSL", "-o", out_file, url },
+                        args = fetch.with_headers(fetch.HEADERS.curl, { "-fsSL", "-o", out_file, url }),
                         cwd = context.install_dir,
                         stdio_sink = context.stdio_sink,
                     }),
@@ -33,7 +34,9 @@ function M.download_file(url, out_file)
                 on_finish = callback,
             }
         end,
-        win = shell.powershell(("iwr -UseBasicParsing -Uri %q -OutFile %q"):format(url, out_file)),
+        win = shell.powershell(
+            ("iwr %s -UseBasicParsing -Uri %q -OutFile %q"):format(fetch.HEADERS.iwr, url, out_file)
+        ),
     }
 end
 

@@ -2,6 +2,21 @@ local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
 local platform = require "nvim-lsp-installer.platform"
 
+local USER_AGENT = "nvim-lsp-installer (+https://github.com/williamboman/nvim-lsp-installer)"
+
+local HEADERS = {
+    wget = { "--header", ("User-Agent: %s"):format(USER_AGENT) },
+    curl = { "-H", ("User-Agent: %s"):format(USER_AGENT) },
+    iwr = ("-Headers @{'User-Agent' = '%s'}"):format(USER_AGENT),
+}
+
+local function with_headers(headers, args)
+    local result = {}
+    vim.list_extend(result, headers)
+    vim.list_extend(result, args)
+    return result
+end
+
 ---@param url string The url to fetch.
 ---@param callback fun(err: string|nil, raw_data: string)
 ---@param opts {custom_fetcher: { cmd: string, args: string[] }}
@@ -22,11 +37,11 @@ local function fetch(url, callback, opts)
 
     local job_variants = {
         process.lazy_spawn("wget", {
-            args = { "-nv", "-O", "-", url },
+            args = with_headers(HEADERS.wget, { "-nv", "-O", "-", url }),
             stdio_sink = stdio.sink,
         }),
         process.lazy_spawn("curl", {
-            args = { "-fsSL", url },
+            args = with_headers(HEADERS.curl, { "-fsSL", url }),
             stdio_sink = stdio.sink,
         }),
     }
@@ -34,7 +49,7 @@ local function fetch(url, callback, opts)
     if platform.is_win then
         local ps_script = {
             "$ProgressPreference = 'SilentlyContinue'",
-            ("Write-Output (iwr -UseBasicParsing -Uri %q).Content"):format(url),
+            ("Write-Output (iwr %s -UseBasicParsing -Uri %q).Content"):format(HEADERS.iwr, url),
         }
         table.insert(
             job_variants,
@@ -69,4 +84,11 @@ local function fetch(url, callback, opts)
     }
 end
 
-return fetch
+return setmetatable({
+    with_headers = with_headers,
+    HEADERS = HEADERS,
+}, {
+    __call = function(_, ...)
+        return fetch(...)
+    end,
+})
