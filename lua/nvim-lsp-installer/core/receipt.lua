@@ -9,6 +9,7 @@ local M = {}
 ---| '"pip3"'
 ---| '"gem"'
 ---| '"go"'
+---| '"cargo"'
 ---| '"dotnet"'
 ---| '"unmanaged"'
 ---| '"system"'
@@ -115,6 +116,7 @@ InstallReceiptBuilder.pip3 = package_source "pip3"
 InstallReceiptBuilder.gem = package_source "gem"
 InstallReceiptBuilder.go = package_source "go"
 InstallReceiptBuilder.dotnet = package_source "dotnet"
+InstallReceiptBuilder.cargo = package_source "cargo"
 
 InstallReceiptBuilder.unmanaged = { type = "unmanaged" }
 

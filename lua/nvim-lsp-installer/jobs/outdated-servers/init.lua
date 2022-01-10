@@ -3,6 +3,7 @@ local VersionCheckResult = require "nvim-lsp-installer.jobs.outdated-servers.ver
 local log = require "nvim-lsp-installer.log"
 
 local npm_check = require "nvim-lsp-installer.jobs.outdated-servers.npm"
+local cargo_check = require "nvim-lsp-installer.jobs.outdated-servers.cargo"
 local pip3_check = require "nvim-lsp-installer.jobs.outdated-servers.pip3"
 local gem_check = require "nvim-lsp-installer.jobs.outdated-servers.gem"
 local git_check = require "nvim-lsp-installer.jobs.outdated-servers.git"
@@ -23,6 +24,7 @@ end
 local checkers = {
     ["npm"] = npm_check,
     ["pip3"] = pip3_check,
+    ["cargo"] = cargo_check,
     ["gem"] = gem_check,
     ["go"] = noop, -- TODO
     ["dotnet"] = noop, -- TODO

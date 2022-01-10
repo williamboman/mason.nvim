@@ -169,6 +169,9 @@ return {
   rescriptls = {
     filetypes = { "rescript" }
   },
+  rnix = {
+    filetypes = { "nix" }
+  },
   rome = {
     filetypes = { "javascript", "javascriptreact", "json", "typescript", "typescript.tsx", "typescriptreact" }
   },

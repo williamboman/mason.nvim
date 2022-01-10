@@ -16,6 +16,7 @@ return {
   latex = { "ltex", "texlab" },
   lua = { "sumneko_lua" },
   markdown = { "remark_ls", "zk" },
+  nix = { "rnix" },
   ["objective-c"] = { "ccls" },
   openapi = { "spectral" },
   php = { "intelephense", "phpactor" },
