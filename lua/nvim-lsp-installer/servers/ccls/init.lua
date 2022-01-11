@@ -39,29 +39,28 @@ return function(name, root_dir)
         ---@param os_distribution table<string, string>|nil
         ---@return string|nil
         local function get_archive_name(version, os_distribution)
-            local name_template = coalesce(when(
-                platform.is_linux,
-                coalesce(
-                    when(
-                        platform.arch == "x64",
-                        coalesce(
-                            when(
-                                os_distribution.id == "ubuntu" and os_distribution.version.major >= 20,
-                                "clang+llvm-%s-x86_64-linux-gnu-ubuntu-20.04"
-                            ),
-                            when(
-                                os_distribution.id == "ubuntu" and os_distribution.version.major >= 16,
-                                "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
-                            ),
-                            -- the Ubuntu dist is allegedly the most suitable cross-platform one, so we default to it
-                            "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
-                        )
-                    ),
-                    when(platform.arch == "arm64", "clang+llvm-%s-aarch64-linux-gnu"),
-                    when(platform.arch == "armv7", "clang+llvm-%s-armv7a-linux-gnueabihf"),
-                    when(platform.arch == "x86", "clang+llvm-%s-i386-unknown-freebsd13")
+            local name_template = coalesce(
+                when(
+                    platform.is_linux,
+                    coalesce(
+                        when(
+                            platform.arch == "x64",
+                            coalesce(
+                                when(
+                                    os_distribution.id == "ubuntu" and os_distribution.version.major >= 20,
+                                    "clang+llvm-%s-x86_64-linux-gnu-ubuntu-20.04"
+                                ),
+                                when(
+                                    os_distribution.id == "ubuntu" and os_distribution.version.major >= 16,
+                                    "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
+                                )
+                            )
+                        ),
+                        when(platform.arch == "arm64", "clang+llvm-%s-aarch64-linux-gnu"),
+                        when(platform.arch == "armv7", "clang+llvm-%s-armv7a-linux-gnueabihf")
+                    )
                 )
-            ))
+            )
             return name_template and name_template:format(version)
         end
 
@@ -77,27 +76,36 @@ return function(name, root_dir)
                 -- We unset the requested version for llvm because it's not the primary target - the user's requested version should only apply to ccls.
                 ctx.requested_server_version = nil
             end),
-            context.capture(function(ctx)
-                return context.use_github_release_file("llvm/llvm-project", function(version)
-                    -- Strip the "llvmorg-" prefix from tags (llvm releases tags like llvmorg-13.0.0)
-                    local archive_name = get_archive_name(normalize_version(version), ctx.os_distribution)
-                    return archive_name and ("%s.tar.xz"):format(archive_name)
-                end)
-            end),
-            context.capture(function(ctx)
-                return installers.pipe {
-                    std.untarxz_remote(ctx.github_release_file),
-                    std.rename(
-                        get_archive_name(normalize_version(ctx.requested_server_version), ctx.os_distribution),
-                        "llvm"
-                    ),
-                    -- We move the clang headers out, because they need to be persisted
-                    std.rename(
-                        path.concat { "llvm", "lib", "clang", normalize_version(ctx.requested_server_version) },
-                        "clang-resource"
-                    ),
-                }
-            end),
+            installers.first_successful {
+                installers.pipe {
+                    context.capture(function(ctx)
+                        return context.use_github_release_file("llvm/llvm-project", function(version)
+                            -- Strip the "llvmorg-" prefix from tags (llvm releases tags like llvmorg-13.0.0)
+                            local archive_name = get_archive_name(normalize_version(version), ctx.os_distribution)
+                            return archive_name and ("%s.tar.xz"):format(archive_name)
+                        end)
+                    end),
+                    context.capture(function(ctx)
+                        return installers.pipe {
+                            std.untarxz_remote(ctx.github_release_file),
+                            std.rename(
+                                get_archive_name(normalize_version(ctx.requested_server_version), ctx.os_distribution),
+                                "llvm"
+                            ),
+                            -- We move the clang headers out, because they need to be persisted
+                            std.rename(
+                                path.concat { "llvm", "lib", "clang", normalize_version(ctx.requested_server_version) },
+                                "clang-resource"
+                            ),
+                        }
+                    end),
+                },
+                -- If the previous step fails, default to building using system clang+llvm.
+                context.set(function(ctx)
+                    ctx.stdio_sink.stdout "\nUsing system clang+LLVM! Build will fail if clang/LLVM is not installed on the system.\n"
+                    ctx.use_system_llvm = true
+                end),
+            },
         }
     end
 
@@ -122,9 +130,9 @@ return function(name, root_dir)
                     "-DCMAKE_FIND_FRAMEWORK=LAST",
                     "-Wno-dev",
                     ("-DCMAKE_INSTALL_PREFIX=%s"):format(ctx.install_dir),
-                    ("-DCMAKE_PREFIX_PATH=%s"):format(ctx.llvm_dir),
-                    when(platform.is_mac, "-DCMAKE_OSX_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"),
-                    when(platform.is_linux, ("-DCLANG_RESOURCE_DIR=%s"):format(clang_resource_dir))
+                    when(not ctx.use_system_llvm, ("-DCMAKE_PREFIX_PATH=%s"):format(ctx.llvm_dir)),
+                    when(not ctx.use_system_llvm, ("-DCLANG_RESOURCE_DIR=%s"):format(clang_resource_dir)),
+                    when(platform.is_mac, "-DCMAKE_OSX_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk")
                 )
             )
             c.run("make", { "install" })
@@ -139,7 +147,7 @@ return function(name, root_dir)
             ctx.llvm_dir = path.concat { ctx.install_dir, "llvm" }
         end),
         ccls_installer,
-        std.rmrf "llvm",
+        installers.always_succeed(std.rmrf "llvm"),
     }
 
     local mac_ccls_installer = installers.pipe {
