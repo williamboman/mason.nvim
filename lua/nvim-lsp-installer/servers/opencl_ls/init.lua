@@ -8,15 +8,9 @@ local Data = require "nvim-lsp-installer.data"
 local coalesce, when = Data.coalesce, Data.when
 return function(name, root_dir)
     local target = coalesce(
-        when(
-            platform.is_mac,
-            coalesce(
-                when(platform.arch == "x64", "opencl-language-server-darwin.zip"),
-                when(platform.arch == "arm64", "opencl-language-server-darwin.zip")
-            )
-        ),
-        when(platform.is_linux, coalesce(when(platform.arch == "x64", "opencl-language-server-linux.zip"))),
-        when(platform.is_win, coalesce(when(platform.arch == "x64", "opencl-language-server-win32.zip")))
+        when(platform.is_mac, "opencl-language-server-darwin-x86_64.zip"),
+        when(platform.is_linux, coalesce(when(platform.arch == "x64", "opencl-language-server-linux-x86_64.zip"))),
+        when(platform.is_win, coalesce(when(platform.arch == "x64", "opencl-language-server-win32-x86_64.zip")))
     )
     return server.Server:new {
         name = name,
