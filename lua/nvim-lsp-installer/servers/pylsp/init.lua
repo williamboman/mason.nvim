@@ -3,6 +3,18 @@ local pip3 = require "nvim-lsp-installer.installers.pip3"
 local process = require "nvim-lsp-installer.process"
 local notify = require "nvim-lsp-installer.notify"
 
+function _G.lsp_installer_pylsp_install_completion()
+    return table.concat({
+        "pyls-flake8",
+        "pylsp-mypy",
+        "pyls-spyder",
+        "pyls-isort",
+        "python-lsp-black",
+        "pyls-memestra",
+        "pylsp-rope",
+    }, "\n")
+end
+
 return function(name, root_dir)
     return server.Server:new {
         name = name,
@@ -37,6 +49,7 @@ return function(name, root_dir)
                     end,
                     description = "Installs the provided packages in the same venv as pylsp.",
                     ["nargs=+"] = true,
+                    ["complete=custom,v:lua.lsp_installer_pylsp_install_completion"] = true,
                 },
             },
         },
