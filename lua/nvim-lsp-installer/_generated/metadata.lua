@@ -10,6 +10,9 @@ return {
   arduino_language_server = {
     filetypes = { "arduino" }
   },
+  asm_lsp = {
+    filetypes = { "asm", "vmasm" }
+  },
   bashls = {
     filetypes = { "sh" }
   },

@@ -149,6 +149,7 @@ lsp_installer.settings({
 | Angular                             | `angularls`               |
 | Ansible                             | `ansiblels`               |
 | Arduino [(docs!!!)][arduino]        | `arduino_language_server` |
+| Assemlby (GAS/NASM, GO)             | `asm_lsp`                 |
 | AsyncAPI                            | `spectral`                |
 | Bash                                | `bashls`                  |
 | Bicep                               | `bicep`                   |

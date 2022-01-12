@@ -3,6 +3,7 @@
 return {
   OpenFOAM = { "foam_ls" },
   arduino = { "arduino_language_server" },
+  asm = { "asm_lsp" },
   aspnetcorerazor = { "tailwindcss" },
   astro = { "tailwindcss" },
   ["astro-markdown"] = { "tailwindcss" },
@@ -111,6 +112,7 @@ return {
   vala = { "vala_ls" },
   vb = { "omnisharp" },
   vim = { "vimls" },
+  vmasm = { "asm_lsp" },
   vue = { "eslint", "stylelint_lsp", "tailwindcss", "volar", "vuels" },
   wxss = { "stylelint_lsp" },
   xml = { "lemminx" },

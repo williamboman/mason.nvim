@@ -2,6 +2,9 @@
 -- stylua: ignore start
 return {
   OpenFOAM = { "foam_ls" },
+  ["assembly-gas"] = { "asm_lsp" },
+  ["assembly-go"] = { "asm_lsp" },
+  ["assembly-nasm"] = { "asm_lsp" },
   asyncapi = { "spectral" },
   c = { "ccls", "clangd" },
   ["c#"] = { "csharp_ls", "omnisharp" },
