@@ -1,4 +1,5 @@
 local server = require "nvim-lsp-installer.server"
+local platform = require "nvim-lsp-installer.platform"
 local npm = require "nvim-lsp-installer.installers.npm"
 local Data = require "nvim-lsp-installer.data"
 local path = require "nvim-lsp-installer.path"
@@ -13,7 +14,7 @@ end
 
 return function(name, root_dir)
     local function get_cmd(workspace_dir)
-        return {
+        local cmd = {
             "ngserver",
             "--stdio",
             "--tsProbeLocations",
@@ -27,6 +28,12 @@ return function(name, root_dir)
                 ","
             ),
         }
+        if platform.is_win then
+            table.insert(cmd, 1, "cmd.exe")
+            table.insert(cmd, 2, "/C")
+        end
+
+        return cmd
     end
 
     return server.Server:new {
