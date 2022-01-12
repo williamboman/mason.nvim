@@ -74,6 +74,7 @@ return {
   ["objective-c"] = { "sourcekit" },
   ["objective-cpp"] = { "sourcekit" },
   ocaml = { "ocamlls" },
+  opencl = { "opencl_ls" },
   org = { "ltex" },
   php = { "intelephense", "phpactor", "tailwindcss" },
   plaintex = { "ltex" },

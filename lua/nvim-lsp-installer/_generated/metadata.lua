@@ -142,6 +142,9 @@ return {
   omnisharp = {
     filetypes = { "cs", "vb" }
   },
+  opencl_ls = {
+    filetypes = { "opencl" }
+  },
   phpactor = {
     filetypes = { "php" }
   },
