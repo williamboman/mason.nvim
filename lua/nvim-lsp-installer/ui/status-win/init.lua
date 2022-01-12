@@ -235,7 +235,7 @@ local function ServerMetadata(server)
             end),
             Data.lazy(server.metadata.install_timestamp_seconds, function()
                 return {
-                    { "last updated", "LspInstallerMuted" },
+                    { "installed", "LspInstallerMuted" },
                     { get_relative_install_time(server.metadata.install_timestamp_seconds), "" },
                 }
             end),
