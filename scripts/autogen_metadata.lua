@@ -157,7 +157,10 @@ local create_setting_schema_files = a.void(function()
             print(("Fetching %q..."):format(package_json_url))
             local response = a.wrap(curl.get, 1)(package_json_url)
             assert(response.status == 200, "Failed to fetch package.json for " .. server.name)
-            local schema = vim.json.decode(response.body).contributes.configuration
+            local schema = vim.json.decode(response.body)
+            if schema.contributes and schema.contributes.configuration then
+                schema = schema.contributes.configuration
+            end
             if not schema.properties then
                 -- Some servers (like dartls) seem to provide an array of configurations (for more than just LSP stuff)
                 print(("Could not find appropriate schema structure for %s."):format(server.name))
