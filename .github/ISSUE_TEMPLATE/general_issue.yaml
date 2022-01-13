@@ -29,7 +29,7 @@ body:
 
     - type: input
       attributes:
-          label: Operating system/version (`$ uname -a` on Linux)
+          label: "Operating system/version (`$ uname -a` on Linux)"
       validations:
           required: true
 

@@ -31,8 +31,8 @@ body:
       attributes:
           label: Is this server added in [lspconfig](https://github.com/neovim/nvim-lspconfig)?
           options:
-              - label: Yes
-              - label: No
+              - label: "Yes"
+              - label: "No"
 
     - type: textarea
       attributes:
