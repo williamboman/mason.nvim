@@ -1,0 +1,109 @@
+name: Server installation issue
+description: Report an issue with installing a server via nvim-lsp-installer
+labels:
+    - server-issue
+
+body:
+    - type: markdown
+      attributes:
+          value: |
+              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/nvim-lsp-installer/discussions/categories/q-a :)
+
+              Before filing an issue, make sure that you meet the minimum requirements mentioned in the README.
+
+    - type: textarea
+      id: problem-description
+      attributes:
+          label: Problem description
+          description: A clear and concise description of what the issue is and why you think it's an issue with nvim-lsp-installer.
+      validations:
+          required: true
+
+    - type: input
+      id: nvim-version
+      attributes:
+          label: Neovim version (>= 0.6)
+          description: Output of `nvim --version`
+          placeholder: |
+              NVIM v0.6.0-dev+209-g0603eba6e
+              Build type: Release
+              LuaJIT 2.1.0-beta3
+      validations:
+          required: true
+
+    - type: input
+      attributes:
+          label: Operating system/version (`$ uname -a` on Linux)
+      validations:
+          required: true
+
+    - type: checkboxes
+      attributes:
+          label: I've recently downloaded the latest plugin version of both nvim-lsp-installer and nvim-lspconfig
+          options:
+              - label: Yes
+
+    - type: input
+      attributes:
+          label: Affected language servers
+          description: If this issue is specific to one or more language servers, list them here. If not, write 'all'.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Actual behavior
+          description: A short description of what's happening.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Expected behavior
+          description: A short description of the behavior you expected.
+      validations:
+          required: true
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: Log and support info
+          placeholder: :LspInstallInfo
+          render: shell
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: Log and support info
+          description: Make sure you set DEBUG level before installing the server. Refer to `:help nvim-lsp-installer-debugging`.
+          placeholder: :LspInstallLog
+          render: shell
+      validations:
+          required: true
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: Log and support info
+          placeholder: :checkhealth nvim-lsp-installer
+          render: shell
+      validations:
+          required: true
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: Log and support info
+          placeholder: |
+              :LspInstallInfo
+              :LspInstallLog
+              :checkhealth nvim-lsp-installer
+          render: shell
+      validations:
+          required: true
+
+    - type: textarea
+      id: screenshots
+      attributes:
+          label: Screenshots
+          description: If applicable, add screenshots to help explain your problem
