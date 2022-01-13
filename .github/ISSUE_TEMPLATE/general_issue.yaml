@@ -18,8 +18,8 @@ body:
 
     - type: input
       attributes:
-          label: Neovim version (>= 0.6)
-          description: Output of `nvim --version`
+          label: "Neovim version (>= 0.6)"
+          description: "Output of `nvim --version`"
           placeholder: |
               NVIM v0.6.0-dev+209-g0603eba6e
               Build type: Release
@@ -29,7 +29,7 @@ body:
 
     - type: input
       attributes:
-          label: "Operating system/version (`$ uname -a` on Linux)"
+          label: "Operating system/version (`uname -a` on Linux)"
       validations:
           required: true
 
@@ -37,7 +37,7 @@ body:
       attributes:
           label: I've recently downloaded the latest plugin version of both nvim-lsp-installer and nvim-lspconfig
           options:
-              - label: Yes
+              - label: "Yes"
 
     - type: input
       attributes:
@@ -63,7 +63,7 @@ body:
     - type: textarea
       attributes:
           label: Healthcheck output
-          placeholder: :checkhealth nvim-lsp-installer
+          placeholder: ":checkhealth nvim-lsp-installer"
           render: shell
       validations:
           required: true

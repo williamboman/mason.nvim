@@ -1,5 +1,5 @@
-name: Server installation issue
-description: Report an issue with installing a server via nvim-lsp-installer
+name: New server request
+description: Request a new server not currently available
 title: "[New server]: "
 labels:
     - new-server-request
