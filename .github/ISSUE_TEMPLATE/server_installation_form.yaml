@@ -18,7 +18,7 @@ body:
       validations:
           required: true
 
-    - type: input
+    - type: textarea
       attributes:
           label: "Neovim version (>= 0.6)"
           description: "Output of `nvim --version`"
@@ -31,7 +31,8 @@ body:
 
     - type: input
       attributes:
-          label: "Operating system/version (`uname -a` on Linux)"
+          label: "Operating system/version"
+          description: "On Linux and Mac systems: `$ uname -a`"
       validations:
           required: true
 
@@ -65,6 +66,7 @@ body:
     - type: textarea
       attributes:
           label: LspInstallInfo output
+          description: Please provide the installation output available in the `:LspInstallInfo` window, if possible.
           placeholder: ":LspInstallInfo"
           render: shell
 

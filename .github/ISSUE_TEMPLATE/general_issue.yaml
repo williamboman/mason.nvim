@@ -16,7 +16,7 @@ body:
       validations:
           required: true
 
-    - type: input
+    - type: textarea
       attributes:
           label: "Neovim version (>= 0.6)"
           description: "Output of `nvim --version`"
@@ -29,7 +29,8 @@ body:
 
     - type: input
       attributes:
-          label: "Operating system/version (`uname -a` on Linux)"
+          label: "Operating system/version"
+          description: "On Linux and Mac systems: `$ uname -a`"
       validations:
           required: true
 

@@ -29,7 +29,8 @@ body:
 
     - type: checkboxes
       attributes:
-          label: Is this server added in [lspconfig](https://github.com/neovim/nvim-lspconfig)?
+          label: Is this server added in lspconfig?
+          description: Is there a server configuration for this server in [lspconfig](https://github.com/neovim/nvim-lspconfig)?
           options:
               - label: "Yes"
               - label: "No"
