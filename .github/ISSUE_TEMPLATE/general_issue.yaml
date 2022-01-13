@@ -1,7 +1,5 @@
-name: Server installation issue
-description: Report an issue with installing a server via nvim-lsp-installer
-labels:
-    - server-issue
+name: General issue
+description: Report an issue not related to installation of servers
 
 body:
     - type: markdown
@@ -64,34 +62,8 @@ body:
 
     - type: textarea
       attributes:
-          label: Log and support info
-          placeholder: :LspInstallInfo
-          render: shell
-
-    - type: textarea
-      attributes:
-          label: Log and support info
-          description: Make sure you set DEBUG level before installing the server. Refer to `:help nvim-lsp-installer-debugging`.
-          placeholder: :LspInstallLog
-          render: shell
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Log and support info
+          label: Healthcheck output
           placeholder: :checkhealth nvim-lsp-installer
-          render: shell
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Log and support info
-          placeholder: |
-              :LspInstallInfo
-              :LspInstallLog
-              :checkhealth nvim-lsp-installer
           render: shell
       validations:
           required: true
