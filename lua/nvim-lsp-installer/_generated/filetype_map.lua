@@ -45,6 +45,7 @@ return {
   handlebars = { "ember", "tailwindcss" },
   haskell = { "hls" },
   hbs = { "tailwindcss" },
+  heex = { "tailwindcss" },
   html = { "angularls", "emmet_ls", "html", "tailwindcss" },
   ["html-eex"] = { "tailwindcss" },
   jade = { "tailwindcss" },
