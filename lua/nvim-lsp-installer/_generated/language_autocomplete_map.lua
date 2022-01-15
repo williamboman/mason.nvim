@@ -22,7 +22,7 @@ return {
   nix = { "rnix" },
   ["objective-c"] = { "ccls" },
   openapi = { "spectral" },
-  php = { "intelephense", "phpactor" },
+  php = { "intelephense", "phpactor", "psalm" },
   python = { "jedi_language_server", "pylsp", "pyright" },
   ruby = { "solargraph", "sorbet" },
   solidity = { "solang", "solc", "solidity_ls" },

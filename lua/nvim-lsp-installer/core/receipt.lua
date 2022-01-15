@@ -117,6 +117,7 @@ InstallReceiptBuilder.gem = package_source "gem"
 InstallReceiptBuilder.go = package_source "go"
 InstallReceiptBuilder.dotnet = package_source "dotnet"
 InstallReceiptBuilder.cargo = package_source "cargo"
+InstallReceiptBuilder.composer = package_source "composer"
 
 InstallReceiptBuilder.unmanaged = { type = "unmanaged" }
 

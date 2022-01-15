@@ -82,6 +82,7 @@ local CORE_SERVERS = Data.set_of {
     "phpactor",
     "powershell_es",
     "prismals",
+    "psalm",
     "puppet",
     "purescriptls",
     "pylsp",

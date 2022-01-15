@@ -154,6 +154,9 @@ return {
   prismals = {
     filetypes = { "prisma" }
   },
+  psalm = {
+    filetypes = { "php" }
+  },
   puppet = {
     filetypes = { "puppet" }
   },

@@ -204,6 +204,7 @@ lsp_installer.settings({
 | OpenCL                              | `opencl_ls`               |
 | PHP                                 | `intelephense`            |
 | PHP                                 | `phpactor`                |
+| PHP                                 | `psalm`                   |
 | Powershell                          | `powershell_es`           |
 | Prisma                              | `prismals`                |
 | Puppet                              | `puppet`                  |

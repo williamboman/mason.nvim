@@ -10,6 +10,7 @@ local git_check = require "nvim-lsp-installer.jobs.outdated-servers.git"
 local github_release_file_check = require "nvim-lsp-installer.jobs.outdated-servers.github_release_file"
 local github_tag_check = require "nvim-lsp-installer.jobs.outdated-servers.github_tag"
 local jdtls = require "nvim-lsp-installer.jobs.outdated-servers.jdtls"
+local composer_check = require "nvim-lsp-installer.jobs.outdated-servers.composer"
 
 local M = {}
 
@@ -26,6 +27,7 @@ local checkers = {
     ["pip3"] = pip3_check,
     ["cargo"] = cargo_check,
     ["gem"] = gem_check,
+    ["composer"] = composer_check,
     ["go"] = noop, -- TODO
     ["dotnet"] = noop, -- TODO
     ["unmanaged"] = noop,

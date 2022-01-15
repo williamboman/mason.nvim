@@ -77,7 +77,7 @@ return {
   ocaml = { "ocamlls" },
   opencl = { "opencl_ls" },
   org = { "ltex" },
-  php = { "intelephense", "phpactor", "tailwindcss" },
+  php = { "intelephense", "phpactor", "psalm", "tailwindcss" },
   plaintex = { "ltex" },
   postcss = { "tailwindcss" },
   prisma = { "prismals" },
