@@ -128,7 +128,7 @@ return {
     filetypes = { "kotlin" }
   },
   lemminx = {
-    filetypes = { "xml", "xsd", "svg" }
+    filetypes = { "xml", "xsd", "xsl", "xslt", "svg" }
   },
   ltex = {
     filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }

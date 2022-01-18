@@ -119,6 +119,8 @@ return {
   wxss = { "stylelint_lsp" },
   xml = { "lemminx" },
   xsd = { "lemminx" },
+  xsl = { "lemminx" },
+  xslt = { "lemminx" },
   yaml = { "ansiblels", "spectral", "yamlls" },
   ["yaml.ansible"] = { "ansiblels" },
   ["yaml.docker-compose"] = { "yamlls" },
