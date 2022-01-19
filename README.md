@@ -190,6 +190,7 @@ lsp_installer.settings({
 | Java                                | `jdtls`                   |
 | JavaScript                          | `quick_lint_js`           |
 | JavaScript                          | `tsserver`                |
+| Julia                               | `julials`                 |
 | Jsonnet                             | `jsonnet_ls`              |
 | Kotlin                              | `kotlin_language_server`  |
 | LaTeX                               | `ltex`                    |
