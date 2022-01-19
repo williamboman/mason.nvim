@@ -55,6 +55,7 @@ return {
   javascriptreact = { "cssmodules_ls", "denols", "eslint", "graphql", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
   json = { "jsonls", "rome", "spectral" },
   jsonnet = { "jsonnet_ls" },
+  julia = { "julials" },
   kotlin = { "kotlin_language_server" },
   leaf = { "tailwindcss" },
   less = { "cssls", "stylelint_lsp", "tailwindcss" },

@@ -124,6 +124,9 @@ return {
   jsonnet_ls = {
     filetypes = { "jsonnet", "libsonnet" }
   },
+  julials = {
+    filetypes = { "julia" }
+  },
   kotlin_language_server = {
     filetypes = { "kotlin" }
   },
