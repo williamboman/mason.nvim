@@ -119,7 +119,7 @@ return {
     filetypes = { "python" }
   },
   jsonls = {
-    filetypes = { "json" }
+    filetypes = { "json", "jsonc" }
   },
   jsonnet_ls = {
     filetypes = { "jsonnet", "libsonnet" }

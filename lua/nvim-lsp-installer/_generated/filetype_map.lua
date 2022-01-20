@@ -54,6 +54,7 @@ return {
   ["javascript.jsx"] = { "denols", "eslint", "tsserver" },
   javascriptreact = { "cssmodules_ls", "denols", "eslint", "graphql", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
   json = { "jsonls", "rome", "spectral" },
+  jsonc = { "jsonls" },
   jsonnet = { "jsonnet_ls" },
   julia = { "julials" },
   kotlin = { "kotlin_language_server" },
