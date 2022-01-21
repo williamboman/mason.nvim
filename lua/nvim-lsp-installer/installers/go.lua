@@ -12,9 +12,7 @@ function M.package(package)
         function(_, callback, ctx)
             local c = process.chain {
                 env = process.graft_env {
-                    GO111MODULE = "on",
                     GOBIN = ctx.install_dir,
-                    GOPATH = ctx.install_dir,
                 },
                 cwd = ctx.install_dir,
                 stdio_sink = ctx.stdio_sink,
