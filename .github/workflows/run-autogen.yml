@@ -1,0 +1,48 @@
+name: Run autogen script
+
+on:
+    schedule:
+        - cron: "0 0 * * *"
+
+jobs:
+    run-autogen-script:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+
+            - uses: rhysd/action-setup-vim@v1
+              with:
+                  neovim: true
+                  version: v0.6.0
+
+            - name: Clone dependencies
+              run: |
+                  mkdir -p ~/.local/share/nvim/site/pack/packer/start
+                  git clone --depth 1 https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
+                  git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/packer/start/plenary.nvim
+
+            - name: Run autogen_metadata.sh script
+              run: ./scripts/autogen_metadata.sh
+
+            - uses: dorny/paths-filter@v2
+              id: changes
+              with:
+                  filters: |
+                      generated:
+                        - 'lua/nvim-lsp-installer/_generated/**'
+
+            - name: Commit and push changes
+              if: steps.changes.outputs.generated == 'true'
+              run: |
+                  git config --local user.email "william@redwill.se"
+                  git config --local user.name "William Boman (automated)"
+                  git commit -m "run autogen_metadata.lua" -- lua/nvim-lsp-installer/_generated
+
+            - name: Push changes
+              if: steps.changes.outputs.generated == 'true'
+              uses: ad-m/github-push-action@master
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: ${{ github.ref }}

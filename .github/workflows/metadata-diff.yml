@@ -1,8 +1,6 @@
 name: Metadata diff checker
 
 on:
-    schedule:
-        - cron: "0 * * * *"
     push:
         branches:
             - "main"
