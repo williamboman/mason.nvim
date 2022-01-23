@@ -225,8 +225,8 @@ lsp_installer.settings({
 | Java                                | `jdtls`                   |
 | JavaScript                          | `quick_lint_js`           |
 | JavaScript                          | `tsserver`                |
-| Julia                               | `julials`                 |
 | Jsonnet                             | `jsonnet_ls`              |
+| Julia                               | `julials`                 |
 | Kotlin                              | `kotlin_language_server`  |
 | LaTeX                               | `ltex`                    |
 | LaTeX                               | `texlab`                  |
@@ -262,6 +262,7 @@ lsp_installer.settings({
 | Stylelint                           | `stylelint_lsp`           |
 | Svelte                              | `svelte`                  |
 | Swift                               | `sourcekit`               |
+| SystemVerilog                       | `verible`                 |
 | TOML                                | `taplo`                   |
 | Tailwind CSS                        | `tailwindcss`             |
 | Terraform                           | `terraformls`             |

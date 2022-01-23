@@ -256,6 +256,9 @@ return {
   vala_ls = {
     filetypes = { "vala", "genie" }
   },
+  verible = {
+    filetypes = { "systemverilog", "verilog" }
+  },
   vimls = {
     filetypes = { "vim" }
   },
