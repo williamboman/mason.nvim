@@ -63,7 +63,7 @@ return function(name, root_dir)
 
     local arduino_language_server_installer = installers.branch_context {
         context.set_working_dir "arduino-language-server",
-        go.package "github.com/arduino/arduino-language-server",
+        go.packages { "github.com/arduino/arduino-language-server" },
     }
 
     local clangd_installer = installers.branch_context {

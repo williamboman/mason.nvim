@@ -213,6 +213,7 @@ lsp_installer.settings({
 | F#                                  | `fsautocomplete`          |
 | Foam (OpenFOAM)                     | `foam_ls`                 |
 | Fortran                             | `fortls`                  |
+| Go                                  | `golangci_lint_ls`        |
 | Go                                  | `gopls`                   |
 | Grammarly                           | `grammarly`               |
 | GraphQL                             | `graphql`                 |

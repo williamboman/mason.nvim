@@ -61,6 +61,7 @@ local CORE_SERVERS = Data.set_of {
     "foam_ls",
     "fortls",
     "fsautocomplete",
+    "golangci_lint_ls",
     "gopls",
     "grammarly",
     "graphql",

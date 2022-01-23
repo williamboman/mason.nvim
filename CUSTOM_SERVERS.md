@@ -24,7 +24,7 @@ available installers that are available out of the box.
 
 -   ### Go
 
-    #### `go.package(package: string)`
+    #### `go.packages(packages: string[])`
 
     Returns an installer that installs the provided list of `packages`.
 
@@ -33,7 +33,7 @@ available installers that are available out of the box.
     ```lua
     local go = require "nvim-lsp-installer.installers.go"
 
-    local installer = go.package "golang.org/x/tools/gopls@latest"
+    local installer = go.packages { "golang.org/x/tools/gopls@latest" }
     ```
 
 -   ### npm

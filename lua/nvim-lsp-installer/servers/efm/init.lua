@@ -7,7 +7,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/mattn/efm-langserver",
         languages = {},
-        installer = go.package "github.com/mattn/efm-langserver",
+        installer = go.packages { "github.com/mattn/efm-langserver" },
         default_options = {
             cmd_env = go.env(root_dir),
         },

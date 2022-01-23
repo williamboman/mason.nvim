@@ -7,7 +7,7 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         homepage = "https://github.com/jdbaldry/jsonnet-language-server",
-        installer = go.package "github.com/jdbaldry/jsonnet-language-server",
+        installer = go.packages { "github.com/jdbaldry/jsonnet-language-server" },
         default_options = {
             -- TODO: use env instead of cmd once https://github.com/neovim/nvim-lspconfig/pull/1559 is merged
             cmd = { path.concat { root_dir, "jsonnet-language-server" } },

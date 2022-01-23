@@ -5,9 +5,12 @@ return function(name, root_dir)
     return server.Server:new {
         name = name,
         root_dir = root_dir,
-        languages = { "sql" },
-        homepage = "https://github.com/lighttiger2505/sqls",
-        installer = go.packages { "github.com/lighttiger2505/sqls" },
+        homepage = "https://github.com/nametake/golangci-lint-langserver",
+        languages = { "go" },
+        installer = go.packages {
+            "github.com/nametake/golangci-lint-langserver",
+            "github.com/golangci/golangci-lint/cmd/golangci-lint",
+        },
         default_options = {
             cmd_env = go.env(root_dir),
         },

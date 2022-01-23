@@ -7,7 +7,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://pkg.go.dev/golang.org/x/tools/gopls",
         languages = { "go" },
-        installer = go.package "golang.org/x/tools/gopls",
+        installer = go.packages { "golang.org/x/tools/gopls" },
         default_options = {
             cmd_env = go.env(root_dir),
         },

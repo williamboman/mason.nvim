@@ -13,6 +13,7 @@ return {
   d = { "serve_d" },
   ["f#"] = { "fsautocomplete" },
   fortran = { "fortls" },
+  go = { "golangci_lint_ls", "gopls" },
   haskell = { "hls" },
   java = { "jdtls" },
   javascript = { "eslint", "quick_lint_js", "rome", "tsserver" },
