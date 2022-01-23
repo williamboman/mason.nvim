@@ -179,6 +179,7 @@ lsp_installer.settings({
 
 | Language                            | Server name               |
 | ----------------------------------- | ------------------------- |
+| AWK                                 | `awk_ls`                  |
 | Angular                             | `angularls`               |
 | Ansible                             | `ansiblels`               |
 | Arduino [(docs!!!)][arduino]        | `arduino_language_server` |

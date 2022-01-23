@@ -7,6 +7,7 @@ return {
   aspnetcorerazor = { "tailwindcss" },
   astro = { "tailwindcss" },
   ["astro-markdown"] = { "tailwindcss" },
+  awk = { "awk_ls" },
   bib = { "ltex", "texlab" },
   bicep = { "bicep" },
   blade = { "tailwindcss" },

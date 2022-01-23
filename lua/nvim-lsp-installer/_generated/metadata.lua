@@ -13,6 +13,9 @@ return {
   asm_lsp = {
     filetypes = { "asm", "vmasm" }
   },
+  awk_ls = {
+    filetypes = { "awk" }
+  },
   bashls = {
     filetypes = { "sh" }
   },
