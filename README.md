@@ -2,20 +2,20 @@
   <img src="https://user-images.githubusercontent.com/6705160/118490159-f064bb00-b71d-11eb-883e-4affbd020074.png" alt="nvim-lsp-installer" width="50%" />
 </p>
 
-- [About](#about)
-- [Installation](#installation)
-  * [Packer](#packer)
-  * [vim-plug](#vim-plug)
-- [Usage](#usage)
-  * [Commands](#commands)
-  * [Setup](#setup)
-  * [Screenshots](#screenshots)
-  * [Configuration](#configuration)
-- [Available LSPs](#available-lsps)
-- [Custom servers](#custom-servers)
-- [Logo](#logo)
-- [Roadmap](#roadmap)
-- [Default configuration](#default-configuration)
+-   [About](#about)
+-   [Screenshots](#screenshots)
+-   [Installation](#installation)
+    -   [Packer](#packer)
+    -   [vim-plug](#vim-plug)
+-   [Usage](#usage)
+    -   [Commands](#commands)
+    -   [Setup](#setup)
+    -   [Configuration](#configuration)
+-   [Available LSPs](#available-lsps)
+-   [Custom servers](#custom-servers)
+-   [Logo](#logo)
+-   [Roadmap](#roadmap)
+-   [Default configuration](#default-configuration)
 
 ## About
 
@@ -32,6 +32,13 @@ On top of just providing commands for installing & uninstalling LSP servers, it:
 -   allows you to install and setup servers without having to restart neovim
 -   hosts [a suite of system tests](https://github.com/williamboman/nvim-lspconfig-test) for all supported servers
 -   has full support for Windows <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20">
+
+## Screenshots
+
+|                                                                                                                    |                                                                                                                    |                                                                                                                    |
+| :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/6705160/150685720-782e33ba-172c-44b6-8558-fb4e98495294.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685404-2cd34b25-166e-4c84-b9dd-1d5580dc2bdd.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685322-a537f021-5850-4bbc-8be2-1ece5678d205.png" /> |
+| <img src="https://user-images.githubusercontent.com/6705160/150685324-1310ae7d-67bf-4053-872c-d27e8a4c4b80.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686052-fd5c4d54-b4da-4cb3-bb82-a094526ee5b5.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686059-f1be8131-1274-4f62-9aa8-345599cbd8bc.png" /> |
 
 ## Installation
 
@@ -143,13 +150,6 @@ for _, server_name in pairs(servers) do
     end
 end
 ```
-
-### Screenshots
-
-|                                                                                                                    |                                                                                                                    |                                                                                                                    |
-| :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/6705160/150685720-782e33ba-172c-44b6-8558-fb4e98495294.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685404-2cd34b25-166e-4c84-b9dd-1d5580dc2bdd.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685322-a537f021-5850-4bbc-8be2-1ece5678d205.png" /> |
-| <img src="https://user-images.githubusercontent.com/6705160/150685324-1310ae7d-67bf-4053-872c-d27e8a4c4b80.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686052-fd5c4d54-b4da-4cb3-bb82-a094526ee5b5.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686059-f1be8131-1274-4f62-9aa8-345599cbd8bc.png" /> |
 
 ### Configuration
 
