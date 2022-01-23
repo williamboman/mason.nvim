@@ -401,6 +401,11 @@ class: Server
                     Registers the provided {handler} to be called when the
                     server is ready to be setup.
 
+                    Make sure not to use this method as well as the
+                    "catch-all" |nvim-lsp-installer.on_server_ready()|
+                    function to setup servers, as this would cause servers to
+                    be set up more than once.
+
                     Parameters: ~
                         {handler} (function) Function to be called when the
                         server is ready.

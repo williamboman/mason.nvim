@@ -1,11 +1,21 @@
-![repo size](https://img.shields.io/github/repo-size/williamboman/nvim-lsp-installer?style=flat-square)
-![checks status](https://img.shields.io/github/checks-status/williamboman/nvim-lsp-installer/main?style=flat-square)
-
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/6705160/118490159-f064bb00-b71d-11eb-883e-4affbd020074.png" alt="nvim-lsp-installer" width="60%" />
+  <img src="https://user-images.githubusercontent.com/6705160/118490159-f064bb00-b71d-11eb-883e-4affbd020074.png" alt="nvim-lsp-installer" width="50%" />
 </p>
 
-<img src="https://user-images.githubusercontent.com/6705160/138860384-ec041595-2c23-43b7-a5a7-979b0efb3daf.gif" />
+- [About](#about)
+- [Installation](#installation)
+  * [Packer](#packer)
+  * [vim-plug](#vim-plug)
+- [Usage](#usage)
+  * [Commands](#commands)
+  * [Setup](#setup)
+  * [Screenshots](#screenshots)
+  * [Configuration](#configuration)
+- [Available LSPs](#available-lsps)
+- [Custom servers](#custom-servers)
+- [Logo](#logo)
+- [Roadmap](#roadmap)
+- [Default configuration](#default-configuration)
 
 ## About
 
@@ -15,25 +25,32 @@ LSP servers locally (inside `:echo stdpath("data")`).
 On top of just providing commands for installing & uninstalling LSP servers, it:
 
 -   provides a graphical UI
--   optimized for blazing fast startup times
+-   is optimized for blazing fast startup times
+-   provides the ability to check for new server versions
 -   supports installing custom versions of LSP servers (for example `:LspInstall rust_analyzer@nightly`)
--   common install tasks are abstracted behind composable Lua APIs (has direct integration with libuv via vim.loop)
--   minimum requirements are relaxed by attempting multiple different utilities (for example, only one of `wget`, `curl`, or `Invoke-WebRequest` is required for HTTP requests)
+-   relaxes the minimum requirements by attempting multiple different utilities (for example, only one of `wget`, `curl`, or `Invoke-WebRequest` is required for HTTP requests)
+-   allows you to install and setup servers without having to restart neovim
 -   hosts [a suite of system tests](https://github.com/williamboman/nvim-lspconfig-test) for all supported servers
--   <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20"> full support for Windows
+-   has full support for Windows <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20">
 
 ## Installation
 
-Requires neovim `>= 0.6.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig). The full requirements to
-install all servers are:
+Requires neovim `>= 0.6.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig). The _full requirements_ to
+install _all_ servers are:
 
--   For Unix systems: bash(1), git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
+-   For Unix systems: git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
 -   For Windows systems: powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip]
 -   Node.js (LTS) & npm
 -   Python3 & pip3
--   go
--   javac
+-   go >= 1.17
+-   JDK
 -   Ruby & gem
+-   PHP & Composer
+-   dotnet
+-   pwsh
+-   Julia
+-   valac (and meson & ninja)
+-   rebar3
 
 [7zip]: https://www.7-zip.org/
 [archiver]: https://github.com/mholt/archiver
@@ -69,23 +86,18 @@ Plug 'williamboman/nvim-lsp-installer'
 
 ### Setup
 
-nvim-lsp-installer installs server executables in a local directory that doesn't exist on PATH. In order for the neovim
-LSP client to be able to locate these executables, the full path to the executable needs to be provided when setting up
-a server. In lspconfig, this is provided via the `cmd` property in the table provided to the `.setup()` function, for
-example (`lspconfig.sumneko_lua.setup { cmd = { "/path/to/lua-server" } }`).
-
-The recommended way of setting up your installed servers is to do it directly through nvim-lsp-installer. By doing so,
-nvim-lsp-installer will make sure to inject any necessary properties before calling lspconfig's setup function for you.
-You may find a minimal example below. To see how you can override the default settings for a server, refer to the
-[Wiki][overriding-default-settings].
+The recommended way of setting up your installed servers is to do it directly through nvim-lsp-installer.
+By doing so, nvim-lsp-installer will make sure to inject any necessary properties before calling lspconfig's setup
+function for you. You may find a minimal example below. To see how you can override the default settings for a server,
+refer to the [Wiki][overriding-default-settings].
 
 [overriding-default-settings]: https://github.com/williamboman/nvim-lsp-installer/wiki/Advanced-Configuration#overriding-the-default-lsp-server-options
 
 ```lua
 local lsp_installer = require("nvim-lsp-installer")
 
--- Register a handler that will be called for all installed servers.
--- Alternatively, you may also register handlers on specific server instances instead (see example below).
+-- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
+-- or if the server is already installed).
 lsp_installer.on_server_ready(function(server)
     local opts = {}
 
@@ -94,29 +106,50 @@ lsp_installer.on_server_ready(function(server)
     --     opts.root_dir = function() ... end
     -- end
 
-    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+    -- before passing it onwards to lspconfig.
     -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     server:setup(opts)
 end)
 ```
 
-For more advanced use cases you may also interact with more APIs nvim-lsp-installer has to offer, for example the following (refer to `:help nvim-lsp-installer` for more docs).
+For more advanced use cases you may also interact with more APIs nvim-lsp-installer has to offer, for example the
+following (refer to `:help nvim-lsp-installer` for more docs).
 
 ```lua
-local lsp_installer_servers = require'nvim-lsp-installer.servers'
+local lsp_installer_servers = require('nvim-lsp-installer.servers')
 
-local server_available, requested_server = lsp_installer_servers.get_server("rust_analyzer")
-if server_available then
-    requested_server:on_ready(function ()
-        local opts = {}
-        requested_server:setup(opts)
-    end)
-    if not requested_server:is_installed() then
-        -- Queue the server to be installed
-        requested_server:install()
+local servers = {
+    "rust_analyzer",
+    "clangd",
+    "pyright",
+}
+
+-- Loop through the servers listed above.
+for _, server_name in pairs(servers) do
+    local server_available, server = lsp_installer_servers.get_server(server_name)
+    if server_available then
+        server:on_ready(function ()
+            -- When this particular server is ready (i.e. when installation is finished or the server is already installed),
+            -- this function will be invoked. Make sure not to use the "catch-all" lsp_installer.on_server_ready()
+            -- function to set up servers, to avoid doing setting up a server twice.
+            local opts = {}
+            server:setup(opts)
+        end)
+        if not server:is_installed() then
+            -- Queue the server to be installed.
+            server:install()
+        end
     end
 end
 ```
+
+### Screenshots
+
+|                                                                                                                    |                                                                                                                    |                                                                                                                    |
+| :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/6705160/150685720-782e33ba-172c-44b6-8558-fb4e98495294.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685404-2cd34b25-166e-4c84-b9dd-1d5580dc2bdd.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685322-a537f021-5850-4bbc-8be2-1ece5678d205.png" /> |
+| <img src="https://user-images.githubusercontent.com/6705160/150685324-1310ae7d-67bf-4053-872c-d27e8a4c4b80.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686052-fd5c4d54-b4da-4cb3-bb82-a094526ee5b5.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686059-f1be8131-1274-4f62-9aa8-345599cbd8bc.png" /> |
 
 ### Configuration
 
@@ -149,7 +182,7 @@ lsp_installer.settings({
 | Angular                             | `angularls`               |
 | Ansible                             | `ansiblels`               |
 | Arduino [(docs!!!)][arduino]        | `arduino_language_server` |
-| Assemlby (GAS/NASM, GO)             | `asm_lsp`                 |
+| Assembly (GAS/NASM, GO)             | `asm_lsp`                 |
 | AsyncAPI                            | `spectral`                |
 | Bash                                | `bashls`                  |
 | Bicep                               | `bicep`                   |
