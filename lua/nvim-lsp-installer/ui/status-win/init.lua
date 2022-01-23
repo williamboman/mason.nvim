@@ -35,9 +35,10 @@ local create_vader = Data.memoize(
     function(saber_ticks)
     -- stylua: ignore start
     return {
-        { { [[ _______________________________________________________________________ ]], "LspInstallerMuted" } },
-        { { [[ < Help sponsor Neovim development! ]], "LspInstallerMuted" }, { "https://github.com/sponsors/neovim", "LspInstallerHighlighted"}, {[[ > ]], "LspInstallerMuted" } },
-        { { [[ ----------------------------------------------------------------------- ]], "LspInstallerMuted" } },
+        { { [[ _________________________________________________________________________________________ ]], "LspInstallerMuted" } },
+        { { [[ < Help sponsor nvim-lsp-installer development! ]], "LspInstallerMuted" }, { "https://github.com/sponsors/williamboman", "LspInstallerHighlighted"}, {[[ > ]], "LspInstallerMuted" } },
+        { { [[ < Help sponsor neovim development! ]], "LspInstallerMuted" }, { "https://github.com/sponsors/neovim", "LspInstallerHighlighted"}, {[[                   > ]], "LspInstallerMuted" } },
+        { { [[ ----------------------------------------------------------------------------------------- ]], "LspInstallerMuted" } },
         { { [[        ]], ""}, {[[\]], saber_ticks >= 3 and "LspInstallerVaderSaber" or "LspInstallerMuted"}, {[[    ,-^-.                                                       ]], "LspInstallerMuted" } },
         { { [[         ]], ""}, {[[\]], saber_ticks >= 2 and "LspInstallerVaderSaber" or "LspInstallerMuted"}, {[[   !oYo!                                                       ]], "LspInstallerMuted" } },
         { { [[          ]], ""}, {[[\]], saber_ticks >= 1 and "LspInstallerVaderSaber" or "LspInstallerMuted"}, {[[ /./=\.\______                                                ]], "LspInstallerMuted" } },
