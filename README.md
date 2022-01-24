@@ -177,107 +177,108 @@ lsp_installer.settings({
 
 ## Available LSPs
 
-| Language                            | Server name               |
-| ----------------------------------- | ------------------------- |
-| AWK                                 | `awk_ls`                  |
-| Angular                             | `angularls`               |
-| Ansible                             | `ansiblels`               |
-| Arduino [(docs!!!)][arduino]        | `arduino_language_server` |
-| Assembly (GAS/NASM, GO)             | `asm_lsp`                 |
-| AsyncAPI                            | `spectral`                |
-| Bash                                | `bashls`                  |
-| Beancount                           | `beancount`               |
-| Bicep                               | `bicep`                   |
-| C                                   | `ccls`                    |
-| C                                   | `clangd`                  |
-| C#                                  | `csharp_ls`               |
-| C#                                  | `omnisharp`               |
-| C++                                 | `ccls`                    |
-| C++                                 | `clangd`                  |
-| CMake                               | `cmake`                   |
-| CSS                                 | `cssls`                   |
-| CSS                                 | `cssmodules_ls`           |
-| Clojure                             | `clojure_lsp`             |
-| CodeQL                              | `codeqlls`                |
-| Crystal                             | `crystalline`             |
-| Dart                                | `dartls`                  |
-| Deno                                | `denols`                  |
-| Diagnostic (general purpose server) | `diagnosticls`            |
-| Dlang                               | `serve_d`                 |
-| Docker                              | `dockerls`                |
-| Dot                                 | `dotls`                   |
-| EFM (general purpose server)        | `efm`                     |
-| ESLint [(docs)][eslint]             | `eslint`                  |
-| Elixir                              | `elixirls`                |
-| Elm                                 | `elmls`                   |
-| Ember                               | `ember`                   |
-| Emmet                               | `emmet_ls`                |
-| Erlang                              | `erlangls`                |
-| F#                                  | `fsautocomplete`          |
-| Foam (OpenFOAM)                     | `foam_ls`                 |
-| Fortran                             | `fortls`                  |
-| Go                                  | `golangci_lint_ls`        |
-| Go                                  | `gopls`                   |
-| Grammarly                           | `grammarly`               |
-| GraphQL                             | `graphql`                 |
-| Groovy                              | `groovyls`                |
-| HTML                                | `html`                    |
-| Haskell                             | `hls`                     |
-| JSON                                | `jsonls`                  |
-| Java                                | `jdtls`                   |
-| JavaScript                          | `quick_lint_js`           |
-| JavaScript                          | `tsserver`                |
-| Jsonnet                             | `jsonnet_ls`              |
-| Julia                               | `julials`                 |
-| Kotlin                              | `kotlin_language_server`  |
-| LaTeX                               | `ltex`                    |
-| LaTeX                               | `texlab`                  |
-| Lua                                 | `sumneko_lua`             |
-| Markdown                            | `remark_ls`               |
-| Markdown                            | `zk`                      |
-| Nim                                 | `nimls`                   |
-| OCaml                               | `ocamlls`                 |
-| Objective C                         | `ccls`                    |
-| OneScript, 1C:Enterprise            | `bsl_ls`                  |
-| OpenAPI                             | `spectral`                |
-| OpenCL                              | `opencl_ls`               |
-| PHP                                 | `intelephense`            |
-| PHP                                 | `phpactor`                |
-| PHP                                 | `psalm`                   |
-| Powershell                          | `powershell_es`           |
-| Prisma                              | `prismals`                |
-| Puppet                              | `puppet`                  |
-| PureScript                          | `purescriptls`            |
-| Python                              | `jedi_language_server`    |
-| Python                              | `pyright`                 |
-| Python [(docs)][pylsp]              | `pylsp`                   |
-| ReScript                            | `rescriptls`              |
-| Rome                                | `rome`                    |
-| Ruby                                | `solargraph`              |
-| Rust [(wiki)][rust_analyzer]        | `rust_analyzer`           |
-| SQL                                 | `sqlls`                   |
-| SQL                                 | `sqls`                    |
-| Solidity                            | `solang`                  |
-| Solidity                            | `solc`                    |
-| Solidity (VSCode)                   | `solidity_ls`             |
-| Sorbet                              | `sorbet`                  |
-| Sphinx                              | `esbonio`                 |
-| Stylelint                           | `stylelint_lsp`           |
-| Svelte                              | `svelte`                  |
-| Swift                               | `sourcekit`               |
-| SystemVerilog                       | `verible`                 |
-| TOML                                | `taplo`                   |
-| Tailwind CSS                        | `tailwindcss`             |
-| Terraform                           | `terraformls`             |
-| Terraform [(docs)][tflint]          | `tflint`                  |
-| TypeScript [(docs)][tsserver]       | `tsserver`                |
-| Vala                                | `vala_ls`                 |
-| VimL                                | `vimls`                   |
-| Vue                                 | `volar`                   |
-| Vue                                 | `vuels`                   |
-| XML                                 | `lemminx`                 |
-| YAML                                | `yamlls`                  |
-| Zig                                 | `zls`                     |
+| Language                            | Server name                |
+| ----------------------------------- | -------------------------- |
+| AWK                                 | `awk_ls`                   |
+| Angular                             | `angularls`                |
+| Ansible                             | `ansiblels`                |
+| Arduino [(docs!!!)][arduino]        | `arduino_language_server`  |
+| Assembly (GAS/NASM, GO)             | `asm_lsp`                  |
+| AsyncAPI                            | `spectral`                 |
+| Bash                                | `bashls`                   |
+| Beancount                           | `beancount`                |
+| Bicep                               | `bicep`                    |
+| C                                   | `ccls`                     |
+| C                                   | `clangd`                   |
+| C#                                  | `csharp_ls`                |
+| C#                                  | `omnisharp`                |
+| C++                                 | `ccls`                     |
+| C++                                 | `clangd`                   |
+| CMake                               | `cmake`                    |
+| CSS                                 | `cssls`                    |
+| CSS                                 | `cssmodules_ls`            |
+| Clojure                             | `clojure_lsp`              |
+| CodeQL                              | `codeqlls`                 |
+| Crystal                             | `crystalline`              |
+| Cucumber                            | `cucumber_language_server` |
+| Dart                                | `dartls`                   |
+| Deno                                | `denols`                   |
+| Diagnostic (general purpose server) | `diagnosticls`             |
+| Dlang                               | `serve_d`                  |
+| Docker                              | `dockerls`                 |
+| Dot                                 | `dotls`                    |
+| EFM (general purpose server)        | `efm`                      |
+| ESLint [(docs)][eslint]             | `eslint`                   |
+| Elixir                              | `elixirls`                 |
+| Elm                                 | `elmls`                    |
+| Ember                               | `ember`                    |
+| Emmet                               | `emmet_ls`                 |
+| Erlang                              | `erlangls`                 |
+| F#                                  | `fsautocomplete`           |
+| Foam (OpenFOAM)                     | `foam_ls`                  |
+| Fortran                             | `fortls`                   |
+| Go                                  | `golangci_lint_ls`         |
+| Go                                  | `gopls`                    |
+| Grammarly                           | `grammarly`                |
+| GraphQL                             | `graphql`                  |
+| Groovy                              | `groovyls`                 |
+| HTML                                | `html`                     |
+| Haskell                             | `hls`                      |
+| JSON                                | `jsonls`                   |
+| Java                                | `jdtls`                    |
+| JavaScript                          | `quick_lint_js`            |
+| JavaScript                          | `tsserver`                 |
+| Jsonnet                             | `jsonnet_ls`               |
+| Julia                               | `julials`                  |
+| Kotlin                              | `kotlin_language_server`   |
+| LaTeX                               | `ltex`                     |
+| LaTeX                               | `texlab`                   |
+| Lua                                 | `sumneko_lua`              |
+| Markdown                            | `remark_ls`                |
+| Markdown                            | `zk`                       |
+| Nim                                 | `nimls`                    |
+| OCaml                               | `ocamlls`                  |
+| Objective C                         | `ccls`                     |
+| OneScript, 1C:Enterprise            | `bsl_ls`                   |
+| OpenAPI                             | `spectral`                 |
+| OpenCL                              | `opencl_ls`                |
+| PHP                                 | `intelephense`             |
+| PHP                                 | `phpactor`                 |
+| PHP                                 | `psalm`                    |
+| Powershell                          | `powershell_es`            |
+| Prisma                              | `prismals`                 |
+| Puppet                              | `puppet`                   |
+| PureScript                          | `purescriptls`             |
+| Python                              | `jedi_language_server`     |
+| Python                              | `pyright`                  |
+| Python [(docs)][pylsp]              | `pylsp`                    |
+| ReScript                            | `rescriptls`               |
+| Rome                                | `rome`                     |
+| Ruby                                | `solargraph`               |
+| Rust [(wiki)][rust_analyzer]        | `rust_analyzer`            |
+| SQL                                 | `sqlls`                    |
+| SQL                                 | `sqls`                     |
+| Solidity                            | `solang`                   |
+| Solidity                            | `solc`                     |
+| Solidity (VSCode)                   | `solidity_ls`              |
+| Sorbet                              | `sorbet`                   |
+| Sphinx                              | `esbonio`                  |
+| Stylelint                           | `stylelint_lsp`            |
+| Svelte                              | `svelte`                   |
+| Swift                               | `sourcekit`                |
+| SystemVerilog                       | `verible`                  |
+| TOML                                | `taplo`                    |
+| Tailwind CSS                        | `tailwindcss`              |
+| Terraform                           | `terraformls`              |
+| Terraform [(docs)][tflint]          | `tflint`                   |
+| TypeScript [(docs)][tsserver]       | `tsserver`                 |
+| Vala                                | `vala_ls`                  |
+| VimL                                | `vimls`                    |
+| Vue                                 | `volar`                    |
+| Vue                                 | `vuels`                    |
+| XML                                 | `lemminx`                  |
+| YAML                                | `yamlls`                   |
+| Zig                                 | `zls`                      |
 
 [arduino]: ./lua/nvim-lsp-installer/servers/arduino_language_server/README.md
 [eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md

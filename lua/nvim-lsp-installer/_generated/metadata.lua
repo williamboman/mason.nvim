@@ -55,6 +55,9 @@ return {
   cssmodules_ls = {
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
   },
+  cucumber_language_server = {
+    filetypes = { "cucumber" }
+  },
   dartls = {
     filetypes = { "dart" }
   },

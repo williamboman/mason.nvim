@@ -20,6 +20,7 @@ return {
   crystal = { "crystalline" },
   cs = { "csharp_ls", "omnisharp" },
   css = { "cssls", "emmet_ls", "stylelint_lsp", "tailwindcss" },
+  cucumber = { "cucumber_language_server" },
   d = { "serve_d" },
   dart = { "dartls" },
   ["django-html"] = { "tailwindcss" },

@@ -49,6 +49,7 @@ local CORE_SERVERS = Data.set_of {
     "csharp_ls",
     "cssls",
     "cssmodules_ls",
+    "cucumber_language_server",
     "dartls",
     "denols",
     "diagnosticls",
