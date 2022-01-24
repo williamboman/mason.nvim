@@ -25,6 +25,9 @@ return {
   bicep = {
     filetypes = { "bicep" }
   },
+  bsl_ls = {
+    filetypes = { "bsl", "os" }
+  },
   ccls = {
     filetypes = { "c", "cpp", "objc", "objcpp" }
   },

@@ -39,6 +39,7 @@ local CORE_SERVERS = Data.set_of {
     "bashls",
     "beancount",
     "bicep",
+    "bsl_ls",
     "ccls",
     "clangd",
     "clojure_lsp",

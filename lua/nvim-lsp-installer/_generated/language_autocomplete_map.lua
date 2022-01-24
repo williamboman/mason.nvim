@@ -22,6 +22,7 @@ return {
   markdown = { "remark_ls", "zk" },
   nix = { "rnix" },
   ["objective-c"] = { "ccls" },
+  onescript = { "bsl_ls" },
   openapi = { "spectral" },
   php = { "intelephense", "phpactor", "psalm" },
   python = { "jedi_language_server", "pylsp", "pyright" },

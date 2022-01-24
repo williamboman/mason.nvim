@@ -237,6 +237,7 @@ lsp_installer.settings({
 | Nim                                 | `nimls`                   |
 | OCaml                               | `ocamlls`                 |
 | Objective C                         | `ccls`                    |
+| OneScript, 1C:Enterprise            | `bsl_ls`                  |
 | OpenAPI                             | `spectral`                |
 | OpenCL                              | `opencl_ls`               |
 | PHP                                 | `intelephense`            |
