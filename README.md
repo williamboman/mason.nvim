@@ -199,6 +199,7 @@ lsp_installer.settings({
 | CSS                                 | `cssmodules_ls`           |
 | Clojure                             | `clojure_lsp`             |
 | CodeQL                              | `codeqlls`                |
+| Crystal                             | `crystalline`             |
 | Dart                                | `dartls`                  |
 | Deno                                | `denols`                  |
 | Diagnostic (general purpose server) | `diagnosticls`            |

@@ -43,6 +43,9 @@ return {
   codeqlls = {
     filetypes = { "ql" }
   },
+  crystalline = {
+    filetypes = { "crystal" }
+  },
   csharp_ls = {
     filetypes = { "cs" }
   },

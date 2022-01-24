@@ -17,6 +17,7 @@ return {
   clojure = { "clojure_lsp" },
   cmake = { "cmake" },
   cpp = { "ccls", "clangd", "sourcekit" },
+  crystal = { "crystalline" },
   cs = { "csharp_ls", "omnisharp" },
   css = { "cssls", "emmet_ls", "stylelint_lsp", "tailwindcss" },
   d = { "serve_d" },
