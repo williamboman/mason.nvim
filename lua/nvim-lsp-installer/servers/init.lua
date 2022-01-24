@@ -37,6 +37,7 @@ local CORE_SERVERS = Data.set_of {
     "asm_lsp",
     "awk_ls",
     "bashls",
+    "beancount",
     "bicep",
     "ccls",
     "clangd",

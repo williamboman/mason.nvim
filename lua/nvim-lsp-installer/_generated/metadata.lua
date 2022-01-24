@@ -19,6 +19,9 @@ return {
   bashls = {
     filetypes = { "sh" }
   },
+  beancount = {
+    filetypes = { "beancount" }
+  },
   bicep = {
     filetypes = { "bicep" }
   },

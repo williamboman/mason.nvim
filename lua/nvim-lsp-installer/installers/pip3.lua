@@ -73,10 +73,12 @@ end
 ---@param root_dir string @The directory to resolve the executable from.
 function M.env(root_dir)
     return {
-        PATH = process.extend_path {
-            path.concat { root_dir, REL_INSTALL_DIR, platform.is_win and "Scripts" or "bin" },
-        },
+        PATH = process.extend_path { M.path(root_dir) },
     }
+end
+
+function M.path(root_dir)
+    return path.concat { root_dir, REL_INSTALL_DIR, platform.is_win and "Scripts" or "bin" }
 end
 
 return M

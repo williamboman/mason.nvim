@@ -186,6 +186,7 @@ lsp_installer.settings({
 | Assembly (GAS/NASM, GO)             | `asm_lsp`                 |
 | AsyncAPI                            | `spectral`                |
 | Bash                                | `bashls`                  |
+| Beancount                           | `beancount`               |
 | Bicep                               | `bicep`                   |
 | C                                   | `ccls`                    |
 | C                                   | `clangd`                  |
