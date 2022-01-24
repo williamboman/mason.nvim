@@ -10,7 +10,7 @@ local process = require "nvim-lsp-installer.process"
 local coalesce, when = Data.coalesce, Data.when
 
 return function(name, root_dir)
-    print(process.extend_path { root_dir, pip3.path(root_dir) })
+    local file_ext = platform.is_win and ".exe" or ""
     return server.Server:new {
         name = name,
         root_dir = root_dir,
@@ -28,7 +28,11 @@ return function(name, root_dir)
             context.capture(function(ctx)
                 return installers.pipe {
                     std.unzip_remote(ctx.github_release_file),
-                    std.rename("beancount-language-server", "beancount-langserver"), -- to conform with lspconfig
+                    -- We rename the binary to conform with lspconfig
+                    std.rename(
+                        ("beancount-language-server%s"):format(file_ext),
+                        ("beancount-langserver%s"):format(file_ext)
+                    ),
                 }
             end),
             context.promote_install_dir(),
