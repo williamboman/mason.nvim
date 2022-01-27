@@ -26,6 +26,7 @@ jobs:
             - uses: dorny/paths-filter@v2
               id: changes
               with:
+                  base: main
                   filters: |
                       generated:
                         - 'lua/nvim-lsp-installer/_generated/**'
