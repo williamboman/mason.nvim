@@ -68,6 +68,7 @@ return {
   lhaskell = { "hls" },
   libsonnet = { "jsonnet_ls" },
   liquid = { "tailwindcss" },
+  llw = { "lelwel_ls" },
   lua = { "sumneko_lua" },
   markdown = { "grammarly", "ltex", "remark_ls", "tailwindcss", "zk" },
   mdx = { "tailwindcss" },

@@ -233,6 +233,7 @@ lsp_installer.settings({
 | Kotlin                              | `kotlin_language_server`   |
 | LaTeX                               | `ltex`                     |
 | LaTeX                               | `texlab`                   |
+| Lelwel                              | `lelwel_ls`                |
 | Lua                                 | `sumneko_lua`              |
 | Markdown                            | `remark_ls`                |
 | Markdown                            | `zk`                       |

@@ -148,6 +148,9 @@ return {
   kotlin_language_server = {
     filetypes = { "kotlin" }
   },
+  lelwel_ls = {
+    filetypes = { "llw" }
+  },
   lemminx = {
     filetypes = { "xml", "xsd", "xsl", "xslt", "svg" }
   },

@@ -80,6 +80,7 @@ local CORE_SERVERS = Data.set_of {
     "jsonnet_ls",
     "julials",
     "kotlin_language_server",
+    "lelwel_ls",
     "lemminx",
     "ltex",
     "nimls",
