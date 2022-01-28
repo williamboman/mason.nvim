@@ -236,6 +236,7 @@ lsp_installer.settings({
 | Lelwel                              | `lelwel_ls`                |
 | Lua                                 | `sumneko_lua`              |
 | Markdown                            | `remark_ls`                |
+| Markdown                            | `zeta_note`                |
 | Markdown                            | `zk`                       |
 | Nim                                 | `nimls`                    |
 | OCaml                               | `ocamlls`                  |

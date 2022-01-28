@@ -286,6 +286,9 @@ return {
   yamlls = {
     filetypes = { "yaml", "yaml.docker-compose" }
   },
+  zeta_note = {
+    filetypes = { "markdown" }
+  },
   zk = {
     filetypes = { "markdown" }
   },

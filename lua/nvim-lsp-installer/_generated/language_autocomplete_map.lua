@@ -19,7 +19,7 @@ return {
   javascript = { "eslint", "quick_lint_js", "rome", "tsserver" },
   latex = { "ltex", "texlab" },
   lua = { "sumneko_lua" },
-  markdown = { "remark_ls", "zk" },
+  markdown = { "remark_ls", "zeta_note", "zk" },
   nix = { "rnix" },
   ["objective-c"] = { "ccls" },
   onescript = { "bsl_ls" },
