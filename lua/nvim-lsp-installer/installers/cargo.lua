@@ -21,8 +21,25 @@ function M.crate(crate, opts)
         ctx.receipt:with_primary_source(ctx.receipt.cargo(crate))
 
         process.spawn("cargo", {
-            cwd = ctx.install_dir,
             args = args,
+            cwd = ctx.install_dir,
+            stdio_sink = ctx.stdio_sink,
+        }, callback)
+    end
+end
+
+---@param opts {path:string|nil}
+function M.install(opts)
+    ---@type ServerInstallerFunction
+    return function(_, callback, ctx)
+        opts = opts or {}
+        local args = { "install", "--root", "." }
+        if opts.path then
+            vim.list_extend(args, { "--path", opts.path })
+        end
+        process.spawn("cargo", {
+            args = args,
+            cwd = ctx.install_dir,
             stdio_sink = ctx.stdio_sink,
         }, callback)
     end

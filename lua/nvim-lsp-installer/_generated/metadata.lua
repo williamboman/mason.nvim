@@ -157,6 +157,9 @@ return {
   ltex = {
     filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }
   },
+  nickel_ls = {
+    filetypes = { "ncl", "nickel" }
+  },
   nimls = {
     filetypes = { "nim" }
   },

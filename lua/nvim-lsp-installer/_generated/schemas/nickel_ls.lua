@@ -1,0 +1,3 @@
+-- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
+-- stylua: ignore start
+return {properties = {["nls.server.debugLog"] = {default = false,description = "Logs the communication between VS Code and the language server.",scope = "window",type = "boolean"},["nls.server.path"] = {default = "nls",description = "Path to nickel language server",scope = "window",type = "string"},["nls.server.trace"] = {description = "Enables performance tracing to the given file",scope = "window",type = "string"}},title = "Nickel Language Server Configuration",type = "object"}

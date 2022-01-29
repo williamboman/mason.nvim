@@ -74,6 +74,8 @@ return {
   mdx = { "tailwindcss" },
   mustache = { "tailwindcss" },
   mysql = { "sqlls", "sqls" },
+  ncl = { "nickel_ls" },
+  nickel = { "nickel_ls" },
   nim = { "nimls" },
   nix = { "rnix" },
   njk = { "tailwindcss" },

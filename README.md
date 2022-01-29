@@ -238,6 +238,7 @@ lsp_installer.settings({
 | Markdown                            | `remark_ls`                |
 | Markdown                            | `zeta_note`                |
 | Markdown                            | `zk`                       |
+| Nickel                              | `nickel_ls`                |
 | Nim                                 | `nimls`                    |
 | OCaml                               | `ocamlls`                  |
 | Objective C                         | `ccls`                     |
