@@ -23,24 +23,10 @@ jobs:
             - name: Run autogen_metadata.sh script
               run: ./scripts/autogen_metadata.sh
 
-            - uses: dorny/paths-filter@v2
-              id: changes
-              with:
-                  base: main
-                  filters: |
-                      generated:
-                        - 'lua/nvim-lsp-installer/_generated/**'
-
             - name: Commit and push changes
-              if: steps.changes.outputs.generated == 'true'
               run: |
                   git config --local user.email "william@redwill.se"
                   git config --local user.name "William Boman (automated)"
-                  git commit -m "run autogen_metadata.lua" -- lua/nvim-lsp-installer/_generated
-
-            - name: Push changes
-              if: steps.changes.outputs.generated == 'true'
-              uses: ad-m/github-push-action@master
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: ${{ github.ref }}
+                  if git commit -m "run autogen_metadata.lua" -- lua/nvim-lsp-installer/_generated; then
+                    git push
+                  fi
