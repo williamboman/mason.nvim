@@ -268,6 +268,9 @@ return {
   tflint = {
     filetypes = { "terraform" }
   },
+  theme_check = {
+    filetypes = { "liquid" }
+  },
   tsserver = {
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
   },

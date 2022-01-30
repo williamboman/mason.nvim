@@ -67,7 +67,7 @@ return {
   less = { "cssls", "stylelint_lsp", "tailwindcss" },
   lhaskell = { "hls" },
   libsonnet = { "jsonnet_ls" },
-  liquid = { "tailwindcss" },
+  liquid = { "tailwindcss", "theme_check" },
   llw = { "lelwel_ls" },
   lua = { "sumneko_lua" },
   markdown = { "grammarly", "ltex", "remark_ls", "tailwindcss", "zeta_note", "zk" },

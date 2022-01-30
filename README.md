@@ -261,6 +261,7 @@ lsp_installer.settings({
 | Rust [(wiki)][rust_analyzer]        | `rust_analyzer`            |
 | SQL                                 | `sqlls`                    |
 | SQL                                 | `sqls`                     |
+| Shopify Theme Check                 | `theme_check`              |
 | Solidity                            | `solang`                   |
 | Solidity                            | `solc`                     |
 | Solidity (VSCode)                   | `solidity_ls`              |

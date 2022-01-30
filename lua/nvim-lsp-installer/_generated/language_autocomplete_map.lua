@@ -18,6 +18,7 @@ return {
   java = { "jdtls" },
   javascript = { "eslint", "quick_lint_js", "rome", "tsserver" },
   latex = { "ltex", "texlab" },
+  liquid = { "theme_check" },
   lua = { "sumneko_lua" },
   markdown = { "remark_ls", "zeta_note", "zk" },
   nix = { "rnix" },

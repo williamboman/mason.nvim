@@ -120,6 +120,7 @@ local CORE_SERVERS = Data.set_of {
     "terraformls",
     "texlab",
     "tflint",
+    "theme_check",
     "tsserver",
     "vala_ls",
     "verible",
