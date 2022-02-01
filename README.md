@@ -46,7 +46,7 @@ Requires neovim `>= 0.6.0` and [nvim-lspconfig](https://github.com/neovim/nvim-l
 install _all_ servers are:
 
 -   For Unix systems: git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
--   For Windows systems: powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip]
+-   For Windows systems: powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip] or [WinRAR][winrar]
 -   Node.js (LTS) & npm
 -   Python3 & pip3
 -   go >= 1.17
@@ -63,6 +63,7 @@ install _all_ servers are:
 [archiver]: https://github.com/mholt/archiver
 [peazip]: https://peazip.github.io/
 [winzip]: https://www.winzip.com/
+[winrar]: https://www.win-rar.com/
 
 ### [Packer](https://github.com/wbthomason/packer.nvim)
 
