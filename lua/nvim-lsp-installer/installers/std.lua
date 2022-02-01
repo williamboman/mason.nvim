@@ -107,8 +107,13 @@ local function win_extract(file)
                 cwd = context.install_dir,
                 stdio_sink = context.stdio_sink,
             })
+            local winrar = process.lazy_spawn("winrar", {
+                args = { "e", file },
+                cwd = context.install_dir,
+                stdio_sink = context.stdio_sink,
+            })
             process.attempt {
-                jobs = { sevenzip, peazip, winzip },
+                jobs = { sevenzip, peazip, winzip, winrar },
                 on_finish = callback,
             }
         end,
