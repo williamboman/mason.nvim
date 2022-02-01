@@ -258,6 +258,7 @@ lsp_installer.settings({
 | ReScript                            | `rescriptls`               |
 | Rome                                | `rome`                     |
 | Ruby                                | `solargraph`               |
+| Ruby                                | `typeprof`                 |
 | Rust [(wiki)][rust_analyzer]        | `rust_analyzer`            |
 | SQL                                 | `sqlls`                    |
 | SQL                                 | `sqls`                     |

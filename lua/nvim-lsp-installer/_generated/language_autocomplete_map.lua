@@ -27,7 +27,7 @@ return {
   openapi = { "spectral" },
   php = { "intelephense", "phpactor", "psalm" },
   python = { "jedi_language_server", "pylsp", "pyright" },
-  ruby = { "solargraph", "sorbet" },
+  ruby = { "solargraph", "sorbet", "typeprof" },
   solidity = { "solang", "solc", "solidity_ls" },
   sphinx = { "esbonio" },
   sql = { "sqlls", "sqls" },

@@ -274,6 +274,9 @@ return {
   tsserver = {
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
   },
+  typeprof = {
+    filetypes = { "ruby", "eruby" }
+  },
   vala_ls = {
     filetypes = { "vala", "genie" }
   },
