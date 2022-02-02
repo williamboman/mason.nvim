@@ -216,6 +216,7 @@ lsp_installer.settings({
 | Emmet                               | `emmet_ls`                 |
 | Erlang                              | `erlangls`                 |
 | F#                                  | `fsautocomplete`           |
+| Flux                                | `flux_lsp`                 |
 | Foam (OpenFOAM)                     | `foam_ls`                  |
 | Fortran                             | `fortls`                   |
 | Go                                  | `golangci_lint_ls`         |

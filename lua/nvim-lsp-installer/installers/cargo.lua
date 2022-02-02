@@ -4,19 +4,26 @@ local path = require "nvim-lsp-installer.path"
 local M = {}
 
 ---@param crate string The crate to install.
----@param opts {features:string|nil}
+---@param opts {git:boolean, features:string|nil}
 function M.crate(crate, opts)
     ---@type ServerInstallerFunction
     return function(_, callback, ctx)
         opts = opts or {}
         local args = { "install", "--root", ".", "--locked" }
+
         if ctx.requested_server_version then
             vim.list_extend(args, { "--version", ctx.requested_server_version })
         end
+
         if opts.features then
             vim.list_extend(args, { "--features", opts.features })
         end
-        vim.list_extend(args, { crate })
+
+        if opts.git then
+            vim.list_extend(args, { "--git", crate })
+        else
+            vim.list_extend(args, { crate })
+        end
 
         ctx.receipt:with_primary_source(ctx.receipt.cargo(crate))
 

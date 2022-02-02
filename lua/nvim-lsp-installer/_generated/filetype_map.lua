@@ -35,6 +35,7 @@ return {
   erb = { "tailwindcss" },
   erlang = { "erlangls" },
   eruby = { "tailwindcss" },
+  flux = { "flux_lsp" },
   foam = { "foam_ls" },
   fortran = { "fortls" },
   fsharp = { "fsautocomplete" },
