@@ -2,13 +2,15 @@ name: Run autogen script
 
 on:
     schedule:
-        - cron: "0 0 * * *"
+        - cron: "15 13 * * *"
 
 jobs:
     run-autogen-script:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+              with:
+                  token: ${{ secrets.PAT }}
             - uses: rhysd/action-setup-vim@v1
               with:
                   neovim: true
