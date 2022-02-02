@@ -102,6 +102,7 @@ local CORE_SERVERS = Data.set_of {
     "rnix",
     "rome",
     "rust_analyzer",
+    "salt_ls",
     "serve_d",
     "solang",
     "solargraph",

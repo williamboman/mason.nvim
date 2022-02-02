@@ -28,6 +28,7 @@ return {
   php = { "intelephense", "phpactor", "psalm" },
   python = { "jedi_language_server", "pylsp", "pyright" },
   ruby = { "solargraph", "sorbet" },
+  sls = { "salt_ls" },
   solidity = { "solang", "solc", "solidity_ls" },
   sphinx = { "esbonio" },
   sql = { "sqlls", "sqls" },

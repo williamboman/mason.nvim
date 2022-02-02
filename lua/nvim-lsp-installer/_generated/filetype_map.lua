@@ -108,6 +108,7 @@ return {
   scss = { "cssls", "stylelint_lsp", "tailwindcss" },
   sh = { "bashls" },
   slim = { "tailwindcss" },
+  sls = { "salt_ls" },
   solidity = { "solang", "solc", "solidity_ls" },
   sql = { "sqlls", "sqls" },
   stylus = { "tailwindcss" },

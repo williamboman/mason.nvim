@@ -214,6 +214,9 @@ return {
   rust_analyzer = {
     filetypes = { "rust" }
   },
+  salt_ls = {
+    filetypes = { "sls" }
+  },
   serve_d = {
     filetypes = { "d" }
   },
