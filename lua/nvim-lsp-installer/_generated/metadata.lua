@@ -220,6 +220,9 @@ return {
   salt_ls = {
     filetypes = { "sls" }
   },
+  scry = {
+    filetypes = { "crystal" }
+  },
   serve_d = {
     filetypes = { "d" }
   },
