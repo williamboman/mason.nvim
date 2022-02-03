@@ -201,6 +201,7 @@ lsp_installer.settings({
 | Clojure                             | `clojure_lsp`              |
 | CodeQL                              | `codeqlls`                 |
 | Crystal                             | `crystalline`              |
+| Crystal                             | `scry`                     |
 | Cucumber                            | `cucumber_language_server` |
 | Dart                                | `dartls`                   |
 | Deno                                | `denols`                   |
