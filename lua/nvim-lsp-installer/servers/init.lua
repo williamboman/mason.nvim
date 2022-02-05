@@ -72,6 +72,7 @@ local CORE_SERVERS = Data.set_of {
     "grammarly",
     "graphql",
     "groovyls",
+    "haxe_language_server",
     "hls",
     "html",
     "intelephense",

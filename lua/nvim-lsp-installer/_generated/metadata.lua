@@ -124,6 +124,9 @@ return {
   groovyls = {
     filetypes = { "groovy" }
   },
+  haxe_language_server = {
+    filetypes = { "haxe" }
+  },
   hls = {
     filetypes = { "haskell", "lhaskell" }
   },

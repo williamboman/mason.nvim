@@ -50,6 +50,7 @@ return {
   haml = { "tailwindcss" },
   handlebars = { "ember", "tailwindcss" },
   haskell = { "hls" },
+  haxe = { "haxe_language_server" },
   hbs = { "tailwindcss" },
   heex = { "tailwindcss" },
   html = { "angularls", "emmet_ls", "html", "tailwindcss" },

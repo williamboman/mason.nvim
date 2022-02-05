@@ -227,6 +227,7 @@ lsp_installer.settings({
 | Groovy                              | `groovyls`                 |
 | HTML                                | `html`                     |
 | Haskell                             | `hls`                      |
+| Haxe                                | `haxe_language_server`     |
 | JSON                                | `jsonls`                   |
 | Java                                | `jdtls`                    |
 | JavaScript                          | `quick_lint_js`            |
