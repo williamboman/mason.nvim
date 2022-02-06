@@ -94,7 +94,7 @@ Plug 'williamboman/nvim-lsp-installer'
 
 ### Setup
 
-The recommended way of setting up your installed servers is to do it directly through nvim-lsp-installer.
+The recommended way of setting up your installed servers is to do it through nvim-lsp-installer.
 By doing so, nvim-lsp-installer will make sure to inject any necessary properties before calling lspconfig's setup
 function for you. You may find a minimal example below. To see how you can override the default settings for a server,
 refer to the [Wiki][overriding-default-settings].
@@ -133,14 +133,15 @@ local servers = {
     "pyright",
 }
 
--- Loop through the servers listed above.
+-- Loop through the servers listed above and set them up. If a server is
+-- not already installed, install it.
 for _, server_name in pairs(servers) do
     local server_available, server = lsp_installer_servers.get_server(server_name)
     if server_available then
         server:on_ready(function ()
             -- When this particular server is ready (i.e. when installation is finished or the server is already installed),
-            -- this function will be invoked. Make sure not to use the "catch-all" lsp_installer.on_server_ready()
-            -- function to set up servers, to avoid doing setting up a server twice.
+            -- this function will be invoked. Make sure not to also use the "catch-all" lsp_installer.on_server_ready()
+            -- function to set up your servers, because by doing so you'd be setting up the same server twice.
             local opts = {}
             server:setup(opts)
         end)
