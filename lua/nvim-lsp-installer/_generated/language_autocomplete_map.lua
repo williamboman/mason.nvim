@@ -34,7 +34,7 @@ return {
   sphinx = { "esbonio" },
   sql = { "sqlls", "sqls" },
   swift = { "sourcekit" },
-  systemverilog = { "verible" },
+  systemverilog = { "svls", "verible" },
   terraform = { "terraformls", "tflint" },
   toml = { "taplo" },
   typescript = { "eslint", "rome", "tsserver" },

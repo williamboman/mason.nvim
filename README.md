@@ -275,6 +275,7 @@ lsp_installer.settings({
 | Stylelint                           | `stylelint_lsp`            |
 | Svelte                              | `svelte`                   |
 | Swift                               | `sourcekit`                |
+| SystemVerilog                       | `svls`                     |
 | SystemVerilog                       | `verible`                  |
 | TOML                                | `taplo`                    |
 | Tailwind CSS                        | `tailwindcss`              |

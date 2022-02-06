@@ -119,6 +119,7 @@ local CORE_SERVERS = Data.set_of {
     "stylelint_lsp",
     "sumneko_lua",
     "svelte",
+    "svls",
     "tailwindcss",
     "taplo",
     "terraformls",
