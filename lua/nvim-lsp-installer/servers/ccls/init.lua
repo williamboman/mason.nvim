@@ -131,7 +131,10 @@ return function(name, root_dir)
                     "-Wno-dev",
                     ("-DCMAKE_INSTALL_PREFIX=%s"):format(ctx.install_dir),
                     when(not ctx.use_system_llvm, ("-DCMAKE_PREFIX_PATH=%s"):format(ctx.llvm_dir)),
-                    when(not ctx.use_system_llvm, ("-DCLANG_RESOURCE_DIR=%s"):format(clang_resource_dir)),
+                    when(
+                        not platform.is_mac and not ctx.use_system_llvm,
+                        ("-DCLANG_RESOURCE_DIR=%s"):format(clang_resource_dir)
+                    ),
                     when(platform.is_mac, "-DCMAKE_OSX_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk")
                 )
             )
@@ -153,7 +156,7 @@ return function(name, root_dir)
     local mac_ccls_installer = installers.pipe {
         context.use_homebrew_prefix(),
         context.set(function(ctx)
-            ctx.llvm_dir = path.concat { ctx.homebrew_prefix, "opt", "llvm" }
+            ctx.llvm_dir = path.concat { ctx.homebrew_prefix, "opt", "llvm", "lib", "cmake" }
         end),
         function(_, callback, ctx)
             if not fs.dir_exists(ctx.llvm_dir) then
