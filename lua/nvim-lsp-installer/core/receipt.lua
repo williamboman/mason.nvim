@@ -11,6 +11,7 @@ local M = {}
 ---| '"go"'
 ---| '"cargo"'
 ---| '"dotnet"'
+---| '"r_package"'
 ---| '"unmanaged"'
 ---| '"system"'
 ---| '"jdtls"'
@@ -118,6 +119,7 @@ InstallReceiptBuilder.go = package_source "go"
 InstallReceiptBuilder.dotnet = package_source "dotnet"
 InstallReceiptBuilder.cargo = package_source "cargo"
 InstallReceiptBuilder.composer = package_source "composer"
+InstallReceiptBuilder.r_package = package_source "r_package"
 
 InstallReceiptBuilder.unmanaged = { type = "unmanaged" }
 

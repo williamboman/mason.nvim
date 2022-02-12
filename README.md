@@ -260,6 +260,7 @@ lsp_installer.settings({
 | Python                              | `jedi_language_server`     |
 | Python                              | `pyright`                  |
 | Python [(docs)][pylsp]              | `pylsp`                    |
+| R                                   | `r_language_server`        |
 | ReScript                            | `rescriptls`               |
 | Rome                                | `rome`                     |
 | Ruby                                | `solargraph`               |

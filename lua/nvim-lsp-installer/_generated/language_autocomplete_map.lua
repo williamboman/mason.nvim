@@ -2,6 +2,7 @@
 -- stylua: ignore start
 return {
   OpenFOAM = { "foam_ls" },
+  R = { "r_language_server" },
   ["assembly-gas"] = { "asm_lsp" },
   ["assembly-go"] = { "asm_lsp" },
   ["assembly-nasm"] = { "asm_lsp" },

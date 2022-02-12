@@ -205,6 +205,9 @@ return {
   quick_lint_js = {
     filetypes = { "javascript" }
   },
+  r_language_server = {
+    filetypes = { "r", "rmd" }
+  },
   remark_ls = {
     filetypes = { "markdown" }
   },

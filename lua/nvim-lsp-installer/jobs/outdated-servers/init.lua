@@ -22,6 +22,7 @@ local function noop(server, _, on_result)
     on_result(VersionCheckResult.empty(server))
 end
 
+---@type Record<InstallReceiptSourceType, function>
 local checkers = {
     ["npm"] = npm_check,
     ["pip3"] = pip3_check,
@@ -30,6 +31,7 @@ local checkers = {
     ["composer"] = composer_check,
     ["go"] = noop, -- TODO
     ["dotnet"] = noop, -- TODO
+    ["r_package"] = noop, -- TODO
     ["unmanaged"] = noop,
     ["system"] = noop,
     ["jdtls"] = jdtls,

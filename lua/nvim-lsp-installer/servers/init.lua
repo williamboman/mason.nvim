@@ -99,6 +99,7 @@ local CORE_SERVERS = Data.set_of {
     "pylsp",
     "pyright",
     "quick_lint_js",
+    "r_language_server",
     "remark_ls",
     "rescriptls",
     "rnix",
