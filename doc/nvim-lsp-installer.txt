@@ -1,4 +1,4 @@
-*nvim-lsp-installer* Companion plugin for nvim-lspconfig.
+*nvim-lsp-installer*
 
 Minimum version of neovim: 0.6.0
 
@@ -7,9 +7,7 @@ Author: William Boman
 ==============================================================================
 INTRODUCTION                                *nvim-lsp-installer-introduction*
 
-Companion plugin for nvim-lspconfig (https://github.com/neovim/nvim-lspconfig)
-that allows you to seamlessly install LSP servers locally (inside `:echo
-stdpath("data")`).
+Neovim plugin that allows you to seamlessly install LSP servers locally (inside `:echo stdpath("data")`).
 
 On top of just providing commands for installing & uninstalling LSP servers,
 it:

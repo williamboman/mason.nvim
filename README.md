@@ -19,8 +19,7 @@
 
 ## About
 
-Companion plugin for [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) that allows you to seamlessly install
-LSP servers locally (inside `:echo stdpath("data")`).
+Neovim plugin that allows you to seamlessly install LSP servers locally (inside `:echo stdpath("data")`).
 
 On top of just providing commands for installing & uninstalling LSP servers, it:
 
