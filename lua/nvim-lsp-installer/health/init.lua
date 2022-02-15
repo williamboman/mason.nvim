@@ -13,6 +13,7 @@ local M = {}
 ---@alias HealthCheckResult
 ---| '"success"'
 ---| '"version-mismatch"'
+---| '"parse-error"'
 ---| '"not-available"'
 
 ---@class HealthCheck
@@ -41,6 +42,7 @@ function HealthCheck:get_health_report_level()
     return ({
         ["success"] = "report_ok",
         ["version-mismatch"] = "report_warn",
+        ["parse-error"] = "report_warn",
         ["not-available"] = self.relaxed and "report_warn" or "report_error",
     })[self.result]
 end
@@ -50,6 +52,8 @@ function HealthCheck:__tostring()
         return ("**%s**: `%s`"):format(self.name, self:get_version())
     elseif self.result == "version-mismatch" then
         return ("**%s**: unsupported version `%s`. %s"):format(self.name, self:get_version(), self.reason)
+    elseif self.result == "parse-error" then
+        return ("**%s**: failed to parse version"):format(self.name)
     elseif self.result == "not-available" then
         return ("**%s**: not available"):format(self.name)
     end
@@ -61,7 +65,7 @@ local function mk_healthcheck(callback)
     return function(opts)
         return function()
             local stdio = process.in_memory_sink()
-            local _, stdio = process.spawn(opts.cmd, {
+            local _, stdio_pipes = process.spawn(opts.cmd, {
                 args = opts.args,
                 stdio_sink = stdio.sink,
             }, function(success)
@@ -72,12 +76,20 @@ local function mk_healthcheck(callback)
                     )[1]
 
                     if opts.version_check then
-                        local ok, version_check = pcall(opts.version_check,version)
+                        local ok, version_check = pcall(opts.version_check, version)
                         if ok and version_check then
                             callback(HealthCheck.new {
                                 result = "version-mismatch",
                                 reason = version_check,
                                 version = version,
+                                name = opts.name,
+                                relaxed = opts.relaxed,
+                            })
+                            return
+                        elseif not ok then
+                            callback(HealthCheck.new {
+                                result = "parse-error",
+                                version = "N/A",
                                 name = opts.name,
                                 relaxed = opts.relaxed,
                             })
@@ -101,9 +113,9 @@ local function mk_healthcheck(callback)
                 end
             end)
 
-            if stdio then
+            if stdio_pipes then
                 -- Immediately close stdin to avoid leaving the process waiting for input.
-                local stdin = stdio[1]
+                local stdin = stdio_pipes[1]
                 stdin:close()
             end
         end
