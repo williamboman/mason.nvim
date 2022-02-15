@@ -72,8 +72,8 @@ local function mk_healthcheck(callback)
                     )[1]
 
                     if opts.version_check then
-                        local version_check = opts.version_check(version)
-                        if version_check then
+                        local ok, version_check = pcall(opts.version_check,version)
+                        if ok and version_check then
                             callback(HealthCheck.new {
                                 result = "version-mismatch",
                                 reason = version_check,
