@@ -273,7 +273,8 @@ local function InstalledServers(servers, props)
                 Ui.HlTextNode {
                     Data.list_not_nil(
                         { settings.current.ui.icons.server_installed, "LspInstallerGreen" },
-                        { " " .. server.name, "" },
+                        { " " .. server.name .. " ", "" },
+                        { server.hints, "Comment" },
                         Data.when(server.deprecated, { " deprecated", "LspInstallerOrange" }),
                         Data.when(#server.metadata.outdated_packages > 0, { " new version available", "Comment" })
                     ),
