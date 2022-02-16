@@ -1,5 +1,7 @@
 name: Server issue
 description: Report an issue with using a server installed via nvim-lsp-installer
+labels:
+    - server-issue
 
 body:
     - type: markdown
