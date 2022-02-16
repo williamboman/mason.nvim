@@ -79,7 +79,10 @@ function M.powershell(raw_script, opts)
     local default_opts = {
         env = {},
         -- YIKES https://stackoverflow.com/a/63301751
-        prefix = "$ProgressPreference = 'SilentlyContinue';",
+        prefix = [[
+        $ProgressPreference = 'SilentlyContinue';
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
+        ]],
     }
     opts = vim.tbl_deep_extend("force", default_opts, opts or {})
 

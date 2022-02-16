@@ -48,7 +48,8 @@ local function fetch(url, callback, opts)
 
     if platform.is_win then
         local ps_script = {
-            "$ProgressPreference = 'SilentlyContinue'",
+            "$ProgressPreference = 'SilentlyContinue';",
+            "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;",
             ("Write-Output (iwr %s -UseBasicParsing -Uri %q).Content"):format(HEADERS.iwr, url),
         }
         table.insert(
