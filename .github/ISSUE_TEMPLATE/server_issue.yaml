@@ -1,0 +1,91 @@
+name: Server issue
+description: Report an issue with using a server installed via nvim-lsp-installer
+
+body:
+    - type: markdown
+      attributes:
+          value: |
+              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/nvim-lsp-installer/discussions/categories/q-a :)
+
+              Before filing an issue, make sure that you meet the minimum requirements mentioned in the README
+
+    - type: textarea
+      attributes:
+          label: Problem description
+          description: A clear and concise description of what the issue is and why you think it's an issue with nvim-lsp-installer.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: "Neovim version (>= 0.6)"
+          description: "Output of `nvim --version`"
+          placeholder: |
+              NVIM v0.6.0-dev+209-g0603eba6e
+              Build type: Release
+              LuaJIT 2.1.0-beta3
+      validations:
+          required: true
+
+    - type: input
+      attributes:
+          label: "Operating system/version"
+          description: "On Linux and Mac systems: `$ uname -a`"
+      validations:
+          required: true
+
+    - type: checkboxes
+      attributes:
+          label: I've recently downloaded the latest plugin version of both nvim-lsp-installer and nvim-lspconfig
+          options:
+              - label: "Yes"
+
+    - type: input
+      attributes:
+          label: Affected language servers
+          description: If this issue is specific to one or more language servers, list them here. If not, write 'all'.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Steps to reproduce
+          description: Steps to reproduce using the **minimal debug** config.
+          placeholder: |
+              You can download it from here: https://github.com/williamboman/nvim-lsp-installer/blob/main/tests/minimal_debug_init.lua
+              1. Start neovim using the minimal_debug_init.lua: `nvim -u ~/Downloads/minimal_debug_init.lua`
+              2. ...
+
+    - type: textarea
+      attributes:
+          label: Actual behavior
+          description: Observed behavior.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Expected behavior
+          description: A description of the behavior you expected.
+
+    - type: textarea
+      attributes:
+          label: LspInfo
+          placeholder: ":LspInfo contents"
+          render: shell
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Healthcheck
+          placeholder: ":checkhealth nvim-lsp-installer"
+          render: shell
+      validations:
+          required: true
+
+    - type: textarea
+      id: screenshots
+      attributes:
+          label: Screenshots or recordings
+          description: If applicable, add screenshots or recordings to help explain your problem
