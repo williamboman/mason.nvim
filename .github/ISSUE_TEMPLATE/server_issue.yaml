@@ -50,11 +50,12 @@ body:
     - type: textarea
       attributes:
           label: Steps to reproduce
-          description: Steps to reproduce using the **minimal debug** config.
+          description: Steps to reproduce using the **minimal debug** config. You can download it [from here](https://github.com/williamboman/nvim-lsp-installer/blob/main/tests/minimal_debug_init.lua).
           placeholder: |
-              You can download it from here: https://github.com/williamboman/nvim-lsp-installer/blob/main/tests/minimal_debug_init.lua
               1. Start neovim using the minimal_debug_init.lua: `nvim -u ~/Downloads/minimal_debug_init.lua`
               2. ...
+      validations:
+          required: true
 
     - type: textarea
       attributes:
@@ -67,6 +68,8 @@ body:
       attributes:
           label: Expected behavior
           description: A description of the behavior you expected.
+      validations:
+          required: true
 
     - type: textarea
       attributes:
