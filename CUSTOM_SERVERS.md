@@ -155,7 +155,7 @@ The following is a full example of setting up a completely custom server install
 
 ```lua
 local lspconfig = require "lspconfig"
-local configs = require "lspconfig/configs"
+local configs = require "lspconfig.configs"
 local servers = require "nvim-lsp-installer.servers"
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
