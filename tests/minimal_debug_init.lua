@@ -10,9 +10,9 @@ vim.cmd [[set runtimepath=$VIMRUNTIME]]
 
 local temp_dir = vim.loop.os_getenv "TEMP" or "/tmp"
 
-vim.opt.packpath = join_paths(temp_dir, "nvim", "site")
+vim.opt.packpath = join_paths(temp_dir, "nvim-lsp-installer-debug", "site")
 
-local package_root = join_paths(temp_dir, "nvim", "site", "pack")
+local package_root = join_paths(temp_dir, "nvim-lsp-installer-debug", "site", "pack")
 local install_path = join_paths(package_root, "packer", "start", "packer.nvim")
 local compile_path = join_paths(install_path, "plugin", "packer_compiled.lua")
 
