@@ -139,7 +139,7 @@ return {
   xsd = { "lemminx" },
   xsl = { "lemminx" },
   xslt = { "lemminx" },
-  yaml = { "ansiblels", "spectral", "yamlls" },
+  yaml = { "spectral", "yamlls" },
   ["yaml.ansible"] = { "ansiblels" },
   ["yaml.docker-compose"] = { "yamlls" },
   yml = { "spectral" },

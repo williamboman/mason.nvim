@@ -5,7 +5,7 @@ return {
     filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" }
   },
   ansiblels = {
-    filetypes = { "yaml", "yaml.ansible" }
+    filetypes = { "yaml.ansible" }
   },
   arduino_language_server = {
     filetypes = { "arduino" }
