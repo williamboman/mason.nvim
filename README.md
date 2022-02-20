@@ -238,6 +238,7 @@ lsp_installer.settings({
 | SQL                                 | `sqls`                     |
 | Salt                                | `salt_ls`                  |
 | Shopify Theme Check                 | `theme_check`              |
+| Slint                               | `slint_lsp`                |
 | Solidity                            | `solang`                   |
 | Solidity                            | `solc`                     |
 | Solidity (VSCode)                   | `solidity_ls`              |

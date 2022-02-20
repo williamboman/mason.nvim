@@ -108,6 +108,7 @@ local CORE_SERVERS = Data.set_of {
     "salt_ls",
     "scry",
     "serve_d",
+    "slint_lsp",
     "solang",
     "solargraph",
     "solc",

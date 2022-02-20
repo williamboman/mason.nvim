@@ -232,6 +232,9 @@ return {
   serve_d = {
     filetypes = { "d" }
   },
+  slint_lsp = {
+    filetypes = { "slint" }
+  },
   solang = {
     filetypes = { "solidity" }
   },
