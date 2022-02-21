@@ -1,5 +1,16 @@
-local a = require "plenary.async"
+local a = require "nvim-lsp-installer.core.async"
 local assert = require "luassert"
+
+local util = require "luassert.util"
+
+function async_test(suspend_fn)
+    return function()
+        local ok, err = pcall(a.run_blocking, suspend_fn)
+        if not ok then
+            error(err, util.errorlevel())
+        end
+    end
+end
 
 local function wait_for(_, arguments)
     ---@type fun() @Function to execute until it does not error.
@@ -13,7 +24,7 @@ local function wait_for(_, arguments)
     repeat
         is_ok, err = pcall(assertions_fn)
         if not is_ok then
-            a.util.sleep(math.min(timeout, 100))
+            a.sleep(math.min(timeout, 100))
         end
     until is_ok or ((vim.loop.hrtime() - start) / 1e6) > timeout
 

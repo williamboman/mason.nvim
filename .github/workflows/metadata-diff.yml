@@ -19,7 +19,6 @@ jobs:
               run: |
                   mkdir -p ~/.local/share/nvim/site/pack/packer/start
                   git clone --depth 1 https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
-                  git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/packer/start/plenary.nvim
             - name: Run autogen_metadata.sh script
               run: ./scripts/autogen_metadata.sh
             - name: Ensure there are no diffs

@@ -63,74 +63,83 @@ end)
 
 describe("process.spawn", function()
     -- Unix only
-    async.tests.it("should spawn command and feed output to sink", function()
-        local stdio = process.in_memory_sink()
-        local callback = spy.new()
-        process.spawn("env", {
-            args = {},
-            env = {
-                "HELLO=world",
-                "MY_ENV=var",
-            },
-            stdio_sink = stdio.sink,
-        }, callback)
+    it(
+        "should spawn command and feed output to sink",
+        async_test(function()
+            local stdio = process.in_memory_sink()
+            local callback = spy.new()
+            process.spawn("env", {
+                args = {},
+                env = {
+                    "HELLO=world",
+                    "MY_ENV=var",
+                },
+                stdio_sink = stdio.sink,
+            }, callback)
 
-        assert.wait_for(function()
-            assert.spy(callback).was_called(1)
-            assert.spy(callback).was_called_with(true)
-            assert.equal(table.concat(stdio.buffers.stdout, ""), "HELLO=world\nMY_ENV=var\n")
+            assert.wait_for(function()
+                assert.spy(callback).was_called(1)
+                assert.spy(callback).was_called_with(true)
+                assert.equal(table.concat(stdio.buffers.stdout, ""), "HELLO=world\nMY_ENV=var\n")
+            end)
         end)
-    end)
+    )
 end)
 
 describe("process.chain", function()
     -- Unix only
-    async.tests.it("should chain commands", function()
-        local stdio = process.in_memory_sink()
-        local callback = spy.new()
+    it(
+        "should chain commands",
+        async_test(function()
+            local stdio = process.in_memory_sink()
+            local callback = spy.new()
 
-        local c = process.chain {
-            env = {
-                "HELLO=world",
-                "MY_ENV=var",
-            },
-            stdio_sink = stdio.sink,
-        }
+            local c = process.chain {
+                env = {
+                    "HELLO=world",
+                    "MY_ENV=var",
+                },
+                stdio_sink = stdio.sink,
+            }
 
-        c.run("env", {})
-        c.run("bash", { "-c", "echo Hello $HELLO" })
-        c.spawn(callback)
+            c.run("env", {})
+            c.run("bash", { "-c", "echo Hello $HELLO" })
+            c.spawn(callback)
 
-        assert.wait_for(function()
-            assert.spy(callback).was_called(1)
-            assert.spy(callback).was_called_with(true)
-            assert.equal(table.concat(stdio.buffers.stdout, ""), "HELLO=world\nMY_ENV=var\nHello world\n")
+            assert.wait_for(function()
+                assert.spy(callback).was_called(1)
+                assert.spy(callback).was_called_with(true)
+                assert.equal(table.concat(stdio.buffers.stdout, ""), "HELLO=world\nMY_ENV=var\nHello world\n")
+            end)
         end)
-    end)
+    )
 
     -- Unix only
-    async.tests.it("should abort chain commands should one fail", function()
-        local stdio = process.in_memory_sink()
-        local callback = spy.new()
+    it(
+        "should abort chain commands should one fail",
+        async_test(function()
+            local stdio = process.in_memory_sink()
+            local callback = spy.new()
 
-        local c = process.chain {
-            env = {
-                "HELLO=world",
-                "MY_ENV=var",
-            },
-            stdio_sink = stdio.sink,
-        }
+            local c = process.chain {
+                env = {
+                    "HELLO=world",
+                    "MY_ENV=var",
+                },
+                stdio_sink = stdio.sink,
+            }
 
-        c.run("env", {})
-        c.run("bash", { "-c", ">&2 echo Uh oh; exit 1" })
-        c.run("bash", { "-c", "echo Hello $HELLO" })
-        c.spawn(callback)
+            c.run("env", {})
+            c.run("bash", { "-c", ">&2 echo Uh oh; exit 1" })
+            c.run("bash", { "-c", "echo Hello $HELLO" })
+            c.spawn(callback)
 
-        assert.wait_for(function()
-            assert.spy(callback).was_called(1)
-            assert.spy(callback).was_called_with(false)
-            assert.equal(table.concat(stdio.buffers.stdout, ""), "HELLO=world\nMY_ENV=var\n")
-            assert.equal(table.concat(stdio.buffers.stderr, ""), "Uh oh\n")
+            assert.wait_for(function()
+                assert.spy(callback).was_called(1)
+                assert.spy(callback).was_called_with(false)
+                assert.equal(table.concat(stdio.buffers.stdout, ""), "HELLO=world\nMY_ENV=var\n")
+                assert.equal(table.concat(stdio.buffers.stderr, ""), "Uh oh\n")
+            end)
         end)
-    end)
+    )
 end)
