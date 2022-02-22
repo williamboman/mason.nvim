@@ -38,6 +38,7 @@ local checkers = {
     ["git"] = git_check,
     ["github_release_file"] = github_release_file_check,
     ["github_tag"] = github_tag_check,
+    ["opam"] = noop,
 }
 
 local pending_servers = {}

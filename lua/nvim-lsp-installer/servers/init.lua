@@ -88,6 +88,7 @@ local CORE_SERVERS = Data.set_of {
     "nickel_ls",
     "nimls",
     "ocamlls",
+    "ocamllsp",
     "omnisharp",
     "opencl_ls",
     "phpactor",
