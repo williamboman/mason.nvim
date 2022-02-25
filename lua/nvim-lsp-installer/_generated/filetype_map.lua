@@ -55,6 +55,7 @@ return {
   heex = { "tailwindcss" },
   html = { "angularls", "emmet_ls", "html", "tailwindcss" },
   ["html-eex"] = { "tailwindcss" },
+  htmldjango = { "tailwindcss" },
   jade = { "tailwindcss" },
   java = { "jdtls" },
   javascript = { "cssmodules_ls", "denols", "ember", "eslint", "quick_lint_js", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
