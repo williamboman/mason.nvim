@@ -4,15 +4,16 @@ local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
-local fetch = require "nvim-lsp-installer.core.fetch"
 local eclipse = require "nvim-lsp-installer.core.clients.eclipse"
 
 return function(name, root_dir)
-    local function get_cmd(workspace_name)
+    ---@param workspace_root string
+    ---@param workspace_path string|nil @The path to the server instance's current workspace. Can be nil when running in single file mode.
+    local function get_cmd(workspace_root, workspace_path)
         local executable = vim.env.JAVA_HOME and path.concat { vim.env.JAVA_HOME, "bin", "java" } or "java"
         local jar = vim.fn.expand(path.concat { root_dir, "plugins", "org.eclipse.equinox.launcher_*.jar" })
         local lombok = vim.fn.expand(path.concat { root_dir, "lombok.jar" })
-        local workspace_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+        local workspace_dir = vim.fn.fnamemodify(workspace_path or vim.fn.getcwd(), ":p:h:t")
 
         return {
             platform.is_win and ("%s.exe"):format(executable) or executable,
@@ -41,7 +42,7 @@ return function(name, root_dir)
                 ),
             },
             "-data",
-            path.concat { workspace_name, workspace_dir },
+            path.concat { workspace_root, workspace_dir },
         }
     end
 
@@ -86,13 +87,17 @@ return function(name, root_dir)
             end),
         },
         default_options = {
-            cmd = get_cmd(vim.env.WORKSPACE and vim.env.WORKSPACE or path.concat { vim.env.HOME, "workspace" }),
-            on_new_config = function(config)
+            cmd = get_cmd(
+                vim.env.WORKSPACE and vim.env.WORKSPACE or path.concat { vim.env.HOME, "workspace" },
+                vim.loop.cwd()
+            ),
+            on_new_config = function(config, workspace_path)
                 -- We redefine the cmd in on_new_config because `cmd` will be invalid if the user has not installed
                 -- jdtls when starting the session (due to vim.fn.expand returning an empty string, because it can't
                 -- locate the file).
                 config.cmd = get_cmd(
-                    vim.env.WORKSPACE and vim.env.WORKSPACE or path.concat { vim.env.HOME, "workspace" }
+                    vim.env.WORKSPACE and vim.env.WORKSPACE or path.concat { vim.env.HOME, "workspace" },
+                    workspace_path
                 )
             end,
         },
