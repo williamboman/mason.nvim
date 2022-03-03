@@ -1,5 +1,5 @@
-name: General issue
-description: Report an issue not related to installation of servers
+name: Non-server-related issue
+description: Report an issue not related to installation or usage of servers
 
 body:
     - type: markdown
