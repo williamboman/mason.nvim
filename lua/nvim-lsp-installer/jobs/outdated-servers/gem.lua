@@ -27,6 +27,19 @@ local function parse_outdated_gem(outdated_gem)
     return outdated_package
 end
 
+---@param output string
+local function parse_gem_list_output(output)
+    ---@type Record<string, string>
+    local gem_versions = {}
+    for _, line in ipairs(vim.split(output, "\n")) do
+        local gem_package, version = line:match "^(%S+) %((%S+)%)$"
+        if gem_package and version then
+            gem_versions[gem_package] = version
+        end
+    end
+    return gem_versions
+end
+
 ---@param server Server
 ---@param source InstallReceiptSource
 ---@param on_check_complete fun(result: VersionCheckResult)
@@ -74,6 +87,7 @@ end
 -- to allow tests to access internals
 return setmetatable({
     parse_outdated_gem = parse_outdated_gem,
+    parse_gem_list_output = parse_gem_list_output,
 }, {
     __call = function(_, ...)
         return gem_checker(...)

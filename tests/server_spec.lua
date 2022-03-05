@@ -1,12 +1,7 @@
 local spy = require "luassert.spy"
-local match = require "luassert.match"
 local lsp_installer = require "nvim-lsp-installer"
 local server = require "nvim-lsp-installer.server"
 local a = require "nvim-lsp-installer.core.async"
-local std = require "nvim-lsp-installer.installers.std"
-local fs = require "nvim-lsp-installer.fs"
-local path = require "nvim-lsp-installer.path"
-local settings = require "nvim-lsp-installer.settings"
 
 describe("server", function()
     it(

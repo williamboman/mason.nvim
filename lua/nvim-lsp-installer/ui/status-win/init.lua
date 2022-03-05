@@ -1,3 +1,4 @@
+local a = require "nvim-lsp-installer.core.async"
 local Ui = require "nvim-lsp-installer.ui"
 local fs = require "nvim-lsp-installer.fs"
 local log = require "nvim-lsp-installer.log"
@@ -6,7 +7,8 @@ local display = require "nvim-lsp-installer.ui.display"
 local settings = require "nvim-lsp-installer.settings"
 local lsp_servers = require "nvim-lsp-installer.servers"
 local JobExecutionPool = require "nvim-lsp-installer.jobs.pool"
-local jobs = require "nvim-lsp-installer.jobs.outdated-servers"
+local outdated_servers = require "nvim-lsp-installer.jobs.outdated-servers"
+local version_check = require "nvim-lsp-installer.jobs.version-check"
 local ServerHints = require "nvim-lsp-installer.ui.status-win.server_hints"
 local ServerSettingsSchema = require "nvim-lsp-installer.ui.status-win.components.settings-schema"
 
@@ -173,15 +175,11 @@ end
 ---@return string
 local function format_new_package_versions(outdated_packages)
     local result = {}
+    if #outdated_packages == 1 then
+        return outdated_packages[1].latest_version
+    end
     for _, outdated_package in ipairs(outdated_packages) do
-        table.insert(
-            result,
-            ("%s@%s → %s"):format(
-                outdated_package.name,
-                outdated_package.current_version,
-                outdated_package.latest_version
-            )
-        )
+        result[#result + 1] = ("%s@%s"):format(outdated_package.name, outdated_package.latest_version)
     end
     return table.concat(result, ", ")
 end
@@ -207,10 +205,22 @@ local function ServerMetadata(server)
             ))
         end),
         Ui.Table(Data.list_not_nil(
+            Data.lazy(server.is_installed, function()
+                return {
+                    { "version", "LspInstallerMuted" },
+                    server.installed_version_err and {
+                        "Unable to detect version.",
+                        "LspInstallerMuted",
+                    } or { server.installed_version or "Loading...", "" },
+                }
+            end),
             Data.lazy(#server.metadata.outdated_packages > 0, function()
                 return {
-                    { "new version", "LspInstallerMuted" },
-                    { format_new_package_versions(server.metadata.outdated_packages), "LspInstallerGreen" },
+                    { "latest version", "LspInstallerGreen" },
+                    {
+                        format_new_package_versions(server.metadata.outdated_packages),
+                        "LspInstallerGreen",
+                    },
                 }
             end),
             Data.lazy(server.metadata.install_timestamp_seconds, function()
@@ -219,10 +229,10 @@ local function ServerMetadata(server)
                     { format_time(server.metadata.install_timestamp_seconds), "" },
                 }
             end),
-            {
+            Data.when(not server.is_installed, {
                 { "filetypes", "LspInstallerMuted" },
                 { server.metadata.filetypes, "" },
-            },
+            }),
             Data.when(server.is_installed, {
                 { "path", "LspInstallerMuted" },
                 { server.metadata.install_dir, "String" },
@@ -276,7 +286,10 @@ local function InstalledServers(servers, props)
                         { " " .. server.name .. " ", "" },
                         { server.hints, "Comment" },
                         Data.when(server.deprecated, { " deprecated", "LspInstallerOrange" }),
-                        Data.when(#server.metadata.outdated_packages > 0, { " new version available", "Comment" })
+                        Data.when(
+                            #server.metadata.outdated_packages > 0 and not is_expanded,
+                            { " new version available", "LspInstallerGreen" }
+                        )
                     ),
                 },
                 Ui.Keybind(settings.current.ui.keymaps.toggle_server_expand, "EXPAND_SERVER", { server.name }),
@@ -513,6 +526,8 @@ local function create_initial_server_state(server)
         hints = tostring(ServerHints.new(server)),
         expanded_schema_properties = {},
         has_expanded_schema = false,
+        installed_version = nil, -- lazy
+        installed_version_err = nil, -- lazy
         ---@type table
         schema = nil, -- lazy
         metadata = {
@@ -606,9 +621,8 @@ local function init(all_servers)
     ---@type fun(): StatusWinState
     local get_state = get_state_generic
 
-    -- TODO: memoize or throttle.. or cache. Do something. Also, as opposed to what the naming currently suggests, this
-    -- is not really doing anything async stuff, but will very likely do so in the future :tm:.
-    local async_populate_server_metadata = vim.schedule_wrap(function(server_name)
+    local async_populate_server_metadata = a.scope(function(server_name)
+        a.scheduler()
         local ok, server = lsp_servers.get_server(server_name)
         if not ok then
             return log.warn("Unable to get server when populating metadata.", server_name)
@@ -618,7 +632,16 @@ local function init(all_servers)
             if fstat_ok then
                 state.servers[server.name].metadata.install_timestamp_seconds = fstat.mtime.sec
             end
-            state.servers[server_name].schema = server:get_settings_schema()
+            state.servers[server.name].schema = server:get_settings_schema()
+        end)
+        local version = version_check.check_server_version(server)
+        mutate_state(function(state)
+            if version:is_success() then
+                state.servers[server.name].installed_version = version:get_or_nil()
+                state.servers[server.name].installed_version_err = nil
+            else
+                state.servers[server.name].installed_version_err = true
+            end
         end)
     end)
 
@@ -671,12 +694,13 @@ local function init(all_servers)
                 state.servers[server.name].installer.is_running = false
                 state.servers[server.name].installer.has_run = true
                 if not state.expanded_server then
+                    -- Only automatically expand the server upon installation if none is already expanded, for UX reasons
                     expand_server(server.name)
+                elseif state.expanded_server == server.name then
+                    -- Refresh server metadata
+                    async_populate_server_metadata(server.name)
                 end
             end)
-            if not get_state().expanded_server then
-                expand_server(server.name)
-            end
             on_complete()
         end)
     end
@@ -828,7 +852,7 @@ local function init(all_servers)
                 state.server_version_check_completed_percentage = 0
             end)
         end
-        jobs.identify_outdated_servers(servers, function(check_result, progress)
+        outdated_servers.identify_outdated_servers(servers, function(check_result, progress)
             mutate_state(function(state)
                 local completed_percentage = progress.completed / progress.total
                 state.server_version_check_completed_percentage = math.floor(completed_percentage * 100)

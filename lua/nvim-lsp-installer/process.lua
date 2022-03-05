@@ -86,7 +86,7 @@ local function sanitize_env_list(env_list)
     return sanitized_list
 end
 
----@alias JobSpawnCallback fun(success: boolean)
+---@alias JobSpawnCallback fun(success: boolean, exit_code: integer)
 
 ---@class JobSpawnOpts
 ---@field env string[] @List of "key=value" string.
