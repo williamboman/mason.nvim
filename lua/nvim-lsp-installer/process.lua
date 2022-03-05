@@ -143,7 +143,7 @@ function M.spawn(cmd, opts, callback)
                 end
             end
             check:stop()
-            callback(successful)
+            callback(successful, exit_code)
         end)
 
         log.fmt_debug("Job pid=%s exited with exit_code=%s, signal=%s", pid_or_err, exit_code, signal)

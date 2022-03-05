@@ -24,14 +24,26 @@ describe("async", function()
         "should wrap callback-style async functions",
         async_test(function()
             local stdio = process.in_memory_sink()
-            local ok, success = a.promisify(process.spawn)("env", {
+            local success, exit_code = a.promisify(process.spawn)("env", {
                 args = {},
                 env = { "FOO=BAR", "BAR=BAZ" },
                 stdio_sink = stdio.sink,
             })
-            assert.is_true(ok)
             assert.is_true(success)
+            assert.equals(0, exit_code)
             assert.equals("FOO=BAR\nBAR=BAZ\n", table.concat(stdio.buffers.stdout, ""))
+        end)
+    )
+
+    it(
+        "should return all values",
+        async_test(function()
+            local val1, val2, val3 = a.wait(function(resolve)
+                resolve(1, 2, 3)
+            end)
+            assert.equals(1, val1)
+            assert.equals(2, val2)
+            assert.equals(3, val3)
         end)
     )
 
@@ -50,13 +62,35 @@ describe("async", function()
     )
 
     it(
-        "should reject if async function raises error",
+        "should raise error if async function raises error",
         async_test(function()
-            local ok, err = a.promisify(function()
+            local err = assert.has.errors(a.promisify(function()
                 error "something went wrong"
-            end)()
-            assert.is_false(ok)
+            end))
             assert.is_true(match.has_match "something went wrong$"(err))
+        end)
+    )
+
+    it(
+        "should raise error if async function rejects",
+        async_test(function()
+            local err = assert.has.errors(function()
+                a.wait(function(_, reject)
+                    reject "This is an error"
+                end)
+            end)
+            assert.equals("This is an error", err)
+        end)
+    )
+
+    it(
+        "should pass nil arguments to promisified functions",
+        async_test(function()
+            local fn = spy.new(function(_, _, _, _, _, _, _, cb)
+                cb()
+            end)
+            a.promisify(fn)(nil, 2, nil, 4, nil, nil, 7)
+            assert.spy(fn).was_called_with(nil, 2, nil, 4, nil, nil, 7, match.is_function())
         end)
     )
 end)

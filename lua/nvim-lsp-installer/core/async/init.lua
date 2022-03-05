@@ -17,7 +17,7 @@ function Promise:_wrap_resolver_cb(success, cb)
             return
         end
         self.has_resolved = true
-        cb(success, ...)
+        cb(success, { ... })
     end
 end
 
@@ -26,7 +26,11 @@ function Promise:__call(callback)
 end
 
 local function await(resolver)
-    return co.yield(Promise.new(resolver))
+    local ok, value = co.yield(Promise.new(resolver))
+    if not ok then
+        error(value[1], 2)
+    end
+    return unpack(value)
 end
 
 local function table_pack(...)

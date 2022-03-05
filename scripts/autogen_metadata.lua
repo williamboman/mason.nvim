@@ -151,18 +151,16 @@ end
 
 local function create_setting_schema_files()
     local available_servers = servers.get_available_servers()
-    local gist_ok, gist_err, gist_response =
+    local gist_err, gist_data =
         a.promisify(fetch) "https://gist.githubusercontent.com/williamboman/a01c3ce1884d4b57cc93422e7eae7702/raw/lsp-packages.json"
-    assert(gist_ok, "Failed to fetch gist.")
     assert(not gist_err, "Failed to fetch gist.")
-    local package_json_mappings = vim.json.decode(gist_response)
+    local package_json_mappings = vim.json.decode(gist_data)
 
     for _, server in pairs(available_servers) do
         local package_json_url = package_json_mappings[server.name]
         if package_json_url then
             print(("Fetching %q..."):format(package_json_url))
-            local ok, err, response = a.promisify(fetch)(package_json_url)
-            assert(ok, "Failed to fetch.")
+            local err, response = a.promisify(fetch)(package_json_url)
             assert(not err, "Failed to fetch package.json for " .. server.name)
             local schema = vim.json.decode(response)
             if schema.contributes and schema.contributes.configuration then

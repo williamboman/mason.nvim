@@ -79,7 +79,7 @@ describe("process.spawn", function()
 
             assert.wait_for(function()
                 assert.spy(callback).was_called(1)
-                assert.spy(callback).was_called_with(true)
+                assert.spy(callback).was_called_with(true, 0)
                 assert.equal(table.concat(stdio.buffers.stdout, ""), "HELLO=world\nMY_ENV=var\n")
             end)
         end)
