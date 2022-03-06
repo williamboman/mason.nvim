@@ -201,11 +201,11 @@ function M.delete_win_buf(win_id, bufnr)
     -- It should probably be unnecessary once https://github.com/neovim/neovim/issues/15548 is resolved
     vim.schedule(function()
         if win_id and vim.api.nvim_win_is_valid(win_id) then
-            log.debug "Deleting window"
+            log.trace "Deleting window"
             vim.api.nvim_win_close(win_id, true)
         end
         if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-            log.debug "Deleting buffer"
+            log.trace "Deleting buffer"
             vim.api.nvim_buf_delete(bufnr, { force = true })
         end
         if redraw_by_win_id[win_id] then
@@ -305,7 +305,7 @@ function M.new_view_only_win(name)
         if not win_valid or not buf_valid then
             -- the window has been closed or the buffer is somehow no longer valid
             unsubscribe(true)
-            log.debug("Buffer or window is no longer valid", win_id, bufnr)
+            log.trace("Buffer or window is no longer valid", win_id, bufnr)
             return
         end
 
@@ -398,7 +398,7 @@ function M.new_view_only_win(name)
         ---@alias DisplayOpenOpts {effects: table<string, fun()>, highlight_groups: string[]|nil}
         ---@type fun(opts: DisplayOpenOpts)
         open = vim.schedule_wrap(function(opts)
-            log.debug "Opening window"
+            log.trace "Opening window"
             assert(has_initiated, "Display has not been initiated, cannot open.")
             if win_id and vim.api.nvim_win_is_valid(win_id) then
                 -- window is already open

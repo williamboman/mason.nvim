@@ -688,7 +688,7 @@ local function init(all_servers)
             mutate_state(function(state)
                 if success then
                     -- release stdout/err output table.. hopefully ¯\_(ツ)_/¯
-                    state.servers[server.name].installer.tailed_output = {}
+                    state.servers[server.name].installer.tailed_output = { "" }
                 end
                 state.servers[server.name].is_installed = success
                 state.servers[server.name].installer.is_running = false

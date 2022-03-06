@@ -5,6 +5,7 @@ local pip3 = require "nvim-lsp-installer.installers.pip3"
 local gem = require "nvim-lsp-installer.installers.gem"
 local cargo_check = require "nvim-lsp-installer.jobs.outdated-servers.cargo"
 local gem_check = require "nvim-lsp-installer.jobs.outdated-servers.gem"
+local pip3_check = require "nvim-lsp-installer.jobs.outdated-servers.pip3"
 local spawn = require "nvim-lsp-installer.core.async.spawn"
 
 local M = {}
@@ -21,15 +22,6 @@ local function version_in_receipt(field_name)
     end
 end
 
----@param package string
----@return string
----@TODO DRY
-local function normalize_pip3_package(package)
-    -- https://stackoverflow.com/a/60307740
-    local s = package:gsub("%[.*%]", "")
-    return s
-end
-
 local function noop()
     return Result.failure "Unable to detect version."
 end
@@ -37,16 +29,17 @@ end
 ---@type Record<InstallReceiptSourceType, fun(server: Server, receipt: InstallReceipt): Result>
 local version_checker = {
     ["npm"] = function(server, receipt)
-        local stdout = spawn.npm {
+        return spawn.npm({
             "ls",
             "--json",
             cwd = server.root_dir,
-        }
-        local npm_packages = vim.json.decode(stdout)
-        return Result.success(npm_packages.dependencies[receipt.primary_source.package].version)
+        }):map_catching(function(result)
+            local npm_packages = vim.json.decode(result.stdout)
+            return npm_packages.dependencies[receipt.primary_source.package].version
+        end)
     end,
     ["pip3"] = function(server, receipt)
-        local stdout = spawn.python3 {
+        return spawn.python3({
             "-m",
             "pip",
             "list",
@@ -54,54 +47,58 @@ local version_checker = {
             "json",
             cwd = server.root_dir,
             env = process.graft_env(pip3.env(server.root_dir)),
-        }
-        local pip_packages = vim.json.decode(stdout)
-        local normalized_pip_package = normalize_pip3_package(receipt.primary_source.package)
-        for _, pip_package in ipairs(pip_packages) do
-            if pip_package.name == normalized_pip_package then
-                return Result.success(pip_package.version)
+        }):map_catching(function(result)
+            local pip_packages = vim.json.decode(result.stdout)
+            local normalized_pip_package = pip3_check.normalize_package(receipt.primary_source.package)
+            for _, pip_package in ipairs(pip_packages) do
+                if pip_package.name == normalized_pip_package then
+                    return pip_package.version
+                end
             end
-        end
-        return Result.failure "Failed to find pip package version."
+            error "Unable to find pip package."
+        end)
     end,
     ["gem"] = function(server, receipt)
-        local stdout = spawn.gem {
+        return spawn.gem({
             "list",
             cwd = server.root_dir,
             env = process.graft_env(gem.env(server.root_dir)),
-        }
-        local gems = gem_check.parse_gem_list_output(stdout)
-        if gems[receipt.primary_source.package] then
-            return Result.success(gems[receipt.primary_source.package])
-        else
-            return Result.failure "Failed to find gem package version."
-        end
+        }):map_catching(function(result)
+            local gems = gem_check.parse_gem_list_output(result.stdout)
+            if gems[receipt.primary_source.package] then
+                return gems[receipt.primary_source.package]
+            else
+                error "Failed to find gem package version."
+            end
+        end)
     end,
     ["cargo"] = function(server, receipt)
-        local stdout = spawn.cargo {
+        return spawn.cargo({
             "install",
             "--list",
             "--root",
             server.root_dir,
             cwd = server.root_dir,
-        }
-        local crates = cargo_check.parse_installed_crates(stdout)
-        a.scheduler() -- needed because vim.fn.* call
-        local package = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
-        if crates[package] then
-            return Result.success(crates[package])
-        else
-            return Result.failure "Failed to find cargo package version."
-        end
+        }):map_catching(function(result)
+            local crates = cargo_check.parse_installed_crates(result.stdout)
+            a.scheduler() -- needed because vim.fn.* call
+            local package = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
+            if crates[package] then
+                return crates[package]
+            else
+                error "Failed to find cargo package version."
+            end
+        end)
     end,
     ["git"] = function(server)
-        local stdout = spawn.git {
+        return spawn.git({
             "rev-parse",
             "--short",
             "HEAD",
             cwd = server.root_dir,
-        }
-        return Result.success(vim.trim(stdout))
+        }):map_catching(function(result)
+            return vim.trim(result.stdout)
+        end)
     end,
     ["opam"] = noop,
     ["dotnet"] = noop,

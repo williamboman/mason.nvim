@@ -32,6 +32,14 @@ function Result:get_or_nil()
     end
 end
 
+function Result:get_or_throw()
+    if self:is_success() then
+        return self.value
+    else
+        error(self.value.error, 2)
+    end
+end
+
 function Result:err_or_nil()
     if self:is_failure() then
         return self.value.error
@@ -44,6 +52,29 @@ end
 
 function Result:is_success()
     return getmetatable(self.value) ~= Failure
+end
+
+---@param mapper_fn fun(value: any): any
+function Result:map(mapper_fn)
+    if self:is_success() then
+        return Result.success(mapper_fn(self.value))
+    else
+        return self
+    end
+end
+
+---@param mapper_fn fun(value: any): any
+function Result:map_catching(mapper_fn)
+    if self:is_success() then
+        local ok, result = pcall(mapper_fn, self.value)
+        if ok then
+            return Result.success(result)
+        else
+            return Result.failure(result)
+        end
+    else
+        return self
+    end
 end
 
 return Result
