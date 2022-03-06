@@ -17,11 +17,14 @@ local function with_headers(headers, args)
     return result
 end
 
+---@alias FetchCallback fun(err: string|nil, raw_data: string)
+
 ---@param url string The url to fetch.
----@param callback fun(err: string|nil, raw_data: string)
----@param opts {custom_fetcher: { cmd: string, args: string[] }}
-local function fetch(url, callback, opts)
-    opts = opts or {}
+---@param callback_or_opts FetchCallback|{custom_fetcher: { cmd: string, args: string[] }}
+---@param callback FetchCallback
+local function fetch(url, callback_or_opts, callback)
+    local opts = type(callback_or_opts) == "table" and callback_or_opts or {}
+    callback = type(callback_or_opts) == "function" and callback_or_opts or callback
     local stdio = process.in_memory_sink()
     log.fmt_debug("Fetching URL %s", url)
     local on_exit = function(success)

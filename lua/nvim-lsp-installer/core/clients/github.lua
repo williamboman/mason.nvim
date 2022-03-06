@@ -13,18 +13,18 @@ local M = {}
 ---@param callback fun(error: string|nil, data: GitHubRelease[]|nil)
 function M.fetch_releases(repo, callback)
     log.fmt_trace("Fetching GitHub releases for repo=%s", repo)
-    fetch(("https://api.github.com/repos/%s/releases"):format(repo), function(err, response)
+    fetch(("https://api.github.com/repos/%s/releases"):format(repo), {
+        custom_fetcher = {
+            cmd = "gh",
+            args = { "api", ("repos/%s/releases"):format(repo) },
+        },
+    }, function(err, response)
         if err then
             log.fmt_error("Failed to fetch releases for repo=%s", repo)
             return callback("Failed to fetch GitHub releases.", nil)
         end
         callback(nil, vim.json.decode(response))
-    end, {
-        custom_fetcher = {
-            cmd = "gh",
-            args = { "api", ("repos/%s/releases"):format(repo) },
-        },
-    })
+    end)
 end
 
 ---@alias FetchLatestGithubReleaseOpts {tag_name_pattern:string}
@@ -61,18 +61,18 @@ end
 ---@param repo string The GitHub repo ("username/repo").
 ---@param callback fun(err: string|nil, tags: GitHubTag[]|nil)
 function M.fetch_tags(repo, callback)
-    fetch(("https://api.github.com/repos/%s/tags"):format(repo), function(err, response)
+    fetch(("https://api.github.com/repos/%s/tags"):format(repo), {
+        custom_fetcher = {
+            cmd = "gh",
+            args = { "api", ("repos/%s/tags"):format(repo) },
+        },
+    }, function(err, response)
         if err then
             log.fmt_error("Failed to fetch tags for repo=%s", err)
             return callback("Failed to fetch tags.", nil)
         end
         callback(nil, vim.json.decode(response))
-    end, {
-        custom_fetcher = {
-            cmd = "gh",
-            args = { "api", ("repos/%s/tags"):format(repo) },
-        },
-    })
+    end)
 end
 
 ---@param repo string The GitHub repo ("username/repo").
