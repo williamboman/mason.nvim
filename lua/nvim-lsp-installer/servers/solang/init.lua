@@ -33,10 +33,10 @@ return function(name, root_dir)
         context.use_github_release_file(
             "hyperledger-labs/solang",
             coalesce(
-                when(platform.is_mac and platform.arch == "x64", "llvm12.0-mac-intel.tar.xz"),
-                when(platform.is_mac and platform.arch == "arm64", "llvm12.0-mac-arm.tar.xz"),
-                when(platform.is_linux and platform.arch == "x64", "llvm12.0-linux-x86-64.tar.xz"),
-                when(platform.is_win, "llvm12.0-win.zip")
+                when(platform.is_mac and platform.arch == "x64", "llvm13.0-mac-intel.tar.xz"),
+                when(platform.is_mac and platform.arch == "arm64", "llvm13.0-mac-arm.tar.xz"),
+                when(platform.is_linux and platform.arch == "x64", "llvm13.0-linux-x86-64.tar.xz"),
+                when(platform.is_win, "llvm13.0-win.zip")
             )
         ),
         context.capture(function(ctx)
@@ -61,7 +61,8 @@ return function(name, root_dir)
             cmd_env = {
                 PATH = process.extend_path {
                     path.concat { root_dir },
-                    path.concat { root_dir, "llvm12.0", "bin" },
+                    path.concat { root_dir, "llvm13.0", "bin" },
+                    path.concat { root_dir, "llvm12.0", "bin" }, -- kept for backwards compatibility
                 },
             },
         },
