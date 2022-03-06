@@ -97,12 +97,12 @@ exports.run_blocking = function(suspend_fn)
         return resolved == true
     end, 50) then
         if not ok then
-            error(result)
+            error(result, 2)
         end
         return result
     else
         cancel_coroutine()
-        error "async function failed to resolve in time."
+        error("async function failed to resolve in time.", 2)
     end
 end
 
