@@ -84,8 +84,8 @@ function M.use_github_release_file(repo, file, opts)
                     )
                     context.stdio_sink.stderr(
                         (
-                            "Could not find which release file to download. Most likely, the current operating system or architecture (%s) is not supported.\n"
-                        ):format(platform.arch)
+                            "Could not find which release file to download. Most likely the current operating system, architecture (%s), or libc (%s) is not supported.\n"
+                        ):format(platform.arch, platform.get_libc())
                     )
                     return nil
                 end
