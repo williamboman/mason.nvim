@@ -220,6 +220,7 @@ lsp_installer.settings({
 | OneScript, 1C:Enterprise            | `bsl_ls`                   |
 | OpenAPI                             | `spectral`                 |
 | OpenCL                              | `opencl_ls`                |
+| Perl                                | `perlnavigator`            |
 | PHP                                 | `intelephense`             |
 | PHP                                 | `phpactor`                 |
 | PHP                                 | `psalm`                    |

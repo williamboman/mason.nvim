@@ -91,6 +91,7 @@ local CORE_SERVERS = Data.set_of {
     "ocamllsp",
     "omnisharp",
     "opencl_ls",
+    "perlnavigator",
     "phpactor",
     "powershell_es",
     "prismals",

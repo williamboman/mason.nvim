@@ -94,6 +94,7 @@ return {
   opencl = { "opencl_ls" },
   org = { "ltex" },
   os = { "bsl_ls" },
+  perl = { "perlnavigator" },
   php = { "intelephense", "phpactor", "psalm", "tailwindcss" },
   plaintex = { "ltex" },
   postcss = { "tailwindcss" },
