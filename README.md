@@ -175,6 +175,7 @@ lsp_installer.settings({
 | Cucumber                            | `cucumber_language_server` |
 | Dart                                | `dartls`                   |
 | Deno                                | `denols`                   |
+| Dhall                               | `dhall_lsp_server`         |
 | Diagnostic (general purpose server) | `diagnosticls`             |
 | Dlang                               | `serve_d`                  |
 | Docker                              | `dockerls`                 |

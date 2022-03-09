@@ -64,6 +64,9 @@ return {
   denols = {
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
   },
+  dhall_lsp_server = {
+    filetypes = { "dhall" }
+  },
   diagnosticls = {
     filetypes = {}
   },

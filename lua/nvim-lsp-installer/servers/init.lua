@@ -52,6 +52,7 @@ local CORE_SERVERS = Data.set_of {
     "cucumber_language_server",
     "dartls",
     "denols",
+    "dhall_lsp_server",
     "diagnosticls",
     "dockerls",
     "dotls",
