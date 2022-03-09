@@ -140,18 +140,24 @@ end
 -- exported for tests
 M._render_node = render_node
 
-local function create_popup_window_opts()
+---@param sizes_only boolean @Whether to only return properties that control the window size.
+local function create_popup_window_opts(sizes_only)
     local win_height = vim.o.lines - vim.o.cmdheight - 2 -- Add margin for status and buffer line
     local win_width = vim.o.columns
+    local height = math.floor(win_height * 0.9)
+    local width = math.floor(win_width * 0.8)
     local popup_layout = {
+        height = height,
+        width = width,
+        row = math.floor((win_height - height) / 2),
+        col = math.floor((win_width - width) / 2),
         relative = "editor",
-        height = math.floor(win_height * 0.9),
-        width = math.floor(win_width * 0.8),
         style = "minimal",
-        border = "rounded",
     }
-    popup_layout.row = math.floor((win_height - popup_layout.height) / 2)
-    popup_layout.col = math.floor((win_width - popup_layout.width) / 2)
+
+    if not sizes_only then
+        popup_layout.border = "rounded"
+    end
 
     return popup_layout
 end
@@ -233,7 +239,7 @@ function M.new_view_only_win(name)
         opts = opts or {}
         local highlight_groups = opts.highlight_groups
         bufnr = vim.api.nvim_create_buf(false, true)
-        win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts())
+        win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(false))
 
         registered_effect_handlers_by_bufnr[bufnr] = {}
         active_keybinds_by_bufnr[bufnr] = {}
@@ -411,7 +417,7 @@ function M.new_view_only_win(name)
             redraw_by_win_id[opened_win_id] = function()
                 if vim.api.nvim_win_is_valid(opened_win_id) then
                     draw(renderer(get_state()))
-                    vim.api.nvim_win_set_config(opened_win_id, create_popup_window_opts())
+                    vim.api.nvim_win_set_config(opened_win_id, create_popup_window_opts(true))
                 end
             end
         end),
