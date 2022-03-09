@@ -6,7 +6,8 @@ local function join_paths(...)
     return result
 end
 
-vim.cmd [[set runtimepath=$VIMRUNTIME]]
+vim.opt.runtimepath = vim.env.VIMRUNTIME
+vim.opt.completeopt = "menu"
 
 local temp_dir = vim.loop.os_getenv "TEMP" or "/tmp"
 
@@ -36,12 +37,18 @@ function _G.load_config()
     -- ==================================================
     local lsp_installer = require "nvim-lsp-installer"
 
+    local function on_attach(client, bufnr)
+        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    end
+
     require("nvim-lsp-installer").settings {
         log = vim.log.levels.DEBUG,
     }
 
     lsp_installer.on_server_ready(function(server)
-        server:setup {}
+        server:setup {
+            on_attach = on_attach,
+        }
     end)
     -- ==================================================
 end
