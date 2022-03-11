@@ -107,7 +107,7 @@ return {
   ql = { "codeqlls" },
   r = { "r_language_server" },
   razor = { "tailwindcss" },
-  reason = { "ocamlls", "ocamllsp", "tailwindcss" },
+  reason = { "ocamlls", "ocamllsp", "reason_ls", "tailwindcss" },
   rescript = { "rescriptls", "tailwindcss" },
   rmd = { "r_language_server" },
   rnoweb = { "ltex" },

@@ -217,6 +217,9 @@ return {
   r_language_server = {
     filetypes = { "r", "rmd" }
   },
+  reason_ls = {
+    filetypes = { "reason" }
+  },
   remark_ls = {
     filetypes = { "markdown" }
   },

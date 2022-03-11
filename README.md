@@ -234,6 +234,7 @@ lsp_installer.settings({
 | Python [(docs)][pylsp]              | `pylsp`                    |
 | R                                   | `r_language_server`        |
 | ReScript                            | `rescriptls`               |
+| Reason                              | `reason_ls`                |
 | Rome                                | `rome`                     |
 | Ruby                                | `solargraph`               |
 | Rust [(wiki)][rust_analyzer]        | `rust_analyzer`            |
