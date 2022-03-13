@@ -52,7 +52,7 @@ lsp_installer.on_server_ready(function (server)
 
     if server.name == "eslint" then
       local eslint_config = require("lspconfig.server_configurations.eslint")
-      opts.cmd = vim.list_extend({"yarn", "node"}, eslint_config.default_config.cmd)
+      opts.cmd = { "yarn", "exec", unpack(eslint_config.default_config.cmd) }
     end
 
     server:setup(opts)
