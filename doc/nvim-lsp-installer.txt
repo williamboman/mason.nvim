@@ -97,7 +97,9 @@ Then, somewhere in your initialization script (see `:h init.lua`): >
     end)
 <
 
-Make sure you don't also set up your servers via lspconfig (e.g. `require("lspconfig").clangd.setup {}`)!
+Make sure you don't also set up your servers directly via lspconfig (e.g.
+`require("lspconfig").clangd.setup {}`), as this will cause servers to be set
+up twice!
 
 
 ==============================================================================

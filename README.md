@@ -98,6 +98,9 @@ By doing so, nvim-lsp-installer will make sure to inject any necessary propertie
 function for you. You may find a minimal example below. To see how you can override the default settings for a server,
 refer to the [Wiki][overriding-default-settings].
 
+Make sure you don't also set up your servers directly via lspconfig (e.g. `require("lspconfig").clangd.setup {}`), as
+this will cause servers to be set up twice!
+
 [overriding-default-settings]: https://github.com/williamboman/nvim-lsp-installer/wiki/Advanced-Configuration#overriding-the-default-lsp-server-options
 
 ```lua
