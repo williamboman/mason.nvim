@@ -13,7 +13,7 @@ return function(name, root_dir)
         installer = {
             std.git_clone "https://github.com/ansible/ansible-language-server",
             npm.install { "npm@latest" }, -- ansiblels has quite a strict npm version requirement
-            npm.exec("npm", { "install" }),
+            npm.exec(npm.npm_command, { "install" }),
             npm.run "compile",
             context.receipt(function(receipt)
                 receipt:with_primary_source(receipt.git_remote "https://github.com/ansible/ansible-language-server")
