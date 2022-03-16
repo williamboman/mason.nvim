@@ -16,7 +16,8 @@ return function(name, root_dir)
             coalesce(
                 when(platform.is_mac and platform.arch == "x64", "solang-mac-intel"),
                 when(platform.is_mac and platform.arch == "arm64", "solang-mac-arm"),
-                when(platform.is_linux, "solang-linux"),
+                when(platform.is_linux and platform.arch == "arm64", "solang-linux-arm64"),
+                when(platform.is_linux and platform.arch == "x64", "solang-linux-x86-64"),
                 when(platform.is_win, "solang.exe")
             )
         ),
