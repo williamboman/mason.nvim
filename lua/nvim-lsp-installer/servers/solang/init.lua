@@ -37,6 +37,7 @@ return function(name, root_dir)
                 when(platform.is_mac and platform.arch == "x64", "llvm13.0-mac-intel.tar.xz"),
                 when(platform.is_mac and platform.arch == "arm64", "llvm13.0-mac-arm.tar.xz"),
                 when(platform.is_linux and platform.arch == "x64", "llvm13.0-linux-x86-64.tar.xz"),
+                when(platform.is_linux and platform.arch == "arm64", "llvm13.0-linux-arm64.tar.xz"),
                 when(platform.is_win, "llvm13.0-win.zip")
             )
         ),
