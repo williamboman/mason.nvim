@@ -37,11 +37,23 @@ local function table_pack(...)
     return { n = select("#", ...), ... }
 end
 
-local function promisify(async_fn)
+---@param async_fn fun(...)
+---@param should_reject_err boolean|nil @Whether the provided async_fn takes a callback with the signature `fun(err, result)`
+local function promisify(async_fn, should_reject_err)
     return function(...)
         local args = table_pack(...)
         return await(function(resolve, reject)
-            args[args.n + 1] = resolve
+            if should_reject_err then
+                args[args.n + 1] = function(err, result)
+                    if err then
+                        reject(err)
+                    else
+                        resolve(result)
+                    end
+                end
+            else
+                args[args.n + 1] = resolve
+            end
             local ok, err = pcall(async_fn, unpack(args, 1, args.n + 1))
             if not ok then
                 reject(err)

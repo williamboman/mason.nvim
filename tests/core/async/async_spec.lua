@@ -36,6 +36,18 @@ describe("async", function()
     )
 
     it(
+        "should reject callback-style functions",
+        async_test(function()
+            local err = assert.has_error(function()
+                a.promisify(function(arg1, cb)
+                    cb(arg1, nil)
+                end, true) "påskmust"
+            end)
+            assert.equals(err, "påskmust")
+        end)
+    )
+
+    it(
         "should return all values",
         async_test(function()
             local val1, val2, val3 = a.wait(function(resolve)
