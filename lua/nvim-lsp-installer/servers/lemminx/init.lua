@@ -31,7 +31,7 @@ return function(name, root_dir)
                 end
             end,
             context.set(function(ctx)
-                ctx.requested_server_version = coalesce(ctx.requested_server_version, "LATEST")
+                ctx.requested_server_version = coalesce(ctx.requested_server_version, "0.19.2-655")
             end),
             context.capture(function(ctx)
                 return std.unzip_remote(
