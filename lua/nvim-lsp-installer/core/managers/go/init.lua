@@ -1,4 +1,5 @@
 local process = require "nvim-lsp-installer.process"
+local platform = require "nvim-lsp-installer.platform"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local a = require "nvim-lsp-installer.core.async"
 local Optional = require "nvim-lsp-installer.core.optional"
@@ -62,7 +63,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     return spawn.go({
         "version",
         "-m",
-        executable,
+        platform.is_win and ("%.exe"):format(executable) or executable,
         cwd = install_dir,
     }):map_catching(function(result)
         local parsed_output = M.parse_mod_version_output(result.stdout)
