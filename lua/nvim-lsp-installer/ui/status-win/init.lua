@@ -62,7 +62,7 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
         { "Toggle help", HELP_KEYMAP },
         { "Toggle server info", settings.current.ui.keymaps.toggle_server_expand },
         { "Update server", settings.current.ui.keymaps.update_server },
-        { "Update all installed server", settings.current.ui.keymaps.update_all_servers },
+        { "Update all installed servers", settings.current.ui.keymaps.update_all_servers },
         { "Check for new server version", settings.current.ui.keymaps.check_server_version },
         { "Check for new versions (all servers)", settings.current.ui.keymaps.check_outdated_servers },
         { "Uninstall server", settings.current.ui.keymaps.uninstall_server },
