@@ -63,7 +63,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     return spawn.go({
         "version",
         "-m",
-        platform.is_win and ("%.exe"):format(executable) or executable,
+        platform.is_win and ("%s.exe"):format(executable) or executable,
         cwd = install_dir,
     }):map_catching(function(result)
         local parsed_output = M.parse_mod_version_output(result.stdout)
