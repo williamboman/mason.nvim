@@ -1,4 +1,4 @@
-local spawn = require "nvim-lsp-installer.core.async.spawn"
+local spawn = require "nvim-lsp-installer.core.spawn"
 local process = require "nvim-lsp-installer.process"
 
 describe("async spawn", function()
@@ -36,6 +36,38 @@ describe("async spawn", function()
             local result = spawn.bash {
                 "-c",
                 'echo "Hello $VAR"',
+                env = { "VAR=world" },
+            }
+
+            assert.is_true(result:is_success())
+            assert.equals("Hello world\n", result:get_or_nil().stdout)
+            assert.equals("", result:get_or_nil().stderr)
+        end)
+    )
+
+    it(
+        "should ignore vim.NIL args",
+        async_test(function()
+            local result = spawn.bash {
+                vim.NIL,
+                spawn._when(true, "-c"),
+                spawn._when(false, "shouldnotbeincluded"),
+                vim.NIL,
+                'echo "Hello $VAR"',
+                env = { "VAR=world" },
+            }
+
+            assert.is_true(result:is_success())
+            assert.equals("Hello world\n", result:get_or_nil().stdout)
+            assert.equals("", result:get_or_nil().stderr)
+        end)
+    )
+
+    it(
+        "should flatten table args",
+        async_test(function()
+            local result = spawn.bash {
+                { "-c", 'echo "Hello $VAR"' },
                 env = { "VAR=world" },
             }
 

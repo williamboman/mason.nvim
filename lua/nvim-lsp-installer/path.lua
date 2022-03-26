@@ -27,6 +27,8 @@ function M.concat(path_components)
     return table.concat(path_components, sep)
 end
 
+---@path root_path string
+---@path path string
 function M.is_subdirectory(root_path, path)
     return root_path == path or path:sub(1, #root_path + 1) == root_path .. sep
 end

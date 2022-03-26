@@ -5,11 +5,22 @@ local platform = require "nvim-lsp-installer.platform"
 
 local async_spawn = a.promisify(process.spawn)
 
----@type Record<string, fun(opts: JobSpawnOpts): Result>
+---@alias JobSpawn Record<string, async fun(opts: JobSpawnOpts): Result>
+---@type JobSpawn
 local spawn = {
-    aliases = {
+    _aliases = {
         npm = platform.is_win and "npm.cmd" or "npm",
+        gem = platform.is_win and "gem.cmd" or "gem",
+        composer = platform.is_win and "composer.bat" or "composer",
     },
+    -- Utility function for optionally including arguments.
+    ---@generic T
+    ---@param condition boolean
+    ---@param value T
+    ---@return T
+    _when = function(condition, value)
+        return condition and value or vim.NIL
+    end,
 }
 
 local function Failure(err, cmd)
@@ -22,10 +33,15 @@ end
 
 setmetatable(spawn, {
     __index = function(self, k)
+        ---@param args string|nil|string[][]
         return function(args)
             local cmd_args = {}
-            for i, arg in ipairs(args) do
-                cmd_args[i] = arg
+            for _, arg in ipairs(args) do
+                if type(arg) == "table" then
+                    vim.list_extend(cmd_args, arg)
+                elseif arg ~= vim.NIL then
+                    cmd_args[#cmd_args + 1] = arg
+                end
             end
             ---@type JobSpawnOpts
             local spawn_args = {
@@ -41,7 +57,7 @@ setmetatable(spawn, {
                 spawn_args.stdio_sink = stdio.sink
             end
 
-            local cmd = self.aliases[k] or k
+            local cmd = self._aliases[k] or k
             local _, exit_code = async_spawn(cmd, spawn_args)
 
             if exit_code == 0 then

@@ -1,0 +1,106 @@
+local Data = require "nvim-lsp-installer.data"
+local process = require "nvim-lsp-installer.process"
+local path = require "nvim-lsp-installer.path"
+local Result = require "nvim-lsp-installer.core.result"
+local spawn = require "nvim-lsp-installer.core.spawn"
+local Optional = require "nvim-lsp-installer.core.optional"
+
+local list_copy, list_find_first = Data.list_copy, Data.list_find_first
+
+local M = {}
+
+---@param packages string[] The composer packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
+function M.require(packages)
+    ---@async
+    ---@param ctx InstallContext
+    return function(ctx)
+        local pkgs = list_copy(packages)
+
+        ctx.receipt:with_primary_source(ctx.receipt.composer(pkgs[1]))
+        for i = 2, #pkgs do
+            ctx.receipt:with_secondary_source(ctx.receipt.composer(pkgs[i]))
+        end
+
+        if not ctx.fs:file_exists "composer.json" then
+            ctx.spawn.composer { "init", "--no-interaction", "--stability=stable" }
+        end
+
+        ctx.requested_version:if_present(function(version)
+            pkgs[1] = ("%s:%s"):format(pkgs[1], version)
+        end)
+
+        ctx.spawn.composer { "require", pkgs }
+    end
+end
+
+function M.install()
+    ---@async
+    ---@param ctx InstallContext
+    return function(ctx)
+        ctx.spawn.composer {
+            "install",
+            "--no-interaction",
+            "--no-dev",
+            "--optimize-autoloader",
+            "--classmap-authoritative",
+        }
+    end
+end
+
+---@async
+---@param receipt InstallReceipt
+---@param install_dir string
+function M.check_outdated_primary_package(receipt, install_dir)
+    if receipt.primary_source.type ~= "composer" then
+        return Result.failure "Receipt does not have a primary source of type composer"
+    end
+    return spawn.composer({
+        "outdated",
+        "--no-interaction",
+        "--format=json",
+        cwd = install_dir,
+    }):map_catching(function(result)
+        local outdated_packages = vim.json.decode(result.stdout)
+        local outdated_package = list_find_first(outdated_packages.installed, function(package)
+            return package.name == receipt.primary_source.package
+        end)
+        return Optional.of_nilable(outdated_package)
+            :map(function(package)
+                if package.version ~= package.latest then
+                    return {
+                        name = package.name,
+                        current_version = package.version,
+                        latest_version = package.latest,
+                    }
+                end
+            end)
+            :or_else_throw "Primary package is not outdated."
+    end)
+end
+
+---@async
+---@param receipt InstallReceipt
+---@param install_dir string
+function M.get_installed_primary_package_version(receipt, install_dir)
+    if receipt.primary_source.type ~= "composer" then
+        return Result.failure "Receipt does not have a primary source of type composer"
+    end
+    return spawn.composer({
+        "info",
+        "--format=json",
+        receipt.primary_source.package,
+        cwd = install_dir,
+    }):map_catching(function(result)
+        local info = vim.json.decode(result.stdout)
+        return info.versions[1]
+    end)
+end
+
+---@param install_dir string
+function M.env(install_dir)
+    return {
+        PATH = process.extend_path { path.concat { install_dir, "vendor", "bin" } },
+    }
+end
+
+return M

@@ -1,3 +1,4 @@
+---@deprecated Will be replaced by core.managers.pip3
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 local installers = require "nvim-lsp-installer.installers"

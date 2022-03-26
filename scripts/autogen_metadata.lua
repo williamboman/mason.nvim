@@ -4,6 +4,8 @@ local Path = require "nvim-lsp-installer.path"
 local fetch = require "nvim-lsp-installer.core.fetch"
 local Data = require "nvim-lsp-installer.data"
 
+local async_fetch = a.promisify(fetch, true)
+
 local coalesce = Data.coalesce
 
 package.loaded["nvim-lsp-installer.servers"] = nil
@@ -74,6 +76,7 @@ local function get_supported_filetypes(server)
     return filetypes
 end
 
+---@async
 local function create_filetype_map()
     local filetype_map = {}
 
@@ -91,6 +94,7 @@ local function create_filetype_map()
     write_file(Path.concat { generated_dir, "filetype_map.lua" }, "return " .. vim.inspect(filetype_map), "w")
 end
 
+---@async
 local function create_autocomplete_map()
     ---@type table<string, Server>
     local language_map = {}
@@ -133,6 +137,7 @@ local function create_autocomplete_map()
     )
 end
 
+---@async
 local function create_server_metadata()
     local metadata = {}
 
@@ -149,19 +154,18 @@ local function create_server_metadata()
     write_file(Path.concat { generated_dir, "metadata.lua" }, "return " .. vim.inspect(metadata), "w")
 end
 
+---@async
 local function create_setting_schema_files()
     local available_servers = servers.get_available_servers()
-    local gist_err, gist_data =
-        a.promisify(fetch) "https://gist.githubusercontent.com/williamboman/a01c3ce1884d4b57cc93422e7eae7702/raw/lsp-packages.json"
-    assert(not gist_err, "Failed to fetch gist.")
+    local gist_data =
+        async_fetch "https://gist.githubusercontent.com/williamboman/a01c3ce1884d4b57cc93422e7eae7702/raw/lsp-packages.json"
     local package_json_mappings = vim.json.decode(gist_data)
 
     for _, server in pairs(available_servers) do
         local package_json_url = package_json_mappings[server.name]
         if package_json_url then
             print(("Fetching %q..."):format(package_json_url))
-            local err, response = a.promisify(fetch)(package_json_url)
-            assert(not err, "Failed to fetch package.json for " .. server.name)
+            local response = async_fetch(package_json_url)
             local schema = vim.json.decode(response)
             if schema.contributes and schema.contributes.configuration then
                 schema = schema.contributes.configuration

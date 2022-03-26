@@ -1,16 +1,18 @@
+local a = require "nvim-lsp-installer.core.async"
 local JobExecutionPool = require "nvim-lsp-installer.jobs.pool"
 local VersionCheckResult = require "nvim-lsp-installer.jobs.outdated-servers.version-check-result"
 local log = require "nvim-lsp-installer.log"
 
-local npm_check = require "nvim-lsp-installer.jobs.outdated-servers.npm"
-local cargo_check = require "nvim-lsp-installer.jobs.outdated-servers.cargo"
-local pip3_check = require "nvim-lsp-installer.jobs.outdated-servers.pip3"
-local gem_check = require "nvim-lsp-installer.jobs.outdated-servers.gem"
-local git_check = require "nvim-lsp-installer.jobs.outdated-servers.git"
+local npm = require "nvim-lsp-installer.core.managers.npm"
+local pip3 = require "nvim-lsp-installer.core.managers.pip3"
+local git = require "nvim-lsp-installer.core.managers.git"
+local gem = require "nvim-lsp-installer.core.managers.gem"
+local go = require "nvim-lsp-installer.core.managers.go"
+local cargo = require "nvim-lsp-installer.core.managers.cargo"
+local composer = require "nvim-lsp-installer.core.managers.composer"
 local github_release_file_check = require "nvim-lsp-installer.jobs.outdated-servers.github_release_file"
 local github_tag_check = require "nvim-lsp-installer.jobs.outdated-servers.github_tag"
-local jdtls = require "nvim-lsp-installer.jobs.outdated-servers.jdtls"
-local composer_check = require "nvim-lsp-installer.jobs.outdated-servers.composer"
+local jdtls_check = require "nvim-lsp-installer.jobs.outdated-servers.jdtls"
 
 local M = {}
 
@@ -18,27 +20,18 @@ local jobpool = JobExecutionPool:new {
     size = 4,
 }
 
-local function noop(server, _, on_result)
-    on_result(VersionCheckResult.empty(server))
-end
-
----@type Record<InstallReceiptSourceType, function>
+---@type Record<InstallReceiptSourceType, async fun(receipt: InstallReceipt, install_dir: string): Result>
 local checkers = {
-    ["npm"] = npm_check,
-    ["pip3"] = pip3_check,
-    ["cargo"] = cargo_check,
-    ["gem"] = gem_check,
-    ["composer"] = composer_check,
-    ["go"] = noop, -- TODO
-    ["dotnet"] = noop, -- TODO
-    ["r_package"] = noop, -- TODO
-    ["unmanaged"] = noop,
-    ["system"] = noop,
-    ["jdtls"] = jdtls,
-    ["git"] = git_check,
+    ["npm"] = npm.check_outdated_primary_package,
+    ["pip3"] = pip3.check_outdated_primary_package,
+    ["git"] = git.check_outdated_git_clone,
+    ["cargo"] = cargo.check_outdated_primary_package,
+    ["composer"] = composer.check_outdated_primary_package,
+    ["gem"] = gem.check_outdated_primary_package,
+    ["go"] = go.check_outdated_primary_package,
+    ["jdtls"] = jdtls_check,
     ["github_release_file"] = github_release_file_check,
     ["github_tag"] = github_tag_check,
-    ["opam"] = noop,
 }
 
 local pending_servers = {}
@@ -73,7 +66,13 @@ function M.identify_outdated_servers(servers, on_result)
 
                     local checker = checkers[receipt.primary_source.type]
                     if checker then
-                        checker(server, receipt.primary_source, complete)
+                        a.run(checker, function(success, result)
+                            if success and result:is_success() then
+                                complete(VersionCheckResult.success(server, { result:get_or_nil() }))
+                            else
+                                complete(VersionCheckResult.fail(server))
+                            end
+                        end, receipt, server.root_dir)
                     else
                         complete(VersionCheckResult.empty(server))
                         log.fmt_error("Unable to find checker for source=%s", receipt.primary_source.type)

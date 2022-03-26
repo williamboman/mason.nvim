@@ -32,11 +32,24 @@ function Result:get_or_nil()
     end
 end
 
-function Result:get_or_throw()
+function Result:get_or_else(value)
     if self:is_success() then
         return self.value
     else
-        error(self.value.error, 2)
+        return value
+    end
+end
+
+---@param exception any @(optional) The exception to throw if the result is a failure.
+function Result:get_or_throw(exception)
+    if self:is_success() then
+        return self.value
+    else
+        if exception ~= nil then
+            error(exception, 2)
+        else
+            error(self.value.error, 2)
+        end
     end
 end
 
@@ -74,6 +87,40 @@ function Result:map_catching(mapper_fn)
         end
     else
         return self
+    end
+end
+
+---@param recover_fn fun(value: any): any
+function Result:recover(recover_fn)
+    if self:is_failure() then
+        return Result.success(recover_fn(self:err_or_nil()))
+    else
+        return self
+    end
+end
+
+---@param recover_fn fun(value: any): any
+function Result:recover_catching(recover_fn)
+    if self:is_failure() then
+        local ok, value = pcall(recover_fn, self:err_or_nil())
+        if ok then
+            return Result.success(value)
+        else
+            return Result.failure(value)
+        end
+    else
+        return self
+    end
+end
+
+---@param fn fun(): any
+---@return Result
+function Result.run_catching(fn)
+    local ok, result = pcall(fn)
+    if ok then
+        return Result.success(result)
+    else
+        return Result.failure(result)
     end
 end
 

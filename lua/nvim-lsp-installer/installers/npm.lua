@@ -1,3 +1,4 @@
+---@deprecated Will be replaced by core.managers.npm
 local path = require "nvim-lsp-installer.path"
 local fs = require "nvim-lsp-installer.fs"
 local Data = require "nvim-lsp-installer.data"

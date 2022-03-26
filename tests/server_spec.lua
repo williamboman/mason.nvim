@@ -55,6 +55,28 @@ describe("server", function()
         end)
     )
 
+    -- it(
+    --     "should be able to run async installer functions",
+    --     async_test(function()
+    --         local srv = ServerGenerator {
+    --             name = "async_installer_fixture",
+    --             root_dir = server.get_server_root_path "async_installer_fixture",
+    --             async = true,
+    --             installer = function()
+    --                 a.sleep(130)
+    --             end,
+    --         }
+    --         local start = timestamp()
+    --         srv:install()
+    --         a.sleep(100)
+    --         assert.wait_for(function()
+    --             assert.is_true(srv:is_installed())
+    --         end)
+    --         local stop = timestamp()
+    --         assert.is_true(stop - start >= 100)
+    --     end)
+    -- )
+
     it(
         "should remove directories upon installation failure",
         async_test(function()

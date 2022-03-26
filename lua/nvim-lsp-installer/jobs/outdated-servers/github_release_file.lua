@@ -1,29 +1,22 @@
+local a = require "nvim-lsp-installer.core.async"
+local Result = require "nvim-lsp-installer.core.result"
 local github = require "nvim-lsp-installer.core.clients.github"
-local VersionCheckResult = require "nvim-lsp-installer.jobs.outdated-servers.version-check-result"
 
----@param server Server
----@param source InstallReceiptSource
----@param on_result fun(result: VersionCheckResult)
-return function(server, source, on_result)
-    github.fetch_latest_release(
-        source.repo,
-        { tag_name_pattern = source.tag_name_pattern },
-        function(err, latest_release)
-            if err then
-                return on_result(VersionCheckResult.fail(server))
-            end
+local fetch_latest_release = a.promisify(github.fetch_latest_release, true)
 
-            if source.release ~= latest_release.tag_name then
-                return on_result(VersionCheckResult.success(server, {
-                    {
-                        name = source.repo,
-                        current_version = source.release,
-                        latest_version = latest_release.tag_name,
-                    },
-                }))
-            else
-                return on_result(VersionCheckResult.empty(server))
-            end
+---@async
+---@param receipt InstallReceipt
+return function(receipt)
+    local source = receipt.primary_source
+    return Result.run_catching(function()
+        local latest_release = fetch_latest_release(source.repo, { tag_name_pattern = source.tag_name_pattern })
+        if source.release ~= latest_release.tag_name then
+            return {
+                name = source.repo,
+                current_version = source.release,
+                latest_version = latest_release.tag_name,
+            }
         end
-    )
+        error "Primary package is not outdated."
+    end)
 end

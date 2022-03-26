@@ -13,12 +13,27 @@ describe("async", function()
     it("should run in blocking mode", function()
         local start = timestamp()
         a.run_blocking(function()
-            a.sleep(1000)
+            a.sleep(100)
         end)
         local stop = timestamp()
         local grace_ms = 25
-        assert.is_true((stop - start) >= (1000 - grace_ms))
+        assert.is_true((stop - start) >= (100 - grace_ms))
     end)
+
+    it(
+        "should pass arguments to .run",
+        async_test(function()
+            local callback = spy.new()
+            local start = timestamp()
+            a.run(a.sleep, callback, 100)
+            assert.wait_for(function()
+                assert.spy(callback).was_called(1)
+                local stop = timestamp()
+                local grace_ms = 25
+                assert.is_true((stop - start) >= (100 - grace_ms))
+            end, 150)
+        end)
+    )
 
     it(
         "should wrap callback-style async functions",
