@@ -74,7 +74,7 @@ return {
   liquid = { "tailwindcss", "theme_check" },
   llw = { "lelwel_ls" },
   lua = { "sumneko_lua" },
-  markdown = { "grammarly", "ltex", "remark_ls", "tailwindcss", "zeta_note", "zk" },
+  markdown = { "grammarly", "ltex", "prosemd_lsp", "remark_ls", "tailwindcss", "zeta_note", "zk" },
   mdx = { "tailwindcss" },
   mustache = { "tailwindcss" },
   mysql = { "sqlls", "sqls" },

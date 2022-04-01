@@ -213,6 +213,7 @@ lsp_installer.settings({
 | LaTeX                               | `texlab`                   |
 | Lelwel                              | `lelwel_ls`                |
 | Lua                                 | `sumneko_lua`              |
+| Markdown                            | `prosemd_lsp`              |
 | Markdown                            | `remark_ls`                |
 | Markdown                            | `zeta_note`                |
 | Markdown                            | `zk`                       |

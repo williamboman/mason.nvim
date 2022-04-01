@@ -196,6 +196,9 @@ return {
   prismals = {
     filetypes = { "prisma" }
   },
+  prosemd_lsp = {
+    filetypes = { "markdown" }
+  },
   psalm = {
     filetypes = { "php" }
   },
