@@ -41,8 +41,8 @@ end
 function HealthCheck:get_health_report_level()
     return ({
         ["success"] = "report_ok",
-        ["version-mismatch"] = "report_warn",
         ["parse-error"] = "report_warn",
+        ["version-mismatch"] = "report_error",
         ["not-available"] = self.relaxed and "report_warn" or "report_error",
     })[self.result]
 end
