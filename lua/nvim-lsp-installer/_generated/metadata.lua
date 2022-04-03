@@ -166,6 +166,9 @@ return {
   ltex = {
     filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }
   },
+  mm0_ls = {
+    filetypes = { "metamath-zero" }
+  },
   nickel_ls = {
     filetypes = { "ncl", "nickel" }
   },

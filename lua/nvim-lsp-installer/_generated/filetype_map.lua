@@ -76,6 +76,7 @@ return {
   lua = { "sumneko_lua" },
   markdown = { "grammarly", "ltex", "prosemd_lsp", "remark_ls", "tailwindcss", "zeta_note", "zk" },
   mdx = { "tailwindcss" },
+  ["metamath-zero"] = { "mm0_ls" },
   mustache = { "tailwindcss" },
   mysql = { "sqlls", "sqls" },
   ncl = { "nickel_ls" },

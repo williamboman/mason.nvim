@@ -217,6 +217,7 @@ lsp_installer.settings({
 | Markdown                            | `remark_ls`                |
 | Markdown                            | `zeta_note`                |
 | Markdown                            | `zk`                       |
+| Metamath Zero                       | `mm0_ls`                   |
 | Nickel                              | `nickel_ls`                |
 | Nim                                 | `nimls`                    |
 | OCaml                               | `ocamlls`                  |
@@ -225,10 +226,10 @@ lsp_installer.settings({
 | OneScript, 1C:Enterprise            | `bsl_ls`                   |
 | OpenAPI                             | `spectral`                 |
 | OpenCL                              | `opencl_ls`                |
-| Perl                                | `perlnavigator`            |
 | PHP                                 | `intelephense`             |
 | PHP                                 | `phpactor`                 |
 | PHP                                 | `psalm`                    |
+| Perl                                | `perlnavigator`            |
 | Powershell                          | `powershell_es`            |
 | Prisma                              | `prismals`                 |
 | Puppet                              | `puppet`                   |

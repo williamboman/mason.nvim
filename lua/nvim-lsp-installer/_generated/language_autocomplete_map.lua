@@ -23,6 +23,7 @@ return {
   liquid = { "theme_check" },
   lua = { "sumneko_lua" },
   markdown = { "prosemd_lsp", "remark_ls", "zeta_note", "zk" },
+  ["metamath-zero"] = { "mm0_ls" },
   nix = { "rnix" },
   ["objective-c"] = { "ccls" },
   onescript = { "bsl_ls" },
