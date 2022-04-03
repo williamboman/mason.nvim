@@ -268,6 +268,9 @@ return {
   sourcekit = {
     filetypes = { "swift", "c", "cpp", "objective-c", "objective-cpp" }
   },
+  sourcery = {
+    filetypes = { "python" }
+  },
   spectral = {
     filetypes = { "yaml", "json", "yml" }
   },

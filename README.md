@@ -235,6 +235,7 @@ lsp_installer.settings({
 | PureScript                          | `purescriptls`             |
 | Python                              | `jedi_language_server`     |
 | Python                              | `pyright`                  |
+| Python                              | `sourcery`                 |
 | Python [(docs)][pylsp]              | `pylsp`                    |
 | R                                   | `r_language_server`        |
 | ReScript                            | `rescriptls`               |

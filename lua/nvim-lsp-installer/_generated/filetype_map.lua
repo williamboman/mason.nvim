@@ -103,7 +103,7 @@ return {
   ps1 = { "powershell_es" },
   puppet = { "puppet" },
   purescript = { "purescriptls" },
-  python = { "jedi_language_server", "pylsp", "pyright" },
+  python = { "jedi_language_server", "pylsp", "pyright", "sourcery" },
   ql = { "codeqlls" },
   r = { "r_language_server" },
   razor = { "tailwindcss" },

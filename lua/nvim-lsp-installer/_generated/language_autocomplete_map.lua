@@ -28,7 +28,7 @@ return {
   onescript = { "bsl_ls" },
   openapi = { "spectral" },
   php = { "intelephense", "phpactor", "psalm" },
-  python = { "jedi_language_server", "pylsp", "pyright" },
+  python = { "jedi_language_server", "pylsp", "pyright", "sourcery" },
   ruby = { "solargraph", "sorbet" },
   sls = { "salt_ls" },
   solidity = { "solang", "solc", "solidity_ls" },
