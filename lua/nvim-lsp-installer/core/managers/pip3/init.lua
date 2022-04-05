@@ -32,7 +32,7 @@ function M.packages(packages)
             or list_not_nil(vim.g.python3_host_prog, "python3", "python")
 
         -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
-        ctx:promote_cwd():get_or_throw()
+        ctx:promote_cwd()
 
         -- Find first executable that manages to create venv
         local executable = list_find_first(executables, function(executable)
@@ -42,7 +42,7 @@ function M.packages(packages)
         Optional.of_nilable(executable)
             :if_present(function(python3)
                 ctx.spawn[python3] {
-                    env = process.graft_env(M.env(ctx:cwd())), -- use venv env
+                    env = process.graft_env(M.env(ctx.cwd:get())), -- use venv env
                     "-m",
                     "pip",
                     "install",

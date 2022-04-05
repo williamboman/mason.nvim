@@ -8,15 +8,15 @@ dependencies:
 clean_dependencies:
 	rm -rf dependencies
 
-.PHONY: clean_servers
-clean_servers:
+.PHONY: clean_fixtures
+clean_fixtures:
 	rm -rf "${INSTALL_ROOT_DIR}"
 
 .PHONY: clean
-clean: clean_servers clean_dependencies
+clean: clean_fixtures clean_dependencies
 
 .PHONY: test
-test: clean_servers dependencies
+test: clean_fixtures dependencies
 	INSTALL_ROOT_DIR=${INSTALL_ROOT_DIR} $(NVIM_HEADLESS) -c "call RunTests()"
 
 # vim:noexpandtab

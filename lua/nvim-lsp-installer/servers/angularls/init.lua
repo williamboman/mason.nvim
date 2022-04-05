@@ -1,6 +1,6 @@
 local server = require "nvim-lsp-installer.server"
 local platform = require "nvim-lsp-installer.platform"
-local npm = require "nvim-lsp-installer.installers.npm"
+local npm = require "nvim-lsp-installer.core.managers.npm"
 local Data = require "nvim-lsp-installer.data"
 local path = require "nvim-lsp-installer.path"
 
@@ -42,6 +42,7 @@ return function(name, root_dir)
         homepage = "https://angular.io/guide/language-service",
         languages = { "angular" },
         installer = npm.packages { "@angular/language-server", "typescript" },
+        async = true,
         default_options = {
             cmd = get_cmd(path.cwd()),
             cmd_env = npm.env(root_dir),

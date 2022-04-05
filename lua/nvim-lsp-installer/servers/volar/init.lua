@@ -1,7 +1,7 @@
 local path = require "nvim-lsp-installer.path"
 local fs = require "nvim-lsp-installer.fs"
 local server = require "nvim-lsp-installer.server"
-local npm = require "nvim-lsp-installer.installers.npm"
+local npm = require "nvim-lsp-installer.core.managers.npm"
 
 return function(name, root_dir)
     ---@param dir string
@@ -26,6 +26,7 @@ return function(name, root_dir)
         homepage = "https://github.com/johnsoncodehk/volar",
         languages = { "vue" },
         installer = npm.packages { "@volar/vue-language-server", "typescript" },
+        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
             on_new_config = function(new_config, new_root_dir)

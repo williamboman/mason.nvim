@@ -1,12 +1,13 @@
 local health = require "health"
 local process = require "nvim-lsp-installer.process"
-local gem = require "nvim-lsp-installer.installers.gem"
-local composer = require "nvim-lsp-installer.installers.composer"
-local npm = require "nvim-lsp-installer.installers.npm"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
 
 local when = Data.when
+
+local gem_cmd = platform.is_win and "gem.cmd" or "gem"
+local composer_cmd = platform.is_win and "composer.bat" or "composer"
+local npm_cmd = platform.is_win and "npm.cmd" or "npm"
 
 local M = {}
 
@@ -156,11 +157,11 @@ function M.check()
             end,
         },
         check { cmd = "ruby", args = { "--version" }, name = "Ruby", relaxed = true },
-        check { cmd = gem.gem_cmd, args = { "--version" }, name = "RubyGem", relaxed = true },
-        check { cmd = composer.composer_cmd, args = { "--version" }, name = "Composer", relaxed = true },
+        check { cmd = gem_cmd, args = { "--version" }, name = "RubyGem", relaxed = true },
+        check { cmd = composer_cmd, args = { "--version" }, name = "Composer", relaxed = true },
         check { cmd = "php", args = { "--version" }, name = "PHP", relaxed = true },
         check {
-            cmd = npm.npm_command,
+            cmd = npm_cmd,
             args = { "--version" },
             name = "npm",
             version_check = function(version)

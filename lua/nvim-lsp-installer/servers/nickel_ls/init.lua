@@ -1,8 +1,8 @@
 local path = require "nvim-lsp-installer.path"
 local server = require "nvim-lsp-installer.server"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
-local cargo = require "nvim-lsp-installer.installers.cargo"
+local installer = require "nvim-lsp-installer.core.installer"
+local cargo = require "nvim-lsp-installer.core.managers.cargo"
+local git = require "nvim-lsp-installer.core.managers.git"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -10,14 +10,19 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://nickel-lang.org/",
         languages = { "nickel" },
-        installer = {
-            std.git_clone "https://github.com/tweag/nickel",
-            cargo.install {
-                path = path.concat { "lsp", "nls" },
-            },
-            context.receipt(function(receipt)
-                receipt:with_primary_source(receipt.git_remote "https://github.com/tweag/nickel")
-            end),
+        async = true,
+        installer = installer.serial {
+            git.clone { "https://github.com/tweag/nickel" },
+            ---@param ctx InstallContext
+            function(ctx)
+                ctx.spawn.cargo {
+                    "install",
+                    "--root",
+                    ".",
+                    "--path",
+                    path.concat { "lsp", "nls" },
+                }
+            end,
         },
         default_options = {
             cmd_env = cargo.env(root_dir),

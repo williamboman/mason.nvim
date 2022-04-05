@@ -12,7 +12,7 @@ function M.packages(packages)
     ---@param ctx InstallContext
     return function(ctx)
         local env = process.graft_env {
-            GOBIN = ctx.cwd(),
+            GOBIN = ctx.cwd:get(),
         }
         -- Install the head package
         do

@@ -1,5 +1,5 @@
 local server = require "nvim-lsp-installer.server"
-local composer = require "nvim-lsp-installer.installers.composer"
+local composer = require "nvim-lsp-installer.core.managers.composer"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -7,6 +7,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://psalm.dev/",
         languages = { "php" },
+        async = true,
         installer = composer.require { "vimeo/psalm" },
         default_options = {
             cmd_env = composer.env(root_dir),

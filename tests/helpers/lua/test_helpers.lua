@@ -6,7 +6,6 @@ local a = require "nvim-lsp-installer.core.async"
 local process = require "nvim-lsp-installer.process"
 local server = require "nvim-lsp-installer.server"
 local Optional = require "nvim-lsp-installer.core.optional"
-local Result = require "nvim-lsp-installer.core.result"
 local receipt = require "nvim-lsp-installer.core.receipt"
 
 function async_test(suspend_fn)
@@ -38,18 +37,18 @@ function ServerGenerator(opts)
         languages = { "dummylang" },
         root_dir = server.get_server_root_path "dummy",
         homepage = "https://dummylang.org",
-        installer = function(_, callback, ctx)
+        async = true,
+        installer = function(ctx)
             ctx.stdio_sink.stdout "Installing dummy!\n"
-            callback(true)
         end,
     }, opts))
 end
 
 function FailingServerGenerator(opts)
     return ServerGenerator(vim.tbl_deep_extend("force", {
-        installer = function(_, callback, ctx)
+        installer = function(ctx)
             ctx.stdio_sink.stdout "Installing failing dummy!\n"
-            callback(false)
+            error "Failed to do something."
         end,
     }, opts))
 end
@@ -57,16 +56,20 @@ end
 function InstallContextGenerator(opts)
     ---@type InstallContext
     local default_opts = {
+        name = "mock",
         fs = mock.new {
             append_file = mockx.just_runs,
             dir_exists = mockx.returns(true),
             file_exists = mockx.returns(true),
         },
         spawn = mock.new {},
-        cwd = function()
-            return "/tmp/install-dir"
-        end,
-        promote_cwd = mockx.returns(Result.success()),
+        cwd = mock.new {
+            get = mockx.returns "/tmp/install-dir",
+            set = mockx.just_runs,
+        },
+        destination_dir = "/opt/install-dir",
+        stdio_sink = process.empty_sink(),
+        promote_cwd = mockx.just_runs,
         receipt = receipt.InstallReceiptBuilder.new(),
         requested_version = Optional.empty(),
     }

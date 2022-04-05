@@ -59,10 +59,33 @@ end
 
 ---@async
 ---@param path string
+function M.mkdirp(path)
+    log.debug("fs: mkdirp", path)
+    if vim.in_fast_event() then
+        a.scheduler()
+    end
+    if vim.fn.mkdir(path, "p") ~= 1 then
+        log.debug "fs: mkdirp failed"
+        error(("mkdirp: Could not create directory %q."):format(path))
+    end
+end
+
+---@async
+---@param path string
 ---@param new_path string
 function M.rename(path, new_path)
     log.debug("fs: rename", path, new_path)
     uv.fs_rename(path, new_path)
+end
+
+---@async
+---@param path string
+---@param contents string
+function M.write_file(path, contents)
+    log.fmt_debug("fs: write_file %s", path)
+    local fd = assert(uv.fs_open(path, "w", 438))
+    uv.fs_write(fd, contents, -1)
+    assert(uv.fs_close(fd))
 end
 
 return M

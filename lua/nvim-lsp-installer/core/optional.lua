@@ -54,9 +54,9 @@ function Optional:or_else(value)
 end
 
 ---@param supplier fun(): Optional
-function Optional:when_empty(supplier)
+function Optional:or_(supplier)
     if self:is_present() then
-        return self._value
+        return self
     else
         return supplier()
     end

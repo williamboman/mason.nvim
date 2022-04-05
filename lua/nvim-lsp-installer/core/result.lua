@@ -113,6 +113,22 @@ function Result:recover_catching(recover_fn)
     end
 end
 
+---@param fn fun(value: any): any
+function Result:on_failure(fn)
+    if self:is_failure() then
+        fn(self.value.error)
+    end
+    return self
+end
+
+---@param fn fun(value: any): any
+function Result:on_success(fn)
+    if self:is_success() then
+        fn(self.value)
+    end
+    return self
+end
+
 ---@param fn fun(): any
 ---@return Result
 function Result.run_catching(fn)
