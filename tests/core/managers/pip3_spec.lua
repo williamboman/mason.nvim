@@ -14,6 +14,7 @@ describe("pip3 manager", function()
     before_each(function()
         ctx = InstallContextGenerator {
             spawn = mock.new {
+                python = mockx.returns {},
                 python3 = mockx.returns {},
             },
         }
@@ -32,13 +33,14 @@ describe("pip3 manager", function()
             ctx.requested_version = Optional.of "42.13.37"
             pip3.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
             assert.spy(ctx.promote_cwd).was_called(1)
-            assert.spy(ctx.spawn.python3).was_called(2)
+            assert.spy(ctx.spawn.python3).was_called(1)
             assert.spy(ctx.spawn.python3).was_called_with {
                 "-m",
                 "venv",
                 "venv",
             }
-            assert.spy(ctx.spawn.python3).was_called_with(match.tbl_containing {
+            assert.spy(ctx.spawn.python).was_called(1)
+            assert.spy(ctx.spawn.python).was_called_with(match.tbl_containing {
                 "-m",
                 "pip",
                 "install",
@@ -81,14 +83,14 @@ describe("pip3 manager", function()
             vim.g.python3_host_prog = "/my/python3"
             ctx.spawn = mock.new {
                 python3 = mockx.throws(),
-                python = mockx.throws(),
+                python = mockx.returns {},
                 [vim.g.python3_host_prog] = mockx.returns {},
             }
             pip3.packages { "package" }(ctx)
             vim.g.python3_host_prog = nil
             assert.spy(ctx.spawn.python3).was_called(0)
-            assert.spy(ctx.spawn.python).was_called(0)
-            assert.spy(ctx.spawn["/my/python3"]).was_called()
+            assert.spy(ctx.spawn.python).was_called(1)
+            assert.spy(ctx.spawn["/my/python3"]).was_called(1)
         end)
     )
 
@@ -102,7 +104,7 @@ describe("pip3 manager", function()
             }
             pip3.packages { "package" }(ctx)
             settings.set(settings._DEFAULT_SETTINGS)
-            assert.spy(ctx.spawn.python3).was_called_with(match.tbl_containing {
+            assert.spy(ctx.spawn.python).was_called_with(match.tbl_containing {
                 "-m",
                 "pip",
                 "install",

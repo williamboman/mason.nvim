@@ -40,8 +40,8 @@ function M.packages(packages)
         end)
 
         Optional.of_nilable(executable)
-            :if_present(function(python3)
-                ctx.spawn[python3] {
+            :if_present(function()
+                ctx.spawn.python {
                     env = process.graft_env(M.env(ctx.cwd:get())), -- use venv env
                     "-m",
                     "pip",
