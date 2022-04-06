@@ -6,15 +6,6 @@ local M = {}
 
 ---@async
 ---@param path string
----@param contents string
-function M.append_file(path, contents)
-    local fd = uv.fs_open(path, "a", 438)
-    uv.fs_write(fd, contents, -1)
-    uv.fs_close(fd)
-end
-
----@async
----@param path string
 function M.file_exists(path)
     local ok, fd = pcall(uv.fs_open, path, "r", 438)
     if not ok then
@@ -81,11 +72,19 @@ end
 ---@async
 ---@param path string
 ---@param contents string
-function M.write_file(path, contents)
+---@param flags string @Defaults to "w".
+function M.write_file(path, contents, flags)
     log.fmt_debug("fs: write_file %s", path)
-    local fd = assert(uv.fs_open(path, "w", 438))
+    local fd = assert(uv.fs_open(path, flags or "w", 438))
     uv.fs_write(fd, contents, -1)
     assert(uv.fs_close(fd))
+end
+
+---@async
+---@param path string
+---@param contents string
+function M.append_file(path, contents)
+    M.write_file(path, contents, "a")
 end
 
 return M

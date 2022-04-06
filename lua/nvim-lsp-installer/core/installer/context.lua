@@ -43,6 +43,13 @@ function ContextualFs:append_file(rel_path, contents)
 end
 
 ---@async
+---@param rel_path string @The relative path from the current working directory to the file to write.
+---@param contents string
+function ContextualFs:write_file(rel_path, contents)
+    return fs.write_file(path.concat { self.cwd:get(), rel_path }, contents)
+end
+
+---@async
 ---@param rel_path string @The relative path from the current working directory.
 function ContextualFs:file_exists(rel_path)
     return fs.file_exists(path.concat { self.cwd:get(), rel_path })

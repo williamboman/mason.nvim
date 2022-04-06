@@ -1,6 +1,5 @@
 local server = require "nvim-lsp-installer.server"
-local process = require "nvim-lsp-installer.process"
-local context = require "nvim-lsp-installer.installers.context"
+local path = require "nvim-lsp-installer.path"
 
 return function(name, root_dir)
     local function create_install_script(install_dir)
@@ -32,20 +31,22 @@ languageserver::run();
         root_dir = root_dir,
         homepage = "https://github.com/REditorSupport/languageserver",
         languages = { "R" },
-        installer = {
-            function(_, callback, ctx)
-                process.spawn("R", {
-                    cwd = ctx.install_dir,
-                    args = { "-e", create_install_script(ctx.install_dir) },
-                    stdio_sink = ctx.stdio_sink,
-                }, callback)
-            end,
-            context.receipt(function(receipt)
-                receipt:with_primary_source(receipt.r_package "languageserver")
-            end),
-        },
+        async = true,
+        ---@param ctx InstallContext
+        installer = function(ctx)
+            ctx.spawn.R {
+                "--no-save",
+                on_spawn = function(_, stdio)
+                    local stdin = stdio[1]
+                    stdin:write(create_install_script(ctx.cwd:get()))
+                    stdin:close()
+                end,
+            }
+            ctx.fs:write_file("server.R", server_script)
+            ctx.receipt:with_primary_source(ctx.receipt.r_package "languageserver")
+        end,
         default_options = {
-            cmd = { "R", "--slave", "-e", server_script },
+            cmd = { "R", "--slave", "-f", path.concat { root_dir, "server.R" } },
         },
     }
 end

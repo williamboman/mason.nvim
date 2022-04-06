@@ -3,8 +3,6 @@ local Result = require "nvim-lsp-installer.core.result"
 local process = require "nvim-lsp-installer.process"
 local platform = require "nvim-lsp-installer.platform"
 
-local async_spawn = a.promisify(process.spawn)
-
 ---@alias JobSpawn Record<string, async fun(opts: JobSpawnOpts): Result>
 ---@type JobSpawn
 local spawn = {
@@ -58,7 +56,12 @@ setmetatable(spawn, {
             end
 
             local cmd = self._aliases[k] or k
-            local _, exit_code = async_spawn(cmd, spawn_args)
+            local _, exit_code = a.wait(function(resolve)
+                local handle, stdio = process.spawn(cmd, spawn_args, resolve)
+                if args.on_spawn and handle and stdio then
+                    args.on_spawn(handle, stdio)
+                end
+            end)
 
             if exit_code == 0 then
                 return Result.success {
