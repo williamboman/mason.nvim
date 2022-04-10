@@ -24,7 +24,13 @@ return function(name, root_dir)
                             when(platform.arch == "arm64", "vscode-lua-%s-darwin-arm64.vsix")
                         )
                     ),
-                    when(platform.is_linux and platform.arch == "x64", "vscode-lua-%s-linux-x64.vsix"),
+                    when(
+                        platform.is_linux,
+                        coalesce(
+                            when(platform.arch == "x64", "vscode-lua-%s-linux-x64.vsix"),
+                            when(platform.arch == "arm64", "vscode-lua-%s-linux-arm64.vsix")
+                        )
+                    ),
                     when(
                         platform.is_win,
                         coalesce(
