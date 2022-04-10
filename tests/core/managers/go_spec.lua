@@ -6,6 +6,7 @@ local Optional = require "nvim-lsp-installer.core.optional"
 local Result = require "nvim-lsp-installer.core.result"
 local go = require "nvim-lsp-installer.core.managers.go"
 local spawn = require "nvim-lsp-installer.core.spawn"
+local installer = require "nvim-lsp-installer.core.installer"
 
 describe("go manager", function()
     ---@type InstallContext
@@ -22,7 +23,7 @@ describe("go manager", function()
         "should call go install",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            go.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.go).was_called(3)
             assert.spy(ctx.spawn.go).was_called_with(match.tbl_containing {
                 "install",
@@ -49,7 +50,7 @@ describe("go manager", function()
         "should provide receipt information",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            go.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.equals(
                 vim.inspect {
                     type = "go",

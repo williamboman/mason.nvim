@@ -4,47 +4,63 @@ local path = require "nvim-lsp-installer.path"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Optional = require "nvim-lsp-installer.core.optional"
+local installer = require "nvim-lsp-installer.core.installer"
 
 local list_copy, list_find_first = Data.list_copy, Data.list_find_first
 
 local M = {}
 
----@param packages string[] The composer packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
-function M.require(packages)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        local pkgs = list_copy(packages)
+---@param packages string[]
+local function with_receipt(packages)
+    return function()
+        local ctx = installer.context()
 
-        ctx.receipt:with_primary_source(ctx.receipt.composer(pkgs[1]))
-        for i = 2, #pkgs do
-            ctx.receipt:with_secondary_source(ctx.receipt.composer(pkgs[i]))
+        ctx.receipt:with_primary_source(ctx.receipt.composer(packages[1]))
+        for i = 2, #packages do
+            ctx.receipt:with_secondary_source(ctx.receipt.composer(packages[i]))
         end
-
-        if not ctx.fs:file_exists "composer.json" then
-            ctx.spawn.composer { "init", "--no-interaction", "--stability=stable" }
-        end
-
-        ctx.requested_version:if_present(function(version)
-            pkgs[1] = ("%s:%s"):format(pkgs[1], version)
-        end)
-
-        ctx.spawn.composer { "require", pkgs }
     end
 end
 
-function M.install()
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        ctx.spawn.composer {
-            "install",
-            "--no-interaction",
-            "--no-dev",
-            "--optimize-autoloader",
-            "--classmap-authoritative",
-        }
+---@async
+---@param packages string[] The composer packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
+function M.packages(packages)
+    return function()
+        return M.require(packages).with_receipt()
     end
+end
+
+---@async
+---@param packages string[] The composer packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
+function M.require(packages)
+    local ctx = installer.context()
+    local pkgs = list_copy(packages)
+
+    if not ctx.fs:file_exists "composer.json" then
+        ctx.spawn.composer { "init", "--no-interaction", "--stability=stable" }
+    end
+
+    ctx.requested_version:if_present(function(version)
+        pkgs[1] = ("%s:%s"):format(pkgs[1], version)
+    end)
+
+    ctx.spawn.composer { "require", pkgs }
+
+    return {
+        with_receipt = with_receipt(packages),
+    }
+end
+
+---@async
+function M.install()
+    local ctx = installer.context()
+    ctx.spawn.composer {
+        "install",
+        "--no-interaction",
+        "--no-dev",
+        "--optimize-autoloader",
+        "--classmap-authoritative",
+    }
 end
 
 ---@async

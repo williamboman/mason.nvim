@@ -1,6 +1,7 @@
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
+local installer = require "nvim-lsp-installer.core.installer"
 local Optional = require "nvim-lsp-installer.core.optional"
 local gem = require "nvim-lsp-installer.core.managers.gem"
 local Result = require "nvim-lsp-installer.core.result"
@@ -21,7 +22,7 @@ describe("gem manager", function()
         "should call gem install",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            gem.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, gem.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.gem).was_called(1)
             assert.spy(ctx.spawn.gem).was_called_with(match.tbl_containing {
                 "install",
@@ -42,7 +43,7 @@ describe("gem manager", function()
         "should provide receipt information",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            gem.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, gem.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.equals(
                 vim.inspect {
                     type = "gem",

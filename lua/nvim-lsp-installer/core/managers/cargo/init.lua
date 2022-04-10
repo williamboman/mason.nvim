@@ -5,38 +5,56 @@ local a = require "nvim-lsp-installer.core.async"
 local Optional = require "nvim-lsp-installer.core.optional"
 local crates = require "nvim-lsp-installer.core.clients.crates"
 local Result = require "nvim-lsp-installer.core.result"
+local installer = require "nvim-lsp-installer.core.installer"
 
 local fetch_crate = a.promisify(crates.fetch_crate, true)
 
+---@param crate string
+local function with_receipt(crate)
+    return function()
+        local ctx = installer.context()
+        ctx.receipt:with_primary_source(ctx.receipt.cargo(crate))
+    end
+end
+
 local M = {}
 
+---@async
 ---@param crate string The crate to install.
 ---@param opts {git:boolean, features:string|nil}
 function M.crate(crate, opts)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        opts = opts or {}
-        ctx.requested_version:if_present(function()
-            assert(not opts.git, "Providing a version when installing a git crate is not allowed.")
-        end)
-
-        ctx.receipt:with_primary_source(ctx.receipt.cargo(crate))
-
-        ctx.spawn.cargo {
-            "install",
-            "--root",
-            ".",
-            "--locked",
-            ctx.requested_version
-                :map(function(version)
-                    return { "--version", version }
-                end)
-                :or_else(vim.NIL),
-            opts.features and { "--features", opts.features } or vim.NIL,
-            opts.git and { "--git", crate } or crate,
-        }
+    return function()
+        return M.install(crate, opts).with_receipt()
     end
+end
+
+---@async
+---@param crate string The crate to install.
+---@param opts {git:boolean, features:string|nil}
+function M.install(crate, opts)
+    local ctx = installer.context()
+    opts = opts or {}
+    ctx.requested_version:if_present(function()
+        assert(not opts.git, "Providing a version when installing a git crate is not allowed.")
+    end)
+
+    ctx.spawn.cargo {
+        "install",
+        "--root",
+        ".",
+        "--locked",
+        ctx.requested_version
+            :map(function(version)
+                return { "--version", version }
+            end)
+            :or_else(vim.NIL),
+        opts.features and { "--features", opts.features } or vim.NIL,
+        opts.git and { "--git", crate } or crate,
+    }
+
+    return {
+        with_receipt = with_receipt(crate),
+    }
 end
 
 ---@param output string @The `cargo install --list` output.

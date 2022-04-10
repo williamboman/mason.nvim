@@ -21,6 +21,33 @@ local function write_receipt(context)
     end
 end
 
+local CONTEXT_REQUEST = {}
+
+---@return InstallContext
+function M.context()
+    return coroutine.yield(CONTEXT_REQUEST)
+end
+
+---@async
+---@param context InstallContext
+---@param installer async fun(context: InstallContext)
+function M.run_installer(context, installer)
+    local thread = coroutine.create(installer)
+    local step
+    step = function(...)
+        local ok, result = coroutine.resume(thread, ...)
+        if not ok then
+            error(result, 0)
+        elseif result == CONTEXT_REQUEST then
+            step(context)
+        elseif coroutine.status(thread) == "suspended" then
+            -- yield to parent coroutine
+            step(coroutine.yield(result))
+        end
+    end
+    step(context)
+end
+
 ---@async
 ---@param context InstallContext
 ---@param installer async fun(ctx: InstallContext)
@@ -37,7 +64,7 @@ function M.execute(context, installer)
         context.cwd:set(tmp_installation_dir)
 
         -- 2. run installer
-        installer(context)
+        M.run_installer(context, installer)
 
         -- 3. finalize
         write_receipt(context)
@@ -49,17 +76,6 @@ function M.execute(context, installer)
         pcall(fs.rmrf, tmp_installation_dir)
         pcall(fs.rmrf, context.cwd:get())
     end)
-end
-
----@param installers async fun(ctx: InstallContext)[]
-function M.serial(installers)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        for _, installer_step in pairs(installers) do
-            installer_step(ctx)
-        end
-    end
 end
 
 return M

@@ -1,20 +1,31 @@
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Result = require "nvim-lsp-installer.core.result"
+local installer = require "nvim-lsp-installer.core.installer"
+
 local M = {}
 
----@param opts {[1]:string} @The first item in the table is the repository to clone.
-function M.clone(opts)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        local repo = assert(opts[1], "No git URL provided.")
-        ctx.spawn.git { "clone", "--depth", "1", repo, "." }
-        ctx.requested_version:if_present(function(version)
-            ctx.spawn.git { "fetch", "--depth", "1", "origin", version }
-            ctx.spawn.git { "checkout", "FETCH_HEAD" }
-        end)
+---@param repo string
+local function with_receipt(repo)
+    return function()
+        local ctx = installer.context()
         ctx.receipt:with_primary_source(ctx.receipt.git_remote(repo))
     end
+end
+
+---@async
+---@param opts {[1]:string} @The first item in the table is the repository to clone.
+function M.clone(opts)
+    local ctx = installer.context()
+    local repo = assert(opts[1], "No git URL provided.")
+    ctx.spawn.git { "clone", "--depth", "1", repo, "." }
+    ctx.requested_version:if_present(function(version)
+        ctx.spawn.git { "fetch", "--depth", "1", "origin", version }
+        ctx.spawn.git { "checkout", "FETCH_HEAD" }
+    end)
+
+    return {
+        with_receipt = with_receipt(repo),
+    }
 end
 
 ---@async

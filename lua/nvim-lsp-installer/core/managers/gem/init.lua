@@ -4,36 +4,53 @@ local path = require "nvim-lsp-installer.path"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Optional = require "nvim-lsp-installer.core.optional"
+local installer = require "nvim-lsp-installer.core.installer"
 
 local list_copy, list_find_first = Data.list_copy, Data.list_find_first
 
 local M = {}
 
+---@param packages string[]
+local function with_receipt(packages)
+    return function()
+        local ctx = installer.context()
+        ctx.receipt:with_primary_source(ctx.receipt.gem(packages[1]))
+        for i = 2, #packages do
+            ctx.receipt:with_secondary_source(ctx.receipt.gem(packages[i]))
+        end
+    end
+end
+
+---@async
 ---@param packages string[] @The Gem packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
 function M.packages(packages)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        local pkgs = list_copy(packages or {})
-
-        ctx.receipt:with_primary_source(ctx.receipt.gem(pkgs[1]))
-        for i = 2, #pkgs do
-            ctx.receipt:with_secondary_source(ctx.receipt.gem(pkgs[i]))
-        end
-
-        ctx.requested_version:if_present(function(version)
-            pkgs[1] = ("%s:%s"):format(pkgs[1], version)
-        end)
-
-        ctx.spawn.gem {
-            "install",
-            "--no-user-install",
-            "--install-dir=.",
-            "--bindir=bin",
-            "--no-document",
-            pkgs,
-        }
+    return function()
+        return M.install(packages).with_receipt()
     end
+end
+
+---@async
+---@param packages string[] @The Gem packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
+function M.install(packages)
+    local ctx = installer.context()
+    local pkgs = list_copy(packages or {})
+
+    ctx.requested_version:if_present(function(version)
+        pkgs[1] = ("%s:%s"):format(pkgs[1], version)
+    end)
+
+    ctx.spawn.gem {
+        "install",
+        "--no-user-install",
+        "--install-dir=.",
+        "--bindir=bin",
+        "--no-document",
+        pkgs,
+    }
+
+    return {
+        with_receipt = with_receipt(packages),
+    }
 end
 
 ---@alias GemOutdatedPackage {name:string, current_version: string, latest_version: string}

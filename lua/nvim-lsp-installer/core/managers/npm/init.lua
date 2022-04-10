@@ -1,6 +1,7 @@
 local Data = require "nvim-lsp-installer.data"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Optional = require "nvim-lsp-installer.core.optional"
+local installer = require "nvim-lsp-installer.core.installer"
 local Result = require "nvim-lsp-installer.core.result"
 local process = require "nvim-lsp-installer.process"
 local path = require "nvim-lsp-installer.path"
@@ -18,62 +19,64 @@ local function ensure_npm_root(ctx)
     end
 end
 
+---@param packages string[]
+local function with_receipt(packages)
+    return function()
+        local ctx = installer.context()
+        ctx.receipt:with_primary_source(ctx.receipt.npm(packages[1]))
+        for i = 2, #packages do
+            ctx.receipt:with_secondary_source(ctx.receipt.npm(packages[i]))
+        end
+    end
+end
+
+---@async
 ---@param packages string[] @The npm packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.packages(packages)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        local pkgs = list_copy(packages)
-
-        -- Use global-style. The reasons for this are:
-        --   a) To avoid polluting the executables (aka bin-links) that npm creates.
-        --   b) The installation is, after all, more similar to a "global" installation. We don't really gain
-        --      any of the benefits of not using global style (e.g., deduping the dependency tree).
-        --
-        --  We write to .npmrc manually instead of going through npm because managing a local .npmrc file
-        --  is a bit unreliable across npm versions (especially <7), so we take extra measures to avoid
-        --  inadvertently polluting global npm config.
-        ctx.fs:append_file(".npmrc", "global-style=true")
-
-        ctx.receipt:with_primary_source(ctx.receipt.npm(pkgs[1]))
-        for i = 2, #pkgs do
-            ctx.receipt:with_secondary_source(ctx.receipt.npm(pkgs[i]))
-        end
-
-        ctx.requested_version:if_present(function(version)
-            pkgs[1] = ("%s@%s"):format(pkgs[1], version)
-        end)
-
-        M.install(pkgs)(ctx)
+    return function()
+        return M.install(packages).with_receipt()
     end
 end
 
----@param packages string[] @The npm packages to install.
+---@async
+---@param packages string[] @The npm packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.install(packages)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        ensure_npm_root(ctx)
-        ctx.spawn.npm { "install", packages }
-    end
+    local ctx = installer.context()
+    local pkgs = list_copy(packages)
+    ctx.requested_version:if_present(function(version)
+        pkgs[1] = ("%s@%s"):format(pkgs[1], version)
+    end)
+
+    -- Use global-style. The reasons for this are:
+    --   a) To avoid polluting the executables (aka bin-links) that npm creates.
+    --   b) The installation is, after all, more similar to a "global" installation. We don't really gain
+    --      any of the benefits of not using global style (e.g., deduping the dependency tree).
+    --
+    --  We write to .npmrc manually instead of going through npm because managing a local .npmrc file
+    --  is a bit unreliable across npm versions (especially <7), so we take extra measures to avoid
+    --  inadvertently polluting global npm config.
+    ctx.fs:append_file(".npmrc", "global-style=true")
+
+    ensure_npm_root(ctx)
+    ctx.spawn.npm { "install", pkgs }
+
+    return {
+        with_receipt = with_receipt(packages),
+    }
 end
 
+---@async
 ---@param exec_args string[] @The arguments to pass to npm exec.
 function M.exec(exec_args)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        ctx.spawn.npm { "exec", "--yes", exec_args }
-    end
+    local ctx = installer.context()
+    ctx.spawn.npm { "exec", "--yes", exec_args }
 end
 
+---@async
 ---@param script string @The npm script to run.
 function M.run(script)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        ctx.spawn.npm { "run", script }
-    end
+    local ctx = installer.context()
+    ctx.spawn.npm { "run", script }
 end
 
 ---@async

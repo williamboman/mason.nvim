@@ -26,7 +26,9 @@ describe("installer", function()
                 stdio_sink = process.empty_sink(),
                 requested_version = Optional.empty(),
             }
-            local result = installer.execute(ctx, installer_fn)
+            local result = installer.execute(ctx, function(...)
+                installer_fn(...)
+            end)
             assert.is_nil(result:err_or_nil())
             assert.spy(installer_fn).was_called(1)
             assert.spy(installer_fn).was_called_with(match.ref(ctx))
@@ -52,7 +54,9 @@ describe("installer", function()
                 stdio_sink = process.empty_sink(),
                 requested_version = Optional.empty(),
             }
-            local result = installer.execute(ctx, installer_fn)
+            local result = installer.execute(ctx, function(...)
+                installer_fn(...)
+            end)
             assert.spy(installer_fn).was_called(1)
             assert.spy(installer_fn).was_called_with(match.ref(ctx))
             assert.is_true(result:is_failure())

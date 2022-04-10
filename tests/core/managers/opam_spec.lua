@@ -1,6 +1,7 @@
 local match = require "luassert.match"
 local mock = require "luassert.mock"
 local Optional = require "nvim-lsp-installer.core.optional"
+local installer = require "nvim-lsp-installer.core.installer"
 local opam = require "nvim-lsp-installer.core.managers.opam"
 
 describe("opam manager", function()
@@ -18,7 +19,7 @@ describe("opam manager", function()
         "should call opam install",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            opam.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, opam.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.opam).was_called(1)
             assert.spy(ctx.spawn.opam).was_called_with(match.tbl_containing {
                 "install",
@@ -38,7 +39,7 @@ describe("opam manager", function()
         "should provide receipt information",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            opam.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, opam.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.equals(
                 vim.inspect {
                     type = "opam",

@@ -4,6 +4,7 @@ local match = require "luassert.match"
 
 local pip3 = require "nvim-lsp-installer.core.managers.pip3"
 local Optional = require "nvim-lsp-installer.core.optional"
+local installer = require "nvim-lsp-installer.core.installer"
 local Result = require "nvim-lsp-installer.core.result"
 local settings = require "nvim-lsp-installer.settings"
 local spawn = require "nvim-lsp-installer.core.spawn"
@@ -31,7 +32,7 @@ describe("pip3 manager", function()
         "should create venv and call pip3 install",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            pip3.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, pip3.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.promote_cwd).was_called(1)
             assert.spy(ctx.spawn.python3).was_called(1)
             assert.spy(ctx.spawn.python3).was_called_with {
@@ -66,7 +67,7 @@ describe("pip3 manager", function()
                 [vim.g.python3_host_prog] = mockx.throws(),
             }
             local err = assert.has_error(function()
-                pip3.packages { "package" }(ctx)
+                installer.run_installer(ctx, pip3.packages { "package" })
             end)
             vim.g.python3_host_prog = nil
 
@@ -86,7 +87,7 @@ describe("pip3 manager", function()
                 python = mockx.returns {},
                 [vim.g.python3_host_prog] = mockx.returns {},
             }
-            pip3.packages { "package" }(ctx)
+            installer.run_installer(ctx, pip3.packages { "package" })
             vim.g.python3_host_prog = nil
             assert.spy(ctx.spawn.python3).was_called(0)
             assert.spy(ctx.spawn.python).was_called(1)
@@ -102,7 +103,7 @@ describe("pip3 manager", function()
                     install_args = { "--proxy", "http://localhost:8080" },
                 },
             }
-            pip3.packages { "package" }(ctx)
+            installer.run_installer(ctx, pip3.packages { "package" })
             settings.set(settings._DEFAULT_SETTINGS)
             assert.spy(ctx.spawn.python).was_called_with(match.tbl_containing {
                 "-m",
@@ -120,7 +121,7 @@ describe("pip3 manager", function()
         "should provide receipt information",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
-            pip3.packages { "main-package", "supporting-package", "supporting-package2" }(ctx)
+            installer.run_installer(ctx, pip3.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.equals(
                 vim.inspect {
                     type = "pip3",

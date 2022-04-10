@@ -72,7 +72,11 @@ local function new_execution_context(suspend_fn, callback, ...)
         end
         local ok, promise_or_result = co.resume(thread, ...)
         if ok then
-            if getmetatable(promise_or_result) == Promise then
+            if co.status(thread) == "suspended" then
+                assert(
+                    getmetatable(promise_or_result) == Promise,
+                    "Expected Promise to have been yielded in async coroutine."
+                )
                 promise_or_result(step)
             else
                 callback(true, promise_or_result)

@@ -1,3 +1,4 @@
+local installer = require "nvim-lsp-installer.core.installer"
 local process = require "nvim-lsp-installer.process"
 local platform = require "nvim-lsp-installer.platform"
 local spawn = require "nvim-lsp-installer.core.spawn"
@@ -6,34 +7,54 @@ local Optional = require "nvim-lsp-installer.core.optional"
 
 local M = {}
 
----@param packages string[] The Go packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
-function M.packages(packages)
-    ---@async
-    ---@param ctx InstallContext
-    return function(ctx)
-        local env = process.graft_env {
-            GOBIN = ctx.cwd:get(),
-        }
-        -- Install the head package
-        do
-            local head_package = packages[1]
-            ctx.receipt:with_primary_source(ctx.receipt.go(head_package))
-            local version = ctx.requested_version:or_else "latest"
-            ctx.spawn.go {
-                "install",
-                "-v",
-                ("%s@%s"):format(head_package, version),
-                env = env,
-            }
-        end
-
+---@param packages string[]
+local function with_receipt(packages)
+    return function()
+        local ctx = installer.context()
+        ctx.receipt:with_primary_source(ctx.receipt.go(packages[1]))
         -- Install secondary packages
         for i = 2, #packages do
             local package = packages[i]
             ctx.receipt:with_secondary_source(ctx.receipt.go(package))
-            ctx.spawn.go { "install", "-v", ("%s@latest"):format(package), env = env }
         end
     end
+end
+
+---@async
+---@param packages string[] The Go packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
+function M.packages(packages)
+    return function()
+        M.install(packages).with_receipt()
+    end
+end
+
+---@async
+---@param packages string[] The Go packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
+function M.install(packages)
+    local ctx = installer.context()
+    local env = process.graft_env {
+        GOBIN = ctx.cwd:get(),
+    }
+    -- Install the head package
+    do
+        local head_package = packages[1]
+        local version = ctx.requested_version:or_else "latest"
+        ctx.spawn.go {
+            "install",
+            "-v",
+            ("%s@%s"):format(head_package, version),
+            env = env,
+        }
+    end
+
+    -- Install secondary packages
+    for i = 2, #packages do
+        ctx.spawn.go { "install", "-v", ("%s@latest"):format(packages[i]), env = env }
+    end
+
+    return {
+        with_receipt = with_receipt(packages),
+    }
 end
 
 ---@param output string @The output from `go version -m` command.
