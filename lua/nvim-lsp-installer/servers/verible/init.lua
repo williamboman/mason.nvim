@@ -56,7 +56,10 @@ return function(name, root_dir)
                         unix = std.untargz_remote(ctx.github_release_file),
                         win = std.unzip_remote(ctx.github_release_file),
                     },
-                    std.rename(("verible-%s"):format(ctx.requested_server_version), "verible"),
+                    std.rename(
+                        ("verible-%s%s"):format(ctx.requested_server_version, platform.is_win and "-win64" or ""),
+                        "verible"
+                    ),
                 }
             end),
             context.receipt(function(receipt, ctx)
