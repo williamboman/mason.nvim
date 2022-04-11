@@ -76,7 +76,8 @@ function CwdManager.new(boundary_path, cwd)
 end
 
 function CwdManager:get()
-    return assert(self.cwd, "Tried to access cwd before it was set.")
+    assert(self.cwd ~= nil, "Tried to access cwd before it was set.")
+    return self.cwd
 end
 
 ---@param new_cwd string

@@ -1,5 +1,5 @@
 local server = require "nvim-lsp-installer.server"
-local go = require "nvim-lsp-installer.installers.go"
+local go = require "nvim-lsp-installer.core.managers.go"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -7,6 +7,7 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/nametake/golangci-lint-langserver",
         languages = { "go" },
+        async = true,
         installer = go.packages {
             "github.com/nametake/golangci-lint-langserver",
             "github.com/golangci/golangci-lint/cmd/golangci-lint",

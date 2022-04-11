@@ -5,9 +5,10 @@ local platform = require "nvim-lsp-installer.platform"
 local installers = require "nvim-lsp-installer.installers"
 local shell = require "nvim-lsp-installer.installers.shell"
 local Data = require "nvim-lsp-installer.data"
-local fetch = require "nvim-lsp-installer.core.fetch"
 
 local list_not_nil, when = Data.list_not_nil, Data.when
+
+local USER_AGENT = "nvim-lsp-installer (+https://github.com/williamboman/nvim-lsp-installer)"
 
 local M = {}
 
@@ -21,12 +22,12 @@ function M.download_file(url, out_file)
             process.attempt {
                 jobs = {
                     process.lazy_spawn("wget", {
-                        args = fetch.with_headers(fetch.HEADERS.wget, { "-nv", "-O", out_file, url }),
+                        args = { "--header", ("User-Agent: %s"):format(USER_AGENT), "-nv", "-O", out_file, url },
                         cwd = context.install_dir,
                         stdio_sink = context.stdio_sink,
                     }),
                     process.lazy_spawn("curl", {
-                        args = fetch.with_headers(fetch.HEADERS.curl, { "-fsSL", "-o", out_file, url }),
+                        args = { "-H", ("User-Agent: %s"):format(USER_AGENT), "-fsSL", "-o", out_file, url },
                         cwd = context.install_dir,
                         stdio_sink = context.stdio_sink,
                     }),
@@ -35,7 +36,11 @@ function M.download_file(url, out_file)
             }
         end,
         win = shell.powershell(
-            ("iwr %s -UseBasicParsing -Uri %q -OutFile %q"):format(fetch.HEADERS.iwr, url, out_file)
+            ("iwr -Headers @{'User-Agent' = '%s'} -UseBasicParsing -Uri %q -OutFile %q"):format(
+                USER_AGENT,
+                url,
+                out_file
+            )
         ),
     }
 end

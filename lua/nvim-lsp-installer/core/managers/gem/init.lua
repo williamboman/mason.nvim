@@ -75,10 +75,10 @@ function M.parse_outdated_gem(outdated_gem)
     return outdated_package
 end
 
----Parses the stdout of the `gem list` command into a Record<package_name, version>
+---Parses the stdout of the `gem list` command into a table<package_name, version>
 ---@param output string
 function M.parse_gem_list_output(output)
-    ---@type Record<string, string>
+    ---@type table<string, string>
     local gem_versions = {}
     for _, line in ipairs(vim.split(output, "\n")) do
         local gem_package, version = line:match "^(%S+) %((%S+)%)$"

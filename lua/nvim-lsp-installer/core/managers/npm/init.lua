@@ -69,7 +69,7 @@ end
 ---@param exec_args string[] @The arguments to pass to npm exec.
 function M.exec(exec_args)
     local ctx = installer.context()
-    ctx.spawn.npm { "exec", "--yes", exec_args }
+    ctx.spawn.npm { "exec", "--yes", "--", exec_args }
 end
 
 ---@async

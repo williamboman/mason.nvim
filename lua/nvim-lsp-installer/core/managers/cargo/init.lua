@@ -3,11 +3,8 @@ local path = require "nvim-lsp-installer.path"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local a = require "nvim-lsp-installer.core.async"
 local Optional = require "nvim-lsp-installer.core.optional"
-local crates = require "nvim-lsp-installer.core.clients.crates"
-local Result = require "nvim-lsp-installer.core.result"
 local installer = require "nvim-lsp-installer.core.installer"
-
-local fetch_crate = a.promisify(crates.fetch_crate, true)
+local client = require "nvim-lsp-installer.core.managers.cargo.client"
 
 ---@param crate string
 local function with_receipt(crate)
@@ -58,7 +55,7 @@ function M.install(crate, opts)
 end
 
 ---@param output string @The `cargo install --list` output.
----@return Record<string, string> @Key is the crate name, value is its version.
+---@return table<string, string> @Key is the crate name, value is its version.
 function M.parse_installed_crates(output)
     local installed_crates = {}
     for _, line in ipairs(vim.split(output, "\n")) do
@@ -74,18 +71,19 @@ end
 ---@param receipt InstallReceipt
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
-    local installed_version = M.get_installed_primary_package_version(receipt, install_dir):get_or_throw()
-
-    local response = fetch_crate(receipt.primary_source.package)
-    if installed_version ~= response.crate.max_stable_version then
-        return Result.success {
-            name = receipt.primary_source.package,
-            current_version = installed_version,
-            latest_version = response.crate.max_stable_version,
-        }
-    else
-        return Result.failure "Primary package is not outdated."
-    end
+    return M.get_installed_primary_package_version(receipt, install_dir):map_catching(function(installed_version)
+        ---@type CrateResponse
+        local crate_response = client.fetch_crate(receipt.primary_source.package):get_or_throw()
+        if installed_version ~= crate_response.crate.max_stable_version then
+            return {
+                name = receipt.primary_source.package,
+                current_version = installed_version,
+                latest_version = crate_response.crate.max_stable_version,
+            }
+        else
+            error "Primary package is not outdated."
+        end
+    end)
 end
 
 ---@async

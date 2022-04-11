@@ -1,6 +1,6 @@
 local a = require "nvim-lsp-installer.core.async"
 
----@type Record<UvMethod, async fun(...)>
+---@type table<UvMethod, async fun(...)>
 local M = setmetatable({}, {
     __index = function(_, method)
         ---@async

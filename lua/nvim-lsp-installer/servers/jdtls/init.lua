@@ -1,4 +1,5 @@
 local server = require "nvim-lsp-installer.server"
+local a = require "nvim-lsp-installer.core.async"
 local path = require "nvim-lsp-installer.path"
 local std = require "nvim-lsp-installer.installers.std"
 local context = require "nvim-lsp-installer.installers.context"
@@ -61,12 +62,12 @@ return function(name, root_dir)
                     callback(true)
                     return
                 end
-                eclipse.fetch_latest_jdtls_version(function(err, latest_version)
-                    if err then
+                a.run(eclipse.fetch_latest_jdtls_version, function(success, latest_version)
+                    if not success or latest_version:is_failure() then
                         ctx.stdio_sink.stderr "Failed to fetch latest verison.\n"
                         callback(false)
                     else
-                        ctx.requested_server_version = latest_version
+                        ctx.requested_server_version = latest_version:get_or_nil()
                         callback(true)
                     end
                 end)

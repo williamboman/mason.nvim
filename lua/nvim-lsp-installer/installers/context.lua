@@ -1,10 +1,11 @@
+local a = require "nvim-lsp-installer.core.async"
 local log = require "nvim-lsp-installer.log"
 local process = require "nvim-lsp-installer.process"
 local installers = require "nvim-lsp-installer.installers"
 local platform = require "nvim-lsp-installer.platform"
 local fs = require "nvim-lsp-installer.fs"
 local path = require "nvim-lsp-installer.path"
-local github = require "nvim-lsp-installer.core.clients.github"
+local github_client = require "nvim-lsp-installer.core.managers.github.client"
 
 local M = {}
 
@@ -22,16 +23,21 @@ function M.use_github_latest_tag(repo)
             return callback(true)
         end
         context.stdio_sink.stdout "Fetching tags from GitHub API...\n"
-        github.fetch_latest_tag(repo, function(err, latest_tag)
-            if err then
-                context.stdio_sink.stderr(tostring(err) .. "\n")
-                callback(false)
-                return
+        a.run(github_client.fetch_latest_tag, function(success, result)
+            if not success then
+                context.stdio_sink.stderr(tostring(result) .. "\n")
+                return callback(false)
             end
-
-            context.requested_server_version = latest_tag.name
-            callback(true)
-        end)
+            result
+                :on_success(function(latest_tag)
+                    context.requested_server_version = latest_tag.name
+                    callback(true)
+                end)
+                :on_failure(function(failure)
+                    context.stdio_sink.stderr(tostring(failure) .. "\n")
+                    callback(false)
+                end)
+        end, repo)
     end
 end
 
@@ -51,14 +57,21 @@ function M.use_github_release(repo, opts)
             return callback(true)
         end
         context.stdio_sink.stdout "Fetching latest release version from GitHub API...\n"
-        github.fetch_latest_release(repo, opts, function(err, latest_release)
-            if err then
-                context.stdio_sink.stderr(tostring(err) .. "\n")
+        a.run(github_client.fetch_latest_release, function(success, result)
+            if not success then
+                context.stdio_sink.stderr(tostring(result) .. "\n")
                 return callback(false)
             end
-            context.requested_server_version = latest_release.tag_name
-            callback(true)
-        end)
+            result
+                :on_success(function(latest_release)
+                    context.requested_server_version = latest_release.tag_name
+                    callback(true)
+                end)
+                :on_failure(function(failure)
+                    context.stdio_sink.stderr(tostring(failure) .. "\n")
+                    callback(false)
+                end)
+        end, repo, opts)
     end
 end
 

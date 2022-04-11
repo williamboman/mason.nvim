@@ -20,7 +20,7 @@ local jobpool = JobExecutionPool:new {
     size = 4,
 }
 
----@type Record<InstallReceiptSourceType, async fun(receipt: InstallReceipt, install_dir: string): Result>
+---@type table<InstallReceiptSourceType, async fun(receipt: InstallReceipt, install_dir: string): Result>
 local checkers = {
     ["npm"] = npm.check_outdated_primary_package,
     ["pip3"] = pip3.check_outdated_primary_package,

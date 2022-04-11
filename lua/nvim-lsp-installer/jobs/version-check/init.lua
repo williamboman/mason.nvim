@@ -25,7 +25,7 @@ local function noop()
     return Result.failure "Unable to detect version."
 end
 
----@type Record<InstallReceiptSourceType, async fun(server: Server, receipt: InstallReceipt): Result>
+---@type table<InstallReceiptSourceType, async fun(server: Server, receipt: InstallReceipt): Result>
 local version_checker = {
     ["npm"] = function(server, receipt)
         return npm.get_installed_primary_package_version(receipt, server.root_dir)

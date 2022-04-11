@@ -4,8 +4,6 @@ local Path = require "nvim-lsp-installer.path"
 local fetch = require "nvim-lsp-installer.core.fetch"
 local Data = require "nvim-lsp-installer.data"
 
-local async_fetch = a.promisify(fetch, true)
-
 local coalesce = Data.coalesce
 
 package.loaded["nvim-lsp-installer.servers"] = nil
@@ -157,15 +155,16 @@ end
 ---@async
 local function create_setting_schema_files()
     local available_servers = servers.get_available_servers()
-    local gist_data =
-        async_fetch "https://gist.githubusercontent.com/williamboman/a01c3ce1884d4b57cc93422e7eae7702/raw/lsp-packages.json"
+    local gist_data = fetch(
+        "https://gist.githubusercontent.com/williamboman/a01c3ce1884d4b57cc93422e7eae7702/raw/lsp-packages.json"
+    ):get_or_throw()
     local package_json_mappings = vim.json.decode(gist_data)
 
     for _, server in pairs(available_servers) do
         local package_json_url = package_json_mappings[server.name]
         if package_json_url then
             print(("Fetching %q..."):format(package_json_url))
-            local response = async_fetch(package_json_url)
+            local response = fetch(package_json_url):get_or_throw()
             local schema = vim.json.decode(response)
             if schema.contributes and schema.contributes.configuration then
                 schema = schema.contributes.configuration

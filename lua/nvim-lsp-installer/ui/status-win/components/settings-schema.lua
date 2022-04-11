@@ -2,7 +2,7 @@
 local Ui = require "nvim-lsp-installer.ui"
 local Data = require "nvim-lsp-installer.data"
 
-local list_map, list_not_nil, lazy = Data.list_map, Data.list_not_nil, Data.lazy
+local list_map = Data.list_map
 
 local property_type_highlights = {
     ["string"] = "String",

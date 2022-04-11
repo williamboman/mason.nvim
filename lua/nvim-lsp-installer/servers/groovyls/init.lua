@@ -1,7 +1,8 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
+local std = require "nvim-lsp-installer.core.managers.std"
+local git = require "nvim-lsp-installer.core.managers.git"
+local process = require "nvim-lsp-installer.process"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -9,19 +10,19 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "groovy" },
         homepage = "https://github.com/GroovyLanguageServer/groovy-language-server",
-        installer = {
-            std.ensure_executables { { "javac", "javac was not found in path." } },
-            std.git_clone "https://github.com/GroovyLanguageServer/groovy-language-server",
-            context.promote_install_dir(),
-            std.gradlew {
-                args = { "build" },
-            },
-            context.receipt(function(receipt)
-                receipt:with_primary_source(
-                    receipt.git_remote "https://github.com/GroovyLanguageServer/groovy-language-server"
-                )
-            end),
-        },
+        async = true,
+        ---@param ctx InstallContext
+        installer = function(ctx)
+            std.ensure_executable "javac"
+            git.clone({ "https://github.com/GroovyLanguageServer/groovy-language-server" }).with_receipt()
+            ctx:promote_cwd()
+            ctx.spawn.gradlew {
+                "build",
+                env = process.graft_env {
+                    PATH = process.extend_path { ctx.cwd:get() },
+                },
+            }
+        end,
         default_options = {
             cmd = { "java", "-jar", path.concat { root_dir, "build", "libs", "groovyls-all.jar" } },
         },
