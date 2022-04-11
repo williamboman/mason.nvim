@@ -67,12 +67,14 @@ function M.execute(context, installer)
         M.run_installer(context, installer)
 
         -- 3. finalize
+        log.fmt_debug("Finalizing installer for name=%s", context.name)
         write_receipt(context)
         context:promote_cwd()
+        pcall(fs.rmrf, tmp_installation_dir)
     end):on_failure(function(failure)
+        log.fmt_error("Installation failed, name=%s, error=%s", context.name, tostring(failure))
         context.stdio_sink.stderr(tostring(failure))
         context.stdio_sink.stderr "\n"
-        log.fmt_error("Installation failed, name=%s, error=%s", context.name, failure)
         pcall(fs.rmrf, tmp_installation_dir)
         pcall(fs.rmrf, context.cwd:get())
     end)
