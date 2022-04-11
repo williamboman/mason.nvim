@@ -24,7 +24,11 @@ local spawn = {
 local function Failure(err, cmd)
     return Result.failure(setmetatable(err, {
         __tostring = function()
-            return ("spawn: %s failed with exit code %d"):format(cmd, err.exit_code)
+            if err.exit_code ~= nil then
+                return ("spawn: %s failed with exit code %d. %s"):format(cmd, err.exit_code, err.stderr or "")
+            else
+                return ("spawn: %s failed with no exit code. %s"):format(cmd, err.stderr or "")
+            end
         end,
     }))
 end

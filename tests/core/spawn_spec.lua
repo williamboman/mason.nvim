@@ -1,4 +1,5 @@
 local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 local match = require "luassert.match"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local process = require "nvim-lsp-installer.process"
@@ -111,6 +112,36 @@ describe("async spawn", function()
 
             assert.spy(on_spawn).was_called(0)
             assert.is_true(result:is_failure())
+        end)
+    )
+
+    it(
+        "should handle failure to spawn process",
+        async_test(function()
+            stub(process, "spawn", function(_, _, callback)
+                callback(false)
+            end)
+
+            local result = spawn.my_cmd {}
+            assert.is_true(result:is_failure())
+            assert.is_nil(result:err_or_nil().exit_code)
+        end)
+    )
+
+    it(
+        "should format failure message",
+        async_test(function()
+            stub(process, "spawn", function(cmd, opts, callback)
+                opts.stdio_sink.stderr(("This is an error message for %s!"):format(cmd))
+                callback(false, 127)
+            end)
+
+            local result = spawn.my_cmd {}
+            assert.is_true(result:is_failure())
+            assert.equals(
+                "spawn: my_cmd failed with exit code 127. This is an error message for my_cmd!",
+                tostring(result:err_or_nil())
+            )
         end)
     )
 end)
