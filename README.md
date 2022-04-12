@@ -171,6 +171,7 @@ lsp_installer.settings({
 | CMake                               | `cmake`                    |
 | CSS                                 | `cssls`                    |
 | CSS                                 | `cssmodules_ls`            |
+| Clarity                             | `clarity_lsp`              |
 | Clojure                             | `clojure_lsp`              |
 | CodeQL                              | `codeqlls`                 |
 | Crystal                             | `crystalline`              |

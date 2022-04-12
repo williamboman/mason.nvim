@@ -34,6 +34,9 @@ return {
   clangd = {
     filetypes = { "c", "cpp", "objc", "objcpp" }
   },
+  clarity_lsp = {
+    filetypes = { "clar", "clarity" }
+  },
   clojure_lsp = {
     filetypes = { "clojure", "edn" }
   },

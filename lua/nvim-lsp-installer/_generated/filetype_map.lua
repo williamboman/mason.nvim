@@ -14,6 +14,8 @@ return {
   blade = { "tailwindcss" },
   bsl = { "bsl_ls" },
   c = { "ccls", "clangd", "sourcekit" },
+  clar = { "clarity_lsp" },
+  clarity = { "clarity_lsp" },
   clojure = { "clojure_lsp" },
   cmake = { "cmake" },
   cpp = { "ccls", "clangd", "sourcekit" },
