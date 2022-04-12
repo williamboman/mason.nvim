@@ -121,6 +121,20 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
         },
         Ui.EmptyLine(),
         Ui.HlTextNode {
+            { { "Missing a server?", "LspInstallerLabel" } },
+            {
+                {
+                    "Create an issue at ",
+                    "LspInstallerMuted",
+                },
+                {
+                    "https://github.com/williamboman/nvim-lsp-installer/issues/new/choose",
+                    "LspInstallerHighlighted",
+                },
+            },
+        },
+        Ui.EmptyLine(),
+        Ui.HlTextNode {
             {
                 {
                     ("%s Current settings"):format(is_current_settings_expanded and "↓" or "→"),
