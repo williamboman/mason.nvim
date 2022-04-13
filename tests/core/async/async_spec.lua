@@ -121,12 +121,37 @@ describe("async", function()
         end)
     )
 
-    it("should not accept yielding non-promise values", function()
-        local err = assert.has_error(function()
+    it("should accept yielding non-promise values to parent coroutine context", function()
+        local thread = coroutine.create(function(val)
             a.run_blocking(function()
-                coroutine.yield(1)
+                coroutine.yield(val)
             end)
         end)
-        assert.equals("Expected Promise to have been yielded in async coroutine.", err)
+        local ok, value = coroutine.resume(thread, 1337)
+        assert.is_true(ok)
+        assert.equals(1337, value)
     end)
+
+    it(
+        "should run all suspending functions concurrently",
+        async_test(function()
+            local start = timestamp()
+            local function sleep(ms)
+                return function()
+                    a.sleep(ms)
+                end
+            end
+            a.wait_all {
+                sleep(100),
+                sleep(100),
+                sleep(100),
+                sleep(100),
+                sleep(100),
+            }
+            local grace = 50
+            local delta = timestamp() - start
+            assert.is_true(delta <= (100 + grace))
+            assert.is_true(delta >= (100 - grace))
+        end)
+    )
 end)
