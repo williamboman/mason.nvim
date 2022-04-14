@@ -46,7 +46,7 @@ return function(name, root_dir)
         homepage = "https://rust-analyzer.github.io",
         languages = { "rust" },
         installer = {
-            context.use_github_release_file("rust-analyzer/rust-analyzer", target),
+            context.use_github_release_file("rust-lang/rust-analyzer", target),
             context.capture(function(ctx)
                 return std.gunzip_remote(
                     ctx.github_release_file,
