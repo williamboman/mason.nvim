@@ -1,10 +1,16 @@
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local fs = require "nvim-lsp-installer.core.fs"
+local a = require "nvim-lsp-installer.core.async"
 local installer = require "nvim-lsp-installer.core.installer"
 local InstallContext = require "nvim-lsp-installer.core.installer.context"
 local process = require "nvim-lsp-installer.process"
 local Optional = require "nvim-lsp-installer.core.optional"
+
+local function timestamp()
+    local seconds, microseconds = vim.loop.gettimeofday()
+    return (seconds * 1000) + math.floor(microseconds / 1000)
+end
 
 describe("installer", function()
     it(
@@ -87,6 +93,44 @@ describe("installer", function()
                 ("%s.tmp/nvim-lsp-installer-receipt.json"):format(destination_dir),
                 match.is_string()
             )
+        end)
+    )
+
+    it(
+        "should run async functions concurrently",
+        async_test(function()
+            spy.on(fs, "write_file")
+            local destination_dir = ("%s/installer_spec_concurrent"):format(os.getenv "INSTALL_ROOT_DIR")
+            local ctx = InstallContext.new {
+                name = "installer_spec_receipt",
+                destination_dir = destination_dir,
+                boundary_path = os.getenv "INSTALL_ROOT_DIR",
+                stdio_sink = process.empty_sink(),
+                requested_version = Optional.empty(),
+            }
+            local capture = spy.new()
+            local start = timestamp()
+            installer.run_installer(ctx, function(c)
+                capture(c:run_concurrently {
+                    function()
+                        a.sleep(100)
+                        return installer.context()
+                    end,
+                    function()
+                        a.sleep(100)
+                        return "two"
+                    end,
+                    function()
+                        a.sleep(100)
+                        return "three"
+                    end,
+                })
+                c.receipt:with_primary_source(c.receipt.npm "my-pkg")
+            end)
+            local stop = timestamp()
+            local grace_ms = 25
+            assert.is_true((stop - start) >= (100 - grace_ms))
+            assert.spy(capture).was_called_with(match.is_ref(ctx), "two", "three")
         end)
     )
 end)

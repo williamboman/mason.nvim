@@ -34,6 +34,7 @@ end
 function M.run_installer(context, installer)
     local thread = coroutine.create(installer)
     local step
+    local ret_val
     step = function(...)
         local ok, result = coroutine.resume(thread, ...)
         if not ok then
@@ -43,9 +44,12 @@ function M.run_installer(context, installer)
         elseif coroutine.status(thread) == "suspended" then
             -- yield to parent coroutine
             step(coroutine.yield(result))
+        else
+            ret_val = result
         end
     end
     step(context)
+    return ret_val
 end
 
 ---@async

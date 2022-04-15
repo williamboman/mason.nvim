@@ -147,6 +147,9 @@ local function oneshot_channel()
     local saved_callback
 
     return {
+        is_closed = function()
+            return has_sent
+        end,
         send = function(...)
             assert(not has_sent, "Oneshot channel can only send once.")
             has_sent = true
@@ -174,32 +177,31 @@ exports.wait_all = function(suspend_fns)
 
     do
         local results = {}
-        local threads = {}
+        local thread_cancellations = {}
         local count = #suspend_fns
         local completed = 0
 
-        local function callback(i)
-            return function(success, result)
+        for i, suspend_fn in ipairs(suspend_fns) do
+            thread_cancellations[i] = exports.run(suspend_fn, function(success, result)
+                completed = completed + 1
                 if not success then
-                    for _, cancel_thread in ipairs(threads) do
-                        cancel_thread()
+                    if not channel.is_closed() then
+                        for _, cancel_thread in ipairs(thread_cancellations) do
+                            cancel_thread()
+                        end
+                        channel.send(false, result)
+                        results = nil
+                        thread_cancellations = {}
                     end
-                    channel.send(false, result)
-                    results = nil
-                    threads = nil
                 else
                     results[i] = result
-                    completed = completed + 1
                     if completed >= count then
                         channel.send(true, results)
                         results = nil
-                        threads = nil
+                        thread_cancellations = {}
                     end
                 end
-            end
-        end
-        for i, suspend_fn in ipairs(suspend_fns) do
-            threads[i] = exports.run(suspend_fn, callback(i))
+            end)
         end
     end
 

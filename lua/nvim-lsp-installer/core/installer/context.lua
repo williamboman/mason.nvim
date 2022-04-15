@@ -4,6 +4,8 @@ local fs = require "nvim-lsp-installer.core.fs"
 local path = require "nvim-lsp-installer.path"
 local platform = require "nvim-lsp-installer.platform"
 local receipt = require "nvim-lsp-installer.core.receipt"
+local installer = require "nvim-lsp-installer.core.installer"
+local a = require "nvim-lsp-installer.core.async"
 
 ---@class ContextualSpawn
 ---@field cwd CwdManager
@@ -137,6 +139,19 @@ function InstallContext:promote_cwd()
     fs.rename(cwd, self.destination_dir)
     -- 4. Update cwd
     self.cwd:set(self.destination_dir)
+end
+
+---Runs the provided async functions concurrently and returns their result, once all are resolved.
+---This is really just a wrapper around a.wait_all() that makes sure to patch the coroutine context before creating the
+---new async execution contexts.
+---@async
+---@param suspend_fns async fun(ctx: InstallContext)[]
+function InstallContext:run_concurrently(suspend_fns)
+    return a.wait_all(vim.tbl_map(function(suspend_fn)
+        return function()
+            return installer.run_installer(self, suspend_fn)
+        end
+    end, suspend_fns))
 end
 
 return InstallContext

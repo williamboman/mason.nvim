@@ -136,22 +136,28 @@ describe("async", function()
         "should run all suspending functions concurrently",
         async_test(function()
             local start = timestamp()
-            local function sleep(ms)
+            local function sleep(ms, ret_val)
                 return function()
                     a.sleep(ms)
+                    return ret_val
                 end
             end
-            a.wait_all {
-                sleep(100),
-                sleep(100),
-                sleep(100),
-                sleep(100),
-                sleep(100),
+            local one, two, three, four, five = a.wait_all {
+                sleep(100, 1),
+                sleep(100, "two"),
+                sleep(100, "three"),
+                sleep(100, 4),
+                sleep(100, 5),
             }
             local grace = 50
             local delta = timestamp() - start
             assert.is_true(delta <= (100 + grace))
             assert.is_true(delta >= (100 - grace))
+            assert.equals(1, one)
+            assert.equals("two", two)
+            assert.equals("three", three)
+            assert.equals(4, four)
+            assert.equals(5, five)
         end)
     )
 end)

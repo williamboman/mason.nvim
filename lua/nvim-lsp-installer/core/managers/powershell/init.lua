@@ -11,6 +11,7 @@ local PWSHOPT = {
 ---@param script string
 ---@param opts JobSpawnOpts
 ---@param custom_spawn JobSpawn
+---@return Result
 function M.script(script, opts, custom_spawn)
     opts = opts or {}
     ---@type JobSpawn
@@ -31,6 +32,7 @@ end
 ---@param command string
 ---@param opts JobSpawnOpts
 ---@param custom_spawn JobSpawn
+---@return Result
 function M.command(command, opts, custom_spawn)
     opts = opts or {}
     ---@type JobSpawn
