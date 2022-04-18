@@ -33,18 +33,23 @@ local function Failure(err, cmd)
     }))
 end
 
+local function parse_args(args, dest)
+    for _, arg in ipairs(args) do
+        if type(arg) == "table" then
+            parse_args(arg, dest)
+        elseif arg ~= vim.NIL then
+            dest[#dest + 1] = arg
+        end
+    end
+    return dest
+end
+
 setmetatable(spawn, {
     __index = function(self, k)
         ---@param args string|nil|string[][]
         return function(args)
             local cmd_args = {}
-            for _, arg in ipairs(args) do
-                if type(arg) == "table" then
-                    vim.list_extend(cmd_args, arg)
-                elseif arg ~= vim.NIL then
-                    cmd_args[#cmd_args + 1] = arg
-                end
-            end
+            parse_args(args, cmd_args)
             ---@type JobSpawnOpts
             local spawn_args = {
                 stdio_sink = args.stdio_sink,

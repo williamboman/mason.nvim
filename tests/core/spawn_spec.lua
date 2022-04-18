@@ -56,6 +56,7 @@ describe("async spawn", function()
                 spawn._when(true, "-c"),
                 spawn._when(false, "shouldnotbeincluded"),
                 vim.NIL,
+                { vim.NIL, vim.NIL },
                 'echo "Hello $VAR"',
                 env = { "VAR=world" },
             }
