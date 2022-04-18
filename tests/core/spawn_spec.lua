@@ -51,6 +51,7 @@ describe("async spawn", function()
     it(
         "should ignore vim.NIL args",
         async_test(function()
+            spy.on(process, "spawn")
             local result = spawn.bash {
                 vim.NIL,
                 spawn._when(true, "-c"),
@@ -64,6 +65,22 @@ describe("async spawn", function()
             assert.is_true(result:is_success())
             assert.equals("Hello world\n", result:get_or_nil().stdout)
             assert.equals("", result:get_or_nil().stderr)
+            assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                "bash",
+                match.tbl_containing {
+                    stdio_sink = match.tbl_containing {
+                        stdout = match.is_function(),
+                        stderr = match.is_function(),
+                    },
+                    env = match.tbl_containing { "VAR=world" },
+                    args = match.tbl_containing {
+                        "-c",
+                        'echo "Hello $VAR"',
+                    },
+                },
+                match.is_function()
+            )
         end)
     )
 
