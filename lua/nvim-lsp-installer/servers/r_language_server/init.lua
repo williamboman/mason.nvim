@@ -37,7 +37,7 @@ library("languageserver", lib.loc = rlsLib);
     local server_script = ([[
 options("langserver_library" = %q);
 rlsLib <- getOption("langserver_library");
-.libPaths(new = rlsLib);
+.libPaths(new = c(rlsLib, .libPaths()));
 loadNamespace("languageserver", lib.loc = rlsLib);
 languageserver::run();
   ]]):format(root_dir)
