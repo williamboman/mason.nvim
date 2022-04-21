@@ -63,6 +63,31 @@ function ContextualFs:dir_exists(rel_path)
     return fs.dir_exists(path.concat { self.cwd:get(), rel_path })
 end
 
+---@async
+---@param rel_path string @The relative path from the current working directory.
+function ContextualFs:rmrf(rel_path)
+    return fs.rmrf(path.concat { self.cwd:get(), rel_path })
+end
+
+---@async
+---@param rel_path string @The relative path from the current working directory.
+function ContextualFs:unlink(rel_path)
+    return fs.unlink(path.concat { self.cwd:get(), rel_path })
+end
+
+---@async
+---@param old_path string
+---@param new_path string
+function ContextualFs:rename(old_path, new_path)
+    return fs.rename(path.concat { self.cwd:get(), old_path }, path.concat { self.cwd:get(), new_path })
+end
+
+---@async
+---@param dirpath string
+function ContextualFs:mkdir(dirpath)
+    return fs.mkdir(path.concat { self.cwd:get(), dirpath })
+end
+
 ---@class CwdManager
 ---@field private boundary_path string @Defines the upper boundary for which paths are allowed as cwd.
 ---@field private cwd string
@@ -101,6 +126,7 @@ end
 ---@field public cwd CwdManager
 ---@field public destination_dir string
 ---@field public stdio_sink StdioSink
+---@field public boundary_path string
 local InstallContext = {}
 InstallContext.__index = InstallContext
 
@@ -112,6 +138,7 @@ function InstallContext.new(opts)
         spawn = ContextualSpawn.new(cwd_manager, opts.stdio_sink),
         fs = ContextualFs.new(cwd_manager),
         receipt = receipt.InstallReceiptBuilder.new(),
+        boundary_path = opts.boundary_path,
         destination_dir = opts.destination_dir,
         requested_version = opts.requested_version,
         stdio_sink = opts.stdio_sink,
@@ -152,6 +179,21 @@ function InstallContext:run_concurrently(suspend_fns)
             return installer.run_installer(self, suspend_fn)
         end
     end, suspend_fns))
+end
+
+---@param rel_path string @The relative path from the current working directory to change cwd to. Will only restore to the initial cwd after execution of fn (if provided).
+---@param fn async fun() @(optional) The function to run in the context of the given path.
+function InstallContext:chdir(rel_path, fn)
+    local old_cwd = self.cwd:get()
+    self.cwd:set(path.concat { old_cwd, rel_path })
+    if fn then
+        local ok, result = pcall(fn)
+        self.cwd:set(old_cwd)
+        if not ok then
+            error(result, 0)
+        end
+        return result
+    end
 end
 
 return InstallContext

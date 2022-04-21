@@ -100,27 +100,25 @@ function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "gem" then
         return Result.failure "Receipt does not have a primary source of type gem"
     end
-    return spawn.gem({ "outdated", cwd = install_dir, env = process.graft_env(M.env(install_dir)) }):map_catching(
-        function(result)
-            ---@type string[]
-            local lines = vim.split(result.stdout, "\n")
-            local outdated_gems = vim.tbl_map(M.parse_outdated_gem, vim.tbl_filter(not_empty, lines))
+    return spawn.gem({ "outdated", cwd = install_dir, env = M.env(install_dir) }):map_catching(function(result)
+        ---@type string[]
+        local lines = vim.split(result.stdout, "\n")
+        local outdated_gems = vim.tbl_map(M.parse_outdated_gem, vim.tbl_filter(not_empty, lines))
 
-            local outdated_gem = list_find_first(outdated_gems, function(gem)
-                return gem.name == receipt.primary_source.package and gem.current_version ~= gem.latest_version
+        local outdated_gem = list_find_first(outdated_gems, function(gem)
+            return gem.name == receipt.primary_source.package and gem.current_version ~= gem.latest_version
+        end)
+
+        return Optional.of_nilable(outdated_gem)
+            :map(function(gem)
+                return {
+                    name = receipt.primary_source.package,
+                    current_version = assert(gem.current_version),
+                    latest_version = assert(gem.latest_version),
+                }
             end)
-
-            return Optional.of_nilable(outdated_gem)
-                :map(function(gem)
-                    return {
-                        name = receipt.primary_source.package,
-                        current_version = assert(gem.current_version),
-                        latest_version = assert(gem.latest_version),
-                    }
-                end)
-                :or_else_throw "Primary package is not outdated."
-        end
-    )
+            :or_else_throw "Primary package is not outdated."
+    end)
 end
 
 ---@async
@@ -130,7 +128,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     return spawn.gem({
         "list",
         cwd = install_dir,
-        env = process.graft_env(M.env(install_dir)),
+        env = M.env(install_dir),
     }):map_catching(function(result)
         local gems = M.parse_gem_list_output(result.stdout)
         return Optional.of_nilable(gems[receipt.primary_source.package]):or_else_throw "Failed to find gem package version."

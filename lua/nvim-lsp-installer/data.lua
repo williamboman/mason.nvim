@@ -69,7 +69,7 @@ function Data.when(condition, value)
     return condition and value or nil
 end
 
-function Data.lazy(condition, fn)
+function Data.lazy_when(condition, fn)
     return condition and fn() or nil
 end
 
@@ -137,6 +137,16 @@ function Data.memoize(fn, cache_key_generator)
             cache[key] = fn(...)
         end
         return cache[key]
+    end
+end
+
+function Data.lazy(fn)
+    local ret_val
+    return function()
+        if not ret_val then
+            ret_val = Data.table_pack(fn())
+        end
+        return unpack(ret_val, 1, ret_val.n)
     end
 end
 

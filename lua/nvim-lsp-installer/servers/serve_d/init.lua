@@ -1,9 +1,10 @@
 local server = require "nvim-lsp-installer.server"
 local platform = require "nvim-lsp-installer.platform"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
 local Data = require "nvim-lsp-installer.data"
 local process = require "nvim-lsp-installer.process"
+local github = require "nvim-lsp-installer.core.managers.github"
+
+local coalesce, when = Data.coalesce, Data.when
 
 return function(name, root_dir)
     return server.Server:new {
@@ -11,25 +12,33 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/Pure-D/serve-d",
         languages = { "d" },
-        installer = {
-            context.use_github_release_file("Pure-D/serve-d", function(version)
-                return Data.coalesce(
-                    Data.when(platform.is_mac, "serve-d_%s-osx-x86_64.tar.xz"),
-                    Data.when(platform.is_linux, "serve-d_%s-linux-x86_64.tar.xz"),
-                    Data.when(platform.is_win, "serve-d_%s-windows-x86_64.zip")
-                ):format(version:gsub("^v", ""))
-            end),
-            context.capture(function(ctx)
-                if platform.is_win then
-                    return std.unzip_remote(ctx.github_release_file)
-                else
-                    return std.untarxz_remote(ctx.github_release_file)
-                end
-            end),
-            context.receipt(function(receipt, ctx)
-                receipt:with_primary_source(receipt.github_release_file(ctx))
-            end),
-        },
+        async = true,
+        installer = function()
+            local repo = "Pure-D/serve-d"
+            platform.when {
+                unix = function()
+                    github.untarxz_release_file({
+                        repo = repo,
+                        asset_file = function(release)
+                            local target = coalesce(
+                                when(platform.is_mac, "serve-d_%s-osx-x86_64.tar.xz"),
+                                when(platform.is_linux and platform.arch == "x64", "serve-d_%s-linux-x86_64.tar.xz")
+                            )
+                            return target and target:format(release:gsub("^v", ""))
+                        end,
+                    }).with_receipt()
+                end,
+                win = function()
+                    github.unzip_release_file({
+                        repo = repo,
+                        asset_file = function(release)
+                            local target = coalesce(when(platform.arch == "x64"), "serve-d_%s-windows-x86_64.zip")
+                            return target and target:format(release:gsub("^v", ""))
+                        end,
+                    }).with_receipt()
+                end,
+            }
+        end,
         default_options = {
             cmd_env = {
                 PATH = process.extend_path { root_dir },

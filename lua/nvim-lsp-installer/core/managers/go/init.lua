@@ -32,7 +32,7 @@ end
 ---@param packages string[] The Go packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
 function M.install(packages)
     local ctx = installer.context()
-    local env = process.graft_env {
+    local env = {
         GOBIN = ctx.cwd:get(),
     }
     -- Install the head package

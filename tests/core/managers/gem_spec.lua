@@ -97,10 +97,11 @@ strscan (default: 3.0.1)
             assert.spy(spawn.gem).was_called_with(match.tbl_containing {
                 "list",
                 cwd = "/tmp/install/dir",
-                env = match.all_of(
-                    match.list_containing "GEM_HOME=/tmp/install/dir",
-                    match.list_containing "GEM_PATH=/tmp/install/dir"
-                ),
+                env = match.tbl_containing {
+                    GEM_HOME = "/tmp/install/dir",
+                    GEM_PATH = "/tmp/install/dir",
+                    PATH = match.matches "^/tmp/install/dir/bin:.*$",
+                },
             })
             assert.is_true(result:is_success())
             assert.equals("0.44.0", result:get_or_nil())
@@ -139,10 +140,11 @@ solargraph (0.44.0 < 0.44.3)
             assert.spy(spawn.gem).was_called_with(match.tbl_containing {
                 "outdated",
                 cwd = "/tmp/install/dir",
-                env = match.all_of(
-                    match.list_containing "GEM_HOME=/tmp/install/dir",
-                    match.list_containing "GEM_PATH=/tmp/install/dir"
-                ),
+                env = match.tbl_containing {
+                    GEM_HOME = "/tmp/install/dir",
+                    GEM_PATH = "/tmp/install/dir",
+                    PATH = match.matches "^/tmp/install/dir/bin:.*$",
+                },
             })
             assert.is_true(result:is_success())
             assert.equals(

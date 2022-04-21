@@ -8,6 +8,7 @@ options(langserver_library = %q);
 options(langserver_quiet = FALSE);
 options(repos = list(CRAN = "http://cran.rstudio.com/"));
 rlsLib <- getOption("langserver_library");
+.libPaths(new = rlsLib);
 
 didInstallRemotes <- FALSE;
 tryCatch(

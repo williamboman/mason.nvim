@@ -1,8 +1,7 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
-local installers = require "nvim-lsp-installer.installers"
+local std = require "nvim-lsp-installer.core.managers.std"
+local github = require "nvim-lsp-installer.core.managers.github"
 local process = require "nvim-lsp-installer.process"
 
 return function(name, root_dir)
@@ -11,40 +10,28 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://wiki.gnome.org/Projects/Vala",
         languages = { "vala" },
-        installer = {
-            std.ensure_executables {
-                { "meson", "meson was not found in path. Refer to https://mesonbuild.com/Getting-meson.html" },
-                { "ninja", "ninja was not found in path. Refer to https://ninja-build.org/" },
-                { "valac", "valac was not found in path. Refer to https://wiki.gnome.org/Projects/Vala" },
-            },
-            context.use_github_release_file("Prince781/vala-language-server", function(version)
-                return ("vala-language-server-%s.tar.xz"):format(version)
-            end),
-            context.capture(function(ctx)
-                return installers.pipe {
-                    std.untarxz_remote(ctx.github_release_file),
-                    std.rename(
-                        ("vala-language-server-%s"):format(ctx.requested_server_version),
-                        "vala-language-server"
-                    ),
-                }
-            end),
-            function(_, callback, ctx)
-                local c = process.chain {
-                    cwd = path.concat { ctx.install_dir, "vala-language-server" },
-                    stdio_sink = ctx.stdio_sink,
-                }
+        async = true,
+        ---@param ctx InstallContext
+        installer = function(ctx)
+            std.ensure_executable("meson", { help_url = "https://mesonbuild.com/Getting-meson.html" })
+            std.ensure_executable("ninja", { help_url = "https://ninja-build.org/" })
+            std.ensure_executable("valac", { help_url = "https://wiki.gnome.org/Projects/Vala" })
 
-                c.run("meson", { ("-Dprefix=%s"):format(ctx.install_dir), "build" })
-                c.run("ninja", { "-C", "build", "install" })
+            local release_source = github.untarxz_release_file {
+                repo = "Prince781/vala-language-server",
+                asset_file = function(version)
+                    return ("vala-language-server-%s.tar.xz"):format(version)
+                end,
+            }
+            release_source.with_receipt()
 
-                c.spawn(callback)
-            end,
-            std.rmrf "vala-language-server",
-            context.receipt(function(receipt, ctx)
-                receipt:with_primary_source(receipt.github_release_file(ctx))
-            end),
-        },
+            local vala_dirname = ("vala-language-server-%s"):format(release_source.release)
+            ctx:chdir(vala_dirname, function()
+                ctx.spawn.meson { ("-Dprefix=%s"):format(ctx.cwd:get()), "build" }
+                ctx.spawn.ninja { "-C", "build", "install" }
+            end)
+            ctx.fs:rmrf(vala_dirname)
+        end,
         default_options = {
             cmd_env = {
                 PATH = process.extend_path { path.concat { root_dir, "bin" } },

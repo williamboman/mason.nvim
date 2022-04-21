@@ -69,7 +69,8 @@ end
 
 ---@param condition boolean
 ---@param node INode | fun(): INode
-function M.When(condition, node)
+---@param default_val any
+function M.When(condition, node, default_val)
     if condition then
         if type(node) == "function" then
             return node()
@@ -77,7 +78,7 @@ function M.When(condition, node)
             return node
         end
     end
-    return M.Node {}
+    return default_val or M.Node {}
 end
 
 ---@param key string @The keymap to register to. Example: "<CR>".

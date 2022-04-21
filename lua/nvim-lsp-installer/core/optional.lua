@@ -1,4 +1,4 @@
----@class Optional
+---@class Optional<T>
 ---@field private _value unknown
 local Optional = {}
 Optional.__index = Optional
@@ -53,7 +53,17 @@ function Optional:or_else(value)
     end
 end
 
+---@param supplier fun(): any
+function Optional:or_else_get(supplier)
+    if self:is_present() then
+        return self._value
+    else
+        return supplier()
+    end
+end
+
 ---@param supplier fun(): Optional
+---@return Optional
 function Optional:or_(supplier)
     if self:is_present() then
         return self

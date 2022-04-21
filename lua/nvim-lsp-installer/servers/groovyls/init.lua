@@ -2,7 +2,6 @@ local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
 local std = require "nvim-lsp-installer.core.managers.std"
 local git = require "nvim-lsp-installer.core.managers.git"
-local process = require "nvim-lsp-installer.process"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -18,9 +17,7 @@ return function(name, root_dir)
             ctx:promote_cwd()
             ctx.spawn.gradlew {
                 "build",
-                env = process.graft_env {
-                    PATH = process.extend_path { ctx.cwd:get() },
-                },
+                with_paths = { ctx.cwd:get() },
             }
         end,
         default_options = {

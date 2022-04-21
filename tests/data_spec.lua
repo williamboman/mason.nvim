@@ -1,5 +1,6 @@
 local Data = require "nvim-lsp-installer.data"
 local spy = require "luassert.spy"
+local match = require "luassert.match"
 
 describe("data", function()
     it("creates enums", function()
@@ -131,5 +132,21 @@ describe("data", function()
         assert.equal("key1key2", memoized_fn("key1", "key2"))
         assert.equal("key1key3", memoized_fn("key1", "key3"))
         assert.spy(expensive_function).was_called(2)
+    end)
+
+    it("should evaluate functions lazily", function()
+        local impl = spy.new(function()
+            return {}, {}
+        end)
+        local lazy_fn = Data.lazy(impl)
+        assert.spy(impl).was_called(0)
+        local a, b = lazy_fn()
+        assert.spy(impl).was_called(1)
+        assert.is_true(match.is_table()(a))
+        assert.is_true(match.is_table()(b))
+        local new_a, new_b = lazy_fn()
+        assert.spy(impl).was_called(1)
+        assert.is_true(match.is_ref(a)(new_a))
+        assert.is_true(match.is_ref(b)(new_b))
     end)
 end)

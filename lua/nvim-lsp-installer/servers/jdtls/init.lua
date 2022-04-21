@@ -1,11 +1,10 @@
 local server = require "nvim-lsp-installer.server"
-local a = require "nvim-lsp-installer.core.async"
 local path = require "nvim-lsp-installer.path"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
 local Data = require "nvim-lsp-installer.data"
+local installer = require "nvim-lsp-installer.core.installer"
 local eclipse = require "nvim-lsp-installer.core.clients.eclipse"
+local std = require "nvim-lsp-installer.core.managers.std"
 
 return function(name, root_dir)
     ---@param workspace_root string
@@ -47,46 +46,39 @@ return function(name, root_dir)
         }
     end
 
+    local function download_jdtls()
+        local ctx = installer.context()
+        local version = ctx.requested_version:or_else_get(function()
+            return eclipse.fetch_latest_jdtls_version():get_or_throw()
+        end)
+
+        std.download_file(
+            ("https://download.eclipse.org/jdtls/snapshots/jdt-language-server-%s.tar.gz"):format(version),
+            "archive.tar.gz"
+        )
+        std.untar "archive.tar.gz"
+
+        ctx.receipt:with_primary_source {
+            type = "jdtls",
+            version = version,
+        }
+    end
+
+    local function download_lombok()
+        std.download_file("https://projectlombok.org/downloads/lombok.jar", "lombok.jar")
+    end
+
     return server.Server:new {
         name = name,
         root_dir = root_dir,
         languages = { "java" },
         homepage = "https://github.com/eclipse/eclipse.jdt.ls",
-        installer = {
-            std.ensure_executables {
-                { "java", "java was not found in path." },
-            },
-            ---@type ServerInstallerFunction
-            function(_, callback, ctx)
-                if ctx.requested_server_version then
-                    callback(true)
-                    return
-                end
-                a.run(eclipse.fetch_latest_jdtls_version, function(success, latest_version)
-                    if not success or latest_version:is_failure() then
-                        ctx.stdio_sink.stderr "Failed to fetch latest verison.\n"
-                        callback(false)
-                    else
-                        ctx.requested_server_version = latest_version:get_or_nil()
-                        callback(true)
-                    end
-                end)
-            end,
-            context.capture(function(ctx)
-                return std.untargz_remote(
-                    ("https://download.eclipse.org/jdtls/snapshots/jdt-language-server-%s.tar.gz"):format(
-                        ctx.requested_server_version
-                    )
-                )
-            end),
-            std.download_file("https://projectlombok.org/downloads/lombok.jar", "lombok.jar"),
-            context.receipt(function(receipt, ctx)
-                receipt:with_primary_source {
-                    type = "jdtls",
-                    version = ctx.requested_server_version,
-                }
-            end),
-        },
+        async = true,
+        ---@param ctx InstallContext
+        installer = function(ctx)
+            std.ensure_executable "java"
+            ctx:run_concurrently { download_jdtls, download_lombok }
+        end,
         default_options = {
             cmd = get_cmd(
                 vim.env.WORKSPACE and vim.env.WORKSPACE or path.concat { vim.env.HOME, "workspace" },

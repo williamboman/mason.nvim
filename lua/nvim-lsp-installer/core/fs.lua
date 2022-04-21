@@ -1,6 +1,8 @@
 local uv = require "nvim-lsp-installer.core.async.uv"
 local log = require "nvim-lsp-installer.log"
 local a = require "nvim-lsp-installer.core.async"
+local Path = require "nvim-lsp-installer.path"
+local settings = require "nvim-lsp-installer.settings"
 
 local M = {}
 
@@ -31,6 +33,12 @@ end
 ---@async
 ---@param path string
 function M.rmrf(path)
+    assert(
+        Path.is_subdirectory(settings.current.install_root_dir, path),
+        (
+            "Refusing to rmrf %q which is outside of the allowed boundary %q. Please report this error at https://github.com/williamboman/nvim-lsp-installer/issues/new"
+        ):format(path, settings.current.install_root_dir)
+    )
     log.debug("fs: rmrf", path)
     if vim.in_fast_event() then
         a.scheduler()
@@ -39,6 +47,13 @@ function M.rmrf(path)
         log.debug "fs: rmrf failed"
         error(("rmrf: Could not remove directory %q."):format(path))
     end
+end
+
+---@async
+---@param path string
+function M.unlink(path)
+    log.debug("fs: unlink", path)
+    uv.fs_unlink(path)
 end
 
 ---@async

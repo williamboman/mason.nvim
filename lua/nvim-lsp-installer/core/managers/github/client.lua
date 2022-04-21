@@ -7,14 +7,13 @@ local list_find_first = Data.list_find_first
 
 local M = {}
 
----@alias GitHubRelease {tag_name:string, prerelease: boolean, draft: boolean}
+---@alias GitHubReleaseAsset {url: string, id: integer, name: string, browser_download_url: string, created_at: string, updated_at: string, size: integer, download_count: integer}
+---@alias GitHubRelease {tag_name: string, prerelease: boolean, draft: boolean, assets:GitHubReleaseAsset[]}
 ---@alias GitHubTag {name: string}
 
----@async
----@param repo string The GitHub repo ("username/repo").
-function M.fetch_releases(repo)
-    log.fmt_trace("Fetching GitHub releases for repo=%s", repo)
-    local path = ("repos/%s/releases"):format(repo)
+---@param path string
+---@return Result @JSON decoded response.
+local function api_call(path)
     return spawn.gh({ "api", path })
         :map(function(result)
             return result.stdout
@@ -25,10 +24,31 @@ function M.fetch_releases(repo)
         :map_catching(vim.json.decode)
 end
 
+---@async
+---@param repo string @The GitHub repo ("username/repo").
+function M.fetch_releases(repo)
+    log.fmt_trace("Fetching GitHub releases for repo=%s", repo)
+    local path = ("repos/%s/releases"):format(repo)
+    return api_call(path):map_err(function()
+        return ("Failed to fetch releases for GitHub repository %s."):format(repo)
+    end)
+end
+
+---@async
+---@param repo string @The GitHub repo ("username/repo").
+---@param tag_name string @The tag_name of the release to fetch.
+function M.fetch_release(repo, tag_name)
+    log.fmt_trace("Fetching GitHub release for repo=%s, tag_name=%s", repo, tag_name)
+    local path = ("repos/%s/releases/tags/%s"):format(repo, tag_name)
+    return api_call(path):map_err(function()
+        return ("Failed to fetch release %q for GitHub repository %s."):format(tag_name, repo)
+    end)
+end
+
 ---@alias FetchLatestGithubReleaseOpts {tag_name_pattern:string}
 
 ---@async
----@param repo string The GitHub repo ("username/repo").
+---@param repo string @The GitHub repo ("username/repo").
 ---@param opts FetchLatestGithubReleaseOpts|nil
 ---@return Result @of GitHubRelease
 function M.fetch_latest_release(repo, opts)
@@ -61,21 +81,18 @@ function M.fetch_latest_release(repo, opts)
 end
 
 ---@async
----@param repo string The GitHub repo ("username/repo").
+---@param repo string @The GitHub repo ("username/repo").
+---@return Result @of [GitHubTag[]]
 function M.fetch_tags(repo)
     local path = ("repos/%s/tags"):format(repo)
-    return spawn.gh({ "api", path })
-        :map(function(result)
-            return result.stdout
-        end)
-        :recover_catching(function()
-            return fetch(("https://api.github.com/%s"):format(path)):get_or_throw()
-        end)
-        :map_catching(vim.json.decode)
+    return api_call(path):map_err(function()
+        return ("Failed to fetch tags for GitHub repository %s."):format(repo)
+    end)
 end
 
 ---@async
----@param repo string The GitHub repo ("username/repo").
+---@param repo string @The GitHub repo ("username/repo").
+---@return Result @of [GitHubTag]
 function M.fetch_latest_tag(repo)
     return M.fetch_tags(repo):map_catching(function(tags)
         if vim.tbl_count(tags) == 0 then

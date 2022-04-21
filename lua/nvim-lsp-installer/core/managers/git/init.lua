@@ -13,11 +13,18 @@ local function with_receipt(repo)
 end
 
 ---@async
----@param opts {[1]:string} @The first item in the table is the repository to clone.
+---@param opts {[1]: string, recursive: boolean} @The first item in the table is the repository to clone.
 function M.clone(opts)
     local ctx = installer.context()
     local repo = assert(opts[1], "No git URL provided.")
-    ctx.spawn.git { "clone", "--depth", "1", repo, "." }
+    ctx.spawn.git {
+        "clone",
+        "--depth",
+        "1",
+        opts.recursive and "--recursive" or vim.NIL,
+        repo,
+        ".",
+    }
     ctx.requested_version:if_present(function(version)
         ctx.spawn.git { "fetch", "--depth", "1", "origin", version }
         ctx.spawn.git { "checkout", "FETCH_HEAD" }

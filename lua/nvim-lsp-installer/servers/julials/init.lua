@@ -1,7 +1,7 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
-local context = require "nvim-lsp-installer.installers.context"
-local std = require "nvim-lsp-installer.installers.std"
+local std = require "nvim-lsp-installer.core.managers.std"
+local github = require "nvim-lsp-installer.core.managers.github"
 
 return function(name, root_dir)
     local server_script = [[
@@ -26,31 +26,34 @@ runserver(stdin,
         root_dir = root_dir,
         homepage = "https://github.com/julia-vscode/LanguageServer.jl",
         languages = { "julia" },
-        installer = {
-            std.ensure_executables {
-                { "julia", "julia was not found in path, refer to https://julialang.org/downloads/." },
-            },
-            context.use_github_release_file("julia-vscode/julia-vscode", function(version)
-                local version_number = version:gsub("^v", "")
-                return ("language-julia-%s.vsix"):format(version_number)
-            end),
-            context.capture(function(ctx)
-                return std.unzip_remote(ctx.github_release_file, "vscode-package")
-            end),
-            std.rename(
+        async = true,
+        ---@param ctx InstallContext
+        installer = function(ctx)
+            std.ensure_executable("julia", { help_url = "https://julialang.org/downloads/" })
+
+            ctx.fs:mkdir "vscode-package"
+            ctx:chdir("vscode-package", function()
+                github.unzip_release_file({
+                    repo = "julia-vscode/julia-vscode",
+                    asset_file = function(version)
+                        local version_number = version:gsub("^v", "")
+                        return ("language-julia-%s.vsix"):format(version_number)
+                    end,
+                }).with_receipt()
+            end)
+
+            ctx.fs:rename(
                 path.concat {
                     "vscode-package",
                     "extension",
                     "scripts",
                 },
                 "scripts"
-            ),
-            std.rmrf "vscode-package",
-            std.write_file("nvim-lsp.jl", server_script),
-            context.receipt(function(receipt, ctx)
-                receipt:with_primary_source(receipt.github_release_file(ctx))
-            end),
-        },
+            )
+            ctx.fs:rmrf "vscode-package"
+
+            ctx.fs:write_file("nvim-lsp.jl", server_script)
+        end,
         default_options = {
             cmd = {
                 "julia",

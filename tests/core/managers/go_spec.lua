@@ -1,4 +1,3 @@
-local match = require "luassert.match"
 local mock = require "luassert.mock"
 local stub = require "luassert.stub"
 local spy = require "luassert.spy"
@@ -25,24 +24,24 @@ describe("go manager", function()
             ctx.requested_version = Optional.of "42.13.37"
             installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.go).was_called(3)
-            assert.spy(ctx.spawn.go).was_called_with(match.tbl_containing {
+            assert.spy(ctx.spawn.go).was_called_with {
                 "install",
                 "-v",
                 "main-package@42.13.37",
-                env = match.list_containing "GOBIN=/tmp/install-dir",
-            })
-            assert.spy(ctx.spawn.go).was_called_with(match.tbl_containing {
+                env = { GOBIN = "/tmp/install-dir" },
+            }
+            assert.spy(ctx.spawn.go).was_called_with {
                 "install",
                 "-v",
                 "supporting-package@latest",
-                env = match.list_containing "GOBIN=/tmp/install-dir",
-            })
-            assert.spy(ctx.spawn.go).was_called_with(match.tbl_containing {
+                env = { GOBIN = "/tmp/install-dir" },
+            }
+            assert.spy(ctx.spawn.go).was_called_with {
                 "install",
                 "-v",
                 "supporting-package2@latest",
-                env = match.list_containing "GOBIN=/tmp/install-dir",
-            })
+                env = { GOBIN = "/tmp/install-dir" },
+            }
         end)
     )
 

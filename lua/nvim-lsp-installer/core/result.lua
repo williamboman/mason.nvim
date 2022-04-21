@@ -77,6 +77,15 @@ function Result:map(mapper_fn)
 end
 
 ---@param mapper_fn fun(value: any): any
+function Result:map_err(mapper_fn)
+    if self:is_failure() then
+        return Result.failure(mapper_fn(self.value.error))
+    else
+        return self
+    end
+end
+
+---@param mapper_fn fun(value: any): any
 function Result:map_catching(mapper_fn)
     if self:is_success() then
         local ok, result = pcall(mapper_fn, self.value)

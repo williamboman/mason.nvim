@@ -1,7 +1,6 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
+local github = require "nvim-lsp-installer.core.managers.github"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -9,17 +8,15 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "rescript" },
         homepage = "https://github.com/rescript-lang/rescript-vscode",
-        installer = {
-            context.use_github_release_file("rescript-lang/rescript-vscode", function(version)
-                return ("rescript-vscode-%s.vsix"):format(version)
-            end),
-            context.capture(function(ctx)
-                return std.unzip_remote(ctx.github_release_file)
-            end),
-            context.receipt(function(receipt, ctx)
-                receipt:with_primary_source(receipt.github_release_file(ctx))
-            end),
-        },
+        async = true,
+        installer = function()
+            github.unzip_release_file({
+                repo = "rescript-lang/rescript-vscode",
+                asset_file = function(version)
+                    return ("rescript-vscode-%s.vsix"):format(version)
+                end,
+            }).with_receipt()
+        end,
         default_options = {
             cmd = { "node", path.concat { root_dir, "extension", "server", "out", "server.js" }, "--stdio" },
         },

@@ -1,7 +1,7 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
+local std = require "nvim-lsp-installer.core.managers.std"
+local github = require "nvim-lsp-installer.core.managers.github"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -9,21 +9,14 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/PowerShell/PowerShellEditorServices",
         languages = { "powershell" },
-        installer = {
-            std.ensure_executables {
-                {
-                    "pwsh",
-                    "pwsh was not found in path. Refer to https://github.com/PowerShell/PowerShell#get-powershell for instructions.",
-                },
-            },
-            context.use_github_release_file("PowerShell/PowerShellEditorServices", "PowerShellEditorServices.zip"),
-            context.capture(function(ctx)
-                return std.unzip_remote(ctx.github_release_file)
-            end),
-            context.receipt(function(receipt, ctx)
-                receipt:with_primary_source(receipt.github_release_file(ctx))
-            end),
-        },
+        async = true,
+        installer = function()
+            std.ensure_executable("pwsh", { help_url = "https://github.com/PowerShell/PowerShell#get-powershell" })
+            github.unzip_release_file({
+                repo = "PowerShell/PowerShellEditorServices",
+                asset_file = "PowerShellEditorServices.zip",
+            }).with_receipt()
+        end,
         default_options = {
             bundle_path = path.concat { root_dir },
         },

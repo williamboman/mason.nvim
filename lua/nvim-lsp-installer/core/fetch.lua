@@ -26,7 +26,7 @@ local function fetch(url, opts)
     if platform.is_win then
         if opts.out_file then
             platform_specific = powershell.command(
-                ([[iwr %s -UseBasicParsing -Uri %q; -OutFile %q]]):format(HEADERS.iwr, url, opts.out_file)
+                ([[iwr %s -UseBasicParsing -Uri %q -OutFile %q;]]):format(HEADERS.iwr, url, opts.out_file)
             )
         else
             platform_specific = powershell.command(

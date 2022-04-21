@@ -201,10 +201,10 @@ end
 ---@param server ServerState
 local function ServerMetadata(server)
     return Ui.Node(Data.list_not_nil(
-        Data.lazy(server.is_installed and server.deprecated, function()
+        Data.lazy_when(server.is_installed and server.deprecated, function()
             return Ui.Node(Data.list_not_nil(
                 Ui.HlTextNode { server.deprecated.message, "Comment" },
-                Data.lazy(server.deprecated.replace_with, function()
+                Data.lazy_when(server.deprecated.replace_with, function()
                     return Ui.Node {
                         Ui.HlTextNode {
                             {
@@ -219,7 +219,7 @@ local function ServerMetadata(server)
             ))
         end),
         Ui.Table(Data.list_not_nil(
-            Data.lazy(server.is_installed, function()
+            Data.lazy_when(server.is_installed, function()
                 return {
                     { "version", "LspInstallerMuted" },
                     server.installed_version_err and {
@@ -228,7 +228,7 @@ local function ServerMetadata(server)
                     } or { server.installed_version or "Loading...", "" },
                 }
             end),
-            Data.lazy(#server.metadata.outdated_packages > 0, function()
+            Data.lazy_when(#server.metadata.outdated_packages > 0, function()
                 return {
                     { "latest version", "LspInstallerGreen" },
                     {
@@ -237,7 +237,7 @@ local function ServerMetadata(server)
                     },
                 }
             end),
-            Data.lazy(server.metadata.install_timestamp_seconds, function()
+            Data.lazy_when(server.metadata.install_timestamp_seconds, function()
                 return {
                     { "installed", "LspInstallerMuted" },
                     { format_time(server.metadata.install_timestamp_seconds), "" },

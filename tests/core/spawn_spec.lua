@@ -9,7 +9,7 @@ describe("async spawn", function()
         "should spawn commands and return stdout & stderr",
         async_test(function()
             local result = spawn.env {
-                env = { "FOO=bar" },
+                env_raw = { "FOO=bar" },
             }
             assert.is_true(result:is_success())
             assert.equals("FOO=bar\n", result:get_or_nil().stdout)
@@ -22,7 +22,7 @@ describe("async spawn", function()
         async_test(function()
             local stdio = process.in_memory_sink()
             local result = spawn.env {
-                env = { "FOO=bar" },
+                env_raw = { "FOO=bar" },
                 stdio_sink = stdio.sink,
             }
             assert.is_true(result:is_success())
@@ -39,7 +39,7 @@ describe("async spawn", function()
             local result = spawn.bash {
                 "-c",
                 'echo "Hello $VAR"',
-                env = { "VAR=world" },
+                env = { VAR = "world" },
             }
 
             assert.is_true(result:is_success())
@@ -54,12 +54,11 @@ describe("async spawn", function()
             spy.on(process, "spawn")
             local result = spawn.bash {
                 vim.NIL,
-                spawn._when(true, "-c"),
-                spawn._when(false, "shouldnotbeincluded"),
                 vim.NIL,
+                "-c",
                 { vim.NIL, vim.NIL },
                 'echo "Hello $VAR"',
-                env = { "VAR=world" },
+                env = { VAR = "world" },
             }
 
             assert.is_true(result:is_success())
@@ -73,7 +72,7 @@ describe("async spawn", function()
                         stdout = match.is_function(),
                         stderr = match.is_function(),
                     },
-                    env = match.tbl_containing { "VAR=world" },
+                    env = match.list_containing "VAR=world",
                     args = match.tbl_containing {
                         "-c",
                         'echo "Hello $VAR"',
@@ -89,7 +88,7 @@ describe("async spawn", function()
         async_test(function()
             local result = spawn.bash {
                 { "-c", 'echo "Hello $VAR"' },
-                env = { "VAR=world" },
+                env = { VAR = "world" },
             }
 
             assert.is_true(result:is_success())

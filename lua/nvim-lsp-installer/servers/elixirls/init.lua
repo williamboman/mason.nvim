@@ -1,8 +1,8 @@
 local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.path"
-local std = require "nvim-lsp-installer.installers.std"
-local context = require "nvim-lsp-installer.installers.context"
 local platform = require "nvim-lsp-installer.platform"
+local github = require "nvim-lsp-installer.core.managers.github"
+local std = require "nvim-lsp-installer.core.managers.std"
 
 return function(name, root_dir)
     return server.Server:new {
@@ -10,16 +10,19 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/elixir-lsp/elixir-ls",
         languages = { "elixir" },
-        installer = {
-            context.use_github_release_file("elixir-lsp/elixir-ls", "elixir-ls.zip"),
-            context.capture(function(ctx)
-                return std.unzip_remote(ctx.github_release_file, "elixir-ls")
-            end),
-            std.chmod("+x", { "elixir-ls/language_server.sh" }),
-            context.receipt(function(receipt, ctx)
-                receipt:with_primary_source(receipt.github_release_file(ctx))
-            end),
-        },
+        async = true,
+        ---@param ctx InstallContext
+        installer = function(ctx)
+            -- We write to the elixir-ls directory for backwards compatibility reasons
+            ctx.fs:mkdir "elixir-ls"
+            ctx:chdir("elixir-ls", function()
+                github.unzip_release_file({
+                    repo = "elixir-lsp/elixir-ls",
+                    asset_file = "elixir-ls.zip",
+                }).with_receipt()
+                std.chmod("+x", { "language_server.sh" })
+            end)
+        end,
         default_options = {
             cmd = {
                 path.concat {

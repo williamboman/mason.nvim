@@ -10,15 +10,8 @@ local spawn = {
         npm = platform.is_win and "npm.cmd" or "npm",
         gem = platform.is_win and "gem.cmd" or "gem",
         composer = platform.is_win and "composer.bat" or "composer",
+        gradlew = platform.is_win and "gradlew.bat" or "gradlew",
     },
-    -- Utility function for optionally including arguments.
-    ---@generic T
-    ---@param condition boolean
-    ---@param value T
-    ---@return T
-    _when = function(condition, value)
-        return condition and value or vim.NIL
-    end,
 }
 
 local function Failure(err, cmd)
@@ -50,11 +43,20 @@ setmetatable(spawn, {
         return function(args)
             local cmd_args = {}
             parse_args(args, cmd_args)
+
+            ---@type table<string, string>
+            local env = args.env
+
+            if args.with_paths then
+                env = env or {}
+                env.PATH = process.extend_path(args.with_paths)
+            end
+
             ---@type JobSpawnOpts
             local spawn_args = {
                 stdio_sink = args.stdio_sink,
                 cwd = args.cwd,
-                env = args.env,
+                env = env and process.graft_env(env) or args.env_raw,
                 args = cmd_args,
             }
 

@@ -13,8 +13,9 @@ return function(name, root_dir)
         ---@param ctx InstallContext
         installer = function(ctx)
             git.clone({ "https://github.com/digama0/mm0" }).with_receipt()
-            ctx.spawn.cargo { "build", "--release", cwd = path.concat { ctx.cwd:get(), "mm0-rs" } }
-            ctx.receipt:with_primary_source(ctx.receipt.git_remote "https://github.com/digama0/mm0")
+            ctx:chdir("mm0-rs", function()
+                ctx.spawn.cargo { "build", "--release" }
+            end)
         end,
         default_options = {
             cmd_env = {

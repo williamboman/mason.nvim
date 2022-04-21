@@ -42,6 +42,7 @@ describe("git manager", function()
                 "clone",
                 "--depth",
                 "1",
+                vim.NIL,
                 "https://github.com/williamboman/nvim-lsp-installer.git",
                 ".",
             }
@@ -60,6 +61,7 @@ describe("git manager", function()
                 "clone",
                 "--depth",
                 "1",
+                vim.NIL,
                 "https://github.com/williamboman/nvim-lsp-installer.git",
                 ".",
             }
