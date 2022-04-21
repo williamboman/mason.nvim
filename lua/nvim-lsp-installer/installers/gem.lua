@@ -1,3 +1,10 @@
+require "nvim-lsp-installer.notify"(
+    (
+        "%s has been deprecated. See https://github.com/williamboman/nvim-lsp-installer/wiki/Async-infrastructure-changes-notice"
+    ):format "nvim-lsp-installer.installers.gem",
+    vim.log.levels.WARN
+)
+
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 local process = require "nvim-lsp-installer.process"

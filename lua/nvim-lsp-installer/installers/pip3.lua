@@ -1,4 +1,10 @@
----@deprecated Will be replaced by core.managers.pip3
+require "nvim-lsp-installer.notify"(
+    (
+        "%s has been deprecated. See https://github.com/williamboman/nvim-lsp-installer/wiki/Async-infrastructure-changes-notice"
+    ):format "nvim-lsp-installer.installers.pip3",
+    vim.log.levels.WARN
+)
+
 local path = require "nvim-lsp-installer.path"
 local Data = require "nvim-lsp-installer.data"
 local installers = require "nvim-lsp-installer.installers"
