@@ -78,11 +78,9 @@ end)
 ---@param opts {repo: string, out_file:string, asset_file: string|fun(release: string):string}
 function M.gunzip_release_file(opts)
     local release_file_source = M.release_file(opts)
-    std.download_file(
-        release_file_source.download_url,
-        ("%s.gz"):format(assert(opts.out_file, "out_file must be specified"))
-    )
-    std.gunzip(opts.out_file)
+    local gzipped_file = ("%s.gz"):format(assert(opts.out_file, "out_file must be specified"))
+    std.download_file(release_file_source.download_url, gzipped_file)
+    std.gunzip(gzipped_file)
     return release_file_source
 end
 
