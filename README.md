@@ -265,7 +265,7 @@ lsp_installer.settings({
 | Tailwind CSS                        | `tailwindcss`              |
 | Terraform                           | `terraformls`              |
 | Terraform [(docs)][tflint]          | `tflint`                   |
-| TypeScript [(docs)][tsserver]       | `tsserver`                 |
+| TypeScript                          | `tsserver`                 |
 | Vala                                | `vala_ls`                  |
 | VimL                                | `vimls`                    |
 | Vue                                 | `volar`                    |
@@ -277,7 +277,6 @@ lsp_installer.settings({
 [arduino]: ./lua/nvim-lsp-installer/servers/arduino_language_server/README.md
 [eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
-[tsserver]: ./lua/nvim-lsp-installer/servers/tsserver/README.md
 [pylsp]: ./lua/nvim-lsp-installer/servers/pylsp/README.md
 [rust_analyzer]: https://github.com/williamboman/nvim-lsp-installer/wiki/Rust
 
