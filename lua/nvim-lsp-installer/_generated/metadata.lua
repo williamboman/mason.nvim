@@ -83,7 +83,7 @@ return {
     filetypes = {}
   },
   elixirls = {
-    filetypes = { "elixir", "eelixir" }
+    filetypes = { "elixir", "eelixir", "heex" }
   },
   elmls = {
     filetypes = { "elm" }

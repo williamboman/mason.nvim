@@ -55,7 +55,7 @@ return {
   haskell = { "hls" },
   haxe = { "haxe_language_server" },
   hbs = { "tailwindcss" },
-  heex = { "tailwindcss" },
+  heex = { "elixirls", "tailwindcss" },
   html = { "angularls", "emmet_ls", "html", "tailwindcss" },
   ["html-eex"] = { "tailwindcss" },
   htmldjango = { "tailwindcss" },
