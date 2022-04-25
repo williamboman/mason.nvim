@@ -24,25 +24,20 @@ local function llvm_installer()
 
     local asset_name = coalesce(
         when(
-            platform.is_linux,
+            platform.arch == "x64",
             coalesce(
                 when(
-                    platform.arch == "x64",
-                    coalesce(
-                        when(
-                            os_dist.id == "ubuntu" and os_dist.version.major >= 20,
-                            "clang+llvm-%s-x86_64-linux-gnu-ubuntu-20.04"
-                        ),
-                        when(
-                            os_dist.id == "ubuntu" and os_dist.version.major >= 16,
-                            "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
-                        )
-                    )
+                    os_dist.id == "ubuntu" and os_dist.version.major >= 20,
+                    "clang+llvm-%s-x86_64-linux-gnu-ubuntu-20.04"
                 ),
-                when(platform.arch == "arm64", "clang+llvm-%s-aarch64-linux-gnu"),
-                when(platform.arch == "armv7", "clang+llvm-%s-armv7a-linux-gnueabihf")
+                when(
+                    os_dist.id == "ubuntu" and os_dist.version.major >= 16,
+                    "clang+llvm-%s-x86_64-linux-gnu-ubuntu-16.04"
+                )
             )
-        )
+        ),
+        when(platform.arch == "arm64", "clang+llvm-%s-aarch64-linux-gnu"),
+        when(platform.arch == "armv7", "clang+llvm-%s-armv7a-linux-gnueabihf")
     )
 
     local source = github.untarxz_release_file {
@@ -67,9 +62,12 @@ return function()
     Result.run_catching(llvm_installer)
         :map(function(llvm_dir)
             ccls_installer { llvm_dir = llvm_dir }
+            ctx.fs:rmrf "llvm"
         end)
         :recover(function()
+            pcall(function()
+                ctx.fs:rmrf "llvm"
+            end)
             ccls_installer {}
         end)
-    ctx.fs:rmrf "llvm"
 end
