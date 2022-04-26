@@ -1,0 +1,3 @@
+-- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
+-- stylua: ignore start
+return {properties = {["bashIde.explainshellEndpoint"] = {default = "",description = "Configure explainshell server in order to get hover documentation on flags and options.",type = "string"},["bashIde.globPattern"] = {default = "**/*@(.sh|.inc|.bash|.command)",description = "Glob pattern for finding and parsing shell script files.",type = "string"},["bashIde.highlightParsingErrors"] = {default = false,description = "Controls if parsing errors will be highlighted as problems.",type = "boolean"}},title = "Bash IDE configuration",type = "object"}
