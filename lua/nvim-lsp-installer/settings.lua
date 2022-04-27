@@ -59,4 +59,8 @@ function M.set(opts)
     M.current = vim.tbl_deep_extend("force", M.current, opts)
 end
 
+-- Whether the new .setup() function has been called.
+-- This will temporarily be used as a flag to toggle certain behavior.
+M.uses_new_setup = false
+
 return M

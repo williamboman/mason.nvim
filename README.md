@@ -5,32 +5,33 @@
 -   [About](#about)
 -   [Screenshots](#screenshots)
 -   [Installation](#installation)
-    -   [Packer](#packer)
-    -   [vim-plug](#vim-plug)
 -   [Usage](#usage)
-    -   [Commands](#commands)
     -   [Setup](#setup)
+    -   [Commands](#commands)
     -   [Configuration](#configuration)
 -   [Available LSPs](#available-lsps)
 -   [Custom servers](#custom-servers)
 -   [Logo](#logo)
--   [Roadmap](#roadmap)
 -   [Default configuration](#default-configuration)
 
 ## About
 
-Neovim plugin that allows you to seamlessly install LSP servers locally (inside `:echo stdpath("data")`).
+Neovim plugin that allows you to manage LSP servers (servers are installed inside `:echo stdpath("data")` by default).
+It works in tandem with [`lspconfig`](https://github.com/neovim/nvim-lspconfig)<sup>1</sup> by registering a hook that
+enhances the `PATH` environment variable, allowing neovim's LSP client to locate the installed server executable.<sup>2</sup>
 
 On top of just providing commands for installing & uninstalling LSP servers, it:
 
 -   provides a graphical UI
--   is optimized for blazing fast startup times
--   provides the ability to check for new server versions
+-   provides the ability to check for, and upgrade to, new server versions through a single interface
 -   supports installing custom versions of LSP servers (for example `:LspInstall rust_analyzer@nightly`)
 -   relaxes the minimum requirements by attempting multiple different utilities (for example, only one of `wget`, `curl`, or `Invoke-WebRequest` is required for HTTP requests)
--   allows you to install and setup servers without having to restart neovim
 -   hosts [a suite of system tests](https://github.com/williamboman/nvim-lspconfig-test) for all supported servers
 -   has full support for Windows <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20">
+
+<sup>1 - while lspconfig is the main target, this plugin may also be used for other use cases</sup>
+<br>
+<sup>2 - some servers don't provide an executable, in which case the full command to spawn the server is provided instead</sup>
 
 ## Screenshots
 
@@ -83,6 +84,17 @@ Plug 'williamboman/nvim-lsp-installer'
 
 ## Usage
 
+### Setup
+
+In order for nvim-lsp-installer to register the necessary hooks at the right moment, **make sure you call the `.setup()`
+function before you set up any servers with `lspconfig`**!
+
+```lua
+require("nvim-lsp-installer").setup {}
+```
+
+Refer to the [Configuration](#configuration) section for information about which settings are available.
+
 ### Commands
 
 -   `:LspInstallInfo` - opens a graphical overview of your language servers
@@ -92,54 +104,16 @@ Plug 'williamboman/nvim-lsp-installer'
 -   `:LspInstallLog` - opens the log file in a new tab window
 -   `:LspPrintInstalled` - prints all installed language servers
 
-### Setup
-
-The recommended way of setting up your installed servers is to do it through nvim-lsp-installer.
-By doing so, nvim-lsp-installer will make sure to inject any necessary properties before calling lspconfig's setup
-function for you. You may find a minimal example below. To see how you can override the default settings for a server,
-refer to the [Wiki][overriding-default-settings].
-
-Make sure you don't also set up your servers directly via lspconfig (e.g. `require("lspconfig").clangd.setup {}`), as
-this will cause servers to be set up twice!
-
-[overriding-default-settings]: https://github.com/williamboman/nvim-lsp-installer/wiki/Advanced-Configuration#overriding-the-default-lsp-server-options
-
-```lua
-local lsp_installer = require("nvim-lsp-installer")
-
--- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
--- or if the server is already installed).
-lsp_installer.on_server_ready(function(server)
-    local opts = {}
-
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-
-    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-    -- before passing it onwards to lspconfig.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-end)
-```
-
-For more advanced use cases you may also interact with more APIs nvim-lsp-installer has to offer, refer to `:help nvim-lsp-installer` for more docs.
-
 ### Configuration
 
-You can configure certain behavior of nvim-lsp-installer by calling the `.settings()` function.
-
-_Make sure to provide your settings before any other interactions with nvim-lsp-installer!_
+You may optionally configure certain behavior of nvim-lsp-installer when calling the `.setup()` function.
 
 Refer to the [default configuration](#default-configuration) for all available settings.
 
 Example:
 
 ```lua
-local lsp_installer = require("nvim-lsp-installer")
-
-lsp_installer.settings({
+require("nvim-lsp-installer").setup({
     ui = {
         icons = {
             server_installed = "✓",
@@ -289,10 +263,6 @@ You can create your own installers by using the same APIs nvim-lsp-installer its
 
 Illustrations in the logo are derived from [@Kaligule](https://schauderbasis.de/)'s "Robots" collection.
 
-## Roadmap
-
--   Command (and corresponding Lua API) to update outdated servers (e.g., `:LspUpdateAll`)
-
 ## Default configuration
 
 ```lua
@@ -309,12 +279,16 @@ local DEFAULT_SETTINGS = {
         keymaps = {
             -- Keymap to expand a server in the UI
             toggle_server_expand = "<CR>",
-            -- Keymap to install a server
+            -- Keymap to install the server under the current cursor position
             install_server = "i",
-            -- Keymap to reinstall/update a server
+            -- Keymap to reinstall/update the server under the current cursor position
             update_server = "u",
+            -- Keymap to check for new version for the server under the current cursor position
+            check_server_version = "c",
             -- Keymap to update all installed servers
             update_all_servers = "U",
+            -- Keymap to check which installed servers are outdated
+            check_outdated_servers = "C",
             -- Keymap to uninstall a server
             uninstall_server = "X",
         },

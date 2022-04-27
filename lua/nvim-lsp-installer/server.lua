@@ -71,6 +71,10 @@ end
 ---Sets up the language server and attaches all open buffers.
 ---@param opts table @The lspconfig server configuration.
 function M.Server:setup(opts)
+    assert(
+        not settings.uses_new_setup,
+        "Please set up servers directly via lspconfig instead of going through nvim-lsp-installer (this method is now deprecated)! Refer to :h nvim-lsp-installer-quickstart for more information."
+    )
     self:setup_lsp(opts)
     if not (opts.autostart == false) then
         self:attach_buffers()

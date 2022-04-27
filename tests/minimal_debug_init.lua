@@ -32,25 +32,21 @@ local function load_plugins()
 end
 
 function _G.load_config()
-    -- ==================================================
-    -- ======= MODIFY YOUR CONFIG HERE, IF NEEDED =======
-    -- ==================================================
-    local lsp_installer = require "nvim-lsp-installer"
+    local lspconfig = require "lspconfig"
 
     local function on_attach(client, bufnr)
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
     end
 
-    require("nvim-lsp-installer").settings {
+    require("nvim-lsp-installer").setup {
         log = vim.log.levels.DEBUG,
     }
 
-    lsp_installer.on_server_ready(function(server)
-        server:setup {
-            on_attach = on_attach,
-        }
-    end)
     -- ==================================================
+    -- ========= SETUP RELEVANT SERVER(S) HERE! =========
+    -- ==================================================
+    --
+    -- lspconfig.sumneko_lua.setup { on_attach = on_attach }
 end
 
 if vim.fn.isdirectory(install_path) == 0 then

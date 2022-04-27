@@ -2,6 +2,7 @@ local Data = require "nvim-lsp-installer.data"
 local path = require "nvim-lsp-installer.path"
 local fs = require "nvim-lsp-installer.fs"
 local settings = require "nvim-lsp-installer.settings"
+local log = require "nvim-lsp-installer.log"
 
 local M = {}
 
@@ -180,15 +181,22 @@ end
 ---@param server_name string
 ---@return string
 local function get_server_install_dir(server_name)
-    return INSTALL_DIRS[server_name] or server_name
+    log.fmt_trace("Getting server installation dirname. uses_new_setup=%s", settings.uses_new_setup)
+    if settings.uses_new_setup then
+        return server_name
+    else
+        return INSTALL_DIRS[server_name] or server_name
+    end
 end
 
 function M.get_server_install_path(dirname)
+    log.trace("Getting server installation path", settings.current.install_root_dir, dirname)
     return path.concat { settings.current.install_root_dir, dirname }
 end
 
 ---@param server_name string
 function M.is_server_installed(server_name)
+    log.trace("Checking if server is installed", server_name)
     local scanned_server_dirs = scan_server_roots()
     local dirname = get_server_install_dir(server_name)
     return scanned_server_dirs[dirname] or false
@@ -213,6 +221,7 @@ function M.get_server(server_name)
 
     local ok, server_factory = pcall(require, ("nvim-lsp-installer.servers.%s"):format(server_name))
     if ok then
+        log.trace("Initializing core server", server_name)
         INITIALIZED_SERVERS[server_name] = server_factory(
             server_name,
             M.get_server_install_path(get_server_install_dir(server_name))
