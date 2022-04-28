@@ -4,6 +4,8 @@ local M = {}
 
 ---@class LspInstallerSettings
 local DEFAULT_SETTINGS = {
+    -- A list of servers to automatically install. Example: { "rust_analyzer", "sumneko_lua" }
+    ensure_installed = {},
     ui = {
         icons = {
             -- The list icon to use for installed servers.

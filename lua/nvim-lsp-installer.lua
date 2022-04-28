@@ -14,6 +14,22 @@ local M = {}
 
 M.settings = settings.set
 
+---@param server_identifiers string[]
+local function ensure_installed(server_identifiers)
+    local candidates = {}
+    for _, server_identifier in ipairs(server_identifiers) do
+        local server_name, version = servers.parse_server_identifier(server_identifier)
+        local ok, server = servers.get_server(server_name)
+        if ok and not server:is_installed() then
+            table.insert(candidates, server_name)
+            server:install(version)
+        end
+    end
+    if #candidates > 0 then
+        notify("Installing LSP servers: " .. table.concat(candidates, ", "))
+    end
+end
+
 ---@param config table
 function M.setup(config)
     if config then
@@ -21,6 +37,9 @@ function M.setup(config)
     end
     settings.uses_new_setup = true
     require("nvim-lsp-installer.middleware").register_lspconfig_hook()
+    vim.schedule(function()
+        ensure_installed(settings.current.ensure_installed)
+    end)
 end
 
 M.info_window = {
