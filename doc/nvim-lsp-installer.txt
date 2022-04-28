@@ -57,6 +57,7 @@ to call the `setup()` function _before_ you set up any servers: >
 Next, in your initialization files |init.lua|, setup the servers you want to use.
 Refer to |lspconfig| for more information! For example: >
 
+    require("nvim-lsp-installer").setup {}
     local lspconfig = require("lspconfig")
 
     local function on_attach(client, bufnr)

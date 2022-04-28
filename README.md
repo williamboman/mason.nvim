@@ -219,7 +219,7 @@ require("nvim-lsp-installer").setup({
 | Reason                              | `reason_ls`                |
 | Rome                                | `rome`                     |
 | Ruby                                | `solargraph`               |
-| Rust [(wiki)][rust_analyzer]        | `rust_analyzer`            |
+| Rust                                | `rust_analyzer`            |
 | SQL                                 | `sqlls`                    |
 | SQL                                 | `sqls`                     |
 | Salt                                | `salt_ls`                  |
@@ -252,7 +252,6 @@ require("nvim-lsp-installer").setup({
 [eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
 [pylsp]: ./lua/nvim-lsp-installer/servers/pylsp/README.md
-[rust_analyzer]: https://github.com/williamboman/nvim-lsp-installer/wiki/Rust
 
 ## Custom servers
 
