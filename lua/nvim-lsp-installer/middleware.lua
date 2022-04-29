@@ -25,7 +25,9 @@ function M.register_lspconfig_hook()
     util.on_setup = util.add_hook_before(util.on_setup, function(config)
         local ok, server = servers.get_server(config.name)
         if ok then
-            merge_in_place(config, server._default_options)
+            if server:is_installed() then
+                merge_in_place(config, server._default_options)
+            end
             if settings.current.automatic_installation and not server:is_installed() then
                 server:install()
             end
