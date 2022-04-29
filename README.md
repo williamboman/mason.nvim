@@ -114,7 +114,8 @@ Example:
 
 ```lua
 require("nvim-lsp-installer").setup({
-    ensure_installed = { "sumneko_lua", "rust_analyzer" },
+    ensure_installed = { "rust_analyzer", "sumneko_lua" },
+    automatic_installation = true,
     ui = {
         icons = {
             server_installed = "✓",
@@ -267,8 +268,10 @@ Illustrations in the logo are derived from [@Kaligule](https://schauderbasis.de/
 
 ```lua
 local DEFAULT_SETTINGS = {
-    -- A list of servers to automatically install. Example: { "rust_analyzer", "sumneko_lua" }
+    -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer", "sumneko_lua" }
     ensure_installed = {},
+    -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
+    automatic_installation = false,
     ui = {
         icons = {
             -- The list icon to use for installed servers.

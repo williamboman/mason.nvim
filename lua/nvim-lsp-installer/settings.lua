@@ -6,6 +6,8 @@ local M = {}
 local DEFAULT_SETTINGS = {
     -- A list of servers to automatically install. Example: { "rust_analyzer", "sumneko_lua" }
     ensure_installed = {},
+    -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
+    automatic_installation = false,
     ui = {
         icons = {
             -- The list icon to use for installed servers.

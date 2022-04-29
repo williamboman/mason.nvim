@@ -37,9 +37,12 @@ function M.setup(config)
     end
     settings.uses_new_setup = true
     require("nvim-lsp-installer.middleware").register_lspconfig_hook()
-    vim.schedule(function()
-        ensure_installed(settings.current.ensure_installed)
-    end)
+
+    if vim.tbl_islist(settings.current.ensure_installed) then
+        vim.schedule(function()
+            ensure_installed(settings.current.ensure_installed)
+        end)
+    end
 end
 
 M.info_window = {
