@@ -265,7 +265,7 @@ uninstall({server_name})
             {server_name} (string) The server to uninstall.
 
                                        *nvim-lsp-installer.on_server_ready()*
-on_server_ready({cb})
+on_server_ready({cb}) *DEPRECATED - setup servers directly via lspconfig instead*
         Registers a callback to be executed each time a server is ready to be
         initiated.
 
@@ -366,14 +366,14 @@ class: Server
                     Attaches this server to all current open buffers with a
                     'filetype' that matches the server's configured filetypes.
 
-            - get_default_options()
+            - get_default_options() *DEPRECATED*
                     Returns a deep copy of the default options provided to
                     lspconfig in the setup({opts}) method.
                     Note: These only include the options provided by
                     nvim-lsp-installer, and not the default options provided
                     by lspconfig.
 
-            - on_ready({handler})
+            - on_ready({handler}) *DEPRECATED*
                     Registers the provided {handler} to be called when the
                     server is ready to be setup.
 

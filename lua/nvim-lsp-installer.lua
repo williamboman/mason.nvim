@@ -195,7 +195,6 @@ function M.install_by_filetype(filetype)
 end
 
 --- Queues a server to be installed. Will also open the status window.
---- Use the .on_server_ready(cb) function to register a handler to be executed when a server is ready to be set up.
 ---@param server_identifier string @The server to install. This can also include a requested version, for example "rust_analyzer@nightly".
 function M.install(server_identifier)
     local server_name, version = servers.parse_server_identifier(server_identifier)
@@ -266,6 +265,7 @@ function M.uninstall_all(no_confirm)
     status_win().open()
 end
 
+---@deprecated Setup servers directly via lspconfig instead. See https://github.com/williamboman/nvim-lsp-installer/discussions/636
 ---@param cb fun(server: Server) @Callback to be executed whenever a server is ready to be set up.
 function M.on_server_ready(cb)
     dispatcher.register_server_ready_callback(cb)

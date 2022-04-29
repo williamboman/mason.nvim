@@ -28,7 +28,6 @@ return function(name, root_dir)
             std.chmod("+x", { "zeta-note" })
         end,
         default_options = {
-            cmd = { "zeta-note" },
             cmd_env = {
                 PATH = process.extend_path { root_dir },
             },
