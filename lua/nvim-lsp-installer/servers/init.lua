@@ -158,6 +158,7 @@ local function scan_server_roots()
     if cached_server_roots then
         return cached_server_roots
     end
+    log.trace "Scanning server roots"
     ---@type string[]
     local result = {}
     local ok, entries = pcall(fs.readdir, settings.current.install_root_dir)
