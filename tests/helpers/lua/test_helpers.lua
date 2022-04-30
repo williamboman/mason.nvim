@@ -32,10 +32,11 @@ mockx = {
 }
 
 function ServerGenerator(opts)
+    local name = opts.name or "dummy"
     return server.Server:new(vim.tbl_deep_extend("force", {
-        name = "dummy",
+        name = name,
         languages = { "dummylang" },
-        root_dir = server.get_server_root_path "dummy",
+        root_dir = server.get_server_root_path(name),
         homepage = "https://dummylang.org",
         async = true,
         installer = function(ctx)

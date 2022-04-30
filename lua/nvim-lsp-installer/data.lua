@@ -1,3 +1,5 @@
+-- TODO: rename this to functional.lua, long overdue
+
 local Data = {}
 
 ---@generic T : string
@@ -122,14 +124,16 @@ function Data.list_any(list, predicate)
     return false
 end
 
+function Data.identity(a)
+    return a
+end
+
 ---@generic T : fun(...)
 ---@param fn T
----@param cache_key_generator fun(...): string | nil
+---@param cache_key_generator (fun(...): string | nil)|nil
 ---@return T
 function Data.memoize(fn, cache_key_generator)
-    cache_key_generator = cache_key_generator or function(a)
-        return a
-    end
+    cache_key_generator = cache_key_generator or Data.identity
     local cache = {}
     return function(...)
         local key = cache_key_generator(...)
