@@ -180,6 +180,7 @@ require("nvim-lsp-installer").setup({
 | HTML                                | `html`                     |
 | Haskell                             | `hls`                      |
 | Haxe                                | `haxe_language_server`     |
+| Hoon                                | `hoon_ls`                  |
 | JSON                                | `jsonls`                   |
 | Java                                | `jdtls`                    |
 | JavaScript                          | `quick_lint_js`            |

@@ -136,6 +136,9 @@ return {
   hls = {
     filetypes = { "haskell", "lhaskell" }
   },
+  hoon_ls = {
+    filetypes = { "hoon" }
+  },
   html = {
     filetypes = { "html" }
   },

@@ -77,6 +77,7 @@ local CORE_SERVERS = Data.set_of {
     "groovyls",
     "haxe_language_server",
     "hls",
+    "hoon_ls",
     "html",
     "intelephense",
     "jdtls",
