@@ -220,6 +220,7 @@ require("nvim-lsp-installer").setup({
 | R                                   | `r_language_server`        |
 | ReScript                            | `rescriptls`               |
 | Reason                              | `reason_ls`                |
+| Robot Framework                     | `robotframework_ls`        |
 | Rome                                | `rome`                     |
 | Ruby                                | `solargraph`               |
 | Rust                                | `rust_analyzer`            |

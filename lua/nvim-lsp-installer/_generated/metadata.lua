@@ -241,6 +241,9 @@ return {
   rnix = {
     filetypes = { "nix" }
   },
+  robotframework_ls = {
+    filetypes = { "robot" }
+  },
   rome = {
     filetypes = { "javascript", "javascriptreact", "json", "typescript", "typescript.tsx", "typescriptreact" }
   },

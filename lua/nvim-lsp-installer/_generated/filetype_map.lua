@@ -115,6 +115,7 @@ return {
   rescript = { "rescriptls", "tailwindcss" },
   rmd = { "r_language_server" },
   rnoweb = { "ltex" },
+  robot = { "robotframework_ls" },
   rst = { "esbonio", "ltex" },
   ruby = { "solargraph", "sorbet" },
   rust = { "rust_analyzer" },
