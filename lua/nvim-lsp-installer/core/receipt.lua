@@ -126,6 +126,16 @@ InstallReceiptBuilder.opam = package_source "opam"
 
 InstallReceiptBuilder.unmanaged = { type = "unmanaged" }
 
+---@param repo string
+---@param release string
+function InstallReceiptBuilder.github_release(repo, release)
+    return {
+        type = "github_release",
+        repo = repo,
+        release = release,
+    }
+end
+
 ---@param dependency string
 function InstallReceiptBuilder.system(dependency)
     return { type = "system", dependency = dependency }

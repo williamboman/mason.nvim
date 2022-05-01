@@ -120,19 +120,25 @@ end
 
 ---@async
 ---@param file string
-function M.untarxz(file)
+---@param opts {strip_components:integer}
+function M.untarxz(file, opts)
+    opts = opts or {}
     local ctx = installer.context()
     platform.when {
         unix = function()
-            M.untar(file)
+            M.untar(file, opts)
         end,
         win = function()
             Result.run_catching(function()
                 win_extract(file) -- unpack .tar.xz to .tar
                 local uncompressed_tar = file:gsub(".xz$", "")
-                M.untar(uncompressed_tar)
+                M.untar(uncompressed_tar, opts)
             end):recover(function()
-                ctx.spawn.arc { "unarchive", file }
+                ctx.spawn.arc {
+                    "unarchive",
+                    opts.strip_components and { "--strip-components", opts.strip_components } or vim.NIL,
+                    file,
+                }
                 pcall(function()
                     ctx.fs:unlink(file)
                 end)
@@ -163,6 +169,19 @@ function M.chmod(flags, files)
         local ctx = installer.context()
         ctx.spawn.chmod { flags, files }
     end
+end
+
+---@async
+---Wrapper around vim.ui.select.
+---@param items table
+---@params opts
+function M.select(items, opts)
+    assert(not platform.is_headless, "Tried to prompt for user input while in headless mode.")
+    if vim.in_fast_event() then
+        a.scheduler()
+    end
+    local async_select = a.promisify(vim.ui.select)
+    return async_select(items, opts)
 end
 
 return M
