@@ -142,4 +142,14 @@ M.get_homebrew_prefix = lazy(function()
         end)
 end)
 
+M.is = setmetatable({}, {
+    __index = function(_, key)
+        local platform, arch = unpack(vim.split(key, "_", { plain = true }))
+        if arch and M.arch ~= arch then
+            return false
+        end
+        return M["is_" .. platform] == true
+    end,
+})
+
 return M

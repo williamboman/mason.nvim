@@ -8,8 +8,11 @@ describe("platform", function()
         return require "nvim-lsp-installer.platform"
     end
 
-    local function stub_mac()
+    local function stub_mac(arch)
+        arch = arch or "x86_64"
         stub(vim.fn, "has")
+        stub(vim.loop, "os_uname")
+        vim.loop.os_uname.returns { machine = arch }
         vim.fn.has.on_call_with("mac").returns(1)
         vim.fn.has.on_call_with("unix").returns(1)
         vim.fn.has.on_call_with(match._).returns(0)
@@ -28,28 +31,47 @@ describe("platform", function()
         vim.fn.has.on_call_with(match._).returns(0)
     end
 
+    it("should be able to detect platform and arch", function()
+        stub_mac "arm64"
+        assert.is_true(platform().is.mac_arm64)
+        assert.is_false(platform().is.mac_x64)
+        assert.is_false(platform().is.nothing)
+    end)
+
     it("should be able to detect macos", function()
         stub_mac()
         assert.is_true(platform().is_mac)
+        assert.is_true(platform().is.mac)
         assert.is_true(platform().is_unix)
+        assert.is_true(platform().is.unix)
         assert.is_false(platform().is_linux)
+        assert.is_false(platform().is.linux)
         assert.is_false(platform().is_win)
+        assert.is_false(platform().is.win)
     end)
 
     it("should be able to detect linux", function()
         stub_linux()
         assert.is_false(platform().is_mac)
+        assert.is_false(platform().is.mac)
         assert.is_true(platform().is_unix)
+        assert.is_true(platform().is.unix)
         assert.is_true(platform().is_linux)
+        assert.is_true(platform().is.linux)
         assert.is_false(platform().is_win)
+        assert.is_false(platform().is.win)
     end)
 
     it("should be able to detect windows", function()
         stub_windows()
         assert.is_false(platform().is_mac)
+        assert.is_false(platform().is.mac)
         assert.is_false(platform().is_unix)
+        assert.is_false(platform().is.unix)
         assert.is_false(platform().is_linux)
+        assert.is_false(platform().is.linux)
         assert.is_true(platform().is_win)
+        assert.is_true(platform().is.win)
     end)
 
     it("should run correct case on linux", function()
