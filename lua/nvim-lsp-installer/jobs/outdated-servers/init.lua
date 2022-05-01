@@ -9,9 +9,8 @@ local git = require "nvim-lsp-installer.core.managers.git"
 local gem = require "nvim-lsp-installer.core.managers.gem"
 local go = require "nvim-lsp-installer.core.managers.go"
 local cargo = require "nvim-lsp-installer.core.managers.cargo"
+local github = require "nvim-lsp-installer.core.managers.github"
 local composer = require "nvim-lsp-installer.core.managers.composer"
-local github_release_file_check = require "nvim-lsp-installer.jobs.outdated-servers.github_release_file"
-local github_tag_check = require "nvim-lsp-installer.jobs.outdated-servers.github_tag"
 local jdtls_check = require "nvim-lsp-installer.jobs.outdated-servers.jdtls"
 
 local M = {}
@@ -30,8 +29,9 @@ local checkers = {
     ["gem"] = gem.check_outdated_primary_package,
     ["go"] = go.check_outdated_primary_package,
     ["jdtls"] = jdtls_check,
-    ["github_release_file"] = github_release_file_check,
-    ["github_tag"] = github_tag_check,
+    ["github_release_file"] = github.check_outdated_primary_package_release,
+    ["github_release"] = github.check_outdated_primary_package_release,
+    ["github_tag"] = github.check_outdated_primary_package_tag,
 }
 
 local pending_servers = {}

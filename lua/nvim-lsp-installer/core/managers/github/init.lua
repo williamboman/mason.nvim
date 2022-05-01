@@ -2,6 +2,7 @@ local installer = require "nvim-lsp-installer.core.installer"
 local std = require "nvim-lsp-installer.core.managers.std"
 local client = require "nvim-lsp-installer.core.managers.github.client"
 local platform = require "nvim-lsp-installer.platform"
+local Result = require "nvim-lsp-installer.core.result"
 
 local M = {}
 
@@ -82,6 +83,50 @@ function M.gunzip_release_file(opts)
     std.download_file(release_file_source.download_url, gzipped_file)
     std.gunzip(gzipped_file)
     return release_file_source
+end
+
+---@async
+---@param receipt InstallReceipt
+function M.check_outdated_primary_package_release(receipt)
+    local source = receipt.primary_source
+    if source.type ~= "github_release" and source.type ~= "github_release_file" then
+        return Result.failure "Receipt does not have a primary source of type (github_release|github_release_file)."
+    end
+    return client.fetch_latest_release(source.repo, { tag_name_pattern = source.tag_name_pattern }):map_catching(
+        ---@param latest_release GitHubRelease
+        function(latest_release)
+            if source.release ~= latest_release.tag_name then
+                return {
+                    name = source.repo,
+                    current_version = source.release,
+                    latest_version = latest_release.tag_name,
+                }
+            end
+            error "Primary package is not outdated."
+        end
+    )
+end
+
+---@async
+---@param receipt InstallReceipt
+function M.check_outdated_primary_package_tag(receipt)
+    local source = receipt.primary_source
+    if source.type ~= "github_tag" then
+        return Result.failure "Receipt does not have a primary source of type github_tag."
+    end
+    return client.fetch_latest_tag(source.repo):map_catching(
+        ---@param latest_tag GitHubTag
+        function(latest_tag)
+            if source.tag ~= latest_tag.name then
+                return {
+                    name = source.repo,
+                    current_version = source.tag,
+                    latest_version = latest_tag.name,
+                }
+            end
+            error "Primary package is not outdated."
+        end
+    )
 end
 
 return M

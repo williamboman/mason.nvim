@@ -49,6 +49,7 @@ local version_checker = {
         return go.get_installed_primary_package_version(receipt, server.root_dir)
     end,
     ["github_release_file"] = version_in_receipt "release",
+    ["github_release"] = version_in_receipt "release",
     ["github_tag"] = version_in_receipt "tag",
     ["jdtls"] = version_in_receipt "version",
 }
