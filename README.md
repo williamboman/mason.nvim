@@ -42,7 +42,7 @@ On top of just providing commands for installing & uninstalling LSP servers, it:
 
 ## Installation
 
-Requires neovim `>= 0.6.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig). The _full requirements_ to
+Requires neovim `>= 0.7.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig). The _full requirements_ to
 install _all_ servers are:
 
 -   For Unix systems: git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)

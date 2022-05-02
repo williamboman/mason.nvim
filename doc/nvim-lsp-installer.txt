@@ -1,6 +1,6 @@
 *nvim-lsp-installer*
 
-Minimum version of neovim: 0.6.0
+Minimum version of neovim: 0.7.0
 
 Author: William Boman
 
@@ -23,7 +23,7 @@ it:
 -   hosts a suite of system tests for all supported servers
 -   has full support for Windows
 
-Requires neovim `>= 0.6.0` and nvim-lspconfig. The _full requirements_ to
+Requires neovim `>= 0.7.0` and nvim-lspconfig. The _full requirements_ to
 install _all_ servers are:
 
 -   For Unix systems: git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)

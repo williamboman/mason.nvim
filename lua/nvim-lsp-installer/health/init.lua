@@ -125,10 +125,10 @@ end
 
 function M.check()
     health.report_start "nvim-lsp-installer report"
-    if vim.fn.has "nvim-0.6.0" == 1 then
-        health.report_ok "neovim version >= 0.6.0"
+    if vim.fn.has "nvim-0.7.0" == 1 then
+        health.report_ok "neovim version >= 0.7.0"
     else
-        health.report_error "neovim version < 0.6.0"
+        health.report_error "neovim version < 0.7.0"
     end
 
     local completed = 0
