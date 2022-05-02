@@ -71,12 +71,7 @@ install _all_ servers are:
 ```lua
 use {
     "williamboman/nvim-lsp-installer",
-    {
-        "neovim/nvim-lspconfig",
-        setup = function()
-            require("nvim-lsp-installer").setup {}
-        end
-    }
+    "neovim/nvim-lspconfig",
 }
 ```
 
