@@ -70,16 +70,21 @@ install _all_ servers are:
 
 ```lua
 use {
-    'neovim/nvim-lspconfig',
-    'williamboman/nvim-lsp-installer',
+    "williamboman/nvim-lsp-installer",
+    {
+        "neovim/nvim-lspconfig",
+        setup = function()
+            require("nvim-lsp-installer").setup {}
+        end
+    }
 }
 ```
 
 ### vim-plug
 
 ```vim
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+Plug "williamboman/nvim-lsp-installer"
+Plug "neovim/nvim-lspconfig"
 ```
 
 ## Usage
@@ -92,6 +97,52 @@ function before you set up any servers with `lspconfig`**!
 ```lua
 require("nvim-lsp-installer").setup {}
 ```
+
+<details>
+<summary>
+Important if you use packer.nvim! (click to expand)
+</summary>
+
+<br />
+
+> Do not separate the nvim-lsp-installer setup from lspconfig, for example via the `config` hook.
+> Make sure to colocate the nvim-lsp-installer setup with the lspconfig setup. This is because load order of plugins is
+not guaranteed, leading to nvim-lsp-installer's `config` function potentially executing after lspconfig's.
+>
+> ❌ Do not do this:
+```lua
+use {
+    {
+        "williamboman/nvim-lsp-installer",
+        config = function()
+            require("nvim-lsp-installer").setup {}
+        end
+    },
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            local lspconfig = require("lspconfig")
+            lspconfig.sumneko_lua.setup {}
+        end
+    },
+}
+```
+> ✅ Instead, do this:
+```lua
+use {
+    "williamboman/nvim-lsp-installer",
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            require("nvim-lsp-installer").setup {}
+            local lspconfig = require("lspconfig")
+            lspconfig.sumneko_lua.setup {}
+        end
+    }
+}
+```
+
+</details>
 
 Refer to the [Configuration](#configuration) section for information about which settings are available.
 

@@ -1,5 +1,5 @@
 name: Server installation issue
-description: Report an issue with installing a server via nvim-lsp-installer
+description: Report an issue that occurs during the installation of a server
 labels:
     - installation-issue
 
