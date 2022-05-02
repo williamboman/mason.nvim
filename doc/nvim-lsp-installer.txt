@@ -274,7 +274,9 @@ uninstall({server_name})
             {server_name} (string) The server to uninstall.
 
                                        *nvim-lsp-installer.on_server_ready()*
-on_server_ready({cb}) *DEPRECATED - setup servers directly via lspconfig instead*
+on_server_ready({cb})
+        DEPRECATED - setup servers directly via lspconfig instead
+
         Registers a callback to be executed each time a server is ready to be
         initiated.
 
@@ -351,7 +353,9 @@ class: Server
         servers.
 
         Methods: ~
-            - setup({opts}) *DEPRECATED - setup servers directly via lspconfig instead*
+            - setup({opts})
+                    DEPRECATED - setup servers directly via lspconfig instead
+
                     Sets up the language server and attaches all open buffers.
 
                     See:
@@ -362,7 +366,9 @@ class: Server
                         {opts} (table) The lspconfig server configuration.
                         See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
-            - setup_lsp({opts}) *DEPRECATED - setup servers directly via lspconfig instead*
+            - setup_lsp({opts})
+                    DEPRECATED - setup servers directly via lspconfig instead
+
                     Sets up the language server via lspconfig.
                     This function has the same signature as the setup function
                     in nvim-lspconfig.
@@ -371,18 +377,22 @@ class: Server
                         {opts} (table) The lspconfig server configuration.
                         See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
-            - attach_buffers() *DEPRECATED - setup servers directly via lspconfig instead*
+            - attach_buffers()
+                    DEPRECATED - setup servers directly via lspconfig instead
+
                     Attaches this server to all current open buffers with a
                     'filetype' that matches the server's configured filetypes.
 
-            - get_default_options() *DEPRECATED*
+            - get_default_options()
                     Returns a deep copy of the default options provided to
                     lspconfig in the setup({opts}) method.
                     Note: These only include the options provided by
                     nvim-lsp-installer, and not the default options provided
                     by lspconfig.
 
-            - on_ready({handler}) *DEPRECATED*
+            - on_ready({handler})
+                    DEPRECATED - setup servers directly via lspconfig instead
+
                     Registers the provided {handler} to be called when the
                     server is ready to be setup.
 
