@@ -185,7 +185,7 @@ return {
     filetypes = { "ocaml", "reason" }
   },
   ocamllsp = {
-    filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason" }
+    filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" }
   },
   omnisharp = {
     filetypes = { "cs", "vb" }

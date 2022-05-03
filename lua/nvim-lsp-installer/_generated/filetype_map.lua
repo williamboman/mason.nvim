@@ -29,6 +29,7 @@ return {
   ["django-html"] = { "tailwindcss" },
   dockerfile = { "dockerls" },
   dot = { "dotls" },
+  dune = { "ocamllsp" },
   edge = { "tailwindcss" },
   edn = { "clojure_lsp" },
   eelixir = { "elixirls", "tailwindcss" },
