@@ -135,6 +135,14 @@ local function Help(is_current_settings_expanded, vader_saber_ticks)
         },
         Ui.EmptyLine(),
         Ui.HlTextNode {
+            { { "How do I customize server settings?", "LspInstallerLabel" } },
+            {
+                { "For information on how to customize a server's settings, see ", "LspInstallerMuted" },
+                { ":help lspconfig-setup", "LspInstallerHighlighted" },
+            },
+        },
+        Ui.EmptyLine(),
+        Ui.HlTextNode {
             {
                 {
                     ("%s Current settings"):format(is_current_settings_expanded and "↓" or "→"),
@@ -277,6 +285,19 @@ local function ServerMetadata(server)
                 Ui.Keybind("<CR>", "TOGGLE_SERVER_SETTINGS_SCHEMA", { server.name }),
                 Ui.When(server.has_expanded_schema, function()
                     return Indent {
+                        Ui.HlTextNode {
+                            {
+                                {
+                                    "This is a read-only representation of the settings this server accepts. Note that some settings might not apply to neovim.",
+                                    "LspInstallerMuted",
+                                },
+                            },
+                            {
+                                { "For information on how to customize these settings, see ", "LspInstallerMuted" },
+                                { ":help lspconfig-setup", "LspInstallerHighlighted" },
+                            },
+                        },
+                        Ui.EmptyLine(),
                         ServerSettingsSchema(server, server.schema),
                     }
                 end),
