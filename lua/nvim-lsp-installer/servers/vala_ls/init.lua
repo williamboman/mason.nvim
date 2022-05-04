@@ -26,8 +26,9 @@ return function(name, root_dir)
             release_source.with_receipt()
 
             local vala_dirname = ("vala-language-server-%s"):format(release_source.release)
+            local install_dir = ctx.cwd:get()
             ctx:chdir(vala_dirname, function()
-                ctx.spawn.meson { ("-Dprefix=%s"):format(ctx.cwd:get()), "build" }
+                ctx.spawn.meson { ("-Dprefix=%s"):format(install_dir), "build" }
                 ctx.spawn.ninja { "-C", "build", "install" }
             end)
             ctx.fs:rmrf(vala_dirname)
