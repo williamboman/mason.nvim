@@ -33,7 +33,12 @@ function M.release_file(opts)
             :get_or_throw "Failed to fetch latest release from GitHub API."
     end)
     ---@type string
-    local asset_file = type(opts.asset_file) == "function" and opts.asset_file(release) or opts.asset_file
+    local asset_file
+    if type(opts.asset_file) == "function" then
+        asset_file = opts.asset_file(release)
+    else
+        asset_file = opts.asset_file
+    end
     if not asset_file then
         error(
             (
