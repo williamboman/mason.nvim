@@ -41,6 +41,7 @@ install _all_ servers are:
 -   valac (and meson & ninja)
 -   rebar3
 -   cargo
+-   ghcup
 
 To write a custom server installer, please refer to the docs at
 https://github.com/williamboman/nvim-lsp-installer/blob/main/CUSTOM_SERVERS.md.

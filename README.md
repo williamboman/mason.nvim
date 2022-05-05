@@ -59,6 +59,7 @@ install _all_ servers are:
 -   valac (and meson & ninja)
 -   rebar3
 -   cargo
+-   ghcup
 
 [7zip]: https://www.7-zip.org/
 [archiver]: https://github.com/mholt/archiver
