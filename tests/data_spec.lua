@@ -8,13 +8,10 @@ describe("data", function()
             "BLUE",
             "YELLOW",
         }
-        assert.equal(
-            vim.inspect {
-                ["BLUE"] = "BLUE",
-                ["YELLOW"] = "YELLOW",
-            },
-            vim.inspect(colors)
-        )
+        assert.same({
+            ["BLUE"] = "BLUE",
+            ["YELLOW"] = "YELLOW",
+        }, colors)
     end)
 
     it("creates sets", function()
@@ -24,44 +21,38 @@ describe("data", function()
             "BLUE",
             "RED",
         }
-        assert.equal(
-            vim.inspect {
-                ["BLUE"] = true,
-                ["YELLOW"] = true,
-                ["RED"] = true,
-            },
-            vim.inspect(colors)
-        )
+        assert.same({
+            ["BLUE"] = true,
+            ["YELLOW"] = true,
+            ["RED"] = true,
+        }, colors)
     end)
 
     it("reverses lists", function()
         local colors = { "BLUE", "YELLOW", "RED" }
-        assert.equal(
-            vim.inspect {
-                "RED",
-                "YELLOW",
-                "BLUE",
-            },
-            vim.inspect(Data.list_reverse(colors))
-        )
+        assert.same({
+            "RED",
+            "YELLOW",
+            "BLUE",
+        }, Data.list_reverse(colors))
         -- should not modify in-place
-        assert.equal(vim.inspect { "BLUE", "YELLOW", "RED" }, vim.inspect(colors))
+        assert.same({ "BLUE", "YELLOW", "RED" }, colors)
     end)
 
     it("maps over list", function()
         local colors = { "BLUE", "YELLOW", "RED" }
-        assert.equal(
-            vim.inspect {
+        assert.same(
+            {
                 "LIGHT_BLUE1",
                 "LIGHT_YELLOW2",
                 "LIGHT_RED3",
             },
-            vim.inspect(Data.list_map(function(color, i)
+            Data.list_map(function(color, i)
                 return "LIGHT_" .. color .. i
-            end, colors))
+            end, colors)
         )
         -- should not modify in-place
-        assert.equal(vim.inspect { "BLUE", "YELLOW", "RED" }, vim.inspect(colors))
+        assert.same({ "BLUE", "YELLOW", "RED" }, colors)
     end)
 
     it("coalesces first non-nil value", function()
@@ -71,7 +62,7 @@ describe("data", function()
     it("makes a shallow copy of a list", function()
         local list = { "BLUE", { nested = "TABLE" }, "RED" }
         local list_copy = Data.list_copy(list)
-        assert.equal(vim.inspect { "BLUE", { nested = "TABLE" }, "RED" }, vim.inspect(list_copy))
+        assert.same({ "BLUE", { nested = "TABLE" }, "RED" }, list_copy)
         assert.is_not.is_true(list == list_copy)
         assert.is_true(list[2] == list_copy[2])
     end)

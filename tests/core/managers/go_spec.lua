@@ -50,26 +50,20 @@ describe("go manager", function()
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
             installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
-            assert.equals(
-                vim.inspect {
+            assert.same({
+                type = "go",
+                package = "main-package",
+            }, ctx.receipt.primary_source)
+            assert.same({
+                {
                     type = "go",
-                    package = "main-package",
+                    package = "supporting-package",
                 },
-                vim.inspect(ctx.receipt.primary_source)
-            )
-            assert.equals(
-                vim.inspect {
-                    {
-                        type = "go",
-                        package = "supporting-package",
-                    },
-                    {
-                        type = "go",
-                        package = "supporting-package2",
-                    },
+                {
+                    type = "go",
+                    package = "supporting-package2",
                 },
-                vim.inspect(ctx.receipt.secondary_sources)
-            )
+            }, ctx.receipt.secondary_sources)
         end)
     )
 end)
@@ -87,15 +81,12 @@ gopls: go1.18
 
     it("should parse go version output", function()
         local parsed = go.parse_mod_version_output(go_version_output)
-        assert.equals(
-            vim.inspect {
-                path = { ["golang.org/x/tools/gopls"] = "" },
-                mod = { ["golang.org/x/tools/gopls"] = "v0.8.1" },
-                dep = { ["github.com/google/go-cmp"] = "v0.5.7", ["mvdan.cc/xurls/v2"] = "v2.4.0" },
-                build = { ["-compiler=gc"] = "", ["GOOS=darwin"] = "" },
-            },
-            vim.inspect(parsed)
-        )
+        assert.same({
+            path = { ["golang.org/x/tools/gopls"] = "" },
+            mod = { ["golang.org/x/tools/gopls"] = "v0.8.1" },
+            dep = { ["github.com/google/go-cmp"] = "v0.5.7", ["mvdan.cc/xurls/v2"] = "v2.4.0" },
+            build = { ["-compiler=gc"] = "", ["GOOS=darwin"] = "" },
+        }, parsed)
     end)
 
     it(
@@ -172,14 +163,11 @@ gopls: go1.18
             )
 
             assert.is_true(result:is_success())
-            assert.equals(
-                vim.inspect {
-                    name = "golang.org/x/tools/gopls",
-                    current_version = "v0.8.1",
-                    latest_version = "v2.0.0",
-                },
-                vim.inspect(result:get_or_nil())
-            )
+            assert.same({
+                name = "golang.org/x/tools/gopls",
+                current_version = "v0.8.1",
+                latest_version = "v2.0.0",
+            }, result:get_or_nil())
 
             spawn.go = nil
         end)

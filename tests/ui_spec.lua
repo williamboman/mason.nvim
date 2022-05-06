@@ -23,47 +23,41 @@ describe("ui", function()
             })
         end
 
-        assert.equal(
-            vim.inspect {
-                children = {
-                    {
-                        type = "HL_TEXT",
-                        lines = {
-                            { { "I'm not active", "" } },
-                            { { "Another line", "" } },
-                        },
-                    },
-                    {
-                        type = "NODE",
-                        children = {},
+        assert.same({
+            children = {
+                {
+                    type = "HL_TEXT",
+                    lines = {
+                        { { "I'm not active", "" } },
+                        { { "Another line", "" } },
                     },
                 },
-                styles = { "INDENT" },
-                type = "CASCADING_STYLE",
+                {
+                    type = "NODE",
+                    children = {},
+                },
             },
-            vim.inspect(renderer { is_active = false })
-        )
+            styles = { "INDENT" },
+            type = "CASCADING_STYLE",
+        }, renderer { is_active = false })
 
-        assert.equal(
-            vim.inspect {
-                children = {
-                    {
-                        type = "NODE",
-                        children = {},
-                    },
-                    {
-                        type = "HL_TEXT",
-                        lines = {
-                            { { "I'm active", "" } },
-                            { { "Yet another line", "" } },
-                        },
+        assert.same({
+            children = {
+                {
+                    type = "NODE",
+                    children = {},
+                },
+                {
+                    type = "HL_TEXT",
+                    lines = {
+                        { { "I'm active", "" } },
+                        { { "Yet another line", "" } },
                     },
                 },
-                styles = { "INDENT" },
-                type = "CASCADING_STYLE",
             },
-            vim.inspect(renderer { is_active = true })
-        )
+            styles = { "INDENT" },
+            type = "CASCADING_STYLE",
+        }, renderer { is_active = true })
     end)
 
     it("renders a tree correctly", function()
@@ -91,47 +85,44 @@ describe("ui", function()
             })
         )
 
-        assert.equal(
-            vim.inspect {
-                highlights = {
-                    {
-                        col_start = 2,
-                        col_end = 14,
-                        line = 0,
-                        hl_group = "MyHighlightGroup",
-                    },
-                    {
-                        col_start = 2,
-                        col_end = 14,
-                        line = 1,
-                        hl_group = "Comment",
-                    },
-                    {
-                        col_start = 2,
-                        col_end = 23,
-                        line = 2,
-                        hl_group = "Stuff",
-                    },
+        assert.same({
+            highlights = {
+                {
+                    col_start = 2,
+                    col_end = 14,
+                    line = 0,
+                    hl_group = "MyHighlightGroup",
                 },
-                lines = { "  Hello World!", "  Another Line", "  Install something idk", "  I'm a text node" },
-                virt_texts = {},
-                keybinds = {
-                    {
-                        effect = "INSTALL_SERVER",
-                        key = "i",
-                        line = -1,
-                        payload = { "sumneko_lua" },
-                    },
-                    {
-                        effect = "INSTALL_SERVER",
-                        key = "<CR>",
-                        line = 3,
-                        payload = { "tsserver" },
-                    },
+                {
+                    col_start = 2,
+                    col_end = 14,
+                    line = 1,
+                    hl_group = "Comment",
+                },
+                {
+                    col_start = 2,
+                    col_end = 23,
+                    line = 2,
+                    hl_group = "Stuff",
                 },
             },
-            vim.inspect(render_output)
-        )
+            lines = { "  Hello World!", "  Another Line", "  Install something idk", "  I'm a text node" },
+            virt_texts = {},
+            keybinds = {
+                {
+                    effect = "INSTALL_SERVER",
+                    key = "i",
+                    line = -1,
+                    payload = { "sumneko_lua" },
+                },
+                {
+                    effect = "INSTALL_SERVER",
+                    key = "<CR>",
+                    line = 3,
+                    payload = { "tsserver" },
+                },
+            },
+        }, render_output)
     end)
 end)
 

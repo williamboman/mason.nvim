@@ -39,7 +39,7 @@ describe("middleware", function()
                 cmd_env = { SOME_DEFAULT_ENV = "important" },
             }
             util.on_setup(config)
-            assert.are.same({
+            assert.same({
                 cmd = { "dummy-lsp" },
                 name = "dummy",
                 custom = "setting",
@@ -61,7 +61,7 @@ describe("middleware", function()
                 cmd_env = { SOME_DEFAULT_ENV = "important" },
             }
             util.on_setup(config)
-            assert.are.same({
+            assert.same({
                 name = "uninstalled_dummy",
                 cmd = { "should", "not", "be", "overwritten" },
                 custom = "setting",

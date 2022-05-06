@@ -7,7 +7,7 @@ describe("status win server hints", function()
             languages = { "rust", "analyz", "totallynotjavascript" },
         }
         local hints = ServerHints.new(srv)
-        assert.equal(vim.inspect { "analyz", "totallynotjavascript" }, vim.inspect(hints:get_hints()))
+        assert.same({ "analyz", "totallynotjavascript" }, hints:get_hints())
         assert.equal("(analyz, totallynotjavascript)", tostring(hints))
     end)
 
@@ -21,11 +21,11 @@ describe("status win server hints", function()
             languages = { "css" },
         }
         local hints = ServerHints.new(srv)
-        assert.equal(vim.inspect {}, vim.inspect(hints:get_hints()))
+        assert.same({}, hints:get_hints())
         assert.equal("", tostring(hints))
 
         local hints2 = ServerHints.new(srv2)
-        assert.equal(vim.inspect {}, vim.inspect(hints2:get_hints()))
+        assert.same({}, (hints2:get_hints()))
         assert.equal("", tostring(hints2))
     end)
 
@@ -39,11 +39,11 @@ describe("status win server hints", function()
             languages = { "rust" },
         }
         local hints = ServerHints.new(srv)
-        assert.equal(vim.inspect { "c", "c++" }, vim.inspect(hints:get_hints()))
+        assert.same({ "c", "c++" }, hints:get_hints())
         assert.equal("(c, c++)", tostring(hints))
 
         local hints2 = ServerHints.new(srv2)
-        assert.equal(vim.inspect { "rust" }, vim.inspect(hints2:get_hints()))
+        assert.same({ "rust" }, hints2:get_hints())
         assert.equal("(rust)", tostring(hints2))
     end)
 end)

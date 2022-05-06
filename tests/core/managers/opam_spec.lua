@@ -40,26 +40,20 @@ describe("opam manager", function()
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
             installer.run_installer(ctx, opam.packages { "main-package", "supporting-package", "supporting-package2" })
-            assert.equals(
-                vim.inspect {
+            assert.same({
+                type = "opam",
+                package = "main-package",
+            }, ctx.receipt.primary_source)
+            assert.same({
+                {
                     type = "opam",
-                    package = "main-package",
+                    package = "supporting-package",
                 },
-                vim.inspect(ctx.receipt.primary_source)
-            )
-            assert.equals(
-                vim.inspect {
-                    {
-                        type = "opam",
-                        package = "supporting-package",
-                    },
-                    {
-                        type = "opam",
-                        package = "supporting-package2",
-                    },
+                {
+                    type = "opam",
+                    package = "supporting-package2",
                 },
-                vim.inspect(ctx.receipt.secondary_sources)
-            )
+            }, ctx.receipt.secondary_sources)
         end)
     )
 end)

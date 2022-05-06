@@ -66,26 +66,20 @@ describe("npm manager", function()
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
             installer.run_installer(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
-            assert.equals(
-                vim.inspect {
+            assert.same({
+                type = "npm",
+                package = "main-package",
+            }, ctx.receipt.primary_source)
+            assert.same({
+                {
                     type = "npm",
-                    package = "main-package",
+                    package = "supporting-package",
                 },
-                vim.inspect(ctx.receipt.primary_source)
-            )
-            assert.equals(
-                vim.inspect {
-                    {
-                        type = "npm",
-                        package = "supporting-package",
-                    },
-                    {
-                        type = "npm",
-                        package = "supporting-package2",
-                    },
+                {
+                    type = "npm",
+                    package = "supporting-package2",
                 },
-                vim.inspect(ctx.receipt.secondary_sources)
-            )
+            }, ctx.receipt.secondary_sources)
         end)
     )
 end)
@@ -168,14 +162,11 @@ describe("npm version check", function()
                 cwd = "/tmp/install/dir",
             }
             assert.is_true(result:is_success())
-            assert.equals(
-                vim.inspect {
-                    name = "bash-language-server",
-                    current_version = "1.17.0",
-                    latest_version = "2.0.0",
-                },
-                vim.inspect(result:get_or_nil())
-            )
+            assert.same({
+                name = "bash-language-server",
+                current_version = "1.17.0",
+                latest_version = "2.0.0",
+            }, result:get_or_nil())
 
             spawn.npm = nil
         end)

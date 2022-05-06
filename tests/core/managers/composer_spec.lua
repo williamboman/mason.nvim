@@ -51,26 +51,20 @@ describe("composer manager", function()
                 ctx,
                 composer.packages { "main-package", "supporting-package", "supporting-package2" }
             )
-            assert.equals(
-                vim.inspect {
+            assert.same({
+                type = "composer",
+                package = "main-package",
+            }, ctx.receipt.primary_source)
+            assert.same({
+                {
                     type = "composer",
-                    package = "main-package",
+                    package = "supporting-package",
                 },
-                vim.inspect(ctx.receipt.primary_source)
-            )
-            assert.equals(
-                vim.inspect {
-                    {
-                        type = "composer",
-                        package = "supporting-package",
-                    },
-                    {
-                        type = "composer",
-                        package = "supporting-package2",
-                    },
+                {
+                    type = "composer",
+                    package = "supporting-package2",
                 },
-                vim.inspect(ctx.receipt.secondary_sources)
-            )
+            }, ctx.receipt.secondary_sources)
         end)
     )
 end)
@@ -155,14 +149,11 @@ describe("composer version check", function()
                 cwd = "/tmp/install/dir",
             }
             assert.is_true(result:is_success())
-            assert.equals(
-                vim.inspect {
-                    name = "vimeo/psalm",
-                    current_version = "4.0.0",
-                    latest_version = "4.22.0",
-                },
-                vim.inspect(result:get_or_nil())
-            )
+            assert.same({
+                name = "vimeo/psalm",
+                current_version = "4.0.0",
+                latest_version = "4.22.0",
+            }, result:get_or_nil())
 
             spawn.composer = nil
         end)

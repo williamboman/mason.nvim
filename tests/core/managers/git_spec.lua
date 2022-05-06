@@ -82,13 +82,10 @@ describe("git manager", function()
             installer.run_installer(ctx, function()
                 git.clone({ "https://github.com/williamboman/nvim-lsp-installer.git" }).with_receipt()
             end)
-            assert.equals(
-                vim.inspect {
-                    type = "git",
-                    remote = "https://github.com/williamboman/nvim-lsp-installer.git",
-                },
-                vim.inspect(ctx.receipt.primary_source)
-            )
+            assert.same({
+                type = "git",
+                remote = "https://github.com/williamboman/nvim-lsp-installer.git",
+            }, ctx.receipt.primary_source)
             assert.is_true(#ctx.receipt.secondary_sources == 0)
         end)
     )
@@ -149,14 +146,11 @@ describe("git version check", function()
                 cwd = "/tmp/install/dir",
             }
             assert.is_true(result:is_success())
-            assert.equals(
-                vim.inspect {
-                    name = "https://github.com/williamboman/nvim-lsp-installer.git",
-                    current_version = "19c668cd10695b243b09452f0dfd53570c1a2e7d",
-                    latest_version = "728307a74cd5f2dec7ca2ca164785c25673d6328",
-                },
-                vim.inspect(result:get_or_nil())
-            )
+            assert.same({
+                name = "https://github.com/williamboman/nvim-lsp-installer.git",
+                current_version = "19c668cd10695b243b09452f0dfd53570c1a2e7d",
+                latest_version = "728307a74cd5f2dec7ca2ca164785c25673d6328",
+            }, result:get_or_nil())
 
             spawn.git = nil
         end)

@@ -122,26 +122,20 @@ describe("pip3 manager", function()
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
             installer.run_installer(ctx, pip3.packages { "main-package", "supporting-package", "supporting-package2" })
-            assert.equals(
-                vim.inspect {
+            assert.same({
+                type = "pip3",
+                package = "main-package",
+            }, ctx.receipt.primary_source)
+            assert.same({
+                {
                     type = "pip3",
-                    package = "main-package",
+                    package = "supporting-package",
                 },
-                vim.inspect(ctx.receipt.primary_source)
-            )
-            assert.equals(
-                vim.inspect {
-                    {
-                        type = "pip3",
-                        package = "supporting-package",
-                    },
-                    {
-                        type = "pip3",
-                        package = "supporting-package2",
-                    },
+                {
+                    type = "pip3",
+                    package = "supporting-package2",
                 },
-                vim.inspect(ctx.receipt.secondary_sources)
-            )
+            }, ctx.receipt.secondary_sources)
         end)
     )
 end)
@@ -216,14 +210,11 @@ describe("pip3 version check", function()
                 env = match.table(),
             })
             assert.is_true(result:is_success())
-            assert.equals(
-                vim.inspect {
-                    name = "python-lsp-server",
-                    current_version = "1.3.0",
-                    latest_version = "1.4.0",
-                },
-                vim.inspect(result:get_or_nil())
-            )
+            assert.same({
+                name = "python-lsp-server",
+                current_version = "1.3.0",
+                latest_version = "1.4.0",
+            }, result:get_or_nil())
 
             spawn.python = nil
         end)

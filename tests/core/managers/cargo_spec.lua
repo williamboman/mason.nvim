@@ -92,21 +92,18 @@ describe("cargo manager", function()
         "should provide receipt information",
         async_test(function()
             installer.run_installer(ctx, cargo.crate "main-package")
-            assert.equals(
-                vim.inspect {
-                    type = "cargo",
-                    package = "main-package",
-                },
-                vim.inspect(ctx.receipt.primary_source)
-            )
+            assert.same({
+                type = "cargo",
+                package = "main-package",
+            }, ctx.receipt.primary_source)
         end)
     )
 end)
 
 describe("cargo version check", function()
     it("parses cargo installed packages output", function()
-        assert.equal(
-            vim.inspect {
+        assert.same(
+            {
                 ["bat"] = "0.18.3",
                 ["exa"] = "0.10.1",
                 ["git-select-branch"] = "0.1.1",
@@ -115,7 +112,7 @@ describe("cargo version check", function()
                 ["stylua"] = "0.11.2",
                 ["zoxide"] = "0.5.0",
             },
-            vim.inspect(cargo.parse_installed_crates [[bat v0.18.3:
+            cargo.parse_installed_crates [[bat v0.18.3:
     bat
 exa v0.10.1:
     exa
@@ -129,7 +126,7 @@ stylua v0.11.2:
     stylua
 zoxide v0.5.0:
     zoxide
-]])
+]]
         )
     end)
 

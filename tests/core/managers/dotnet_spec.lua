@@ -36,13 +36,10 @@ describe("dotnet manager", function()
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
             installer.run_installer(ctx, dotnet.package "main-package")
-            assert.equals(
-                vim.inspect {
-                    type = "dotnet",
-                    package = "main-package",
-                },
-                vim.inspect(ctx.receipt.primary_source)
-            )
+            assert.same({
+                type = "dotnet",
+                package = "main-package",
+            }, ctx.receipt.primary_source)
         end)
     )
 end)
