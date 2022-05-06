@@ -103,9 +103,10 @@ Important if you use packer.nvim! (click to expand)
 
 > Do not separate the nvim-lsp-installer setup from lspconfig, for example via the `config` hook.
 > Make sure to colocate the nvim-lsp-installer setup with the lspconfig setup. This is because load order of plugins is
-not guaranteed, leading to nvim-lsp-installer's `config` function potentially executing after lspconfig's.
+> not guaranteed, leading to nvim-lsp-installer's `config` function potentially executing after lspconfig's.
 >
 > ❌ Do not do this:
+
 ```lua
 use {
     {
@@ -123,7 +124,9 @@ use {
     },
 }
 ```
+
 > ✅ Instead, do this:
+
 ```lua
 use {
     "williamboman/nvim-lsp-installer",
@@ -182,6 +185,7 @@ require("nvim-lsp-installer").setup({
 | Ansible                             | `ansiblels`                |
 | Arduino [(docs!!!)][arduino]        | `arduino_language_server`  |
 | Assembly (GAS/NASM, GO)             | `asm_lsp`                  |
+| Astro                               | `astro`                    |
 | AsyncAPI                            | `spectral`                 |
 | Bash                                | `bashls`                   |
 | Beancount                           | `beancount`                |

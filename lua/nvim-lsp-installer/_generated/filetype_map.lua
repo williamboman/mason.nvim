@@ -5,7 +5,7 @@ return {
   arduino = { "arduino_language_server" },
   asm = { "asm_lsp" },
   aspnetcorerazor = { "tailwindcss" },
-  astro = { "tailwindcss" },
+  astro = { "astro", "tailwindcss" },
   ["astro-markdown"] = { "tailwindcss" },
   awk = { "awk_ls" },
   beancount = { "beancount" },
