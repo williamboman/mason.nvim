@@ -1,6 +1,7 @@
 name: Run autogen script
 
 on:
+    workflow_dispatch:
     schedule:
         - cron: "15 13 * * *"
 
