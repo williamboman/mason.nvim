@@ -77,10 +77,6 @@ function M.Server:setup(opts)
         not settings.uses_new_setup,
         "Please set up servers directly via lspconfig instead of going through nvim-lsp-installer (this method is now deprecated)! Refer to :h nvim-lsp-installer-quickstart for more information."
     )
-    notify(
-        "server:setup() has been deprecated. Set up servers directly via lspconfig instead. See https://github.com/williamboman/nvim-lsp-installer/discussions/636",
-        vim.log.levels.WARN
-    )
     self:setup_lsp(opts)
     if not (opts.autostart == false) then
         self:attach_buffers()

@@ -262,9 +262,9 @@ end
 ---@deprecated Setup servers directly via lspconfig instead. See https://github.com/williamboman/nvim-lsp-installer/discussions/636
 ---@param cb fun(server: Server) @Callback to be executed whenever a server is ready to be set up.
 function M.on_server_ready(cb)
-    notify(
-        ".on_server_ready() has been deprecated. Set up servers directly via lspconfig instead. See https://github.com/williamboman/nvim-lsp-installer/discussions/636",
-        vim.log.levels.WARN
+    assert(
+        not settings.uses_new_setup,
+        "Please set up servers directly via lspconfig instead of using .on_server_ready() (this method is now deprecated)! Refer to :h nvim-lsp-installer-quickstart for more information."
     )
     dispatcher.register_server_ready_callback(cb)
     vim.schedule(function()
