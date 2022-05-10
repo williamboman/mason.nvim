@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://rust-analyzer.github.io",
         languages = { "rust" },
-        async = true,
         installer = function()
             local libc = platform.get_libc()
 

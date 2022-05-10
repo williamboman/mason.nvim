@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "flux" },
         homepage = "https://github.com/influxdata/flux-lsp",
-        async = true,
         installer = cargo.crate("https://github.com/influxdata/flux-lsp", {
             git = true,
         }),

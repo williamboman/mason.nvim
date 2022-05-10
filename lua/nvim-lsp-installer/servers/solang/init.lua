@@ -53,7 +53,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://solang.readthedocs.io/en/latest/",
         languages = { "solidity" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             ctx:run_concurrently { download_solang, download_llvm }

@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/OmniSharp/omnisharp-roslyn",
         languages = { "c#" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable("dotnet", { help_url = "https://dotnet.microsoft.com/download" })

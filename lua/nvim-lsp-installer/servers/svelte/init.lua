@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "svelte" },
         homepage = "https://github.com/sveltejs/language-tools",
         installer = npm.packages { "svelte-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

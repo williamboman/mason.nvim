@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "openapi", "asyncapi" },
         homepage = "https://stoplight.io/open-source/spectral/",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             git.clone({ "https://github.com/stoplightio/vscode-spectral" }).with_receipt()

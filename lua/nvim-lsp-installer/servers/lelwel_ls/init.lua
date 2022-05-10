@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "lelwel" },
         homepage = "https://github.com/0x2a-42/lelwel",
-        async = true,
         installer = cargo.crate("lelwel", {
             features = "lsp",
         }),

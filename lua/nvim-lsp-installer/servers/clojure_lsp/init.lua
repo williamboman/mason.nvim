@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://clojure-lsp.io",
         languages = { "clojure" },
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "clojure-lsp/clojure-lsp",

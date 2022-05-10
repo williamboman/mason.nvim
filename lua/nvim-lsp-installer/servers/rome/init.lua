@@ -15,7 +15,6 @@ return function(name, root_dir)
             end)
             npm.install({ "rome" }).with_receipt()
         end,
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

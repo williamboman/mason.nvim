@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://github.com/nikeee/dot-language-server",
         languages = { "dot" },
         installer = npm.packages { "dot-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

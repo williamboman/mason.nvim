@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://psalm.dev/",
         languages = { "php" },
-        async = true,
         installer = composer.packages { "vimeo/psalm" },
         default_options = {
             cmd_env = composer.env(root_dir),

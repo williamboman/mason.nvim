@@ -15,7 +15,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "erlang" },
         homepage = "https://erlang-ls.github.io/",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable(rebar3, { help_url = "http://rebar3.org/docs/" })

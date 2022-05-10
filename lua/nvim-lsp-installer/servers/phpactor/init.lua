@@ -11,7 +11,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://phpactor.readthedocs.io/en/master/",
         languages = { "php" },
-        async = true,
         installer = function()
             assert(platform.is_unix, "Phpactor only supports UNIX environments.")
             git.clone({ "https://github.com/phpactor/phpactor.git" }).with_receipt()

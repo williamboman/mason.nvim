@@ -8,7 +8,6 @@ return function(name, root_dir)
         installer = pip3.packages { "robotframework-lsp" },
         languages = { "robot" },
         homepage = "https://github.com/robocorp/robotframework-lsp",
-        async = true,
         default_options = {
             cmd_env = pip3.env(root_dir),
         },

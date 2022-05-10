@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://github.com/aca/emmet-ls",
         languages = { "emmet" },
         installer = npm.packages { "emmet-ls" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

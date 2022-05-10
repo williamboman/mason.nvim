@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "assembly-gas", "assembly-nasm", "assembly-go" },
         homepage = "https://github.com/bergercookie/asm-lsp",
-        async = true,
         installer = cargo.crate "asm-lsp",
         default_options = {
             cmd_env = cargo.env(root_dir),

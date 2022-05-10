@@ -14,7 +14,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "terraform" },
         homepage = "https://github.com/terraform-linters/tflint",
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "terraform-linters/tflint",

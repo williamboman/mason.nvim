@@ -14,7 +14,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://quick-lint-js.com/",
         languages = { "javascript" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local repo = "quick-lint/quick-lint-js"

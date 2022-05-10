@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://clangd.llvm.org",
         languages = { "c", "c++" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local source = github.unzip_release_file {

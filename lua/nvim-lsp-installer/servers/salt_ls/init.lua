@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "sls" },
         homepage = "https://github.com/dcermak/salt-lsp",
-        async = true,
         installer = pip3.packages { "salt-lsp" },
         default_options = {
             cmd_env = pip3.env(root_dir),

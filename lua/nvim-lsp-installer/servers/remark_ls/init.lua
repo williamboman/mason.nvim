@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://github.com/remarkjs/remark-language-server",
         languages = { "markdown" },
         installer = npm.packages { "remark-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

@@ -10,7 +10,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/vshaxe/haxe-language-server",
         languages = { "haxe" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable("haxelib", { help_url = "https://haxe.org" })

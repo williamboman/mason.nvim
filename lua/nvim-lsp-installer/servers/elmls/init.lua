@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://github.com/elm-tooling/elm-language-server",
         languages = { "elm" },
         installer = npm.packages { "@elm-tooling/elm-language-server", "elm", "elm-test", "elm-format" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

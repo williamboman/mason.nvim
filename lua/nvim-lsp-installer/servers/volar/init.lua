@@ -26,7 +26,6 @@ return function(name, root_dir)
         homepage = "https://github.com/johnsoncodehk/volar",
         languages = { "vue" },
         installer = npm.packages { "@volar/vue-language-server", "typescript" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
             on_new_config = function(new_config, new_root_dir)

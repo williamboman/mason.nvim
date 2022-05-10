@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/ocaml/ocaml-lsp",
         languages = { "ocaml" },
-        async = true,
         installer = opam.packages { "ocaml-lsp-server" },
         default_options = {
             cmd_env = opam.env(root_dir),

@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "astro" },
         homepage = "https://github.com/withastro/language-tools/tree/main/packages/language-server",
         installer = npm.packages { "@astrojs/language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

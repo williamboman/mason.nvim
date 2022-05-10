@@ -26,7 +26,6 @@ runserver(stdin,
         root_dir = root_dir,
         homepage = "https://github.com/julia-vscode/LanguageServer.jl",
         languages = { "julia" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable("julia", { help_url = "https://julialang.org/downloads/" })

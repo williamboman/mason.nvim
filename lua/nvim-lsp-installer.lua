@@ -56,15 +56,6 @@ M.info_window = {
     end,
 }
 
----Deprecated. Use info_window.open().
-function M.display()
-    notify(
-        "The lsp_installer.display() function has been deprecated. Use lsp_installer.info_window.open() instead.",
-        vim.log.levels.WARN
-    )
-    status_win().open()
-end
-
 function M.get_install_completion()
     local result = {}
     local server_names = servers.get_available_server_names()
@@ -271,6 +262,10 @@ end
 ---@deprecated Setup servers directly via lspconfig instead. See https://github.com/williamboman/nvim-lsp-installer/discussions/636
 ---@param cb fun(server: Server) @Callback to be executed whenever a server is ready to be set up.
 function M.on_server_ready(cb)
+    notify(
+        ".on_server_ready() has been deprecated. Set up servers directly via lspconfig instead. See https://github.com/williamboman/nvim-lsp-installer/discussions/636",
+        vim.log.levels.WARN
+    )
     dispatcher.register_server_ready_callback(cb)
     vim.schedule(function()
         local installed_servers = servers.get_installed_servers()

@@ -8,7 +8,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/PMunch/nimlsp",
         languages = { "nim" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             git.clone({ "https://github.com/PMunch/nimlsp.git" }).with_receipt()

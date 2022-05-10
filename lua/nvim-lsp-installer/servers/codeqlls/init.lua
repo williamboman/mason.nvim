@@ -12,7 +12,6 @@ return function(name, root_dir)
         name = name,
         root_dir = root_dir,
         languages = { "codeql" },
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "github/codeql-cli-binaries",

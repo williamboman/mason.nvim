@@ -12,7 +12,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://deno.land/x/deno/cli/lsp",
         languages = { "deno" },
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "denoland/deno",

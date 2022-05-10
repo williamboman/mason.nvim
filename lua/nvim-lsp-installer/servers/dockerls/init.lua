@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://github.com/rcjsuen/dockerfile-language-server-nodejs",
         languages = { "docker" },
         installer = npm.packages { "dockerfile-language-server-nodejs" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

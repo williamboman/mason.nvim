@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://chipsalliance.github.io/verible/",
         languages = { "systemverilog", "verilog" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local repo = "chipsalliance/verible"

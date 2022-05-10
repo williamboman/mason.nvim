@@ -8,7 +8,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/puppetlabs/puppet-editor-services",
         languages = { "puppet" },
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "puppetlabs/puppet-editor-services",

@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "ember" },
         homepage = "https://github.com/lifeart/ember-language-server",
         installer = npm.packages { "@lifeart/ember-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

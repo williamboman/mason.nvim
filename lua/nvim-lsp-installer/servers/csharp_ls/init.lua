@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "c#" },
         homepage = "https://github.com/razzmatazz/csharp-language-server",
-        async = true,
         installer = dotnet.package "csharp-ls",
         default_options = {
             cmd_env = dotnet.env(root_dir),

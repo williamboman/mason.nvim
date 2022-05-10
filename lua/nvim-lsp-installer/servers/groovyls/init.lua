@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "groovy" },
         homepage = "https://github.com/GroovyLanguageServer/groovy-language-server",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable "javac"

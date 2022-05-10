@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://valentjn.github.io/vscode-ltex",
         languages = { "latex" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             if platform.is_win then

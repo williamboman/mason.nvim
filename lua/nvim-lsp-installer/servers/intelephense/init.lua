@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://intelephense.com",
         languages = { "php" },
         installer = npm.packages { "intelephense" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

@@ -73,7 +73,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "java" },
         homepage = "https://github.com/eclipse/eclipse.jdt.ls",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable "java"

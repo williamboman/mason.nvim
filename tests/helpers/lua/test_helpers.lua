@@ -38,7 +38,6 @@ function ServerGenerator(opts)
         languages = { "dummylang" },
         root_dir = server.get_server_root_path(name),
         homepage = "https://dummylang.org",
-        async = true,
         installer = function(ctx)
             ctx.stdio_sink.stdout "Installing dummy!\n"
         end,

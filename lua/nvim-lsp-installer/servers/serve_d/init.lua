@@ -12,7 +12,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/Pure-D/serve-d",
         languages = { "d" },
-        async = true,
         installer = function()
             local repo = "Pure-D/serve-d"
             platform.when {

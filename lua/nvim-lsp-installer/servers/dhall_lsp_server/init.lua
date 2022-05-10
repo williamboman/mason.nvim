@@ -15,7 +15,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://dhall-lang.org/",
         languages = { "dhall" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local repo = "dhall-lang/dhall-haskell"

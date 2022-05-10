@@ -14,7 +14,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://haskell-language-server.readthedocs.io/en/latest/",
         languages = { "haskell" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local repo = "haskell/haskell-language-server"

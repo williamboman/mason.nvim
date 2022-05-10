@@ -42,7 +42,6 @@ return function(name, root_dir)
         homepage = "https://angular.io/guide/language-service",
         languages = { "angular" },
         installer = npm.packages { "@angular/language-server", "typescript" },
-        async = true,
         default_options = {
             cmd = get_cmd(path.cwd()),
             cmd_env = npm.env(root_dir),

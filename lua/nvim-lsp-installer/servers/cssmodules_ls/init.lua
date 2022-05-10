@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://github.com/antonk52/cssmodules-language-server",
         languages = { "css" },
         installer = npm.packages { "cssmodules-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

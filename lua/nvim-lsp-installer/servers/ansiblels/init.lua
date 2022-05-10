@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "ansible" },
         homepage = "https://github.com/ansible/ansible-language-server",
-        async = true,
         installer = function()
             git.clone({ "https://github.com/ansible/ansible-language-server" }).with_receipt()
             -- ansiblels has quite a strict npm version requirement.

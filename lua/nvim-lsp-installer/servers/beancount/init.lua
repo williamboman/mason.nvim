@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "beancount" },
         homepage = "https://github.com/polarmutex/beancount-language-server",
-        async = true,
         installer = cargo.crate "beancount-language-server",
         default_options = {
             cmd_env = cargo.env(root_dir),

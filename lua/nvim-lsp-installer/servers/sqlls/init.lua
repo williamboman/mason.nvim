@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "sql" },
         homepage = "https://github.com/joe-re/sql-language-server",
         installer = npm.packages { "sql-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/PowerShell/PowerShellEditorServices",
         languages = { "powershell" },
-        async = true,
         installer = function()
             std.ensure_executable("pwsh", { help_url = "https://github.com/PowerShell/PowerShell#get-powershell" })
             github.unzip_release_file({

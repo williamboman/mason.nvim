@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "systemverilog" },
         homepage = "https://github.com/dalance/svls",
-        async = true,
         installer = cargo.crate "svls",
         default_options = {
             cmd_env = cargo.env(root_dir),

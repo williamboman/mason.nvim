@@ -12,7 +12,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "xml" },
         homepage = "https://github.com/eclipse/lemminx",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local unzipped_file = assert(

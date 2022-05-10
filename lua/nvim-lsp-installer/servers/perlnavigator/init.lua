@@ -9,7 +9,6 @@ return function(name, root_dir)
         languages = { "perl" },
         homepage = "https://github.com/bscan/PerlNavigator",
         installer = npm.packages { "perlnavigator-server" },
-        async = true,
         default_options = {
             cmd = {
                 "node",

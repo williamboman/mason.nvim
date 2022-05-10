@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/kitten/prosemd-lsp",
         languages = { "markdown" },
-        async = true,
         installer = function()
             local source = github.release_file {
                 repo = "kitten/prosemd-lsp",

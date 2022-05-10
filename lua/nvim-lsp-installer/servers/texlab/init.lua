@@ -12,7 +12,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/latex-lsp/texlab",
         languages = { "latex" },
-        async = true,
         installer = function()
             local repo = "latex-lsp/texlab"
             platform.when {

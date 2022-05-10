@@ -51,7 +51,6 @@ languageserver::run();
         root_dir = root_dir,
         homepage = "https://github.com/REditorSupport/languageserver",
         languages = { "R" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             ctx.spawn.R {

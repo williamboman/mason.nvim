@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "awk" },
         homepage = "https://github.com/Beaglefoot/awk-language-server",
         installer = npm.packages { "awk-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/fwcd/kotlin-language-server",
         languages = { "kotlin" },
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "fwcd/kotlin-language-server",

@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "nix" },
         homepage = "https://github.com/nix-community/rnix-lsp",
-        async = true,
         installer = cargo.crate "rnix-lsp",
         default_options = {
             cmd_env = cargo.env(root_dir),

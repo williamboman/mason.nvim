@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "python" },
         homepage = "https://github.com/microsoft/pyright",
         installer = npm.packages { "pyright" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

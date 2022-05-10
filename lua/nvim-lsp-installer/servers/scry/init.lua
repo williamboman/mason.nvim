@@ -10,7 +10,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "crystal" },
         homepage = "https://github.com/crystal-lang-tools/scry",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable("crystal", {

@@ -14,7 +14,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/arduino/arduino-language-server",
         languages = { "arduino" },
-        async = true,
         installer = function()
             local opts = {
                 repo = "arduino/arduino-language-server",

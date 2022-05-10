@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "toml" },
         homepage = "https://taplo.tamasfe.dev/lsp/",
-        async = true,
         installer = cargo.crate "taplo-cli",
         default_options = {
             cmd_env = cargo.env(root_dir),

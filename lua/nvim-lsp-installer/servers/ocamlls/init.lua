@@ -12,7 +12,6 @@ return function(name, root_dir)
         homepage = "https://github.com/ocaml-lsp/ocaml-language-server",
         languages = { "ocaml" },
         installer = npm.packages { "ocaml-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

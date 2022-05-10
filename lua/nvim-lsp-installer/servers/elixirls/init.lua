@@ -10,7 +10,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/elixir-lsp/elixir-ls",
         languages = { "elixir" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             -- We write to the elixir-ls directory for backwards compatibility reasons

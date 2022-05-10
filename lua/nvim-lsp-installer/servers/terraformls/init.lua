@@ -12,7 +12,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/hashicorp/terraform-ls",
         languages = { "terraform" },
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "hashicorp/terraform-ls",

@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/MaskRay/ccls",
         languages = { "c", "c++", "objective-c" },
-        async = true,
         installer = function()
             platform.when {
                 mac = require "nvim-lsp-installer.servers.ccls.mac",

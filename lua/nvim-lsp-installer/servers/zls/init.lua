@@ -14,7 +14,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/zigtools/zls",
         languages = { "zig" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local asset_file = coalesce(

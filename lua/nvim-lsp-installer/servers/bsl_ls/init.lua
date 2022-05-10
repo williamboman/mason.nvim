@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://1c-syntax.github.io/bsl-language-server",
         languages = { "onescript" },
-        async = true,
         installer = function()
             std.ensure_executable "java"
             local source = github.release_file {

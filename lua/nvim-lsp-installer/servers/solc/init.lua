@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/ethereum/solidity",
         languages = { "solidity" },
-        async = true,
         installer = function()
             local source = github.release_file {
                 repo = "ethereum/solidity",

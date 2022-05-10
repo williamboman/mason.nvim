@@ -1,11 +1,11 @@
 local dispatcher = require "nvim-lsp-installer.dispatcher"
+local notify = require "nvim-lsp-installer.notify"
 local a = require "nvim-lsp-installer.core.async"
 local InstallContext = require "nvim-lsp-installer.core.installer.context"
 local fs = require "nvim-lsp-installer.fs"
 local log = require "nvim-lsp-installer.log"
 local platform = require "nvim-lsp-installer.platform"
 local settings = require "nvim-lsp-installer.settings"
-local installers = require "nvim-lsp-installer.installers"
 local installer = require "nvim-lsp-installer.core.installer"
 local servers = require "nvim-lsp-installer.servers"
 local status_win = require "nvim-lsp-installer.ui.status-win"
@@ -19,7 +19,7 @@ local M = {}
 M.get_server_root_path = servers.get_server_install_path
 
 ---@alias ServerDeprecation {message:string, replace_with:string|nil}
----@alias ServerOpts {name:string, root_dir:string, homepage:string|nil, deprecated:ServerDeprecation, installer:ServerInstallerFunction|ServerInstallerFunction[], default_options:table, languages: string[]}
+---@alias ServerOpts {name:string, root_dir:string, homepage:string|nil, deprecated:ServerDeprecation, installer:async fun(ctx: InstallContext), default_options:table, languages: string[]}
 
 ---@class Server
 ---@field public  name string @The server name. This is the same as lspconfig's server names.
@@ -27,8 +27,7 @@ M.get_server_root_path = servers.get_server_install_path
 ---@field public  homepage string|nil @The homepage where users can find more information. This is shown to users in the UI.
 ---@field public  deprecated ServerDeprecation|nil @The existence (not nil) of this field indicates this server is depracted.
 ---@field public  languages string[]
----@field private _installer ServerInstallerFunction
----@field private _async boolean
+---@field private _installer async fun(ctx: InstallContext)
 ---@field private _on_ready_handlers fun(server: Server)[]
 ---@field private _default_options table @The server's default options. This is used in @see Server#setup.
 M.Server = {}
@@ -42,7 +41,6 @@ function M.Server:new(opts)
         root_dir = opts.root_dir,
         homepage = opts.homepage,
         deprecated = opts.deprecated,
-        _async = opts.async or false,
         languages = opts.languages or {},
         _on_ready_handlers = {},
         _installer = opts.installer,
@@ -53,6 +51,10 @@ end
 ---Sets up the language server via lspconfig. This function has the same signature as the setup function in nvim-lspconfig.
 ---@param opts table @The lspconfig server configuration.
 function M.Server:setup_lsp(opts)
+    assert(
+        not settings.uses_new_setup,
+        "Please set up servers directly via lspconfig instead of going through nvim-lsp-installer (this method is now deprecated)! Refer to :h nvim-lsp-installer-quickstart for more information."
+    )
     -- We require the lspconfig server here in order to do it as late as possible.
     -- The reason for this is because once a lspconfig server has been imported, it's
     -- automatically registered with lspconfig and causes it to show up in :LspInfo and whatnot.
@@ -74,6 +76,10 @@ function M.Server:setup(opts)
     assert(
         not settings.uses_new_setup,
         "Please set up servers directly via lspconfig instead of going through nvim-lsp-installer (this method is now deprecated)! Refer to :h nvim-lsp-installer-quickstart for more information."
+    )
+    notify(
+        "server:setup() has been deprecated. Set up servers directly via lspconfig instead. See https://github.com/williamboman/nvim-lsp-installer/discussions/636",
+        vim.log.levels.WARN
     )
     self:setup_lsp(opts)
     if not (opts.autostart == false) then
@@ -142,7 +148,7 @@ function M.Server:get_tmp_install_dir()
     return path.concat { settings.current.install_root_dir, ("%s.tmp"):format(self.name) }
 end
 
----@param context ServerInstallContext
+---@param context table
 function M.Server:_setup_install_context(context)
     context.install_dir = self:get_tmp_install_dir()
     fs.rm_mkdirp(context.install_dir)
@@ -214,71 +220,24 @@ function M.Server:get_receipt()
     return nil
 end
 
----@param context ServerInstallContext
----@param callback ServerInstallCallback
+---@param context table
+---@param callback fun(success: boolean)
 function M.Server:install_attached(context, callback)
-    if self._async then
-        a.run(function()
-            local install_context = InstallContext.new {
-                name = self.name,
-                boundary_path = settings.current.install_root_dir,
-                stdio_sink = context.stdio_sink,
-                destination_dir = self.root_dir,
-                requested_version = Optional.of_nilable(context.requested_server_version),
-            }
-            installer.execute(install_context, self._installer):get_or_throw()
-            a.scheduler()
-            dispatcher.dispatch_server_ready(self)
-            for _, on_ready_handler in ipairs(self._on_ready_handlers) do
-                on_ready_handler(self)
-            end
-        end, callback)
-    else
-        --- Deprecated
-        a.run(
-            function()
-                context.receipt = receipt.InstallReceiptBuilder.new()
-                context.receipt:with_start_time(vim.loop.gettimeofday())
-
-                a.scheduler()
-                self:_setup_install_context(context)
-                local async_installer = a.promisify(function(server, context, callback)
-                    local normalized_installer = type(self._installer) == "function" and self._installer
-                        or installers.pipe(self._installer)
-                    -- args are shifted
-                    return normalized_installer(server, callback, context)
-                end)
-                assert(async_installer(self, context), "Installation failed.")
-
-                a.scheduler()
-                if not self:promote_install_dir(context.install_dir) then
-                    error(("Failed to promote the temporary installation directory %q."):format(context.install_dir))
-                end
-
-                self:_write_receipt(context.receipt)
-
-                -- Dispatch the server is ready
-                vim.schedule(function()
-                    dispatcher.dispatch_server_ready(self)
-                    for _, on_ready_handler in ipairs(self._on_ready_handlers) do
-                        on_ready_handler(self)
-                    end
-                end)
-            end,
-            vim.schedule_wrap(function(ok, result)
-                if not ok then
-                    pcall(fs.rmrf, context.install_dir)
-                    log.fmt_error("Server installation failed, server_name=%s, error=%s", self.name, result)
-                    context.stdio_sink.stderr(tostring(result) .. "\n")
-                end
-                -- The tmp dir should in most cases have been "promoted" and already renamed to its final destination,
-                -- but we make sure to delete it should the installer modify the installation working directory during
-                -- installation.
-                pcall(fs.rmrf, self:get_tmp_install_dir())
-                callback(ok)
-            end)
-        )
-    end
+    a.run(function()
+        local install_context = InstallContext.new {
+            name = self.name,
+            boundary_path = settings.current.install_root_dir,
+            stdio_sink = context.stdio_sink,
+            destination_dir = self.root_dir,
+            requested_version = Optional.of_nilable(context.requested_server_version),
+        }
+        installer.execute(install_context, self._installer):get_or_throw()
+        a.scheduler()
+        dispatcher.dispatch_server_ready(self)
+        for _, on_ready_handler in ipairs(self._on_ready_handlers) do
+            on_ready_handler(self)
+        end
+    end, callback)
 end
 
 function M.Server:uninstall()

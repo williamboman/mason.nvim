@@ -10,7 +10,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://wiki.gnome.org/Projects/Vala",
         languages = { "vala" },
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable("meson", { help_url = "https://mesonbuild.com/Getting-meson.html" })

@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "f#" },
         homepage = "https://github.com/fsharp/FsAutoComplete",
-        async = true,
         installer = dotnet.package "fsautocomplete",
         default_options = {
             cmd_env = dotnet.env(root_dir),

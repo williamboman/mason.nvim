@@ -11,7 +11,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/mickael-menu/zk",
         languages = { "markdown" },
-        async = true,
         installer = function()
             local repo = "mickael-menu/zk"
             platform.when {

@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "bicep" },
         homepage = "https://github.com/Azure/bicep",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             std.ensure_executable("dotnet", { help_url = "https://dotnet.microsoft.com/download" })

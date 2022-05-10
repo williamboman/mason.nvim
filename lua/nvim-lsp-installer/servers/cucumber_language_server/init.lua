@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "cucumber" },
         homepage = "https://github.com/cucumber/language-server",
         installer = npm.packages { "@cucumber/language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

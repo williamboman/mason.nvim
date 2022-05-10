@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "reason" },
         homepage = "https://github.com/jaredly/reason-language-server",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             local archive_name = coalesce(

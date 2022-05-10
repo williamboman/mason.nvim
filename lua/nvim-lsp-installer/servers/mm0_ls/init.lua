@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "metamath-zero" },
         homepage = "https://github.com/digama0/mm0",
-        async = true,
         ---@param ctx InstallContext
         installer = function(ctx)
             git.clone({ "https://github.com/digama0/mm0" }).with_receipt()

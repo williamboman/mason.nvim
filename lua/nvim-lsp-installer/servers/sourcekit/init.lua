@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/apple/sourcekit-lsp",
         languages = { "swift" },
-        async = true,
         installer = std.system_executable("sourcekit-lsp", { help_url = "https://github.com/apple/sourcekit-lsp" }),
         default_options = {},
     }

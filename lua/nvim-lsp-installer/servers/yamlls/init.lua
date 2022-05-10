@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "yaml" },
         homepage = "https://github.com/redhat-developer/yaml-language-server",
         installer = npm.packages { "yaml-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

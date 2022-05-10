@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "prisma" },
         homepage = "https://github.com/prisma/language-tools",
         installer = npm.packages { "@prisma/language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

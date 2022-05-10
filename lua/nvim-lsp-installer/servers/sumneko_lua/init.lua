@@ -13,7 +13,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "lua" },
         homepage = "https://github.com/sumneko/lua-language-server",
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "sumneko/vscode-lua",

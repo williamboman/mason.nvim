@@ -8,7 +8,6 @@ return function(name, root_dir)
         homepage = "https://github.com/FoamScience/foam-language-server",
         languages = { "foam", "OpenFOAM" },
         installer = npm.packages { "foam-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

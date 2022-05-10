@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "bash" },
         homepage = "https://github.com/bash-lsp/bash-language-server",
-        async = true,
         installer = npm.packages { "bash-language-server" },
         default_options = {
             cmd_env = npm.env(root_dir),

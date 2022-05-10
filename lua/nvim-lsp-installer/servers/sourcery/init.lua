@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "python" },
         homepage = "https://docs.sourcery.ai/",
-        async = true,
         installer = pip3.packages { "sourcery-cli" },
         default_options = {
             cmd_env = pip3.env(root_dir),

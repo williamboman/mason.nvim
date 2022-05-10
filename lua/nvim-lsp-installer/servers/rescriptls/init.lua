@@ -8,7 +8,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "rescript" },
         homepage = "https://github.com/rescript-lang/rescript-vscode",
-        async = true,
         installer = function()
             github.unzip_release_file({
                 repo = "rescript-lang/rescript-vscode",

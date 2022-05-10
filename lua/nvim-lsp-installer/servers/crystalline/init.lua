@@ -14,7 +14,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://github.com/elbywan/crystalline",
         languages = { "crystal" },
-        async = true,
         installer = function()
             github.gunzip_release_file({
                 repo = "elbywan/crystalline",

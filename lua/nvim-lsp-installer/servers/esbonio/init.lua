@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "sphinx" },
         homepage = "https://pypi.org/project/esbonio/",
-        async = true,
         installer = pip3.packages { "esbonio" },
         default_options = {
             cmd_env = pip3.env(root_dir),

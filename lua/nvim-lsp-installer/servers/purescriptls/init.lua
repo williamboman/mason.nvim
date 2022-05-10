@@ -8,7 +8,6 @@ return function(name, root_dir)
         languages = { "purescript" },
         homepage = "https://github.com/nwolverson/purescript-language-server",
         installer = npm.packages { "purescript-language-server" },
-        async = true,
         default_options = {
             cmd_env = npm.env(root_dir),
         },

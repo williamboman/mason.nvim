@@ -7,7 +7,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         languages = { "liquid" },
         homepage = "https://github.com/Shopify/theme-check",
-        async = true,
         installer = gem.packages { "theme-check" },
         default_options = {
             cmd_env = gem.env(root_dir),

@@ -10,7 +10,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://slint-ui.com/",
         languages = { "slint" },
-        async = true,
         installer = function()
             local repo = "slint-ui/slint"
             platform.when {

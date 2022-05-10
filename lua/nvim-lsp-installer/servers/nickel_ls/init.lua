@@ -9,7 +9,6 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://nickel-lang.org/",
         languages = { "nickel" },
-        async = true,
         installer = function(ctx)
             git.clone({ "https://github.com/tweag/nickel" }).with_receipt()
             ctx.spawn.cargo {

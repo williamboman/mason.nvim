@@ -9,7 +9,6 @@ return function(languages)
             languages = languages,
             root_dir = root_dir,
             installer = npm.packages { "vscode-langservers-extracted" },
-            async = true,
             default_options = {
                 cmd_env = npm.env(root_dir),
             },
