@@ -21,7 +21,7 @@ return {
   latex = { "ltex", "texlab" },
   liquid = { "theme_check" },
   lua = { "sumneko_lua" },
-  markdown = { "prosemd_lsp", "remark_ls", "zeta_note", "zk" },
+  markdown = { "prosemd_lsp", "remark_ls", "zk" },
   ["metamath-zero"] = { "mm0_ls" },
   nix = { "rnix" },
   ["objective-c"] = { "ccls" },

@@ -244,7 +244,6 @@ require("nvim-lsp-installer").setup({
 | Lua                                 | `sumneko_lua`              |
 | Markdown                            | `prosemd_lsp`              |
 | Markdown                            | `remark_ls`                |
-| Markdown                            | `zeta_note`                |
 | Markdown                            | `zk`                       |
 | Metamath Zero                       | `mm0_ls`                   |
 | Nickel                              | `nickel_ls`                |

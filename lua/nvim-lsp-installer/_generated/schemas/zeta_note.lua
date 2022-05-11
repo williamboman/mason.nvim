@@ -1,3 +1,0 @@
--- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
--- stylua: ignore start
-return {properties = {["marksman.customCommand"] = {description = "When set use this command to run the language server.\nThe command is split on spaces: first part is the command name, the rest is the arguments.",scope = "window",type = "string"},["marksman.customCommandDir"] = {markdownDescription = "When set run the `#marksman.customCommand#` from this dir rather than workspace root.",scope = "window",type = "string"},["marksman.trace.server"] = {default = "verbose",description = "Level of verbosity in communicating with the server",enum = { "off", "messages", "verbose" },scope = "window",type = "string"}},title = "Marksman"}

@@ -146,7 +146,6 @@ local CORE_SERVERS = Data.set_of {
     "volar",
     "vuels",
     "yamlls",
-    "zeta_note",
     "zk",
     "zls",
 }
