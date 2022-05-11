@@ -286,9 +286,6 @@ return {
   sourcery = {
     filetypes = { "python" }
   },
-  spectral = {
-    filetypes = { "yaml", "json", "yml" }
-  },
   sqlls = {
     filetypes = { "sql", "mysql" }
   },

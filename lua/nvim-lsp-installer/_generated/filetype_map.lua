@@ -66,7 +66,7 @@ return {
   javascript = { "cssmodules_ls", "denols", "ember", "eslint", "quick_lint_js", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
   ["javascript.jsx"] = { "denols", "eslint", "tsserver" },
   javascriptreact = { "cssmodules_ls", "denols", "eslint", "graphql", "rome", "stylelint_lsp", "tailwindcss", "tsserver" },
-  json = { "jsonls", "rome", "spectral" },
+  json = { "jsonls", "rome" },
   jsonc = { "jsonls" },
   jsonnet = { "jsonnet_ls" },
   julia = { "julials" },
@@ -152,10 +152,9 @@ return {
   xsd = { "lemminx" },
   xsl = { "lemminx" },
   xslt = { "lemminx" },
-  yaml = { "spectral", "yamlls" },
+  yaml = { "yamlls" },
   ["yaml.ansible"] = { "ansiblels" },
   ["yaml.docker-compose"] = { "yamlls" },
-  yml = { "spectral" },
   zig = { "zls" },
   zir = { "zls" }
 }

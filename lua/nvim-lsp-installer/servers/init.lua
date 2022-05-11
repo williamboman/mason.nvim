@@ -127,7 +127,6 @@ local CORE_SERVERS = Data.set_of {
     "sorbet",
     "sourcekit",
     "sourcery",
-    "spectral",
     "sqlls",
     "sqls",
     "stylelint_lsp",

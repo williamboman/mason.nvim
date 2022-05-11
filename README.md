@@ -186,7 +186,6 @@ require("nvim-lsp-installer").setup({
 | Arduino [(docs!!!)][arduino]        | `arduino_language_server`  |
 | Assembly (GAS/NASM, GO)             | `asm_lsp`                  |
 | Astro                               | `astro`                    |
-| AsyncAPI                            | `spectral`                 |
 | Bash                                | `bashls`                   |
 | Beancount                           | `beancount`                |
 | Bicep                               | `bicep`                    |
@@ -254,7 +253,6 @@ require("nvim-lsp-installer").setup({
 | OCaml                               | `ocamllsp`                 |
 | Objective C                         | `ccls`                     |
 | OneScript, 1C:Enterprise            | `bsl_ls`                   |
-| OpenAPI                             | `spectral`                 |
 | OpenCL                              | `opencl_ls`                |
 | PHP                                 | `intelephense`             |
 | PHP                                 | `phpactor`                 |
