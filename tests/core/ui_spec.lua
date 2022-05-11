@@ -1,7 +1,7 @@
-local display = require "nvim-lsp-installer.ui.display"
 local match = require "luassert.match"
 local spy = require "luassert.spy"
-local Ui = require "nvim-lsp-installer.ui"
+local display = require "nvim-lsp-installer.core.ui.display"
+local Ui = require "nvim-lsp-installer.core.ui"
 local a = require "nvim-lsp-installer.core.async"
 
 describe("ui", function()
@@ -216,14 +216,14 @@ describe("integration test", function()
                 match.is_number(),
                 "n",
                 "U",
-                match.has_match [[<cmd>lua require%('nvim%-lsp%-installer%.ui%.display'%)%.dispatch_effect%(%d, "55"%)<cr>]],
+                match.has_match [[<cmd>lua require%('nvim%-lsp%-installer%.core%.ui%.display'%)%.dispatch_effect%(%d, "55"%)<cr>]],
                 { nowait = true, silent = true, noremap = true }
             )
             assert.spy(set_keymap).was_called_with(
                 match.is_number(),
                 "n",
                 "R",
-                match.has_match [[<cmd>lua require%('nvim%-lsp%-installer%.ui%.display'%)%.dispatch_effect%(%d, "52"%)<cr>]],
+                match.has_match [[<cmd>lua require%('nvim%-lsp%-installer%.core%.ui%.display'%)%.dispatch_effect%(%d, "52"%)<cr>]],
                 { nowait = true, silent = true, noremap = true }
             )
 

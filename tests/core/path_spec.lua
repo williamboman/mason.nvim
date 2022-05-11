@@ -1,4 +1,4 @@
-local path = require "nvim-lsp-installer.path"
+local path = require "nvim-lsp-installer.core.path"
 
 describe("path", function()
     it("concatenates paths", function()
@@ -8,8 +8,8 @@ describe("path", function()
     it("concatenates paths on Windows", function()
         local old_os = jit.os
         jit.os = "windows"
-        package.loaded["nvim-lsp-installer.path"] = nil
-        local path = require "nvim-lsp-installer.path"
+        package.loaded["nvim-lsp-installer.core.path"] = nil
+        local path = require "nvim-lsp-installer.core.path"
         assert.equal([[foo\bar\baz\~]], path.concat { "foo", "bar", "baz", "~" })
         jit.os = old_os
     end)

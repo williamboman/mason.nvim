@@ -3,7 +3,7 @@ local mock = require "luassert.mock"
 local util = require "luassert.util"
 
 local a = require "nvim-lsp-installer.core.async"
-local process = require "nvim-lsp-installer.process"
+local process = require "nvim-lsp-installer.core.process"
 local server = require "nvim-lsp-installer.server"
 local Optional = require "nvim-lsp-installer.core.optional"
 local receipt = require "nvim-lsp-installer.core.receipt"

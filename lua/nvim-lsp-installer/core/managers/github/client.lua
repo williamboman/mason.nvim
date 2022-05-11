@@ -1,9 +1,9 @@
-local Data = require "nvim-lsp-installer.data"
+local functional = require "nvim-lsp-installer.core.functional"
 local log = require "nvim-lsp-installer.log"
 local fetch = require "nvim-lsp-installer.core.fetch"
 local spawn = require "nvim-lsp-installer.core.spawn"
 
-local list_find_first = Data.list_find_first
+local list_find_first = functional.list_find_first
 
 local M = {}
 
@@ -58,7 +58,6 @@ function M.fetch_latest_release(repo, opts)
         function(releases)
             ---@type GitHubRelease|nil
             local latest_release = list_find_first(
-                releases,
                 ---@param release GitHubRelease
                 function(release)
                     local is_stable_release = not release.prerelease and not release.draft
@@ -66,7 +65,8 @@ function M.fetch_latest_release(repo, opts)
                         return is_stable_release and release.tag_name:match(opts.tag_name_pattern)
                     end
                     return is_stable_release
-                end
+                end,
+                releases
             )
 
             if not latest_release then

@@ -1,9 +1,9 @@
 local health = require "health"
-local process = require "nvim-lsp-installer.process"
-local platform = require "nvim-lsp-installer.platform"
-local Data = require "nvim-lsp-installer.data"
+local process = require "nvim-lsp-installer.core.process"
+local platform = require "nvim-lsp-installer.core.platform"
+local functional = require "nvim-lsp-installer.core.functional"
 
-local when = Data.when
+local when = functional.when
 
 local gem_cmd = platform.is_win and "gem.cmd" or "gem"
 local composer_cmd = platform.is_win and "composer.bat" or "composer"
@@ -141,7 +141,7 @@ function M.check()
         end
     ))
 
-    local checks = Data.list_not_nil(
+    local checks = functional.list_not_nil(
         check {
             cmd = "go",
             args = { "version" },

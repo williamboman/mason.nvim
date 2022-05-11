@@ -1,12 +1,12 @@
-local Data = require "nvim-lsp-installer.data"
+local functional = require "nvim-lsp-installer.core.functional"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Optional = require "nvim-lsp-installer.core.optional"
 local installer = require "nvim-lsp-installer.core.installer"
 local Result = require "nvim-lsp-installer.core.result"
-local process = require "nvim-lsp-installer.process"
-local path = require "nvim-lsp-installer.path"
+local process = require "nvim-lsp-installer.core.process"
+local path = require "nvim-lsp-installer.core.path"
 
-local list_copy = Data.list_copy
+local list_copy = functional.list_copy
 
 local M = {}
 

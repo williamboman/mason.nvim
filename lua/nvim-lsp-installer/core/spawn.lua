@@ -1,7 +1,7 @@
 local a = require "nvim-lsp-installer.core.async"
 local Result = require "nvim-lsp-installer.core.result"
-local process = require "nvim-lsp-installer.process"
-local platform = require "nvim-lsp-installer.platform"
+local process = require "nvim-lsp-installer.core.process"
+local platform = require "nvim-lsp-installer.core.platform"
 
 ---@alias JobSpawn Record<string, async fun(opts: JobSpawnOpts): Result>
 ---@type JobSpawn

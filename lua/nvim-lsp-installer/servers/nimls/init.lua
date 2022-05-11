@@ -1,5 +1,5 @@
 local server = require "nvim-lsp-installer.server"
-local process = require "nvim-lsp-installer.process"
+local process = require "nvim-lsp-installer.core.process"
 local git = require "nvim-lsp-installer.core.managers.git"
 
 return function(name, root_dir)

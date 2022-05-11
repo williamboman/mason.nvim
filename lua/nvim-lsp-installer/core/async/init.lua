@@ -1,3 +1,4 @@
+local functional = require "nvim-lsp-installer.core.functional"
 local co = coroutine
 
 local exports = {}
@@ -10,7 +11,7 @@ function Promise.new(resolver)
 end
 
 ---@param success boolean
----@param cb fun()
+---@param cb fun(success: boolean, value: table)
 function Promise:_wrap_resolver_cb(success, cb)
     return function(...)
         if self.has_resolved then
@@ -106,13 +107,13 @@ exports.scope = function(suspend_fn)
     end
 end
 
-exports.run_blocking = function(suspend_fn)
+exports.run_blocking = function(suspend_fn, ...)
     local resolved, ok, result
     local cancel_coroutine = new_execution_context(suspend_fn, function(a, b)
         resolved = true
         ok = a
         result = b
-    end)
+    end, ...)
 
     if vim.wait(60000, function()
         return resolved == true
@@ -210,6 +211,10 @@ exports.wait_all = function(suspend_fns)
         error(results, 2)
     end
     return unpack(results)
+end
+
+function exports.blocking(suspend_fn)
+    return functional.partial(exports.run_blocking, suspend_fn)
 end
 
 return exports

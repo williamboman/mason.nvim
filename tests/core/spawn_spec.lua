@@ -2,7 +2,7 @@ local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 local match = require "luassert.match"
 local spawn = require "nvim-lsp-installer.core.spawn"
-local process = require "nvim-lsp-installer.process"
+local process = require "nvim-lsp-installer.core.process"
 
 describe("async spawn", function()
     it(

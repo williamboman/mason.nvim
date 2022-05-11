@@ -1,5 +1,5 @@
 local log = require "nvim-lsp-installer.log"
-local path = require "nvim-lsp-installer.path"
+local path = require "nvim-lsp-installer.core.path"
 local fs = require "nvim-lsp-installer.core.fs"
 local Result = require "nvim-lsp-installer.core.result"
 
@@ -15,7 +15,7 @@ local function write_receipt(context)
     local receipt_success, install_receipt = pcall(context.receipt.build, context.receipt)
     if receipt_success then
         local receipt_path = path.concat { context.cwd:get(), "nvim-lsp-installer-receipt.json" }
-        pcall(fs.write_file, receipt_path, vim.json.encode(install_receipt))
+        pcall(fs.async.write_file, receipt_path, vim.json.encode(install_receipt))
     else
         log.fmt_error("Failed to build receipt for installation=%s, error=%s", context.name, install_receipt)
     end
@@ -61,10 +61,10 @@ function M.execute(context, installer)
     return Result.run_catching(function()
         -- 1. prepare installation dir
         context.receipt:with_start_time(vim.loop.gettimeofday())
-        if fs.dir_exists(tmp_installation_dir) then
-            fs.rmrf(tmp_installation_dir)
+        if fs.async.dir_exists(tmp_installation_dir) then
+            fs.async.rmrf(tmp_installation_dir)
         end
-        fs.mkdirp(tmp_installation_dir)
+        fs.async.mkdirp(tmp_installation_dir)
         context.cwd:set(tmp_installation_dir)
 
         -- 2. run installer
@@ -74,13 +74,13 @@ function M.execute(context, installer)
         log.fmt_debug("Finalizing installer for name=%s", context.name)
         write_receipt(context)
         context:promote_cwd()
-        pcall(fs.rmrf, tmp_installation_dir)
+        pcall(fs.async.rmrf, tmp_installation_dir)
     end):on_failure(function(failure)
         log.fmt_error("Installation failed, name=%s, error=%s", context.name, tostring(failure))
         context.stdio_sink.stderr(tostring(failure))
         context.stdio_sink.stderr "\n"
-        pcall(fs.rmrf, tmp_installation_dir)
-        pcall(fs.rmrf, context.cwd:get())
+        pcall(fs.async.rmrf, tmp_installation_dir)
+        pcall(fs.async.rmrf, context.cwd:get())
     end)
 end
 

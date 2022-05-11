@@ -1,4 +1,4 @@
-local process = require "nvim-lsp-installer.process"
+local process = require "nvim-lsp-installer.core.process"
 local installer = require "nvim-lsp-installer.core.installer"
 
 local M = {}

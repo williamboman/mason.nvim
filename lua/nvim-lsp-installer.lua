@@ -1,12 +1,12 @@
-local fs = require "nvim-lsp-installer.fs"
+local fs = require "nvim-lsp-installer.core.fs"
 local notify = require "nvim-lsp-installer.notify"
 local dispatcher = require "nvim-lsp-installer.dispatcher"
-local process = require "nvim-lsp-installer.process"
-local status_win = require "nvim-lsp-installer.ui.status-win"
+local process = require "nvim-lsp-installer.core.process"
+local status_win = require "nvim-lsp-installer.ui"
 local servers = require "nvim-lsp-installer.servers"
 local settings = require "nvim-lsp-installer.settings"
 local log = require "nvim-lsp-installer.log"
-local platform = require "nvim-lsp-installer.platform"
+local platform = require "nvim-lsp-installer.core.platform"
 local language_autocomplete_map = require "nvim-lsp-installer._generated.language_autocomplete_map"
 local filetype_server_map = require "nvim-lsp-installer._generated.filetype_map"
 
@@ -247,8 +247,8 @@ function M.uninstall_all(no_confirm)
     end
 
     log.info "Uninstalling all servers."
-    if fs.dir_exists(settings.current.install_root_dir) then
-        local ok, err = pcall(fs.rmrf, settings.current.install_root_dir)
+    if fs.sync.dir_exists(settings.current.install_root_dir) then
+        local ok, err = pcall(fs.sync.rmrf, settings.current.install_root_dir)
         if not ok then
             log.error(err)
             raise_error "Failed to uninstall all servers."

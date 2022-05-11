@@ -1,12 +1,12 @@
-local Data = require "nvim-lsp-installer.data"
-local process = require "nvim-lsp-installer.process"
-local path = require "nvim-lsp-installer.path"
+local functional = require "nvim-lsp-installer.core.functional"
+local process = require "nvim-lsp-installer.core.process"
+local path = require "nvim-lsp-installer.core.path"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Optional = require "nvim-lsp-installer.core.optional"
 local installer = require "nvim-lsp-installer.core.installer"
 
-local list_copy, list_find_first = Data.list_copy, Data.list_find_first
+local list_copy, list_find_first = functional.list_copy, functional.list_find_first
 
 local M = {}
 
@@ -105,9 +105,9 @@ function M.check_outdated_primary_package(receipt, install_dir)
         local lines = vim.split(result.stdout, "\n")
         local outdated_gems = vim.tbl_map(M.parse_outdated_gem, vim.tbl_filter(not_empty, lines))
 
-        local outdated_gem = list_find_first(outdated_gems, function(gem)
+        local outdated_gem = list_find_first(function(gem)
             return gem.name == receipt.primary_source.package and gem.current_version ~= gem.latest_version
-        end)
+        end, outdated_gems)
 
         return Optional.of_nilable(outdated_gem)
             :map(function(gem)

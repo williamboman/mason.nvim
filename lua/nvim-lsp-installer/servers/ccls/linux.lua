@@ -1,14 +1,14 @@
-local path = require "nvim-lsp-installer.path"
-local platform = require "nvim-lsp-installer.platform"
+local path = require "nvim-lsp-installer.core.path"
+local platform = require "nvim-lsp-installer.core.platform"
 local installer = require "nvim-lsp-installer.core.installer"
 local github = require "nvim-lsp-installer.core.managers.github"
-local Data = require "nvim-lsp-installer.data"
+local functional = require "nvim-lsp-installer.core.functional"
 local Result = require "nvim-lsp-installer.core.result"
 local Optional = require "nvim-lsp-installer.core.optional"
 
 local ccls_installer = require "nvim-lsp-installer.servers.ccls.common"
 
-local coalesce, when = Data.coalesce, Data.when
+local coalesce, when = functional.coalesce, functional.when
 
 ---@param release string
 local function normalize_llvm_release(release)

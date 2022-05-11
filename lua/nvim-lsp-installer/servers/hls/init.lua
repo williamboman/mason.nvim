@@ -1,12 +1,9 @@
 local server = require "nvim-lsp-installer.server"
-local platform = require "nvim-lsp-installer.platform"
-local process = require "nvim-lsp-installer.process"
-local Data = require "nvim-lsp-installer.data"
+local platform = require "nvim-lsp-installer.core.platform"
+local process = require "nvim-lsp-installer.core.process"
 local std = require "nvim-lsp-installer.core.managers.std"
 local github_client = require "nvim-lsp-installer.core.managers.github.client"
-local path = require "nvim-lsp-installer.path"
-
-local coalesce, when = Data.coalesce, Data.when
+local path = require "nvim-lsp-installer.core.path"
 
 return function(name, root_dir)
     return server.Server:new {

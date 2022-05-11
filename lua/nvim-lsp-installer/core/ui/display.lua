@@ -1,6 +1,6 @@
 local log = require "nvim-lsp-installer.log"
-local process = require "nvim-lsp-installer.process"
-local state = require "nvim-lsp-installer.ui.state"
+local process = require "nvim-lsp-installer.core.process"
+local state = require "nvim-lsp-installer.core.ui.state"
 
 local M = {}
 
@@ -279,10 +279,10 @@ function M.new_view_only_win(name)
         vim.cmd [[ syntax clear ]]
 
         local resize_autocmd = (
-            "autocmd VimResized <buffer> lua require('nvim-lsp-installer.ui.display').redraw_win(%d)"
+            "autocmd VimResized <buffer> lua require('nvim-lsp-installer.core.ui.display').redraw_win(%d)"
         ):format(win_id)
         local autoclose_autocmd = (
-            "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua require('nvim-lsp-installer.ui.display').delete_win_buf(%d, %d)"
+            "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua require('nvim-lsp-installer.core.ui.display').delete_win_buf(%d, %d)"
         ):format(win_id, bufnr)
 
         vim.cmd(([[
@@ -364,7 +364,7 @@ function M.new_view_only_win(name)
                     bufnr,
                     "n",
                     keybind.key,
-                    ("<cmd>lua require('nvim-lsp-installer.ui.display').dispatch_effect(%d, %q)<cr>"):format(
+                    ("<cmd>lua require('nvim-lsp-installer.core.ui.display').dispatch_effect(%d, %q)<cr>"):format(
                         bufnr,
                         -- We transfer the keybinding as hex to avoid issues with (neo)vim interpreting the key as a
                         -- literal input to the command. For example, "<CR>" would cause vim to issue an actual carriage
@@ -425,6 +425,7 @@ function M.new_view_only_win(name)
         close = vim.schedule_wrap(function()
             assert(has_initiated, "Display has not been initiated, cannot close.")
             unsubscribe(true)
+            log.fmt_trace("Closing window win_id=%s, bufnr=%s", win_id, bufnr)
             M.delete_win_buf(win_id, bufnr)
         end),
         ---@param pos number[] @(row, col) tuple

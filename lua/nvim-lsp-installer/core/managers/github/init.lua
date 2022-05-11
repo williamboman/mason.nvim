@@ -1,7 +1,7 @@
 local installer = require "nvim-lsp-installer.core.installer"
 local std = require "nvim-lsp-installer.core.managers.std"
 local client = require "nvim-lsp-installer.core.managers.github.client"
-local platform = require "nvim-lsp-installer.platform"
+local platform = require "nvim-lsp-installer.core.platform"
 local Result = require "nvim-lsp-installer.core.result"
 
 local M = {}

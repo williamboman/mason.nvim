@@ -1,9 +1,9 @@
 local log = require "nvim-lsp-installer.log"
-local Data = require "nvim-lsp-installer.data"
-local platform = require "nvim-lsp-installer.platform"
+local functional = require "nvim-lsp-installer.core.functional"
+local platform = require "nvim-lsp-installer.core.platform"
 local uv = vim.loop
 
-local list_any = Data.list_any
+local list_any = functional.list_any
 
 ---@alias luv_pipe any
 ---@alias luv_handle any
@@ -46,7 +46,7 @@ end
 ---@param env table<string, string>
 ---@param excluded_var_names string[]|nil
 function M.graft_env(env, excluded_var_names)
-    local excluded_var_names_set = excluded_var_names and Data.set_of(excluded_var_names) or {}
+    local excluded_var_names_set = excluded_var_names and functional.set_of(excluded_var_names) or {}
     local merged_env = {}
     for key, val in pairs(initial_environ) do
         if not excluded_var_names_set[key] and env[key] == nil then
@@ -73,9 +73,9 @@ local function sanitize_env_list(env_list)
             "GEM_HOME",
             "GEM_PATH",
         }
-        local is_safe_env = list_any(safe_envs, function(safe_env)
+        local is_safe_env = list_any(function(safe_env)
             return env:find(safe_env .. "=") == 1
-        end)
+        end, safe_envs)
         if is_safe_env then
             sanitized_list[#sanitized_list + 1] = env
         else

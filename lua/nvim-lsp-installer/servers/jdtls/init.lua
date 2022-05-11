@@ -1,7 +1,7 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
-local platform = require "nvim-lsp-installer.platform"
-local Data = require "nvim-lsp-installer.data"
+local path = require "nvim-lsp-installer.core.path"
+local platform = require "nvim-lsp-installer.core.platform"
+local functional = require "nvim-lsp-installer.core.functional"
 local installer = require "nvim-lsp-installer.core.installer"
 local eclipse = require "nvim-lsp-installer.core.clients.eclipse"
 local std = require "nvim-lsp-installer.core.managers.std"
@@ -35,10 +35,10 @@ return function(name, root_dir)
             "-configuration",
             path.concat {
                 root_dir,
-                Data.coalesce(
-                    Data.when(platform.is_mac, "config_mac"),
-                    Data.when(platform.is_linux, "config_linux"),
-                    Data.when(platform.is_win, "config_win")
+                functional.coalesce(
+                    functional.when(platform.is_mac, "config_mac"),
+                    functional.when(platform.is_linux, "config_linux"),
+                    functional.when(platform.is_win, "config_win")
                 ),
             },
             "-data",

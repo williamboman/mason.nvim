@@ -1,6 +1,7 @@
-local Data = require "nvim-lsp-installer.data"
-local path = require "nvim-lsp-installer.path"
-local fs = require "nvim-lsp-installer.fs"
+local functional = require "nvim-lsp-installer.core.functional"
+local path = require "nvim-lsp-installer.core.path"
+local a = require "nvim-lsp-installer.core.async"
+local fs = require "nvim-lsp-installer.core.fs"
 local settings = require "nvim-lsp-installer.settings"
 local log = require "nvim-lsp-installer.log"
 
@@ -31,7 +32,7 @@ local INSTALL_DIRS = {
     ["yamlls"] = "yaml",
 }
 
-local CORE_SERVERS = Data.set_of {
+local CORE_SERVERS = functional.set_of {
     "angularls",
     "ansiblels",
     "arduino_language_server",
@@ -162,8 +163,9 @@ local function scan_server_roots()
     log.trace "Scanning server roots"
     ---@type string[]
     local result = {}
-    local ok, entries = pcall(fs.readdir, settings.current.install_root_dir)
+    local ok, entries = pcall(fs.sync.readdir, settings.current.install_root_dir)
     if not ok then
+        log.debug("Failed to scan server roots", entries)
         -- presume servers root dir has not been created yet (i.e., no servers installed)
         return {}
     end
@@ -173,10 +175,11 @@ local function scan_server_roots()
             result[#result + 1] = entry.name
         end
     end
-    cached_server_roots = Data.set_of(result)
+    cached_server_roots = functional.set_of(result)
     vim.schedule(function()
         cached_server_roots = nil
     end)
+    log.trace("Resolved server roots", cached_server_roots)
     return cached_server_roots
 end
 
@@ -239,7 +242,7 @@ end
 ---@param server_names string[]
 ---@return Server[]
 local function resolve_servers(server_names)
-    return Data.list_map(function(server_name)
+    return functional.list_map(function(server_name)
         local ok, server = M.get_server(server_name)
         if not ok then
             error(server)

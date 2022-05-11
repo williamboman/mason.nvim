@@ -1,13 +1,13 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
-local process = require "nvim-lsp-installer.process"
-local platform = require "nvim-lsp-installer.platform"
-local Data = require "nvim-lsp-installer.data"
+local path = require "nvim-lsp-installer.core.path"
+local process = require "nvim-lsp-installer.core.process"
+local platform = require "nvim-lsp-installer.core.platform"
+local functional = require "nvim-lsp-installer.core.functional"
 local std = require "nvim-lsp-installer.core.managers.std"
 local github_client = require "nvim-lsp-installer.core.managers.github.client"
 local Optional = require "nvim-lsp-installer.core.optional"
 
-local coalesce, when, list_find_first = Data.coalesce, Data.when, Data.list_find_first
+local coalesce, when, list_find_first = functional.coalesce, functional.when, functional.list_find_first
 
 return function(name, root_dir)
     return server.Server:new {
@@ -36,11 +36,11 @@ return function(name, root_dir)
                 )
             )
             local dhall_lsp_server_asset = list_find_first(
-                gh_release.assets,
                 ---@param asset GitHubReleaseAsset
                 function(asset)
                     return asset.name:match(asset_name_pattern)
-                end
+                end,
+                gh_release.assets
             )
             Optional.of_nilable(dhall_lsp_server_asset)
                 :if_present(

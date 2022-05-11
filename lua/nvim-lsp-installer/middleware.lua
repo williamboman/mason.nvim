@@ -1,9 +1,9 @@
 local util = require "lspconfig.util"
 local servers = require "nvim-lsp-installer.servers"
 local settings = require "nvim-lsp-installer.settings"
-local Data = require "nvim-lsp-installer.data"
+local functional = require "nvim-lsp-installer.core.functional"
 
-local memoize, set_of = Data.memoize, Data.set_of
+local memoize, set_of = functional.memoize, functional.set_of
 
 local M = {}
 

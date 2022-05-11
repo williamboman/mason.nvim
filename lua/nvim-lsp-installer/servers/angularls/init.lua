@@ -1,10 +1,10 @@
 local server = require "nvim-lsp-installer.server"
-local platform = require "nvim-lsp-installer.platform"
+local platform = require "nvim-lsp-installer.core.platform"
 local npm = require "nvim-lsp-installer.core.managers.npm"
-local Data = require "nvim-lsp-installer.data"
-local path = require "nvim-lsp-installer.path"
+local functional = require "nvim-lsp-installer.core.functional"
+local path = require "nvim-lsp-installer.core.path"
 
-local map = Data.list_map
+local map = functional.list_map
 
 local function append_node_modules(dirs)
     return map(function(dir)

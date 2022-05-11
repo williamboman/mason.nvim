@@ -12,7 +12,7 @@ describe("fs", function()
         "refuses to rmrf paths outside of boundary",
         async_test(function()
             local e = assert.has.errors(function()
-                fs.rmrf "/thisisa/path"
+                fs.async.rmrf "/thisisa/path"
             end)
 
             assert.equal(

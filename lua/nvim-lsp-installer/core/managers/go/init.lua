@@ -1,6 +1,6 @@
 local installer = require "nvim-lsp-installer.core.installer"
-local process = require "nvim-lsp-installer.process"
-local platform = require "nvim-lsp-installer.platform"
+local process = require "nvim-lsp-installer.core.process"
+local platform = require "nvim-lsp-installer.core.platform"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local a = require "nvim-lsp-installer.core.async"
 local Optional = require "nvim-lsp-installer.core.optional"

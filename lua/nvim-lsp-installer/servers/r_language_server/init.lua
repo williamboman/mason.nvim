@@ -1,5 +1,5 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
+local path = require "nvim-lsp-installer.core.path"
 
 return function(name, root_dir)
     local function create_install_script(install_dir)

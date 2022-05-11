@@ -2,15 +2,9 @@ local a = require "nvim-lsp-installer.core.async"
 
 ---@type table<UvMethod, async fun(...)>
 local M = setmetatable({}, {
-    __index = function(_, method)
-        ---@async
-        return function(...)
-            local err, result = a.promisify(vim.loop[method])(...)
-            if err then
-                error(err, 2)
-            end
-            return result
-        end
+    __index = function(cache, method)
+        cache[method] = a.promisify(vim.loop[method], true)
+        return cache[method]
     end,
 })
 

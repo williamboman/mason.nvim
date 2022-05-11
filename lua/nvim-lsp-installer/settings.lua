@@ -1,4 +1,4 @@
-local path = require "nvim-lsp-installer.path"
+local path = require "nvim-lsp-installer.core.path"
 
 local M = {}
 

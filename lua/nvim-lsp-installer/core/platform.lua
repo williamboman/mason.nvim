@@ -1,6 +1,6 @@
-local Data = require "nvim-lsp-installer.data"
+local functional = require "nvim-lsp-installer.core.functional"
 local Result = require "nvim-lsp-installer.core.result"
-local lazy = Data.lazy
+local lazy = functional.lazy
 local M = {}
 
 local uname = vim.loop.os_uname()

@@ -1,14 +1,15 @@
-local Data = require "nvim-lsp-installer.data"
+local functional = require "nvim-lsp-installer.core.functional"
 local settings = require "nvim-lsp-installer.settings"
-local process = require "nvim-lsp-installer.process"
-local path = require "nvim-lsp-installer.path"
-local platform = require "nvim-lsp-installer.platform"
+local process = require "nvim-lsp-installer.core.process"
+local path = require "nvim-lsp-installer.core.path"
+local platform = require "nvim-lsp-installer.core.platform"
 local Optional = require "nvim-lsp-installer.core.optional"
 local installer = require "nvim-lsp-installer.core.installer"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 
-local list_find_first, list_copy, list_not_nil = Data.list_find_first, Data.list_copy, Data.list_not_nil
+local list_find_first, list_copy, list_not_nil =
+    functional.list_find_first, functional.list_copy, functional.list_not_nil
 local VENV_DIR = "venv"
 
 local M = {}
@@ -49,9 +50,9 @@ function M.install(packages)
     ctx:promote_cwd()
 
     -- Find first executable that manages to create venv
-    local executable = list_find_first(executables, function(executable)
+    local executable = list_find_first(function(executable)
         return pcall(ctx.spawn[executable], { "-m", "venv", VENV_DIR })
-    end)
+    end, executables)
 
     Optional.of_nilable(executable)
         :if_present(function()
@@ -101,10 +102,10 @@ function M.check_outdated_primary_package(receipt, install_dir)
         ---@type PipOutdatedPackage[]
         local packages = vim.json.decode(result.stdout)
 
-        local outdated_primary_package = list_find_first(packages, function(outdated_package)
+        local outdated_primary_package = list_find_first(function(outdated_package)
             return outdated_package.name == normalized_package
                 and outdated_package.version ~= outdated_package.latest_version
-        end)
+        end, packages)
 
         return Optional.of_nilable(outdated_primary_package)
             :map(function(package)
@@ -135,9 +136,9 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     }):map_catching(function(result)
         local pip_packages = vim.json.decode(result.stdout)
         local normalized_pip_package = M.normalize_package(receipt.primary_source.package)
-        local pip_package = list_find_first(pip_packages, function(package)
+        local pip_package = list_find_first(function(package)
             return package.name == normalized_pip_package
-        end)
+        end, pip_packages)
         return Optional.of_nilable(pip_package)
             :map(function(package)
                 return package.version

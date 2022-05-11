@@ -1,5 +1,5 @@
 local spawn = require "nvim-lsp-installer.core.spawn"
-local process = require "nvim-lsp-installer.process"
+local process = require "nvim-lsp-installer.core.process"
 
 local M = {}
 

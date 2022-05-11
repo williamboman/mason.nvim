@@ -1,5 +1,5 @@
 local log = require "nvim-lsp-installer.log"
-local platform = require "nvim-lsp-installer.platform"
+local platform = require "nvim-lsp-installer.core.platform"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local powershell = require "nvim-lsp-installer.core.managers.powershell"

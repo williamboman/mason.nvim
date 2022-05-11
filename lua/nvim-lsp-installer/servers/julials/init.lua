@@ -1,5 +1,5 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
+local path = require "nvim-lsp-installer.core.path"
 local std = require "nvim-lsp-installer.core.managers.std"
 local github = require "nvim-lsp-installer.core.managers.github"
 

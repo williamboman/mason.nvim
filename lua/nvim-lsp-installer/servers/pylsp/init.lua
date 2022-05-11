@@ -1,6 +1,6 @@
 local server = require "nvim-lsp-installer.server"
 local pip3 = require "nvim-lsp-installer.core.managers.pip3"
-local process = require "nvim-lsp-installer.process"
+local process = require "nvim-lsp-installer.core.process"
 local notify = require "nvim-lsp-installer.notify"
 
 function _G.lsp_installer_pylsp_install_completion()

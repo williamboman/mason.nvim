@@ -1,14 +1,11 @@
 local uv = vim.loop
 local a = require "nvim-lsp-installer.core.async"
-local Path = require "nvim-lsp-installer.path"
+local Path = require "nvim-lsp-installer.core.path"
 local fetch = require "nvim-lsp-installer.core.fetch"
-local Data = require "nvim-lsp-installer.data"
-
-local coalesce = Data.coalesce
-
-package.loaded["nvim-lsp-installer.servers"] = nil
-package.loaded["nvim-lsp-installer.fs"] = nil
+local functional = require "nvim-lsp-installer.core.functional"
 local servers = require "nvim-lsp-installer.servers"
+
+local coalesce = functional.coalesce
 
 local generated_dir = Path.concat { vim.fn.getcwd(), "lua", "nvim-lsp-installer", "_generated" }
 local schemas_dir = Path.concat { generated_dir, "schemas" }

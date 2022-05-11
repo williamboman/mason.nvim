@@ -1,12 +1,12 @@
-local Data = require "nvim-lsp-installer.data"
-local process = require "nvim-lsp-installer.process"
-local path = require "nvim-lsp-installer.path"
+local functional = require "nvim-lsp-installer.core.functional"
+local process = require "nvim-lsp-installer.core.process"
+local path = require "nvim-lsp-installer.core.path"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Optional = require "nvim-lsp-installer.core.optional"
 local installer = require "nvim-lsp-installer.core.installer"
 
-local list_copy, list_find_first = Data.list_copy, Data.list_find_first
+local list_copy, list_find_first = functional.list_copy, functional.list_find_first
 
 local M = {}
 
@@ -77,9 +77,9 @@ function M.check_outdated_primary_package(receipt, install_dir)
         cwd = install_dir,
     }):map_catching(function(result)
         local outdated_packages = vim.json.decode(result.stdout)
-        local outdated_package = list_find_first(outdated_packages.installed, function(package)
+        local outdated_package = list_find_first(function(package)
             return package.name == receipt.primary_source.package
-        end)
+        end, outdated_packages.installed)
         return Optional.of_nilable(outdated_package)
             :map(function(package)
                 if package.version ~= package.latest then

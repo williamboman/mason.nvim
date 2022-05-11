@@ -2,14 +2,13 @@ local dispatcher = require "nvim-lsp-installer.dispatcher"
 local notify = require "nvim-lsp-installer.notify"
 local a = require "nvim-lsp-installer.core.async"
 local InstallContext = require "nvim-lsp-installer.core.installer.context"
-local fs = require "nvim-lsp-installer.fs"
+local fs = require "nvim-lsp-installer.core.fs"
 local log = require "nvim-lsp-installer.log"
-local platform = require "nvim-lsp-installer.platform"
 local settings = require "nvim-lsp-installer.settings"
 local installer = require "nvim-lsp-installer.core.installer"
 local servers = require "nvim-lsp-installer.servers"
-local status_win = require "nvim-lsp-installer.ui.status-win"
-local path = require "nvim-lsp-installer.path"
+local status_win = require "nvim-lsp-installer.ui"
+local path = require "nvim-lsp-installer.core.path"
 local receipt = require "nvim-lsp-installer.core.receipt"
 local Optional = require "nvim-lsp-installer.core.optional"
 
@@ -140,77 +139,15 @@ function M.Server:install(version)
     status_win().install_server(self, version)
 end
 
-function M.Server:get_tmp_install_dir()
-    return path.concat { settings.current.install_root_dir, ("%s.tmp"):format(self.name) }
-end
-
----@param context table
-function M.Server:_setup_install_context(context)
-    context.install_dir = self:get_tmp_install_dir()
-    fs.rm_mkdirp(context.install_dir)
-
-    if not fs.dir_exists(settings.current.install_root_dir) then
-        fs.mkdirp(settings.current.install_root_dir)
-    end
-end
-
----Removes any existing installation of the server, and moves/promotes the provided install_dir directory to its place.
----@param install_dir string @The installation directory to move to the server's root directory.
-function M.Server:promote_install_dir(install_dir)
-    if self.root_dir == install_dir then
-        log.fmt_debug("Install dir %s is already promoted for %s", install_dir, self.name)
-        return true
-    end
-    log.fmt_debug("Promoting installation directory %s for %s", install_dir, self.name)
-    -- 1. Remove final installation directory, if it exists
-    if fs.dir_exists(self.root_dir) then
-        local rmrf_ok, rmrf_err = pcall(fs.rmrf, self.root_dir)
-        if not rmrf_ok then
-            log.fmt_error("Failed to remove final installation directory. path=%s error=%s", self.root_dir, rmrf_err)
-            return false
-        end
-    end
-
-    -- 2. Move the temporary install dir to the final installation directory
-    if platform.is_unix then
-        -- Some Unix systems will raise an error when renaming a directory to a destination that does not already exist.
-        fs.mkdir(self.root_dir)
-    end
-    local rename_ok, rename_err = pcall(fs.rename, install_dir, self.root_dir)
-    if not rename_ok then
-        --- 2a. We failed to rename the temporary dir to the final installation dir
-        log.fmt_error("Failed to rename. path=%s new_path=%s error=%s", install_dir, self.root_dir, rename_err)
-        return false
-    end
-    log.fmt_debug("Successfully promoted install_dir=%s for %s", install_dir, self.name)
-    return true
-end
-
 function M.Server:_get_receipt_path()
     return path.concat { self.root_dir, "nvim-lsp-installer-receipt.json" }
-end
-
----@param receipt_builder InstallReceiptBuilder
-function M.Server:_write_receipt(receipt_builder)
-    if receipt_builder.is_marked_invalid then
-        log.fmt_debug("Skipping writing receipt for %s because it is marked as invalid.", self.name)
-        return
-    end
-    receipt_builder:with_name(self.name):with_schema_version("1.0a"):with_completion_time(vim.loop.gettimeofday())
-
-    local receipt_success, install_receipt = pcall(receipt_builder.build, receipt_builder)
-    if receipt_success then
-        pcall(fs.write_file, self:_get_receipt_path(), vim.json.encode(install_receipt))
-    else
-        log.fmt_error("Failed to build receipt for server=%s. Error=%s", self.name, install_receipt)
-    end
 end
 
 ---@return InstallReceipt|nil
 function M.Server:get_receipt()
     local receipt_path = self:_get_receipt_path()
-    if fs.file_exists(receipt_path) then
-        local receipt_json = vim.json.decode(fs.read_file(receipt_path))
+    if fs.sync.file_exists(receipt_path) then
+        local receipt_json = vim.json.decode(fs.sync.read_file(receipt_path))
         return receipt.InstallReceipt.from_json(receipt_json)
     end
     return nil
@@ -238,8 +175,8 @@ end
 
 function M.Server:uninstall()
     log.debug("Uninstalling server", self.name)
-    if fs.dir_exists(self.root_dir) then
-        fs.rmrf(self.root_dir)
+    if fs.sync.dir_exists(self.root_dir) then
+        fs.sync.rmrf(self.root_dir)
     end
 end
 

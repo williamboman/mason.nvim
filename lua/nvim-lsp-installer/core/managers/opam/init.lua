@@ -1,11 +1,11 @@
-local Data = require "nvim-lsp-installer.data"
-local path = require "nvim-lsp-installer.path"
-local process = require "nvim-lsp-installer.process"
+local functional = require "nvim-lsp-installer.core.functional"
+local path = require "nvim-lsp-installer.core.path"
+local process = require "nvim-lsp-installer.core.process"
 local installer = require "nvim-lsp-installer.core.installer"
 
 local M = {}
 
-local list_copy = Data.list_copy
+local list_copy = functional.list_copy
 
 ---@param packages string[]
 local function with_receipt(packages)

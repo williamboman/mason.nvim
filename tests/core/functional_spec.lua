@@ -1,10 +1,10 @@
-local Data = require "nvim-lsp-installer.data"
+local functional = require "nvim-lsp-installer.core.functional"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 
-describe("data", function()
+describe("functional", function()
     it("creates enums", function()
-        local colors = Data.enum {
+        local colors = functional.enum {
             "BLUE",
             "YELLOW",
         }
@@ -15,7 +15,7 @@ describe("data", function()
     end)
 
     it("creates sets", function()
-        local colors = Data.set_of {
+        local colors = functional.set_of {
             "BLUE",
             "YELLOW",
             "BLUE",
@@ -34,7 +34,7 @@ describe("data", function()
             "RED",
             "YELLOW",
             "BLUE",
-        }, Data.list_reverse(colors))
+        }, functional.list_reverse(colors))
         -- should not modify in-place
         assert.same({ "BLUE", "YELLOW", "RED" }, colors)
     end)
@@ -47,7 +47,7 @@ describe("data", function()
                 "LIGHT_YELLOW2",
                 "LIGHT_RED3",
             },
-            Data.list_map(function(color, i)
+            functional.list_map(function(color, i)
                 return "LIGHT_" .. color .. i
             end, colors)
         )
@@ -56,12 +56,12 @@ describe("data", function()
     end)
 
     it("coalesces first non-nil value", function()
-        assert.equal("Hello World!", Data.coalesce(nil, nil, "Hello World!", ""))
+        assert.equal("Hello World!", functional.coalesce(nil, nil, "Hello World!", ""))
     end)
 
     it("makes a shallow copy of a list", function()
         local list = { "BLUE", { nested = "TABLE" }, "RED" }
-        local list_copy = Data.list_copy(list)
+        local list_copy = functional.list_copy(list)
         assert.same({ "BLUE", { nested = "TABLE" }, "RED" }, list_copy)
         assert.is_not.is_true(list == list_copy)
         assert.is_true(list[2] == list_copy[2])
@@ -74,13 +74,13 @@ describe("data", function()
 
         assert.equal(
             "Waldo",
-            Data.list_find_first({
+            functional.list_find_first(predicate, {
                 "Where",
                 "On Earth",
                 "Is",
                 "Waldo",
                 "?",
-            }, predicate)
+            })
         )
         assert.spy(predicate).was.called(4)
     end)
@@ -90,13 +90,13 @@ describe("data", function()
             return item == "On Earth"
         end)
 
-        assert.is_true(Data.list_any({
+        assert.is_true(functional.list_any(predicate, {
             "Where",
             "On Earth",
             "Is",
             "Waldo",
             "?",
-        }, predicate))
+        }))
 
         assert.spy(predicate).was.called(2)
     end)
@@ -105,7 +105,7 @@ describe("data", function()
         local expensive_function = spy.new(function(s)
             return s
         end)
-        local memoized_fn = Data.memoize(expensive_function)
+        local memoized_fn = functional.memoize(expensive_function)
         assert.equal("key", memoized_fn "key")
         assert.equal("key", memoized_fn "key")
         assert.equal("new_key", memoized_fn "new_key")
@@ -116,7 +116,7 @@ describe("data", function()
         local expensive_function = spy.new(function(arg1, arg2)
             return arg1 .. arg2
         end)
-        local memoized_fn = Data.memoize(expensive_function, function(arg1, arg2)
+        local memoized_fn = functional.memoize(expensive_function, function(arg1, arg2)
             return arg1 .. arg2
         end)
         assert.equal("key1key2", memoized_fn("key1", "key2"))
@@ -129,7 +129,7 @@ describe("data", function()
         local impl = spy.new(function()
             return {}, {}
         end)
-        local lazy_fn = Data.lazy(impl)
+        local lazy_fn = functional.lazy(impl)
         assert.spy(impl).was_called(0)
         local a, b = lazy_fn()
         assert.spy(impl).was_called(1)
@@ -139,5 +139,28 @@ describe("data", function()
         assert.spy(impl).was_called(1)
         assert.is_true(match.is_ref(a)(new_a))
         assert.is_true(match.is_ref(b)(new_b))
+    end)
+
+    it("should support nil return values in lazy functions", function()
+        local lazy_fn = functional.lazy(function()
+            return nil, 2
+        end)
+        local a, b = lazy_fn()
+        assert.is_nil(a)
+        assert.equal(2, b)
+    end)
+
+    it("should partially apply functions", function()
+        local funcy = spy.new()
+        local partially_funcy = functional.partial(funcy, "a", "b", "c")
+        partially_funcy("d", "e", "f")
+        assert.spy(funcy).was_called_with("a", "b", "c", "d", "e", "f")
+    end)
+
+    it("should partially apply functions with nil arguments", function()
+        local funcy = spy.new()
+        local partially_funcy = functional.partial(funcy, "a", nil, "c")
+        partially_funcy("d", nil, "f")
+        assert.spy(funcy).was_called_with("a", nil, "c", "d", nil, "f")
     end)
 end)

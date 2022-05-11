@@ -1,8 +1,8 @@
 -- Here be dragons
-local Ui = require "nvim-lsp-installer.ui"
-local Data = require "nvim-lsp-installer.data"
+local Ui = require "nvim-lsp-installer.core.ui"
+local functional = require "nvim-lsp-installer.core.functional"
 
-local list_map = Data.list_map
+local list_map = functional.list_map
 
 local property_type_highlights = {
     ["string"] = "String",

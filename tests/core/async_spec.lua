@@ -2,7 +2,7 @@ local assert = require "luassert"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local a = require "nvim-lsp-installer.core.async"
-local process = require "nvim-lsp-installer.process"
+local process = require "nvim-lsp-installer.core.process"
 
 local function timestamp()
     local seconds, microseconds = vim.loop.gettimeofday()
@@ -18,6 +18,15 @@ describe("async", function()
         local stop = timestamp()
         local grace_ms = 25
         assert.is_true((stop - start) >= (100 - grace_ms))
+    end)
+
+    it("should return values in blocking mode", function()
+        local function slow_maths(arg1, arg2)
+            a.sleep(10)
+            return arg1 + arg2 - 42
+        end
+        local value = a.run_blocking(slow_maths, 13, 37)
+        assert.equals(8, value)
     end)
 
     it(

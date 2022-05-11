@@ -1,9 +1,9 @@
 local a = require "nvim-lsp-installer.core.async"
 local installer = require "nvim-lsp-installer.core.installer"
 local fetch = require "nvim-lsp-installer.core.fetch"
-local platform = require "nvim-lsp-installer.platform"
+local platform = require "nvim-lsp-installer.core.platform"
 local powershell = require "nvim-lsp-installer.core.managers.powershell"
-local path = require "nvim-lsp-installer.path"
+local path = require "nvim-lsp-installer.core.path"
 local Result = require "nvim-lsp-installer.core.result"
 
 local M = {}

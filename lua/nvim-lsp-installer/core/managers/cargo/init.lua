@@ -1,5 +1,5 @@
-local process = require "nvim-lsp-installer.process"
-local path = require "nvim-lsp-installer.path"
+local process = require "nvim-lsp-installer.core.process"
+local path = require "nvim-lsp-installer.core.path"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local a = require "nvim-lsp-installer.core.async"
 local Optional = require "nvim-lsp-installer.core.optional"

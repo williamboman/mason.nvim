@@ -1,4 +1,4 @@
-local ServerHints = require "nvim-lsp-installer.ui.status-win.server_hints"
+local ServerHints = require "nvim-lsp-installer.ui.server_hints"
 
 describe("status win server hints", function()
     it("should produce valid server hints", function()

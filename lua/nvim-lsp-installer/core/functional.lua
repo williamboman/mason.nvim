@@ -1,11 +1,9 @@
--- TODO: rename this to functional.lua, long overdue
-
-local Data = {}
+local functional = {}
 
 ---@generic T : string
 ---@param values T[]
 ---@return table<T, T>
-function Data.enum(values)
+function functional.enum(values)
     local result = {}
     for i = 1, #values do
         local v = values[i]
@@ -17,7 +15,7 @@ end
 ---@generic T
 ---@param list T[]
 ---@return table<T, boolean>
-function Data.set_of(list)
+function functional.set_of(list)
     local set = {}
     for i = 1, #list do
         set[list[i]] = true
@@ -28,7 +26,7 @@ end
 ---@generic T
 ---@param list T[]
 ---@return T[]
-function Data.list_reverse(list)
+function functional.list_reverse(list)
     local result = {}
     for i = #list, 1, -1 do
         result[#result + 1] = list[i]
@@ -40,7 +38,7 @@ end
 ---@param fn fun(item: T): U
 ---@param list T[]
 ---@return U[]
-function Data.list_map(fn, list)
+function functional.list_map(fn, list)
     local result = {}
     for i = 1, #list do
         result[#result + 1] = fn(list[i], i)
@@ -48,13 +46,13 @@ function Data.list_map(fn, list)
     return result
 end
 
-function Data.table_pack(...)
+function functional.table_pack(...)
     return { n = select("#", ...), ... }
 end
 
-function Data.list_not_nil(...)
+function functional.list_not_nil(...)
     local result = {}
-    local args = Data.table_pack(...)
+    local args = functional.table_pack(...)
     for i = 1, args.n do
         if args[i] ~= nil then
             result[#result + 1] = args[i]
@@ -63,20 +61,16 @@ function Data.list_not_nil(...)
     return result
 end
 
-function Data.tbl_pack(...)
-    return { n = select("#", ...), ... }
-end
-
-function Data.when(condition, value)
+function functional.when(condition, value)
     return condition and value or nil
 end
 
-function Data.lazy_when(condition, fn)
+function functional.lazy_when(condition, fn)
     return condition and fn() or nil
 end
 
-function Data.coalesce(...)
-    local args = Data.tbl_pack(...)
+function functional.coalesce(...)
+    local args = functional.table_pack(...)
     for i = 1, args.n do
         local variable = args[i]
         if variable ~= nil then
@@ -88,7 +82,7 @@ end
 ---@generic T
 ---@param list T[]
 ---@return T[] @A shallow copy of the list.
-function Data.list_copy(list)
+function functional.list_copy(list)
     local result = {}
     for i = 1, #list do
         result[#result + 1] = list[i]
@@ -97,10 +91,10 @@ function Data.list_copy(list)
 end
 
 ---@generic T
----@param list T[]
 ---@param predicate fun(item: T): boolean
+---@param list T[]
 ---@return T | nil
-function Data.list_find_first(list, predicate)
+function functional.list_find_first(predicate, list)
     local result
     for i = 1, #list do
         local entry = list[i]
@@ -112,10 +106,10 @@ function Data.list_find_first(list, predicate)
 end
 
 ---@generic T
----@param list T[]
 ---@param predicate fun(item: T): boolean
+---@param list T[]
 ---@return boolean
-function Data.list_any(list, predicate)
+function functional.list_any(predicate, list)
     for i = 1, #list do
         if predicate(list[i]) then
             return true
@@ -124,34 +118,58 @@ function Data.list_any(list, predicate)
     return false
 end
 
-function Data.identity(a)
+function functional.identity(a)
     return a
+end
+
+function functional.always(a)
+    return function()
+        return a
+    end
 end
 
 ---@generic T : fun(...)
 ---@param fn T
 ---@param cache_key_generator (fun(...): string | nil)|nil
 ---@return T
-function Data.memoize(fn, cache_key_generator)
-    cache_key_generator = cache_key_generator or Data.identity
+function functional.memoize(fn, cache_key_generator)
+    cache_key_generator = cache_key_generator or functional.identity
     local cache = {}
     return function(...)
         local key = cache_key_generator(...)
         if not cache[key] then
-            cache[key] = fn(...)
+            cache[key] = functional.table_pack(fn(...))
         end
-        return cache[key]
+        return unpack(cache[key], 1, cache[key].n)
     end
 end
 
-function Data.lazy(fn)
-    local ret_val
+---@generic T
+---@param fn fun(): T
+---@return fun(): T
+function functional.lazy(fn)
+    local memoized = functional.memoize(fn, functional.always "lazyval")
     return function()
-        if not ret_val then
-            ret_val = Data.table_pack(fn())
-        end
-        return unpack(ret_val, 1, ret_val.n)
+        return memoized()
     end
 end
 
-return Data
+---@generic T
+---@param fn fun(...): T
+---@return fun(...): T
+function functional.partial(fn, ...)
+    local bound_args = functional.table_pack(...)
+    return function(...)
+        local args = functional.table_pack(...)
+        local merged_args = {}
+        for i = 1, bound_args.n do
+            merged_args[i] = bound_args[i]
+        end
+        for i = 1, args.n do
+            merged_args[bound_args.n + i] = args[i]
+        end
+        return fn(unpack(merged_args, 1, bound_args.n + args.n))
+    end
+end
+
+return functional
