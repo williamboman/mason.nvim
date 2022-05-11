@@ -52,28 +52,4 @@ describe("server", function()
             assert.is_false(srv:is_installed())
         end)
     )
-
-    it(
-        "should be able to run sync installer functions",
-        async_test(function()
-            local srv = ServerGenerator {
-                name = "async_installer_fixture",
-                root_dir = server.get_server_root_path "async_installer_fixture",
-                async = false,
-                installer = function(_, callback)
-                    vim.defer_fn(function()
-                        callback(true)
-                    end, 130)
-                end,
-            }
-            local start = timestamp()
-            srv:install()
-            a.sleep(100)
-            assert.wait_for(function()
-                assert.is_true(srv:is_installed())
-            end)
-            local stop = timestamp()
-            assert.is_true(stop - start >= 100)
-        end)
-    )
 end)
