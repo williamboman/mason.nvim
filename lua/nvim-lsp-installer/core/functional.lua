@@ -172,4 +172,29 @@ function functional.partial(fn, ...)
     end
 end
 
+function functional.compose(...)
+    local functions = functional.table_pack(...)
+    assert(functions.n > 0, "compose requires at least one function")
+    return function(...)
+        local result = functional.table_pack(...)
+        for i = functions.n, 1, -1 do
+            result = functional.table_pack(functions[i](unpack(result, 1, result.n)))
+        end
+        return unpack(result, 1, result.n)
+    end
+end
+
+---@generic T
+---@param filter_fn fun(item: T): boolean
+---@return fun(list: T[]): T[]
+function functional.filter(filter_fn)
+    return functional.partial(vim.tbl_filter, filter_fn)
+end
+
+function functional.each(fn, list)
+    for k, v in pairs(list) do
+        fn(v, k)
+    end
+end
+
 return functional

@@ -163,4 +163,43 @@ describe("functional", function()
         partially_funcy("d", nil, "f")
         assert.spy(funcy).was_called_with("a", nil, "c", "d", nil, "f")
     end)
+
+    it("should compose functions", function()
+        local function add(x)
+            return function(y)
+                return y + x
+            end
+        end
+        local function subtract(x)
+            return function(y)
+                return y - x
+            end
+        end
+        local function multiply(x)
+            return function(y)
+                return y * x
+            end
+        end
+
+        local big_maths = functional.compose(add(1), subtract(3), multiply(5))
+
+        assert.equals(23, big_maths(5))
+    end)
+
+    it("should not allow composing no functions", function()
+        local e = assert.error(function()
+            functional.compose()
+        end)
+        assert.equals("compose requires at least one function", e)
+    end)
+
+    it("should iterate list in .each", function()
+        local list = { "BLUE", "YELLOW", "RED" }
+        local iterate_fn = spy.new()
+        functional.each(iterate_fn, list)
+        assert.spy(iterate_fn).was_called(3)
+        assert.spy(iterate_fn).was_called_with("BLUE", 1)
+        assert.spy(iterate_fn).was_called_with("YELLOW", 2)
+        assert.spy(iterate_fn).was_called_with("RED", 3)
+    end)
 end)
