@@ -1,4 +1,5 @@
 local util = require "lspconfig.util"
+local notify = require "nvim-lsp-installer.notify"
 local servers = require "nvim-lsp-installer.servers"
 local settings = require "nvim-lsp-installer.settings"
 local functional = require "nvim-lsp-installer.core.functional"
@@ -44,6 +45,7 @@ function M.register_lspconfig_hook()
             if server:is_installed() then
                 merge_in_place(config, server._default_options)
             elseif should_auto_install(server.name) then
+                notify("(automatic installation) Installing LSP server: " .. server.name)
                 server:install()
             end
         end
