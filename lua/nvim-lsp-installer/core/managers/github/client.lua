@@ -63,7 +63,7 @@ function M.fetch_latest_release(repo, opts)
             local latest_release = list_find_first(
                 ---@param release GitHubRelease
                 function(release)
-                    local is_stable_release = (release.prerelease and opts.include_prelease) and not release.draft
+                    local is_stable_release = not release.prerelease and not release.draft
                     if opts.tag_name_pattern then
                         return is_stable_release and release.tag_name:match(opts.tag_name_pattern)
                     end
