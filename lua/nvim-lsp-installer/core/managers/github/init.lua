@@ -42,8 +42,9 @@ function M.release_file(opts)
     if not asset_file then
         error(
             (
-                "Could not find which release file to download. Most likely the current operating system, architecture (%s), or libc (%s) is not supported."
-            ):format(platform.arch, platform.get_libc())
+                "Could not find which release file to download.\nMost likely the current operating system, architecture (%s), or libc (%s) is not supported."
+            ):format(platform.arch, platform.get_libc()),
+            0
         )
     end
     local download_url = ("https://github.com/%s/releases/download/%s/%s"):format(opts.repo, release, asset_file)

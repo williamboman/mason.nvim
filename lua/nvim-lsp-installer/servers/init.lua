@@ -1,6 +1,5 @@
 local functional = require "nvim-lsp-installer.core.functional"
 local path = require "nvim-lsp-installer.core.path"
-local a = require "nvim-lsp-installer.core.async"
 local fs = require "nvim-lsp-installer.core.fs"
 local settings = require "nvim-lsp-installer.settings"
 local log = require "nvim-lsp-installer.log"
