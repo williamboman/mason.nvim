@@ -334,6 +334,9 @@ return {
   vimls = {
     filetypes = { "vim" }
   },
+  vls = {
+    filetypes = { "vlang" }
+  },
   volar = {
     filetypes = { "vue" }
   },

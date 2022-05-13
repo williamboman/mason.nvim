@@ -143,6 +143,7 @@ local CORE_SERVERS = functional.set_of {
     "vala_ls",
     "verible",
     "vimls",
+    "vls",
     "volar",
     "vuels",
     "yamlls",

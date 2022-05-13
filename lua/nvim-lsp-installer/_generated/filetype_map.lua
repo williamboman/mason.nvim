@@ -145,6 +145,7 @@ return {
   vb = { "omnisharp" },
   verilog = { "svls", "verible" },
   vim = { "vimls" },
+  vlang = { "vls" },
   vmasm = { "asm_lsp" },
   vue = { "eslint", "stylelint_lsp", "tailwindcss", "volar", "vuels" },
   wxss = { "stylelint_lsp" },
