@@ -1031,6 +1031,9 @@ local function init(all_servers)
                     end)
                 end,
                 ["INSTALL_SERVER"] = function(e)
+                    mutate_state(function(state)
+                        state.has_outdated_servers = false
+                    end)
                     local server_name = e.payload[1]
                     local ok, server = lsp_servers.get_server(server_name)
                     if ok then
@@ -1053,6 +1056,9 @@ local function init(all_servers)
                     end
                 end,
                 ["UNINSTALL_SERVER"] = function(e)
+                    mutate_state(function(state)
+                        state.has_outdated_servers = false
+                    end)
                     local server_name = e.payload[1]
                     local ok, server = lsp_servers.get_server(server_name)
                     if ok then
@@ -1060,6 +1066,9 @@ local function init(all_servers)
                     end
                 end,
                 ["REPLACE_SERVER"] = function(e)
+                    mutate_state(function(state)
+                        state.has_outdated_servers = false
+                    end)
                     local old_server_name, new_server_name = e.payload[1], e.payload[2]
                     local old_ok, old_server = lsp_servers.get_server(old_server_name)
                     local new_ok, new_server = lsp_servers.get_server(new_server_name)

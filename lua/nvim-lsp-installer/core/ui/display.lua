@@ -54,7 +54,7 @@ local function render_node(viewport_context, node, _render_context, _output)
 
     ---@class RenderDiagnostic
     ---@field line number
-    ---@field diagnostic {message: string, severity: integer}
+    ---@field diagnostic {message: string, severity: integer, source: string|nil}
 
     ---@class RenderOutput
     ---@field lines string[] @The buffer lines.

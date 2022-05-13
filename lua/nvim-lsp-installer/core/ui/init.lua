@@ -5,7 +5,7 @@ local M = {}
 ---| '"NODE"'
 ---| '"CASCADING_STYLE"'
 ---| '"VIRTUAL_TEXT"'
----| '"DIAGNOSTICS'
+---| '"DIAGNOSTICS"'
 ---| '"HL_TEXT"'
 ---| '"KEYBIND_HANDLER"'
 
