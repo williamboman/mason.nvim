@@ -81,6 +81,11 @@ describe("ui", function()
                     },
                 },
                 Ui.Keybind("<CR>", "INSTALL_SERVER", { "tsserver" }, false),
+                Ui.DiagnosticsNode {
+                    message = "yeah this one's outdated",
+                    severity = vim.diagnostic.severity.WARN,
+                    source = "trust me bro",
+                },
                 Ui.Text { "I'm a text node" },
             })
         )
@@ -120,6 +125,14 @@ describe("ui", function()
                     key = "<CR>",
                     line = 3,
                     payload = { "tsserver" },
+                },
+            },
+            diagnostics = {
+                {
+                    line = 3,
+                    message = "yeah this one's outdated",
+                    source = "trust me bro",
+                    severity = vim.diagnostic.severity.WARN,
                 },
             },
         }, render_output)
@@ -166,7 +179,7 @@ describe("integration test", function()
             local set_lines = spy.on(vim.api, "nvim_buf_set_lines")
             local set_extmark = spy.on(vim.api, "nvim_buf_set_extmark")
             local add_highlight = spy.on(vim.api, "nvim_buf_add_highlight")
-            local set_keymap = spy.on(vim.api, "nvim_buf_set_keymap")
+            local set_keymap = spy.on(vim.keymap, "set")
 
             -- Initial window and buffer creation + initial render
             a.scheduler()
@@ -213,18 +226,16 @@ describe("integration test", function()
 
             assert.spy(set_keymap).was_called(2)
             assert.spy(set_keymap).was_called_with(
-                match.is_number(),
                 "n",
                 "U",
-                match.has_match [[<cmd>lua require%('nvim%-lsp%-installer%.core%.ui%.display'%)%.dispatch_effect%(%d, "55"%)<cr>]],
-                { nowait = true, silent = true, noremap = true }
+                match.is_function(),
+                match.tbl_containing { nowait = true, silent = true, buffer = match.is_number() }
             )
             assert.spy(set_keymap).was_called_with(
-                match.is_number(),
                 "n",
                 "R",
-                match.has_match [[<cmd>lua require%('nvim%-lsp%-installer%.core%.ui%.display'%)%.dispatch_effect%(%d, "52"%)<cr>]],
-                { nowait = true, silent = true, noremap = true }
+                match.is_function(),
+                match.tbl_containing { nowait = true, silent = true, buffer = match.is_number() }
             )
 
             assert.spy(clear_namespace).was_called(1)

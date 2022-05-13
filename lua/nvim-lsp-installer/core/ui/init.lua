@@ -5,10 +5,11 @@ local M = {}
 ---| '"NODE"'
 ---| '"CASCADING_STYLE"'
 ---| '"VIRTUAL_TEXT"'
+---| '"DIAGNOSTICS'
 ---| '"HL_TEXT"'
 ---| '"KEYBIND_HANDLER"'
 
----@alias INode Node | HlTextNode | CascadingStyleNode | VirtualTextNode | KeybindHandlerNode
+---@alias INode Node | HlTextNode | CascadingStyleNode | VirtualTextNode | KeybindHandlerNode | DiagnosticsNode
 
 ---@param children INode[]
 function M.Node(children)
@@ -63,6 +64,16 @@ function M.VirtualTextNode(virt_text)
     local node = {
         type = "VIRTUAL_TEXT",
         virt_text = virt_text,
+    }
+    return node
+end
+
+---@param diagnostic {message: string, severity: integer, source: string|nil}
+function M.DiagnosticsNode(diagnostic)
+    ---@class DiagnosticsNode
+    local node = {
+        type = "DIAGNOSTICS",
+        diagnostic = diagnostic,
     }
     return node
 end

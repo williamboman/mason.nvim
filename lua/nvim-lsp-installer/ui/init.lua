@@ -16,7 +16,7 @@ local HELP_KEYMAP = "?"
 local CLOSE_WINDOW_KEYMAP_1 = "<Esc>"
 local CLOSE_WINDOW_KEYMAP_2 = "q"
 
----@param props {title: string, subtitle: string[][], count: number}
+---@param props {title: string, diagnostics: table|nil, subtitle: string[][], count: number}
 local function ServerGroupHeading(props)
     local line = {
         { props.title, props.highlight or "LspInstallerHeading" },
@@ -25,7 +25,10 @@ local function ServerGroupHeading(props)
     if props.subtitle then
         vim.list_extend(line, props.subtitle)
     end
-    return Ui.HlTextNode { line }
+    return Ui.Node {
+        Ui.HlTextNode { line },
+        Ui.When(props.diagnostics, Ui.DiagnosticsNode(props.diagnostics)),
+    }
 end
 
 local function Indent(children)
@@ -307,6 +310,16 @@ local function ServerMetadata(server)
     ))
 end
 
+---@param packages OutdatedPackage[]
+local function format_outdated_packages(packages)
+    return table.concat(
+        vim.tbl_map(function(package)
+            return ("%s %s -> %s"):format(package.name, package.current_version, package.latest_version)
+        end, packages),
+        "\n"
+    )
+end
+
 ---@param servers ServerState[]
 ---@param props ServerGroupProps
 local function InstalledServers(servers, props)
@@ -320,13 +333,19 @@ local function InstalledServers(servers, props)
                         { settings.current.ui.icons.server_installed, "LspInstallerGreen" },
                         { " " .. server.name .. " ", "" },
                         { server.hints, "Comment" },
-                        functional.when(server.deprecated, { " deprecated", "LspInstallerOrange" }),
-                        functional.when(
-                            #server.metadata.outdated_packages > 0 and not is_expanded,
-                            { " new version available", "LspInstallerGreen" }
-                        )
+                        functional.when(server.deprecated, { " deprecated", "LspInstallerOrange" })
                     ),
                 },
+                Ui.When(
+                    #server.metadata.outdated_packages > 0,
+                    Ui.DiagnosticsNode {
+                        message = ("new version available, press %s to update \n"):format(
+                            settings.current.ui.keymaps.update_server
+                        ) .. format_outdated_packages(server.metadata.outdated_packages),
+                        severity = vim.diagnostic.severity.INFO,
+                        source = server.name,
+                    }
+                ),
                 Ui.Keybind(settings.current.ui.keymaps.toggle_server_expand, "EXPAND_SERVER", { server.name }),
                 Ui.Keybind(settings.current.ui.keymaps.update_server, "INSTALL_SERVER", { server.name }),
                 Ui.Keybind(settings.current.ui.keymaps.check_server_version, "CHECK_SERVER_VERSION", { server.name }),
@@ -429,7 +448,7 @@ local function UninstalledServers(servers, props)
     end, servers))
 end
 
----@alias ServerGroupProps {title: string, subtitle: string|nil, hide_when_empty: boolean|nil, servers: ServerState[][], expanded_server: string|nil, renderer: fun(servers: ServerState[], props: ServerGroupProps)}
+---@alias ServerGroupProps {title: string, title_diagnostics: table|nil, subtitle: string|nil, hide_when_empty: boolean|nil, servers: ServerState[][], expanded_server: string|nil, renderer: fun(servers: ServerState[], props: ServerGroupProps)}
 
 ---@param props ServerGroupProps
 local function ServerGroup(props)
@@ -445,6 +464,7 @@ local function ServerGroup(props)
             Ui.EmptyLine(),
             ServerGroupHeading {
                 title = props.title,
+                diagnostics = props.title_diagnostics,
                 subtitle = props.subtitle,
                 count = total_server_count,
             },
@@ -505,6 +525,12 @@ local function Servers(state)
     return Ui.Node {
         ServerGroup {
             title = "Installed servers",
+            title_diagnostics = state.has_outdated_servers and {
+                severity = vim.diagnostic.severity.INFO,
+                message = ("press %s to update all outdated servers"):format(
+                    settings.current.ui.keymaps.update_all_servers
+                ),
+            } or nil,
             subtitle = state.server_version_check_completed_percentage ~= nil and {
                 {
                     "checking for new versions ",
@@ -643,6 +669,7 @@ local function init(all_servers)
         server_name_order = server_name_order,
         servers = servers,
         server_version_check_completed_percentage = nil,
+        has_outdated_servers = false,
         is_showing_help = false,
         is_current_settings_expanded = false,
         prioritized_servers = {},
@@ -886,9 +913,11 @@ local function init(all_servers)
         end)
         if #servers > 0 then
             mutate_state(function(state)
+                state.has_outdated_servers = false
                 state.server_version_check_completed_percentage = 0
             end)
         end
+        local has_outdated_servers = false
         outdated_servers.identify_outdated_servers(servers, function(check_result, progress)
             mutate_state(function(state)
                 local completed_percentage = progress.completed / progress.total
@@ -896,12 +925,14 @@ local function init(all_servers)
                 if completed_percentage == 1 then
                     vim.defer_fn(function()
                         mutate_state(function(state)
+                            state.has_outdated_servers = has_outdated_servers
                             state.server_version_check_completed_percentage = nil
                         end)
                     end, 700)
                 end
 
                 if check_result.success and check_result:has_outdated_packages() then
+                    has_outdated_servers = true
                     state.servers[check_result.server.name].metadata.outdated_packages = check_result.outdated_packages
                 end
             end)
@@ -1007,6 +1038,9 @@ local function init(all_servers)
                     end
                 end,
                 ["UPDATE_ALL_SERVERS"] = function()
+                    mutate_state(function(state)
+                        state.has_outdated_servers = false
+                    end)
                     local installed_servers = lsp_servers.get_installed_servers()
                     local state = get_state()
                     local outdated_servers = vim.tbl_filter(function(server)

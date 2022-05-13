@@ -4,18 +4,6 @@ local state = require "nvim-lsp-installer.core.ui.state"
 
 local M = {}
 
-local function from_hex(str)
-    return (str:gsub("..", function(cc)
-        return string.char(tonumber(cc, 16))
-    end))
-end
-
-local function to_hex(str)
-    return (str:gsub(".", function(c)
-        return string.format("%02X", string.byte(c))
-    end))
-end
-
 ---@param line string
 ---@param render_context RenderContext
 local function get_styles(line, render_context)
@@ -64,17 +52,23 @@ local function render_node(viewport_context, node, _render_context, _output)
     ---@field effect string
     ---@field payload any
 
+    ---@class RenderDiagnostic
+    ---@field line number
+    ---@field diagnostic {message: string, severity: integer}
+
     ---@class RenderOutput
     ---@field lines string[] @The buffer lines.
     ---@field virt_texts string[][] @List of (text, highlight) tuples.
     ---@field highlights RenderHighlight[]
     ---@field keybinds RenderKeybind[]
+    ---@field diagnostics RenderDiagnostic[]
     local output = _output
         or {
             lines = {},
             virt_texts = {},
             highlights = {},
             keybinds = {},
+            diagnostics = {},
         }
 
     if node.type == "VIRTUAL_TEXT" then
@@ -132,6 +126,13 @@ local function render_node(viewport_context, node, _render_context, _output)
             effect = node.effect,
             payload = node.payload,
         }
+    elseif node.type == "DIAGNOSTICS" then
+        output.diagnostics[#output.diagnostics + 1] = {
+            line = #output.lines,
+            message = node.diagnostic.message,
+            severity = node.diagnostic.severity,
+            source = node.diagnostic.source,
+        }
     end
 
     return output
@@ -153,6 +154,7 @@ local function create_popup_window_opts(sizes_only)
         col = math.floor((win_width - width) / 2),
         relative = "editor",
         style = "minimal",
+        zindex = 1,
     }
 
     if not sizes_only then
@@ -162,77 +164,139 @@ local function create_popup_window_opts(sizes_only)
     return popup_layout
 end
 
-local registered_effect_handlers_by_bufnr = {}
-local active_keybinds_by_bufnr = {}
-local registered_keymaps_by_bufnr = {}
-local redraw_by_win_id = {}
+function M.new_view_only_win(name)
+    local namespace = vim.api.nvim_create_namespace(("lsp_installer_%s"):format(name))
+    local bufnr, renderer, mutate_state, get_state, unsubscribe, win_id, window_mgmt_augroup, autoclose_augroup, registered_keymaps, registered_keybinds, registered_effect_handlers
+    local has_initiated = false
 
----@param bufnr number
----@param line number
----@param key string
-local function call_effect_handler(bufnr, line, key)
-    local line_keybinds = active_keybinds_by_bufnr[bufnr][line]
-    if line_keybinds then
-        local keybind = line_keybinds[key]
-        if keybind then
-            local effect_handler = registered_effect_handlers_by_bufnr[bufnr][keybind.effect]
-            if effect_handler then
-                log.fmt_trace("Calling handler for effect %s on line %d for key %s", keybind.effect, line, key)
-                effect_handler { payload = keybind.payload }
-                return true
+    local function delete_win_buf()
+        -- We queue the win_buf to be deleted in a schedule call, otherwise when used with folke/which-key (and
+        -- set timeoutlen=0) we run into a weird segfault.
+        -- It should probably be unnecessary once https://github.com/neovim/neovim/issues/15548 is resolved
+        vim.schedule(function()
+            if win_id and vim.api.nvim_win_is_valid(win_id) then
+                log.trace "Deleting window"
+                vim.api.nvim_win_close(win_id, true)
+            end
+            if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
+                log.trace "Deleting buffer"
+                vim.api.nvim_buf_delete(bufnr, { force = true })
+            end
+        end)
+    end
+
+    ---@param line number
+    ---@param key string
+    local function call_effect_handler(line, key)
+        local line_keybinds = registered_keybinds[line]
+        if line_keybinds then
+            local keybind = line_keybinds[key]
+            if keybind then
+                local effect_handler = registered_effect_handlers[keybind.effect]
+                if effect_handler then
+                    log.fmt_trace("Calling handler for effect %s on line %d for key %s", keybind.effect, line, key)
+                    effect_handler { payload = keybind.payload }
+                    return true
+                end
+            end
+        end
+        return false
+    end
+
+    local function dispatch_effect(key)
+        local line = vim.api.nvim_win_get_cursor(0)[1]
+        log.fmt_trace("Dispatching effect on line %d, key %s, bufnr %s", line, key, bufnr)
+        call_effect_handler(line, key) -- line keybinds
+        call_effect_handler(-1, key) -- global keybinds
+    end
+
+    local draw = function(view)
+        local win_valid = win_id ~= nil and vim.api.nvim_win_is_valid(win_id)
+        local buf_valid = bufnr ~= nil and vim.api.nvim_buf_is_valid(bufnr)
+        log.fmt_trace("got bufnr=%s", bufnr)
+        log.fmt_trace("got win_id=%s", win_id)
+
+        if not win_valid or not buf_valid then
+            -- the window has been closed or the buffer is somehow no longer valid
+            unsubscribe(true)
+            log.trace("Buffer or window is no longer valid", win_id, bufnr)
+            return
+        end
+
+        local win_width = vim.api.nvim_win_get_width(win_id)
+        ---@class ViewportContext
+        local viewport_context = {
+            win_width = win_width,
+        }
+        local output = render_node(viewport_context, view)
+        local lines, virt_texts, highlights, keybinds, diagnostics =
+            output.lines, output.virt_texts, output.highlights, output.keybinds, output.diagnostics
+
+        -- set line contents
+        vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
+        vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
+        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+        vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
+
+        -- set virtual texts
+        for i = 1, #virt_texts do
+            local virt_text = virt_texts[i]
+            vim.api.nvim_buf_set_extmark(bufnr, namespace, virt_text.line, 0, {
+                virt_text = virt_text.content,
+            })
+        end
+
+        -- set diagnostics
+        vim.diagnostic.set(
+            namespace,
+            bufnr,
+            vim.tbl_map(function(diagnostic)
+                return {
+                    lnum = diagnostic.line - 1,
+                    col = 0,
+                    message = diagnostic.message,
+                    severity = diagnostic.severity,
+                    source = diagnostic.source,
+                }
+            end, diagnostics),
+            {
+                signs = false,
+            }
+        )
+
+        -- set highlights
+        for i = 1, #highlights do
+            local highlight = highlights[i]
+            vim.api.nvim_buf_add_highlight(
+                bufnr,
+                namespace,
+                highlight.hl_group,
+                highlight.line,
+                highlight.col_start,
+                highlight.col_end
+            )
+        end
+
+        -- set keybinds
+        registered_keybinds = {}
+        for i = 1, #keybinds do
+            local keybind = keybinds[i]
+            if not registered_keybinds[keybind.line] then
+                registered_keybinds[keybind.line] = {}
+            end
+            registered_keybinds[keybind.line][keybind.key] = keybind
+            if not registered_keymaps[keybind.key] then
+                registered_keymaps[keybind.key] = true
+                vim.keymap.set("n", keybind.key, function()
+                    dispatch_effect(keybind.key)
+                end, {
+                    buffer = bufnr,
+                    nowait = true,
+                    silent = true,
+                })
             end
         end
     end
-    return false
-end
-
-M.dispatch_effect = function(bufnr, hex_key)
-    local key = from_hex(hex_key)
-    local line = vim.api.nvim_win_get_cursor(0)[1]
-    log.fmt_trace("Dispatching effect on line %d, key %s, bufnr %s", line, key, bufnr)
-    call_effect_handler(bufnr, line, key) -- line keybinds
-    call_effect_handler(bufnr, -1, key) -- global keybinds
-end
-
-function M.redraw_win(win_id)
-    local fn = redraw_by_win_id[win_id]
-    if fn then
-        fn()
-    end
-end
-
-function M.delete_win_buf(win_id, bufnr)
-    -- We queue the win_buf to be deleted in a schedule call, otherwise when used with folke/which-key (and
-    -- set timeoutlen=0) we run into a weird segfault.
-    -- It should probably be unnecessary once https://github.com/neovim/neovim/issues/15548 is resolved
-    vim.schedule(function()
-        if win_id and vim.api.nvim_win_is_valid(win_id) then
-            log.trace "Deleting window"
-            vim.api.nvim_win_close(win_id, true)
-        end
-        if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-            log.trace "Deleting buffer"
-            vim.api.nvim_buf_delete(bufnr, { force = true })
-        end
-        if redraw_by_win_id[win_id] then
-            redraw_by_win_id[win_id] = nil
-        end
-        if active_keybinds_by_bufnr[bufnr] then
-            active_keybinds_by_bufnr[bufnr] = nil
-        end
-        if registered_effect_handlers_by_bufnr[bufnr] then
-            registered_effect_handlers_by_bufnr[bufnr] = nil
-        end
-        if registered_keymaps_by_bufnr[bufnr] then
-            registered_keymaps_by_bufnr[bufnr] = nil
-        end
-    end)
-end
-
-function M.new_view_only_win(name)
-    local namespace = vim.api.nvim_create_namespace(("lsp_installer_%s"):format(name))
-    local bufnr, renderer, mutate_state, get_state, unsubscribe, win_id
-    local has_initiated = false
 
     ---@param opts DisplayOpenOpts
     local function open(opts)
@@ -241,9 +305,9 @@ function M.new_view_only_win(name)
         bufnr = vim.api.nvim_create_buf(false, true)
         win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(false))
 
-        registered_effect_handlers_by_bufnr[bufnr] = {}
-        active_keybinds_by_bufnr[bufnr] = {}
-        registered_keymaps_by_bufnr[bufnr] = {}
+        registered_effect_handlers = opts.effects
+        registered_keybinds = {}
+        registered_keymaps = {}
 
         local buf_opts = {
             modifiable = false,
@@ -278,103 +342,42 @@ function M.new_view_only_win(name)
 
         vim.cmd [[ syntax clear ]]
 
-        local resize_autocmd = (
-            "autocmd VimResized <buffer> lua require('nvim-lsp-installer.core.ui.display').redraw_win(%d)"
-        ):format(win_id)
-        local autoclose_autocmd = (
-            "autocmd WinLeave,BufHidden,BufLeave <buffer> ++once lua require('nvim-lsp-installer.core.ui.display').delete_win_buf(%d, %d)"
-        ):format(win_id, bufnr)
+        window_mgmt_augroup = vim.api.nvim_create_augroup("LspInstallerWindowMgmt", {})
+        autoclose_augroup = vim.api.nvim_create_augroup("LspInstallerWindow", {})
 
-        vim.cmd(([[
-            augroup LspInstallerWindow
-                autocmd!
-                %s
-                %s
-            augroup END
-        ]]):format(resize_autocmd, autoclose_autocmd))
+        vim.api.nvim_create_autocmd({ "VimResized" }, {
+            group = window_mgmt_augroup,
+            buffer = bufnr,
+            callback = function()
+                if vim.api.nvim_win_is_valid(win_id) then
+                    draw(renderer(get_state()))
+                    vim.api.nvim_win_set_config(win_id, create_popup_window_opts(true))
+                end
+            end,
+        })
+
+        local win_enter_aucmd
+        win_enter_aucmd = vim.api.nvim_create_autocmd({ "WinEnter" }, {
+            group = autoclose_augroup,
+            pattern = "*",
+            callback = function()
+                -- Only autoclose the popup window if the user enters a "normal" buffer.
+                -- This allows us to keep the popup window open for things like diagnostic popups, UI inputs á la dressing.nvim, etc.
+                if vim.api.nvim_buf_get_option(0, "buftype") == "" then
+                    delete_win_buf()
+                    vim.api.nvim_del_autocmd(win_enter_aucmd)
+                end
+            end,
+        })
 
         if highlight_groups then
             for i = 1, #highlight_groups do
+                -- TODO use vim.api.nvim_set_hl()
                 vim.cmd(highlight_groups[i])
             end
         end
 
         return win_id
-    end
-
-    local draw = function(view)
-        local win_valid = win_id ~= nil and vim.api.nvim_win_is_valid(win_id)
-        local buf_valid = bufnr ~= nil and vim.api.nvim_buf_is_valid(bufnr)
-        log.fmt_trace("got bufnr=%s", bufnr)
-        log.fmt_trace("got win_id=%s", win_id)
-
-        if not win_valid or not buf_valid then
-            -- the window has been closed or the buffer is somehow no longer valid
-            unsubscribe(true)
-            log.trace("Buffer or window is no longer valid", win_id, bufnr)
-            return
-        end
-
-        local win_width = vim.api.nvim_win_get_width(win_id)
-        ---@class ViewportContext
-        local viewport_context = {
-            win_width = win_width,
-        }
-        local output = render_node(viewport_context, view)
-        local lines, virt_texts, highlights, keybinds =
-            output.lines, output.virt_texts, output.highlights, output.keybinds
-
-        -- set line contents
-        vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
-        vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
-        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-        vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
-
-        for i = 1, #virt_texts do
-            local virt_text = virt_texts[i]
-            vim.api.nvim_buf_set_extmark(bufnr, namespace, virt_text.line, 0, {
-                virt_text = virt_text.content,
-            })
-        end
-
-        -- set highlights
-        for i = 1, #highlights do
-            local highlight = highlights[i]
-            vim.api.nvim_buf_add_highlight(
-                bufnr,
-                namespace,
-                highlight.hl_group,
-                highlight.line,
-                highlight.col_start,
-                highlight.col_end
-            )
-        end
-
-        -- set keybinds
-        local buf_keybinds = {}
-        active_keybinds_by_bufnr[bufnr] = buf_keybinds
-        for i = 1, #keybinds do
-            local keybind = keybinds[i]
-            if not buf_keybinds[keybind.line] then
-                buf_keybinds[keybind.line] = {}
-            end
-            buf_keybinds[keybind.line][keybind.key] = keybind
-            if not registered_keymaps_by_bufnr[bufnr][keybind.key] then
-                vim.api.nvim_buf_set_keymap(
-                    bufnr,
-                    "n",
-                    keybind.key,
-                    ("<cmd>lua require('nvim-lsp-installer.core.ui.display').dispatch_effect(%d, %q)<cr>"):format(
-                        bufnr,
-                        -- We transfer the keybinding as hex to avoid issues with (neo)vim interpreting the key as a
-                        -- literal input to the command. For example, "<CR>" would cause vim to issue an actual carriage
-                        -- return - even if it's quoted as a string.
-                        to_hex(keybind.key)
-                    ),
-                    { nowait = true, silent = true, noremap = true }
-                )
-            end
-        end
     end
 
     return {
@@ -411,22 +414,17 @@ function M.new_view_only_win(name)
                 return
             end
             unsubscribe(false)
-            local opened_win_id = open(opts)
+            open(opts)
             draw(renderer(get_state()))
-            registered_effect_handlers_by_bufnr[bufnr] = opts.effects
-            redraw_by_win_id[opened_win_id] = function()
-                if vim.api.nvim_win_is_valid(opened_win_id) then
-                    draw(renderer(get_state()))
-                    vim.api.nvim_win_set_config(opened_win_id, create_popup_window_opts(true))
-                end
-            end
         end),
         ---@type fun()
         close = vim.schedule_wrap(function()
             assert(has_initiated, "Display has not been initiated, cannot close.")
             unsubscribe(true)
             log.fmt_trace("Closing window win_id=%s, bufnr=%s", win_id, bufnr)
-            M.delete_win_buf(win_id, bufnr)
+            delete_win_buf()
+            vim.api.nvim_del_augroup_by_id(window_mgmt_augroup)
+            vim.api.nvim_del_augroup_by_id(autoclose_augroup)
         end),
         ---@param pos number[] @(row, col) tuple
         set_cursor = function(pos)
