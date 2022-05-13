@@ -3,7 +3,16 @@ local log = require "nvim-lsp-installer.log"
 local fetch = require "nvim-lsp-installer.core.fetch"
 local spawn = require "nvim-lsp-installer.core.spawn"
 
-local list_find_first = functional.list_find_first
+local list_find_first, all_pass, always, prop, negate, compose, if_else, matches, T =
+    functional.list_find_first,
+    functional.all_pass,
+    functional.always,
+    functional.prop,
+    functional.negate,
+    functional.compose,
+    functional.if_else,
+    functional.matches,
+    functional.T
 
 local M = {}
 
@@ -45,7 +54,20 @@ function M.fetch_release(repo, tag_name)
     end)
 end
 
----@alias FetchLatestGithubReleaseOpts {tag_name_pattern:string|nil, include_prelease: boolean}
+---@param opts {include_prerelease: boolean, tag_name_pattern: string}
+function M.release_predicate(opts)
+    local is_not_draft = negate(prop "draft")
+    local is_not_prerelease = negate(prop "prerelease")
+    local tag_name_matches = compose(matches(opts.tag_name_pattern), prop "tag_name")
+
+    return all_pass {
+        if_else(always(opts.include_prerelease), T, is_not_prerelease),
+        if_else(always(opts.tag_name_pattern), tag_name_matches, T),
+        is_not_draft,
+    }
+end
+
+---@alias FetchLatestGithubReleaseOpts {tag_name_pattern:string|nil, include_prerelease: boolean}
 
 ---@async
 ---@param repo string @The GitHub repo ("username/repo").
@@ -54,23 +76,14 @@ end
 function M.fetch_latest_release(repo, opts)
     opts = opts or {
         tag_name_pattern = nil,
-        include_prelease = false,
+        include_prerelease = false,
     }
     return M.fetch_releases(repo):map_catching(
         ---@param releases GitHubRelease[]
         function(releases)
+            local is_stable_release = M.release_predicate(opts)
             ---@type GitHubRelease|nil
-            local latest_release = list_find_first(
-                ---@param release GitHubRelease
-                function(release)
-                    local is_stable_release = not release.prerelease and not release.draft
-                    if opts.tag_name_pattern then
-                        return is_stable_release and release.tag_name:match(opts.tag_name_pattern)
-                    end
-                    return is_stable_release
-                end,
-                releases
-            )
+            local latest_release = list_find_first(is_stable_release, releases)
 
             if not latest_release then
                 log.fmt_info("Failed to find latest release. repo=%s, opts=%s", repo, opts)

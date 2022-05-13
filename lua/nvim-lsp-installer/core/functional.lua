@@ -191,10 +191,69 @@ function functional.filter(filter_fn)
     return functional.partial(vim.tbl_filter, filter_fn)
 end
 
+---@generic T
+---@param fn fun(item: T, index: integer)
+---@param list T[]
 function functional.each(fn, list)
     for k, v in pairs(list) do
         fn(v, k)
     end
 end
+
+---@generic T
+---@param predicates (fun(item: T): boolean)[]
+---@return fun(item: T): boolean
+function functional.all_pass(predicates)
+    return function(item)
+        for i = 1, #predicates do
+            if not predicates[i](item) then
+                return false
+            end
+        end
+        return true
+    end
+end
+
+---@generic T
+---@param predicate fun(item: T): boolean
+---@return fun(item: T): boolean
+function functional.negate(predicate)
+    return function(...)
+        return not predicate(...)
+    end
+end
+
+---@param index any
+---@return fun(obj: table): any
+function functional.prop(index)
+    return function(obj)
+        return obj[index]
+    end
+end
+
+---@param condition fun(...): boolean
+---@param a fun(...): any
+---@param b fun(...): any
+---@return fun(...): any
+function functional.if_else(condition, a, b)
+    return function(...)
+        if condition(...) then
+            return a(...)
+        else
+            return b(...)
+        end
+    end
+end
+
+---@param pattern string
+function functional.matches(pattern)
+    ---@param str string
+    return function(str)
+        return str:match(pattern) ~= nil
+    end
+end
+
+functional.T = functional.always(true)
+functional.F = functional.always(false)
 
 return functional

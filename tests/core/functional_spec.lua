@@ -202,4 +202,46 @@ describe("functional", function()
         assert.spy(iterate_fn).was_called_with("YELLOW", 2)
         assert.spy(iterate_fn).was_called_with("RED", 3)
     end)
+
+    it("should negate predicates", function()
+        local predicate = spy.new(function(item)
+            return item == "Waldo"
+        end)
+        local negated_predicate = functional.negate(predicate)
+        assert.is_false(negated_predicate "Waldo")
+        assert.is_true(negated_predicate "Where")
+        assert.spy(predicate).was_called(2)
+    end)
+
+    it("should check that all_pass checks that all predicates pass", function()
+        local t = functional.always(true)
+        local f = functional.always(false)
+        local is_waldo = function(i)
+            return i == "waldo"
+        end
+        assert.is_true(functional.all_pass { t, t, is_waldo, t } "waldo")
+        assert.is_false(functional.all_pass { t, t, is_waldo, f } "waldo")
+        assert.is_false(functional.all_pass { t, t, is_waldo, t } "waldina")
+    end)
+
+    it("should index object by prop", function()
+        local waldo = functional.prop "where is he"
+        assert.equals("nowhere to be found", waldo { ["where is he"] = "nowhere to be found" })
+    end)
+
+    it("should branch if_else", function()
+        local a = spy.new()
+        local b = spy.new()
+        functional.if_else(functional.T, a, b)("a", 1)
+        functional.if_else(functional.F, a, b)("b", 2)
+        assert.spy(a).was_called(1)
+        assert.spy(a).was_called_with("a", 1)
+        assert.spy(b).was_called(1)
+        assert.spy(b).was_called_with("b", 2)
+    end)
+
+    it("should check if string matches", function()
+        assert.is_false(functional.matches "a" "b")
+        assert.is_true(functional.matches "a" "a")
+    end)
 end)

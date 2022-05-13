@@ -20,7 +20,7 @@ return function(name, root_dir)
 
             ---@type GitHubRelease
             local latest_dev_build =
-                github_client.fetch_latest_release(repo, { include_prelease = true }):get_or_throw()
+                github_client.fetch_latest_release(repo, { include_prerelease = true }):get_or_throw()
 
             local source = github.release_file {
                 version = Optional.of(latest_dev_build.tag_name),
