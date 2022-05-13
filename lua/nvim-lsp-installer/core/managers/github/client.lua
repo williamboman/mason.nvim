@@ -105,4 +105,13 @@ function M.fetch_latest_tag(repo)
     end)
 end
 
+---@alias GitHubRateLimit {limit: integer, remaining: integer, reset: integer, used: integer}
+---@alias GitHubRateLimitResponse {resources: { core: GitHubRateLimit }}
+
+---@async
+--@return Result @of GitHubRateLimitResponse
+function M.fetch_rate_limit()
+    return api_call "rate_limit"
+end
+
 return M

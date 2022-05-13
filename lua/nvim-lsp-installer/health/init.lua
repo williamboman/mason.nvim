@@ -1,6 +1,8 @@
 local health = require "health"
 local process = require "nvim-lsp-installer.core.process"
+local a = require "nvim-lsp-installer.core.async"
 local platform = require "nvim-lsp-installer.core.platform"
+local github_client = require "nvim-lsp-installer.core.managers.github.client"
 local functional = require "nvim-lsp-installer.core.functional"
 
 local when = functional.when
@@ -226,6 +228,36 @@ function M.check()
     vim.wait(5000, function()
         return completed >= #checks
     end, 50)
+
+    a.run_blocking(function()
+        github_client.fetch_rate_limit()
+            :map(
+                ---@param rate_limit GitHubRateLimitResponse
+                function(rate_limit)
+                    if vim.in_fast_event() then
+                        a.scheduler()
+                    end
+                    local remaining = rate_limit.resources.core.remaining
+                    local used = rate_limit.resources.core.used
+                    local limit = rate_limit.resources.core.limit
+                    local reset = rate_limit.resources.core.reset
+                    local diagnostics = ("Used: %d. Remaining: %d. Limit: %d. Reset: %s."):format(
+                        used,
+                        remaining,
+                        limit,
+                        vim.fn.strftime("%c", reset)
+                    )
+                    if remaining <= 0 then
+                        health.report_error(("GitHub API rate limit exceeded. %s"):format(diagnostics))
+                    else
+                        health.report_ok(("GitHub API rate limit. %s"):format(diagnostics))
+                    end
+                end
+            )
+            :on_failure(function()
+                health.report_warn "Failed to check GitHub API rate limit status."
+            end)
+    end)
 end
 
 return M
