@@ -128,18 +128,13 @@ gopls: go1.18
                 "list",
                 "-json",
                 "-m",
-                "-versions",
-                "golang.org/x/tools/gopls",
+                "golang.org/x/tools/gopls@latest",
                 cwd = "/tmp/install/dir",
             }).returns(Result.success {
                 stdout = [[
             {
                 "Path": "/tmp/install/dir",
-                "Versions": [
-                    "v1.0.0",
-                    "v1.0.1",
-                    "v2.0.0"
-                ]
+                "Version": "v2.0.0"
             }
             ]],
             })

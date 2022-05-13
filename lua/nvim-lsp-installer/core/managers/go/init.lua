@@ -100,13 +100,12 @@ function M.check_outdated_primary_package(receipt, install_dir)
         "list",
         "-json",
         "-m",
-        "-versions",
-        receipt.primary_source.package,
+        ("%s@latest"):format(receipt.primary_source.package),
         cwd = install_dir,
     }):map_catching(function(result)
-        ---@type {Path: string, Versions: string[]}
+        ---@type {Path: string, Version: string}
         local output = vim.json.decode(result.stdout)
-        return Optional.of_nilable(output.Versions[#output.Versions])
+        return Optional.of_nilable(output.Version)
             :map(function(latest_version)
                 local installed_version = M.get_installed_primary_package_version(receipt, install_dir):get_or_throw()
                 if installed_version ~= latest_version then
