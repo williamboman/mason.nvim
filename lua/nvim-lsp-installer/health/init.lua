@@ -255,6 +255,9 @@ function M.check()
                 end
             )
             :on_failure(function()
+                if vim.in_fast_event() then
+                    a.scheduler()
+                end
                 health.report_warn "Failed to check GitHub API rate limit status."
             end)
     end)
