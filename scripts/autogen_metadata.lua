@@ -1,9 +1,9 @@
-local uv = vim.loop
 local a = require "nvim-lsp-installer.core.async"
 local Path = require "nvim-lsp-installer.core.path"
 local fetch = require "nvim-lsp-installer.core.fetch"
 local functional = require "nvim-lsp-installer.core.functional"
 local servers = require "nvim-lsp-installer.servers"
+local fs = require "nvim-lsp-installer.core.fs"
 
 local coalesce = functional.coalesce
 
@@ -26,28 +26,20 @@ for _, file in ipairs(vim.fn.glob(Path.concat { schemas_dir, "*" }, 1, 1)) do
     vim.fn.delete(file)
 end
 
+---@async
 ---@param path string
----@param txt string
----@param flag string|number
-local function write_file(path, txt, flag)
-    uv.fs_open(path, flag, 438, function(open_err, fd)
-        assert(not open_err, open_err)
-        uv.fs_write(
-            fd,
-            table.concat({
-                "-- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.",
-                "-- stylua: ignore start",
-                txt,
-            }, "\n"),
-            -1,
-            function(write_err)
-                assert(not write_err, write_err)
-                uv.fs_close(fd, function(close_err)
-                    assert(not close_err, close_err)
-                end)
-            end
-        )
-    end)
+---@param contents string
+---@param flags string
+local function write_file(path, contents, flags)
+    fs.async.write_file(
+        path,
+        table.concat({
+            "-- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.",
+            "-- stylua: ignore start",
+            contents,
+        }, "\n"),
+        flags
+    )
 end
 
 local function get_lspconfig(name)
