@@ -163,7 +163,7 @@ describe("async spawn", function()
     )
 
     it(
-        "should skip checking executable",
+        "should check whether command is executable",
         async_test(function()
             local result = spawn.my_cmd {}
             assert.is_true(result:is_failure())
@@ -171,6 +171,19 @@ describe("async spawn", function()
                 "spawn: my_cmd failed with no exit code. my_cmd is not executable",
                 tostring(result:err_or_nil())
             )
+        end)
+    )
+
+    it(
+        "should skip checking whether command is executable",
+        async_test(function()
+            stub(process, "spawn", function(_, _, callback)
+                callback(false, 127)
+            end)
+
+            local result = spawn.my_cmd { check_executable = false }
+            assert.is_true(result:is_failure())
+            assert.spy(process.spawn).was_called(1)
         end)
     )
 end)
