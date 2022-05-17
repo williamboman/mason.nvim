@@ -2,8 +2,9 @@ local a = require "nvim-lsp-installer.core.async"
 local Result = require "nvim-lsp-installer.core.result"
 local process = require "nvim-lsp-installer.core.process"
 local platform = require "nvim-lsp-installer.core.platform"
+local functional = require "nvim-lsp-installer.core.functional"
 
----@alias JobSpawn Record<string, async fun(opts: JobSpawnOpts): Result>
+---@alias JobSpawn table<string, async fun(opts: JobSpawnOpts): Result>
 ---@type JobSpawn
 local spawn = {
     _aliases = {
@@ -37,14 +38,30 @@ local function parse_args(args, dest)
     return dest
 end
 
+local is_executable = functional.memoize(function(cmd)
+    if vim.in_fast_event() then
+        a.scheduler()
+    end
+    return vim.fn.executable(cmd) == 1
+end, functional.identity)
+
+---@class SpawnArgs
+---@field with_paths string[] @Optional. Paths to add to the PATH environment variable.
+---@field env table<string, string> @Optional. Example { SOME_ENV = "value", SOME_OTHER_ENV = "some_value" }
+---@field env_raw string[] @Optional. Example: { "SOME_ENV=value", "SOME_OTHER_ENV=some_value" }
+---@field stdio_sink StdioSink @Optional. If provided, will be used to write to stdout and stderr.
+---@field cwd string @Optional
+---@field on_spawn fun(handle: luv_handle, stdio: luv_pipe[]) @Optional. Will be called when the process successfully spawns.
+---@field check_executable boolean @Optional. Whether to check if the provided command is executable (defaults to true).
+
 setmetatable(spawn, {
-    __index = function(self, k)
-        ---@param args string|nil|string[][]
+    ---@param normalized_cmd string
+    __index = function(self, normalized_cmd)
+        ---@param args SpawnArgs
         return function(args)
             local cmd_args = {}
             parse_args(args, cmd_args)
 
-            ---@type table<string, string>
             local env = args.env
 
             if args.with_paths then
@@ -66,7 +83,14 @@ setmetatable(spawn, {
                 spawn_args.stdio_sink = stdio.sink
             end
 
-            local cmd = self._aliases[k] or k
+            local cmd = self._aliases[normalized_cmd] or normalized_cmd
+
+            if args.check_executable ~= false and not is_executable(cmd) then
+                return Failure({
+                    stderr = ("%s is not executable"):format(cmd),
+                }, cmd)
+            end
+
             local _, exit_code = a.wait(function(resolve)
                 local handle, stdio = process.spawn(cmd, spawn_args, resolve)
                 if args.on_spawn and handle and stdio then

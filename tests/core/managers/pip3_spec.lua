@@ -53,6 +53,7 @@ describe("pip3 manager", function()
                     "supporting-package2",
                 },
                 env = match.is_table(),
+                check_executable = false,
             })
         end)
     )
@@ -113,6 +114,7 @@ describe("pip3 manager", function()
                 match.tbl_containing { "--proxy", "http://localhost:8080" },
                 match.tbl_containing { "package" },
                 env = match.is_table(),
+                check_executable = false,
             })
         end)
     )
@@ -170,6 +172,7 @@ describe("pip3 version check", function()
                 "--format=json",
                 cwd = "/tmp/install/dir",
                 env = match.table(),
+                check_executable = false,
             })
             assert.is_true(result:is_success())
             assert.equals("1.3.0", result:get_or_nil())
@@ -208,6 +211,7 @@ describe("pip3 version check", function()
                 "--format=json",
                 cwd = "/tmp/install/dir",
                 env = match.table(),
+                check_executable = false,
             })
             assert.is_true(result:is_success())
             assert.same({

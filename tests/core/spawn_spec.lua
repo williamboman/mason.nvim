@@ -153,10 +153,22 @@ describe("async spawn", function()
                 callback(false, 127)
             end)
 
+            local result = spawn.bash {}
+            assert.is_true(result:is_failure())
+            assert.equals(
+                "spawn: bash failed with exit code 127. This is an error message for bash!",
+                tostring(result:err_or_nil())
+            )
+        end)
+    )
+
+    it(
+        "should skip checking executable",
+        async_test(function()
             local result = spawn.my_cmd {}
             assert.is_true(result:is_failure())
             assert.equals(
-                "spawn: my_cmd failed with exit code 127. This is an error message for my_cmd!",
+                "spawn: my_cmd failed with no exit code. my_cmd is not executable",
                 tostring(result:err_or_nil())
             )
         end)
