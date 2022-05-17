@@ -8,11 +8,13 @@ local Result = require "nvim-lsp-installer.core.result"
 
 local coalesce, when = functional.coalesce, functional.when
 
-local generate_cmd = function(root_dir)
-    if vim.fn.executable "mono" then
+---@param install_dir string
+---@param use_mono boolean
+local generate_cmd = function(install_dir, use_mono)
+    if use_mono then
         return {
             "mono",
-            path.concat { root_dir, "omnisharp-mono", "OmniSharp.exe" },
+            path.concat { install_dir, "omnisharp-mono", "OmniSharp.exe" },
             "--languageserver",
             "--hostPID",
             tostring(vim.fn.getpid()),
@@ -20,7 +22,7 @@ local generate_cmd = function(root_dir)
     else
         return {
             "dotnet",
-            path.concat { root_dir, "omnisharp", "OmniSharp.dll" },
+            path.concat { install_dir, "omnisharp", "OmniSharp.dll" },
             "--languageserver",
             "--hostPID",
             tostring(vim.fn.getpid()),
@@ -66,7 +68,9 @@ return function(name, root_dir)
             end)
         end,
         default_options = {
-            cmd = generate_cmd(root_dir),
+            on_new_config = function(config)
+                config.cmd = generate_cmd(root_dir, config.use_mono)
+            end,
         },
     }
 end

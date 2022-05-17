@@ -191,7 +191,7 @@ require("nvim-lsp-installer").setup({
 | C                                   | `ccls`                     |
 | C                                   | `clangd`                   |
 | C#                                  | `csharp_ls`                |
-| C#                                  | `omnisharp`                |
+| C# [(docs)][omnisharp]              | `omnisharp`                |
 | C++                                 | `ccls`                     |
 | C++                                 | `clangd`                   |
 | CMake                               | `cmake`                    |
@@ -302,8 +302,9 @@ require("nvim-lsp-installer").setup({
 
 [arduino]: ./lua/nvim-lsp-installer/servers/arduino_language_server/README.md
 [eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
-[tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
+[omnisharp]: ./lua/nvim-lsp-installer/servers/omnisharp/README.md
 [pylsp]: ./lua/nvim-lsp-installer/servers/pylsp/README.md
+[tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
 
 ## Custom servers
 
