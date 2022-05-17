@@ -2,12 +2,10 @@ local server = require "nvim-lsp-installer.server"
 local path = require "nvim-lsp-installer.core.path"
 local process = require "nvim-lsp-installer.core.process"
 local platform = require "nvim-lsp-installer.core.platform"
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local std = require "nvim-lsp-installer.core.managers.std"
 local github_client = require "nvim-lsp-installer.core.managers.github.client"
 local Optional = require "nvim-lsp-installer.core.optional"
-
-local coalesce, when, list_find_first = functional.coalesce, functional.when, functional.list_find_first
 
 return function(name, root_dir)
     return server.Server:new {
@@ -29,17 +27,14 @@ return function(name, root_dir)
                 :get_or_throw()
 
             local asset_name_pattern = assert(
-                coalesce(
-                    when(platform.is_mac, "dhall%-lsp%-server%-.+%-x86_64%-macos.tar.bz2"),
-                    when(platform.is_linux, "dhall%-lsp%-server%-.+%-x86_64%-linux.tar.bz2"),
-                    when(platform.is_win, "dhall%-lsp%-server%-.+%-x86_64%-windows.zip")
+                _.coalesce(
+                    _.when(platform.is.mac, "dhall%-lsp%-server%-.+%-x86_64%-macos.tar.bz2"),
+                    _.when(platform.is.linux_x64, "dhall%-lsp%-server%-.+%-x86_64%-linux.tar.bz2"),
+                    _.when(platform.is.win_x64, "dhall%-lsp%-server%-.+%-x86_64%-windows.zip")
                 )
             )
-            local dhall_lsp_server_asset = list_find_first(
-                ---@param asset GitHubReleaseAsset
-                function(asset)
-                    return asset.name:match(asset_name_pattern)
-                end,
+            local dhall_lsp_server_asset = _.find_first(
+                _.prop_satisfies(_.matches(asset_name_pattern), "name"),
                 gh_release.assets
             )
             Optional.of_nilable(dhall_lsp_server_asset)

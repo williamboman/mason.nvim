@@ -1,4 +1,4 @@
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local settings = require "nvim-lsp-installer.settings"
 local process = require "nvim-lsp-installer.core.process"
 local path = require "nvim-lsp-installer.core.path"
@@ -8,8 +8,6 @@ local installer = require "nvim-lsp-installer.core.installer"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 
-local list_find_first, list_copy, list_not_nil =
-    functional.list_find_first, functional.list_copy, functional.list_not_nil
 local VENV_DIR = "venv"
 
 local M = {}
@@ -37,20 +35,20 @@ end
 ---@param packages string[] @The pip packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.install(packages)
     local ctx = installer.context()
-    local pkgs = list_copy(packages)
+    local pkgs = _.list_copy(packages)
 
     ctx.requested_version:if_present(function(version)
         pkgs[1] = ("%s==%s"):format(pkgs[1], version)
     end)
 
-    local executables = platform.is_win and list_not_nil(vim.g.python3_host_prog, "python", "python3")
-        or list_not_nil(vim.g.python3_host_prog, "python3", "python")
+    local executables = platform.is_win and _.list_not_nil(vim.g.python3_host_prog, "python", "python3")
+        or _.list_not_nil(vim.g.python3_host_prog, "python3", "python")
 
     -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
     ctx:promote_cwd()
 
     -- Find first executable that manages to create venv
-    local executable = list_find_first(function(executable)
+    local executable = _.find_first(function(executable)
         return pcall(ctx.spawn[executable], { "-m", "venv", VENV_DIR })
     end, executables)
 
@@ -102,7 +100,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
         ---@type PipOutdatedPackage[]
         local packages = vim.json.decode(result.stdout)
 
-        local outdated_primary_package = list_find_first(function(outdated_package)
+        local outdated_primary_package = _.find_first(function(outdated_package)
             return outdated_package.name == normalized_package
                 and outdated_package.version ~= outdated_package.latest_version
         end, packages)
@@ -136,7 +134,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     }):map_catching(function(result)
         local pip_packages = vim.json.decode(result.stdout)
         local normalized_pip_package = M.normalize_package(receipt.primary_source.package)
-        local pip_package = list_find_first(function(package)
+        local pip_package = _.find_first(function(package)
             return package.name == normalized_pip_package
         end, pip_packages)
         return Optional.of_nilable(pip_package)

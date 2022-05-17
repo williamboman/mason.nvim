@@ -1,4 +1,4 @@
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local M = {}
 
 ---@alias NodeType
@@ -35,11 +35,13 @@ function M.HlTextNode(lines_with_span_tuples)
     return node
 end
 
+local create_unhighlighted_lines = _.map(function(line)
+    return { { line, "" } }
+end)
+
 ---@param lines string[]
 function M.Text(lines)
-    return M.HlTextNode(functional.list_map(function(line)
-        return { { line, "" } }
-    end, lines))
+    return M.HlTextNode(create_unhighlighted_lines(lines))
 end
 
 ---@alias CascadingStyle

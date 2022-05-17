@@ -1,4 +1,4 @@
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local path = require "nvim-lsp-installer.core.path"
 local fs = require "nvim-lsp-installer.core.fs"
 local settings = require "nvim-lsp-installer.settings"
@@ -31,7 +31,7 @@ local INSTALL_DIRS = {
     ["yamlls"] = "yaml",
 }
 
-local CORE_SERVERS = functional.set_of {
+local CORE_SERVERS = _.set_of {
     "angularls",
     "ansiblels",
     "arduino_language_server",
@@ -175,7 +175,7 @@ local function scan_server_roots()
             result[#result + 1] = entry.name
         end
     end
-    cached_server_roots = functional.set_of(result)
+    cached_server_roots = _.set_of(result)
     vim.schedule(function()
         cached_server_roots = nil
     end)
@@ -239,17 +239,14 @@ function M.get_server(server_name)
         ):format(server_name, "https://github.com/williamboman/nvim-lsp-installer", server_factory)
 end
 
----@param server_names string[]
----@return Server[]
-local function resolve_servers(server_names)
-    return functional.list_map(function(server_name)
-        local ok, server = M.get_server(server_name)
-        if not ok then
-            error(server)
-        end
-        return server
-    end, server_names)
-end
+---@type fun(server_names: string): Server[]
+local resolve_servers = _.map(function(server_name)
+    local ok, server = M.get_server(server_name)
+    if not ok then
+        error(server)
+    end
+    return server
+end)
 
 ---@return string[]
 function M.get_available_server_names()

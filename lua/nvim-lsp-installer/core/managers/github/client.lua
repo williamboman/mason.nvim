@@ -1,18 +1,7 @@
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local log = require "nvim-lsp-installer.log"
 local fetch = require "nvim-lsp-installer.core.fetch"
 local spawn = require "nvim-lsp-installer.core.spawn"
-
-local list_find_first, all_pass, always, prop, negate, compose, if_else, matches, T =
-    functional.list_find_first,
-    functional.all_pass,
-    functional.always,
-    functional.prop,
-    functional.negate,
-    functional.compose,
-    functional.if_else,
-    functional.matches,
-    functional.T
 
 local M = {}
 
@@ -56,13 +45,13 @@ end
 
 ---@param opts {include_prerelease: boolean, tag_name_pattern: string}
 function M.release_predicate(opts)
-    local is_not_draft = negate(prop "draft")
-    local is_not_prerelease = negate(prop "prerelease")
-    local tag_name_matches = compose(matches(opts.tag_name_pattern), prop "tag_name")
+    local is_not_draft = _.prop_eq("draft", false)
+    local is_not_prerelease = _.prop_eq("prerelease", false)
+    local tag_name_matches = _.prop_satisfies(_.matches(opts.tag_name_pattern), "tag_name")
 
-    return all_pass {
-        if_else(always(opts.include_prerelease), T, is_not_prerelease),
-        if_else(always(opts.tag_name_pattern), tag_name_matches, T),
+    return _.all_pass {
+        _.if_else(_.always(opts.include_prerelease), _.T, is_not_prerelease),
+        _.if_else(_.always(opts.tag_name_pattern), tag_name_matches, _.T),
         is_not_draft,
     }
 end
@@ -83,7 +72,7 @@ function M.fetch_latest_release(repo, opts)
         function(releases)
             local is_stable_release = M.release_predicate(opts)
             ---@type GitHubRelease|nil
-            local latest_release = list_find_first(is_stable_release, releases)
+            local latest_release = _.find_first(is_stable_release, releases)
 
             if not latest_release then
                 log.fmt_info("Failed to find latest release. repo=%s, opts=%s", repo, opts)

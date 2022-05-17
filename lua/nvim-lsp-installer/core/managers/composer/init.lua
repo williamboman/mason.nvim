@@ -1,12 +1,10 @@
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local process = require "nvim-lsp-installer.core.process"
 local path = require "nvim-lsp-installer.core.path"
 local Result = require "nvim-lsp-installer.core.result"
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Optional = require "nvim-lsp-installer.core.optional"
 local installer = require "nvim-lsp-installer.core.installer"
-
-local list_copy, list_find_first = functional.list_copy, functional.list_find_first
 
 local M = {}
 
@@ -34,7 +32,7 @@ end
 ---@param packages string[] The composer packages to install. The first item in this list will be the recipient of the server version, should the user request a specific one.
 function M.require(packages)
     local ctx = installer.context()
-    local pkgs = list_copy(packages)
+    local pkgs = _.list_copy(packages)
 
     if not ctx.fs:file_exists "composer.json" then
         ctx.spawn.composer { "init", "--no-interaction", "--stability=stable" }
@@ -77,7 +75,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
         cwd = install_dir,
     }):map_catching(function(result)
         local outdated_packages = vim.json.decode(result.stdout)
-        local outdated_package = list_find_first(function(package)
+        local outdated_package = _.find_first(function(package)
             return package.name == receipt.primary_source.package
         end, outdated_packages.installed)
         return Optional.of_nilable(outdated_package)

@@ -1,11 +1,9 @@
 local a = require "nvim-lsp-installer.core.async"
 local Path = require "nvim-lsp-installer.core.path"
 local fetch = require "nvim-lsp-installer.core.fetch"
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local servers = require "nvim-lsp-installer.servers"
 local fs = require "nvim-lsp-installer.core.fs"
-
-local coalesce = functional.coalesce
 
 local generated_dir = Path.concat { vim.fn.getcwd(), "lua", "nvim-lsp-installer", "_generated" }
 local schemas_dir = Path.concat { generated_dir, "schemas" }
@@ -54,7 +52,7 @@ local function get_supported_filetypes(server)
     end
     local config = get_lspconfig(server.name)
     local default_options = server:get_default_options()
-    local filetypes = coalesce(
+    local filetypes = _.coalesce(
         -- nvim-lsp-installer options has precedence
         default_options and default_options.filetypes,
         config.default_config.filetypes,
@@ -99,9 +97,7 @@ local function create_autocomplete_map()
 
     local autocomplete_candidates = {}
     for language, language_servers in pairs(language_map) do
-        local non_deprecated_servers = vim.tbl_filter(function(server)
-            return server.deprecated == nil
-        end, language_servers)
+        local non_deprecated_servers = _.filter(_.prop_eq("deprecated", nil), language_servers)
         local is_candidate = #non_deprecated_servers > 0
 
         if #non_deprecated_servers == 1 then
@@ -110,9 +106,7 @@ local function create_autocomplete_map()
         end
 
         if is_candidate then
-            autocomplete_candidates[language] = vim.tbl_map(function(server)
-                return server.name
-            end, non_deprecated_servers)
+            autocomplete_candidates[language] = _.map(_.prop "name", non_deprecated_servers)
             table.sort(autocomplete_candidates[language])
         end
     end

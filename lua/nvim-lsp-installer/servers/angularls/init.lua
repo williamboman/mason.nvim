@@ -1,16 +1,12 @@
 local server = require "nvim-lsp-installer.server"
 local platform = require "nvim-lsp-installer.core.platform"
 local npm = require "nvim-lsp-installer.core.managers.npm"
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local path = require "nvim-lsp-installer.core.path"
 
-local map = functional.list_map
-
-local function append_node_modules(dirs)
-    return map(function(dir)
-        return path.concat { dir, "node_modules" }
-    end, dirs)
-end
+local append_node_modules = _.map(function(dir)
+    return path.concat { dir, "node_modules" }
+end)
 
 return function(name, root_dir)
     local function get_cmd(workspace_dir)

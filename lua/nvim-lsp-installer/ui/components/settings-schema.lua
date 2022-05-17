@@ -1,8 +1,6 @@
 -- Here be dragons
 local Ui = require "nvim-lsp-installer.core.ui"
-local functional = require "nvim-lsp-installer.core.functional"
-
-local list_map = functional.list_map
+local _ = require "nvim-lsp-installer.core.functional"
 
 local property_type_highlights = {
     ["string"] = "String",
@@ -135,7 +133,7 @@ local function ServerSettingsSchema(server, schema, key, level, key_width, compo
             heading,
             toggle_expand_keybind,
             Ui.When(node_is_expanded, function()
-                local description = list_map(function(line)
+                local description = _.map(function(line)
                     return { { line, "Comment" } }
                 end, vim.split(schema.description or "No description available.", "\n"))
 
