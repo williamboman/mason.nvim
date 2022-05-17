@@ -51,7 +51,7 @@ return function(name, root_dir)
                     asset_file = coalesce(
                         when(platform.is.mac_x64, "omnisharp-osx-x64-net6.0.zip"),
                         when(platform.is.mac_arm64, "omnisharp-osx-arm64-net6.0.zip"),
-                        when(platform.is.linux_x64 == "x64", "omnisharp-linux-x64-net6.0.zip"),
+                        when(platform.is.linux_x64, "omnisharp-linux-x64-net6.0.zip"),
                         when(platform.is.linux_arm64, "omnisharp-linux-arm64-net6.0.zip"),
                         when(platform.is.win_x64, "omnisharp-win-x64-net6.0.zip"),
                         when(platform.is.win_arm64, "omnisharp-win-arm64-net6.0.zip")
