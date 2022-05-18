@@ -4,7 +4,7 @@ local path = require "nvim-lsp-installer.core.path"
 local functional = require "nvim-lsp-installer.core.functional"
 local process = require "nvim-lsp-installer.core.process"
 local std = require "nvim-lsp-installer.core.managers.std"
-local github_client = require "nvim-lsp-installer.core.managers.github.client"
+local github = require "nvim-lsp-installer.core.managers.github"
 
 local coalesce, when = functional.coalesce, functional.when
 
@@ -14,45 +14,27 @@ return function(name, root_dir)
         root_dir = root_dir,
         homepage = "https://quick-lint-js.com/",
         languages = { "javascript" },
-        ---@param ctx InstallContext
-        installer = function(ctx)
+        ---@async
+        installer = function()
             local repo = "quick-lint/quick-lint-js"
             local release_file = assert(
                 coalesce(
-                    when(
-                        platform.is_mac,
-                        coalesce(
-                            when(platform.arch == "x64", "macos.tar.gz"),
-                            when(platform.arch == "arm64", "macos-aarch64.tar.gz")
-                        )
-                    ),
-                    when(
-                        platform.is_linux,
-                        coalesce(
-                            when(platform.arch == "x64", "linux.tar.gz"),
-                            when(platform.arch == "arm64", "linux-aarch64.tar.gz"),
-                            when(platform.arch == "arm", "linux-armhf.tar.gz")
-                        )
-                    ),
-                    when(
-                        platform.is_win,
-                        coalesce(
-                            when(platform.arch == "x64", "windows.zip"),
-                            when(platform.arch == "arm64", "windows-arm64.zip"),
-                            when(platform.arch == "arm", "windows-arm.zip")
-                        )
-                    )
+                    when(platform.is.mac_x64, "macos.tar.gz"),
+                    when(platform.is.mac_arm64, "macos-aarch64.tar.gz"),
+                    when(platform.is.linux_x64, "linux.tar.gz"),
+                    when(platform.is.linux_arm64, "linux-aarch64.tar.gz"),
+                    when(platform.is.linux_arm, "linux-armhf.tar.gz"),
+                    when(platform.is.win_x64, "windows.zip"),
+                    when(platform.is.win_arm64, "windows-arm64.zip"),
+                    when(platform.is.win_arm, "windows-arm.zip")
                 ),
                 "Current platform is not supported."
             )
-            local version = ctx.requested_version:or_else_get(function()
-                return github_client.fetch_latest_tag(repo)
-                    :map(function(tag)
-                        return tag.name
-                    end)
-                    :get_or_throw()
-            end)
-            local url = ("https://c.quick-lint-js.com/releases/%s/manual/%s"):format(version, release_file)
+
+            local source = github.tag { repo = repo }
+            source.with_receipt()
+
+            local url = ("https://c.quick-lint-js.com/releases/%s/manual/%s"):format(source.tag, release_file)
             platform.when {
                 unix = function()
                     std.download_file(url, "archive.tar.gz")
@@ -62,11 +44,6 @@ return function(name, root_dir)
                     std.download_file(url, "archive.zip")
                     std.unzip("archive.zip", ".")
                 end,
-            }
-            ctx.receipt:with_primary_source {
-                type = "github_tag",
-                repo = repo,
-                tag = version,
             }
         end,
         default_options = {

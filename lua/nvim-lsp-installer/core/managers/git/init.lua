@@ -1,6 +1,7 @@
 local spawn = require "nvim-lsp-installer.core.spawn"
 local Result = require "nvim-lsp-installer.core.result"
 local installer = require "nvim-lsp-installer.core.installer"
+local _ = require "nvim-lsp-installer.core.functional"
 
 local M = {}
 
@@ -13,7 +14,7 @@ local function with_receipt(repo)
 end
 
 ---@async
----@param opts {[1]: string, recursive: boolean} @The first item in the table is the repository to clone.
+---@param opts {[1]: string, recursive: boolean, version: Optional|nil} @The first item in the table is the repository to clone.
 function M.clone(opts)
     local ctx = installer.context()
     local repo = assert(opts[1], "No git URL provided.")
@@ -25,7 +26,7 @@ function M.clone(opts)
         repo,
         ".",
     }
-    ctx.requested_version:if_present(function(version)
+    _.coalesce(opts.version, ctx.requested_version):if_present(function(version)
         ctx.spawn.git { "fetch", "--depth", "1", "origin", version }
         ctx.spawn.git { "checkout", "FETCH_HEAD" }
     end)

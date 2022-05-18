@@ -3,6 +3,7 @@ local std = require "nvim-lsp-installer.core.managers.std"
 local client = require "nvim-lsp-installer.core.managers.github.client"
 local platform = require "nvim-lsp-installer.core.platform"
 local Result = require "nvim-lsp-installer.core.result"
+local _ = require "nvim-lsp-installer.core.functional"
 
 local M = {}
 
@@ -21,15 +22,26 @@ local function with_release_file_receipt(repo, asset_file, release)
     end
 end
 
+---@param repo string
+---@param tag string
+local function with_tag_receipt(repo, tag)
+    return function()
+        local ctx = installer.context()
+        ctx.receipt:with_primary_source {
+            type = "github_tag",
+            repo = repo,
+            tag = tag,
+        }
+    end
+end
+
 ---@async
 ---@param opts {repo: string, version: Optional|nil, asset_file: string|fun(release: string):string}
 function M.release_file(opts)
     local ctx = installer.context()
-    local release = (opts.version or ctx.requested_version):or_else_get(function()
+    local release = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
         return client.fetch_latest_release(opts.repo)
-            :map(function(release)
-                return release.tag_name
-            end)
+            :map(_.prop "tag_name")
             :get_or_throw "Failed to fetch latest release from GitHub API."
     end)
     ---@type string
@@ -53,6 +65,22 @@ function M.release_file(opts)
         download_url = download_url,
         asset_file = asset_file,
         with_receipt = with_release_file_receipt(opts.repo, download_url, release),
+    }
+end
+
+---@async
+---@param opts {repo: string, version: Optional|nil}
+function M.tag(opts)
+    local ctx = installer.context()
+    local tag = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
+        return client.fetch_latest_tag(opts.repo)
+            :map(_.prop "name")
+            :get_or_throw "Failed to fetch latest tag from GitHub API."
+    end)
+
+    return {
+        tag = tag,
+        with_receipt = with_tag_receipt(opts.repo, tag),
     }
 end
 
