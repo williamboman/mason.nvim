@@ -23,7 +23,7 @@ return {
     filetypes = { "sh" }
   },
   beancount = {
-    filetypes = { "beancount" }
+    filetypes = { "beancount", "bean" }
   },
   bicep = {
     filetypes = { "bicep" }
