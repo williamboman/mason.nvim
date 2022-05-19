@@ -16,7 +16,7 @@ describe("async", function()
             a.sleep(100)
         end)
         local stop = timestamp()
-        local grace_ms = 25
+        local grace_ms = 50
         assert.is_true((stop - start) >= (100 - grace_ms))
     end)
 
