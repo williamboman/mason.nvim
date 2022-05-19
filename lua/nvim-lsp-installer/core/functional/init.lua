@@ -28,6 +28,7 @@ _.any = list.any
 _.filter = list.filter
 _.map = list.map
 _.each = list.each
+_.concat = list.concat
 
 -- relation
 local relation = require "nvim-lsp-installer.core.functional.relation"
@@ -40,6 +41,7 @@ local logic = require "nvim-lsp-installer.core.functional.logic"
 _.all_pass = logic.all_pass
 _.if_else = logic.if_else
 _.is_not = logic.is_not
+_.complement = logic.complement
 _.cond = logic.cond
 
 -- number

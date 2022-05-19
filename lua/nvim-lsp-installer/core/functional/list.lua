@@ -77,4 +77,14 @@ end, 2)
 ---@return T[] @A shallow copy of the list.
 _.list_copy = _.map(fun.identity)
 
+_.concat = fun.curryN(function(a, b)
+    if type(a) == "table" then
+        assert(type(b) == "table", "concat: expected table")
+        return vim.list_extend(_.list_copy(a), b)
+    elseif type(a) == "string" then
+        assert(type(b) == "string", "concat: expected string")
+        return a .. b
+    end
+end, 2)
+
 return _

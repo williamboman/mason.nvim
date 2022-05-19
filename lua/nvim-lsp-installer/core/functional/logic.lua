@@ -32,6 +32,13 @@ _.is_not = function(value)
     return not value
 end
 
+---@generic T
+---@param predicate fun(value: T): boolean
+---@param value T
+_.complement = fun.curryN(function(predicate, value)
+    return not predicate(value)
+end, 2)
+
 _.cond = fun.curryN(function(predicate_transformer_pairs, value)
     for _, pair in ipairs(predicate_transformer_pairs) do
         local predicate, transformer = pair[1], pair[2]

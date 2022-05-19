@@ -84,4 +84,14 @@ describe("functional: list", function()
         assert.spy(iterate_fn).was_called_with("YELLOW", 2)
         assert.spy(iterate_fn).was_called_with("RED", 3)
     end)
+
+    it("should concat list tables", function()
+        local list = { "monstera", "tulipa", "carnation" }
+        assert.same({ "monstera", "tulipa", "carnation", "rose", "daisy" }, _.concat(list, { "rose", "daisy" }))
+        assert.same({ "monstera", "tulipa", "carnation" }, list) -- does not mutate list
+    end)
+
+    it("should concat strings", function()
+        assert.equals("FooBar", _.concat("Foo", "Bar"))
+    end)
 end)

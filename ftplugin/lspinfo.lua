@@ -1,8 +1,7 @@
 local servers = require "nvim-lsp-installer.servers"
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
+local settings = require "nvim-lsp-installer.settings"
 local log = require "nvim-lsp-installer.log"
-
-local filter, compose = functional.filter, functional.compose
 
 ---@class LspInfoClient
 ---@field name string
@@ -31,6 +30,9 @@ local function is_cmd_executable(client)
     local ok, server = servers.get_server(client.name)
     if not ok then
         -- should not really happen
+        return false
+    end
+    if not settings.uses_new_setup then
         return false
     end
     local options = server:get_default_options()
@@ -90,25 +92,36 @@ local ok, err = pcall(function()
     end
 
     ---@type LspInfoClient[]
-    local executable_clients = compose(
-        filter(is_cmd_executable),
-        filter(client_has_cmd),
-        filter(client_has_cmd_diagnostics),
-        filter(is_client_managed)
+    local clients_with_diagnostics = _.compose(
+        _.filter(client_has_cmd),
+        _.filter(client_has_cmd_diagnostics),
+        _.filter(is_client_managed)
     )(clients)
 
-    local override_cmd_diagnostics = functional.partial(functional.each, function(client)
-        vim.api.nvim_buf_set_lines(
-            0,
-            client.cmd_diagnostics.lineno,
-            client.cmd_diagnostics.lineno + 1,
-            false,
-            { " 	cmd is executable: true (checked by nvim-lsp-installer)" }
-        )
-    end)
+    local executable_clients = _.filter(is_cmd_executable, clients_with_diagnostics)
+    local unexecutable_clients = _.filter(_.complement(is_cmd_executable), clients_with_diagnostics)
+
+    ---@param diagnostics_lines string
+    ---@param clients LspInfoClient[]
+    local override_cmd_diagnostics = function(diagnostics_lines, clients)
+        local indentation = " 	"
+        return _.each(function(client)
+            vim.api.nvim_buf_set_lines(
+                0,
+                client.cmd_diagnostics.lineno,
+                client.cmd_diagnostics.lineno + 1,
+                false,
+                _.map(_.concat(indentation), diagnostics_lines)
+            )
+        end, clients)
+    end
 
     vim.api.nvim_buf_set_option(0, "modifiable", true)
-    override_cmd_diagnostics(executable_clients)
+    override_cmd_diagnostics({ "cmd is executable: true (checked by nvim-lsp-installer)" }, executable_clients)
+    override_cmd_diagnostics({
+        "cmd is executable: false (checked by nvim-lsp-installer)",
+        "                   Make sure you have set up nvim-lsp-installer (:h nvim-lsp-installer-quickstart)",
+    }, unexecutable_clients)
     vim.api.nvim_buf_set_option(0, "modifiable", false)
 end)
 
