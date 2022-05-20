@@ -46,10 +46,6 @@ end
 
 ---@param server Server
 local function get_supported_filetypes(server)
-    if server.name == "awk_ls" then
-        -- awk_ls only supports 0.7 and returns nothing on lower versions
-        return { "awk" }
-    end
     local config = get_lspconfig(server.name)
     local default_options = server:get_default_options()
     local filetypes = _.coalesce(

@@ -8,7 +8,6 @@ return {
   astro = { "astro", "tailwindcss" },
   ["astro-markdown"] = { "tailwindcss" },
   awk = { "awk_ls" },
-  bean = { "beancount" },
   beancount = { "beancount" },
   bib = { "ltex", "texlab" },
   bicep = { "bicep" },
