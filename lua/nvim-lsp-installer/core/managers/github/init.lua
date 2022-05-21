@@ -4,6 +4,7 @@ local client = require "nvim-lsp-installer.core.managers.github.client"
 local platform = require "nvim-lsp-installer.core.platform"
 local Result = require "nvim-lsp-installer.core.result"
 local _ = require "nvim-lsp-installer.core.functional"
+local settings = require "nvim-lsp-installer.settings"
 
 local M = {}
 
@@ -59,7 +60,7 @@ function M.release_file(opts)
             0
         )
     end
-    local download_url = ("https://github.com/%s/releases/download/%s/%s"):format(opts.repo, release, asset_file)
+    local download_url = settings.current.github.download_url_template:format(opts.repo, release, asset_file)
     return {
         release = release,
         download_url = download_url,

@@ -50,13 +50,13 @@ https://github.com/williamboman/nvim-lsp-installer/blob/main/CUSTOM_SERVERS.md.
 QUICK START                                   *nvim-lsp-installer-quickstart*
 
 The only thing needed to get started with nvim-lsp-installer is to make sure
-to call the `setup()` function _before_ you set up any servers: >
+to call the `setup()` function _before_ you set up any servers:
 
     require("nvim-lsp-installer").setup {}
-<
+
 
 Next, in your initialization files |init.lua|, setup the servers you want to use.
-Refer to |lspconfig| for more information! For example: >
+Refer to |lspconfig| for more information! For example:
 
     require("nvim-lsp-installer").setup {}
     local lspconfig = require("lspconfig")
@@ -67,34 +67,34 @@ Refer to |lspconfig| for more information! For example: >
 
     lspconfig.sumneko_lua.setup { on_attach = on_attach }
     lspconfig.tsserver.setup { on_attach = on_attach }
-<
 
-To view the UI for nvim-lsp-installer, run: >
+
+To view the UI for nvim-lsp-installer, run:
 
     :LspInstallInfo
-<
 
-Install a language server via `:LspInstall`, for example: >
+
+Install a language server via `:LspInstall`, for example:
 
     :LspInstall tsserver
-<
 
-You may also install multiple languages at a time: >
+
+You may also install multiple languages at a time:
 
     :LspInstall tsserver graphql rust_analyzer
-<
+
 
 To install a specific version of a language server, you may provide it as part
-of the server name, like so: >
+of the server name, like so:
 
     :LspInstall tsserver@0.6.3 graphql@latest rust_analyzer@nightly
-<
+
 
 To install a server associated with the filetype of the currently opened
-buffer, simply just run: >
+buffer, simply just run:
 
     :LspInstall
-<
+
 
 Please refer to each server's own release page to find which versions are available.
 
@@ -111,10 +111,10 @@ Opens the UI for nvim-lsp-installer.
 
 Installs language servers. If the `--sync` argument is passed, the command will
 be blocking until all installations complete. This is useful for headless
-installations, for example: >
+installations, for example:
 
     $ nvim --headless -c "LspInstall --sync rust_analyzer clangd clojure_lsp" -c q
-<
+
 
 If no server names are provided (`:LspInstall`), you will be prompted to
 select which server associated with the currently opened buffer's filetype you
@@ -126,10 +126,10 @@ instead.
 
 Uninstalls language servers. If the `--sync` argument is passed, the command will
 be blocking until all installations complete. This is useful for headless
-installations, for example: >
+installations, for example:
 
     $ nvim --headless -c "LspUninstall --sync rust_analyzer clangd clojure_lsp" -c q
-<
+
 
                                                            *:LspUninstallAll*
 :LspUninstallAll [--no-confirm]
@@ -156,10 +156,9 @@ You can configure certain behavior of nvim-lsp-installer when calling the
 
 Refer to the |nvim-lsp-installer-default-settings| for all available settings.
 
-Example: >
+Example:
 
     require("nvim-lsp-installer").setup({
-        ensure_installed = { "rust_analyzer", "sumneko_lua" }, -- ensure these servers are always installed
         automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
         ui = {
             icons = {
@@ -169,10 +168,10 @@ Example: >
             }
         }
     })
-<
+
                                        *nvim-lsp-installer-default-settings*
 
-The following settings are applied by default. >
+The following settings are applied by default.
 
     local DEFAULT_SETTINGS = {
         -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer", "sumneko_lua" }
@@ -234,19 +233,48 @@ The following settings are applied by default. >
         -- Limit for the maximum amount of servers to be installed at the same time. Once this limit is reached, any further
         -- servers that are requested to be installed will be put in a queue.
         max_concurrent_installers = 4,
+
+        github = {
+            -- The template URL to use when downloading assets from GitHub.
+            -- The placeholders are the following (in order):
+            -- 1. The repository (e.g. "rust-lang/rust-analyzer")
+            -- 2. The release version (e.g. "v0.3.0")
+            -- 3. The asset name (e.g. "rust-analyzer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz")
+            download_url_template = "https://github.com/%s/releases/download/%s/%s",
+        },
     }
-<
+
+
+==============================================================================
+DOWNLOAD MIRRORS                        *nvim-lsp-installer-download-mirrors*
+
+------------------------------------------------------------------------------
+GITHUB MIRROR                     *nvim-lsp-installer-download-mirror-github*
+
+    It's possible to customize the download URL used when downloading assets
+    from GitHub releases by setting the `github.download_url_template`
+    settings during setup, like so:
+
+    require("nvim-lsp-installer").setup {
+        github = {
+            -- The template URL to use when downloading assets from GitHub.
+            -- The placeholders are the following (in order):
+            -- 1. The repository (e.g. "rust-lang/rust-analyzer")
+            -- 2. The release version (e.g. "v0.3.0")
+            -- 3. The asset name (e.g. "rust-analyzer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz")
+            download_url_template = "https://my.mirror.com/%s/releases/download/%s/%s",
+        },
+    }
 
 ==============================================================================
 DEBUGGING                                      *nvim-lsp-installer-debugging*
 
 To help with debugging issues with installing/uninstall servers, please make
-sure to set nvim-lsp-installer's log level to DEBUG or TRACE, like so: >
+sure to set nvim-lsp-installer's log level to DEBUG or TRACE, like so:
 
     require("nvim-lsp-installer").setup {
         log_level = vim.log.levels.DEBUG
     }
-<
 
 You may find the logs by entering the command `:LspInstallLog`. Providing the
 contents of this file when reporting an issue will help tremendously.
@@ -341,13 +369,11 @@ get_server({server_name})
             ok: boolean, server: |lsp_installer.Server|
 
         Example: ~
->
             local lsp_installer = require'nvim-lsp-installer'
             local ok, rust_server = lsp_installer.get_server("rust_analyzer")
             if ok then
                 rust_server:install()
             end
-<
 
 
 ==============================================================================
