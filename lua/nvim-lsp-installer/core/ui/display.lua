@@ -158,7 +158,7 @@ local function create_popup_window_opts(sizes_only)
     }
 
     if not sizes_only then
-        popup_layout.border = "rounded"
+        popup_layout.border = "none"
     end
 
     return popup_layout

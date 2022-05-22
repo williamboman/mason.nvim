@@ -172,11 +172,14 @@ local function Header(props)
     return Ui.CascadingStyleNode({ "CENTERED" }, {
         Ui.HlTextNode {
             {
-                { props.is_showing_help and props.help_command_text or "", "LspInstallerHighlighted" },
+                { props.is_showing_help and (" " .. props.help_command_text) or "", "LspInstallerHeaderHelp" },
                 {
-                    props.is_showing_help and "nvim-lsp-installer" .. (" "):rep(#props.help_command_text)
-                        or "nvim-lsp-installer",
-                    props.is_showing_help and "LspInstallerHighlighted" or "LspInstallerHeader",
+                    props.is_showing_help and "nvim-lsp-installer " or " nvim-lsp-installer ",
+                    props.is_showing_help and "LspInstallerHeaderHelp" or "LspInstallerHeader",
+                },
+                {
+                    props.is_showing_help and (" "):rep(#props.help_command_text) or "",
+                    "",
                 },
             },
             {
@@ -966,12 +969,13 @@ local function init(all_servers)
 
         window.open {
             highlight_groups = {
-                "hi def LspInstallerHeader gui=bold guifg=#ebcb8b",
+                "hi def LspInstallerHeader gui=bold guifg=#222222 guibg=#DCA561",
+                "hi def LspInstallerHeaderHelp gui=bold guifg=#222222 guibg=#56B6C2",
                 "hi def LspInstallerServerExpanded gui=italic",
                 "hi def LspInstallerHeading gui=bold",
                 "hi def LspInstallerGreen guifg=#a3be8c",
                 "hi def LspInstallerVaderSaber guifg=#f44747 gui=bold",
-                "hi def LspInstallerOrange ctermfg=222 guifg=#ebcb8b",
+                "hi def LspInstallerOrange ctermfg=222 guifg=#DCA561",
                 "hi def LspInstallerMuted guifg=#888888 ctermfg=144",
                 "hi def LspInstallerLabel gui=bold",
                 "hi def LspInstallerError ctermfg=203 guifg=#f44747",
