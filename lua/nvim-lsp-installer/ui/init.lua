@@ -960,7 +960,7 @@ local function init(all_servers)
             state.prioritized_servers = _.set_of(prioritized_servers)
         end)
 
-        if not has_opened then
+        if not has_opened and settings.current.ui.check_outdated_servers_on_open then
             -- Only do this automatically once - when opening the window the first time
             vim.defer_fn(function()
                 identify_outdated_servers(lsp_servers.get_installed_servers())
