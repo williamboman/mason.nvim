@@ -68,14 +68,14 @@ body:
           label: LspInstallInfo output
           description: Please provide the installation output available in the `:LspInstallInfo` window, if possible.
           placeholder: ":LspInstallInfo"
-          render: shell
+          render: Text
 
     - type: textarea
       attributes:
           label: Installation log
           description: "Make sure you set DEBUG level before installing the server. Refer to `:help nvim-lsp-installer-debugging`"
           placeholder: ":LspInstallLog"
-          render: shell
+          render: Text
       validations:
           required: true
 
@@ -83,7 +83,7 @@ body:
       attributes:
           label: Healthcheck
           placeholder: ":checkhealth nvim-lsp-installer"
-          render: shell
+          render: Text
       validations:
           required: true
 
