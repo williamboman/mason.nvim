@@ -194,7 +194,7 @@ describe("integration test", function()
             assert.spy(win_set_option).was_called_with(match.is_number(), "colorcolumn", "")
             assert.spy(win_set_option).was_called_with(match.is_number(), "cursorline", true)
 
-            assert.spy(buf_set_option).was_called(9)
+            assert.spy(buf_set_option).was_called(10)
             assert.spy(buf_set_option).was_called_with(match.is_number(), "modifiable", false)
             assert.spy(buf_set_option).was_called_with(match.is_number(), "swapfile", false)
             assert.spy(buf_set_option).was_called_with(match.is_number(), "textwidth", 0)
@@ -202,6 +202,7 @@ describe("integration test", function()
             assert.spy(buf_set_option).was_called_with(match.is_number(), "bufhidden", "wipe")
             assert.spy(buf_set_option).was_called_with(match.is_number(), "buflisted", false)
             assert.spy(buf_set_option).was_called_with(match.is_number(), "filetype", "lsp-installer")
+            assert.spy(buf_set_option).was_called_with(match.is_number(), "undolevels", -1)
 
             assert.spy(set_lines).was_called(1)
             assert.spy(set_lines).was_called_with(

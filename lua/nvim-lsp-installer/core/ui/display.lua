@@ -317,6 +317,7 @@ function M.new_view_only_win(name)
             bufhidden = "wipe",
             buflisted = false,
             filetype = "lsp-installer",
+            undolevels = -1
         }
 
         local win_opts = {
