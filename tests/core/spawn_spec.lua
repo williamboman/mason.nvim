@@ -181,9 +181,36 @@ describe("async spawn", function()
                 callback(false, 127)
             end)
 
-            local result = spawn.my_cmd { check_executable = false }
+            local result = spawn.my_cmd { "arg1", check_executable = false }
             assert.is_true(result:is_failure())
             assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                "my_cmd",
+                match.tbl_containing {
+                    args = match.same { "arg1" },
+                },
+                match.is_function()
+            )
+        end)
+    )
+
+    it(
+        "should skip checking whether command is executable if with_paths is provided",
+        async_test(function()
+            stub(process, "spawn", function(_, _, callback)
+                callback(false, 127)
+            end)
+
+            local result = spawn.my_cmd { "arg1", with_paths = {} }
+            assert.is_true(result:is_failure())
+            assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                "my_cmd",
+                match.tbl_containing {
+                    args = match.same { "arg1" },
+                },
+                match.is_function()
+            )
         end)
     )
 end)
