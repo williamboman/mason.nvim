@@ -60,6 +60,7 @@ install _all_ servers are:
 -   rebar3
 -   cargo
 -   ghcup
+-   luarocks
 
 [7zip]: https://www.7-zip.org/
 [archiver]: https://github.com/mholt/archiver
@@ -288,6 +289,7 @@ require("nvim-lsp-installer").setup({
 | SystemVerilog                       | `verible`                  |
 | TOML                                | `taplo`                    |
 | Tailwind CSS                        | `tailwindcss`              |
+| Teal                                | `teal_ls`                  |
 | Terraform                           | `terraformls`              |
 | Terraform [(docs)][tflint]          | `tflint`                   |
 | TypeScript                          | `tsserver`                 |

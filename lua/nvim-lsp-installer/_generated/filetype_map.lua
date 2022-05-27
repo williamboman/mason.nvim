@@ -135,6 +135,7 @@ return {
   svg = { "lemminx" },
   swift = { "sourcekit" },
   systemverilog = { "svls", "verible" },
+  teal = { "teal_ls" },
   terraform = { "terraformls", "tflint" },
   tex = { "ltex", "texlab" },
   toml = { "taplo" },

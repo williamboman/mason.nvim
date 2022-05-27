@@ -42,6 +42,7 @@ install _all_ servers are:
 -   rebar3
 -   cargo
 -   ghcup
+-   luarocks
 
 To write a custom server installer, please refer to the docs at
 https://github.com/williamboman/nvim-lsp-installer/blob/main/CUSTOM_SERVERS.md.

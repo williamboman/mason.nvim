@@ -29,6 +29,7 @@ _.filter = list.filter
 _.map = list.map
 _.each = list.each
 _.concat = list.concat
+_.zip_table = list.zip_table
 
 -- relation
 local relation = require "nvim-lsp-installer.core.functional.relation"
@@ -58,6 +59,7 @@ _.dec = number.dec
 local string = require "nvim-lsp-installer.core.functional.string"
 _.matches = string.matches
 _.format = string.format
+_.split = string.split
 
 -- table
 local tbl = require "nvim-lsp-installer.core.functional.table"

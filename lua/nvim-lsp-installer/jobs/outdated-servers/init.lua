@@ -12,6 +12,7 @@ local cargo = require "nvim-lsp-installer.core.managers.cargo"
 local github = require "nvim-lsp-installer.core.managers.github"
 local composer = require "nvim-lsp-installer.core.managers.composer"
 local jdtls_check = require "nvim-lsp-installer.jobs.outdated-servers.jdtls"
+local luarocks = require "nvim-lsp-installer.core.managers.luarocks"
 
 local M = {}
 
@@ -28,6 +29,7 @@ local checkers = {
     ["composer"] = composer.check_outdated_primary_package,
     ["gem"] = gem.check_outdated_primary_package,
     ["go"] = go.check_outdated_primary_package,
+    ["luarocks"] = luarocks.check_outdated_primary_package,
     ["jdtls"] = jdtls_check,
     ["github_release_file"] = github.check_outdated_primary_package_release,
     ["github_release"] = github.check_outdated_primary_package_release,

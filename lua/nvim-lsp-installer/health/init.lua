@@ -159,6 +159,7 @@ function M.check()
             end,
         },
         check { cmd = "cargo", args = { "--version" }, name = "cargo", relaxed = true },
+        check { cmd = "luarocks", args = { "--version" }, name = "luarocks", relaxed = true },
         check { cmd = "ruby", args = { "--version" }, name = "Ruby", relaxed = true },
         check { cmd = gem_cmd, args = { "--version" }, name = "RubyGem", relaxed = true },
         check { cmd = composer_cmd, args = { "--version" }, name = "Composer", relaxed = true },

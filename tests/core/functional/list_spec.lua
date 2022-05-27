@@ -94,4 +94,12 @@ describe("functional: list", function()
     it("should concat strings", function()
         assert.equals("FooBar", _.concat("Foo", "Bar"))
     end)
+
+    it("should zip list into table", function()
+        local fnkey = function() end
+        assert.same({
+            a = "a",
+            [fnkey] = 1,
+        }, _.zip_table({ "a", fnkey }, { "a", 1 }))
+    end)
 end)

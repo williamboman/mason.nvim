@@ -87,4 +87,17 @@ _.concat = fun.curryN(function(a, b)
     end
 end, 2)
 
+---@generic T
+---@generic U
+---@param keys T[]
+---@param values U[]
+---@return table<T, U>
+_.zip_table = fun.curryN(function(keys, values)
+    local res = {}
+    for i, key in ipairs(keys) do
+        res[key] = values[i]
+    end
+    return res
+end, 2)
+
 return _

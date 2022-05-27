@@ -310,6 +310,9 @@ return {
   taplo = {
     filetypes = { "toml" }
   },
+  teal_ls = {
+    filetypes = { "teal" }
+  },
   terraformls = {
     filetypes = { "terraform" }
   },

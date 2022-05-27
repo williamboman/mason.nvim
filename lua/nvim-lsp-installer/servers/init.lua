@@ -135,6 +135,7 @@ local CORE_SERVERS = _.set_of {
     "svls",
     "tailwindcss",
     "taplo",
+    "teal_ls",
     "terraformls",
     "texlab",
     "tflint",

@@ -4,6 +4,7 @@ local cargo = require "nvim-lsp-installer.core.managers.cargo"
 local pip3 = require "nvim-lsp-installer.core.managers.pip3"
 local gem = require "nvim-lsp-installer.core.managers.gem"
 local go = require "nvim-lsp-installer.core.managers.go"
+local luarocks = require "nvim-lsp-installer.core.managers.luarocks"
 local git = require "nvim-lsp-installer.core.managers.git"
 local composer = require "nvim-lsp-installer.core.managers.composer"
 
@@ -47,6 +48,9 @@ local version_checker = {
     end,
     ["go"] = function(server, receipt)
         return go.get_installed_primary_package_version(receipt, server.root_dir)
+    end,
+    ["luarocks"] = function(server, receipt)
+        return luarocks.get_installed_primary_package_version(receipt, server.root_dir)
     end,
     ["github_release_file"] = version_in_receipt "release",
     ["github_release"] = version_in_receipt "release",
