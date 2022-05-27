@@ -17,6 +17,7 @@ local function with_receipt(package)
     end
 end
 
+---@param package string @The luarock package to install.
 function M.package(package)
     return function()
         return M.install(package).with_receipt()

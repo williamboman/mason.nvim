@@ -1,6 +1,54 @@
+local mock = require "luassert.mock"
+local installer = require "nvim-lsp-installer.core.installer"
 local luarocks = require "nvim-lsp-installer.core.managers.luarocks"
+local Optional = require "nvim-lsp-installer.core.optional"
 
 describe("luarocks manager", function()
+    ---@type InstallContext
+    local ctx
+    before_each(function()
+        ctx = InstallContextGenerator {
+            spawn = mock.new {
+                luarocks = mockx.returns {},
+            },
+        }
+    end)
+
+    it(
+        "install provided package",
+        async_test(function()
+            installer.run_installer(ctx, luarocks.package "lua-cjson")
+            assert.spy(ctx.spawn.luarocks).was_called(1)
+            print(vim.inspect(ctx.spawn.luarocks))
+            assert.spy(ctx.spawn.luarocks).was_called_with {
+                "install",
+                "--dev",
+                "--tree",
+                "/tmp/install-dir",
+                "lua-cjson",
+                vim.NIL,
+            }
+        end)
+    )
+
+    it(
+        "install provided version",
+        async_test(function()
+            ctx.requested_version = Optional.of "1.2.3"
+            installer.run_installer(ctx, luarocks.package "lua-cjson")
+            assert.spy(ctx.spawn.luarocks).was_called(1)
+            print(vim.inspect(ctx.spawn.luarocks))
+            assert.spy(ctx.spawn.luarocks).was_called_with {
+                "install",
+                "--dev",
+                "--tree",
+                "/tmp/install-dir",
+                "lua-cjson",
+                "1.2.3",
+            }
+        end)
+    )
+
     it("should parse outdated luarocks", function()
         assert.same(
             {
