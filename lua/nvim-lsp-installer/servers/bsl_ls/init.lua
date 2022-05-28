@@ -11,15 +11,14 @@ return function(name, root_dir)
         languages = { "onescript" },
         installer = function()
             std.ensure_executable "java"
-            local source = github.release_file {
+            github.download_release_file({
                 repo = "1c-syntax/bsl-language-server",
+                out_file = "bsl-lsp.jar",
                 asset_file = function(release)
                     local version = release:gsub("^v", "")
                     return ("bsl-language-server-%s-exec.jar"):format(version)
                 end,
-            }
-            source.with_receipt()
-            std.download_file(source.download_url, "bsl-lsp.jar")
+            }).with_receipt()
         end,
         default_options = {
             cmd = {

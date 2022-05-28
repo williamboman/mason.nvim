@@ -1,5 +1,4 @@
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.core.path"
 local github = require "nvim-lsp-installer.core.managers.github"
 local github_client = require "nvim-lsp-installer.core.managers.github.client"
 local std = require "nvim-lsp-installer.core.managers.std"
@@ -22,17 +21,16 @@ return function(name, root_dir)
             local latest_dev_build =
                 github_client.fetch_latest_release(repo, { include_prerelease = true }):get_or_throw()
 
-            local source = github.release_file {
+            github.download_release_file({
                 version = Optional.of(latest_dev_build.tag_name),
                 repo = repo,
+                out_file = platform.is.win and "vls.exe" or "vls",
                 asset_file = functional.coalesce(
                     functional.when(platform.is.linux_x64, "vls_linux_x64"),
                     functional.when(platform.is.mac, "vls_macos_x64"),
                     functional.when(platform.is.win_x64, "vls_windows_x64.exe")
                 ),
-            }
-            source.with_receipt()
-            std.download_file(source.download_url, platform.is.win and "vls.exe" or "vls")
+            }).with_receipt()
             std.chmod("+x", { "vls" })
         end,
         default_options = {

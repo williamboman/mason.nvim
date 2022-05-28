@@ -14,16 +14,15 @@ return function(name, root_dir)
         homepage = "https://github.com/kitten/prosemd-lsp",
         languages = { "markdown" },
         installer = function()
-            local source = github.release_file {
+            github.download_release_file({
                 repo = "kitten/prosemd-lsp",
+                out_file = platform.is_win and "prosemd-lsp.exe" or "prosemd-lsp",
                 asset_file = coalesce(
                     when(platform.is_mac, "prosemd-lsp-macos"),
                     when(platform.is_linux and platform.arch == "x64", "prosemd-lsp-linux"),
                     when(platform.is_win and platform.arch == "x64", "prosemd-lsp-windows.exe")
                 ),
-            }
-            source.with_receipt()
-            std.download_file(source.download_url, platform.is_win and "prosemd-lsp.exe" or "prosemd-lsp")
+            }).with_receipt()
             std.chmod("+x", { "prosemd-lsp" })
         end,
         default_options = {
