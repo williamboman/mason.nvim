@@ -100,4 +100,19 @@ _.zip_table = fun.curryN(function(keys, values)
     return res
 end, 2)
 
+---@generic T
+---@param offset number
+---@param value T[]|string
+---@return T|string|nil
+_.nth = fun.curryN(function(offset, value)
+    local index = offset < 0 and (#value + (offset + 1)) or offset
+    if type(value) == "string" then
+        return string.sub(value, index, index)
+    else
+        return value[index]
+    end
+end, 2)
+
+_.head = _.nth(1)
+
 return _

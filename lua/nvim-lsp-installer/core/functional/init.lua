@@ -30,6 +30,8 @@ _.map = list.map
 _.each = list.each
 _.concat = list.concat
 _.zip_table = list.zip_table
+_.nth = list.nth
+_.head = list.head
 
 -- relation
 local relation = require "nvim-lsp-installer.core.functional.relation"

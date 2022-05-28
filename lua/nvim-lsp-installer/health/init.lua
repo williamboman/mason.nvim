@@ -1,15 +1,11 @@
 local health = require "health"
-local process = require "nvim-lsp-installer.core.process"
 local a = require "nvim-lsp-installer.core.async"
 local platform = require "nvim-lsp-installer.core.platform"
 local github_client = require "nvim-lsp-installer.core.managers.github.client"
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
+local spawn = require "nvim-lsp-installer.core.spawn"
 
-local when = functional.when
-
-local gem_cmd = platform.is_win and "gem.cmd" or "gem"
-local composer_cmd = platform.is_win and "composer.bat" or "composer"
-local npm_cmd = platform.is_win and "npm.cmd" or "npm"
+local when = _.when
 
 local M = {}
 
@@ -66,61 +62,58 @@ end
 local function mk_healthcheck(callback)
     ---@param opts {cmd:string, args:string[], name: string, use_stderr:boolean}
     return function(opts)
-        return function()
-            local stdio = process.in_memory_sink()
-            local _, stdio_pipes = process.spawn(opts.cmd, {
-                args = opts.args,
-                stdio_sink = stdio.sink,
-            }, function(success)
-                if success then
-                    local version = vim.split(
-                        table.concat(opts.use_stderr and stdio.buffers.stderr or stdio.buffers.stdout, ""),
-                        "\n"
-                    )[1]
+        local parse_version = _.compose(
+            _.head,
+            _.split "\n",
+            _.if_else(_.always(opts.use_stderr), _.prop "stderr", _.prop "stdout")
+        )
 
+        ---@async
+        return function()
+            local healthcheck_result = spawn[opts.cmd]({
+                opts.args,
+                on_spawn = function(_, stdio)
+                    local stdin = stdio[1]
+                    stdin:close() -- some processes (`sh` for example) will endlessly read from stdin, so we close it immediately
+                end,
+            })
+                :map(parse_version)
+                :map(function(version)
                     if opts.version_check then
                         local ok, version_check = pcall(opts.version_check, version)
                         if ok and version_check then
-                            callback(HealthCheck.new {
+                            return HealthCheck.new {
                                 result = "version-mismatch",
                                 reason = version_check,
                                 version = version,
                                 name = opts.name,
                                 relaxed = opts.relaxed,
-                            })
-                            return
+                            }
                         elseif not ok then
-                            callback(HealthCheck.new {
+                            return HealthCheck.new {
                                 result = "parse-error",
                                 version = "N/A",
                                 name = opts.name,
                                 relaxed = opts.relaxed,
-                            })
-                            return
+                            }
                         end
                     end
 
-                    callback(HealthCheck.new {
+                    return HealthCheck.new {
                         result = "success",
                         version = version,
                         name = opts.name,
                         relaxed = opts.relaxed,
-                    })
-                else
-                    callback(HealthCheck.new {
-                        result = "not-available",
-                        version = nil,
-                        name = opts.name,
-                        relaxed = opts.relaxed,
-                    })
-                end
-            end)
+                    }
+                end)
+                :get_or_else(HealthCheck.new {
+                    result = "not-available",
+                    version = nil,
+                    name = opts.name,
+                    relaxed = opts.relaxed,
+                })
 
-            if stdio_pipes then
-                -- Immediately close stdin to avoid leaving the process waiting for input.
-                local stdin = stdio_pipes[1]
-                stdin:close()
-            end
+            callback(healthcheck_result)
         end
     end
 end
@@ -143,7 +136,7 @@ function M.check()
         end
     ))
 
-    local checks = functional.list_not_nil(
+    local checks = _.list_not_nil(
         check {
             cmd = "go",
             args = { "version" },
@@ -161,11 +154,11 @@ function M.check()
         check { cmd = "cargo", args = { "--version" }, name = "cargo", relaxed = true },
         check { cmd = "luarocks", args = { "--version" }, name = "luarocks", relaxed = true },
         check { cmd = "ruby", args = { "--version" }, name = "Ruby", relaxed = true },
-        check { cmd = gem_cmd, args = { "--version" }, name = "RubyGem", relaxed = true },
-        check { cmd = composer_cmd, args = { "--version" }, name = "Composer", relaxed = true },
+        check { cmd = "gem", args = { "--version" }, name = "RubyGem", relaxed = true },
+        check { cmd = "composer", args = { "--version" }, name = "Composer", relaxed = true },
         check { cmd = "php", args = { "--version" }, name = "PHP", relaxed = true },
         check {
-            cmd = npm_cmd,
+            cmd = "npm",
             args = { "--version" },
             name = "npm",
             version_check = function(version)
@@ -222,15 +215,11 @@ function M.check()
         -- when(platform.is_win, check { cmd = "cmd.exe", args = { "-Version" }, name = "cmd" }) -- TODO fix me
     )
 
-    for _, c in ipairs(checks) do
-        c()
-    end
-
-    vim.wait(5000, function()
-        return completed >= #checks
-    end, 50)
-
     a.run_blocking(function()
+        for _, c in ipairs(checks) do
+            c()
+        end
+
         github_client.fetch_rate_limit()
             :map(
                 ---@param rate_limit GitHubRateLimitResponse
