@@ -152,7 +152,19 @@ function M.check()
             end,
         },
         check { cmd = "cargo", args = { "--version" }, name = "cargo", relaxed = true },
-        check { cmd = "luarocks", args = { "--version" }, name = "luarocks", relaxed = true },
+        check {
+            cmd = "luarocks",
+            args = { "--version" },
+            name = "luarocks",
+            relaxed = true,
+            version_check = function(version)
+                local _, _, major = version:find "(%d+)%.(%d)%.(%d)"
+                if not (tonumber(major) >= 3) then
+                    -- Because of usage of "--dev" flag
+                    return "Luarocks version must be >= 3.0.0."
+                end
+            end,
+        },
         check { cmd = "ruby", args = { "--version" }, name = "Ruby", relaxed = true },
         check { cmd = "gem", args = { "--version" }, name = "RubyGem", relaxed = true },
         check { cmd = "composer", args = { "--version" }, name = "Composer", relaxed = true },

@@ -12,6 +12,8 @@ local spawn = {
         gem = platform.is_win and "gem.cmd" or "gem",
         composer = platform.is_win and "composer.bat" or "composer",
         gradlew = platform.is_win and "gradlew.bat" or "gradlew",
+        -- for hererocks installations
+        luarocks = (platform.is_win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
     },
 }
 

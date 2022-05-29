@@ -1,8 +1,6 @@
 local mock = require "luassert.mock"
-local stub = require "luassert.stub"
 local installer = require "nvim-lsp-installer.core.installer"
 local luarocks = require "nvim-lsp-installer.core.managers.luarocks"
-local std = require "nvim-lsp-installer.core.managers.std"
 local Optional = require "nvim-lsp-installer.core.optional"
 
 describe("luarocks manager", function()
@@ -17,38 +15,50 @@ describe("luarocks manager", function()
     end)
 
     it(
-        "install provided package",
+        "should install provided package",
         async_test(function()
-            stub(std, "ensure_executable")
-            std.ensure_executable.returns()
             installer.run_installer(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
-                "--dev",
                 "--tree",
                 "/tmp/install-dir",
+                vim.NIL, -- --dev flag
                 "lua-cjson",
-                vim.NIL,
+                vim.NIL, -- version
             }
         end)
     )
 
     it(
-        "install provided version",
+        "should install provided version",
         async_test(function()
-            stub(std, "ensure_executable")
-            std.ensure_executable.returns()
             ctx.requested_version = Optional.of "1.2.3"
             installer.run_installer(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
-                "--dev",
                 "--tree",
                 "/tmp/install-dir",
+                vim.NIL, -- --dev flag
                 "lua-cjson",
                 "1.2.3",
+            }
+        end)
+    )
+
+    it(
+        "should provide --dev flag",
+        async_test(function()
+            installer.run_installer(ctx, luarocks.package("lua-cjson", { dev = true }))
+            assert.spy(ctx.spawn.luarocks).was_called(1)
+            assert.spy(ctx.spawn.luarocks).was_called_with {
+                "install",
+                "--tree",
+                "/tmp/install-dir",
+                "--dev",
+                "lua-cjson",
+                vim.NIL, -- version
             }
         end)
     )

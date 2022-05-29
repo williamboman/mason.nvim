@@ -1,6 +1,5 @@
 local installer = require "nvim-lsp-installer.core.installer"
 local _ = require "nvim-lsp-installer.core.functional"
-local std = require "nvim-lsp-installer.core.managers.std"
 local process = require "nvim-lsp-installer.core.process"
 local path = require "nvim-lsp-installer.core.path"
 local Result = require "nvim-lsp-installer.core.result"
@@ -18,23 +17,25 @@ local function with_receipt(package)
 end
 
 ---@param package string @The luarock package to install.
-function M.package(package)
+---@param opts {dev: boolean}|nil
+function M.package(package, opts)
     return function()
-        return M.install(package).with_receipt()
+        return M.install(package, opts).with_receipt()
     end
 end
 
 ---@async
 ---@param package string @The luarock package to install.
-function M.install(package)
-    std.ensure_executable("luarocks", { help_url = "https://luarocks.org/" })
+---@param opts {dev: boolean}|nil
+function M.install(package, opts)
+    opts = opts or {}
     local ctx = installer.context()
     ctx:promote_cwd()
     ctx.spawn.luarocks {
         "install",
-        "--dev",
         "--tree",
         ctx.cwd:get(),
+        opts.dev and "--dev" or vim.NIL,
         package,
         ctx.requested_version:or_else(vim.NIL),
     }
