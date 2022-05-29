@@ -61,8 +61,7 @@ function M.install(packages)
                 "-U",
                 settings.current.pip.install_args,
                 pkgs,
-                env = M.env(ctx.cwd:get()), -- use venv env
-                check_executable = false,
+                with_paths = { M.venv_path(ctx.cwd:get()) },
             }
         end)
         :or_else_throw "Unable to create python3 venv environment."
@@ -95,8 +94,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
         "--outdated",
         "--format=json",
         cwd = install_dir,
-        env = M.env(install_dir), -- use venv
-        check_executable = false,
+        with_paths = { M.venv_path(install_dir) },
     }):map_catching(function(result)
         ---@alias PipOutdatedPackage {name: string, version: string, latest_version: string}
         ---@type PipOutdatedPackage[]
@@ -132,8 +130,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
         "list",
         "--format=json",
         cwd = install_dir,
-        env = M.env(install_dir), -- use venv env
-        check_executable = false,
+        with_paths = { M.venv_path(install_dir) },
     }):map_catching(function(result)
         local pip_packages = vim.json.decode(result.stdout)
         local normalized_pip_package = M.normalize_package(receipt.primary_source.package)

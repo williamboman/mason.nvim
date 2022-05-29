@@ -1,6 +1,5 @@
 local mock = require "luassert.mock"
 local spy = require "luassert.spy"
-local match = require "luassert.match"
 
 local pip3 = require "nvim-lsp-installer.core.managers.pip3"
 local Optional = require "nvim-lsp-installer.core.optional"
@@ -41,20 +40,19 @@ describe("pip3 manager", function()
                 "venv",
             }
             assert.spy(ctx.spawn.python).was_called(1)
-            assert.spy(ctx.spawn.python).was_called_with(match.tbl_containing {
+            assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
                 "pip",
                 "install",
                 "-U",
-                match.table(),
-                match.tbl_containing {
+                {},
+                {
                     "main-package==42.13.37",
                     "supporting-package",
                     "supporting-package2",
                 },
-                env = match.is_table(),
-                check_executable = false,
-            })
+                with_paths = { "/tmp/install-dir/venv/bin" },
+            }
         end)
     )
 
@@ -106,16 +104,15 @@ describe("pip3 manager", function()
             }
             installer.run_installer(ctx, pip3.packages { "package" })
             settings.set(settings._DEFAULT_SETTINGS)
-            assert.spy(ctx.spawn.python).was_called_with(match.tbl_containing {
+            assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
                 "pip",
                 "install",
                 "-U",
-                match.tbl_containing { "--proxy", "http://localhost:8080" },
-                match.tbl_containing { "package" },
-                env = match.is_table(),
-                check_executable = false,
-            })
+                { "--proxy", "http://localhost:8080" },
+                { "package" },
+                with_paths = { "/tmp/install-dir/venv/bin" },
+            }
         end)
     )
 
@@ -165,15 +162,14 @@ describe("pip3 version check", function()
             )
 
             assert.spy(spawn.python).was_called(1)
-            assert.spy(spawn.python).was_called_with(match.tbl_containing {
+            assert.spy(spawn.python).was_called_with {
                 "-m",
                 "pip",
                 "list",
                 "--format=json",
                 cwd = "/tmp/install/dir",
-                env = match.table(),
-                check_executable = false,
-            })
+                with_paths = { "/tmp/install/dir/venv/bin" },
+            }
             assert.is_true(result:is_success())
             assert.equals("1.3.0", result:get_or_nil())
 
@@ -203,16 +199,15 @@ describe("pip3 version check", function()
             )
 
             assert.spy(spawn.python).was_called(1)
-            assert.spy(spawn.python).was_called_with(match.tbl_containing {
+            assert.spy(spawn.python).was_called_with {
                 "-m",
                 "pip",
                 "list",
                 "--outdated",
                 "--format=json",
                 cwd = "/tmp/install/dir",
-                env = match.table(),
-                check_executable = false,
-            })
+                with_paths = { "/tmp/install/dir/venv/bin" },
+            }
             assert.is_true(result:is_success())
             assert.same({
                 name = "python-lsp-server",

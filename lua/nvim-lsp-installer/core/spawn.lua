@@ -87,7 +87,7 @@ setmetatable(spawn, {
 
             local cmd = self._aliases[normalized_cmd] or normalized_cmd
 
-            if args.with_paths == nil and args.check_executable ~= false and not is_executable(cmd) then
+            if (env and env.PATH) == nil and args.check_executable ~= false and not is_executable(cmd) then
                 return Failure({
                     stderr = ("%s is not executable"):format(cmd),
                 }, cmd)
