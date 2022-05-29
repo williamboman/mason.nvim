@@ -103,7 +103,11 @@ end
 
 exports.scope = function(suspend_fn)
     return function(...)
-        return new_execution_context(suspend_fn, function() end, ...)
+        return new_execution_context(suspend_fn, function(success, err)
+            if not success then
+                error(err, 0)
+            end
+        end, ...)
     end
 end
 
