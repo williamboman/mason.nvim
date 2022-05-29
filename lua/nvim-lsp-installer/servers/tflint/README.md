@@ -2,8 +2,13 @@
 
 ## Installing TFLint plugins
 
-To install TFLint plugins, using the same installation of TFLint as nvim-lsp-installer, you may run the `:TFLintInit`
-command. This command assumes that:
+TFLint has [third party plugins](https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md) which are not installed by default.
 
-1. there exists a `.tflint.hcl` file in neovim's current working directory.
-1. you've called `server:setup(opts)` for `tflint`
+To install TFLint plugins, there's a convenient `:TFLintInit` command that does this for you. It will use Neovim's
+current working directory to locate the plugins to install (according to `tflint --init`):
+
+```
+:TFLintInit
+```
+
+The `:TFLintInit` command will only be available once the `tflint` server has been set up.

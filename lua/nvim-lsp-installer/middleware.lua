@@ -1,4 +1,5 @@
 local util = require "lspconfig.util"
+local _ = require "nvim-lsp-installer.core.functional"
 local notify = require "nvim-lsp-installer.notify"
 local servers = require "nvim-lsp-installer.servers"
 local settings = require "nvim-lsp-installer.settings"
@@ -38,6 +39,17 @@ local function should_auto_install(server_name)
     return false
 end
 
+local registered_server_hooks = {}
+
+---@param server_name string
+---@param fn fun(config: table)
+function M.register_server_hook(server_name, fn)
+    if not registered_server_hooks[server_name] then
+        registered_server_hooks[server_name] = {}
+    end
+    table.insert(registered_server_hooks[server_name], fn)
+end
+
 function M.register_lspconfig_hook()
     util.on_setup = util.add_hook_before(util.on_setup, function(config)
         local ok, server = servers.get_server(config.name)
@@ -48,6 +60,15 @@ function M.register_lspconfig_hook()
                 notify("(automatic installation) Installing LSP server: " .. server.name)
                 server:install()
             end
+        end
+
+        if registered_server_hooks[config.name] then
+            _.each(function(fn)
+                local ok, err = pcall(fn, config)
+                if not ok then
+                    notify(err, vim.log.levels.ERROR)
+                end
+            end, registered_server_hooks[config.name])
         end
     end)
 end

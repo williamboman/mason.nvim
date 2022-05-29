@@ -10,8 +10,7 @@ In order for these plugins to work with the `pylsp` server managed by this plugi
 :PylspInstall pyls-flake8 pylsp-mypy pyls-isort
 ```
 
-The `:PylspInstall` command will only be available once the `pylsp` server is started (this happens once you've opened a
-Python file, for example).
+The `:PylspInstall` command will only be available once the `pylsp` server has been set up.
 
 **Note that these extra pylsp plugins will not be reinstalled if you update/reinstall the `pylsp` server, you will have to manage
 them manually.**
