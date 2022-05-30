@@ -32,7 +32,7 @@ local config = {
 
 local log = {
     outfile = path.concat {
-        ((vim.fn.has "nvim-0.8.0" == 1 and vim.fn.stdpath "state") or vim.fn.stdpath "cache"),
+        vim.fn.stdpath "cache",
         ("%s.log"):format(config.name),
     },
 }
