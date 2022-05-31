@@ -10,7 +10,6 @@
     -   [Commands](#commands)
     -   [Configuration](#configuration)
 -   [Available LSPs](#available-lsps)
--   [Custom servers](#custom-servers)
 -   [Logo](#logo)
 -   [Default configuration](#default-configuration)
 
@@ -307,11 +306,6 @@ require("nvim-lsp-installer").setup({
 [omnisharp]: ./lua/nvim-lsp-installer/servers/omnisharp/README.md
 [pylsp]: ./lua/nvim-lsp-installer/servers/pylsp/README.md
 [tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
-
-## Custom servers
-
-You can create your own installers by using the same APIs nvim-lsp-installer itself uses. Refer to
-[CUSTOM_SERVERS.md](./CUSTOM_SERVERS.md) for more information.
 
 ## Logo
 
