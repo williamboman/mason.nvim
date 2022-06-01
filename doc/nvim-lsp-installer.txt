@@ -7,21 +7,17 @@ Author: William Boman
 ==============================================================================
 INTRODUCTION                                *nvim-lsp-installer-introduction*
 
-Neovim plugin that allows you to seamlessly install LSP servers locally (inside `:echo stdpath("data")`).
+Neovim plugin that allow you to manage LSP servers (servers are installed
+inside `stdpath("data")` by default). It works in tandem with
+nvim-lspconfig[1] by registering a hook that enhances the `PATH` environment
+variable, allowing neovim's LSP client to locate the server executable
+installed by nvim-lsp-installer.[2]
 
-On top of just providing commands for installing & uninstalling LSP servers,
-it:
-
--   provides a graphical UI
--   is optimized for blazing fast startup times
--   provides the ability to check for new server versions
--   supports installing custom versions of LSP servers (for example
-    `:LspInstall rust_analyzer@nightly`)
--   relaxes the minimum requirements by attempting multiple different
-    utilities (for example, only one of `wget`, `curl`, or `Invoke-WebRequest`
-    is required for HTTP requests)
--   hosts a suite of system tests for all supported servers
--   has full support for Windows
+[1] https://github.com/neovim/nvim-lspconfig
+    Although lspconfig is the main target, this plugin may also be used for
+    other use cases.
+[2] Some servers don't provide an executable, in which case the full command
+    to spawn the server is provided instead.
 
 Requires neovim `>= 0.7.0` and nvim-lspconfig. The _full requirements_ to
 install _all_ servers are:
