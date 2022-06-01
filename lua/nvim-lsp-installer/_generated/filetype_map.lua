@@ -150,6 +150,7 @@ return {
   vlang = { "vls" },
   vmasm = { "asm_lsp" },
   vue = { "eslint", "stylelint_lsp", "tailwindcss", "volar", "vuels" },
+  wgsl = { "wgsl_analyzer" },
   wxss = { "stylelint_lsp" },
   xml = { "lemminx" },
   xsd = { "lemminx" },

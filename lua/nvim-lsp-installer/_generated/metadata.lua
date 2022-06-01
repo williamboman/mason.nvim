@@ -346,6 +346,9 @@ return {
   vuels = {
     filetypes = { "vue" }
   },
+  wgsl_analyzer = {
+    filetypes = { "wgsl" }
+  },
   yamlls = {
     filetypes = { "yaml", "yaml.docker-compose" }
   },

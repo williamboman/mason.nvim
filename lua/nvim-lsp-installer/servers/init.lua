@@ -147,6 +147,7 @@ local CORE_SERVERS = _.set_of {
     "vls",
     "volar",
     "vuels",
+    "wgsl_analyzer",
     "yamlls",
     "zk",
     "zls",

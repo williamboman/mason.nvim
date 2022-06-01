@@ -35,6 +35,16 @@ function M.install(crate, opts)
         assert(not opts.git, "Providing a version when installing a git crate is not allowed.")
     end)
 
+    local final_crate = crate
+
+    if opts.git then
+        final_crate = { "--git" }
+        if type(opts.git) == "string" then
+            table.insert(final_crate, opts.git)
+        end
+        table.insert(final_crate, crate)
+    end
+
     ctx.spawn.cargo {
         "install",
         "--root",
@@ -46,7 +56,7 @@ function M.install(crate, opts)
             end)
             :or_else(vim.NIL),
         opts.features and { "--features", opts.features } or vim.NIL,
-        opts.git and { "--git", crate } or crate,
+        final_crate,
     }
 
     return {

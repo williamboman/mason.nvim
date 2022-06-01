@@ -54,6 +54,23 @@ describe("cargo manager", function()
     )
 
     it(
+        "should call cargo install with git source and a specific crate",
+        async_test(function()
+            installer.run_installer(ctx, cargo.crate("crate-name", { git = "https://my-crate.git" }))
+            assert.spy(ctx.spawn.cargo).was_called(1)
+            assert.spy(ctx.spawn.cargo).was_called_with {
+                "install",
+                "--root",
+                ".",
+                "--locked",
+                vim.NIL,
+                vim.NIL, -- --features
+                { "--git", "https://my-crate.git", "crate-name" },
+            }
+        end)
+    )
+
+    it(
         "should respect options",
         async_test(function()
             ctx.requested_version = Optional.of "42.13.37"
