@@ -1,4 +1,4 @@
-local health = require "health"
+local health = vim.health or require "health"
 local a = require "nvim-lsp-installer.core.async"
 local platform = require "nvim-lsp-installer.core.platform"
 local github_client = require "nvim-lsp-installer.core.managers.github.client"
