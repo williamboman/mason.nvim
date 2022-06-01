@@ -357,14 +357,28 @@ function M.new_view_only_win(name)
             end,
         })
 
+        vim.api.nvim_create_autocmd({ "BufHidden", "BufUnload" }, {
+            group = autoclose_augroup,
+            buffer = bufnr,
+            callback = function()
+                -- Schedule is done because otherwise the window wont actually close in some cases (for example if
+                -- you're loading another buffer into it)
+                vim.schedule(function()
+                    if vim.api.nvim_win_is_valid(win_id) then
+                        vim.api.nvim_win_close(win_id, true)
+                    end
+                end)
+            end,
+        })
+
         local win_enter_aucmd
         win_enter_aucmd = vim.api.nvim_create_autocmd({ "WinEnter" }, {
             group = autoclose_augroup,
             pattern = "*",
             callback = function()
-                -- Only autoclose the popup window if the user enters a "normal" buffer.
-                -- This allows us to keep the popup window open for things like diagnostic popups, UI inputs á la dressing.nvim, etc.
-                if vim.api.nvim_buf_get_option(0, "buftype") == "" then
+                local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+                -- This allows us to keep the floating window open for things like diagnostic popups, UI inputs á la dressing.nvim, etc.
+                if buftype ~= "prompt" and buftype ~= "nofile" then
                     delete_win_buf()
                     vim.api.nvim_del_autocmd(win_enter_aucmd)
                 end

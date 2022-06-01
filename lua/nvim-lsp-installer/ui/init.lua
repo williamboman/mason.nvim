@@ -262,7 +262,7 @@ local function ServerMetadata(server)
                 { server.metadata.filetypes, "" },
             }),
             _.when(server.is_installed, {
-                { "path", "LspInstallerMuted" },
+                { "install dir", "LspInstallerMuted" },
                 { server.metadata.install_dir, "String" },
             }),
             {
