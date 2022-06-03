@@ -6,7 +6,7 @@ local M = {}
 
 ---@async
 ---@param crate string
----@return Result @of [Crate]
+---@return Result @of Crate
 function M.fetch_crate(crate)
     return fetch(("https://crates.io/api/v1/crates/%s"):format(crate)):map_catching(vim.json.decode)
 end

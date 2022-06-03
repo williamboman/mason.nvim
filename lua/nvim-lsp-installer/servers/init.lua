@@ -34,6 +34,7 @@ local INSTALL_DIRS = {
 local CORE_SERVERS = _.set_of {
     "angularls",
     "ansiblels",
+    "apex_ls",
     "arduino_language_server",
     "asm_lsp",
     "astro",

@@ -20,4 +20,11 @@ _.split = fun.curryN(function(sep, str)
     return vim.split(str, sep)
 end, 2)
 
+---@param pattern string
+---@param repl string|function|table
+---@param str string
+_.gsub = fun.curryN(function(pattern, repl, str)
+    return string.gsub(str, pattern, repl)
+end, 3)
+
 return _

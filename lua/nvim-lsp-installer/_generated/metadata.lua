@@ -7,6 +7,9 @@ return {
   ansiblels = {
     filetypes = { "yaml.ansible" }
   },
+  apex_ls = {
+    filetypes = { "apexcode" }
+  },
   arduino_language_server = {
     filetypes = { "arduino" }
   },

@@ -19,4 +19,8 @@ describe("functional: string", function()
         assert.same({ "This", "is", "a", "sentence" }, _.split("%s", "This is a sentence"))
         assert.same({ "This", "is", "a", "sentence" }, _.split("|", "This|is|a|sentence"))
     end)
+
+    it("should gsub strings", function()
+        assert.same("predator", _.gsub("^apex%s*", "", "apex predator"))
+    end)
 end)

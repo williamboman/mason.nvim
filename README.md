@@ -183,6 +183,7 @@ require("nvim-lsp-installer").setup({
 | AWK                                 | `awk_ls`                   |
 | Angular                             | `angularls`                |
 | Ansible                             | `ansiblels`                |
+| Apex                                | `apex_ls`                  |
 | Arduino [(docs!!!)][arduino]        | `arduino_language_server`  |
 | Assembly (GAS/NASM, GO)             | `asm_lsp`                  |
 | Astro                               | `astro`                    |

@@ -2,6 +2,7 @@
 -- stylua: ignore start
 return {
   OpenFOAM = { "foam_ls" },
+  apexcode = { "apex_ls" },
   arduino = { "arduino_language_server" },
   asm = { "asm_lsp" },
   aspnetcorerazor = { "tailwindcss" },

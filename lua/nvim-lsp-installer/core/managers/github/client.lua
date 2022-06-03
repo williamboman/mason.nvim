@@ -24,6 +24,7 @@ end
 
 ---@async
 ---@param repo string @The GitHub repo ("username/repo").
+---@return Result @of GitHubRelease[]
 function M.fetch_releases(repo)
     log.fmt_trace("Fetching GitHub releases for repo=%s", repo)
     local path = ("repos/%s/releases"):format(repo)
@@ -87,7 +88,7 @@ end
 
 ---@async
 ---@param repo string @The GitHub repo ("username/repo").
----@return Result @of [GitHubTag[]]
+---@return Result @of GitHubTag[]
 function M.fetch_tags(repo)
     local path = ("repos/%s/tags"):format(repo)
     return api_call(path):map_err(function()
@@ -97,7 +98,7 @@ end
 
 ---@async
 ---@param repo string @The GitHub repo ("username/repo").
----@return Result @of [GitHubTag]
+---@return Result @of GitHubTag
 function M.fetch_latest_tag(repo)
     return M.fetch_tags(repo):map_catching(function(tags)
         if vim.tbl_count(tags) == 0 then

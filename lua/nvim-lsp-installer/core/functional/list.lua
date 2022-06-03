@@ -115,4 +115,9 @@ end, 2)
 
 _.head = _.nth(1)
 
+---@param value string|any[]
+_.length = function(value)
+    return #value
+end
+
 return _
