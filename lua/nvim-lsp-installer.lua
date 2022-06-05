@@ -30,7 +30,7 @@ local function ensure_installed(server_identifiers)
     end
 end
 
----@param config table
+---@param config LspInstallerSettings
 function M.setup(config)
     if config then
         settings.set(config)

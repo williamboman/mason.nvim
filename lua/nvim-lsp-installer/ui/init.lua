@@ -968,6 +968,7 @@ local function init(all_servers)
         end
 
         window.open {
+            border = settings.current.ui.border,
             highlight_groups = {
                 "hi def LspInstallerHeader gui=bold guifg=#222222 guibg=#DCA561",
                 "hi def LspInstallerHeaderHelp gui=bold guifg=#222222 guibg=#56B6C2",

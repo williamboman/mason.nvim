@@ -185,6 +185,9 @@ The following settings are applied by default.
             -- Whether to automatically check for outdated servers when opening the UI window.
             check_outdated_servers_on_open = true,
 
+            -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
+            border = "none",
+
             icons = {
                 -- The list icon to use for installed servers.
                 server_installed = "◍",

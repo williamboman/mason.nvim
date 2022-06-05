@@ -141,8 +141,9 @@ end
 -- exported for tests
 M._render_node = render_node
 
+---@param opts DisplayOpenOpts
 ---@param sizes_only boolean @Whether to only return properties that control the window size.
-local function create_popup_window_opts(sizes_only)
+local function create_popup_window_opts(opts, sizes_only)
     local win_height = vim.o.lines - vim.o.cmdheight - 2 -- Add margin for status and buffer line
     local win_width = vim.o.columns
     local height = math.floor(win_height * 0.9)
@@ -158,7 +159,7 @@ local function create_popup_window_opts(sizes_only)
     }
 
     if not sizes_only then
-        popup_layout.border = "none"
+        popup_layout.border = opts.border
     end
 
     return popup_layout
@@ -303,7 +304,7 @@ function M.new_view_only_win(name)
         opts = opts or {}
         local highlight_groups = opts.highlight_groups
         bufnr = vim.api.nvim_create_buf(false, true)
-        win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(false))
+        win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(opts, false))
 
         registered_effect_handlers = opts.effects
         registered_keybinds = {}
@@ -352,7 +353,7 @@ function M.new_view_only_win(name)
             callback = function()
                 if vim.api.nvim_win_is_valid(win_id) then
                     draw(renderer(get_state()))
-                    vim.api.nvim_win_set_config(win_id, create_popup_window_opts(true))
+                    vim.api.nvim_win_set_config(win_id, create_popup_window_opts(opts, true))
                 end
             end,
         })
@@ -419,7 +420,7 @@ function M.new_view_only_win(name)
 
             return mutate_state, get_state
         end,
-        ---@alias DisplayOpenOpts {effects: table<string, fun()>, highlight_groups: string[]|nil}
+        ---@alias DisplayOpenOpts {effects: table<string, fun()>, highlight_groups: string[]|nil, border: string|table}
         ---@type fun(opts: DisplayOpenOpts)
         open = vim.schedule_wrap(function(opts)
             log.trace "Opening window"
