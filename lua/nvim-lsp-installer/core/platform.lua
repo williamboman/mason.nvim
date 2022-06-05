@@ -1,6 +1,5 @@
-local functional = require "nvim-lsp-installer.core.functional"
+local _ = require "nvim-lsp-installer.core.functional"
 local Result = require "nvim-lsp-installer.core.result"
-local lazy = functional.lazy
 local M = {}
 
 local uname = vim.loop.os_uname()
@@ -27,16 +26,6 @@ M.is_win = vim.fn.has "win32" == 1
 M.is_unix = vim.fn.has "unix" == 1
 M.is_mac = vim.fn.has "mac" == 1
 M.is_linux = not M.is_mac and M.is_unix
-
--- @return string @The libc found on the system, musl or glibc (glibc if ldd is not found)
-function M.get_libc()
-    local _, _, libc_exit_code = os.execute "ldd --version 2>&1 | grep -q musl"
-    if libc_exit_code == 0 then
-        return "musl"
-    else
-        return "glibc"
-    end
-end
 
 -- PATH separator
 M.path_sep = M.is_win and ";" or ":"
@@ -70,7 +59,7 @@ function M.when(cases)
 end
 
 ---@type async fun(): table
-M.os_distribution = lazy(function()
+M.os_distribution = _.lazy(function()
     ---Parses the provided contents of an /etc/\*-release file and identifies the Linux distribution.
     ---@param contents string @The contents of a /etc/\*-release file.
     ---@return table<string, any>
@@ -130,7 +119,7 @@ M.os_distribution = lazy(function()
 end)
 
 ---@type async fun() Result @of String
-M.get_homebrew_prefix = lazy(function()
+M.get_homebrew_prefix = _.lazy(function()
     assert(M.is_mac, "Can only locate Homebrew installation on Mac systems.")
     local spawn = require "nvim-lsp-installer.core.spawn"
     return spawn.brew({ "--prefix" })
@@ -140,6 +129,16 @@ M.get_homebrew_prefix = lazy(function()
         :map_err(function()
             return "Failed to locate Homebrew installation."
         end)
+end)
+
+-- @return string @The libc found on the system, musl or glibc (glibc if ldd is not found)
+M.get_libc = _.lazy(function()
+    local _, _, libc_exit_code = os.execute "ldd --version 2>&1 | grep -q musl"
+    if libc_exit_code == 0 then
+        return "musl"
+    else
+        return "glibc"
+    end
 end)
 
 M.is = setmetatable({}, {
