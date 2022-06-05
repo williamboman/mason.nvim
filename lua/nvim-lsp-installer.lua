@@ -275,7 +275,6 @@ function M.on_server_ready(cb)
     end)
 end
 
--- old API
 M.get_server = servers.get_server
 M.get_available_servers = servers.get_available_servers
 M.get_installed_servers = servers.get_installed_servers

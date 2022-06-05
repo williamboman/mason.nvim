@@ -1,5 +1,4 @@
 local dispatcher = require "nvim-lsp-installer.dispatcher"
-local notify = require "nvim-lsp-installer.notify"
 local a = require "nvim-lsp-installer.core.async"
 local InstallContext = require "nvim-lsp-installer.core.installer.context"
 local fs = require "nvim-lsp-installer.core.fs"

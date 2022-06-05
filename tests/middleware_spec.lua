@@ -1,5 +1,4 @@
 local util = require "lspconfig.util"
-local a = require "nvim-lsp-installer.core.async"
 local servers = require "nvim-lsp-installer.servers"
 local middleware = require "nvim-lsp-installer.middleware"
 

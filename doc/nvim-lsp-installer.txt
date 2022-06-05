@@ -332,9 +332,6 @@ info_window.open()
 info_window.close()
     Closes the `:LspInstallInfo` UI window.
 
-==============================================================================
-Lua module: nvim-lsp-installer.servers           *nvim-lsp-installer.servers*
-
                                  *nvim-lsp-installer.get_available_servers()*
 get_available_servers()
         Return: ~
