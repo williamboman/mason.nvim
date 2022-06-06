@@ -340,6 +340,9 @@ return {
   vimls = {
     filetypes = { "vim" }
   },
+  visualforce_ls = {
+    filetypes = { "visualforce" }
+  },
   vls = {
     filetypes = { "vlang" }
   },

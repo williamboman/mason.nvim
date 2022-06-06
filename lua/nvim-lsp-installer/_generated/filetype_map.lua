@@ -148,6 +148,7 @@ return {
   vb = { "omnisharp" },
   verilog = { "svls", "verible" },
   vim = { "vimls" },
+  visualforce = { "visualforce_ls" },
   vlang = { "vls" },
   vmasm = { "asm_lsp" },
   vue = { "eslint", "stylelint_lsp", "tailwindcss", "volar", "vuels" },

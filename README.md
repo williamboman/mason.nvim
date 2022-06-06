@@ -297,6 +297,7 @@ require("nvim-lsp-installer").setup({
 | V                                   | `vls`                      |
 | Vala                                | `vala_ls`                  |
 | VimL                                | `vimls`                    |
+| Visualforce                         | `visualforce`              |
 | Vue                                 | `volar`                    |
 | Vue                                 | `vuels`                    |
 | XML                                 | `lemminx`                  |

@@ -145,6 +145,7 @@ local CORE_SERVERS = _.set_of {
     "vala_ls",
     "verible",
     "vimls",
+    "visualforce_ls",
     "vls",
     "volar",
     "vuels",
