@@ -4,6 +4,9 @@
 
 -   [About](#about)
 -   [Screenshots](#screenshots)
+-   [Requirements](#requirements)
+    -   [Minimum requirements](#minimum-requirements)
+    -   [Additional requirements](#additional-requirements)
 -   [Installation](#installation)
 -   [Usage](#usage)
     -   [Setup](#setup)
@@ -40,33 +43,45 @@ On top of just providing commands for installing & uninstalling LSP servers, it:
 | <img src="https://user-images.githubusercontent.com/6705160/150685720-782e33ba-172c-44b6-8558-fb4e98495294.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685404-2cd34b25-166e-4c84-b9dd-1d5580dc2bdd.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685322-a537f021-5850-4bbc-8be2-1ece5678d205.png" /> |
 | <img src="https://user-images.githubusercontent.com/6705160/150685324-1310ae7d-67bf-4053-872c-d27e8a4c4b80.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686052-fd5c4d54-b4da-4cb3-bb82-a094526ee5b5.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686059-f1be8131-1274-4f62-9aa8-345599cbd8bc.png" /> |
 
-## Installation
+## Requirements
 
-Requires neovim `>= 0.7.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig). The _full requirements_ to
-install _all_ servers are:
+Requires neovim `>= 0.7.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
+
+### Minimum requirements
+
+The minimum recommended requirements are:
 
 -   For Unix systems: git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
 -   For Windows systems: powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip] or [WinRAR][winrar]
+
+### Additional requirements
+
+Additional requirements to install & run all servers are (depending on usage):
+
 -   Node.js (LTS) & npm
 -   Python3 & pip3
 -   go >= 1.17
--   JDK
+-   cargo
 -   Ruby & gem
 -   PHP & Composer
--   dotnet
--   pwsh
+-   JDK
 -   Julia
--   valac (and meson & ninja)
--   rebar3
--   cargo
+-   dotnet
 -   ghcup
 -   luarocks
+-   meson
+-   ninja
+-   pwsh
+-   rebar3
+-   valac
 
 [7zip]: https://www.7-zip.org/
 [archiver]: https://github.com/mholt/archiver
 [peazip]: https://peazip.github.io/
 [winzip]: https://www.winzip.com/
 [winrar]: https://www.win-rar.com/
+
+## Installation
 
 ### [Packer](https://github.com/wbthomason/packer.nvim)
 
@@ -97,46 +112,29 @@ require("nvim-lsp-installer").setup {}
 
 <details>
 <summary>
-Important if you use packer.nvim! (click to expand)
+ℹ️ Important if you use packer.nvim! (click to expand)
 </summary>
 
 <br />
 
-> Do not separate the nvim-lsp-installer setup from lspconfig, for example via the `config` hook.
-> Make sure to colocate the nvim-lsp-installer setup with the lspconfig setup. This is because load order of plugins is
-> not guaranteed, leading to nvim-lsp-installer's `config` function potentially executing after lspconfig's.
->
-> ❌ Do not do this:
+> You need to make sure that the setup for nvim-lsp-installer executes _before_ your setup for lspconfig.
+> There are different ways of achieving this, for example by using the `after` directive:
 
 ```lua
 use {
     {
         "williamboman/nvim-lsp-installer",
-        config = function()
+        config = function ()
             require("nvim-lsp-installer").setup {}
         end
     },
     {
         "neovim/nvim-lspconfig",
+        after = "nvim-lsp-installer",
         config = function()
             local lspconfig = require("lspconfig")
             lspconfig.sumneko_lua.setup {}
-        end
-    },
-}
-```
-
-> ✅ Instead, do this:
-
-```lua
-use {
-    "williamboman/nvim-lsp-installer",
-    {
-        "neovim/nvim-lspconfig",
-        config = function()
-            require("nvim-lsp-installer").setup {}
-            local lspconfig = require("lspconfig")
-            lspconfig.sumneko_lua.setup {}
+            --- ...
         end
     }
 }

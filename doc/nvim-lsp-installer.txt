@@ -13,32 +13,51 @@ nvim-lspconfig[1] by registering a hook that enhances the `PATH` environment
 variable, allowing neovim's LSP client to locate the server executable
 installed by nvim-lsp-installer.[2]
 
+On top of just providing commands for installing & uninstalling LSP servers, it:
+
+-   provides a graphical UI
+-   provides the ability to check for, and upgrade to, new server versions through a single interface
+-   supports installing custom versions of LSP servers (for example `:LspInstall rust_analyzer@nightly`)
+-   relaxes the minimum requirements by attempting multiple different utilities (for example, only one of `wget`, `curl`, or `Invoke-WebRequest` is required for HTTP requests)
+-   hosts a suite of system tests for all supported servers
+-   has full support for Windows
+
 [1] https://github.com/neovim/nvim-lspconfig
-    Although lspconfig is the main target, this plugin may also be used for
-    other use cases.
+    While lspconfig is the main target, this plugin may also be used for other
+    use cases.
 [2] Some servers don't provide an executable, in which case the full command
     to spawn the server is provided instead.
 
-Requires neovim `>= 0.7.0` and nvim-lspconfig. The _full requirements_ to
-install _all_ servers are:
+==============================================================================
+REQUIREMENTS                                *nvim-lsp-installer-requirements*
+
+Requires neovim `>= 0.7.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
+
+                                    *nvim-lsp-installer-requirements-minimum*
+The minimum recommended requirements are:
 
 -   For Unix systems: git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
--   For Windows systems: powershell, git, tar, and 7zip or peazip or archiver
-    or winzip or WinRAR
+-   For Windows systems: powershell, git, tar, and 7zip or peazip or archiver or winzip or WinRAR
+
+                                 *nvim-lsp-installer-requirements-additional*
+Additional requirements to install & run all servers are (depending on usage):
+
 -   Node.js (LTS) & npm
 -   Python3 & pip3
 -   go >= 1.17
--   JDK
+-   cargo
 -   Ruby & gem
 -   PHP & Composer
--   dotnet
--   pwsh
+-   JDK
 -   Julia
--   valac (and meson & ninja)
--   rebar3
--   cargo
+-   dotnet
 -   ghcup
 -   luarocks
+-   meson
+-   ninja
+-   pwsh
+-   rebar3
+-   valac
 
 ==============================================================================
 QUICK START                                   *nvim-lsp-installer-quickstart*
