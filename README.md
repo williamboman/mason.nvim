@@ -241,6 +241,7 @@ require("nvim-lsp-installer").setup({
 | LaTeX                               | `texlab`                   |
 | Lelwel                              | `lelwel_ls`                |
 | Lua                                 | `sumneko_lua`              |
+| Markdown                            | `marksman`                 |
 | Markdown                            | `prosemd_lsp`              |
 | Markdown                            | `remark_ls`                |
 | Markdown                            | `zk`                       |

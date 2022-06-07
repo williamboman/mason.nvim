@@ -38,7 +38,7 @@ return {
     filetypes = { "c", "cpp", "objc", "objcpp" }
   },
   clangd = {
-    filetypes = { "c", "cpp", "objc", "objcpp" }
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }
   },
   clarity_lsp = {
     filetypes = { "clar", "clarity" }
@@ -177,6 +177,9 @@ return {
   },
   ltex = {
     filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" }
+  },
+  marksman = {
+    filetypes = { "markdown" }
   },
   mm0_ls = {
     filetypes = { "metamath-zero" }

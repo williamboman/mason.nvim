@@ -91,6 +91,7 @@ local CORE_SERVERS = _.set_of {
     "lelwel_ls",
     "lemminx",
     "ltex",
+    "marksman",
     "mm0_ls",
     "nickel_ls",
     "nimls",
