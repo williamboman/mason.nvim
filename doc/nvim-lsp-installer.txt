@@ -284,6 +284,23 @@ GITHUB MIRROR                     *nvim-lsp-installer-download-mirror-github*
         },
     }
 
+
+==============================================================================
+INSTALLATION ERRORS                               *nvim-lsp-installer-errors*
+
+                                       *nvim-lsp-installer-errors-github-api*
+For some installers, the GitHub API is used to fetch information about
+releases. This API imposes a rate limit that may be triggered, causing
+installations to fail. The reasons why a rate limit is triggered are many, for
+example being behind a public API, or using other software that also send
+requests to the GitHub API.
+
+To circumvent this, nvim-lsp-installer will utilize the GitHub CLI when
+available, leading to API requests being subject to a much higher rate limit
+threshold when authenticated. Should you run into errors with communicating
+with GitHub's API, it's recommended to install, and authenticate, the GitHub
+CLI: https://cli.github.com/.
+
 ==============================================================================
 DEBUGGING                                      *nvim-lsp-installer-debugging*
 
@@ -295,7 +312,9 @@ sure to set nvim-lsp-installer's log level to DEBUG or TRACE, like so:
     }
 
 You may find the logs by entering the command `:LspInstallLog`. Providing the
-contents of this file when reporting an issue will help tremendously.
+contents of this file when reporting an issue will help tremendously. Remember
+to redo whatever is failing after changing the log level in order to capture
+new log entries.
 
 ==============================================================================
 Lua module: nvim-lsp-installer

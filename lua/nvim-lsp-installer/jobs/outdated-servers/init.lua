@@ -77,7 +77,7 @@ function M.identify_outdated_servers(servers, on_result)
                         end, receipt, server.root_dir)
                     else
                         complete(VersionCheckResult.empty(server))
-                        log.fmt_error("Unable to find checker for source=%s", receipt.primary_source.type)
+                        log.fmt_debug("Unable to find checker for source=%s", receipt.primary_source.type)
                     end
                 else
                     complete(VersionCheckResult.empty(server))

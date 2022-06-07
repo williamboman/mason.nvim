@@ -732,7 +732,7 @@ local function init(all_servers)
             state.servers[server.name].installer.is_running = true
         end)
 
-        log.fmt_info("Starting install server_name=%s, requested_version=%s", server.name, requested_version or "")
+        log.fmt_debug("Starting install server_name=%s, requested_version=%s", server.name, requested_version or "")
 
         server:install_attached({
             requested_server_version = requested_version,
