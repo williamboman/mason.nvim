@@ -307,6 +307,9 @@ return {
   svelte = {
     filetypes = { "svelte" }
   },
+  svlangserver = {
+    filetypes = { "verilog", "systemverilog" }
+  },
   svls = {
     filetypes = { "verilog", "systemverilog" }
   },

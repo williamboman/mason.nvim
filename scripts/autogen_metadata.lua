@@ -163,8 +163,10 @@ local function create_setting_schema_files()
 end
 
 a.run_blocking(function()
-    create_filetype_map()
-    create_autocomplete_map()
-    create_server_metadata()
-    create_setting_schema_files()
+    a.wait_all {
+        create_filetype_map,
+        create_autocomplete_map,
+        create_server_metadata,
+        create_setting_schema_files,
+    }
 end)

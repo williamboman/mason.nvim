@@ -285,6 +285,7 @@ require("nvim-lsp-installer").setup({
 | Stylelint                           | `stylelint_lsp`            |
 | Svelte                              | `svelte`                   |
 | Swift                               | `sourcekit`                |
+| SystemVerilog                       | `svlangserver`             |
 | SystemVerilog                       | `svls`                     |
 | SystemVerilog                       | `verible`                  |
 | TOML                                | `taplo`                    |

@@ -134,6 +134,7 @@ local CORE_SERVERS = _.set_of {
     "stylelint_lsp",
     "sumneko_lua",
     "svelte",
+    "svlangserver",
     "svls",
     "tailwindcss",
     "taplo",
