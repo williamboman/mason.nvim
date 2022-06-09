@@ -205,7 +205,17 @@ function M.check()
         check { cmd = "python3", args = { "--version" }, name = "python3", relaxed = true },
         check { cmd = "python3", args = { "-m", "pip", "--version" }, name = "pip3", relaxed = true },
         check { cmd = "javac", args = { "-version" }, name = "javac", relaxed = true },
-        check { cmd = "java", args = { "-version" }, name = "java", relaxed = true },
+        check { cmd = "java", args = { "-version" }, name = "java", use_stderr = true, relaxed = true },
+        when(
+            vim.env.JAVA_HOME,
+            check {
+                cmd = ("%s/bin/java"):format(vim.env.JAVA_HOME),
+                args = { "-version" },
+                name = "JAVA_HOME",
+                use_stderr = true,
+                relaxed = true,
+            }
+        ),
         check { cmd = "julia", args = { "--version" }, name = "julia", relaxed = true },
         check { cmd = "wget", args = { "--version" }, name = "wget" },
         -- wget is used interchangeably with curl, but with higher priority, so we mark curl as relaxed
