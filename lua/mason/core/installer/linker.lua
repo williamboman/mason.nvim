@@ -25,7 +25,7 @@ end
 ---@param to string
 local function relative_path_from_bin(to)
     local _, match_end = to:find(path.install_prefix(), 1, true)
-    assert(match_end,  "Failed to produce relative path.")
+    assert(match_end, "Failed to produce relative path.")
     local relative_path = to:sub(match_end + 1)
     return ".." .. relative_path
 end

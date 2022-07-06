@@ -14,14 +14,16 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.unzip_release_file({
-            repo = "hirosystems/clarity-lsp",
-            asset_file = coalesce(
-                when(platform.is.mac, "clarity-lsp-macos-x64.zip"),
-                when(platform.is.linux_x64, "clarity-lsp-linux-x64.zip"),
-                when(platform.is.win_x64, "clarity-lsp-windows-x64.zip")
-            ),
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "hirosystems/clarity-lsp",
+                asset_file = coalesce(
+                    when(platform.is.mac, "clarity-lsp-macos-x64.zip"),
+                    when(platform.is.linux_x64, "clarity-lsp-linux-x64.zip"),
+                    when(platform.is.win_x64, "clarity-lsp-windows-x64.zip")
+                ),
+            })
+            .with_receipt()
         ctx:link_bin("clarity-lsp", platform.is.win and "clarity-lsp.exe" or "clarity-lsp")
     end,
 }

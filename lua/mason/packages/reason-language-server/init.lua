@@ -20,10 +20,12 @@ return Pkg.new {
             when(platform.is.linux_x64, "rls-linux"),
             when(platform.is.win_x64, "rls-windows")
         )
-        github.unzip_release_file({
-            repo = "jaredly/reason-language-server",
-            asset_file = ("%s.zip"):format(archive_name),
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "jaredly/reason-language-server",
+                asset_file = ("%s.zip"):format(archive_name),
+            })
+            .with_receipt()
         ctx.fs:rename(archive_name, "reason")
         ctx:link_bin(
             "reason-language-server",

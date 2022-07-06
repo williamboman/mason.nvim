@@ -40,11 +40,13 @@ return Pkg.new {
             when(platform.is.win_x64, "rust-analyzer-x86_64-pc-windows-msvc.gz")
         )
 
-        github.gunzip_release_file({
-            repo = "rust-lang/rust-analyzer",
-            asset_file = asset_file,
-            out_file = platform.is.win and "rust-analyzer.exe" or "rust-analyzer",
-        }).with_receipt()
+        github
+            .gunzip_release_file({
+                repo = "rust-lang/rust-analyzer",
+                asset_file = asset_file,
+                out_file = platform.is.win and "rust-analyzer.exe" or "rust-analyzer",
+            })
+            .with_receipt()
         std.chmod("+x", { "rust-analyzer" })
         ctx:link_bin("rust-analyzer", platform.is.win and "rust-analyzer.exe" or "rust-analyzer")
     end,

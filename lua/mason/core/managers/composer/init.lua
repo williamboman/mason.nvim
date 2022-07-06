@@ -79,28 +79,30 @@ function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "composer" then
         return Result.failure "Receipt does not have a primary source of type composer"
     end
-    return spawn.composer({
-        "outdated",
-        "--no-interaction",
-        "--format=json",
-        cwd = install_dir,
-    }):map_catching(function(result)
-        local outdated_packages = vim.json.decode(result.stdout)
-        local outdated_package = _.find_first(function(package)
-            return package.name == receipt.primary_source.package
-        end, outdated_packages.installed)
-        return Optional.of_nilable(outdated_package)
-            :map(function(package)
-                if package.version ~= package.latest then
-                    return {
-                        name = package.name,
-                        current_version = package.version,
-                        latest_version = package.latest,
-                    }
-                end
-            end)
-            :or_else_throw "Primary package is not outdated."
-    end)
+    return spawn
+        .composer({
+            "outdated",
+            "--no-interaction",
+            "--format=json",
+            cwd = install_dir,
+        })
+        :map_catching(function(result)
+            local outdated_packages = vim.json.decode(result.stdout)
+            local outdated_package = _.find_first(function(package)
+                return package.name == receipt.primary_source.package
+            end, outdated_packages.installed)
+            return Optional.of_nilable(outdated_package)
+                :map(function(package)
+                    if package.version ~= package.latest then
+                        return {
+                            name = package.name,
+                            current_version = package.version,
+                            latest_version = package.latest,
+                        }
+                    end
+                end)
+                :or_else_throw "Primary package is not outdated."
+        end)
 end
 
 ---@async
@@ -110,15 +112,17 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     if receipt.primary_source.type ~= "composer" then
         return Result.failure "Receipt does not have a primary source of type composer"
     end
-    return spawn.composer({
-        "info",
-        "--format=json",
-        receipt.primary_source.package,
-        cwd = install_dir,
-    }):map_catching(function(result)
-        local info = vim.json.decode(result.stdout)
-        return info.versions[1]
-    end)
+    return spawn
+        .composer({
+            "info",
+            "--format=json",
+            receipt.primary_source.package,
+            cwd = install_dir,
+        })
+        :map_catching(function(result)
+            local info = vim.json.decode(result.stdout)
+            return info.versions[1]
+        end)
 end
 
 ---@param install_dir string

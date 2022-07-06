@@ -64,21 +64,21 @@ local function fetch(url, opts)
 
     return platform_specific
         :recover_catching(function()
-            local headers = _.sort_by(
-                _.identity,
-                _.map(_.compose(_.format "--header='%s'", _.join ": "), _.to_pairs(opts.headers))
-            )
-            return spawn.wget({
-                headers,
-                "-nv",
-                "-O",
-                opts.out_file or "-",
-                ("--method=%s"):format(opts.method),
-                opts.data and {
-                    ("--body-data=%s"):format(opts.data) or vim.NIL,
-                } or vim.NIL,
-                url,
-            }):get_or_throw()
+            local headers =
+                _.sort_by(_.identity, _.map(_.compose(_.format "--header='%s'", _.join ": "), _.to_pairs(opts.headers)))
+            return spawn
+                .wget({
+                    headers,
+                    "-nv",
+                    "-O",
+                    opts.out_file or "-",
+                    ("--method=%s"):format(opts.method),
+                    opts.data and {
+                        ("--body-data=%s"):format(opts.data) or vim.NIL,
+                    } or vim.NIL,
+                    url,
+                })
+                :get_or_throw()
         end)
         :recover_catching(function()
             local headers = _.sort_by(
@@ -90,25 +90,27 @@ local function fetch(url, opts)
                     _.to_pairs(opts.headers)
                 )
             )
-            return spawn.curl({
-                headers,
-                "-fsSL",
-                {
-                    "-X",
-                    opts.method,
-                },
-                opts.data and { "-d", "@-" } or vim.NIL,
-                opts.out_file and { "-o", opts.out_file } or vim.NIL,
-                url,
-                on_spawn = function(_, stdio)
-                    local stdin = stdio[1]
-                    if opts.data then
-                        log.trace("Writing stdin to curl", opts.data)
-                        stdin:write(opts.data)
-                    end
-                    stdin:close()
-                end,
-            }):get_or_throw()
+            return spawn
+                .curl({
+                    headers,
+                    "-fsSL",
+                    {
+                        "-X",
+                        opts.method,
+                    },
+                    opts.data and { "-d", "@-" } or vim.NIL,
+                    opts.out_file and { "-o", opts.out_file } or vim.NIL,
+                    url,
+                    on_spawn = function(_, stdio)
+                        local stdin = stdio[1]
+                        if opts.data then
+                            log.trace("Writing stdin to curl", opts.data)
+                            stdin:write(opts.data)
+                        end
+                        stdin:close()
+                    end,
+                })
+                :get_or_throw()
         end)
         :map(function(result)
             if opts.out_file then

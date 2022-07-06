@@ -17,7 +17,8 @@ return Pkg.new {
     install = function(ctx)
         local repo = "haskell/haskell-language-server"
         local release = ctx.requested_version:or_else_get(function()
-            return github_client.fetch_latest_release(repo)
+            return github_client
+                .fetch_latest_release(repo)
                 :map(
                     ---@param release GitHubRelease
                     function(release)

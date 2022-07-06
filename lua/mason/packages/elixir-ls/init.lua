@@ -11,9 +11,11 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.unzip_release_file({
-            repo = "elixir-lsp/elixir-ls",
-            asset_file = "elixir-ls.zip",
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "elixir-lsp/elixir-ls",
+                asset_file = "elixir-ls.zip",
+            })
+            .with_receipt()
     end,
 }

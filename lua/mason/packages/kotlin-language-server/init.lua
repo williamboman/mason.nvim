@@ -12,10 +12,12 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.unzip_release_file({
-            repo = "fwcd/kotlin-language-server",
-            asset_file = "server.zip",
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "fwcd/kotlin-language-server",
+                asset_file = "server.zip",
+            })
+            .with_receipt()
         ctx:link_bin(
             "kotlin-language-server",
             path.concat {

@@ -53,8 +53,8 @@ function M.download_file(url, out_file)
     local ctx = installer.context()
     ctx.stdio_sink.stdout(("Downloading file %q...\n"):format(url))
     fetch(url, {
-        out_file = path.concat { ctx.cwd:get(), out_file },
-    })
+            out_file = path.concat { ctx.cwd:get(), out_file },
+        })
         :map_err(function(err)
             return ("Failed to download file %q.\n%s"):format(url, err)
         end)

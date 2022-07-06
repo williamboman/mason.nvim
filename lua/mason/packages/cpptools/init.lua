@@ -14,19 +14,21 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.unzip_release_file({
-            repo = "microsoft/vscode-cpptools",
-            asset_file = _.coalesce(
-                _.when(platform.is.mac_x64, "cpptools-osx.vsix"),
-                _.when(platform.is.mac_arm64, "cpptools-osx-arm64.vsix"),
-                _.when(platform.is.linux_x64, "cpptools-linux.vsix"),
-                _.when(platform.is.linux_arm64, "cpptools-linux-aarch64.vsix"),
-                _.when(platform.is.linux_arm, "cpptools-linux-armhf.vsix"),
-                _.when(platform.is.win_x64, "cpptools-win64.vsix"),
-                _.when(platform.is.win_arm64, "cpptools-win-arm64.vsix"),
-                _.when(platform.is.win_x86, "cpptools-win32.vsix")
-            ),
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "microsoft/vscode-cpptools",
+                asset_file = _.coalesce(
+                    _.when(platform.is.mac_x64, "cpptools-osx.vsix"),
+                    _.when(platform.is.mac_arm64, "cpptools-osx-arm64.vsix"),
+                    _.when(platform.is.linux_x64, "cpptools-linux.vsix"),
+                    _.when(platform.is.linux_arm64, "cpptools-linux-aarch64.vsix"),
+                    _.when(platform.is.linux_arm, "cpptools-linux-armhf.vsix"),
+                    _.when(platform.is.win_x64, "cpptools-win64.vsix"),
+                    _.when(platform.is.win_arm64, "cpptools-win-arm64.vsix"),
+                    _.when(platform.is.win_x86, "cpptools-win32.vsix")
+                ),
+            })
+            .with_receipt()
 
         local debug_executable = path.concat {
             "extension",

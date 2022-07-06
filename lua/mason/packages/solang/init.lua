@@ -9,17 +9,19 @@ local coalesce, when = _.coalesce, _.when
 
 ---@async
 local function download_solang()
-    local source = github.download_release_file({
-        repo = "hyperledger-labs/solang",
-        out_file = platform.is.win and "solang.exe" or "solang",
-        asset_file = coalesce(
-            when(platform.is.mac_x64, "solang-mac-intel"),
-            when(platform.is.mac_arm64, "solang-mac-arm"),
-            when(platform.is.linux_arm64, "solang-linux-arm64"),
-            when(platform.is.linux_x64, "solang-linux-x86-64"),
-            when(platform.is.win_x64, "solang.exe")
-        ),
-    }).with_receipt()
+    local source = github
+        .download_release_file({
+            repo = "hyperledger-labs/solang",
+            out_file = platform.is.win and "solang.exe" or "solang",
+            asset_file = coalesce(
+                when(platform.is.mac_x64, "solang-mac-intel"),
+                when(platform.is.mac_arm64, "solang-mac-arm"),
+                when(platform.is.linux_arm64, "solang-linux-arm64"),
+                when(platform.is.linux_x64, "solang-linux-x86-64"),
+                when(platform.is.win_x64, "solang.exe")
+            ),
+        })
+        .with_receipt()
     std.chmod("+x", { "solang" })
     return source
 end

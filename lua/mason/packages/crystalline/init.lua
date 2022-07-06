@@ -15,14 +15,16 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.gunzip_release_file({
-            repo = "elbywan/crystalline",
-            asset_file = coalesce(
-                when(platform.is.mac_x64, "crystalline_x86_64-apple-darwin.gz"),
-                when(platform.is.linux_x64, "crystalline_x86_64-unknown-linux-gnu.gz")
-            ),
-            out_file = "crystalline",
-        }).with_receipt()
+        github
+            .gunzip_release_file({
+                repo = "elbywan/crystalline",
+                asset_file = coalesce(
+                    when(platform.is.mac_x64, "crystalline_x86_64-apple-darwin.gz"),
+                    when(platform.is.linux_x64, "crystalline_x86_64-unknown-linux-gnu.gz")
+                ),
+                out_file = "crystalline",
+            })
+            .with_receipt()
         std.chmod("+x", { "crystalline" })
         ctx:link_bin("crystalline", "crystalline")
     end,

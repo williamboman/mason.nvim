@@ -17,10 +17,12 @@ return Pkg.new {
         ctx:chdir("vscode", function()
             -- The bicep-langserver.zip is a bit broken on POSIX systems - so we download it via the VSCode distribution
             -- instead. See https://github.com/Azure/bicep/issues/3704.
-            github.unzip_release_file({
-                repo = "Azure/bicep",
-                asset_file = "vscode-bicep.vsix",
-            }).with_receipt()
+            github
+                .unzip_release_file({
+                    repo = "Azure/bicep",
+                    asset_file = "vscode-bicep.vsix",
+                })
+                .with_receipt()
         end)
         ctx.fs:rename(path.concat { "vscode", "extension", "bicepLanguageServer" }, "langserver")
         ctx.fs:rmrf "vscode"

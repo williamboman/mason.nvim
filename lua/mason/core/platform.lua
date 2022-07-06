@@ -102,7 +102,8 @@ M.os_distribution = fun.lazy(function()
     return M.when {
         linux = function()
             local spawn = require "mason.core.spawn"
-            return spawn.bash({ "-c", "cat /etc/*-release" })
+            return spawn
+                .bash({ "-c", "cat /etc/*-release" })
                 :map_catching(function(result)
                     return parse_linux_dist(result.stdout)
                 end)
@@ -124,7 +125,8 @@ end)
 M.get_homebrew_prefix = fun.lazy(function()
     assert(M.is_mac, "Can only locate Homebrew installation on Mac systems.")
     local spawn = require "mason.core.spawn"
-    return spawn.brew({ "--prefix" })
+    return spawn
+        .brew({ "--prefix" })
         :map_catching(function(result)
             return vim.trim(result.stdout)
         end)

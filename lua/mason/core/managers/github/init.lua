@@ -41,7 +41,8 @@ end
 function M.release_file(opts)
     local ctx = installer.context()
     local release = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
-        return client.fetch_latest_release(opts.repo)
+        return client
+            .fetch_latest_release(opts.repo)
             :map(_.prop "tag_name")
             :get_or_throw "Failed to fetch latest release from GitHub API. Refer to :h mason-errors-github-api for more information."
     end)

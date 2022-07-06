@@ -12,12 +12,14 @@ return Pkg.new {
     ---@param ctx InstallContext
     install = function(ctx)
         assert(platform.is.unix, "puppet-editor-services only supports UNIX environments.")
-        github.unzip_release_file({
-            repo = "puppetlabs/puppet-editor-services",
-            asset_file = function(version)
-                return ("puppet_editor_services_%s.zip"):format(version)
-            end,
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "puppetlabs/puppet-editor-services",
+                asset_file = function(version)
+                    return ("puppet_editor_services_%s.zip"):format(version)
+                end,
+            })
+            .with_receipt()
         ctx:link_bin("puppet-languageserver", "puppet-languageserver")
         ctx:link_bin("puppet-debugserver", "puppet-debugserver")
     end,

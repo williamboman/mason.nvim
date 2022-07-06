@@ -77,7 +77,9 @@ local function version_check(provider_mapping)
     return function(receipt, install_dir)
         local check = provider_mapping[receipt.primary_source.type]
         if not check then
-            return Result.failure(( "Packages installed via %s does not yet support version check."):format(receipt.primary_source.type))
+            return Result.failure(
+                ("Packages installed via %s does not yet support version check."):format(receipt.primary_source.type)
+            )
         end
         return check(receipt, install_dir)
     end

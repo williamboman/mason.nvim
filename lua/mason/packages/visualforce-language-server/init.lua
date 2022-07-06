@@ -23,10 +23,12 @@ return Pkg.new {
             :get_or_throw() -- Result unwrap
             :or_else_throw "Failed to find release with assets." -- Optional unwrap
 
-        github.unzip_release_file({
-            version = Optional.of(release.tag_name),
-            asset_file = _.compose(_.format "salesforcedx-vscode-visualforce-%s.vsix", _.gsub("^v", "")),
-            repo = repo,
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                version = Optional.of(release.tag_name),
+                asset_file = _.compose(_.format "salesforcedx-vscode-visualforce-%s.vsix", _.gsub("^v", "")),
+                repo = repo,
+            })
+            .with_receipt()
     end,
 }

@@ -15,15 +15,17 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.download_release_file({
-            repo = "artempyanykh/marksman",
-            out_file = platform.is.win and "marksman.exe" or "marksman",
-            asset_file = coalesce(
-                when(platform.is.mac, "marksman-macos"),
-                when(platform.is.linux_x64, "marksman-linux"),
-                when(platform.is.win_x64, "marksman.exe")
-            ),
-        }).with_receipt()
+        github
+            .download_release_file({
+                repo = "artempyanykh/marksman",
+                out_file = platform.is.win and "marksman.exe" or "marksman",
+                asset_file = coalesce(
+                    when(platform.is.mac, "marksman-macos"),
+                    when(platform.is.linux_x64, "marksman-linux"),
+                    when(platform.is.win_x64, "marksman.exe")
+                ),
+            })
+            .with_receipt()
         std.chmod("+x", { "marksman" })
         ctx:link_bin("marksman", platform.is.win and "marksman.exe" or "marksman")
     end,

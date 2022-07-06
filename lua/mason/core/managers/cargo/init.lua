@@ -112,20 +112,22 @@ end
 ---@param receipt InstallReceipt
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
-    return spawn.cargo({
-        "install",
-        "--list",
-        "--root",
-        ".",
-        cwd = install_dir,
-    }):map_catching(function(result)
-        local installed_crates = M.parse_installed_crates(result.stdout)
-        if vim.in_fast_event() then
-            a.scheduler() -- needed because vim.fn.* call
-        end
-        local package = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
-        return Optional.of_nilable(installed_crates[package]):or_else_throw "Failed to find cargo package version."
-    end)
+    return spawn
+        .cargo({
+            "install",
+            "--list",
+            "--root",
+            ".",
+            cwd = install_dir,
+        })
+        :map_catching(function(result)
+            local installed_crates = M.parse_installed_crates(result.stdout)
+            if vim.in_fast_event() then
+                a.scheduler() -- needed because vim.fn.* call
+            end
+            local package = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
+            return Optional.of_nilable(installed_crates[package]):or_else_throw "Failed to find cargo package version."
+        end)
 end
 
 ---@param install_dir string

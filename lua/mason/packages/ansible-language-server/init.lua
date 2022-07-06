@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://github.com/ansible/ansible-language-server",
     languages = { Pkg.Lang.Ansible },
     categories = { Pkg.Cat.LSP },
-    install = npm.packages { "@ansible/ansible-language-server", bin = { "ansible-language-server"} },
+    install = npm.packages { "@ansible/ansible-language-server", bin = { "ansible-language-server" } },
 }

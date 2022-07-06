@@ -9,13 +9,15 @@ return Pkg.new {
     categories = { Pkg.Cat.LSP },
     ---@async
     install = function()
-        github.download_release_file({
-            repo = "1c-syntax/bsl-language-server",
-            out_file = "bsl-lsp.jar",
-            asset_file = function(release)
-                local version = release:gsub("^v", "")
-                return ("bsl-language-server-%s-exec.jar"):format(version)
-            end,
-        }).with_receipt()
+        github
+            .download_release_file({
+                repo = "1c-syntax/bsl-language-server",
+                out_file = "bsl-lsp.jar",
+                asset_file = function(release)
+                    local version = release:gsub("^v", "")
+                    return ("bsl-language-server-%s-exec.jar"):format(version)
+                end,
+            })
+            .with_receipt()
     end,
 }

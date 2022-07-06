@@ -15,15 +15,17 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.download_release_file({
-            repo = "ethereum/solidity",
-            out_file = platform.is_win and "solc.exe" or "solc",
-            asset_file = coalesce(
-                when(platform.is.mac, "solc-macos"),
-                when(platform.is.linux, "solc-static-linux"),
-                when(platform.is.win, "solc-windows.exe")
-            ),
-        }).with_receipt()
+        github
+            .download_release_file({
+                repo = "ethereum/solidity",
+                out_file = platform.is_win and "solc.exe" or "solc",
+                asset_file = coalesce(
+                    when(platform.is.mac, "solc-macos"),
+                    when(platform.is.linux, "solc-static-linux"),
+                    when(platform.is.win, "solc-windows.exe")
+                ),
+            })
+            .with_receipt()
         std.chmod("+x", { "solc" })
         ctx:link_bin("solc", platform.is.win and "solc.exe" or "solc")
     end,

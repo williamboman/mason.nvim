@@ -12,7 +12,8 @@ local M = {}
 ---@param path string
 ---@return Result @JSON decoded response.
 local function api_call(path)
-    return spawn.gh({ "api", path })
+    return spawn
+        .gh({ "api", path })
         :map(_.prop "stdout")
         :recover_catching(function()
             return fetch(("https://api.github.com/%s"):format(path)):get_or_throw()

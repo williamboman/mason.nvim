@@ -65,17 +65,19 @@ function M.get_installed_primary_package_version(receipt, install_dir)
         return Result.failure "Receipt does not have a primary source of type luarocks"
     end
     local primary_package = receipt.primary_source.package
-    return spawn.luarocks({
-        "list",
-        "--tree",
-        install_dir,
-        "--porcelain",
-    }):map_catching(function(result)
-        local luarocks = M.parse_installed_rocks(result.stdout)
-        return Optional.of_nilable(_.find_first(_.prop_eq("package", primary_package), luarocks))
-            :map(_.prop "version")
-            :or_else_throw()
-    end)
+    return spawn
+        .luarocks({
+            "list",
+            "--tree",
+            install_dir,
+            "--porcelain",
+        })
+        :map_catching(function(result)
+            local luarocks = M.parse_installed_rocks(result.stdout)
+            return Optional.of_nilable(_.find_first(_.prop_eq("package", primary_package), luarocks))
+                :map(_.prop "version")
+                :or_else_throw()
+        end)
 end
 
 ---@alias OutdatedLuarock {name: string, installed: string, available: string, repo: string}
@@ -98,27 +100,29 @@ function M.check_outdated_primary_package(receipt, install_dir)
         return Result.failure "Receipt does not have a primary source of type luarocks"
     end
     local primary_package = receipt.primary_source.package
-    return spawn.luarocks({
-        "list",
-        "--outdated",
-        "--tree",
-        install_dir,
-        "--porcelain",
-    }):map_catching(function(result)
-        local outdated_rocks = M.parse_outdated_rocks(result.stdout)
-        return Optional.of_nilable(_.find_first(_.prop_eq("name", primary_package), outdated_rocks))
-            :map(
-                ---@param outdated_rock OutdatedLuarock
-                function(outdated_rock)
-                    return {
-                        name = outdated_rock.name,
-                        current_version = assert(outdated_rock.installed),
-                        latest_version = assert(outdated_rock.available),
-                    }
-                end
-            )
-            :or_else_throw()
-    end)
+    return spawn
+        .luarocks({
+            "list",
+            "--outdated",
+            "--tree",
+            install_dir,
+            "--porcelain",
+        })
+        :map_catching(function(result)
+            local outdated_rocks = M.parse_outdated_rocks(result.stdout)
+            return Optional.of_nilable(_.find_first(_.prop_eq("name", primary_package), outdated_rocks))
+                :map(
+                    ---@param outdated_rock OutdatedLuarock
+                    function(outdated_rock)
+                        return {
+                            name = outdated_rock.name,
+                            current_version = assert(outdated_rock.installed),
+                            latest_version = assert(outdated_rock.available),
+                        }
+                    end
+                )
+                :or_else_throw()
+        end)
 end
 
 ---@param install_dir string

@@ -22,10 +22,12 @@ return Pkg.new {
             when(platform.is.linux_x86, "i386-linux.tar.xz"),
             when(platform.is.win_x64, "x86_64-windows.tar.xz")
         )
-        github.untarxz_release_file({
-            repo = "zigtools/zls",
-            asset_file = asset_file,
-        }).with_receipt()
+        github
+            .untarxz_release_file({
+                repo = "zigtools/zls",
+                asset_file = asset_file,
+            })
+            .with_receipt()
         std.chmod("+x", { path.concat { "bin", "zls" } })
         ctx:link_bin("zls", path.concat { "bin", platform.is.win and "zls.exe" or "zls" })
     end,

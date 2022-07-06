@@ -8,6 +8,6 @@ return Pkg.new {
     languages = { Pkg.Lang.Lua },
     categories = { Pkg.Cat.Formatter },
     install = cargo.crate("stylua", {
-        bin = { "stylua" }
+        bin = { "stylua" },
     }),
 }

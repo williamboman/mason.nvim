@@ -32,10 +32,12 @@ return Pkg.new {
 
         ctx.fs:mkdir "omnisharp-mono"
         ctx:chdir("omnisharp-mono", function()
-            github.unzip_release_file({
-                repo = "OmniSharp/omnisharp-roslyn",
-                asset_file = "omnisharp-mono.zip",
-            }).with_receipt()
+            github
+                .unzip_release_file({
+                    repo = "OmniSharp/omnisharp-roslyn",
+                    asset_file = "omnisharp-mono.zip",
+                })
+                .with_receipt()
         end)
     end,
 }

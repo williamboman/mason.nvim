@@ -33,13 +33,15 @@ return Pkg.new {
 
         ctx.fs:mkdir "vscode-package"
         ctx:chdir("vscode-package", function()
-            github.unzip_release_file({
-                repo = "julia-vscode/julia-vscode",
-                asset_file = function(version)
-                    local version_number = version:gsub("^v", "")
-                    return ("language-julia-%s.vsix"):format(version_number)
-                end,
-            }).with_receipt()
+            github
+                .unzip_release_file({
+                    repo = "julia-vscode/julia-vscode",
+                    asset_file = function(version)
+                        local version_number = version:gsub("^v", "")
+                        return ("language-julia-%s.vsix"):format(version_number)
+                    end,
+                })
+                .with_receipt()
         end)
 
         ctx.fs:rename(

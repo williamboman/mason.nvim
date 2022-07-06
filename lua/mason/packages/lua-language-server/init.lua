@@ -15,21 +15,23 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.unzip_release_file({
-            repo = "sumneko/vscode-lua",
-            asset_file = function(version)
-                local target = coalesce(
-                    when(platform.is.mac_x64, "vscode-lua-%s-darwin-x64.vsix"),
-                    when(platform.is.mac_arm64, "vscode-lua-%s-darwin-arm64.vsix"),
-                    when(platform.is.linux_x64, "vscode-lua-%s-linux-x64.vsix"),
-                    when(platform.is.linux_arm64, "vscode-lua-%s-linux-arm64.vsix"),
-                    when(platform.is.win_x64, "vscode-lua-%s-win32-x64.vsix"),
-                    when(platform.is.win_x86, "vscode-lua-%s-win32-ia32.vsix")
-                )
+        github
+            .unzip_release_file({
+                repo = "sumneko/vscode-lua",
+                asset_file = function(version)
+                    local target = coalesce(
+                        when(platform.is.mac_x64, "vscode-lua-%s-darwin-x64.vsix"),
+                        when(platform.is.mac_arm64, "vscode-lua-%s-darwin-arm64.vsix"),
+                        when(platform.is.linux_x64, "vscode-lua-%s-linux-x64.vsix"),
+                        when(platform.is.linux_arm64, "vscode-lua-%s-linux-arm64.vsix"),
+                        when(platform.is.win_x64, "vscode-lua-%s-win32-x64.vsix"),
+                        when(platform.is.win_x86, "vscode-lua-%s-win32-ia32.vsix")
+                    )
 
-                return target and target:format(version)
-            end,
-        }).with_receipt()
+                    return target and target:format(version)
+                end,
+            })
+            .with_receipt()
 
         platform.when {
             unix = function()

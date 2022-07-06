@@ -15,7 +15,7 @@ local spawn = {
         gradlew = platform.is_win and "gradlew.bat" or "gradlew",
         -- for hererocks installations
         luarocks = (platform.is_win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
-        rebar3 = platform.is_win and "rebar3.cmd" or "rebar3"
+        rebar3 = platform.is_win and "rebar3.cmd" or "rebar3",
     },
     _flatten_cmd_args = _.compose(_.filter(_.complement(_.equals(vim.NIL))), _.flatten),
 }

@@ -15,16 +15,20 @@ return Pkg.new {
         local repo = "slint-ui/slint"
         platform.when {
             win = function()
-                github.unzip_release_file({
-                    repo = repo,
-                    asset_file = "slint-lsp-windows.zip",
-                }).with_receipt()
+                github
+                    .unzip_release_file({
+                        repo = repo,
+                        asset_file = "slint-lsp-windows.zip",
+                    })
+                    .with_receipt()
             end,
             linux = function()
-                github.untargz_release_file({
-                    repo = repo,
-                    asset_file = "slint-lsp-linux.tar.gz",
-                }).with_receipt()
+                github
+                    .untargz_release_file({
+                        repo = repo,
+                        asset_file = "slint-lsp-linux.tar.gz",
+                    })
+                    .with_receipt()
             end,
         }
         ctx:link_bin("slint-lsp", path.concat { "slint-lsp", platform.is.win and "slint-lsp.exe" or "slint-lsp" })

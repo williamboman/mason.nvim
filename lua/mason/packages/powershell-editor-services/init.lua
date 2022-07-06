@@ -11,9 +11,11 @@ return Pkg.new {
     ---@async
     install = function()
         std.ensure_executable("pwsh", { help_url = "https://github.com/PowerShell/PowerShell#get-powershell" })
-        github.unzip_release_file({
-            repo = "PowerShell/PowerShellEditorServices",
-            asset_file = "PowerShellEditorServices.zip",
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "PowerShell/PowerShellEditorServices",
+                asset_file = "PowerShellEditorServices.zip",
+            })
+            .with_receipt()
     end,
 }

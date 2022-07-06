@@ -134,14 +134,17 @@ end
 ---@param receipt InstallReceipt
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
-    return spawn.gem({
-        "list",
-        cwd = install_dir,
-        env = M.env(install_dir),
-    }):map_catching(function(result)
-        local gems = M.parse_gem_list_output(result.stdout)
-        return Optional.of_nilable(gems[receipt.primary_source.package]):or_else_throw "Failed to find gem package version."
-    end)
+    return spawn
+        .gem({
+            "list",
+            cwd = install_dir,
+            env = M.env(install_dir),
+        })
+        :map_catching(function(result)
+            local gems = M.parse_gem_list_output(result.stdout)
+            return Optional.of_nilable(gems[receipt.primary_source.package])
+                :or_else_throw "Failed to find gem package version."
+        end)
 end
 
 ---@param install_dir string

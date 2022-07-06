@@ -90,43 +90,49 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     end
     -- trims e.g. golang.org/x/tools/gopls to gopls
     local executable = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
-    return spawn.go({
-        "version",
-        "-m",
-        platform.is_win and ("%s.exe"):format(executable) or executable,
-        cwd = install_dir,
-    }):map_catching(function(result)
-        local parsed_output = M.parse_mod_version_output(result.stdout)
-        return Optional.of_nilable(parsed_output.mod[receipt.primary_source.package]):or_else_throw "Failed to parse mod version"
-    end)
+    return spawn
+        .go({
+            "version",
+            "-m",
+            platform.is_win and ("%s.exe"):format(executable) or executable,
+            cwd = install_dir,
+        })
+        :map_catching(function(result)
+            local parsed_output = M.parse_mod_version_output(result.stdout)
+            return Optional.of_nilable(parsed_output.mod[receipt.primary_source.package])
+                :or_else_throw "Failed to parse mod version"
+        end)
 end
 
 ---@async
 ---@param receipt InstallReceipt
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
-    return spawn.go({
-        "list",
-        "-json",
-        "-m",
-        ("%s@latest"):format(receipt.primary_source.package),
-        cwd = install_dir,
-    }):map_catching(function(result)
-        ---@type {Path: string, Version: string}
-        local output = vim.json.decode(result.stdout)
-        return Optional.of_nilable(output.Version)
-            :map(function(latest_version)
-                local installed_version = M.get_installed_primary_package_version(receipt, install_dir):get_or_throw()
-                if installed_version ~= latest_version then
-                    return {
-                        name = receipt.primary_source.package,
-                        current_version = assert(installed_version),
-                        latest_version = assert(latest_version),
-                    }
-                end
-            end)
-            :or_else_throw "Primary package is not outdated."
-    end)
+    return spawn
+        .go({
+            "list",
+            "-json",
+            "-m",
+            ("%s@latest"):format(receipt.primary_source.package),
+            cwd = install_dir,
+        })
+        :map_catching(function(result)
+            ---@type {Path: string, Version: string}
+            local output = vim.json.decode(result.stdout)
+            return Optional.of_nilable(output.Version)
+                :map(function(latest_version)
+                    local installed_version =
+                        M.get_installed_primary_package_version(receipt, install_dir):get_or_throw()
+                    if installed_version ~= latest_version then
+                        return {
+                            name = receipt.primary_source.package,
+                            current_version = assert(installed_version),
+                            latest_version = assert(latest_version),
+                        }
+                    end
+                end)
+                :or_else_throw "Primary package is not outdated."
+        end)
 end
 
 ---@param install_dir string

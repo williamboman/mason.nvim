@@ -19,10 +19,8 @@ end
 
 ---@param lspconfig_server_name string
 function M.resolve_server_config_factory(lspconfig_server_name)
-    local ok, server_config = pcall(
-        require,
-        ("mason.adapters.lspconfig.server_configurations.%s"):format(lspconfig_server_name)
-    )
+    local ok, server_config =
+        pcall(require, ("mason.adapters.lspconfig.server_configurations.%s"):format(lspconfig_server_name))
     if ok then
         return Optional.of(server_config)
     end

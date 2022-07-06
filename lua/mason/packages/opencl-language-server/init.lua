@@ -20,16 +20,20 @@ return Pkg.new {
                     when(platform.is.mac, "opencl-language-server-darwin-x86_64.tar.gz"),
                     when(platform.is.linux_x64, "opencl-language-server-linux-x86_64.tar.gz")
                 )
-                github.untargz_release_file({
-                    repo = "Galarius/opencl-language-server",
-                    asset_file = asset_file,
-                }).with_receipt()
+                github
+                    .untargz_release_file({
+                        repo = "Galarius/opencl-language-server",
+                        asset_file = asset_file,
+                    })
+                    .with_receipt()
             end,
             win = function()
-                github.unzip_release_file({
-                    repo = "Galarius/opencl-language-server",
-                    asset_file = "opencl-language-server-win32-x86_64.zip",
-                }).with_receipt()
+                github
+                    .unzip_release_file({
+                        repo = "Galarius/opencl-language-server",
+                        asset_file = "opencl-language-server-win32-x86_64.zip",
+                    })
+                    .with_receipt()
             end,
         }
         ctx:link_bin(

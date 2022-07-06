@@ -61,14 +61,16 @@ end
 ---@param receipt InstallReceipt
 ---@param install_dir string
 function M.get_installed_revision(receipt, install_dir)
-    return spawn.git({
-        "rev-parse",
-        "--short",
-        "HEAD",
-        cwd = install_dir,
-    }):map_catching(function(result)
-        return assert(vim.trim(result.stdout))
-    end)
+    return spawn
+        .git({
+            "rev-parse",
+            "--short",
+            "HEAD",
+            cwd = install_dir,
+        })
+        :map_catching(function(result)
+            return assert(vim.trim(result.stdout))
+        end)
 end
 
 return M

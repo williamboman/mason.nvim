@@ -15,15 +15,17 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.download_release_file({
-            repo = "kitten/prosemd-lsp",
-            out_file = platform.is_win and "prosemd-lsp.exe" or "prosemd-lsp",
-            asset_file = coalesce(
-                when(platform.is_mac, "prosemd-lsp-macos"),
-                when(platform.is_linux and platform.arch == "x64", "prosemd-lsp-linux"),
-                when(platform.is_win and platform.arch == "x64", "prosemd-lsp-windows.exe")
-            ),
-        }).with_receipt()
+        github
+            .download_release_file({
+                repo = "kitten/prosemd-lsp",
+                out_file = platform.is_win and "prosemd-lsp.exe" or "prosemd-lsp",
+                asset_file = coalesce(
+                    when(platform.is_mac, "prosemd-lsp-macos"),
+                    when(platform.is_linux and platform.arch == "x64", "prosemd-lsp-linux"),
+                    when(platform.is_win and platform.arch == "x64", "prosemd-lsp-windows.exe")
+                ),
+            })
+            .with_receipt()
         std.chmod("+x", { "prosemd-lsp" })
         ctx:link_bin("prosemd-lsp", platform.is.win and "prosemd-lsp.exe" or "prosemd-lsp")
     end,

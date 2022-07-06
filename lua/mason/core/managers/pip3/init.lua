@@ -98,34 +98,36 @@ function M.check_outdated_primary_package(receipt, install_dir)
         return Result.failure "Receipt does not have a primary source of type pip3"
     end
     local normalized_package = M.normalize_package(receipt.primary_source.package)
-    return spawn.python({
-        "-m",
-        "pip",
-        "list",
-        "--outdated",
-        "--format=json",
-        cwd = install_dir,
-        with_paths = { M.venv_path(install_dir) },
-    }):map_catching(function(result)
-        ---@alias PipOutdatedPackage {name: string, version: string, latest_version: string}
-        ---@type PipOutdatedPackage[]
-        local packages = vim.json.decode(result.stdout)
+    return spawn
+        .python({
+            "-m",
+            "pip",
+            "list",
+            "--outdated",
+            "--format=json",
+            cwd = install_dir,
+            with_paths = { M.venv_path(install_dir) },
+        })
+        :map_catching(function(result)
+            ---@alias PipOutdatedPackage {name: string, version: string, latest_version: string}
+            ---@type PipOutdatedPackage[]
+            local packages = vim.json.decode(result.stdout)
 
-        local outdated_primary_package = _.find_first(function(outdated_package)
-            return outdated_package.name == normalized_package
-                and outdated_package.version ~= outdated_package.latest_version
-        end, packages)
+            local outdated_primary_package = _.find_first(function(outdated_package)
+                return outdated_package.name == normalized_package
+                    and outdated_package.version ~= outdated_package.latest_version
+            end, packages)
 
-        return Optional.of_nilable(outdated_primary_package)
-            :map(function(package)
-                return {
-                    name = normalized_package,
-                    current_version = assert(package.version),
-                    latest_version = assert(package.latest_version),
-                }
-            end)
-            :or_else_throw "Primary package is not outdated."
-    end)
+            return Optional.of_nilable(outdated_primary_package)
+                :map(function(package)
+                    return {
+                        name = normalized_package,
+                        current_version = assert(package.version),
+                        latest_version = assert(package.latest_version),
+                    }
+                end)
+                :or_else_throw "Primary package is not outdated."
+        end)
 end
 
 ---@async
@@ -135,25 +137,27 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     if receipt.primary_source.type ~= "pip3" then
         return Result.failure "Receipt does not have a primary source of type pip3"
     end
-    return spawn.python({
-        "-m",
-        "pip",
-        "list",
-        "--format=json",
-        cwd = install_dir,
-        with_paths = { M.venv_path(install_dir) },
-    }):map_catching(function(result)
-        local pip_packages = vim.json.decode(result.stdout)
-        local normalized_pip_package = M.normalize_package(receipt.primary_source.package)
-        local pip_package = _.find_first(function(package)
-            return package.name == normalized_pip_package
-        end, pip_packages)
-        return Optional.of_nilable(pip_package)
-            :map(function(package)
-                return package.version
-            end)
-            :or_else_throw "Unable to find pip package."
-    end)
+    return spawn
+        .python({
+            "-m",
+            "pip",
+            "list",
+            "--format=json",
+            cwd = install_dir,
+            with_paths = { M.venv_path(install_dir) },
+        })
+        :map_catching(function(result)
+            local pip_packages = vim.json.decode(result.stdout)
+            local normalized_pip_package = M.normalize_package(receipt.primary_source.package)
+            local pip_package = _.find_first(function(package)
+                return package.name == normalized_pip_package
+            end, pip_packages)
+            return Optional.of_nilable(pip_package)
+                :map(function(package)
+                    return package.version
+                end)
+                :or_else_throw "Unable to find pip package."
+        end)
 end
 
 ---@param install_dir string

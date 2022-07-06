@@ -14,17 +14,19 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        github.unzip_release_file({
-            repo = "terraform-linters/tflint",
-            asset_file = coalesce(
-                when(platform.is.mac_x64, "tflint_darwin_amd64.zip"),
-                when(platform.is.mac_arm64, "tflint_darwin_arm64.zip"),
-                when(platform.is.linux_x64, "tflint_linux_amd64.zip"),
-                when(platform.is.linux_arm64, "tflint_linux_arm64.zip"),
-                when(platform.is.linux_x86, "tflint_linux_386.zip"),
-                when(platform.is.win_x64, "tflint_windows_amd64.zip")
-            ),
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "terraform-linters/tflint",
+                asset_file = coalesce(
+                    when(platform.is.mac_x64, "tflint_darwin_amd64.zip"),
+                    when(platform.is.mac_arm64, "tflint_darwin_arm64.zip"),
+                    when(platform.is.linux_x64, "tflint_linux_amd64.zip"),
+                    when(platform.is.linux_arm64, "tflint_linux_arm64.zip"),
+                    when(platform.is.linux_x86, "tflint_linux_386.zip"),
+                    when(platform.is.win_x64, "tflint_windows_amd64.zip")
+                ),
+            })
+            .with_receipt()
         ctx:link_bin("tflint", platform.is.win and "tflint.exe" or "tflint")
     end,
 }

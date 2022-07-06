@@ -26,11 +26,13 @@ return Pkg.new {
             :get_or_throw() -- Result unwrap
             :or_else_throw "Failed to find release with assets." -- Optional unwrap
 
-        github.unzip_release_file({
-            version = Optional.of(release.tag_name),
-            asset_file = _.compose(_.format "salesforcedx-vscode-apex-%s.vsix", _.gsub("^v", "")),
-            repo = repo,
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                version = Optional.of(release.tag_name),
+                asset_file = _.compose(_.format "salesforcedx-vscode-apex-%s.vsix", _.gsub("^v", "")),
+                repo = repo,
+            })
+            .with_receipt()
 
         ctx.fs:rename(path.concat { "extension", "out", JAR_FILE }, JAR_FILE)
         ctx.fs:rmrf "extension"

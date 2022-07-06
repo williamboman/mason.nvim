@@ -33,10 +33,8 @@ return Pkg.new {
                 _.when(platform.is.win_x64, "dhall%-lsp%-server%-.+%-x86_64%-windows.zip")
             )
         )
-        local dhall_lsp_server_asset = _.find_first(
-            _.prop_satisfies(_.matches(asset_name_pattern), "name"),
-            gh_release.assets
-        )
+        local dhall_lsp_server_asset =
+            _.find_first(_.prop_satisfies(_.matches(asset_name_pattern), "name"), gh_release.assets)
         Optional.of_nilable(dhall_lsp_server_asset)
             :if_present(
                 ---@param asset GitHubReleaseAsset

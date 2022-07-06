@@ -9,11 +9,13 @@ return Pkg.new {
     categories = { Pkg.Cat.LSP },
     ---@async
     install = function()
-        github.unzip_release_file({
-            repo = "rescript-lang/rescript-vscode",
-            asset_file = function(version)
-                return ("rescript-vscode-%s.vsix"):format(version)
-            end,
-        }).with_receipt()
+        github
+            .unzip_release_file({
+                repo = "rescript-lang/rescript-vscode",
+                asset_file = function(version)
+                    return ("rescript-vscode-%s.vsix"):format(version)
+                end,
+            })
+            .with_receipt()
     end,
 }

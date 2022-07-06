@@ -60,21 +60,19 @@ end
 local function mk_healthcheck(callback)
     ---@param opts {cmd:string, args:string[], name: string, use_stderr:boolean}
     return function(opts)
-        local parse_version = _.compose(
-            _.head,
-            _.split "\n",
-            _.if_else(_.always(opts.use_stderr), _.prop "stderr", _.prop "stdout")
-        )
+        local parse_version =
+            _.compose(_.head, _.split "\n", _.if_else(_.always(opts.use_stderr), _.prop "stderr", _.prop "stdout"))
 
         ---@async
         return function()
-            local healthcheck_result = spawn[opts.cmd]({
-                opts.args,
-                on_spawn = function(_, stdio)
-                    local stdin = stdio[1]
-                    stdin:close() -- some processes (`sh` for example) will endlessly read from stdin, so we close it immediately
-                end,
-            })
+            local healthcheck_result = spawn
+                [opts.cmd]({
+                    opts.args,
+                    on_spawn = function(_, stdio)
+                        local stdin = stdio[1]
+                        stdin:close() -- some processes (`sh` for example) will endlessly read from stdin, so we close it immediately
+                    end,
+                })
                 :map(parse_version)
                 :map(function(version)
                     if opts.version_check then
@@ -263,7 +261,8 @@ function M.check()
             c()
         end
 
-        github_client.fetch_rate_limit()
+        github_client
+            .fetch_rate_limit()
             :map(
                 ---@param rate_limit GitHubRateLimitResponse
                 function(rate_limit)

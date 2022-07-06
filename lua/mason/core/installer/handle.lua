@@ -139,12 +139,12 @@ function InstallHandle:kill(signal)
 end
 
 ---@param pid integer
-local win_taskkill = a.scope(function (pid)
+local win_taskkill = a.scope(function(pid)
     spawn.taskkill {
         "/f",
         "/t",
         "/pid",
-        pid
+        pid,
     }
 end)
 

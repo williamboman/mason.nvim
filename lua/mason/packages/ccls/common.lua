@@ -28,10 +28,10 @@ return function(opts)
                 :map(function(llvm_dir)
                     return {
                         ("-DCMAKE_PREFIX_PATH=%s"):format(llvm_dir),
-                        -- On Mac we use Homebrew LLVM which will persist after installation.
-                        -- On Linux, and when a custom llvm_dir is provided, its clang resource dir will be the only
-                        -- artifact persisted after installation, as the locally installed llvm installation will be
-                        -- cleaned up after compilation.
+                            -- On Mac we use Homebrew LLVM which will persist after installation.
+                            -- On Linux, and when a custom llvm_dir is provided, its clang resource dir will be the only
+                            -- artifact persisted after installation, as the locally installed llvm installation will be
+                            -- cleaned up after compilation.
                         not platform.is_mac and ("-DCLANG_RESOURCE_DIR=%s"):format(clang_resource_dir) or vim.NIL,
                     }
                 end)
