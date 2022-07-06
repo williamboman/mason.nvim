@@ -182,10 +182,8 @@ local function mutate_package_visibility(mutate_fn)
             _.T
         )
         for __, package in ipairs(packages) do
-            state.packages.visible[package.name] = _.all_pass(
-                { view_predicate[state.view.current], language_predicate },
-                package.spec
-            )
+            state.packages.visible[package.name] =
+                _.all_pass({ view_predicate[state.view.current], language_predicate }, package.spec)
         end
     end)
 end
@@ -203,10 +201,8 @@ local function setup_handle(handle)
 
     local function handle_spawninfo_change()
         mutate_state(function(state)
-            state.packages.states[handle.package.name].latest_spawn = handle
-                :peek_spawninfo_stack()
-                :map(tostring)
-                :or_else(nil)
+            state.packages.states[handle.package.name].latest_spawn =
+                handle:peek_spawninfo_stack():map(tostring):or_else(nil)
         end)
     end
 
@@ -430,7 +426,7 @@ local function dequeue_package(event)
     )
 end
 
-local function toggle_expand_server(event)
+local function toggle_expand_package(event)
     ---@type Package
     local package = event.payload
     mutate_state(function(state)
@@ -562,7 +558,7 @@ local effects = {
     ["SET_VIEW"] = set_view,
     ["TERMINATE_PACKAGE_HANDLE"] = terminate_package_handle,
     ["TOGGLE_EXPAND_CURRENT_SETTINGS"] = toggle_expand_current_settings,
-    ["TOGGLE_EXPAND_SERVER"] = toggle_expand_server,
+    ["TOGGLE_EXPAND_PACKAGE"] = toggle_expand_package,
     ["TOGGLE_HELP"] = toggle_help,
     ["TOGGLE_JSON_SCHEMA"] = toggle_json_schema,
     ["TOGGLE_JSON_SCHEMA_KEY"] = toggle_json_schema_keys,

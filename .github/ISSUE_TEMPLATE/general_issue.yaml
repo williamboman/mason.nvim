@@ -1,5 +1,5 @@
-name: Non-server-related issue
-description: Report an issue not related to installation or usage of servers
+name: Non-package-related issue
+description: Report an issue not related to installation or usage of packages
 
 body:
     - type: markdown
@@ -42,8 +42,8 @@ body:
 
     - type: input
       attributes:
-          label: Affected language servers
-          description: If this issue is specific to one or more language servers, list them here. If not, write 'all'.
+          label: Affected packages
+          description: If this issue is specific to one or more packages, list them here. If not, write 'all'.
       validations:
           required: true
 

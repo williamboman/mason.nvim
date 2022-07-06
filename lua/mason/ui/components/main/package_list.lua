@@ -176,7 +176,7 @@ local function Installed(state)
                     keybinds = {
                         Ui.Keybind(settings.current.ui.keymaps.update_package, "INSTALL_PACKAGE", package),
                         Ui.Keybind(settings.current.ui.keymaps.uninstall_package, "UNINSTALL_PACKAGE", package),
-                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_SERVER", package),
+                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
                     },
                 })
             end,
@@ -253,7 +253,7 @@ local function Failed(state)
                 icon = p.error(settings.current.ui.icons.package_pending),
                 keybinds = {
                     Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", package),
-                    Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_SERVER", package),
+                    Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
                 },
             })
         end,
@@ -272,7 +272,7 @@ local function Uninstalled(state)
                 icon = p.muted(settings.current.ui.icons.package_uninstalled),
                 keybinds = {
                     Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", package),
-                    Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_SERVER", package),
+                    Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
                 },
             })
         end,

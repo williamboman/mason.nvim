@@ -1,5 +1,5 @@
-name: Server installation issue
-description: Report an issue that occurs during the installation of a server
+name: Package installation issue
+description: Report an issue that occurs during the installation of a package
 labels:
     - installation-issue
 
@@ -44,8 +44,8 @@ body:
 
     - type: input
       attributes:
-          label: Affected language servers
-          description: If this issue is specific to one or more language servers, list them here. If not, write 'all'.
+          label: Affected language packages
+          description: If this issue is specific to one or more packages, list them here. If not, write 'all'.
       validations:
           required: true
 
@@ -73,7 +73,7 @@ body:
     - type: textarea
       attributes:
           label: Installation log
-          description: "Make sure you set DEBUG level before installing the server. Refer to `:help mason-debugging`"
+          description: "Make sure you set DEBUG level before installing the package. Refer to `:help mason-debugging`"
           placeholder: ":MasonLog"
           render: Text
       validations:

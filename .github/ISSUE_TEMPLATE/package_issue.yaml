@@ -1,7 +1,7 @@
-name: Server issue
-description: Report an issue with using a server installed via mason.nvim
+name: Package issue
+description: Report an issue with using a package installed via mason.nvim
 labels:
-    - server-issue
+    - package-issue
 
 body:
     - type: markdown
@@ -57,8 +57,8 @@ body:
 
     - type: input
       attributes:
-          label: Affected language servers
-          description: If this issue is specific to one or more language servers, list them here. If not, write 'all'.
+          label: Affected language packages
+          description: If this issue is specific to one or more packages, list them here. If not, write 'all'.
       validations:
           required: true
 

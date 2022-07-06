@@ -95,9 +95,9 @@ Example:
 require("mason").setup({
     ui = {
         icons = {
-            server_installed = "✓",
-            server_pending = "➜",
-            server_uninstalled = "✗"
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
         }
     }
 })
@@ -152,11 +152,11 @@ local DEFAULT_SETTINGS = {
     },
 
     -- Controls to which degree logs are written to the log file. It's useful to set this to vim.log.levels.DEBUG when
-    -- debugging issues with server installations.
+    -- debugging issues with package installations.
     log_level = vim.log.levels.INFO,
 
-    -- Limit for the maximum amount of servers to be installed at the same time. Once this limit is reached, any further
-    -- servers that are requested to be installed will be put in a queue.
+    -- Limit for the maximum amount of packages to be installed at the same time. Once this limit is reached, any further
+    -- packages that are requested to be installed will be put in a queue.
     max_concurrent_installers = 4,
 
     github = {

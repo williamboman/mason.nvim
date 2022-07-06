@@ -23,11 +23,11 @@ jobs:
 
             - name: Create a PR comment
               uses: peter-evans/create-or-update-comment@v1
-              if: contains(github.event.issue.labels.*.name, 'new-server-request')
+              if: contains(github.event.issue.labels.*.name, 'new-package-request')
               with:
                 token: ${{ secrets.PAT }}
                 issue-number: ${{ github.event.issue.number }}
                 body: |
-                    Hello! Cool! Pull requests are always very welcomed to add new servers. If the distribution of the
-                    server is simple, the installation will most likely be so as well (existing server installers may be
+                    Hello! Cool! Pull requests are always very welcomed to add new packages. If the distribution of the
+                    package is simple, the installation will most likely be so as well (existing package installers may be
                     used for reference!). Otherwise, @williamboman will get around to looking into this ASAP!

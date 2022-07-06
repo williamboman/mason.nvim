@@ -66,7 +66,7 @@ describe("ui", function()
                 win_width = 120,
             },
             Ui.CascadingStyleNode({ "INDENT" }, {
-                Ui.Keybind("i", "INSTALL_SERVER", { "sumneko_lua" }, true),
+                Ui.Keybind("i", "INSTALL_PACKAGE", { "sumneko_lua" }, true),
                 Ui.HlTextNode {
                     {
                         { "Hello World!", "MyHighlightGroup" },
@@ -81,7 +81,7 @@ describe("ui", function()
                     },
                 },
                 Ui.StickyCursor { id = "sticky" },
-                Ui.Keybind("<CR>", "INSTALL_SERVER", { "tsserver" }, false),
+                Ui.Keybind("<CR>", "INSTALL_PACKAGE", { "tsserver" }, false),
                 Ui.DiagnosticsNode {
                     message = "yeah this one's outdated",
                     severity = vim.diagnostic.severity.WARN,
@@ -117,13 +117,13 @@ describe("ui", function()
             sticky_cursors = { line_map = { [3] = "sticky" }, id_map = { ["sticky"] = 3 } },
             keybinds = {
                 {
-                    effect = "INSTALL_SERVER",
+                    effect = "INSTALL_PACKAGE",
                     key = "i",
                     line = -1,
                     payload = { "sumneko_lua" },
                 },
                 {
-                    effect = "INSTALL_SERVER",
+                    effect = "INSTALL_PACKAGE",
                     key = "<CR>",
                     line = 3,
                     payload = { "tsserver" },
@@ -212,25 +212,16 @@ describe("integration test", function()
             assert.spy(buf_set_option).was_called_with(match.is_number(), "undolevels", -1)
 
             assert.spy(set_lines).was_called(1)
-            assert.spy(set_lines).was_called_with(
-                match.is_number(),
-                0,
-                -1,
-                false,
-                { "Line number 1!", "Initial state", "My highlighted text" }
-            )
+            assert
+                .spy(set_lines)
+                .was_called_with(match.is_number(), 0, -1, false, { "Line number 1!", "Initial state", "My highlighted text" })
 
             assert.spy(set_extmark).was_called(0)
 
             assert.spy(add_highlight).was_called(1)
-            assert.spy(add_highlight).was_called_with(
-                match.is_number(),
-                match.is_number(),
-                "MyHighlightGroup",
-                2,
-                0,
-                19
-            )
+            assert
+                .spy(add_highlight)
+                .was_called_with(match.is_number(), match.is_number(), "MyHighlightGroup", 2, 0, 19)
 
             assert.spy(set_keymap).was_called(2)
             assert.spy(set_keymap).was_called_with(
@@ -257,13 +248,9 @@ describe("integration test", function()
             a.scheduler()
             assert.spy(set_lines).was_called(2)
 
-            assert.spy(set_lines).was_called_with(
-                match.is_number(),
-                0,
-                -1,
-                false,
-                { "Line number 1!", "New state", "My highlighted text" }
-            )
+            assert
+                .spy(set_lines)
+                .was_called_with(match.is_number(), 0, -1, false, { "Line number 1!", "New state", "My highlighted text" })
         end)
     )
 
