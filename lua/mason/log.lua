@@ -32,7 +32,7 @@ local config = {
 
 local log = {
     outfile = path.concat {
-        vim.fn.stdpath "log",
+        vim.fn.stdpath "cache", -- TODO use "log" when stable
         ("%s.log"):format(config.name),
     },
 }
