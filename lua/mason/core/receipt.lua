@@ -117,9 +117,9 @@ end
 
 ---@param type InstallReceiptSourceType
 local function package_source(type)
-    ---@param package string
-    return function(package)
-        return { type = type, package = package }
+    ---@param pkg string
+    return function(pkg)
+        return { type = type, package = pkg }
     end
 end
 

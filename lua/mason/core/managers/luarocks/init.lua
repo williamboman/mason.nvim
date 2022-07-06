@@ -26,9 +26,9 @@ function M.package(package, opts)
 end
 
 ---@async
----@param package string @The luarock package to install.
+---@param pkg string @The luarock package to install.
 ---@param opts {dev: boolean}|nil
-function M.install(package, opts)
+function M.install(pkg, opts)
     opts = opts or {}
     local ctx = installer.context()
     ctx:promote_cwd()
@@ -37,11 +37,11 @@ function M.install(package, opts)
         "--tree",
         ctx.cwd:get(),
         opts.dev and "--dev" or vim.NIL,
-        package,
+        pkg,
         ctx.requested_version:or_else(vim.NIL),
     }
     return {
-        with_receipt = with_receipt(package),
+        with_receipt = with_receipt(pkg),
     }
 end
 

@@ -17,18 +17,18 @@ local function with_receipt(package)
 end
 
 ---@async
----@param package string
+---@param pkg string
 ---@param opt { bin: string[] | nil } | nil
-function M.package(package, opt)
+function M.package(pkg, opt)
     return function()
-        return M.install(package, opt).with_receipt()
+        return M.install(pkg, opt).with_receipt()
     end
 end
 
 ---@async
----@param package string
+---@param pkg string
 ---@param opt { bin: string[] | nil } | nil
-function M.install(package, opt)
+function M.install(pkg, opt)
     local ctx = installer.context()
     ctx.spawn.dotnet {
         "tool",
@@ -40,7 +40,7 @@ function M.install(package, opt)
                 return { "--version", version }
             end)
             :or_else(vim.NIL),
-        package,
+        pkg,
     }
 
     if opt and opt.bin then
@@ -52,7 +52,7 @@ function M.install(package, opt)
     end
 
     return {
-        with_receipt = with_receipt(package),
+        with_receipt = with_receipt(pkg),
     }
 end
 

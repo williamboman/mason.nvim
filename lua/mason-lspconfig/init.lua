@@ -10,9 +10,9 @@ local M = {}
 ---@param lspconfig_server_name string
 function M.resolve_package(lspconfig_server_name)
     return Optional.of_nilable(server_mapping.lspconfig_to_package[lspconfig_server_name]):map(function(package_name)
-        local ok, package = pcall(require, ("mason.packages.%s"):format(package_name))
+        local ok, pkg = pcall(require, ("mason.packages.%s"):format(package_name))
         if ok then
-            return package
+            return pkg
         end
     end)
 end

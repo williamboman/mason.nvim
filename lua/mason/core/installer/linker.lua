@@ -6,20 +6,20 @@ local fs = require "mason.core.fs"
 
 local M = {}
 
----@param package Package
+---@param pkg Package
 ---@param links InstallReceiptLinks
-local function unlink_bin(package, links)
+local function unlink_bin(pkg, links)
     for executable in pairs(links.bin) do
         local bin_path = path.bin_prefix(executable)
         fs.sync.unlink(bin_path)
     end
 end
 
----@param package Package
+---@param pkg Package
 ---@param links InstallReceiptLinks
-function M.unlink(package, links)
-    log.fmt_debug("Unlinking %s", package)
-    unlink_bin(package, links)
+function M.unlink(pkg, links)
+    log.fmt_debug("Unlinking %s", pkg)
+    unlink_bin(pkg, links)
 end
 
 ---@param to string

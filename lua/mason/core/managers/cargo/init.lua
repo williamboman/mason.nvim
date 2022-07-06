@@ -125,8 +125,8 @@ function M.get_installed_primary_package_version(receipt, install_dir)
             if vim.in_fast_event() then
                 a.scheduler() -- needed because vim.fn.* call
             end
-            local package = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
-            return Optional.of_nilable(installed_crates[package]):or_else_throw "Failed to find cargo package version."
+            local pkg = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
+            return Optional.of_nilable(installed_crates[pkg]):or_else_throw "Failed to find cargo package version."
         end)
 end
 

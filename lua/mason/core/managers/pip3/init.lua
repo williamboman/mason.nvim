@@ -82,11 +82,11 @@ function M.install(packages)
     }
 end
 
----@param package string
+---@param pkg string
 ---@return string
-function M.normalize_package(package)
+function M.normalize_package(pkg)
     -- https://stackoverflow.com/a/60307740
-    local s = package:gsub("%[.*%]", "")
+    local s = pkg:gsub("%[.*%]", "")
     return s
 end
 
@@ -119,11 +119,11 @@ function M.check_outdated_primary_package(receipt, install_dir)
             end, packages)
 
             return Optional.of_nilable(outdated_primary_package)
-                :map(function(package)
+                :map(function(pkg)
                     return {
                         name = normalized_package,
-                        current_version = assert(package.version),
-                        latest_version = assert(package.latest_version),
+                        current_version = assert(pkg.version),
+                        latest_version = assert(pkg.latest_version),
                     }
                 end)
                 :or_else_throw "Primary package is not outdated."
@@ -149,12 +149,12 @@ function M.get_installed_primary_package_version(receipt, install_dir)
         :map_catching(function(result)
             local pip_packages = vim.json.decode(result.stdout)
             local normalized_pip_package = M.normalize_package(receipt.primary_source.package)
-            local pip_package = _.find_first(function(package)
-                return package.name == normalized_pip_package
+            local pip_package = _.find_first(function(pkg)
+                return pkg.name == normalized_pip_package
             end, pip_packages)
             return Optional.of_nilable(pip_package)
-                :map(function(package)
-                    return package.version
+                :map(function(pkg)
+                    return pkg.version
                 end)
                 :or_else_throw "Unable to find pip package."
         end)

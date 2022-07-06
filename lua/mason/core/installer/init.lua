@@ -27,7 +27,7 @@ end
 ---@async
 ---@param context InstallContext
 local function write_receipt(context)
-    log.fmt_debug("Writing receipt for %s", package)
+    log.fmt_debug("Writing receipt for %s", context.package)
     context.receipt
         :with_name(context.package.name)
         :with_schema_version("1.0")
@@ -104,10 +104,10 @@ function M.execute(handle, opts)
     log.fmt_trace("Activating handle %s", handle)
     handle:active()
 
-    local package = handle.package
+    local pkg = handle.package
     local context = InstallContext.new(handle, opts)
 
-    log.fmt_info("Executing installer for %s", package)
+    log.fmt_info("Executing installer for %s", pkg)
     return Result.run_catching(function()
         -- 1. run installer
         a.wait(function(resolve, reject)
@@ -117,7 +117,7 @@ function M.execute(handle, opts)
                 else
                     reject(result)
                 end
-            end, context, package.spec.install)
+            end, context, pkg.spec.install)
 
             handle:once("terminate", function()
                 handle:once("closed", function()
@@ -139,11 +139,11 @@ function M.execute(handle, opts)
         :on_success(function()
             permit:forget()
             handle:close()
-            log.fmt_info("Installation succeeded for %s", package)
+            log.fmt_info("Installation succeeded for %s", pkg)
         end)
         :on_failure(function(failure)
             permit:forget()
-            log.fmt_error("Installation failed for %s error=%s", package, failure)
+            log.fmt_error("Installation failed for %s error=%s", pkg, failure)
             context.stdio_sink.stderr(tostring(failure))
             context.stdio_sink.stderr "\n"
 

@@ -36,7 +36,7 @@ local function Indent(indentation, children)
     return Ui.CascadingStyleNode(indent, children)
 end
 
----@param package Package
+---@param pkg Package
 ---@param schema_id string
 ---@param state UiPackageState
 ---@param schema table
@@ -44,13 +44,13 @@ end
 ---@param level number|nil
 ---@param key_width number|nil @The width the key should occupate in the UI to produce an even column.
 ---@param compound_key string|nil
-local function JsonSchema(package, schema_id, state, schema, key, level, key_width, compound_key)
+local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, compound_key)
     level = level or 0
     compound_key = ("%s%s"):format(compound_key or "", key or "")
     local toggle_expand_keybind = Ui.Keybind(
         settings.current.ui.keymaps.toggle_package_expand,
         "TOGGLE_JSON_SCHEMA_KEY",
-        { package = package, schema_id = schema_id, key = compound_key }
+        { package = pkg, schema_id = schema_id, key = compound_key }
     )
     local node_is_expanded = state.expanded_json_schema_keys[schema_id][compound_key]
     local key_prefix = node_is_expanded and "↓ " or "→ "
@@ -80,7 +80,7 @@ local function JsonSchema(package, schema_id, state, schema, key, level, key_wid
             for _, property in ipairs(sorted_properties) do
                 nodes[#nodes + 1] = Indent(level, {
                     JsonSchema(
-                        package,
+                        pkg,
                         schema_id,
                         state,
                         schema.properties[property],
@@ -97,7 +97,7 @@ local function JsonSchema(package, schema_id, state, schema, key, level, key_wid
         local nodes = {}
         for i, alternative_schema in ipairs(schema.oneOf) do
             nodes[#nodes + 1] = JsonSchema(
-                package,
+                pkg,
                 schema_id,
                 state,
                 alternative_schema,

@@ -9,9 +9,9 @@ local JsonSchema = require "mason.ui.components.json-schema"
 local function PackageListContainer(props)
     local items = {}
     for i = 1, #props.packages do
-        local package = props.packages[i]
-        if props.state.packages.visible[package.name] then
-            items[#items + 1] = props.list_item_renderer(package)
+        local pkg = props.packages[i]
+        if props.state.packages.visible[pkg.name] then
+            items[#items + 1] = props.list_item_renderer(pkg)
         end
     end
 
@@ -47,12 +47,12 @@ local function ExecutablesTable(executables)
 end
 
 ---@param state InstallerUiState
----@param package Package
+---@param pkg Package
 ---@param is_installed boolean
-local function ExpandedPackageInfo(state, package, is_installed)
-    local pkg_state = state.packages.states[package.name]
+local function ExpandedPackageInfo(state, pkg, is_installed)
+    local pkg_state = state.packages.states[pkg.name]
     return Ui.CascadingStyleNode({ "INDENT" }, {
-        Ui.HlTextNode(p.Comment(package.spec.desc)),
+        Ui.HlTextNode(p.Comment(pkg.spec.desc)),
         Ui.EmptyLine(),
         Ui.Table(_.concat(
             _.filter(_.identity, {
@@ -67,18 +67,18 @@ local function ExpandedPackageInfo(state, package, is_installed)
                 },
                 {
                     p.muted "homepage",
-                    package.spec.homepage and p.highlight(package.spec.homepage) or p.muted "-",
+                    pkg.spec.homepage and p.highlight(pkg.spec.homepage) or p.muted "-",
                 },
                 {
                     p.muted "languages",
-                    #package.spec.languages > 0 and p.Bold(table.concat(package.spec.languages, ", ")) or p.muted "-",
+                    #pkg.spec.languages > 0 and p.Bold(table.concat(pkg.spec.languages, ", ")) or p.muted "-",
                 },
                 {
                     p.muted "categories",
-                    #package.spec.categories > 0 and p.Bold(table.concat(package.spec.categories, ", ")) or p.muted "-",
+                    #pkg.spec.categories > 0 and p.Bold(table.concat(pkg.spec.categories, ", ")) or p.muted "-",
                 },
             }),
-            ExecutablesTable(is_installed and pkg_state.linked_executables or package.spec.executables)
+            ExecutablesTable(is_installed and pkg_state.linked_executables or pkg.spec.executables)
         )),
         -- ExecutablesTable(is_installed and pkg_state.linked_executables or package.spec.executables),
         Ui.When(pkg_state.lsp_settings_schema, function()
@@ -94,7 +94,7 @@ local function ExpandedPackageInfo(state, package, is_installed)
                 Ui.Keybind(
                     settings.current.ui.keymaps.toggle_package_expand,
                     "TOGGLE_JSON_SCHEMA",
-                    { package = package, schema_id = "lsp" }
+                    { package = pkg, schema_id = "lsp" }
                 ),
                 Ui.When(has_expanded, function()
                     return Ui.CascadingStyleNode({ "INDENT" }, {
@@ -102,7 +102,7 @@ local function ExpandedPackageInfo(state, package, is_installed)
                             p.muted "This is a read-only overview of the settings this server accepts. Note that some settings might not apply to neovim."
                         ),
                         Ui.EmptyLine(),
-                        JsonSchema(package, "lsp", pkg_state, pkg_state.lsp_settings_schema),
+                        JsonSchema(pkg, "lsp", pkg_state, pkg_state.lsp_settings_schema),
                     })
                 end),
             }

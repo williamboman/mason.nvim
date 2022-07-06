@@ -17,8 +17,8 @@ local function with_receipt(packages)
         ctx.receipt:with_primary_source(ctx.receipt.go(packages[1]))
         -- Install secondary packages
         for i = 2, #packages do
-            local package = packages[i]
-            ctx.receipt:with_secondary_source(ctx.receipt.go(package))
+            local pkg = packages[i]
+            ctx.receipt:with_secondary_source(ctx.receipt.go(pkg))
         end
     end
 end

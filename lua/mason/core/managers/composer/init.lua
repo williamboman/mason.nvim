@@ -88,16 +88,16 @@ function M.check_outdated_primary_package(receipt, install_dir)
         })
         :map_catching(function(result)
             local outdated_packages = vim.json.decode(result.stdout)
-            local outdated_package = _.find_first(function(package)
-                return package.name == receipt.primary_source.package
+            local outdated_package = _.find_first(function(pkg)
+                return pkg.name == receipt.primary_source.package
             end, outdated_packages.installed)
             return Optional.of_nilable(outdated_package)
-                :map(function(package)
-                    if package.version ~= package.latest then
+                :map(function(pkg)
+                    if pkg.version ~= pkg.latest then
                         return {
-                            name = package.name,
-                            current_version = package.version,
-                            latest_version = package.latest,
+                            name = pkg.name,
+                            current_version = pkg.version,
+                            latest_version = pkg.latest,
                         }
                     end
                 end)

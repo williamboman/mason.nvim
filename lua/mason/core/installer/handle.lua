@@ -59,11 +59,11 @@ local function new_sink(handle)
     }
 end
 
----@param package Package
-function InstallHandle.new(package)
+---@param pkg Package
+function InstallHandle.new(pkg)
     local self = EventEmitter.init(setmetatable({}, InstallHandleMt))
     self.state = "IDLE"
-    self.package = package
+    self.package = pkg
     self.spawninfo_stack = {}
     self.stdio = new_sink(self)
     self.is_terminated = false
