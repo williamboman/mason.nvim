@@ -1,46 +1,37 @@
 local mock = require "luassert.mock"
 local stub = require "luassert.stub"
 local spy = require "luassert.spy"
-local Optional = require "nvim-lsp-installer.core.optional"
-local Result = require "nvim-lsp-installer.core.result"
-local go = require "nvim-lsp-installer.core.managers.go"
-local spawn = require "nvim-lsp-installer.core.spawn"
-local installer = require "nvim-lsp-installer.core.installer"
+local Result = require "mason.core.result"
+local go = require "mason.core.managers.go"
+local spawn = require "mason.core.spawn"
+local installer = require "mason.core.installer"
+local path = require "mason.core.path"
 
 describe("go manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                go = mockx.returns {},
-            },
-        }
-    end)
-
     it(
         "should call go install",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.go).was_called(3)
             assert.spy(ctx.spawn.go).was_called_with {
                 "install",
                 "-v",
                 "main-package@42.13.37",
-                env = { GOBIN = "/tmp/install-dir" },
+                env = { GOBIN = path.package_build_prefix "dummy" },
             }
             assert.spy(ctx.spawn.go).was_called_with {
                 "install",
                 "-v",
                 "supporting-package@latest",
-                env = { GOBIN = "/tmp/install-dir" },
+                env = { GOBIN = path.package_build_prefix "dummy" },
             }
             assert.spy(ctx.spawn.go).was_called_with {
                 "install",
                 "-v",
                 "supporting-package2@latest",
-                env = { GOBIN = "/tmp/install-dir" },
+                env = { GOBIN = path.package_build_prefix "dummy" },
             }
         end)
     )
@@ -48,7 +39,8 @@ describe("go manager", function()
     it(
         "should provide receipt information",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "go",
@@ -103,7 +95,7 @@ gopls: go1.18
                         package = "golang.org/x/tools/gopls",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.go).was_called(1)
@@ -111,7 +103,7 @@ gopls: go1.18
                 "version",
                 "-m",
                 "gopls",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             }
             assert.is_true(result:is_success())
             assert.equals("v0.8.1", result:get_or_nil())
@@ -129,20 +121,20 @@ gopls: go1.18
                 "-json",
                 "-m",
                 "golang.org/x/tools/gopls@latest",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             }).returns(Result.success {
-                stdout = [[
+                stdout = ([[
             {
-                "Path": "/tmp/install/dir",
+                "Path": %q,
                 "Version": "v2.0.0"
             }
-            ]],
+            ]]):format(path.package_prefix "dummy"),
             })
             spawn.go.on_call_with({
                 "version",
                 "-m",
                 "gopls",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             }).returns(Result.success {
                 stdout = go_version_output,
             })
@@ -154,7 +146,7 @@ gopls: go1.18
                         package = "golang.org/x/tools/gopls",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.is_true(result:is_success())

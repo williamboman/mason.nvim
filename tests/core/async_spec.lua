@@ -1,8 +1,8 @@
 local assert = require "luassert"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
-local a = require "nvim-lsp-installer.core.async"
-local process = require "nvim-lsp-installer.core.process"
+local a = require "mason.core.async"
+local process = require "mason.core.process"
 
 local function timestamp()
     local seconds, microseconds = vim.loop.gettimeofday()
@@ -167,6 +167,33 @@ describe("async", function()
             assert.equals("three", three)
             assert.equals(4, four)
             assert.equals(5, five)
+        end)
+    )
+
+    it(
+        "should run all suspending functions concurrently",
+        async_test(function()
+            local start = timestamp()
+            local called = spy.new()
+            local function sleep(ms, ret_val)
+                return function()
+                    a.sleep(ms)
+                    called()
+                    return ret_val
+                end
+            end
+            local first = a.wait_first {
+                sleep(150, 1),
+                sleep(50, "first"),
+                sleep(150, "three"),
+                sleep(150, 4),
+                sleep(150, 5),
+            }
+            local grace = 50
+            local delta = timestamp() - start
+            assert.is_true(delta <= (100 + grace))
+            assert.is_true(delta >= (100 - grace))
+            assert.equals("first", first)
         end)
     )
 end)

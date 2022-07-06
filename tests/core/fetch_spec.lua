@@ -1,7 +1,8 @@
 local stub = require "luassert.stub"
-local fetch = require "nvim-lsp-installer.core.fetch"
-local spawn = require "nvim-lsp-installer.core.spawn"
-local Result = require "nvim-lsp-installer.core.result"
+local match = require "luassert.match"
+local fetch = require "mason.core.fetch"
+local spawn = require "mason.core.spawn"
+local Result = require "mason.core.result"
 
 describe("fetch", function()
     it(
@@ -12,26 +13,43 @@ describe("fetch", function()
             spawn.wget.returns(Result.failure "wget failure")
             spawn.curl.returns(Result.failure "curl failure")
 
-            local result = fetch "https://api.github.com"
+            local result = fetch("https://api.github.com", {
+                headers = { ["X-Custom-Header"] = "here" },
+            })
             assert.is_true(result:is_failure())
             assert.spy(spawn.wget).was_called(1)
             assert.spy(spawn.curl).was_called(1)
             assert.spy(spawn.wget).was_called_with {
                 {
-                    "--header",
-                    "User-Agent: nvim-lsp-installer (+https://github.com/williamboman/nvim-lsp-installer)",
+                    "--header='User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)'",
+                    "--header='X-Custom-Header: here'",
                 },
                 "-nv",
                 "-O",
                 "-",
+                "--method=GET",
+                vim.NIL, -- body-data
                 "https://api.github.com",
             }
-            assert.spy(spawn.curl).was_called_with {
-                { "-H", "User-Agent: nvim-lsp-installer (+https://github.com/williamboman/nvim-lsp-installer)" },
+
+            assert.spy(spawn.curl).was_called_with(match.tbl_containing {
+                match.same {
+                    {
+                        "-H",
+                        "User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)",
+                    },
+                    {
+                        "-H",
+                        "X-Custom-Header: here",
+                    },
+                },
                 "-fsSL",
-                vim.NIL,
+                match.same { "-X", "GET" },
+                vim.NIL, -- data
+                vim.NIL, -- out file
                 "https://api.github.com",
-            }
+                on_spawn = match.is_function(),
+            })
         end)
     )
 
@@ -59,21 +77,30 @@ describe("fetch", function()
 
             assert.spy(spawn.wget).was_called_with {
                 {
-                    "--header",
-                    "User-Agent: nvim-lsp-installer (+https://github.com/williamboman/nvim-lsp-installer)",
+                    "--header='User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)'",
                 },
                 "-nv",
                 "-O",
                 "/test.json",
+                "--method=GET",
+                vim.NIL, -- body-data
                 "https://api.github.com/data",
             }
 
-            assert.spy(spawn.curl).was_called_with {
-                { "-H", "User-Agent: nvim-lsp-installer (+https://github.com/williamboman/nvim-lsp-installer)" },
+            assert.spy(spawn.curl).was_called_with(match.tbl_containing {
+                match.same {
+                    {
+                        "-H",
+                        "User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)",
+                    },
+                },
                 "-fsSL",
-                { "-o", "/test.json" },
+                match.same { "-X", "GET" },
+                vim.NIL, -- data
+                match.same { "-o", "/test.json" },
                 "https://api.github.com/data",
-            }
+                on_spawn = match.is_function(),
+            })
         end)
     )
 end)

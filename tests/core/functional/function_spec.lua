@@ -1,6 +1,6 @@
 local spy = require "luassert.spy"
 local match = require "luassert.match"
-local _ = require "nvim-lsp-installer.core.functional"
+local _ = require "mason.core.functional"
 
 describe("functional: function", function()
     it("curries functions", function()

@@ -1,4 +1,4 @@
-local Result = require "nvim-lsp-installer.core.result"
+local Result = require "mason.core.result"
 local match = require "luassert.match"
 local spy = require "luassert.spy"
 

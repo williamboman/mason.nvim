@@ -1,26 +1,18 @@
 local spy = require "luassert.spy"
 local mock = require "luassert.mock"
-local spawn = require "nvim-lsp-installer.core.spawn"
-local Result = require "nvim-lsp-installer.core.result"
-local installer = require "nvim-lsp-installer.core.installer"
+local spawn = require "mason.core.spawn"
+local Result = require "mason.core.result"
+local installer = require "mason.core.installer"
 
-local git = require "nvim-lsp-installer.core.managers.git"
-local Optional = require "nvim-lsp-installer.core.optional"
+local git = require "mason.core.managers.git"
+local Optional = require "mason.core.optional"
 
 describe("git manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                git = mockx.returns {},
-            },
-        }
-    end)
-
     it(
         "should fail if no git repo provided",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             local err = assert.has_errors(function()
                 installer.run_installer(ctx, function()
                     git.clone {}
@@ -34,8 +26,10 @@ describe("git manager", function()
     it(
         "should clone provided repo",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, function()
-                git.clone { "https://github.com/williamboman/nvim-lsp-installer.git" }
+                git.clone { "https://github.com/williamboman/mason.nvim.git" }
             end)
             assert.spy(ctx.spawn.git).was_called(1)
             assert.spy(ctx.spawn.git).was_called_with {
@@ -43,7 +37,7 @@ describe("git manager", function()
                 "--depth",
                 "1",
                 vim.NIL,
-                "https://github.com/williamboman/nvim-lsp-installer.git",
+                "https://github.com/williamboman/mason.nvim.git",
                 ".",
             }
         end)
@@ -52,9 +46,10 @@ describe("git manager", function()
     it(
         "should fetch and checkout revision if requested",
         async_test(function()
-            ctx.requested_version = Optional.of "1337"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "1337" })
             installer.run_installer(ctx, function()
-                git.clone { "https://github.com/williamboman/nvim-lsp-installer.git" }
+                git.clone { "https://github.com/williamboman/mason.nvim.git" }
             end)
             assert.spy(ctx.spawn.git).was_called(3)
             assert.spy(ctx.spawn.git).was_called_with {
@@ -62,7 +57,7 @@ describe("git manager", function()
                 "--depth",
                 "1",
                 vim.NIL,
-                "https://github.com/williamboman/nvim-lsp-installer.git",
+                "https://github.com/williamboman/mason.nvim.git",
                 ".",
             }
             assert.spy(ctx.spawn.git).was_called_with {
@@ -79,12 +74,14 @@ describe("git manager", function()
     it(
         "should provide receipt information",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, function()
-                git.clone({ "https://github.com/williamboman/nvim-lsp-installer.git" }).with_receipt()
+                git.clone({ "https://github.com/williamboman/mason.nvim.git" }).with_receipt()
             end)
             assert.same({
                 type = "git",
-                remote = "https://github.com/williamboman/nvim-lsp-installer.git",
+                remote = "https://github.com/williamboman/mason.nvim.git",
             }, ctx.receipt.primary_source)
             assert.is_true(#ctx.receipt.secondary_sources == 0)
         end)
@@ -101,7 +98,7 @@ describe("git version check", function()
                 }
             end)
 
-            local result = git.get_installed_revision "/tmp/install/dir"
+            local result = git.get_installed_revision({ type = "git" }, "/tmp/install/dir")
 
             assert.spy(spawn.git).was_called(1)
             assert.spy(spawn.git).was_called_with { "rev-parse", "--short", "HEAD", cwd = "/tmp/install/dir" }
@@ -126,7 +123,7 @@ describe("git version check", function()
                 mock.new {
                     primary_source = mock.new {
                         type = "git",
-                        remote = "https://github.com/williamboman/nvim-lsp-installer.git",
+                        remote = "https://github.com/williamboman/mason.nvim.git",
                     },
                 },
                 "/tmp/install/dir"
@@ -147,7 +144,7 @@ describe("git version check", function()
             }
             assert.is_true(result:is_success())
             assert.same({
-                name = "https://github.com/williamboman/nvim-lsp-installer.git",
+                name = "https://github.com/williamboman/mason.nvim.git",
                 current_version = "19c668cd10695b243b09452f0dfd53570c1a2e7d",
                 latest_version = "728307a74cd5f2dec7ca2ca164785c25673d6328",
             }, result:get_or_nil())
@@ -170,7 +167,7 @@ describe("git version check", function()
                 mock.new {
                     primary_source = mock.new {
                         type = "git",
-                        remote = "https://github.com/williamboman/nvim-lsp-installer.git",
+                        remote = "https://github.com/williamboman/mason.nvim.git",
                     },
                 },
                 "/tmp/install/dir"

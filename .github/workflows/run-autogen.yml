@@ -10,8 +10,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-              with:
-                  token: ${{ secrets.PAT }}
             - uses: rhysd/action-setup-vim@v1
               with:
                   neovim: true
@@ -25,10 +23,25 @@ jobs:
             - name: Run autogen_metadata.sh script
               run: ./scripts/autogen_metadata.sh
 
-            - name: Commit and push changes
-              run: |
-                  git config --local user.email "william@redwill.se"
-                  git config --local user.name "William Boman (automated)"
-                  if git commit -m "run autogen_metadata.lua" -- lua/nvim-lsp-installer/_generated; then
-                    git push
-                  fi
+            - name: Create Pull Request
+              id: cpr
+              uses: peter-evans/create-pull-request@v4
+              with:
+                  token: ${{ secrets.PAT }}
+                  author: "William Botman <william+bot@redwill.se>"
+                  committer: "William Botman <william+bot@redwill.se>"
+                  add-paths: lua/mason/_generated
+                  commit-message: run autogen_metadata.lua
+                  branch: chore/autogen_metadata
+                  branch-suffix: short-commit-hash
+                  delete-branch: true
+                  labels: automerge
+                  title: run autogen_metadata.lua
+
+            - name: Enable Pull Request Automerge
+              if: steps.cpr.outputs.pull-request-operation == 'created'
+              uses: peter-evans/enable-pull-request-automerge@v2
+              with:
+                  token: ${{ secrets.PAT }}
+                  pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+                  merge-method: squash

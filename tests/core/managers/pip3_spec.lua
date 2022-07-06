@@ -1,25 +1,15 @@
 local mock = require "luassert.mock"
 local spy = require "luassert.spy"
+local path = require "mason.core.path"
 
-local pip3 = require "nvim-lsp-installer.core.managers.pip3"
-local Optional = require "nvim-lsp-installer.core.optional"
-local installer = require "nvim-lsp-installer.core.installer"
-local Result = require "nvim-lsp-installer.core.result"
-local settings = require "nvim-lsp-installer.settings"
-local spawn = require "nvim-lsp-installer.core.spawn"
+local pip3 = require "mason.core.managers.pip3"
+local Optional = require "mason.core.optional"
+local installer = require "mason.core.installer"
+local Result = require "mason.core.result"
+local settings = require "mason.settings"
+local spawn = require "mason.core.spawn"
 
 describe("pip3 manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                python = mockx.returns {},
-                python3 = mockx.returns {},
-            },
-        }
-    end)
-
     it("normalizes pip3 packages", function()
         local normalize = pip3.normalize_package
         assert.equal("python-lsp-server", normalize "python-lsp-server[all]")
@@ -30,9 +20,10 @@ describe("pip3 manager", function()
     it(
         "should create venv and call pip3 install",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, pip3.packages { "main-package", "supporting-package", "supporting-package2" })
-            assert.spy(ctx.promote_cwd).was_called(1)
+            assert.equals(path.package_prefix "dummy", ctx.cwd:get()) -- should've promoted cwd
             assert.spy(ctx.spawn.python3).was_called(1)
             assert.spy(ctx.spawn.python3).was_called_with {
                 "-m",
@@ -43,6 +34,7 @@ describe("pip3 manager", function()
             assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
                 "pip",
+                "--disable-pip-version-check",
                 "install",
                 "-U",
                 {},
@@ -51,7 +43,7 @@ describe("pip3 manager", function()
                     "supporting-package",
                     "supporting-package2",
                 },
-                with_paths = { "/tmp/install-dir/venv/bin" },
+                with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
             }
         end)
     )
@@ -60,11 +52,11 @@ describe("pip3 manager", function()
         "should exhaust python3 executable candidates if all fail",
         async_test(function()
             vim.g.python3_host_prog = "/my/python3"
-            ctx.spawn = mock.new {
-                python3 = mockx.throws(),
-                python = mockx.throws(),
-                [vim.g.python3_host_prog] = mockx.throws(),
-            }
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
+            ctx.spawn.python3 = spy.new(mockx.throws())
+            ctx.spawn.python = spy.new(mockx.throws())
+            ctx.spawn[vim.g.python3_host_prog] = spy.new(mockx.throws())
             local err = assert.has_error(function()
                 installer.run_installer(ctx, pip3.packages { "package" })
             end)
@@ -81,11 +73,12 @@ describe("pip3 manager", function()
         "should not exhaust python3 executable if one succeeds",
         async_test(function()
             vim.g.python3_host_prog = "/my/python3"
-            ctx.spawn = mock.new {
-                python3 = mockx.throws(),
-                python = mockx.returns {},
-                [vim.g.python3_host_prog] = mockx.returns {},
-            }
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
+            ctx.spawn.python3 = spy.new(mockx.throws())
+            ctx.spawn.python = spy.new(mockx.returns {})
+            ctx.spawn[vim.g.python3_host_prog] = spy.new(mockx.returns {})
+
             installer.run_installer(ctx, pip3.packages { "package" })
             vim.g.python3_host_prog = nil
             assert.spy(ctx.spawn.python3).was_called(0)
@@ -102,16 +95,18 @@ describe("pip3 manager", function()
                     install_args = { "--proxy", "http://localhost:8080" },
                 },
             }
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, pip3.packages { "package" })
-            settings.set(settings._DEFAULT_SETTINGS)
             assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
                 "pip",
+                "--disable-pip-version-check",
                 "install",
                 "-U",
                 { "--proxy", "http://localhost:8080" },
                 { "package" },
-                with_paths = { "/tmp/install-dir/venv/bin" },
+                with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
             }
         end)
     )
@@ -119,7 +114,8 @@ describe("pip3 manager", function()
     it(
         "should provide receipt information",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, pip3.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "pip3",
@@ -158,7 +154,7 @@ describe("pip3 version check", function()
                         package = "python-lsp-server",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.python).was_called(1)
@@ -167,8 +163,8 @@ describe("pip3 version check", function()
                 "pip",
                 "list",
                 "--format=json",
-                cwd = "/tmp/install/dir",
-                with_paths = { "/tmp/install/dir/venv/bin" },
+                cwd = path.package_prefix "dummy",
+                with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
             }
             assert.is_true(result:is_success())
             assert.equals("1.3.0", result:get_or_nil())
@@ -195,7 +191,7 @@ describe("pip3 version check", function()
                         package = "python-lsp-server",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.python).was_called(1)
@@ -205,8 +201,8 @@ describe("pip3 version check", function()
                 "list",
                 "--outdated",
                 "--format=json",
-                cwd = "/tmp/install/dir",
-                with_paths = { "/tmp/install/dir/venv/bin" },
+                cwd = path.package_prefix "dummy",
+                with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
             }
             assert.is_true(result:is_success())
             assert.same({

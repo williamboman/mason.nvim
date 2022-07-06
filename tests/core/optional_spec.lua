@@ -1,4 +1,4 @@
-local Optional = require "nvim-lsp-installer.core.optional"
+local Optional = require "mason.core.optional"
 local spy = require "luassert.spy"
 
 describe("Optional.of_nilable", function()

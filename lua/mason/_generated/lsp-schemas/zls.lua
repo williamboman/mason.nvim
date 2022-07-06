@@ -1,0 +1,3 @@
+-- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
+-- stylua: ignore start
+return {properties = {["zigLanguageClient.debugLog"] = {description = "Enable debug logging in release builds of zls.",scope = "resource",type = "boolean"},["zigLanguageClient.path"] = {description = "Path to `zls` executable. Example: `C:/zls/zig-cache/bin/zls.exe`.",scope = "resource",type = "string"}},title = "Zig language client configuration",type = "object"}

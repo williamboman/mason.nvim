@@ -1,5 +1,6 @@
 local spy = require "luassert.spy"
-local _ = require "nvim-lsp-installer.core.functional"
+local _ = require "mason.core.functional"
+local Optional = require "mason.core.optional"
 
 describe("functional: list", function()
     it("should produce list without nils", function()
@@ -39,6 +40,24 @@ describe("functional: list", function()
         )
         -- should not modify in-place
         assert.same({ "BLUE", "YELLOW", "RED" }, colors)
+    end)
+
+    it("filter_map over list", function()
+        local colors = { "BROWN", "BLUE", "YELLOW", "GREEN", "CYAN" }
+        assert.same(
+            {
+                "BROWN EYES",
+                "BLUE EYES",
+                "GREEN EYES",
+            },
+            _.filter_map(function(color)
+                if _.any_pass({ _.equals "BROWN", _.equals "BLUE", _.equals "GREEN" }, color) then
+                    return Optional.of(("%s EYES"):format(color))
+                else
+                    return Optional.empty()
+                end
+            end, colors)
+        )
     end)
 
     it("finds first item that fulfills predicate", function()
@@ -121,5 +140,54 @@ describe("functional: list", function()
         assert.equals(0, _.length "")
         assert.equals(1, _.length { "" })
         assert.equals(4, _.length "fire")
+    end)
+
+    it("should sort by comparator", function()
+        local list = {
+            {
+                name = "William",
+            },
+            {
+                name = "Boman",
+            },
+        }
+        assert.same({
+            {
+                name = "Boman",
+            },
+            {
+                name = "William",
+            },
+        }, _.sort_by(_.prop "name", list))
+
+        -- Should not mutate original list
+        assert.same({
+            {
+                name = "William",
+            },
+            {
+                name = "Boman",
+            },
+        }, list)
+    end)
+
+    it("should append to list", function()
+        local list = { "Earth", "Wind" }
+        assert.same({ "Earth", "Wind", { "Fire" } }, _.append({ "Fire" }, list))
+
+        -- Does not mutate original list
+        assert.same({ "Earth", "Wind" }, list)
+    end)
+
+    it("should prepend to list", function()
+        local list = { "Fire" }
+        assert.same({ { "Earth", "Wind" }, "Fire" }, _.prepend({ "Earth", "Wind" }, list))
+
+        -- Does not mutate original list
+        assert.same({ "Fire" }, list)
+    end)
+
+    it("joins lists", function()
+        assert.equals("Hello, John", _.join(", ", { "Hello", "John" }))
     end)
 end)

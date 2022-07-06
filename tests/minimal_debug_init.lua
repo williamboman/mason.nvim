@@ -11,9 +11,9 @@ vim.opt.completeopt = "menu"
 
 local temp_dir = vim.loop.os_getenv "TEMP" or "/tmp"
 
-vim.opt.packpath = join_paths(temp_dir, "nvim-lsp-installer-debug", "site")
+vim.opt.packpath = join_paths(temp_dir, "mason-debug", "site")
 
-local package_root = join_paths(temp_dir, "nvim-lsp-installer-debug", "site", "pack")
+local package_root = join_paths(temp_dir, "mason-debug", "site", "pack")
 local install_path = join_paths(package_root, "packer", "start", "packer.nvim")
 local compile_path = join_paths(install_path, "plugin", "packer_compiled.lua")
 
@@ -22,7 +22,7 @@ local function load_plugins()
         {
             "wbthomason/packer.nvim",
             "neovim/nvim-lspconfig",
-            "williamboman/nvim-lsp-installer",
+            "williamboman/mason.nvim",
         },
         config = {
             package_root = package_root,
@@ -38,7 +38,7 @@ function _G.load_config()
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
     end
 
-    require("nvim-lsp-installer").setup {
+    require("mason").setup {
         log = vim.log.levels.DEBUG,
     }
 

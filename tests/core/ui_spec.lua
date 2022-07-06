@@ -1,8 +1,8 @@
 local match = require "luassert.match"
 local spy = require "luassert.spy"
-local display = require "nvim-lsp-installer.core.ui.display"
-local Ui = require "nvim-lsp-installer.core.ui"
-local a = require "nvim-lsp-installer.core.async"
+local display = require "mason.core.ui.display"
+local Ui = require "mason.core.ui"
+local a = require "mason.core.async"
 
 describe("ui", function()
     it("produces a correct tree", function()
@@ -80,6 +80,7 @@ describe("ui", function()
                         { "Install something idk", "Stuff" },
                     },
                 },
+                Ui.StickyCursor { id = "sticky" },
                 Ui.Keybind("<CR>", "INSTALL_SERVER", { "tsserver" }, false),
                 Ui.DiagnosticsNode {
                     message = "yeah this one's outdated",
@@ -113,6 +114,7 @@ describe("ui", function()
             },
             lines = { "  Hello World!", "  Another Line", "  Install something idk", "  I'm a text node" },
             virt_texts = {},
+            sticky_cursors = { line_map = { [3] = "sticky" }, id_map = { ["sticky"] = 3 } },
             keybinds = {
                 {
                     effect = "INSTALL_SERVER",
@@ -143,7 +145,7 @@ describe("integration test", function()
     it(
         "calls vim APIs as expected during rendering",
         async_test(function()
-            local window = display.new_view_only_win "test"
+            local window = display.new_view_only_win("test", "my-filetype")
 
             window.view(function(state)
                 return Ui.Node {
@@ -161,28 +163,33 @@ describe("integration test", function()
                 }
             end)
 
-            local mutate_state = window.init { text = "Initial state" }
-
-            window.open {
-                effects = {
-                    ["EFFECT"] = function() end,
-                    ["R_EFFECT"] = function() end,
-                },
-                highlight_groups = {
-                    "hi def MyHighlight gui=bold",
-                },
-            }
+            local mutate_state = window.state { text = "Initial state" }
 
             local clear_namespace = spy.on(vim.api, "nvim_buf_clear_namespace")
             local buf_set_option = spy.on(vim.api, "nvim_buf_set_option")
             local win_set_option = spy.on(vim.api, "nvim_win_set_option")
             local set_lines = spy.on(vim.api, "nvim_buf_set_lines")
             local set_extmark = spy.on(vim.api, "nvim_buf_set_extmark")
+            local set_hl = spy.on(vim.api, "nvim_set_hl")
             local add_highlight = spy.on(vim.api, "nvim_buf_add_highlight")
             local set_keymap = spy.on(vim.keymap, "set")
 
+            window.init {
+                effects = {
+                    ["EFFECT"] = function() end,
+                    ["R_EFFECT"] = function() end,
+                },
+                highlight_groups = {
+                    MyHighlight = { bold = true },
+                },
+            }
+            window.open { border = "none" }
+
             -- Initial window and buffer creation + initial render
             a.scheduler()
+
+            assert.spy(set_hl).was_called(1)
+            assert.spy(set_hl).was_called_with(match.is_number(), "MyHighlight", match.same { bold = true })
 
             assert.spy(win_set_option).was_called(8)
             assert.spy(win_set_option).was_called_with(match.is_number(), "number", false)
@@ -201,7 +208,7 @@ describe("integration test", function()
             assert.spy(buf_set_option).was_called_with(match.is_number(), "buftype", "nofile")
             assert.spy(buf_set_option).was_called_with(match.is_number(), "bufhidden", "wipe")
             assert.spy(buf_set_option).was_called_with(match.is_number(), "buflisted", false)
-            assert.spy(buf_set_option).was_called_with(match.is_number(), "filetype", "lsp-installer")
+            assert.spy(buf_set_option).was_called_with(match.is_number(), "filetype", "my-filetype")
             assert.spy(buf_set_option).was_called_with(match.is_number(), "undolevels", -1)
 
             assert.spy(set_lines).was_called(1)
@@ -257,6 +264,51 @@ describe("integration test", function()
                 false,
                 { "Line number 1!", "New state", "My highlighted text" }
             )
+        end)
+    )
+
+    it(
+        "anchors to sticky cursor",
+        async_test(function()
+            local window = display.new_view_only_win("test", "my-filetype")
+            window.view(function(state)
+                local extra_lines = state.show_extra_lines
+                        and Ui.Text {
+                            "More",
+                            "Lines",
+                            "Here",
+                        }
+                    or Ui.Node {}
+                return Ui.Node {
+                    extra_lines,
+                    Ui.Text {
+                        "Line 1",
+                        "Line 2",
+                        "Line 3",
+                        "Line 4",
+                        "Special line",
+                    },
+                    Ui.StickyCursor { id = "special" },
+                    Ui.Text {
+                        "Line 6",
+                        "Line 7",
+                        "Line 8",
+                        "Line 9",
+                        "Line 10",
+                    },
+                }
+            end)
+            local mutate_state = window.state { show_extra_lines = false }
+            window.init {}
+            window.open { border = "none" }
+            a.scheduler()
+            window.set_cursor { 5, 3 } -- move cursor to sticky line
+            mutate_state(function(state)
+                state.show_extra_lines = true
+            end)
+            a.scheduler()
+            local cursor = window.get_cursor()
+            assert.same({ 8, 3 }, cursor)
         end)
     )
 end)

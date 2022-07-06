@@ -1,8 +1,8 @@
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 local match = require "luassert.match"
-local spawn = require "nvim-lsp-installer.core.spawn"
-local process = require "nvim-lsp-installer.core.process"
+local spawn = require "mason.core.spawn"
+local process = require "mason.core.process"
 
 describe("async spawn", function()
     it(
@@ -112,7 +112,7 @@ describe("async spawn", function()
             }
 
             assert.spy(on_spawn).was_called(1)
-            assert.spy(on_spawn).was_called_with(match.is_not.is_nil(), match.is_not.is_nil())
+            assert.spy(on_spawn).was_called_with(match.is_not.is_nil(), match.is_table(), match.is_number())
             assert.is_true(result:is_success())
             assert.equals("im so piped rn", result:get_or_nil().stdout)
         end)
@@ -156,7 +156,7 @@ describe("async spawn", function()
             local result = spawn.bash {}
             assert.is_true(result:is_failure())
             assert.equals(
-                "spawn: bash failed with exit code 127. This is an error message for bash!",
+                "spawn: bash failed with exit code 127 and signal -. This is an error message for bash!",
                 tostring(result:err_or_nil())
             )
         end)
@@ -168,7 +168,7 @@ describe("async spawn", function()
             local result = spawn.my_cmd {}
             assert.is_true(result:is_failure())
             assert.equals(
-                "spawn: my_cmd failed with no exit code. my_cmd is not executable",
+                "spawn: my_cmd failed with exit code - and signal -. my_cmd is not executable",
                 tostring(result:err_or_nil())
             )
         end)

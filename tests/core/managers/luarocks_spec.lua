@@ -1,28 +1,20 @@
-local mock = require "luassert.mock"
-local installer = require "nvim-lsp-installer.core.installer"
-local luarocks = require "nvim-lsp-installer.core.managers.luarocks"
-local Optional = require "nvim-lsp-installer.core.optional"
+local installer = require "mason.core.installer"
+local luarocks = require "mason.core.managers.luarocks"
+local path = require "mason.core.path"
 
 describe("luarocks manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                luarocks = mockx.returns {},
-            },
-        }
-    end)
-
     it(
         "should install provided package",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
+            print(vim.inspect(ctx.spawn.luarocks))
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
                 "--tree",
-                "/tmp/install-dir",
+                path.package_prefix "dummy",
                 vim.NIL, -- --dev flag
                 "lua-cjson",
                 vim.NIL, -- version
@@ -33,13 +25,14 @@ describe("luarocks manager", function()
     it(
         "should install provided version",
         async_test(function()
-            ctx.requested_version = Optional.of "1.2.3"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version =  "1.2.3"})
             installer.run_installer(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
                 "--tree",
-                "/tmp/install-dir",
+                path.package_prefix "dummy",
                 vim.NIL, -- --dev flag
                 "lua-cjson",
                 "1.2.3",
@@ -50,12 +43,14 @@ describe("luarocks manager", function()
     it(
         "should provide --dev flag",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, luarocks.package("lua-cjson", { dev = true }))
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
                 "--tree",
-                "/tmp/install-dir",
+                path.package_prefix "dummy",
                 "--dev",
                 "lua-cjson",
                 vim.NIL, -- version

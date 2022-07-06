@@ -1,79 +1,53 @@
+[![GitHub CI](https://github.com/williamboman/mason.nvim/workflows/CI/badge.svg)](https://github.com/williamboman/mason.nvim/actions)
+![Platforms](https://img.shields.io/badge/platform-linux%20macOS%20windows-blue)
+![Repository size](https://img.shields.io/github/repo-size/williamboman/mason.nvim)
+[![Sponsors](https://img.shields.io/github/sponsors/williamboman?style=flat-square)](https://github.com/sponsors/williamboman)
+
+<img src="https://user-images.githubusercontent.com/6705160/177613416-0c0354d2-f431-40d8-87f0-21310f0bba0e.png" alt="mason.nvim" />
+
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/6705160/118490159-f064bb00-b71d-11eb-883e-4affbd020074.png" alt="nvim-lsp-installer" width="50%" />
+    Lightweight package manager for Neovim that runs everywhere Neovim runs.<br />
+    Easily install and manage LSP servers, DAP servers, linters, and formatters.
 </p>
 
--   [About](#about)
+# Table of Contents
+
+-   [Introduction](#introduction)
 -   [Screenshots](#screenshots)
 -   [Requirements](#requirements)
-    -   [Minimum requirements](#minimum-requirements)
-    -   [Additional requirements](#additional-requirements)
 -   [Installation](#installation)
--   [Usage](#usage)
-    -   [Setup](#setup)
-    -   [Commands](#commands)
-    -   [Configuration](#configuration)
--   [Available LSPs](#available-lsps)
--   [Logo](#logo)
--   [Default configuration](#default-configuration)
+-   [Setup](#setup)
+-   [Commands](#commands)
+-   [Configuration](#configuration)
 
-## About
+# Introduction
 
-Neovim plugin that allow you to manage LSP servers (servers are installed inside `:echo stdpath("data")` by default).
-It works in tandem with [`lspconfig`](https://github.com/neovim/nvim-lspconfig)<sup>1</sup> by registering a hook that
-enhances the `PATH` environment variable, allowing neovim's LSP client to locate the server executable installed by
-nvim-lsp-installer.<sup>2</sup>
+`mason.nvim` is a Neovim plugin that allow you to easily manage external editor tooling such as LSP servers, DAP servers,
+linters, and formatters through a single interface. It runs everywhere Neovim runs (across Linux, macOS, Windows, etc.),
+with only a small set of [external requirements](#requirements) needed.
 
-On top of just providing commands for installing & uninstalling LSP servers, it:
-
--   provides a graphical UI
--   provides the ability to check for, and upgrade to, new server versions through a single interface
--   supports installing custom versions of LSP servers (for example `:LspInstall rust_analyzer@nightly`)
--   relaxes the minimum requirements by attempting multiple different utilities (for example, only one of `wget`, `curl`, or `Invoke-WebRequest` is required for HTTP requests)
--   hosts [a suite of system tests](https://github.com/williamboman/nvim-lspconfig-test) for all supported servers
--   has full support for Windows <img src="https://user-images.githubusercontent.com/6705160/131256603-cacf7f66-dfa9-4515-8ae4-0e42d08cfc6a.png" height="20">
-
-<sup>1 - while lspconfig is the main target, this plugin may also be used for other use cases</sup>
-<br>
-<sup>2 - some servers don't provide an executable, in which case the full command to spawn the server is provided instead</sup>
+Packages are installed to Neovim's `:h stdpath` by default. Executables are linked to a single `bin/` directory, which
+`mason.nvim` will add to the Neovim's PATH during setup, allowing easy access for the builtin shell/terminal as well as
+other 3rd party plugins.
 
 ## Screenshots
 
-|                                                                                                                    |                                                                                                                    |                                                                                                                    |
-| :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/6705160/150685720-782e33ba-172c-44b6-8558-fb4e98495294.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685404-2cd34b25-166e-4c84-b9dd-1d5580dc2bdd.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150685322-a537f021-5850-4bbc-8be2-1ece5678d205.png" /> |
-| <img src="https://user-images.githubusercontent.com/6705160/150685324-1310ae7d-67bf-4053-872c-d27e8a4c4b80.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686052-fd5c4d54-b4da-4cb3-bb82-a094526ee5b5.png" /> | <img src="https://user-images.githubusercontent.com/6705160/150686059-f1be8131-1274-4f62-9aa8-345599cbd8bc.png" /> |
+|                                                                                                                  |                                                                                                                  |                                                                                                                  |                                                                                                                  |
+| :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/6705160/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617684-6bb4c13f-1235-4ac9-829e-120b06f7437b.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617688-8f9ba225-00c8-495c-9c4c-b74240d6f280.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617692-02c6ddde-a97e-42b4-bca4-4f4caf45d569.png"> |
 
-## Requirements
+# Requirements
 
-Requires neovim `>= 0.7.0` and [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
+`mason.nvim` relaxes the minimum requirements by attempting multiple different utilities (for example, `wget`,
+`curl`, and `Invoke-WebRequest` are all perfect substitutes).
+The _minimum_ recommended requirements are:
 
-### Minimum requirements
-
-The minimum recommended requirements are:
-
--   For Unix systems: git(1), curl(1) or wget(1), unzip(1), tar(1), gzip(1)
+-   neovim `>= 0.7.0`
+-   For Unix systems: `git(1)`, `curl(1)` or `wget(1)`, `unzip(1)`, `tar(1)`, `gzip(1)`
 -   For Windows systems: powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip] or [WinRAR][winrar]
 
-### Additional requirements
-
-Additional requirements to install & run all servers are (depending on usage):
-
--   Node.js (LTS) & npm
--   Python3 & pip3
--   go >= 1.17
--   cargo
--   Ruby & gem
--   PHP & Composer
--   JDK
--   Julia
--   dotnet
--   ghcup
--   luarocks
--   meson
--   ninja
--   pwsh
--   rebar3
--   valac
+Note that `mason.nvim` will regularly shell out to external package managers, such as `cargo` and `npm`. Depending on
+your personal usage, some of these will also need to be installed. Refer to `:checkhealth mason` for a full list.
 
 [7zip]: https://www.7-zip.org/
 [archiver]: https://github.com/mholt/archiver
@@ -81,89 +55,44 @@ Additional requirements to install & run all servers are (depending on usage):
 [winzip]: https://www.winzip.com/
 [winrar]: https://www.win-rar.com/
 
-## Installation
+# Installation
 
-### [Packer](https://github.com/wbthomason/packer.nvim)
+## [Packer](https://github.com/wbthomason/packer.nvim)
 
 ```lua
-use {
-    "williamboman/nvim-lsp-installer",
-    "neovim/nvim-lspconfig",
-}
+use { "williamboman/mason.nvim", branch = "alpha" }
 ```
 
-### vim-plug
+## vim-plug
 
 ```vim
-Plug "williamboman/nvim-lsp-installer"
-Plug "neovim/nvim-lspconfig"
+Plug "williamboman/mason.nvim", { 'branch': 'alpha' }
 ```
 
-## Usage
-
-### Setup
-
-In order for nvim-lsp-installer to register the necessary hooks at the right moment, **make sure you call the `.setup()`
-function before you set up any servers with `lspconfig`**!
+# Setup
 
 ```lua
-require("nvim-lsp-installer").setup {}
+require("mason").setup {}
 ```
-
-<details>
-<summary>
-ℹ️ Important if you use packer.nvim! (click to expand)
-</summary>
-
-<br />
-
-> You need to make sure that the setup for nvim-lsp-installer executes _before_ your setup for lspconfig.
-> There are different ways of achieving this, for example by using the `after` directive:
-
-```lua
-use {
-    {
-        "williamboman/nvim-lsp-installer",
-        config = function ()
-            require("nvim-lsp-installer").setup {}
-        end
-    },
-    {
-        "neovim/nvim-lspconfig",
-        after = "nvim-lsp-installer",
-        config = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.sumneko_lua.setup {}
-            --- ...
-        end
-    }
-}
-```
-
-</details>
 
 Refer to the [Configuration](#configuration) section for information about which settings are available.
 
-### Commands
+# Commands
 
--   `:LspInstallInfo` - opens a graphical overview of your language servers
--   `:LspInstall [--sync] [server] ...` - installs/reinstalls language servers. Runs in a blocking fashion if the `--sync` argument is passed (only recommended for scripting purposes).
--   `:LspUninstall [--sync] <server> ...` - uninstalls language servers. Runs in a blocking fashion if the `--sync` argument is passed (only recommended for scripting purposes).
--   `:LspUninstallAll [--no-confirm]` - uninstalls all language servers
--   `:LspInstallLog` - opens the log file in a new tab window
--   `:LspPrintInstalled` - prints all installed language servers
+-   `:Mason` - opens a graphical status window
+-   `:MasonInstall <package> ...` - installs/reinstalls the provided packages
+-   `:MasonUninstall <package> ...` - uninstalls the provided packages
+-   `:MasonUninstallAll` - uninstalls all packages
+-   `:MasonLog` - opens the `mason.nvim` log file in a new tab window
 
-### Configuration
+# Configuration
 
-You may optionally configure certain behavior of nvim-lsp-installer when calling the `.setup()` function.
-
-Refer to the [default configuration](#default-configuration) for all available settings.
+You may optionally configure certain behavior of `mason.nvim` when calling the `.setup()` function.
 
 Example:
 
 ```lua
-require("nvim-lsp-installer").setup({
-    automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+require("mason").setup({
     ui = {
         icons = {
             server_installed = "✓",
@@ -174,199 +103,45 @@ require("nvim-lsp-installer").setup({
 })
 ```
 
-## Available LSPs
-
-| Language                            | Server name                |
-| ----------------------------------- | -------------------------- |
-| AWK                                 | `awk_ls`                   |
-| Angular                             | `angularls`                |
-| Ansible                             | `ansiblels`                |
-| Apex                                | `apex_ls`                  |
-| Arduino [(docs!!!)][arduino]        | `arduino_language_server`  |
-| Assembly (GAS/NASM, GO)             | `asm_lsp`                  |
-| Astro                               | `astro`                    |
-| Bash                                | `bashls`                   |
-| Beancount                           | `beancount`                |
-| Bicep                               | `bicep`                    |
-| C                                   | `ccls`                     |
-| C                                   | `clangd`                   |
-| C#                                  | `csharp_ls`                |
-| C# [(docs)][omnisharp]              | `omnisharp`                |
-| C++                                 | `ccls`                     |
-| C++                                 | `clangd`                   |
-| CMake                               | `cmake`                    |
-| CSS                                 | `cssls`                    |
-| CSS                                 | `cssmodules_ls`            |
-| Clarity                             | `clarity_lsp`              |
-| Clojure                             | `clojure_lsp`              |
-| CodeQL                              | `codeqlls`                 |
-| Crystal                             | `crystalline`              |
-| Crystal                             | `scry`                     |
-| Cucumber                            | `cucumber_language_server` |
-| Dart                                | `dartls`                   |
-| Deno                                | `denols`                   |
-| Dhall                               | `dhall_lsp_server`         |
-| Diagnostic (general purpose server) | `diagnosticls`             |
-| Dlang                               | `serve_d`                  |
-| Docker                              | `dockerls`                 |
-| Dot                                 | `dotls`                    |
-| EFM (general purpose server)        | `efm`                      |
-| ESLint [(docs)][eslint]             | `eslint`                   |
-| Elixir                              | `elixirls`                 |
-| Elm                                 | `elmls`                    |
-| Ember                               | `ember`                    |
-| Emmet                               | `emmet_ls`                 |
-| Erlang                              | `erlangls`                 |
-| F#                                  | `fsautocomplete`           |
-| Flux                                | `flux_lsp`                 |
-| Foam (OpenFOAM)                     | `foam_ls`                  |
-| Fortran                             | `fortls`                   |
-| Go                                  | `golangci_lint_ls`         |
-| Go                                  | `gopls`                    |
-| Grammarly                           | `grammarly`                |
-| GraphQL                             | `graphql`                  |
-| Groovy                              | `groovyls`                 |
-| HTML                                | `html`                     |
-| Haskell                             | `hls`                      |
-| Haxe                                | `haxe_language_server`     |
-| Hoon                                | `hoon_ls`                  |
-| JSON                                | `jsonls`                   |
-| Java                                | `jdtls`                    |
-| JavaScript                          | `quick_lint_js`            |
-| JavaScript                          | `tsserver`                 |
-| Jsonnet                             | `jsonnet_ls`               |
-| Julia [(docs)][julials]             | `julials`                  |
-| Kotlin                              | `kotlin_language_server`   |
-| LaTeX                               | `ltex`                     |
-| LaTeX                               | `texlab`                   |
-| Lelwel                              | `lelwel_ls`                |
-| Lua                                 | `sumneko_lua`              |
-| Markdown                            | `marksman`                 |
-| Markdown                            | `prosemd_lsp`              |
-| Markdown                            | `remark_ls`                |
-| Markdown                            | `zk`                       |
-| Metamath Zero                       | `mm0_ls`                   |
-| Nickel                              | `nickel_ls`                |
-| Nim                                 | `nimls`                    |
-| OCaml                               | `ocamlls`                  |
-| OCaml                               | `ocamllsp`                 |
-| Objective C                         | `ccls`                     |
-| OneScript, 1C:Enterprise            | `bsl_ls`                   |
-| OpenCL                              | `opencl_ls`                |
-| PHP                                 | `intelephense`             |
-| PHP                                 | `phpactor`                 |
-| PHP                                 | `psalm`                    |
-| Perl                                | `perlnavigator`            |
-| Powershell                          | `powershell_es`            |
-| Prisma                              | `prismals`                 |
-| Puppet                              | `puppet`                   |
-| PureScript                          | `purescriptls`             |
-| Python                              | `jedi_language_server`     |
-| Python                              | `pyright`                  |
-| Python                              | `sourcery`                 |
-| Python [(docs)][pylsp]              | `pylsp`                    |
-| R                                   | `r_language_server`        |
-| ReScript                            | `rescriptls`               |
-| Reason                              | `reason_ls`                |
-| Robot Framework                     | `robotframework_ls`        |
-| Rome                                | `rome`                     |
-| Ruby                                | `solargraph`               |
-| Rust                                | `rust_analyzer`            |
-| SQL                                 | `sqlls`                    |
-| SQL                                 | `sqls`                     |
-| Salt                                | `salt_ls`                  |
-| Shopify Theme Check                 | `theme_check`              |
-| Slint                               | `slint_lsp`                |
-| Solidity                            | `solang`                   |
-| Solidity                            | `solc`                     |
-| Solidity (VSCode)                   | `solidity_ls`              |
-| Sorbet                              | `sorbet`                   |
-| Sphinx                              | `esbonio`                  |
-| Stylelint                           | `stylelint_lsp`            |
-| Svelte                              | `svelte`                   |
-| Swift                               | `sourcekit`                |
-| SystemVerilog                       | `svlangserver`             |
-| SystemVerilog                       | `svls`                     |
-| SystemVerilog                       | `verible`                  |
-| TOML                                | `taplo`                    |
-| Tailwind CSS                        | `tailwindcss`              |
-| Teal                                | `teal_ls`                  |
-| Terraform                           | `terraformls`              |
-| Terraform [(docs)][tflint]          | `tflint`                   |
-| TypeScript                          | `tsserver`                 |
-| V                                   | `vls`                      |
-| Vala                                | `vala_ls`                  |
-| VimL                                | `vimls`                    |
-| Visualforce                         | `visualforce`              |
-| Vue                                 | `volar`                    |
-| Vue                                 | `vuels`                    |
-| XML                                 | `lemminx`                  |
-| YAML                                | `yamlls`                   |
-| Zig                                 | `zls`                      |
-
-[arduino]: ./lua/nvim-lsp-installer/servers/arduino_language_server/README.md
-[eslint]: ./lua/nvim-lsp-installer/servers/eslint/README.md
-[julials]: ./lua/nvim-lsp-installer/servers/julials/README.md
-[omnisharp]: ./lua/nvim-lsp-installer/servers/omnisharp/README.md
-[pylsp]: ./lua/nvim-lsp-installer/servers/pylsp/README.md
-[tflint]: ./lua/nvim-lsp-installer/servers/tflint/README.md
-
-## Logo
-
-Illustrations in the logo are derived from [@Kaligule](https://schauderbasis.de/)'s "Robots" collection.
-
-## Default configuration
-
 ```lua
 local DEFAULT_SETTINGS = {
-    -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer", "sumneko_lua" }
-    -- This setting has no relation with the `automatic_installation` setting.
-    ensure_installed = {},
-
-    -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
-    -- This setting has no relation with the `ensure_installed` setting.
-    -- Can either be:
-    --   - false: Servers are not automatically installed.
-    --   - true: All servers set up via lspconfig are automatically installed.
-    --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
-    --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
-    automatic_installation = false,
-
     ui = {
-        -- Whether to automatically check for outdated servers when opening the UI window.
-        check_outdated_servers_on_open = true,
-
         -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
         border = "none",
 
         icons = {
-            -- The list icon to use for installed servers.
-            server_installed = "◍",
-            -- The list icon to use for servers that are pending installation.
-            server_pending = "◍",
-            -- The list icon to use for servers that are not installed.
-            server_uninstalled = "◍",
+            -- The list icon to use for installed packages.
+            package_installed = "◍",
+            -- The list icon to use for packages that are installing, or queued for installation.
+            package_pending = "◍",
+            -- The list icon to use for packages that are not installed.
+            package_uninstalled = "◍",
         },
+
         keymaps = {
-            -- Keymap to expand a server in the UI
-            toggle_server_expand = "<CR>",
-            -- Keymap to install the server under the current cursor position
-            install_server = "i",
-            -- Keymap to reinstall/update the server under the current cursor position
-            update_server = "u",
-            -- Keymap to check for new version for the server under the current cursor position
-            check_server_version = "c",
-            -- Keymap to update all installed servers
-            update_all_servers = "U",
-            -- Keymap to check which installed servers are outdated
-            check_outdated_servers = "C",
-            -- Keymap to uninstall a server
-            uninstall_server = "X",
+            -- Keymap to expand a package
+            toggle_package_expand = "<CR>",
+            -- Keymap to install the package under the current cursor position
+            install_package = "i",
+            -- Keymap to reinstall/update the package under the current cursor position
+            update_package = "u",
+            -- Keymap to check for new version for the package under the current cursor position
+            check_package_version = "c",
+            -- Keymap to update all installed packages
+            update_all_packages = "U",
+            -- Keymap to check which installed packages are outdated
+            check_outdated_packages = "C",
+            -- Keymap to uninstall a package
+            uninstall_package = "X",
+            -- Keymap to cancel a package installation
+            cancel_installation = "<C-c>",
+            -- Keymap to apply language filter
+            apply_language_filter = "<C-f>",
         },
     },
 
-    -- The directory in which to install all servers.
-    install_root_dir = path.concat { vim.fn.stdpath "data", "lsp_servers" },
+    -- The directory in which to install packages.
+    install_root_dir = path.concat { vim.fn.stdpath "data", "mason" },
 
     pip = {
         -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior

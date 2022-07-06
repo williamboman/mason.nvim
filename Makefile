@@ -1,4 +1,4 @@
-INSTALL_ROOT_DIR:=$(shell pwd)/tests/fixtures/lsp_servers
+INSTALL_ROOT_DIR:=$(shell pwd)/tests/fixtures/mason
 NVIM_HEADLESS:=nvim --headless --noplugin -u tests/minimal_init.vim
 
 dependencies:

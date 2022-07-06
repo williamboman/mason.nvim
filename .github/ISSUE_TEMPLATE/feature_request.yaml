@@ -7,7 +7,7 @@ body:
     - type: markdown
       attributes:
           value: |
-              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/nvim-lsp-installer/discussions/categories/q-a :)
+              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/mason.nvim/discussions/categories/q-a :)
 
               Before filing an issue, make sure that you meet the minimum requirements mentioned in the README.
 

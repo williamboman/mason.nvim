@@ -1,4 +1,4 @@
-local eclipse = require "nvim-lsp-installer.core.clients.eclipse"
+local eclipse = require "mason.core.clients.eclipse"
 
 describe("eclipse client", function()
     it("parses jdtls version strings", function()

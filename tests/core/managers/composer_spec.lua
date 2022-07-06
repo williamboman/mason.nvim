@@ -1,27 +1,19 @@
 local spy = require "luassert.spy"
 local mock = require "luassert.mock"
-local installer = require "nvim-lsp-installer.core.installer"
-local Optional = require "nvim-lsp-installer.core.optional"
-local composer = require "nvim-lsp-installer.core.managers.composer"
-local Result = require "nvim-lsp-installer.core.result"
-local spawn = require "nvim-lsp-installer.core.spawn"
+local installer = require "mason.core.installer"
+local Optional = require "mason.core.optional"
+local composer = require "mason.core.managers.composer"
+local Result = require "mason.core.result"
+local spawn = require "mason.core.spawn"
+local path = require "mason.core.path"
 
 describe("composer manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                composer = mockx.returns {},
-            },
-        }
-    end)
-
     it(
         "should call composer require",
         async_test(function()
-            ctx.fs.file_exists = mockx.returns(false)
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            ctx.fs.file_exists = spy.new(mockx.returns(false))
             installer.run_installer(
                 ctx,
                 composer.packages { "main-package", "supporting-package", "supporting-package2" }
@@ -46,7 +38,8 @@ describe("composer manager", function()
     it(
         "should provide receipt information",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(
                 ctx,
                 composer.packages { "main-package", "supporting-package", "supporting-package2" }
@@ -93,7 +86,7 @@ describe("composer version check", function()
                         package = "vimeo/psalm",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.composer).was_called(1)
@@ -101,7 +94,7 @@ describe("composer version check", function()
                 "info",
                 "--format=json",
                 "vimeo/psalm",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             }
             assert.is_true(result:is_success())
             assert.equals("4.0.0", result:get_or_nil())
@@ -138,7 +131,7 @@ describe("composer version check", function()
                         package = "vimeo/psalm",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.composer).was_called(1)
@@ -146,7 +139,7 @@ describe("composer version check", function()
                 "outdated",
                 "--no-interaction",
                 "--format=json",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             }
             assert.is_true(result:is_success())
             assert.same({
@@ -175,7 +168,7 @@ describe("composer version check", function()
                         package = "vimeo/psalm",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.is_true(result:is_failure())

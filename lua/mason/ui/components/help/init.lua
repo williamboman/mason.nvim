@@ -1,0 +1,153 @@
+local Ui = require "mason.core.ui"
+local p = require "mason.ui.palette"
+local _ = require "mason.core.functional"
+local settings = require "mason.settings"
+local log = require "mason.log"
+
+local LSPHelp = require "mason.ui.components.help.lsp"
+local DAPHelp = require "mason.ui.components.help.dap"
+
+---@param state InstallerUiState
+local function Ship(state)
+    local ship_indent = { (" "):rep(state.view.ship_indentation), "" }
+    -- stylua: ignore start
+    local ship = {
+        { ship_indent,             p.muted "/^v^\\", p.none "         |    |    |" },
+        { ship_indent,                          p.none "             )_)  )_)  )_)     ", p.muted "/^v^\\" },
+        { ship_indent, p.muted "   ", p.muted "/^v^\\", p.none "    )___))___))___)\\     ", p.highlight_secondary(state.view.ship_exclamation) },
+        { ship_indent,                          p.none "           )____)____)_____)\\\\" },
+        { ship_indent,                          p.none "         _____|____|____|____\\\\\\__" },
+        { ship_indent,  p.muted "         ",            p.none "\\                   /" },
+    }
+    -- stylua: ignore end
+    local water = {
+        { p.highlight "  ^^^^^ ^^^^^^^^  ^^^^^ ^^^^^  ^^^^^ ^^^^ <><  " },
+        { p.highlight "    ^^^^  ^^  ^^^    ^ ^^^    ^^^ <>< ^^^^     " },
+        { p.highlight "     ><> ^^^     ^^    ><> ^^     ^^    ^      " },
+    }
+    if state.view.ship_indentation < 0 then
+        for _, shipline in ipairs(ship) do
+            local removed_chars = 0
+            for _, span in ipairs(shipline) do
+                local span_length = #span[1]
+                local chars_to_remove = (math.abs(state.view.ship_indentation) - removed_chars)
+                span[1] = string.sub(span[1], chars_to_remove + 1)
+                removed_chars = removed_chars + (span_length - #span[1])
+            end
+        end
+    end
+    return Ui.Node {
+        Ui.HlTextNode(ship),
+        Ui.HlTextNode(water),
+    }
+end
+
+---@param state InstallerUiState
+local function GenericHelp(state)
+    local keymap_tuples = {
+        { "Toggle help", "?" },
+        { "Toggle package info", settings.current.ui.keymaps.toggle_package_expand },
+        { "Apply language filter", settings.current.ui.keymaps.apply_language_filter },
+        { "Install package", settings.current.ui.keymaps.install_package },
+        { "Uninstall package", settings.current.ui.keymaps.uninstall_package },
+        { "Update package", settings.current.ui.keymaps.update_package },
+        { "Update all installed packages", settings.current.ui.keymaps.update_all_packages },
+        { "Check for new package version", settings.current.ui.keymaps.check_package_version },
+        { "Check for new versions (all packages)", settings.current.ui.keymaps.check_outdated_packages },
+        { "Cancel installation of package", settings.current.ui.keymaps.cancel_installation },
+        { "Close window", "q" },
+        { "Close window", "<Esc>" },
+    }
+
+    local is_current_settings_expanded = state.view.is_current_settings_expanded
+
+    return Ui.Node {
+        Ui.HlTextNode {
+            { p.muted "Mason log: ", p.none(log.outfile) },
+        },
+        Ui.EmptyLine(),
+        Ui.Table(vim.list_extend(
+            {
+                {
+                    p.Bold "Keyboard shortcuts",
+                },
+            },
+            _.map(function(keymap_tuple)
+                return { p.muted(keymap_tuple[1]), p.highlight(keymap_tuple[2]) }
+            end, keymap_tuples)
+        )),
+        Ui.EmptyLine(),
+        Ui.HlTextNode {
+            { p.Bold "Problems installing/uninstalling packages" },
+            {
+                p.muted "Make sure you meet the minimum requirements to install packages. For debugging, refer to:",
+            },
+        },
+        Ui.CascadingStyleNode({ "INDENT" }, {
+            Ui.HlTextNode {
+                {
+                    p.highlight ":help mason-debugging",
+                },
+                {
+                    p.highlight ":checkhealth mason",
+                },
+            },
+        }),
+        Ui.EmptyLine(),
+        Ui.HlTextNode {
+            { p.Bold "Problems with package functionality" },
+            {
+                p.muted "Please refer to each language package's own homepage for further assistance.",
+            },
+        },
+        Ui.EmptyLine(),
+        Ui.HlTextNode {
+            { p.Bold "Missing a package?" },
+            {
+                p.muted "Create an issue at ",
+                p.highlight "https://github.com/williamboman/mason.nvim/issues/new/choose",
+            },
+        },
+        Ui.EmptyLine(),
+        Ui.HlTextNode {
+            {
+                p.Bold(("%s Current settings"):format(is_current_settings_expanded and "↓" or "→")),
+                p.highlight " :help mason-settings",
+            },
+        },
+        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_CURRENT_SETTINGS", nil),
+        Ui.When(is_current_settings_expanded, function()
+            local settings_split_by_newline = vim.split(vim.inspect(settings.current), "\n")
+            local current_settings = _.map(function(line)
+                return { p.muted(line) }
+            end, settings_split_by_newline)
+            return Ui.HlTextNode(current_settings)
+        end),
+    }
+end
+
+---@param state InstallerUiState
+return function(state)
+    ---@type INode
+    local heading = Ui.Node {}
+    if state.view.current == "LSP" then
+        heading = Ui.Node {
+            LSPHelp(state),
+            Ui.EmptyLine(),
+        }
+    elseif state.view.current == "DAP" then
+        heading = Ui.Node {
+            DAPHelp(state),
+            Ui.EmptyLine(),
+        }
+    end
+
+    return Ui.CascadingStyleNode({ "INDENT" }, {
+        Ui.HlTextNode(state.view.has_changed and p.none "" or p.Comment "(change view by pressing its number)"),
+        heading,
+        GenericHelp(state),
+        Ui.EmptyLine(),
+        Ship(state),
+        Ui.EmptyLine(),
+    })
+end

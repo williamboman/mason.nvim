@@ -1,29 +1,19 @@
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
-local Optional = require "nvim-lsp-installer.core.optional"
-local installer = require "nvim-lsp-installer.core.installer"
-local npm = require "nvim-lsp-installer.core.managers.npm"
-local Result = require "nvim-lsp-installer.core.result"
-local spawn = require "nvim-lsp-installer.core.spawn"
+local installer = require "mason.core.installer"
+local npm = require "mason.core.managers.npm"
+local Result = require "mason.core.result"
+local spawn = require "mason.core.spawn"
+local path = require "mason.core.path"
 
 describe("npm manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                npm = mockx.returns {},
-            },
-        }
-    end)
-
     it(
         "should call npm install",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
-            assert.spy(ctx.spawn.npm).was_called(1)
             assert.spy(ctx.spawn.npm).was_called_with(match.tbl_containing {
                 "install",
                 match.tbl_containing {
@@ -38,6 +28,8 @@ describe("npm manager", function()
     it(
         "should call npm init if node_modules and package.json doesnt exist",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             ctx.fs.file_exists = mockx.returns(false)
             ctx.fs.dir_exists = mockx.returns(false)
             installer.run_installer(ctx, function()
@@ -46,7 +38,7 @@ describe("npm manager", function()
             assert.spy(ctx.spawn.npm).was_called_with {
                 "init",
                 "--yes",
-                "--scope=lsp-installer",
+                "--scope=mason",
             }
         end)
     )
@@ -54,7 +46,9 @@ describe("npm manager", function()
     it(
         "should append .npmrc file",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            ctx.fs.append_file = spy.new(mockx.just_runs())
             installer.run_installer(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.fs.append_file).was_called(1)
             assert.spy(ctx.fs.append_file).was_called_with(ctx.fs, ".npmrc", "global-style=true")
@@ -64,7 +58,8 @@ describe("npm manager", function()
     it(
         "should provide receipt information",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "npm",
@@ -111,11 +106,11 @@ describe("npm version check", function()
                         package = "bash-language-server",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.npm).was_called(1)
-            assert.spy(spawn.npm).was_called_with { "ls", "--json", cwd = "/tmp/install/dir" }
+            assert.spy(spawn.npm).was_called_with { "ls", "--json", cwd = path.package_prefix "dummy" }
             assert.is_true(result:is_success())
             assert.equals("2.0.0", result:get_or_nil())
 
@@ -151,7 +146,7 @@ describe("npm version check", function()
                         package = "bash-language-server",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.npm).was_called(1)
@@ -159,7 +154,7 @@ describe("npm version check", function()
                 "outdated",
                 "--json",
                 "bash-language-server",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             }
             assert.is_true(result:is_success())
             assert.same({
@@ -188,7 +183,7 @@ describe("npm version check", function()
                         package = "bash-language-server",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.is_true(result:is_failure())

@@ -1,27 +1,19 @@
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
-local Optional = require "nvim-lsp-installer.core.optional"
-local installer = require "nvim-lsp-installer.core.installer"
-local cargo = require "nvim-lsp-installer.core.managers.cargo"
-local Result = require "nvim-lsp-installer.core.result"
-local spawn = require "nvim-lsp-installer.core.spawn"
+local Optional = require "mason.core.optional"
+local installer = require "mason.core.installer"
+local cargo = require "mason.core.managers.cargo"
+local Result = require "mason.core.result"
+local spawn = require "mason.core.spawn"
+local path = require "mason.core.path"
 
 describe("cargo manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                cargo = mockx.returns {},
-            },
-        }
-    end)
-
     it(
         "should call cargo install",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, cargo.crate "my-crate")
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
@@ -39,6 +31,8 @@ describe("cargo manager", function()
     it(
         "should call cargo install with git source",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, cargo.crate("https://my-crate.git", { git = true }))
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
@@ -56,6 +50,8 @@ describe("cargo manager", function()
     it(
         "should call cargo install with git source and a specific crate",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, cargo.crate("crate-name", { git = "https://my-crate.git" }))
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
@@ -73,7 +69,8 @@ describe("cargo manager", function()
     it(
         "should respect options",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, cargo.crate("my-crate", { features = "lsp" }))
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
@@ -91,7 +88,8 @@ describe("cargo manager", function()
     it(
         "should not allow combining version with git crate",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             local err = assert.has_error(function()
                 installer.run_installer(
                     ctx,
@@ -108,6 +106,8 @@ describe("cargo manager", function()
     it(
         "should provide receipt information",
         async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, cargo.crate "main-package")
             assert.same({
                 type = "cargo",
@@ -165,7 +165,7 @@ zoxide v0.5.0:
                         package = "https://github.com/influxdata/flux-lsp",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.cargo).was_called(1)
@@ -174,7 +174,7 @@ zoxide v0.5.0:
                 "--list",
                 "--root",
                 ".",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             })
             assert.is_true(result:is_success())
             assert.equals("0.8.8", result:get_or_nil())
@@ -202,7 +202,7 @@ zoxide v0.5.0:
                         package = "lelwel",
                     },
                 },
-                "/tmp/install/dir"
+                path.package_prefix "dummy"
             )
 
             assert.spy(spawn.cargo).was_called(1)
@@ -211,7 +211,7 @@ zoxide v0.5.0:
                 "--list",
                 "--root",
                 ".",
-                cwd = "/tmp/install/dir",
+                cwd = path.package_prefix "dummy",
             })
             assert.is_true(result:is_success())
             assert.is_true(match.tbl_containing {

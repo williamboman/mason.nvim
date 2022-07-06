@@ -4,8 +4,8 @@ local match = require "luassert.match"
 
 describe("platform", function()
     local function platform()
-        package.loaded["nvim-lsp-installer.core.platform"] = nil
-        return require "nvim-lsp-installer.core.platform"
+        package.loaded["mason.core.platform"] = nil
+        return require "mason.core.platform"
     end
 
     local function stub_mac(arch)

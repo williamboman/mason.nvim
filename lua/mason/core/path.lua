@@ -1,0 +1,51 @@
+local sep = (function()
+    ---@diagnostic disable-next-line: undefined-global
+    if jit then
+        ---@diagnostic disable-next-line: undefined-global
+        local os = string.lower(jit.os)
+        if os == "linux" or os == "osx" or os == "bsd" then
+            return "/"
+        else
+            return "\\"
+        end
+    else
+        return package.config:sub(1, 1)
+    end
+end)()
+
+local M = {}
+
+---@param path_components string[]
+---@return string
+function M.concat(path_components)
+    return table.concat(path_components, sep)
+end
+
+---@path root_path string
+---@path path string
+function M.is_subdirectory(root_path, path)
+    return root_path == path or path:sub(1, #root_path + 1) == root_path .. sep
+end
+
+---@param dir string|nil
+function M.install_prefix(dir)
+    local settings = require "mason.settings"
+    return M.concat { settings.current.install_root_dir, dir }
+end
+
+---@param executable string|nil
+function M.bin_prefix(executable)
+    return M.concat { M.install_prefix "bin", executable }
+end
+
+---@param name string|nil
+function M.package_prefix(name)
+    return M.concat { M.install_prefix "packages", name }
+end
+
+---@param name string|nil
+function M.package_build_prefix(name)
+    return M.concat { M.install_prefix ".packages", name }
+end
+
+return M

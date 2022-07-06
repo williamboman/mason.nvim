@@ -1,27 +1,18 @@
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
-local installer = require "nvim-lsp-installer.core.installer"
-local Optional = require "nvim-lsp-installer.core.optional"
-local gem = require "nvim-lsp-installer.core.managers.gem"
-local Result = require "nvim-lsp-installer.core.result"
-local spawn = require "nvim-lsp-installer.core.spawn"
+local installer = require "mason.core.installer"
+local Optional = require "mason.core.optional"
+local gem = require "mason.core.managers.gem"
+local Result = require "mason.core.result"
+local spawn = require "mason.core.spawn"
 
 describe("gem manager", function()
-    ---@type InstallContext
-    local ctx
-    before_each(function()
-        ctx = InstallContextGenerator {
-            spawn = mock.new {
-                gem = mockx.returns {},
-            },
-        }
-    end)
-
     it(
         "should call gem install",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, gem.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.gem).was_called(1)
             assert.spy(ctx.spawn.gem).was_called_with(match.tbl_containing {
@@ -42,7 +33,8 @@ describe("gem manager", function()
     it(
         "should provide receipt information",
         async_test(function()
-            ctx.requested_version = Optional.of "42.13.37"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             installer.run_installer(ctx, gem.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "gem",

@@ -15,12 +15,15 @@ jobs:
               with:
                   neovim: true
                   version: v0.7.0
+
             - name: Clone dependencies
               run: |
                   mkdir -p ~/.local/share/nvim/site/pack/packer/start
                   git clone --depth 1 https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
+
             - name: Run autogen_metadata.sh script
               run: ./scripts/autogen_metadata.sh
+
             - name: Ensure there are no diffs
               run: |
                   git update-index --refresh

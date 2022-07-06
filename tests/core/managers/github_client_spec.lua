@@ -1,4 +1,4 @@
-local client = require "nvim-lsp-installer.core.managers.github.client"
+local client = require "mason.core.managers.github.client"
 
 describe("github client", function()
     ---@type GitHubRelease

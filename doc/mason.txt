@@ -1,0 +1,241 @@
+*mason.nvim*
+
+Minimum version of neovim: 0.7.0
+
+Author: William Boman
+
+==============================================================================
+INTRODUCTION                                              *mason-introduction*
+
+`mason.nvim` is a Neovim plugin that allow you to easily manage external
+editor tooling such as LSP servers, DAP servers, linters, and formatters
+through a single interface. It runs everywhere Neovim runs (across Linux,
+macOS, Windows, etc.), with only a small set of [external
+requirements](#requirements) needed.
+
+Packages are installed to Neovim's `:h stdpath` by default. Executables are
+linked to a single `bin/` directory, which `mason.nvim` will add to the
+Neovim's PATH during setup, allowing easy access for the builtin
+shell/terminal as well as other 3rd party plugins.
+
+==============================================================================
+REQUIREMENTS                                              *mason-requirements*
+
+`mason.nvim` relaxes the minimum requirements by attempting multiple different
+utilities (for example, `wget`, `curl`, and `Invoke-WebRequest` are all
+perfect substitutes). The _minimum_ recommended requirements are:
+
+-   neovim `>= 0.7.0`
+-   For Unix systems: `git(1)`, `curl(1)` or `wget(1)`, `unzip(1)`, `tar(1)`,
+    `gzip(1)`
+-   For Windows systems: powershell, git, tar, and 7zip or peazip or archiver
+    or winzip or WinRAR
+
+Note that `mason.nvim` will regularly shell out to external package managers,
+such as `cargo` and `npm`. Depending on your personal usage, some of these
+will also need to be installed. Refer to `:checkhealth mason` for a full list.
+
+==============================================================================
+QUICK START                                                 *mason-quickstart*
+
+The only thing needed to get started with mason.nvim is to make sure
+to call the `setup()` function:
+
+    require("mason").setup {}
+
+This will enhance the Neovim session's PATH environment with the location of
+executables installed with mason.nvim.
+
+To view the UI for mason, run:
+    :Mason
+
+Install a package via `:MasonInstall`, for example:
+    :MasonInstall stylua
+
+You may also install multiple languages at a time:
+    :MasonInstall stylua lua-language-server
+
+To install a specific version of a package, you may provide it as part of the
+package name, like so:
+
+    :MasonInstall rust-analyzer@nightly
+
+Please refer to each package's own release pages to find which versions are
+available.
+
+==============================================================================
+COMMANDS                                                      *mason-commands*
+
+                                                                      *:Mason*
+:Mason
+
+Opens the graphical status window.
+
+                                                               *:MasonInstall*
+:MasonInstall <package> ...
+
+Installs the provided packages.
+
+                                                             *:MasonUninstall*
+:MasonUninstall <package> ...
+
+Uninstalls the provided packages.
+
+                                                          *:MasonUninstallAll*
+:MasonUninstallAll
+
+Uninstalls all installed packages.
+
+                                                                   *:MasonLog*
+:MasonLog
+
+Opens the log file in a new tab window.
+
+==============================================================================
+SETTINGS                                                      *mason-settings*
+
+You can configure certain behavior of mason when calling the `.setup()`
+function.
+
+Refer to the |mason-default-settings| for all available settings.
+
+Example:
+
+    require("mason").setup({
+        ui = {
+            icons = {
+                package_installed = "✓",
+                package_pending = "➜",
+                package_uninstalled = "✗"
+            }
+        }
+    })
+
+                                                      *mason-default-settings*
+
+    local DEFAULT_SETTINGS = {
+        ui = {
+            -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
+            border = "none",
+
+            icons = {
+                -- The list icon to use for installed packages.
+                package_installed = "◍",
+                -- The list icon to use for packages that are installing, or queued for installation.
+                package_pending = "◍",
+                -- The list icon to use for packages that are not installed.
+                package_uninstalled = "◍",
+            },
+
+            keymaps = {
+                -- Keymap to expand a package
+                toggle_package_expand = "<CR>",
+                -- Keymap to install the package under the current cursor position
+                install_package = "i",
+                -- Keymap to reinstall/update the package under the current cursor position
+                update_package = "u",
+                -- Keymap to check for new version for the package under the current cursor position
+                check_package_version = "c",
+                -- Keymap to update all installed packages
+                update_all_packages = "U",
+                -- Keymap to check which installed packages are outdated
+                check_outdated_packages = "C",
+                -- Keymap to uninstall a package
+                uninstall_package = "X",
+                -- Keymap to cancel a package installation
+                cancel_installation = "<C-c>",
+                -- Keymap to apply language filter
+                apply_language_filter = "<C-f>",
+            },
+        },
+
+        -- The directory in which to install packages.
+        install_root_dir = path.concat { vim.fn.stdpath "data", "mason" },
+
+        pip = {
+            -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior
+            -- and is not recommended.
+            --
+            -- Example: { "--proxy", "https://proxyserver" }
+            install_args = {},
+        },
+
+        -- Controls to which degree logs are written to the log file. It's useful to set this to vim.log.levels.DEBUG when
+        -- debugging issues with server installations.
+        log_level = vim.log.levels.INFO,
+
+        -- Limit for the maximum amount of servers to be installed at the same time. Once this limit is reached, any further
+        -- servers that are requested to be installed will be put in a queue.
+        max_concurrent_installers = 4,
+
+        github = {
+            -- The template URL to use when downloading assets from GitHub.
+            -- The placeholders are the following (in order):
+            -- 1. The repository (e.g. "rust-lang/rust-analyzer")
+            -- 2. The release version (e.g. "v0.3.0")
+            -- 3. The asset name (e.g. "rust-analyzer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz")
+            download_url_template = "https://github.com/%s/releases/download/%s/%s",
+        },
+    }
+
+==============================================================================
+DOWNLOAD MIRRORS                                      *mason-download-mirrors*
+
+------------------------------------------------------------------------------
+GITHUB MIRROR                                   *mason-download-mirror-github*
+
+    It's possible to customize the download URL used when downloading assets
+    from GitHub releases by setting the `github.download_url_template`
+    settings during setup, like so:
+
+    require("mason").setup {
+        github = {
+            -- The template URL to use when downloading assets from GitHub.
+            -- The placeholders are the following (in order):
+            -- 1. The repository (e.g. "rust-lang/rust-analyzer")
+            -- 2. The release version (e.g. "v0.3.0")
+            -- 3. The asset name (e.g. "rust-analyzer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz")
+            download_url_template = "https://my.mirror.com/%s/releases/download/%s/%s",
+        },
+    }
+
+
+==============================================================================
+INSTALLATION ERRORS                                             *mason-errors*
+
+                                                     *mason-errors-github-api*
+For some installers, the GitHub API is used to fetch information about
+releases. This API imposes a rate limit that may be triggered, causing
+installations to fail. The reasons why a rate limit is triggered are many, for
+example being behind a public API, or using other software that also send
+requests to the GitHub API.
+
+To circumvent this, mason will utilize the GitHub CLI when
+available, leading to API requests being subject to a much higher rate limit
+threshold when authenticated. Should you run into errors with communicating
+with GitHub's API, it's recommended to install, and authenticate, the GitHub
+CLI: https://cli.github.com/.
+
+==============================================================================
+DEBUGGING                                                    *mason-debugging*
+
+To help with debugging issues with installing/uninstalling packages, please
+make sure to set mason's log level to DEBUG or TRACE, like so:
+
+    require("mason").setup {
+        log_level = vim.log.levels.DEBUG
+    }
+
+You may find the logs by entering the command `:MasonLog`. Providing the
+contents of this file when reporting an issue will help tremendously. Remember
+to redo whatever is failing after changing the log level in order to capture
+new log entries.
+
+==============================================================================
+Lua module: mason
+
+                                                               *mason.setup()*
+setup({config})
+        Sets up mason with the provided {config} (see |mason-settings|).
+
+ vim:tw=78:ft=help:norl:expandtab:sw=4

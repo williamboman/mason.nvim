@@ -1,0 +1,44 @@
+local Pkg = require "mason.core.package"
+local path = require "mason.core.path"
+local platform = require "mason.core.platform"
+local _ = require "mason.core.functional"
+local installer = require "mason.core.installer"
+local eclipse = require "mason.core.clients.eclipse"
+local std = require "mason.core.managers.std"
+
+---@async
+local function download_jdtls()
+    local ctx = installer.context()
+    local version = ctx.requested_version:or_else_get(function()
+        return eclipse.fetch_latest_jdtls_version():get_or_throw()
+    end)
+
+    std.download_file(
+        ("https://download.eclipse.org/jdtls/snapshots/jdt-language-server-%s.tar.gz"):format(version),
+        "archive.tar.gz"
+    )
+    std.untar "archive.tar.gz"
+
+    ctx.receipt:with_primary_source {
+        type = "jdtls",
+        version = version,
+    }
+end
+
+---@async
+local function download_lombok()
+    std.download_file("https://projectlombok.org/downloads/lombok.jar", "lombok.jar")
+end
+
+return Pkg.new {
+    name = "jdtls",
+    desc = [[Java language server]],
+    homepage = "https://github.com/eclipse/eclipse.jdt.ls",
+    languages = { Pkg.Lang.Java },
+    categories = { Pkg.Cat.LSP },
+    ---@async
+    install = function()
+        std.ensure_executable "java"
+        installer.run_concurrently { download_jdtls, download_lombok }
+    end,
+}

@@ -1,4 +1,4 @@
-local _ = require "nvim-lsp-installer.core.functional"
+local _ = require "mason.core.functional"
 
 describe("functional: number", function()
     it("should negate numbers", function()

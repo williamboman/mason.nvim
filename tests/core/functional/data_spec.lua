@@ -1,4 +1,4 @@
-local _ = require "nvim-lsp-installer.core.functional"
+local _ = require "mason.core.functional"
 
 describe("functional: data", function()
     it("creates enums", function()

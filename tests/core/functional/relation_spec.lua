@@ -1,4 +1,4 @@
-local _ = require "nvim-lsp-installer.core.functional"
+local _ = require "mason.core.functional"
 
 describe("functional: relation", function()
     it("should check equality", function()

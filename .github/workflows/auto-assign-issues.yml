@@ -15,14 +15,17 @@ jobs:
             - name: Assign new issues to triaging project
               uses: srggrs/assign-one-project-github-action@1.2.1
               if: github.event.action == 'opened'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.PAT }}
               with:
-                  project: "https://github.com/williamboman/nvim-lsp-installer/projects/1"
+                  project: "https://github.com/williamboman/mason.nvim/projects/1"
                   column_name: "Needs triage"
 
             - name: Create a PR comment
               uses: peter-evans/create-or-update-comment@v1
               if: contains(github.event.issue.labels.*.name, 'new-server-request')
               with:
+                token: ${{ secrets.PAT }}
                 issue-number: ${{ github.event.issue.number }}
                 body: |
                     Hello! Cool! Pull requests are always very welcomed to add new servers. If the distribution of the

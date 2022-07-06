@@ -1,5 +1,5 @@
 name: Server issue
-description: Report an issue with using a server installed via nvim-lsp-installer
+description: Report an issue with using a server installed via mason.nvim
 labels:
     - server-issue
 
@@ -7,7 +7,7 @@ body:
     - type: markdown
       attributes:
           value: |
-              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/nvim-lsp-installer/discussions/categories/q-a :)
+              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/mason.nvim/discussions/categories/q-a :)
 
               Before filing an issue, make sure that you meet the minimum requirements mentioned in the README
 
@@ -20,8 +20,8 @@ body:
 
     - type: textarea
       attributes:
-          label: Why do you think this is an issue with nvim-lsp-installer?
-          description: A short explanation of why you think it's an issue with nvim-lsp-installer.
+          label: Why do you think this is an issue with mason.nvim?
+          description: A short explanation of why you think it's an issue with mason.nvim.
       validations:
           required: true
 
@@ -45,13 +45,13 @@ body:
 
     - type: checkboxes
       attributes:
-          label: I've manually reviewed the Nvim LPS client log (`:LspLog`) to find potential errors
+          label: I've manually reviewed the Nvim LPS client log (`:MasonLog`) to find potential errors
           options:
               - label: "Yes"
 
     - type: checkboxes
       attributes:
-          label: I've recently downloaded the latest plugin version of both nvim-lsp-installer and nvim-lspconfig
+          label: I've recently downloaded the latest plugin version of mason.nvim
           options:
               - label: "Yes"
 
@@ -65,7 +65,7 @@ body:
     - type: textarea
       attributes:
           label: Steps to reproduce
-          description: Steps to reproduce using the **minimal debug** config. You can download it [from here](https://github.com/williamboman/nvim-lsp-installer/blob/main/tests/minimal_debug_init.lua).
+          description: Steps to reproduce using the **minimal debug** config. You can download it [from here](https://github.com/williamboman/mason.nvim/blob/main/tests/minimal_debug_init.lua).
           placeholder: |
               1. Start neovim using the minimal_debug_init.lua: `nvim -u ~/Downloads/minimal_debug_init.lua`
               2. ...
@@ -105,7 +105,7 @@ body:
     - type: textarea
       attributes:
           label: Healthcheck
-          placeholder: ":checkhealth nvim-lsp-installer"
+          placeholder: ":checkhealth mason"
           render: Text
       validations:
           required: true

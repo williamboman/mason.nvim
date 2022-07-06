@@ -1,4 +1,4 @@
-local _ = require "nvim-lsp-installer.core.functional"
+local _ = require "mason.core.functional"
 
 describe("functional: string", function()
     it("matches string patterns", function()
@@ -22,5 +22,22 @@ describe("functional: string", function()
 
     it("should gsub strings", function()
         assert.same("predator", _.gsub("^apex%s*", "", "apex predator"))
+    end)
+
+    it("should dedent strings", function()
+        assert.equals(
+            [[Lorem
+Ipsum
+    Dolor
+  Sit
+ Amet]],
+            _.dedent [[
+    Lorem
+    Ipsum
+        Dolor
+      Sit
+     Amet
+]]
+        )
     end)
 end)

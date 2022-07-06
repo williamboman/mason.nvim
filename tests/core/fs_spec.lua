@@ -1,9 +1,9 @@
-local fs = require "nvim-lsp-installer.core.fs"
-local lsp_installer = require "nvim-lsp-installer"
+local fs = require "mason.core.fs"
+local mason = require "mason"
 
 describe("fs", function()
     before_each(function()
-        lsp_installer.settings {
+        mason.setup {
             install_root_dir = "/foo",
         }
     end)
@@ -16,7 +16,7 @@ describe("fs", function()
             end)
 
             assert.equal(
-                [[Refusing to rmrf "/thisisa/path" which is outside of the allowed boundary "/foo". Please report this error at https://github.com/williamboman/nvim-lsp-installer/issues/new]],
+                [[Refusing to rmrf "/thisisa/path" which is outside of the allowed boundary "/foo". Please report this error at https://github.com/williamboman/mason.nvim/issues/new]],
                 e
             )
         end)

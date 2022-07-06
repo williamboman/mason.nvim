@@ -1,6 +1,6 @@
 local assert = require "luassert"
 local match = require "luassert.match"
-local a = require "nvim-lsp-installer.core.async"
+local a = require "mason.core.async"
 
 local function wait_for(_, arguments)
     ---@type fun() @Function to execute until it does not error.
@@ -57,6 +57,14 @@ local function list_containing(_, arguments, _)
     end
 end
 
+local function instanceof(_, arguments, _)
+    return function(value)
+        local expected_mt = arguments[1]
+        return getmetatable(value) == expected_mt
+    end
+end
+
 assert:register("matcher", "tbl_containing", tbl_containing)
 assert:register("matcher", "list_containing", list_containing)
+assert:register("matcher", "instanceof", instanceof)
 assert:register("assertion", "wait_for", wait_for)

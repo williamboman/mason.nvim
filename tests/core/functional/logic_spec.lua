@@ -1,14 +1,22 @@
 local spy = require "luassert.spy"
-local _ = require "nvim-lsp-installer.core.functional"
+local _ = require "mason.core.functional"
 
 describe("functional: logic", function()
     it("should check that all_pass checks that all predicates pass", function()
-        local is_waldo = function(i)
-            return i == "waldo"
-        end
+        local is_waldo = _.equals "waldo"
         assert.is_true(_.all_pass { _.T, _.T, is_waldo, _.T } "waldo")
         assert.is_false(_.all_pass { _.T, _.T, is_waldo, _.F } "waldo")
         assert.is_false(_.all_pass { _.T, _.T, is_waldo, _.T } "waldina")
+    end)
+
+    it("should check that any_pass checks that any predicates pass", function()
+        local is_waldo = _.equals "waldo"
+        local is_waldina = _.equals "waldina"
+        local is_luigi = _.equals "luigi"
+
+        assert.is_true(_.any_pass { is_waldo, is_waldina } "waldo")
+        assert.is_false(_.any_pass { is_waldina, is_luigi } "waldo")
+        assert.is_true(_.any_pass { is_waldina, is_luigi } "waldina")
     end)
 
     it("should branch if_else", function()

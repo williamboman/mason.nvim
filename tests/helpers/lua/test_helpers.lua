@@ -1,12 +1,12 @@
 ---@diagnostic disable: lowercase-global
-local mock = require "luassert.mock"
 local util = require "luassert.util"
+local mock = require "luassert.mock"
+local spy = require "luassert.spy"
 
-local a = require "nvim-lsp-installer.core.async"
-local process = require "nvim-lsp-installer.core.process"
-local server = require "nvim-lsp-installer.server"
-local Optional = require "nvim-lsp-installer.core.optional"
-local receipt = require "nvim-lsp-installer.core.receipt"
+local a = require "mason.core.async"
+local InstallHandle = require "mason.core.installer.handle"
+local InstallContext = require "mason.core.installer.context"
+local indexer = require "mason.core.package.indexer"
 
 function async_test(suspend_fn)
     return function()
@@ -31,48 +31,20 @@ mockx = {
     end,
 }
 
-function ServerGenerator(opts)
-    local name = opts.name or "dummy"
-    return server.Server:new(vim.tbl_deep_extend("force", {
-        name = name,
-        languages = { "dummylang" },
-        root_dir = server.get_server_root_path(name),
-        homepage = "https://dummylang.org",
-        installer = function(ctx)
-            ctx.stdio_sink.stdout "Installing dummy!\n"
-        end,
-    }, opts))
+---@param package_name string
+function InstallHandleGenerator(package_name)
+    return InstallHandle.new(indexer.get_package(package_name))
 end
 
-function FailingServerGenerator(opts)
-    return ServerGenerator(vim.tbl_deep_extend("force", {
-        installer = function(ctx)
-            ctx.stdio_sink.stdout "Installing failing dummy!\n"
-            error "Failed to do something."
+---@param handle InstallHandle
+---@param opts InstallContextOpts | nil
+function InstallContextGenerator(handle, opts)
+    local context = InstallContext.new(handle, opts or {})
+    context.spawn = setmetatable({}, {
+        __index = function(s, cmd)
+            s[cmd] = spy.new(mockx.just_runs())
+            return s[cmd]
         end,
-    }, opts))
-end
-
-function InstallContextGenerator(opts)
-    ---@type InstallContext
-    local default_opts = {
-        name = "mock",
-        fs = mock.new {
-            append_file = mockx.just_runs,
-            dir_exists = mockx.returns(true),
-            file_exists = mockx.returns(true),
-        },
-        spawn = mock.new {},
-        cwd = mock.new {
-            get = mockx.returns "/tmp/install-dir",
-            set = mockx.just_runs,
-        },
-        destination_dir = "/opt/install-dir",
-        stdio_sink = process.empty_sink(),
-        promote_cwd = mockx.just_runs,
-        receipt = receipt.InstallReceiptBuilder.new(),
-        requested_version = Optional.empty(),
-    }
-    local merged_opts = vim.tbl_deep_extend("force", default_opts, opts)
-    return mock.new(merged_opts)
+    })
+    return context
 end
