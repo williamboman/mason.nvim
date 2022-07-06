@@ -1,4 +1,4 @@
-[![GitHub CI](https://github.com/williamboman/mason.nvim/workflows/CI/badge.svg)](https://github.com/williamboman/mason.nvim/actions)
+[![GitHub CI](https://github.com/williamboman/mason.nvim/workflows/Tests/badge.svg)](https://github.com/williamboman/mason.nvim/actions)
 ![Platforms](https://img.shields.io/badge/platform-linux%20macOS%20windows-blue)
 ![Repository size](https://img.shields.io/github/repo-size/williamboman/mason.nvim)
 [![Sponsors](https://img.shields.io/github/sponsors/williamboman?style=flat-square)](https://github.com/sponsors/williamboman)
