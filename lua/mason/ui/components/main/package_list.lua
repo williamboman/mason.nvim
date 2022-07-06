@@ -210,7 +210,7 @@ local function Installing(state)
                 Ui.CascadingStyleNode({ "INDENT" }, {
                     Ui.HlTextNode(_.map(function(line)
                         return { p.muted(line) }
-                    end, pkg_state.tailed_output)),
+                    end, pkg_state.short_tailed_output)),
                 }),
             }
         end,
@@ -249,13 +249,22 @@ local function Failed(state)
         packages = packages,
         ---@param package Package
         list_item_renderer = function(package)
-            return PackageComponent(state, package, {
-                icon = p.error(settings.current.ui.icons.package_pending),
-                keybinds = {
-                    Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", package),
-                    Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
-                },
-            })
+            ---@type UiPackageState
+            local pkg_state = state.packages.states[package.name]
+            return Ui.Node {
+                PackageComponent(state, package, {
+                    icon = p.error(settings.current.ui.icons.package_pending),
+                    keybinds = {
+                        Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", package),
+                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
+                    },
+                }),
+                Ui.CascadingStyleNode({ "INDENT" }, {
+                    Ui.HlTextNode(_.map(function(line)
+                        return { p.muted(line) }
+                    end, pkg_state.tailed_output)),
+                }),
+            }
         end,
     }
 end

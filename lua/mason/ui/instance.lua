@@ -41,6 +41,7 @@ end
 ---@field is_terminated boolean
 ---@field latest_spawn string|nil
 ---@field tailed_output string[]
+---@field short_tailed_output string[]
 ---@field linked_executables table<string, string>
 ---@field version string|nil
 ---@field is_checking_version boolean
@@ -209,7 +210,7 @@ local function setup_handle(handle)
     ---@param chunk string
     local function handle_output(chunk)
         mutate_state(function(state)
-            -- TODO: fix this
+            -- TODO: improve this
             local pkg_state = state.packages.states[handle.package.name]
             for idx, line in ipairs(vim.split(chunk, "\n")) do
                 if idx == 1 and pkg_state.tailed_output[#pkg_state.tailed_output] then
@@ -219,7 +220,7 @@ local function setup_handle(handle)
                     pkg_state.tailed_output[#pkg_state.tailed_output + 1] = line
                 end
             end
-            pkg_state.tailed_output = {
+            pkg_state.short_tailed_output = {
                 pkg_state.tailed_output[#pkg_state.tailed_output - 1] or "",
                 pkg_state.tailed_output[#pkg_state.tailed_output] or "",
             }
@@ -287,6 +288,7 @@ local function create_initial_package_state()
     return {
         latest_spawn = nil,
         tailed_output = {},
+        short_tailed_output = {},
         version = nil,
         is_checking_version = false,
         new_version = nil,
@@ -312,6 +314,11 @@ for _, package in ipairs(packages) do
             hydrate_detailed_package_state(package)
         end
         mutate_package_grouping(package, "installed")
+        mutate_state(function(state)
+            state.packages.states[package.name].new_version = nil
+            state.packages.states[package.name].tailed_output = {}
+            state.packages.states[package.name].short_tailed_output = {}
+        end)
         calculate_stats()
         vim.schedule_wrap(notify)(("%q was successfully installed."):format(package.name))
     end)
@@ -468,9 +475,22 @@ local function check_new_visible_package_versions()
     if state.packages.new_versions_check.is_checking then
         return
     end
-    local installed_visible_packages = _.filter(function(package)
-        return state.packages.visible[package.name]
-    end, state.packages.installed)
+    local installed_visible_packages = _.compose(
+        _.filter(
+            ---@param package Package
+            function(package)
+                return package
+                    :get_handle()
+                    :map(function(handle)
+                        return handle:is_closed()
+                    end)
+                    :or_else(true)
+            end
+        ),
+        _.filter(function(package)
+            return state.packages.visible[package.name]
+        end)
+    )(state.packages.installed)
 
     if #installed_visible_packages == 0 then
         return
