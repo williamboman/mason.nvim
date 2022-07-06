@@ -28,6 +28,7 @@ local function GlobalKeybinds(state)
         Ui.When(not state.view.language_filter, Ui.Keybind("<Esc>", "CLOSE_WINDOW", nil, true)),
         Ui.When(state.view.language_filter, Ui.Keybind("<Esc>", "CLEAR_LANGUAGE_FILTER", nil, true)),
         Ui.Keybind(settings.current.ui.keymaps.apply_language_filter, "LANGUAGE_FILTER", nil, true),
+        Ui.Keybind(settings.current.ui.keymaps.update_all_packages, "UPDATE_ALL_PACKAGES", nil, true),
 
         Ui.Keybind("1", "SET_VIEW", "All", true),
         Ui.Keybind("2", "SET_VIEW", "LSP", true),
@@ -183,8 +184,10 @@ local function mutate_package_visibility(mutate_fn)
             _.T
         )
         for __, package in ipairs(packages) do
-            state.packages.visible[package.name] =
-                _.all_pass({ view_predicate[state.view.current], language_predicate }, package.spec)
+            state.packages.visible[package.name] = _.all_pass(
+                { view_predicate[state.view.current], language_predicate },
+                package.spec
+            )
         end
     end)
 end
@@ -202,8 +205,10 @@ local function setup_handle(handle)
 
     local function handle_spawninfo_change()
         mutate_state(function(state)
-            state.packages.states[handle.package.name].latest_spawn =
-                handle:peek_spawninfo_stack():map(tostring):or_else(nil)
+            state.packages.states[handle.package.name].latest_spawn = handle
+                :peek_spawninfo_stack()
+                :map(tostring)
+                :or_else(nil)
         end)
     end
 
@@ -315,9 +320,11 @@ for _, package in ipairs(packages) do
         end
         mutate_package_grouping(package, "installed")
         mutate_state(function(state)
-            state.packages.states[package.name].new_version = nil
-            state.packages.states[package.name].tailed_output = {}
-            state.packages.states[package.name].short_tailed_output = {}
+            local pkg_state = state.packages.states[package.name]
+            pkg_state.new_version = nil
+            pkg_state.version = nil
+            pkg_state.tailed_output = {}
+            pkg_state.short_tailed_output = {}
         end)
         calculate_stats()
         vim.schedule_wrap(notify)(("%q was successfully installed."):format(package.name))
@@ -567,6 +574,18 @@ local function toggle_expand_current_settings()
     end)
 end
 
+local function update_all_packages()
+    local state = get_state()
+    _.each(
+        function(pkg)
+            pkg:install(pkg)
+        end,
+        _.filter(function(pkg)
+            return state.packages.states[pkg.name].new_version
+        end, state.packages.installed)
+    )
+end
+
 local effects = {
     ["CHECK_NEW_PACKAGE_VERSION"] = a.scope(_.compose(_.partial(pcall, check_new_package_version), _.prop "payload")),
     ["CHECK_NEW_VISIBLE_PACKAGE_VERSIONS"] = a.scope(check_new_visible_package_versions),
@@ -583,6 +602,7 @@ local effects = {
     ["TOGGLE_JSON_SCHEMA"] = toggle_json_schema,
     ["TOGGLE_JSON_SCHEMA_KEY"] = toggle_json_schema_keys,
     ["UNINSTALL_PACKAGE"] = uninstall_package,
+    ["UPDATE_ALL_PACKAGES"] = update_all_packages,
 }
 
 window.init {
