@@ -60,10 +60,9 @@ describe("installer", function()
             local handle = InstallHandleGenerator "dummy"
             installer.execute(handle, {})
             assert.spy(fs.async.write_file).was_called(1)
-            assert.spy(fs.async.write_file).was_called_with(
-                ("%s/mason-receipt.json"):format(handle.package:get_install_path()),
-                match.is_string()
-            )
+            assert
+                .spy(fs.async.write_file)
+                .was_called_with(("%s/mason-receipt.json"):format(handle.package:get_install_path()), match.is_string())
         end)
     )
 

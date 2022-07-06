@@ -116,28 +116,32 @@ gopls: go1.18
         "should return outdated primary package",
         async_test(function()
             stub(spawn, "go")
-            spawn.go.on_call_with({
-                "list",
-                "-json",
-                "-m",
-                "golang.org/x/tools/gopls@latest",
-                cwd = path.package_prefix "dummy",
-            }).returns(Result.success {
-                stdout = ([[
+            spawn.go
+                .on_call_with({
+                    "list",
+                    "-json",
+                    "-m",
+                    "golang.org/x/tools/gopls@latest",
+                    cwd = path.package_prefix "dummy",
+                })
+                .returns(Result.success {
+                    stdout = ([[
             {
                 "Path": %q,
                 "Version": "v2.0.0"
             }
             ]]):format(path.package_prefix "dummy"),
-            })
-            spawn.go.on_call_with({
-                "version",
-                "-m",
-                "gopls",
-                cwd = path.package_prefix "dummy",
-            }).returns(Result.success {
-                stdout = go_version_output,
-            })
+                })
+            spawn.go
+                .on_call_with({
+                    "version",
+                    "-m",
+                    "gopls",
+                    cwd = path.package_prefix "dummy",
+                })
+                .returns(Result.success {
+                    stdout = go_version_output,
+                })
 
             local result = go.check_outdated_primary_package(
                 mock.new {

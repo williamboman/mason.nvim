@@ -77,7 +77,10 @@ local function create_lsp_setting_schema_files()
                 print(("Could not find appropriate schema structure for %s."):format(server_name))
             else
                 write_file(
-                    Path.concat { schemas_dir, ("%s.lua"):format(lspconfig_server_mapping.lspconfig_to_package[server_name]) },
+                    Path.concat {
+                        schemas_dir,
+                        ("%s.lua"):format(lspconfig_server_mapping.lspconfig_to_package[server_name]),
+                    },
                     "return " .. vim.inspect(schema, { newline = "", indent = "" }),
                     "w"
                 )

@@ -26,7 +26,7 @@ describe("luarocks manager", function()
         "should install provided version",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version =  "1.2.3"})
+            local ctx = InstallContextGenerator(handle, { requested_version = "1.2.3" })
             installer.run_installer(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
