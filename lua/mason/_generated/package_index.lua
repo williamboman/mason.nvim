@@ -75,6 +75,7 @@ return {
   mockdebug = "mason.packages.mockdebug",
   ["nickel-lang-lsp"] = "mason.packages.nickel-lang-lsp",
   nimlsp = "mason.packages.nimlsp",
+  ["node-debug2"] = "mason.packages.node-debug2",
   ["ocaml-lsp"] = "mason.packages.ocaml-lsp",
   ["omnisharp-roslyn"] = "mason.packages.omnisharp-roslyn",
   ["opencl-language-server"] = "mason.packages.opencl-language-server",
