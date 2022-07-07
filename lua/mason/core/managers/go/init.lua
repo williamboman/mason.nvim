@@ -81,6 +81,11 @@ function M.parse_mod_version_output(output)
     return result
 end
 
+---@param pkg string
+function M.strip_package_wildcard(pkg)
+    return string.gsub(pkg, "/%.%.%.$", "")
+end
+
 ---@async
 ---@param receipt InstallReceipt
 ---@param install_dir string
@@ -88,8 +93,9 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     if vim.in_fast_event() then
         a.scheduler()
     end
+    local normalized_pkg_name = M.strip_package_wildcard(receipt.primary_source.package)
     -- trims e.g. golang.org/x/tools/gopls to gopls
-    local executable = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
+    local executable = vim.fn.fnamemodify(normalized_pkg_name, ":t")
     return spawn
         .go({
             "version",
@@ -99,7 +105,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
         })
         :map_catching(function(result)
             local parsed_output = M.parse_mod_version_output(result.stdout)
-            return Optional.of_nilable(parsed_output.mod[receipt.primary_source.package])
+            return Optional.of_nilable(parsed_output.mod[normalized_pkg_name])
                 :or_else_throw "Failed to parse mod version"
         end)
 end
@@ -108,12 +114,13 @@ end
 ---@param receipt InstallReceipt
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
+    local normalized_pkg_name = M.strip_package_wildcard(receipt.primary_source.package)
     return spawn
         .go({
             "list",
             "-json",
             "-m",
-            ("%s@latest"):format(receipt.primary_source.package),
+            ("%s@latest"):format(normalized_pkg_name),
             cwd = install_dir,
         })
         :map_catching(function(result)
@@ -125,7 +132,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
                         M.get_installed_primary_package_version(receipt, install_dir):get_or_throw()
                     if installed_version ~= latest_version then
                         return {
-                            name = receipt.primary_source.package,
+                            name = normalized_pkg_name,
                             current_version = assert(installed_version),
                             latest_version = assert(latest_version),
                         }
