@@ -106,9 +106,9 @@ local function create_package_index()
 end
 
 a.run_blocking(function()
-    a.wait_all {
+    a.wait_all(_.filter(_.identity, {
         create_lspconfig_filetype_map, -- TODO is this needed?
-        create_lsp_setting_schema_files,
+        not vim.env.SKIP_SCHEMAS and create_lsp_setting_schema_files,
         create_package_index,
-    }
+    }))
 end)
