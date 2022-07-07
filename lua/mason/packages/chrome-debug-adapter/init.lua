@@ -6,7 +6,7 @@ local path = require "mason.core.path"
 local Optional = require "mason.core.optional"
 
 return Pkg.new {
-    name = "chrome-debug",
+    name = "chrome-debug-adapter",
     desc = [[Debug your JavaScript code running in Google Chrome.]],
     homepage = "https://github.com/Microsoft/vscode-chrome-debug",
     languages = { Pkg.Lang.JavaScript, Pkg.Lang.TypeScript },
