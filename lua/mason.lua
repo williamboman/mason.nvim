@@ -15,16 +15,4 @@ function M.setup(config)
     require "mason.command-api"
 end
 
----@param pkg_path string
-local function lazy_require(pkg_path)
-    return setmetatable({}, {
-        __index = function(_, k)
-            return require(pkg_path)[k]
-        end,
-        __call = function(_, ...)
-            return require(pkg_path)(...)
-        end,
-    })
-end
-
 return M
