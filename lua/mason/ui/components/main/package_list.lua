@@ -112,20 +112,20 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
 end
 
 ---@param state InstallerUiState
----@param package Package
+---@param pkg Package
 ---@param opts { keybinds: KeybindHandlerNode[], icon: string[], is_installed: boolean }
-local function PackageComponent(state, package, opts)
-    local pkg_state = state.packages.states[package.name]
-    local is_expanded = state.packages.expanded == package.name
-    local label = is_expanded and p.Bold(" " .. package.name) or p.none(" " .. package.name)
+local function PackageComponent(state, pkg, opts)
+    local pkg_state = state.packages.states[pkg.name]
+    local is_expanded = state.packages.expanded == pkg.name
+    local label = is_expanded and p.Bold(" " .. pkg.name) or p.none(" " .. pkg.name)
 
     return Ui.Node {
         Ui.HlTextNode { { opts.icon, label } },
-        Ui.StickyCursor { id = package.spec.name },
+        Ui.StickyCursor { id = pkg.spec.name },
         Ui.When(pkg_state.is_checking_new_version, function()
             return Ui.VirtualTextNode { p.Comment " checking for new version…" }
         end),
-        Ui.Keybind(settings.current.ui.keymaps.check_package_version, "CHECK_NEW_PACKAGE_VERSION", package),
+        Ui.Keybind(settings.current.ui.keymaps.check_package_version, "CHECK_NEW_PACKAGE_VERSION", pkg),
         Ui.When(pkg_state.new_version, function()
             return Ui.DiagnosticsNode {
                 message = ("new version available: %s %s -> %s"):format(
@@ -139,7 +139,7 @@ local function PackageComponent(state, package, opts)
         end),
         Ui.Node(opts.keybinds),
         Ui.When(is_expanded, function()
-            return ExpandedPackageInfo(state, package, opts.is_installed)
+            return ExpandedPackageInfo(state, pkg, opts.is_installed)
         end),
     }
 end
@@ -168,15 +168,15 @@ local function Installed(state)
                 end),
             },
             packages = state.packages.installed,
-            ---@param package Package
-            list_item_renderer = function(package)
-                return PackageComponent(state, package, {
+            ---@param pkg Package
+            list_item_renderer = function(pkg)
+                return PackageComponent(state, pkg, {
                     is_installed = true,
                     icon = p.highlight(settings.current.ui.icons.package_installed),
                     keybinds = {
-                        Ui.Keybind(settings.current.ui.keymaps.update_package, "INSTALL_PACKAGE", package),
-                        Ui.Keybind(settings.current.ui.keymaps.uninstall_package, "UNINSTALL_PACKAGE", package),
-                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
+                        Ui.Keybind(settings.current.ui.keymaps.update_package, "INSTALL_PACKAGE", pkg),
+                        Ui.Keybind(settings.current.ui.keymaps.uninstall_package, "UNINSTALL_PACKAGE", pkg),
+                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", pkg),
                     },
                 })
             end,
@@ -192,21 +192,22 @@ local function Installing(state)
         heading = Ui.HlTextNode(p.heading "Installing"),
         hide_when_empty = true,
         packages = packages,
-        ---@param package Package
-        list_item_renderer = function(package)
+        ---@param pkg Package
+        list_item_renderer = function(pkg)
             ---@type UiPackageState
-            local pkg_state = state.packages.states[package.name]
+            local pkg_state = state.packages.states[pkg.name]
             local current_state = pkg_state.is_terminated and p.Comment " (cancelling)" or p.none ""
             return Ui.Node {
                 Ui.HlTextNode {
                     {
                         p.highlight(settings.current.ui.icons.package_pending),
-                        p.none(" " .. package.name),
+                        p.none(" " .. pkg.name),
                         current_state,
                         pkg_state.latest_spawn and p.Comment((" $ %s"):format(pkg_state.latest_spawn)) or p.none "",
                     },
                 },
-                Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLE", package),
+                Ui.StickyCursor { id = pkg.spec.name },
+                Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLE", pkg),
                 Ui.CascadingStyleNode({ "INDENT" }, {
                     Ui.HlTextNode(_.map(function(line)
                         return { p.muted(line) }
@@ -225,13 +226,14 @@ local function Queued(state)
         heading = Ui.HlTextNode(p.heading "Queued"),
         packages = packages,
         hide_when_empty = true,
-        ---@param package Package
-        list_item_renderer = function(package)
+        ---@param pkg Package
+        list_item_renderer = function(pkg)
             return Ui.Node {
                 Ui.HlTextNode {
-                    { p.highlight(settings.current.ui.icons.package_pending), p.none(" " .. package.name) },
+                    { p.highlight(settings.current.ui.icons.package_pending), p.none(" " .. pkg.name) },
                 },
-                Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "DEQUEUE_PACKAGE", package),
+                Ui.StickyCursor { id = pkg.spec.name },
+                Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "DEQUEUE_PACKAGE", pkg),
             }
         end,
     }
@@ -247,16 +249,16 @@ local function Failed(state)
         state = state,
         heading = Ui.HlTextNode(p.heading "Failed"),
         packages = packages,
-        ---@param package Package
-        list_item_renderer = function(package)
+        ---@param pkg Package
+        list_item_renderer = function(pkg)
             ---@type UiPackageState
-            local pkg_state = state.packages.states[package.name]
+            local pkg_state = state.packages.states[pkg.name]
             return Ui.Node {
-                PackageComponent(state, package, {
+                PackageComponent(state, pkg, {
                     icon = p.error(settings.current.ui.icons.package_pending),
                     keybinds = {
-                        Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", package),
-                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
+                        Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
+                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", pkg),
                     },
                 }),
                 Ui.CascadingStyleNode({ "INDENT" }, {
@@ -275,13 +277,13 @@ local function Uninstalled(state)
         state = state,
         heading = Ui.HlTextNode(p.heading "Available"),
         packages = state.packages.uninstalled,
-        ---@param package Package
-        list_item_renderer = function(package)
-            return PackageComponent(state, package, {
+        ---@param pkg Package
+        list_item_renderer = function(pkg)
+            return PackageComponent(state, pkg, {
                 icon = p.muted(settings.current.ui.icons.package_uninstalled),
                 keybinds = {
-                    Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", package),
-                    Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", package),
+                    Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
+                    Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", pkg),
                 },
             })
         end,
