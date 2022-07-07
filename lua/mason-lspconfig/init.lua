@@ -4,6 +4,7 @@ local Optional = require "mason.core.optional"
 local _ = require "mason.core.functional"
 local settings = require "mason-lspconfig.settings"
 local server_mapping = require "mason-lspconfig.server-mapping"
+local path = require "mason.core.path"
 
 local M = {}
 
@@ -19,8 +20,7 @@ end
 
 ---@param lspconfig_server_name string
 function M.resolve_server_config_factory(lspconfig_server_name)
-    local ok, server_config =
-        pcall(require, ("mason.adapters.lspconfig.server_configurations.%s"):format(lspconfig_server_name))
+    local ok, server_config = pcall(require, ("mason-lspconfig.server_configurations.%s"):format(lspconfig_server_name))
     if ok then
         return Optional.of(server_config)
     end
@@ -58,22 +58,24 @@ local function should_auto_install(server_name)
 end
 
 local function setup_lspconfig_hook()
+    local indexer = require "mason.core.package.indexer"
     local util = require "lspconfig.util"
     util.on_setup = util.add_hook_before(util.on_setup, function(config)
-        M.resolve_package(config.name):if_present(
-            ---@param pkg Package
-            function(pkg)
-                if pkg:is_installed() then
-                    M.resolve_server_config_factory(config.name):if_present(function(config_factory)
-                        merge_in_place(config, config_factory(pkg:get_install_path()))
-                    end)
-                else
-                    if should_auto_install(config.name) then
-                        pkg:install()
-                    end
-                end
+        local pkg_name = server_mapping.lspconfig_to_package[config.name]
+        if not pkg_name then
+            return
+        end
+
+        if indexer.is_installed(pkg_name) then
+            M.resolve_server_config_factory(config.name):if_present(function(config_factory)
+                merge_in_place(config, config_factory(path.package_prefix(pkg_name)))
+            end)
+        else
+            if should_auto_install(config.name) then
+                local pkg = indexer.get_package(pkg_name)
+                pkg:install()
             end
-        )
+        end
     end)
 end
 
