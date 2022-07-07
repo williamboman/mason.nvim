@@ -169,10 +169,8 @@ local function mutate_package_visibility(mutate_fn)
             _.T
         )
         for __, package in ipairs(packages) do
-            state.packages.visible[package.name] = _.all_pass(
-                { view_predicate[state.view.current], language_predicate },
-                package.spec
-            )
+            state.packages.visible[package.name] =
+                _.all_pass({ view_predicate[state.view.current], language_predicate }, package.spec)
         end
     end)
 end
@@ -190,10 +188,8 @@ local function setup_handle(handle)
 
     local function handle_spawninfo_change()
         mutate_state(function(state)
-            state.packages.states[handle.package.name].latest_spawn = handle
-                :peek_spawninfo_stack()
-                :map(tostring)
-                :or_else(nil)
+            state.packages.states[handle.package.name].latest_spawn =
+                handle:peek_spawninfo_stack():map(tostring):or_else(nil)
         end)
     end
 
