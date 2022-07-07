@@ -50,7 +50,7 @@ end
 
 return Pkg.new {
     name = "r-languageserver",
-    desc = [[]],
+    desc = [[An implementation of the Language Server Protocol for R]],
     homepage = "https://github.com/REditorSupport/languageserver",
     languages = { Pkg.Lang.R },
     categories = { Pkg.Cat.LSP },
