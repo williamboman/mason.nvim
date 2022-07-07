@@ -5,6 +5,8 @@ local spawn = require "mason.core.spawn"
 local a = require "mason.core.async"
 local Optional = require "mason.core.optional"
 local _ = require "mason.core.functional"
+local fs = require "mason.core.fs"
+local path = require "mason.core.path"
 
 local M = {}
 
@@ -81,9 +83,28 @@ function M.parse_mod_version_output(output)
     return result
 end
 
+local trim_wildcard_suffix = _.gsub("/%.%.%.$", "")
+
 ---@param pkg string
-function M.strip_package_wildcard(pkg)
-    return string.gsub(pkg, "/%.%.%.$", "")
+function M.parse_package_mod(pkg)
+    if _.starts_with("github.com", pkg) then
+        local components = _.split("/", pkg)
+        return trim_wildcard_suffix(_.join("/", {
+            components[1], -- github.com
+            components[2], -- owner
+            components[3], -- repo
+        }))
+    elseif _.starts_with("golang.org", pkg) then
+        local components = _.split("/", pkg)
+        return trim_wildcard_suffix(_.join("/", {
+            components[1], -- golang.org
+            components[2], -- x
+            components[3], -- owner
+            components[4], -- repo
+        }))
+    else
+        return trim_wildcard_suffix(pkg)
+    end
 end
 
 ---@async
@@ -93,7 +114,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
     if vim.in_fast_event() then
         a.scheduler()
     end
-    local normalized_pkg_name = M.strip_package_wildcard(receipt.primary_source.package)
+    local normalized_pkg_name = trim_wildcard_suffix(receipt.primary_source.package)
     -- trims e.g. golang.org/x/tools/gopls to gopls
     local executable = vim.fn.fnamemodify(normalized_pkg_name, ":t")
     return spawn
@@ -105,7 +126,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
         })
         :map_catching(function(result)
             local parsed_output = M.parse_mod_version_output(result.stdout)
-            return Optional.of_nilable(parsed_output.mod[normalized_pkg_name])
+            return Optional.of_nilable(parsed_output.mod[M.parse_package_mod(receipt.primary_source.package)])
                 :or_else_throw "Failed to parse mod version"
         end)
 end
@@ -114,7 +135,7 @@ end
 ---@param receipt InstallReceipt
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
-    local normalized_pkg_name = M.strip_package_wildcard(receipt.primary_source.package)
+    local normalized_pkg_name = M.parse_package_mod(receipt.primary_source.package)
     return spawn
         .go({
             "list",

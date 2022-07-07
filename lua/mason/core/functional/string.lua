@@ -65,4 +65,10 @@ _.dedent = fun.curryN(function(str)
     return lines:match "^(.-)%s*$"
 end, 1)
 
+---@param prefix string
+---@str string
+_.starts_with = fun.curryN(function(prefix, str)
+    return vim.startswith(str, prefix)
+end, 2)
+
 return _
