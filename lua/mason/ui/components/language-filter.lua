@@ -1,5 +1,6 @@
 local Ui = require "mason.core.ui"
 local p = require "mason.ui.palette"
+local settings = require "mason.settings"
 
 ---@param state InstallerUiState
 return function(state)
@@ -22,7 +23,9 @@ return function(state)
                 Ui.HlTextNode {
                     {
                         p.Bold "Language Filter:",
-                        p.Comment " press <C-f> to apply filter",
+                        p.Comment(
+                            (" press %s to apply filter"):format(settings.current.ui.keymaps.apply_language_filter)
+                        ),
                     },
                 },
             }
