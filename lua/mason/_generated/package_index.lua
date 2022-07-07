@@ -63,6 +63,7 @@ return {
   ["jsonnet-language-server"] = "mason.packages.jsonnet-language-server",
   ["julia-lsp"] = "mason.packages.julia-lsp",
   ["kotlin-language-server"] = "mason.packages.kotlin-language-server",
+  ktlint = "mason.packages.ktlint",
   lelwel = "mason.packages.lelwel",
   lemminx = "mason.packages.lemminx",
   ["lemmy-help"] = "mason.packages.lemmy-help",
