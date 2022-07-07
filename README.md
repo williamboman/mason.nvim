@@ -1,4 +1,4 @@
-[![GitHub CI](https://github.com/williamboman/mason.nvim/workflows/Tests/badge.svg)](https://github.com/williamboman/mason.nvim/actions)
+[![GitHub CI](https://github.com/williamboman/mason.nvim/workflows/Tests/badge.svg)](https://github.com/williamboman/mason.nvim/actions?query=workflow%3ATests+branch%3Aalpha+event%3Apush)
 ![Platforms](https://img.shields.io/badge/platform-linux%20macOS%20windows-blue)
 ![Repository size](https://img.shields.io/github/repo-size/williamboman/mason.nvim)
 [![Sponsors](https://img.shields.io/github/sponsors/williamboman?style=flat-square)](https://github.com/sponsors/williamboman)
@@ -8,6 +8,11 @@
 <p align="center">
     Lightweight package manager for Neovim that runs everywhere Neovim runs.<br />
     Easily install and manage LSP servers, DAP servers, linters, and formatters.
+</p>
+
+<p align="center">
+    <em>Still a WIP - things remain subject to change and documentation is somewhat lacking.</em>
+    <em><a href="https://github.com/williamboman/mason.nvim/discussions/new?category=ideas">Early feedback is very much appreciated</a></em>
 </p>
 
 # Table of Contents
@@ -27,7 +32,7 @@ linters, and formatters through a single interface. It runs everywhere Neovim ru
 with only a small set of [external requirements](#requirements) needed.
 
 Packages are installed to Neovim's `:h stdpath` by default. Executables are linked to a single `bin/` directory, which
-`mason.nvim` will add to Neovim's PATH during setup, allowing seamless access for Neovim builtins (shell, terminal,
+`mason.nvim` will add to Neovim's PATH during setup, allowing seamless access from Neovim builtins (shell, terminal,
 etc.) as well as other 3rd party plugins.
 
 ## Screenshots
