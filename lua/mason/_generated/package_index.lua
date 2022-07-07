@@ -13,6 +13,7 @@ return {
   ["bicep-lsp"] = "mason.packages.bicep-lsp",
   ["bsl-language-server"] = "mason.packages.bsl-language-server",
   ccls = "mason.packages.ccls",
+  ["chrome-debug"] = "mason.packages.chrome-debug",
   clangd = "mason.packages.clangd",
   ["clarity-lsp"] = "mason.packages.clarity-lsp",
   ["clojure-lsp"] = "mason.packages.clojure-lsp",
