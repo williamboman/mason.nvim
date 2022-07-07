@@ -6,7 +6,7 @@ local path = require "mason.core.path"
 local Optional = require "mason.core.optional"
 
 return Pkg.new {
-    name = "node-debug2",
+    name = "node-debug2-adapter",
     desc = [[A debug adapter that supports debugging Node via the Chrome Debugging Protocol. No longer maintained.]],
     homepage = "https://github.com/microsoft/vscode-node-debug2",
     languages = { Pkg.Lang.JavaScript, Pkg.Lang.TypeScript },
