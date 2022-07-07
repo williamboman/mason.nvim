@@ -6,9 +6,7 @@ local _ = require "mason.core.functional"
 local palette = require "mason.ui.palette"
 local indexer = require "mason.core.package.indexer"
 local Package = require "mason.core.package"
-local spawn = require "mason.core.spawn"
 local settings = require "mason.settings"
-local platform = require "mason.core.platform"
 local notify = require "mason.notify"
 
 local Header = require "mason.ui.components.header"
@@ -55,6 +53,7 @@ end
 ---@class InstallerUiState
 local INITIAL_STATE = {
     stats = {
+        ---@type string | nil
         used_disk_space = nil,
     },
     view = {
@@ -134,20 +133,6 @@ window.view(
 )
 
 local mutate_state, get_state = window.state(INITIAL_STATE)
-
-local calculate_stats = a.scope(function()
-    -- TODO windows
-    if platform.is.unix then
-        spawn.du({ "-sh", settings.current.install_root_dir }):map(function(result)
-            local _, _, match = result.stdout:find "^(%S+)"
-            if match then
-                mutate_state(function(state)
-                    state.stats.used_disk_space = match
-                end)
-            end
-        end)
-    end
-end)
 
 ---@param package Package
 ---@param group string
@@ -316,7 +301,9 @@ for _, package in ipairs(packages) do
 
     package:on("install:success", function()
         if get_state().packages.expanded == package.name then
-            hydrate_detailed_package_state(package)
+            vim.schedule(function()
+                hydrate_detailed_package_state(package)
+            end)
         end
         mutate_package_grouping(package, "installed")
         mutate_state(function(state)
@@ -326,7 +313,6 @@ for _, package in ipairs(packages) do
             pkg_state.tailed_output = {}
             pkg_state.short_tailed_output = {}
         end)
-        calculate_stats()
         vim.schedule_wrap(notify)(("%q was successfully installed."):format(package.name))
     end)
 
@@ -348,7 +334,6 @@ for _, package in ipairs(packages) do
         mutate_state(function(state)
             state.packages.states[package.name] = create_initial_package_state()
         end)
-        calculate_stats()
     end)
 end
 
@@ -610,5 +595,4 @@ window.init {
     highlight_groups = palette.highlight_groups,
 }
 
-calculate_stats()
 return window
