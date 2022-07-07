@@ -25,6 +25,7 @@ return {
   ["css-lsp"] = "mason.packages.css-lsp",
   ["cssmodules-language-server"] = "mason.packages.cssmodules-language-server",
   ["cucumber-language-server"] = "mason.packages.cucumber-language-server",
+  ["dart-debug-adapter"] = "mason.packages.dart-debug-adapter",
   debugpy = "mason.packages.debugpy",
   delve = "mason.packages.delve",
   deno = "mason.packages.deno",
