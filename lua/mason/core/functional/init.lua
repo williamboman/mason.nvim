@@ -73,6 +73,7 @@ _.split = string.split
 _.gsub = string.gsub
 _.trim = string.trim
 _.dedent = string.dedent
+_.starts_with = string.starts_with
 
 -- table
 local tbl = require "mason.core.functional.table"

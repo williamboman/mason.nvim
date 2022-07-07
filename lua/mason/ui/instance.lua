@@ -312,6 +312,7 @@ for _, pkg in ipairs(packages) do
             local pkg_state = state.packages.states[pkg.name]
             pkg_state.new_version = nil
             pkg_state.version = nil
+            pkg_state.has_expanded_before = false
             pkg_state.tailed_output = {}
             pkg_state.short_tailed_output = {}
         end)

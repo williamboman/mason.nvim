@@ -63,8 +63,8 @@ end)
 describe("go version check", function()
     local go_version_output = [[
 gopls: go1.18
-        path    golang.org/x/tools/gopls
-        mod     golang.org/x/tools/gopls        v0.8.1  h1:q5nDpRopYrnF4DN/1o8ZQ7Oar4Yd4I5OtGMx5RyV2/8=
+        path    golang.org/x/tools/cmd
+        mod     golang.org/x/tools/cmd        v0.8.1  h1:q5nDpRopYrnF4DN/1o8ZQ7Oar4Yd4I5OtGMx5RyV2/8=
         dep     github.com/google/go-cmp        v0.5.7  h1:81/ik6ipDQS2aGcBfIN5dHDB36BwrStyeAQquSYCV4o=
         dep     mvdan.cc/xurls/v2       v2.4.0  h1:tzxjVAj+wSBmDcF6zBB7/myTy3gX9xvi8Tyr28AuQgc=
         build   -compiler=gc
@@ -74,8 +74,8 @@ gopls: go1.18
     it("should parse go version output", function()
         local parsed = go.parse_mod_version_output(go_version_output)
         assert.same({
-            path = { ["golang.org/x/tools/gopls"] = "" },
-            mod = { ["golang.org/x/tools/gopls"] = "v0.8.1" },
+            path = { ["golang.org/x/tools/cmd"] = "" },
+            mod = { ["golang.org/x/tools/cmd"] = "v0.8.1" },
             dep = { ["github.com/google/go-cmp"] = "v0.5.7", ["mvdan.cc/xurls/v2"] = "v2.4.0" },
             build = { ["-compiler=gc"] = "", ["GOOS=darwin"] = "" },
         }, parsed)
@@ -92,7 +92,7 @@ gopls: go1.18
                 mock.new {
                     primary_source = mock.new {
                         type = "go",
-                        package = "golang.org/x/tools/gopls/...",
+                        package = "golang.org/x/tools/cmd/gopls/...",
                     },
                 },
                 path.package_prefix "dummy"
@@ -105,6 +105,7 @@ gopls: go1.18
                 "gopls",
                 cwd = path.package_prefix "dummy",
             }
+            print(result:err_or_nil())
             assert.is_true(result:is_success())
             assert.equals("v0.8.1", result:get_or_nil())
 
@@ -121,7 +122,7 @@ gopls: go1.18
                     "list",
                     "-json",
                     "-m",
-                    "golang.org/x/tools/gopls@latest",
+                    "golang.org/x/tools/cmd@latest",
                     cwd = path.package_prefix "dummy",
                 })
                 .returns(Result.success {
@@ -147,7 +148,7 @@ gopls: go1.18
                 mock.new {
                     primary_source = mock.new {
                         type = "go",
-                        package = "golang.org/x/tools/gopls/...",
+                        package = "golang.org/x/tools/cmd/gopls/...",
                     },
                 },
                 path.package_prefix "dummy"
@@ -155,7 +156,7 @@ gopls: go1.18
 
             assert.is_true(result:is_success())
             assert.same({
-                name = "golang.org/x/tools/gopls",
+                name = "golang.org/x/tools/cmd",
                 current_version = "v0.8.1",
                 latest_version = "v2.0.0",
             }, result:get_or_nil())
@@ -164,10 +165,10 @@ gopls: go1.18
         end)
     )
 
-    it("should trim package wildcard specifier", function()
-        assert.equals(
-            "https://github.com/cweill/gotests",
-            go.strip_package_wildcard "https://github.com/cweill/gotests/..."
-        )
+    it("should parse package mod names", function()
+        assert.equals("github.com/cweill/gotests", go.parse_package_mod "github.com/cweill/gotests/...")
+        assert.equals("golang.org/x/tools/gopls", go.parse_package_mod "golang.org/x/tools/gopls/...")
+        assert.equals("golang.org/x/crypto", go.parse_package_mod "golang.org/x/crypto/...")
+        assert.equals("github.com/go-delve/delve", go.parse_package_mod "github.com/go-delve/delve/cmd/dlv")
     end)
 end)
