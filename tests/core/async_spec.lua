@@ -189,10 +189,9 @@ describe("async", function()
                 sleep(150, 4),
                 sleep(150, 5),
             }
-            local grace = 50
+            local grace = 20
             local delta = timestamp() - start
-            assert.is_true(delta <= (100 + grace))
-            assert.is_true(delta >= (100 - grace))
+            assert.is_true(delta <= (50 + grace))
             assert.equals("first", first)
         end)
     )
