@@ -43,6 +43,7 @@ return {
   ["erlang-ls"] = "mason.packages.erlang-ls",
   esbonio = "mason.packages.esbonio",
   ["eslint-lsp"] = "mason.packages.eslint-lsp",
+  ["firefox-debug-adapter"] = "mason.packages.firefox-debug-adapter",
   ["flux-lsp"] = "mason.packages.flux-lsp",
   ["foam-language-server"] = "mason.packages.foam-language-server",
   fortls = "mason.packages.fortls",
