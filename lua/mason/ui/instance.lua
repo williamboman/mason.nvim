@@ -37,18 +37,19 @@ local function GlobalKeybinds(state)
 end
 
 ---@class UiPackageState
+---@field expanded_json_schema_keys table<string, table<string, boolean>>
+---@field expanded_json_schemas table<string, boolean>
+---@field has_expanded_before boolean
+---@field is_checking_new_version boolean
+---@field is_checking_version boolean
 ---@field is_terminated boolean
 ---@field latest_spawn string|nil
----@field tailed_output string[]
----@field short_tailed_output string[]
----@field linked_executables table<string, string>
----@field version string|nil
----@field is_checking_version boolean
+---@field linked_executables table<string, string> | nil
 ---@field lsp_settings_schema table|nil
 ---@field new_version NewPackageVersion|nil
----@field is_checking_new_version boolean
----@field expanded_json_schemas table<string, boolean>
----@field expanded_json_schema_keys table<string, table<string, boolean>>
+---@field short_tailed_output string[]
+---@field tailed_output string[]
+---@field version string|nil
 
 ---@class InstallerUiState
 local INITIAL_STATE = {
@@ -134,20 +135,20 @@ window.view(
 
 local mutate_state, get_state = window.state(INITIAL_STATE)
 
----@param package Package
+---@param pkg Package
 ---@param group string
 ---@param tail boolean|nil @Whether to insert at the end.
-local function mutate_package_grouping(package, group, tail)
+local function mutate_package_grouping(pkg, group, tail)
     mutate_state(function(state)
-        remove(state.packages.installing, package)
-        remove(state.packages.queued, package)
-        remove(state.packages.uninstalled, package)
-        remove(state.packages.installed, package)
-        remove(state.packages.failed, package)
+        remove(state.packages.installing, pkg)
+        remove(state.packages.queued, pkg)
+        remove(state.packages.uninstalled, pkg)
+        remove(state.packages.installed, pkg)
+        remove(state.packages.failed, pkg)
         if tail then
-            table.insert(state.packages[group], package)
+            table.insert(state.packages[group], pkg)
         else
-            table.insert(state.packages[group], 1, package)
+            table.insert(state.packages[group], 1, pkg)
         end
     end)
 end
@@ -168,9 +169,9 @@ local function mutate_package_visibility(mutate_fn)
             _.prop_satisfies(_.any(_.equals(state.view.language_filter)), "languages"),
             _.T
         )
-        for __, package in ipairs(packages) do
-            state.packages.visible[package.name] =
-                _.all_pass({ view_predicate[state.view.current], language_predicate }, package.spec)
+        for __, pkg in ipairs(packages) do
+            state.packages.visible[pkg.name] =
+                _.all_pass({ view_predicate[state.view.current], language_predicate }, pkg.spec)
         end
     end)
 end
@@ -241,94 +242,99 @@ local function setup_handle(handle)
     end)
 end
 
----@param package Package
-local function hydrate_detailed_package_state(package)
+---@param pkg Package
+local function hydrate_detailed_package_state(pkg)
     mutate_state(function(state)
-        state.packages.states[package.name].is_checking_version = true
+        state.packages.states[pkg.name].is_checking_version = true
         -- initialize expanded keys table
-        state.packages.states[package.name].expanded_json_schema_keys["lsp"] = state.packages.states[package.name].expanded_json_schema_keys["lsp"]
+        state.packages.states[pkg.name].expanded_json_schema_keys["lsp"] = state.packages.states[pkg.name].expanded_json_schema_keys["lsp"]
             or {}
-        state.packages.states[package.name].lsp_settings_schema = package:get_lsp_settings_schema():or_else(nil)
+        state.packages.states[pkg.name].lsp_settings_schema = pkg:get_lsp_settings_schema():or_else(nil)
     end)
 
-    package:get_installed_version(function(success, version_or_err)
+    pkg:get_installed_version(function(success, version_or_err)
         mutate_state(function(state)
-            state.packages.states[package.name].is_checking_version = false
+            state.packages.states[pkg.name].is_checking_version = false
             if success then
-                state.packages.states[package.name].version = version_or_err
+                state.packages.states[pkg.name].version = version_or_err
             end
         end)
     end)
 
-    package:get_receipt():if_present(
+    pkg:get_receipt():if_present(
         ---@param receipt InstallReceipt
         function(receipt)
             mutate_state(function(state)
-                state.packages.states[package.name].linked_executables = receipt.executables
+                state.packages.states[pkg.name].linked_executables = receipt.executables
             end)
         end
     )
 end
 
+---@return UiPackageState
 local function create_initial_package_state()
     return {
-        latest_spawn = nil,
-        tailed_output = {},
-        short_tailed_output = {},
-        version = nil,
-        is_checking_version = false,
-        new_version = nil,
-        is_checking_new_version = false,
-        expanded_json_schemas = {},
         expanded_json_schema_keys = {},
+        expanded_json_schemas = {},
+        has_expanded_before = false,
+        is_checking_new_version = false,
+        is_checking_version = false,
+        is_terminated = false,
+        latest_spawn = nil,
+        linked_executables = nil,
+        lsp_settings_schema = nil,
+        new_version = nil,
+        short_tailed_output = {},
+        tailed_output = {},
+        version = nil,
     }
 end
 
-for _, package in ipairs(packages) do
+for _, pkg in ipairs(packages) do
     -- hydrate initial state
     mutate_state(function(state)
-        state.packages.states[package.name] = create_initial_package_state()
-        state.packages.visible[package.name] = true
+        state.packages.states[pkg.name] = create_initial_package_state()
+        state.packages.visible[pkg.name] = true
     end)
-    mutate_package_grouping(package, package:is_installed() and "installed" or "uninstalled", true)
+    mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled", true)
 
-    package:get_handle():if_present(setup_handle)
-    package:on("handle", setup_handle)
+    pkg:get_handle():if_present(setup_handle)
+    pkg:on("handle", setup_handle)
 
-    package:on("install:success", function()
-        if get_state().packages.expanded == package.name then
+    pkg:on("install:success", function()
+        if get_state().packages.expanded == pkg.name then
             vim.schedule(function()
-                hydrate_detailed_package_state(package)
+                hydrate_detailed_package_state(pkg)
             end)
         end
-        mutate_package_grouping(package, "installed")
+        mutate_package_grouping(pkg, "installed")
         mutate_state(function(state)
-            local pkg_state = state.packages.states[package.name]
+            local pkg_state = state.packages.states[pkg.name]
             pkg_state.new_version = nil
             pkg_state.version = nil
             pkg_state.tailed_output = {}
             pkg_state.short_tailed_output = {}
         end)
-        vim.schedule_wrap(notify)(("%q was successfully installed."):format(package.name))
+        vim.schedule_wrap(notify)(("%q was successfully installed."):format(pkg.name))
     end)
 
-    package:on(
+    pkg:on(
         "install:failed",
         ---@param handle InstallHandle
         function(handle)
             if handle.is_terminated then
                 -- If installation was explicitly terminated - restore to "pristine" state
-                mutate_package_grouping(package, package:is_installed() and "installed" or "uninstalled")
+                mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled")
             else
-                mutate_package_grouping(package, "failed")
+                mutate_package_grouping(pkg, "failed")
             end
         end
     )
 
-    package:on("uninstall:success", function()
-        mutate_package_grouping(package, "uninstalled")
+    pkg:on("uninstall:success", function()
+        mutate_package_grouping(pkg, "uninstalled")
         mutate_state(function(state)
-            state.packages.states[package.name] = create_initial_package_state()
+            state.packages.states[pkg.name] = create_initial_package_state()
         end)
     end)
 end
@@ -385,11 +391,11 @@ end
 
 local function terminate_package_handle(event)
     ---@type Package
-    local package = event.payload
-    package:get_handle():if_present(
+    local pkg = event.payload
+    pkg:get_handle():if_present(
         ---@param handle InstallHandle
         function(handle)
-            vim.schedule_wrap(notify)(("Cancelling installation of %q."):format(package.name))
+            vim.schedule_wrap(notify)(("Cancelling installation of %q."):format(pkg.name))
             handle:terminate()
         end
     )
@@ -397,21 +403,21 @@ end
 
 local function install_package(event)
     ---@type Package
-    local package = event.payload
-    package:install()
+    local pkg = event.payload
+    pkg:install()
 end
 
 local function uninstall_package(event)
     ---@type Package
-    local package = event.payload
-    package:uninstall()
-    vim.schedule_wrap(notify)(("%q was successfully uninstalled."):format(package.name))
+    local pkg = event.payload
+    pkg:uninstall()
+    vim.schedule_wrap(notify)(("%q was successfully uninstalled."):format(pkg.name))
 end
 
 local function dequeue_package(event)
     ---@type Package
-    local package = event.payload
-    package:get_handle():if_present(
+    local pkg = event.payload
+    pkg:get_handle():if_present(
         ---@param handle InstallHandle
         function(handle)
             if not handle:is_closed() then
@@ -423,29 +429,35 @@ end
 
 local function toggle_expand_package(event)
     ---@type Package
-    local package = event.payload
+    local pkg = event.payload
     mutate_state(function(state)
-        if state.packages.expanded == package.name then
+        if state.packages.expanded == pkg.name then
             state.packages.expanded = nil
         else
-            hydrate_detailed_package_state(package)
-            state.packages.expanded = package.name
+            if not state.packages.states[pkg.name].has_expanded_before then
+                hydrate_detailed_package_state(pkg)
+                state.packages.states[pkg.name].has_expanded_before = true
+            end
+            state.packages.expanded = pkg.name
         end
     end)
 end
 
 ---@async
----@param package Package
-local function check_new_package_version(package)
+---@param pkg Package
+local function check_new_package_version(pkg)
+    if get_state().packages.states[pkg.name].is_checking_new_version then
+        return
+    end
     mutate_state(function(state)
-        state.packages.states[package.name].is_checking_new_version = true
+        state.packages.states[pkg.name].is_checking_new_version = true
     end)
     a.wait(function(resolve, reject)
-        package:check_new_version(function(success, new_version)
+        pkg:check_new_version(function(success, new_version)
             mutate_state(function(state)
-                state.packages.states[package.name].is_checking_new_version = false
+                state.packages.states[pkg.name].is_checking_new_version = false
                 if success then
-                    state.packages.states[package.name].new_version = new_version
+                    state.packages.states[pkg.name].new_version = new_version
                 end
             end)
             if success then
