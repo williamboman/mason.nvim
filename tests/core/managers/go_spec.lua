@@ -92,7 +92,7 @@ gopls: go1.18
                 mock.new {
                     primary_source = mock.new {
                         type = "go",
-                        package = "golang.org/x/tools/gopls",
+                        package = "golang.org/x/tools/gopls/...",
                     },
                 },
                 path.package_prefix "dummy"
@@ -147,7 +147,7 @@ gopls: go1.18
                 mock.new {
                     primary_source = mock.new {
                         type = "go",
-                        package = "golang.org/x/tools/gopls",
+                        package = "golang.org/x/tools/gopls/...",
                     },
                 },
                 path.package_prefix "dummy"
@@ -163,4 +163,11 @@ gopls: go1.18
             spawn.go = nil
         end)
     )
+
+    it("should trim package wildcard specifier", function()
+        assert.equals(
+            "https://github.com/cweill/gotests",
+            go.strip_package_wildcard "https://github.com/cweill/gotests/..."
+        )
+    end)
 end)
