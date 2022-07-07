@@ -19,6 +19,14 @@ return Pkg.new {
         git.clone { "https://github.com/Microsoft/vscode-chrome-debug", version = Optional.of(source.tag) }
         ctx.spawn.npm { "install" }
         ctx.spawn.npm { "run", "build" }
+        pcall(function()
+            -- this errors for some reason - but it effectively reduces the node_modules/ size by ~98%
+            ctx.spawn.npm { "install", "--production" }
+        end)
+        -- vscode-chrome-debug comes with a lot of extra baggage
+        ctx.fs:rmrf "images"
+        ctx.fs:rmrf "testdata"
+        ctx.fs:rmrf ".git"
         ctx:write_node_exec_wrapper("chrome-debug-adapter", path.concat { "out", "src", "chromeDebug.js" })
         ctx:link_bin("chrome-debug-adapter", "chrome-debug-adapter")
     end,
