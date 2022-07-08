@@ -8,4 +8,4 @@ return Pkg.new {
     languages = { Pkg.Lang.Python },
     categories = { Pkg.Cat.Formatter },
     install = pip3.packages { "black", bin = { "black" } },
-} 
+}
