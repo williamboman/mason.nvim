@@ -1,4 +1,4 @@
-local Pkg = require "mason.core.package"
+local Pkg = require "mason-core.package"
 
 return Pkg.new {
     name = "dummy",

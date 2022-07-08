@@ -1,6 +1,6 @@
-local Pkg = require "mason.core.package"
-local npm = require "mason.core.managers.npm"
-local Optional = require "mason.core.optional"
+local Pkg = require "mason-core.package"
+local npm = require "mason-core.managers.npm"
+local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "rome",

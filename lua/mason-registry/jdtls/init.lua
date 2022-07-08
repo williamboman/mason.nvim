@@ -1,10 +1,7 @@
-local Pkg = require "mason.core.package"
-local path = require "mason.core.path"
-local platform = require "mason.core.platform"
-local _ = require "mason.core.functional"
-local installer = require "mason.core.installer"
-local eclipse = require "mason.core.clients.eclipse"
-local std = require "mason.core.managers.std"
+local Pkg = require "mason-core.package"
+local installer = require "mason-core.installer"
+local eclipse = require "mason-core.clients.eclipse"
+local std = require "mason-core.managers.std"
 
 ---@async
 local function download_jdtls()

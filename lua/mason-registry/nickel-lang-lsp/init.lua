@@ -1,7 +1,5 @@
-local Pkg = require "mason.core.package"
-local path = require "mason.core.path"
-local cargo = require "mason.core.managers.cargo"
-local git = require "mason.core.managers.git"
+local Pkg = require "mason-core.package"
+local cargo = require "mason-core.managers.cargo"
 
 return Pkg.new {
     name = "nickel-lang-lsp",

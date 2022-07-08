@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local dotnet = require "mason.core.managers.dotnet"
+local Pkg = require "mason-core.package"
+local dotnet = require "mason-core.managers.dotnet"
 
 return Pkg.new {
     name = "fsautocomplete",

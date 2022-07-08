@@ -1,6 +1,6 @@
 -- Here be dragons
-local Ui = require "mason.core.ui"
-local _ = require "mason.core.functional"
+local Ui = require "mason-core.ui"
+local _ = require "mason-core.functional"
 local settings = require "mason.settings"
 
 local property_type_highlights = {

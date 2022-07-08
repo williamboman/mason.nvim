@@ -1,7 +1,7 @@
-local path = require "mason.core.path"
-local platform = require "mason.core.platform"
-local fs = require "mason.core.fs"
-local _ = require "mason.core.functional"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local fs = require "mason-core.fs"
+local _ = require "mason-core.functional"
 
 ---@param install_dir string
 return function(install_dir)

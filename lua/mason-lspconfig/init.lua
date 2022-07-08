@@ -1,10 +1,10 @@
-local log = require "mason.log"
-local Package = require "mason.core.package"
-local Optional = require "mason.core.optional"
-local _ = require "mason.core.functional"
+local log = require "mason-core.log"
+local Package = require "mason-core.package"
+local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
 local settings = require "mason-lspconfig.settings"
-local server_mapping = require "mason-lspconfig.server-mapping"
-local path = require "mason.core.path"
+local server_mapping = require "mason-lspconfig.mappings.server"
+local path = require "mason-core.path"
 local registry = require "mason-registry"
 
 local M = {}

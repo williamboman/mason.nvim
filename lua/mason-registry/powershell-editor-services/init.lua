@@ -1,6 +1,6 @@
-local Pkg = require "mason.core.package"
-local std = require "mason.core.managers.std"
-local github = require "mason.core.managers.github"
+local Pkg = require "mason-core.package"
+local std = require "mason-core.managers.std"
+local github = require "mason-core.managers.github"
 
 return Pkg.new {
     name = "powershell-editor-services",

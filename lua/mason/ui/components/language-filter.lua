@@ -1,4 +1,4 @@
-local Ui = require "mason.core.ui"
+local Ui = require "mason-core.ui"
 local p = require "mason.ui.palette"
 local settings = require "mason.settings"
 

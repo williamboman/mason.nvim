@@ -1,10 +1,10 @@
-local Pkg = require "mason.core.package"
-local platform = require "mason.core.platform"
-local std = require "mason.core.managers.std"
-local git = require "mason.core.managers.git"
-local github = require "mason.core.managers.github"
-local Optional = require "mason.core.optional"
-local path = require "mason.core.path"
+local Pkg = require "mason-core.package"
+local platform = require "mason-core.platform"
+local std = require "mason-core.managers.std"
+local git = require "mason-core.managers.git"
+local github = require "mason-core.managers.github"
+local Optional = require "mason-core.optional"
+local path = require "mason-core.path"
 
 local rebar3 = platform.is_win and "rebar3.cmd" or "rebar3"
 

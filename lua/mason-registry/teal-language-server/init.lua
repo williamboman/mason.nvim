@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local luarocks = require "mason.core.managers.luarocks"
+local Pkg = require "mason-core.package"
+local luarocks = require "mason-core.managers.luarocks"
 
 return Pkg.new {
     name = "teal-language-server",

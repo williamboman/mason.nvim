@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local composer = require "mason.core.managers.composer"
+local Pkg = require "mason-core.package"
+local composer = require "mason-core.managers.composer"
 
 return Pkg.new {
     name = "psalm",

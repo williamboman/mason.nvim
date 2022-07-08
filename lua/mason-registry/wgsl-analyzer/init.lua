@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local cargo = require "mason.core.managers.cargo"
+local Pkg = require "mason-core.package"
+local cargo = require "mason-core.managers.cargo"
 
 local github_url = "https://github.com/wgsl-analyzer/wgsl-analyzer"
 

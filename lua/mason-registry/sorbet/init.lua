@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local gem = require "mason.core.managers.gem"
+local Pkg = require "mason-core.package"
+local gem = require "mason-core.managers.gem"
 
 return Pkg.new {
     name = "sorbet",

@@ -1,10 +1,10 @@
-local path = require "mason.core.path"
-local platform = require "mason.core.platform"
-local installer = require "mason.core.installer"
-local github = require "mason.core.managers.github"
-local _ = require "mason.core.functional"
-local Result = require "mason.core.result"
-local Optional = require "mason.core.optional"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local installer = require "mason-core.installer"
+local github = require "mason-core.managers.github"
+local _ = require "mason-core.functional"
+local Result = require "mason-core.result"
+local Optional = require "mason-core.optional"
 
 local ccls_installer = require "mason-registry.ccls.common"
 

@@ -1,8 +1,8 @@
-local Pkg = require "mason.core.package"
-local _ = require "mason.core.functional"
-local platform = require "mason.core.platform"
-local github = require "mason.core.managers.github"
-local std = require "mason.core.managers.std"
+local Pkg = require "mason-core.package"
+local _ = require "mason-core.functional"
+local platform = require "mason-core.platform"
+local github = require "mason-core.managers.github"
+local std = require "mason-core.managers.std"
 
 local coalesce, when = _.coalesce, _.when
 

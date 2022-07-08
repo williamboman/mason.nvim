@@ -1,6 +1,6 @@
-local Pkg = require "mason.core.package"
-local github = require "mason.core.managers.github"
-local platform = require "mason.core.platform"
+local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
+local platform = require "mason-core.platform"
 
 return Pkg.new {
     name = "puppet-editor-services",

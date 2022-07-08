@@ -1,9 +1,9 @@
-local Pkg = require "mason.core.package"
-local github = require "mason.core.managers.github"
-local git = require "mason.core.managers.git"
-local _ = require "mason.core.functional"
-local path = require "mason.core.path"
-local Optional = require "mason.core.optional"
+local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
+local git = require "mason-core.managers.git"
+local _ = require "mason-core.functional"
+local path = require "mason-core.path"
+local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "firefox-debug-adapter",

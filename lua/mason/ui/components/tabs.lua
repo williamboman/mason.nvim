@@ -1,5 +1,5 @@
-local Package = require "mason.core.package"
-local Ui = require "mason.core.ui"
+local Package = require "mason-core.package"
+local Ui = require "mason-core.ui"
 local p = require "mason.ui.palette"
 
 ---@param text string

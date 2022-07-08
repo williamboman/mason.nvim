@@ -1,8 +1,8 @@
-local Pkg = require "mason.core.package"
-local std = require "mason.core.managers.std"
-local github = require "mason.core.managers.github"
-local platform = require "mason.core.platform"
-local path = require "mason.core.path"
+local Pkg = require "mason-core.package"
+local std = require "mason-core.managers.std"
+local github = require "mason-core.managers.github"
+local platform = require "mason-core.platform"
+local path = require "mason-core.path"
 
 return Pkg.new {
     name = "vala-language-server",

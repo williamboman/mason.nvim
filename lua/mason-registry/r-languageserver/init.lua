@@ -1,4 +1,4 @@
-local Pkg = require "mason.core.package"
+local Pkg = require "mason-core.package"
 
 ---@param install_dir string
 local function create_install_script(install_dir)

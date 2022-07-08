@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local platform = require "mason.core.platform"
+local Pkg = require "mason-core.package"
+local platform = require "mason-core.platform"
 
 return Pkg.new {
     name = "ccls",

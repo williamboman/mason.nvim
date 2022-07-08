@@ -1,6 +1,5 @@
-local Pkg = require "mason.core.package"
-local github = require "mason.core.managers.github"
-local std = require "mason.core.managers.std"
+local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
 
 return Pkg.new {
     name = "elixir-ls",
@@ -9,8 +8,7 @@ return Pkg.new {
     languages = { Pkg.Lang.Elixir },
     categories = { Pkg.Cat.LSP, Pkg.Cat.DAP },
     ---@async
-    ---@param ctx InstallContext
-    install = function(ctx)
+    install = function()
         github
             .unzip_release_file({
                 repo = "elixir-lsp/elixir-ls",

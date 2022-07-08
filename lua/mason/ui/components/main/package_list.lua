@@ -1,6 +1,6 @@
-local Ui = require "mason.core.ui"
+local Ui = require "mason-core.ui"
 local p = require "mason.ui.palette"
-local _ = require "mason.core.functional"
+local _ = require "mason-core.functional"
 local settings = require "mason.settings"
 
 local JsonSchema = require "mason.ui.components.json-schema"

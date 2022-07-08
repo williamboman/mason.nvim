@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local npm = require "mason.core.managers.npm"
+local Pkg = require "mason-core.package"
+local npm = require "mason-core.managers.npm"
 
 return Pkg.new {
     name = "cucumber-language-server",

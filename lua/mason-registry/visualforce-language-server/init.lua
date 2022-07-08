@@ -1,8 +1,8 @@
-local Pkg = require "mason.core.package"
-local github = require "mason.core.managers.github"
-local github_client = require "mason.core.managers.github.client"
-local Optional = require "mason.core.optional"
-local _ = require "mason.core.functional"
+local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
+local github_client = require "mason-core.managers.github.client"
+local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
 
 return Pkg.new {
     name = "visualforce-language-server",

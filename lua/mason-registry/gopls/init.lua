@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local go = require "mason.core.managers.go"
+local Pkg = require "mason-core.package"
+local go = require "mason-core.managers.go"
 
 return Pkg.new {
     name = "gopls",

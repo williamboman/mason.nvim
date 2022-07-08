@@ -1,9 +1,9 @@
-local Pkg = require "mason.core.package"
-local github = require "mason.core.managers.github"
-local github_client = require "mason.core.managers.github.client"
-local Optional = require "mason.core.optional"
-local path = require "mason.core.path"
-local _ = require "mason.core.functional"
+local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
+local github_client = require "mason-core.managers.github.client"
+local Optional = require "mason-core.optional"
+local path = require "mason-core.path"
+local _ = require "mason-core.functional"
 
 local JAR_FILE = "apex-jorje-lsp.jar"
 return Pkg.new {
