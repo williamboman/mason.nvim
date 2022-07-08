@@ -1,6 +1,4 @@
 local fix_macos_build = [=====[
-diff --git a/webpack.config.js b/webpack.config.js
-index 9aff0cf..ff9c74e 100644
 --- a/webpack.config.js
 +++ b/webpack.config.js
 @@ -1,6 +1,14 @@
