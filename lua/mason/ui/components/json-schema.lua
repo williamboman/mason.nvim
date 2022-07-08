@@ -126,7 +126,7 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
                     },
                     {
                         vim.json.encode(schema.default),
-                        property_type_highlights[type] or "NvimInstallerMuted",
+                        property_type_highlights[type] or "MasonMuted",
                     },
                 },
             }
@@ -145,10 +145,10 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
                     return { { line, "Comment" } }
                 end, vim.split(schema.description or "No description available.", "\n"))
 
-                local type_highlight = property_type_highlights[type] or "NvimInstallerMuted"
+                local type_highlight = property_type_highlights[type] or "MasonMuted"
 
                 local table_rows = {
-                    { { "type", "NvimInstallerMuted" }, { type, type_highlight } },
+                    { { "type", "MasonMuted" }, { type, type_highlight } },
                 }
 
                 if vim.tbl_islist(schema.enum) then
@@ -158,7 +158,7 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
                             enum_description = "- " .. schema.enumDescriptions[idx]
                         end
                         table_rows[#table_rows + 1] = {
-                            { idx == 1 and "possible values" or "", "NvimInstallerMuted" },
+                            { idx == 1 and "possible values" or "", "MasonMuted" },
                             { vim.json.encode(enum), type_highlight },
                             { enum_description, "Comment" },
                         }
