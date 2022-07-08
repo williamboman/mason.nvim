@@ -6,7 +6,7 @@ local _ = require "mason.core.functional"
 local Result = require "mason.core.result"
 local Optional = require "mason.core.optional"
 
-local ccls_installer = require "mason.packages.ccls.common"
+local ccls_installer = require "mason-registry.ccls.common"
 
 local coalesce, when = _.coalesce, _.when
 

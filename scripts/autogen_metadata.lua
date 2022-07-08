@@ -94,7 +94,7 @@ local function create_package_index()
     a.scheduler()
     local packages = {}
     local to_lua_path = _.compose(_.gsub("/", "."), _.gsub("^lua/", ""))
-    for _, package_path in ipairs(vim.fn.glob("lua/mason/packages/*/init.lua", false, true)) do
+    for _, package_path in ipairs(vim.fn.glob("lua/mason-registry/*/init.lua", false, true)) do
         local package_filename = vim.fn.fnamemodify(package_path, ":h:t")
         local lua_path = to_lua_path(vim.fn.fnamemodify(package_path, ":h"))
         local pkg = require(lua_path)
@@ -102,7 +102,11 @@ local function create_package_index()
         packages[pkg.name] = lua_path
     end
 
-    write_file(Path.concat { generated_dir, "package_index.lua" }, "return " .. vim.inspect(packages), "w")
+    write_file(
+        Path.concat { vim.fn.getcwd(), "lua", "mason-registry", "index.lua" },
+        "return " .. vim.inspect(packages),
+        "w"
+    )
 end
 
 a.run_blocking(function()

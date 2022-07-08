@@ -16,8 +16,8 @@ lua require("luassertx")
 lua require("test_helpers")
 
 lua <<EOF
-local pkg_index = require "mason._generated.package_index"
-pkg_index["dummy"] = "dummy_package"
+local index = require "mason-registry.index"
+index["dummy"] = "dummy_package"
 
 require("mason").setup {
     install_root_dir = os.getenv("INSTALL_ROOT_DIR"),

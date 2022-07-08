@@ -1,10 +1,11 @@
 local log = require "mason.log"
 local fs = require "mason.core.fs"
 local _ = require "mason.core.functional"
-local pkg_index = require "mason._generated.package_index"
 local Optional = require "mason.core.optional"
 local path = require "mason.core.path"
 local EventEmitter = require "mason.core.EventEmitter"
+
+local index = require "mason-registry.index"
 
 local M = setmetatable({}, { __index = EventEmitter })
 EventEmitter.init(M)
@@ -18,7 +19,7 @@ do
     local get_directories = _.compose(
         _.set_of,
         _.filter_map(function(entry)
-            if entry.type == "directory" and pkg_index[entry.name] then
+            if entry.type == "directory" and index[entry.name] then
                 return Optional.of(entry.name)
             else
                 return Optional.empty()
@@ -56,7 +57,7 @@ end
 ---@param package_name string
 ---@return Package
 function M.get_package(package_name)
-    local ok, pkg = pcall(require, pkg_index[package_name])
+    local ok, pkg = pcall(require, index[package_name])
     if not ok then
         log.error(pkg)
         error(("Cannot find package %q."):format(package_name))
@@ -78,7 +79,7 @@ end
 
 ---@return string[]
 function M.get_all_package_names()
-    return _.keys(pkg_index)
+    return _.keys(index)
 end
 
 ---@return Package[]

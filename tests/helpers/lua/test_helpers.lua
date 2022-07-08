@@ -1,12 +1,11 @@
 ---@diagnostic disable: lowercase-global
 local util = require "luassert.util"
-local mock = require "luassert.mock"
 local spy = require "luassert.spy"
 
 local a = require "mason.core.async"
 local InstallHandle = require "mason.core.installer.handle"
 local InstallContext = require "mason.core.installer.context"
-local indexer = require "mason.core.package.indexer"
+local registry = require "mason-registry"
 
 function async_test(suspend_fn)
     return function()
@@ -33,7 +32,7 @@ mockx = {
 
 ---@param package_name string
 function InstallHandleGenerator(package_name)
-    return InstallHandle.new(indexer.get_package(package_name))
+    return InstallHandle.new(registry.get_package(package_name))
 end
 
 ---@param handle InstallHandle
