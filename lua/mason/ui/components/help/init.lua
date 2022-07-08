@@ -97,7 +97,7 @@ local function GenericHelp(state)
         Ui.HlTextNode {
             { p.Bold "Problems with package functionality" },
             {
-                p.muted "Please refer to each language package's own homepage for further assistance.",
+                p.muted "Please refer to each package's own homepage for further assistance.",
             },
         },
         Ui.EmptyLine(),

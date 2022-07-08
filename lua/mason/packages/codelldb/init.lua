@@ -6,8 +6,8 @@ local path = require "mason.core.path"
 
 return Pkg.new {
     name = "codelldb",
-    desc = [[Official repository for the Microsoft C/C++ extension for VS Code.]],
-    homepage = "https://github.com/microsoft/vscode-cpptools",
+    desc = [[A native debugger based on LLDB]],
+    homepage = "https://github.com/vadimcn/vscode-lldb",
     languages = { Pkg.Lang.C, Pkg.Lang["C++"], Pkg.Lang.Rust },
     categories = { Pkg.Cat.DAP },
     ---@async

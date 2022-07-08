@@ -259,4 +259,20 @@ function InstallContext:link_bin(executable, rel_path)
     self.receipt:with_link("bin", executable, rel_path)
 end
 
+---@param patches string[]
+function InstallContext:apply_patches(patches)
+    for _, patch in ipairs(patches) do
+        self.spawn.patch {
+            "-g",
+            "0",
+            "-f",
+            on_spawn = function(_, stdio)
+                local stdin = stdio[1]
+                stdin:write(patch)
+                stdin:close()
+            end,
+        }
+    end
+end
+
 return InstallContext
