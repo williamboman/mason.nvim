@@ -62,7 +62,7 @@ local function parse_packages_from_heuristics()
         end)
         :map(function(server_name)
             local package_name = server_mapping.lspconfig_to_package[server_name]
-            return { package = package_name, version = nil }
+            return { { package = package_name, version = nil } }
         end)
         :or_else_get(function()
             notify(("No LSP servers found for filetype %q."):format(current_ft), vim.log.levels.ERROR)
