@@ -3,6 +3,7 @@ name: Stylua check
 on:
     push:
         branches:
+            - "alpha"
     pull_request:
 
 jobs:

@@ -70,7 +70,7 @@ return {
   prisma = { "prisma-language-server" },
   puppet = { "puppet-editor-services" },
   purescript = { "purescript-language-server" },
-  python = { "debugpy", "jedi-language-server", "pyright", "python-lsp-server", "sourcery" },
+  python = { "black", "debugpy", "jedi-language-server", "pyright", "python-lsp-server", "sourcery" },
   r = { "r-languageserver" },
   reason = { "reason-language-server" },
   rescript = { "rescript-lsp" },
