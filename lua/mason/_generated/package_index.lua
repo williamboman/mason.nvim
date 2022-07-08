@@ -81,6 +81,7 @@ return {
   ["omnisharp-roslyn"] = "mason.packages.omnisharp-roslyn",
   ["opencl-language-server"] = "mason.packages.opencl-language-server",
   perlnavigator = "mason.packages.perlnavigator",
+  ["php-debug-adapter"] = "mason.packages.php-debug-adapter",
   phpactor = "mason.packages.phpactor",
   ["powershell-editor-services"] = "mason.packages.powershell-editor-services",
   ["prisma-language-server"] = "mason.packages.prisma-language-server",
