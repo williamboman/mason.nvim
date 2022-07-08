@@ -9,4 +9,3 @@ return Pkg.new {
     languages = { Pkg.Lang.Go },
     install = go.packages { "github.com/josharian/impl", bin = { "impl" } },
 }
-
