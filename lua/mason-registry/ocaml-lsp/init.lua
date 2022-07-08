@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local opam = require "mason.core.managers.opam"
+local Pkg = require "mason-core.package"
+local opam = require "mason-core.managers.opam"
 
 return Pkg.new {
     name = "ocaml-lsp",

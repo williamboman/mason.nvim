@@ -1,9 +1,9 @@
-local a = require "mason.core.async"
-local _ = require "mason.core.functional"
-local pip3 = require "mason.core.managers.pip3"
-local process = require "mason.core.process"
-local notify = require "mason.notify"
-local spawn = require "mason.core.spawn"
+local a = require "mason-core.async"
+local _ = require "mason-core.functional"
+local pip3 = require "mason-core.managers.pip3"
+local process = require "mason-core.process"
+local notify = require "mason-core.notify"
+local spawn = require "mason-core.spawn"
 
 ---@param install_dir string
 return function(install_dir)

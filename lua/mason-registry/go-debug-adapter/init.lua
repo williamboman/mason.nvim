@@ -1,8 +1,7 @@
-local Pkg = require "mason.core.package"
-local github = require "mason.core.managers.github"
-local _ = require "mason.core.functional"
-local path = require "mason.core.path"
-local platform = require "mason.core.platform"
+local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
+local _ = require "mason-core.functional"
+local path = require "mason-core.path"
 
 return Pkg.new {
     name = "go-debug-adapter",

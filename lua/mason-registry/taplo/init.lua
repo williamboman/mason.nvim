@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local cargo = require "mason.core.managers.cargo"
+local Pkg = require "mason-core.package"
+local cargo = require "mason-core.managers.cargo"
 
 return Pkg.new {
     name = "taplo",

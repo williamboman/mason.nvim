@@ -1,10 +1,10 @@
-local a = require "mason.core.async"
-local _ = require "mason.core.functional"
-local Pkg = require "mason.core.package"
-local std = require "mason.core.managers.std"
-local github_client = require "mason.core.managers.github.client"
-local path = require "mason.core.path"
-local platform = require "mason.core.platform"
+local a = require "mason-core.async"
+local _ = require "mason-core.functional"
+local Pkg = require "mason-core.package"
+local std = require "mason-core.managers.std"
+local github_client = require "mason-core.managers.github.client"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
 
 return Pkg.new {
     name = "haskell-language-server",

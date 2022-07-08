@@ -1,8 +1,8 @@
-local a = require "mason.core.async"
-local Path = require "mason.core.path"
-local fetch = require "mason.core.fetch"
-local _ = require "mason.core.functional"
-local fs = require "mason.core.fs"
+local a = require "mason-core.async"
+local Path = require "mason-core.path"
+local fetch = require "mason-core.fetch"
+local _ = require "mason-core.functional"
+local fs = require "mason-core.fs"
 local lspconfig_server_mapping = require "mason-lspconfig.mappings.server"
 
 ---@async

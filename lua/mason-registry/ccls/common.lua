@@ -1,9 +1,9 @@
-local path = require "mason.core.path"
-local platform = require "mason.core.platform"
-local installer = require "mason.core.installer"
-local git = require "mason.core.managers.git"
-local github = require "mason.core.managers.github"
-local Optional = require "mason.core.optional"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local installer = require "mason-core.installer"
+local git = require "mason-core.managers.git"
+local github = require "mason-core.managers.github"
+local Optional = require "mason-core.optional"
 
 ---@async
 ---@param opts {llvm_dir: string}

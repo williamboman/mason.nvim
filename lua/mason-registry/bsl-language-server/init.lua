@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local github = require "mason.core.managers.github"
+local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
 
 return Pkg.new {
     name = "bsl-language-server",

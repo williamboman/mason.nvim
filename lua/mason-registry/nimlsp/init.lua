@@ -1,8 +1,8 @@
-local Pkg = require "mason.core.package"
-local git = require "mason.core.managers.git"
-local github = require "mason.core.managers.github"
-local platform = require "mason.core.platform"
-local Optional = require "mason.core.optional"
+local Pkg = require "mason-core.package"
+local git = require "mason-core.managers.git"
+local github = require "mason-core.managers.github"
+local platform = require "mason-core.platform"
+local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "nimlsp",

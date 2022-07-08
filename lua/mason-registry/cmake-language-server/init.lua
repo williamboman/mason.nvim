@@ -1,5 +1,5 @@
-local Pkg = require "mason.core.package"
-local pip3 = require "mason.core.managers.pip3"
+local Pkg = require "mason-core.package"
+local pip3 = require "mason-core.managers.pip3"
 
 return Pkg.new {
     name = "cmake-language-server",

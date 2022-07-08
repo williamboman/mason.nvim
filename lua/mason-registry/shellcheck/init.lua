@@ -1,7 +1,7 @@
-local Pkg = require "mason.core.package"
-local _ = require "mason.core.functional"
-local github = require "mason.core.managers.github"
-local platform = require "mason.core.platform"
+local Pkg = require "mason-core.package"
+local _ = require "mason-core.functional"
+local github = require "mason-core.managers.github"
+local platform = require "mason-core.platform"
 
 return Pkg.new {
     name = "shellcheck",

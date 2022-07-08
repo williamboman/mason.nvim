@@ -1,10 +1,10 @@
-local Pkg = require "mason.core.package"
-local composer = require "mason.core.managers.composer"
-local git = require "mason.core.managers.git"
-local github = require "mason.core.managers.github"
-local platform = require "mason.core.platform"
-local Optional = require "mason.core.optional"
-local path = require "mason.core.path"
+local Pkg = require "mason-core.package"
+local composer = require "mason-core.managers.composer"
+local git = require "mason-core.managers.git"
+local github = require "mason-core.managers.github"
+local platform = require "mason-core.platform"
+local Optional = require "mason-core.optional"
+local path = require "mason-core.path"
 
 return Pkg.new {
     name = "phpactor",

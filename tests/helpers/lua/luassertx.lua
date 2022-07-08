@@ -1,6 +1,6 @@
 local assert = require "luassert"
 local match = require "luassert.match"
-local a = require "mason.core.async"
+local a = require "mason-core.async"
 
 local function wait_for(_, arguments)
     ---@type fun() @Function to execute until it does not error.

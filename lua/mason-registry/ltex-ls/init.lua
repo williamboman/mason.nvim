@@ -1,10 +1,10 @@
-local Pkg = require "mason.core.package"
-local a = require "mason.core.async"
-local installer = require "mason.core.installer"
-local _ = require "mason.core.functional"
-local platform = require "mason.core.platform"
-local github = require "mason.core.managers.github"
-local path = require "mason.core.path"
+local Pkg = require "mason-core.package"
+local a = require "mason-core.async"
+local installer = require "mason-core.installer"
+local _ = require "mason-core.functional"
+local platform = require "mason-core.platform"
+local github = require "mason-core.managers.github"
+local path = require "mason-core.path"
 
 local coalesce, when = _.coalesce, _.when
 

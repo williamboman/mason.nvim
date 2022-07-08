@@ -1,5 +1,4 @@
-local Ui = require "mason.core.ui"
-local p = require "mason.ui.palette"
+local Ui = require "mason-core.ui"
 
 local PackageList = require "mason.ui.components.main.package_list"
 

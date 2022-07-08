@@ -1,6 +1,6 @@
-local npm = require "mason.core.managers.npm"
-local fs = require "mason.core.fs"
-local path = require "mason.core.path"
+local npm = require "mason-core.managers.npm"
+local fs = require "mason-core.fs"
+local path = require "mason-core.path"
 
 ---@param install_dir string
 return function(install_dir)

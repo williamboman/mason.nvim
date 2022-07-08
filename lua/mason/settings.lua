@@ -1,4 +1,4 @@
-local path = require "mason.core.path"
+local path = require "mason-core.path"
 
 local M = {}
 

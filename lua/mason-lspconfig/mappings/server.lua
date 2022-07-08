@@ -1,4 +1,4 @@
-local _ = require "mason.core.functional"
+local _ = require "mason-core.functional"
 
 local M = {}
 

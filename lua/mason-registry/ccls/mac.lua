@@ -1,7 +1,7 @@
-local path = require "mason.core.path"
-local platform = require "mason.core.platform"
-local installer = require "mason.core.installer"
-local fs = require "mason.core.fs"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local installer = require "mason-core.installer"
+local fs = require "mason-core.fs"
 
 local ccls_installer = require "mason-registry.ccls.common"
 

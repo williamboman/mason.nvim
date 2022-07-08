@@ -1,7 +1,7 @@
-local Pkg = require "mason.core.package"
-local path = require "mason.core.path"
-local std = require "mason.core.managers.std"
-local github = require "mason.core.managers.github"
+local Pkg = require "mason-core.package"
+local path = require "mason-core.path"
+local std = require "mason-core.managers.std"
+local github = require "mason-core.managers.github"
 
 local server_script = [[
 using LanguageServer, SymbolServer, Pkg
