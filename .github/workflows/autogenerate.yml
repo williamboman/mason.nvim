@@ -1,9 +1,9 @@
-name: Run autogen script
+name: Autogenerate code
 
 on:
     workflow_dispatch:
     schedule:
-        - cron: "15 13 * * *"
+        - cron: "0 10 * * *"
 
 jobs:
     run-autogen-script:
@@ -15,13 +15,8 @@ jobs:
                   neovim: true
                   version: v0.7.0
 
-            - name: Clone dependencies
-              run: |
-                  mkdir -p ~/.local/share/nvim/site/pack/packer/start
-                  git clone --depth 1 https://github.com/neovim/nvim-lspconfig ~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
-
-            - name: Run autogen_metadata.sh script
-              run: ./scripts/autogen_metadata.sh
+            - name: make autogenerate
+              run: make autogenerate
 
             - name: Create Pull Request
               id: cpr
@@ -30,13 +25,13 @@ jobs:
                   token: ${{ secrets.PAT }}
                   author: "William Botman <william+bot@redwill.se>"
                   committer: "William Botman <william+bot@redwill.se>"
-                  add-paths: lua/mason/_generated
-                  commit-message: run autogen_metadata.lua
-                  branch: chore/autogen_metadata
+                  add-paths: lua/mason-lspconfig lua/mason-schemas
+                  commit-message: "chore: update generated code"
+                  branch: chore/autogenerate
                   branch-suffix: short-commit-hash
                   delete-branch: true
                   labels: automerge
-                  title: run autogen_metadata.lua
+                  title: "chore: update generated code"
 
             - name: Enable Pull Request Automerge
               if: steps.cpr.outputs.pull-request-operation == 'created'

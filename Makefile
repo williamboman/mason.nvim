@@ -20,4 +20,19 @@ clean: clean_fixtures clean_dependencies
 test: clean_fixtures dependencies
 	INSTALL_ROOT_DIR=${INSTALL_ROOT_DIR} $(NVIM_HEADLESS) -c "call RunTests()"
 
+.PHONY: lspconfig-generate
+lspconfig-generate: dependencies
+	./scripts/nvim.sh scripts/lua/mason-scripts/mason-lspconfig/generate.lua
+
+.PHONY: schemas-generate
+schemas-generate: dependencies
+	./scripts/nvim.sh scripts/lua/mason-scripts/mason-schemas/generate.lua
+
+.PHONY: autogenerate
+autogenerate: schemas-generate lspconfig-generate
+
+.PHONY: generate
+generate: dependencies
+	./scripts/nvim.sh scripts/lua/mason-scripts/mason/generate.lua
+
 # vim:noexpandtab
