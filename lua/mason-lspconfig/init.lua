@@ -103,6 +103,8 @@ function M.setup(config)
 
     setup_lspconfig_hook()
     ensure_installed()
+
+    require "mason-lspconfig.api.command"
 end
 
 ---@param handlers table<string, fun(server_name: string)>

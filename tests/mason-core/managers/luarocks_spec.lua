@@ -10,7 +10,6 @@ describe("luarocks manager", function()
             local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
-            print(vim.inspect(ctx.spawn.luarocks))
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
                 "--tree",

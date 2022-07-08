@@ -1,5 +1,3 @@
-local notify = require "mason-core.notify"
-
 local M = {}
 
 vim.api.nvim_create_user_command("Mason", function()
@@ -13,16 +11,11 @@ vim.api.nvim_create_user_command("MasonInstall", function(opts)
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
     for _, package_specifier in ipairs(opts.fargs) do
-        ---@type string
         local package_name, version = Package.Parse(package_specifier)
-        local ok, pkg = pcall(registry.get_package, package_name)
-        if not ok then
-            notify(("Cannot find package %q."):format(package_name), vim.log.levels.ERROR)
-            return
-        end
-        local handle = pkg:install { version = version }
-        require("mason.ui").open()
+        local pkg = registry.get_package(package_name)
+        pkg:install { version = version }
     end
+    require("mason.ui").open()
 end, {
     desc = "Install one or more packages.",
     nargs = "+",
@@ -32,14 +25,10 @@ end, {
 vim.api.nvim_create_user_command("MasonUninstall", function(opts)
     local registry = require "mason-registry"
     for _, package_name in ipairs(opts.fargs) do
-        local ok, pkg = pcall(registry.get_package, package_name)
-        if not ok then
-            notify(("Cannot find package %q."):format(package_name), vim.log.levels.ERROR)
-            return
-        end
+        local pkg = registry.get_package(package_name)
         pkg:uninstall()
-        require("mason.ui").open()
     end
+    require("mason.ui").open()
 end, {
     desc = "Uninstall one or more packages.",
     nargs = "+",

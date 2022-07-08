@@ -3,6 +3,7 @@ local Path = require "mason-core.path"
 local fetch = require "mason-core.fetch"
 local _ = require "mason-core.functional"
 local fs = require "mason-core.fs"
+local registry = require "mason-registry"
 local lspconfig_server_mapping = require "mason-lspconfig.mappings.server"
 
 ---@async
@@ -43,6 +44,24 @@ local function create_lspconfig_filetype_map()
     write_file(
         Path.concat { vim.loop.cwd(), "lua", "mason-lspconfig", "mappings", "filetype.lua" },
         "return " .. vim.inspect(filetype_map),
+        "w"
+    )
+end
+
+---@async
+local function create_language_map()
+    local language_map = {}
+    local sorted_packages = _.sort_by(_.prop "name", registry.get_all_packages())
+    _.each(function(pkg)
+        _.each(function(language)
+            local language_lc = language:lower()
+            language_map[language_lc] = _.append(pkg.name, language_map[language_lc] or {})
+        end, pkg.spec.languages)
+    end, sorted_packages)
+
+    write_file(
+        Path.concat { vim.loop.cwd(), "lua", "mason", "mappings", "language.lua" },
+        "return " .. vim.inspect(language_map),
         "w"
     )
 end
@@ -124,6 +143,7 @@ end
 a.run_blocking(function()
     a.wait_all(_.filter(_.identity, {
         create_lspconfig_filetype_map,
+        create_language_map,
         not vim.env.SKIP_SCHEMAS and create_lsp_setting_schema_files,
         create_package_index,
     }))
