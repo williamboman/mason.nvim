@@ -1,3 +1,6 @@
+local notify = require "mason-core.notify"
+local _ = require "mason-core.functional"
+
 local M = {}
 
 vim.api.nvim_create_user_command("Mason", function()
@@ -7,15 +10,32 @@ end, {
     nargs = 0,
 })
 
+-- This is needed because neovim doesn't do any validation of command args when using custom completion (I think?)
+local filter_valid_packages = _.filter(function(pkg_specifier)
+    local Package = require "mason-core.package"
+    local registry = require "mason-registry"
+    local package_name = Package.Parse(pkg_specifier)
+    local ok = pcall(registry.get_package, package_name)
+    if ok then
+        return true
+    else
+        notify(("%q is not a valid package."):format(pkg_specifier), vim.log.levels.ERROR)
+        return false
+    end
+end)
+
 vim.api.nvim_create_user_command("MasonInstall", function(opts)
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
-    for _, package_specifier in ipairs(opts.fargs) do
-        local package_name, version = Package.Parse(package_specifier)
-        local pkg = registry.get_package(package_name)
-        pkg:install { version = version }
+    local valid_packages = filter_valid_packages(opts.fargs)
+    if #valid_packages > 0 then
+        _.each(function(pkg_specifier)
+            local package_name, version = Package.Parse(pkg_specifier)
+            local pkg = registry.get_package(package_name)
+            pkg:install { version = version }
+        end, valid_packages)
+        require("mason.ui").open()
     end
-    require("mason.ui").open()
 end, {
     desc = "Install one or more packages.",
     nargs = "+",
@@ -24,11 +44,14 @@ end, {
 
 vim.api.nvim_create_user_command("MasonUninstall", function(opts)
     local registry = require "mason-registry"
-    for _, package_name in ipairs(opts.fargs) do
-        local pkg = registry.get_package(package_name)
-        pkg:uninstall()
+    local valid_packages = filter_valid_packages(opts.fargs)
+    if #valid_packages > 0 then
+        _.each(function(package_name)
+            local pkg = registry.get_package(package_name)
+            pkg:uninstall()
+        end, filter_valid_packages)
+        require("mason.ui").open()
     end
-    require("mason.ui").open()
 end, {
     desc = "Uninstall one or more packages.",
     nargs = "+",
