@@ -5,7 +5,7 @@ local path = require "mason.core.path"
 
 return Pkg.new {
     name = "php-debug-adapter",
-    desc = [[PHP Debug Adapter for Visual Studio Code 🐞⛔]],
+    desc = [[PHP Debug Adapter 🐞⛔]],
     homepage = "https://github.com/xdebug/vscode-php-debug",
     languages = { Pkg.Lang.PHP },
     categories = { Pkg.Cat.DAP },
