@@ -265,7 +265,7 @@ local function hydrate_detailed_package_state(pkg)
         ---@param receipt InstallReceipt
         function(receipt)
             mutate_state(function(state)
-                state.packages.states[pkg.name].linked_executables = receipt.executables
+                state.packages.states[pkg.name].linked_executables = receipt.links.bin
             end)
         end
     )
