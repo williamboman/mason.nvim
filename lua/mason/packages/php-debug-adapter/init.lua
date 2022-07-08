@@ -19,7 +19,9 @@ return Pkg.new {
             })
             .with_receipt()
         ctx.fs:rmrf(path.concat { "extension", "images" })
-        ctx:write_node_exec_wrapper("php-debug-adapter", path.concat { "extension", "out", "phpDebug.js" })
-        ctx:link_bin("php-debug-adapter", "php-debug-adapter")
+        ctx:link_bin(
+            "php-debug-adapter",
+            ctx:write_node_exec_wrapper("php-debug-adapter", path.concat { "extension", "out", "phpDebug.js" })
+        )
     end,
 }

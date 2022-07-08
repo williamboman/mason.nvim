@@ -26,8 +26,7 @@ return Pkg.new {
                     })
                     .with_receipt()
                 ctx.fs:rename("netcoredbg", "build")
-                ctx:write_exec_wrapper("netcoredbg", path.concat { "build", "netcoredbg" })
-                ctx:link_bin("netcoredbg", "netcoredbg")
+                ctx:link_bin("netcoredbg", ctx:write_exec_wrapper("netcoredbg", path.concat { "build", "netcoredbg" }))
             end,
             win = function()
                 github

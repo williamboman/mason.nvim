@@ -27,11 +27,13 @@ return Pkg.new {
                 ctx:link_bin("ktlint", "ktlint")
             end,
             win = function()
-                ctx:write_shell_exec_wrapper(
+                ctx:link_bin(
                     "ktlint",
-                    ("java -jar %q"):format(path.concat { ctx.package:get_install_path(), "ktlint" })
+                    ctx:write_shell_exec_wrapper(
+                        "ktlint",
+                        ("java -jar %q"):format(path.concat { ctx.package:get_install_path(), "ktlint" })
+                    )
                 )
-                ctx:link_bin("ktlint", "ktlint.cmd")
             end,
         }
     end,

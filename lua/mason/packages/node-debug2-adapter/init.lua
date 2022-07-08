@@ -20,7 +20,9 @@ return Pkg.new {
         ctx.spawn.npm { "install" }
         ctx.spawn.npm { "run", "build" }
         ctx.spawn.npm { "install", "--production" }
-        ctx:write_node_exec_wrapper("node-debug2-adapter", path.concat { "out", "src", "nodeDebug.js" })
-        ctx:link_bin("node-debug2-adapter", "node-debug2-adapter")
+        ctx:link_bin(
+            "node-debug2-adapter",
+            ctx:write_node_exec_wrapper("node-debug2-adapter", path.concat { "out", "src", "nodeDebug.js" })
+        )
     end,
 }
