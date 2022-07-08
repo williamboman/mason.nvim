@@ -27,7 +27,9 @@ return Pkg.new {
         ctx.fs:rmrf "images"
         ctx.fs:rmrf "testdata"
         ctx.fs:rmrf ".git"
-        ctx:write_node_exec_wrapper("chrome-debug-adapter", path.concat { "out", "src", "chromeDebug.js" })
-        ctx:link_bin("chrome-debug-adapter", "chrome-debug-adapter")
+        ctx:link_bin(
+            "chrome-debug-adapter",
+            ctx:write_node_exec_wrapper("chrome-debug-adapter", path.concat { "out", "src", "chromeDebug.js" })
+        )
     end,
 }

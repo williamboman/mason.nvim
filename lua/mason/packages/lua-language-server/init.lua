@@ -35,16 +35,18 @@ return Pkg.new {
 
         platform.when {
             unix = function()
-                ctx:write_exec_wrapper(
+                ctx:link_bin(
                     "lua-language-server",
-                    path.concat {
-                        "extension",
-                        "server",
-                        "bin",
+                    ctx:write_exec_wrapper(
                         "lua-language-server",
-                    }
+                        path.concat {
+                            "extension",
+                            "server",
+                            "bin",
+                            "lua-language-server",
+                        }
+                    )
                 )
-                ctx:link_bin("lua-language-server", "lua-language-server")
             end,
             win = function()
                 ctx:link_bin(

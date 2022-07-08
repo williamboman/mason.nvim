@@ -2,6 +2,7 @@ local Pkg = require "mason.core.package"
 local github = require "mason.core.managers.github"
 local _ = require "mason.core.functional"
 local path = require "mason.core.path"
+local platform = require "mason.core.platform"
 
 return Pkg.new {
     name = "go-debug-adapter",
@@ -18,7 +19,10 @@ return Pkg.new {
                 asset_file = _.compose(_.format "go-%s.vsix", _.gsub("^v", "")),
             })
             .with_receipt()
-        ctx:write_node_exec_wrapper("go-debug-adapter", path.concat { "extension", "dist", "debugAdapter.js" })
-        ctx:link_bin("go-debug-adapter", "go-debug-adapter")
+
+        ctx:link_bin(
+            "go-debug-adapter",
+            ctx:write_node_exec_wrapper("go-debug-adapter", path.concat { "extension", "dist", "debugAdapter.js" })
+        )
     end,
 }

@@ -21,7 +21,9 @@ return Pkg.new {
         ctx.spawn.npm { "install" }
         ctx.spawn.npm { "run", "build" }
         ctx.spawn.npm { "install", "--production" }
-        ctx:write_node_exec_wrapper("firefox-debug-adapter", path.concat { "dist", "adapter.bundle.js" })
-        ctx:link_bin("firefox-debug-adapter", "firefox-debug-adapter")
+        ctx:link_bin(
+            "firefox-debug-adapter",
+            ctx:write_node_exec_wrapper("firefox-debug-adapter", path.concat { "dist", "adapter.bundle.js" })
+        )
     end,
 }
