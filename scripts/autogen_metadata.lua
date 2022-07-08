@@ -3,16 +3,7 @@ local Path = require "mason.core.path"
 local fetch = require "mason.core.fetch"
 local _ = require "mason.core.functional"
 local fs = require "mason.core.fs"
-local lspconfig_server_mapping = require "mason-lspconfig.server-mapping"
-
-local generated_dir = Path.concat { vim.fn.getcwd(), "lua", "mason", "_generated" }
-local schemas_dir = Path.concat { generated_dir, "lsp-schemas" }
-
-print("Creating directory " .. generated_dir)
-vim.fn.mkdir(generated_dir, "p")
-
-print("Creating directory " .. schemas_dir)
-vim.fn.mkdir(schemas_dir, "p")
+local lspconfig_server_mapping = require "mason-lspconfig.mappings.server"
 
 ---@async
 ---@param path string
@@ -49,11 +40,32 @@ local function create_lspconfig_filetype_map()
         end
     end
 
-    write_file(Path.concat { generated_dir, "lspconfig_filetype_map.lua" }, "return " .. vim.inspect(filetype_map), "w")
+    write_file(
+        Path.concat { vim.loop.cwd(), "lua", "mason-lspconfig", "mappings", "filetype.lua" },
+        "return " .. vim.inspect(filetype_map),
+        "w"
+    )
 end
+
 ---@async
 local function create_lsp_setting_schema_files()
-    for _, file in ipairs(vim.fn.glob(Path.concat { schemas_dir, "*" }, 1, 1)) do
+    local lsp_schemas_path = Path.concat {
+        vim.loop.cwd(),
+        "lua",
+        "mason-schemas",
+        "lsp",
+    }
+
+    for _, file in
+        ipairs(vim.fn.glob(
+            Path.concat {
+                lsp_schemas_path,
+                "*",
+            },
+            1,
+            1
+        ))
+    do
         print("Deleting " .. file)
         vim.fn.delete(file)
     end
@@ -78,7 +90,7 @@ local function create_lsp_setting_schema_files()
             else
                 write_file(
                     Path.concat {
-                        schemas_dir,
+                        lsp_schemas_path,
                         ("%s.lua"):format(lspconfig_server_mapping.lspconfig_to_package[server_name]),
                     },
                     "return " .. vim.inspect(schema, { newline = "", indent = "" }),
@@ -103,7 +115,7 @@ local function create_package_index()
     end
 
     write_file(
-        Path.concat { vim.fn.getcwd(), "lua", "mason-registry", "index.lua" },
+        Path.concat { vim.loop.cwd(), "lua", "mason-registry", "index.lua" },
         "return " .. vim.inspect(packages),
         "w"
     )
@@ -111,7 +123,7 @@ end
 
 a.run_blocking(function()
     a.wait_all(_.filter(_.identity, {
-        create_lspconfig_filetype_map, -- TODO is this needed?
+        create_lspconfig_filetype_map,
         not vim.env.SKIP_SCHEMAS and create_lsp_setting_schema_files,
         create_package_index,
     }))

@@ -191,7 +191,7 @@ function Package:check_new_version(callback)
 end
 
 function Package:get_lsp_settings_schema()
-    local ok, schema = pcall(require, ("mason._generated.lsp-schemas.%s"):format(self.name))
+    local ok, schema = pcall(require, ("mason-schemas.lsp.%s"):format(self.name))
     if not ok then
         return Optional.empty()
     end
