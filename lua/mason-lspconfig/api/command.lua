@@ -41,6 +41,9 @@ local function parse_packages_from_user_args(user_args)
             :map(function(package_name)
                 return { package = package_name, version = version }
             end)
+            :if_not_present(function()
+                vim.notify(("Could not find LSP server %q."):format(server_name), vim.log.levels.ERROR)
+            end)
     end, user_args)
 end
 

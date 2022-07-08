@@ -93,6 +93,14 @@ function Optional:if_present(fn)
     return self
 end
 
+---@param fn fun(value: any)
+function Optional:if_not_present(fn)
+    if not self:is_present() then
+        fn(self._value)
+    end
+    return self
+end
+
 function Optional:is_present()
     return self._value ~= nil
 end
