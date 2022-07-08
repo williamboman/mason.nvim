@@ -5,13 +5,14 @@ local _ = require "mason.core.functional"
 local settings = require "mason-lspconfig.settings"
 local server_mapping = require "mason-lspconfig.server-mapping"
 local path = require "mason.core.path"
+local registry = require "mason-registry"
 
 local M = {}
 
 ---@param lspconfig_server_name string
 function M.resolve_package(lspconfig_server_name)
     return Optional.of_nilable(server_mapping.lspconfig_to_package[lspconfig_server_name]):map(function(package_name)
-        local ok, pkg = pcall(require, ("mason.packages.%s"):format(package_name))
+        local ok, pkg = pcall(registry.get_package, package_name)
         if ok then
             return pkg
         end
@@ -58,7 +59,6 @@ local function should_auto_install(server_name)
 end
 
 local function setup_lspconfig_hook()
-    local indexer = require "mason.core.package.indexer"
     local util = require "lspconfig.util"
     util.on_setup = util.add_hook_before(util.on_setup, function(config)
         local pkg_name = server_mapping.lspconfig_to_package[config.name]
@@ -66,13 +66,13 @@ local function setup_lspconfig_hook()
             return
         end
 
-        if indexer.is_installed(pkg_name) then
+        if registry.is_installed(pkg_name) then
             M.resolve_server_config_factory(config.name):if_present(function(config_factory)
                 merge_in_place(config, config_factory(path.package_prefix(pkg_name)))
             end)
         else
             if should_auto_install(config.name) then
-                local pkg = indexer.get_package(pkg_name)
+                local pkg = registry.get_package(pkg_name)
                 pkg:install()
             end
         end
@@ -108,7 +108,6 @@ end
 ---@param handlers table<string, fun(server_name: string)>
 function M.setup_handlers(handlers)
     local default_handler = Optional.of_nilable(handlers[1])
-    local indexer = require "mason.core.package.indexer"
 
     ---@param pkg_name string
     local function get_server_name(pkg_name)
@@ -126,9 +125,9 @@ function M.setup_handlers(handlers)
         end)
     end
 
-    local installed_servers = _.filter_map(get_server_name, indexer.get_installed_package_names())
+    local installed_servers = _.filter_map(get_server_name, registry.get_installed_package_names())
     _.each(call_handler, installed_servers)
-    indexer:on(
+    registry:on(
         "package:install:success",
         vim.schedule_wrap(function(pkg)
             get_server_name(pkg.name):if_present(call_handler)

@@ -11,11 +11,11 @@ end, {
 
 vim.api.nvim_create_user_command("MasonInstall", function(opts)
     local Package = require "mason.core.package"
-    local indexer = require "mason.core.package.indexer"
+    local registry = require "mason-registry"
     for _, package_specifier in ipairs(opts.fargs) do
         ---@type string
         local package_name, version = Package.Parse(package_specifier)
-        local ok, pkg = pcall(indexer.get_package, package_name)
+        local ok, pkg = pcall(registry.get_package, package_name)
         if not ok then
             notify(("Cannot find package %q."):format(package_name), vim.log.levels.ERROR)
             return
@@ -30,9 +30,9 @@ end, {
 })
 
 vim.api.nvim_create_user_command("MasonUninstall", function(opts)
-    local indexer = require "mason.core.package.indexer"
+    local registry = require "mason-registry"
     for _, package_name in ipairs(opts.fargs) do
-        local ok, pkg = pcall(indexer.get_package, package_name)
+        local ok, pkg = pcall(registry.get_package, package_name)
         if not ok then
             notify(("Cannot find package %q."):format(package_name), vim.log.levels.ERROR)
             return
@@ -47,9 +47,9 @@ end, {
 })
 
 vim.api.nvim_create_user_command("MasonUninstallAll", function()
-    local indexer = require "mason.core.package.indexer"
+    local registry = require "mason-registry"
     require("mason.ui").open()
-    for _, pkg in ipairs(indexer.get_installed_packages()) do
+    for _, pkg in ipairs(registry.get_installed_packages()) do
         pkg:uninstall()
     end
 end, {
@@ -65,14 +65,14 @@ end, {
 
 _G.mason_completion = {
     available_package_completion = function()
-        local indexer = require "mason.core.package.indexer"
-        local package_names = indexer.get_all_package_names()
+        local registry = require "mason-registry"
+        local package_names = registry.get_all_package_names()
         table.sort(package_names)
         return table.concat(package_names, "\n")
     end,
     installed_package_completion = function()
-        local indexer = require "mason.core.package.indexer"
-        local package_names = indexer.get_installed_package_names()
+        local registry = require "mason-registry"
+        local package_names = registry.get_installed_package_names()
         table.sort(package_names)
         return table.concat(package_names, "\n")
     end,

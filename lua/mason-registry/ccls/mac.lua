@@ -3,7 +3,7 @@ local platform = require "mason.core.platform"
 local installer = require "mason.core.installer"
 local fs = require "mason.core.fs"
 
-local ccls_installer = require "mason.packages.ccls.common"
+local ccls_installer = require "mason-registry.ccls.common"
 
 ---@async
 return function()

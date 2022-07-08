@@ -1,3 +1,4 @@
+local registry = require "mason-registry"
 local a = require "mason.core.async"
 local _ = require "mason.core.functional"
 local installer = require "mason.core.installer"
@@ -5,7 +6,6 @@ local InstallationHandle = require "mason.core.installer.handle"
 local Optional = require "mason.core.optional"
 local log = require "mason.log"
 local EventEmitter = require "mason.core.EventEmitter"
-local indexer = require "mason.core.package.indexer"
 local receipt = require "mason.core.receipt"
 local fs = require "mason.core.fs"
 local path = require "mason.core.path"
@@ -113,11 +113,11 @@ function Package:install(opts)
                     result
                         :on_success(function()
                             self:emit("install:success", handle)
-                            indexer:emit("package:install:success", self, handle)
+                            registry:emit("package:install:success", self, handle)
                         end)
                         :on_failure(function()
                             self:emit("install:failed", handle)
-                            indexer:emit("package:install:failed", self, handle)
+                            registry:emit("package:install:failed", self, handle)
                         end)
                 end,
                 handle,
@@ -154,7 +154,7 @@ function Package:unlink()
 end
 
 function Package:is_installed()
-    return indexer.is_installed(self.name)
+    return registry.is_installed(self.name)
 end
 
 function Package:get_handle()

@@ -1,10 +1,10 @@
+local registry = require "mason-registry"
 local display = require "mason.core.ui.display"
 local Ui = require "mason.core.ui"
 local a = require "mason.core.async"
 local control = require "mason.core.async.control"
 local _ = require "mason.core.functional"
 local palette = require "mason.ui.palette"
-local indexer = require "mason.core.package.indexer"
 local Package = require "mason.core.package"
 local settings = require "mason.settings"
 local notify = require "mason.notify"
@@ -110,7 +110,7 @@ local function remove(list, item)
 end
 
 local window = display.new_view_only_win("Installer Info", "mason.nvim")
-local packages = _.sort_by(_.prop "name", indexer.get_all_packages())
+local packages = _.sort_by(_.prop "name", registry.get_all_packages())
 
 window.view(
     ---@param state InstallerUiState

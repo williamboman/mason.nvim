@@ -10,8 +10,8 @@ return Pkg.new {
     ---@async
     install = function()
         platform.when {
-            mac = require "mason.packages.ccls.mac",
-            linux = require "mason.packages.ccls.linux",
+            mac = require "mason-registry.ccls.mac",
+            linux = require "mason-registry.ccls.linux",
         }
     end,
 }
