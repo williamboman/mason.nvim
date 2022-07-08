@@ -141,4 +141,4 @@ return {
   ["yaml-language-server"] = "mason-registry.yaml-language-server",
   zk = "mason-registry.zk",
   zls = "mason-registry.zls"
-} 
+}
