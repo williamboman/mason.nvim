@@ -105,7 +105,6 @@ gopls: go1.18
                 "gopls",
                 cwd = path.package_prefix "dummy",
             }
-            print(result:err_or_nil())
             assert.is_true(result:is_success())
             assert.equals("v0.8.1", result:get_or_nil())
 

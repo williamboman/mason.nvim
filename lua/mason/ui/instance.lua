@@ -604,4 +604,9 @@ window.init {
     highlight_groups = palette.highlight_groups,
 }
 
-return window
+return {
+    window = window,
+    set_view = function(view)
+        set_view { payload = view }
+    end,
+}

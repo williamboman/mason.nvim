@@ -61,3 +61,17 @@ describe("Optional.if_present()", function()
         assert.spy(present).was_called_with "value"
     end)
 end)
+
+describe("Optional.if_not_present()", function()
+    it("should not call .if_not_present() if value is not empty", function()
+        local present = spy.new()
+        Optional.of_nilable("value"):if_not_present(present)
+        assert.spy(present).was_not_called()
+    end)
+
+    it("should call .if_not_present() if value is empty", function()
+        local present = spy.new()
+        Optional.empty():if_not_present(present)
+        assert.spy(present).was_called(1)
+    end)
+end)
