@@ -11,6 +11,7 @@ return {
   ["bash-language-server"] = "mason-registry.bash-language-server",
   ["beancount-language-server"] = "mason-registry.beancount-language-server",
   ["bicep-lsp"] = "mason-registry.bicep-lsp",
+  black = "mason-registry.black",
   ["bsl-language-server"] = "mason-registry.bsl-language-server",
   ccls = "mason-registry.ccls",
   ["chrome-debug-adapter"] = "mason-registry.chrome-debug-adapter",
@@ -140,4 +141,4 @@ return {
   ["yaml-language-server"] = "mason-registry.yaml-language-server",
   zk = "mason-registry.zk",
   zls = "mason-registry.zls"
-}
+} 
