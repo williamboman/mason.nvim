@@ -42,6 +42,7 @@ return {
   ["erlang-ls"] = "mason-registry.erlang-ls",
   esbonio = "mason-registry.esbonio",
   ["eslint-lsp"] = "mason-registry.eslint-lsp",
+  eslint_d = "mason-registry.eslint_d",
   ["firefox-debug-adapter"] = "mason-registry.firefox-debug-adapter",
   ["flux-lsp"] = "mason-registry.flux-lsp",
   ["foam-language-server"] = "mason-registry.foam-language-server",
