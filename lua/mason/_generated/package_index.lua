@@ -74,6 +74,7 @@ return {
   marksman = "mason.packages.marksman",
   ["metamath-zero-lsp"] = "mason.packages.metamath-zero-lsp",
   mockdebug = "mason.packages.mockdebug",
+  netcoredbg = "mason.packages.netcoredbg",
   ["nickel-lang-lsp"] = "mason.packages.nickel-lang-lsp",
   nimlsp = "mason.packages.nimlsp",
   ["node-debug2-adapter"] = "mason.packages.node-debug2-adapter",
