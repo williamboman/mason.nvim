@@ -1,3 +1,0 @@
--- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
--- stylua: ignore start
-return {properties = {["rescript.settings.askToStartBuild"] = {default = true,description = "Whether you want the extension to prompt for autostarting a ReScript build if a project is opened with no build running.",scope = "language-overridable",type = "boolean"},["rescript.settings.autoRunCodeAnalysis"] = {default = false,description = "Automatically start ReScript's code analysis.",type = "boolean"}},title = "ReScript",type = "object"}
