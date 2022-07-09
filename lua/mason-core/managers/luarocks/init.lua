@@ -44,10 +44,10 @@ function M.install(pkg, opts)
         pkg,
         ctx.requested_version:or_else(vim.NIL),
     }
-    if pkg.bin then
+    if opts.bin then
         _.each(function(executable)
             ctx:link_bin(executable, create_bin_path(executable))
-        end, pkg.bin)
+        end, opts.bin)
     end
     return {
         with_receipt = with_receipt(pkg),
