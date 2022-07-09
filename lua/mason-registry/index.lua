@@ -76,6 +76,7 @@ return {
   ["lemmy-help"] = "mason-registry.lemmy-help",
   ["ltex-ls"] = "mason-registry.ltex-ls",
   ["lua-language-server"] = "mason-registry.lua-language-server",
+  luacheck = "mason-registry.luacheck",
   marksman = "mason-registry.marksman",
   ["metamath-zero-lsp"] = "mason-registry.metamath-zero-lsp",
   mockdebug = "mason-registry.mockdebug",
