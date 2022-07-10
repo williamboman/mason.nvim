@@ -156,4 +156,16 @@ M.is = setmetatable({}, {
     end,
 })
 
+---@async
+function M.get_node_version()
+    local spawn = require "mason-core.spawn"
+    local _ = require "mason-core.functional"
+
+    return spawn.node({ "--version" }):map(function(result)
+        -- Parses output such as "v16.3.1" into major, minor, patch
+        local _, _, major, minor, patch = _.head(_.split("\n", result.stdout)):find "v(%d+)%.(%d+)%.(%d+)"
+        return { tonumber(major), tonumber(minor), tonumber(patch) }
+    end)
+end
+
 return M

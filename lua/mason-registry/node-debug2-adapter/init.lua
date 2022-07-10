@@ -4,6 +4,7 @@ local git = require "mason-core.managers.git"
 local _ = require "mason-core.functional"
 local path = require "mason-core.path"
 local Optional = require "mason-core.optional"
+local platform = require "mason-core.platform"
 
 return Pkg.new {
     name = "node-debug2-adapter",
@@ -18,7 +19,19 @@ return Pkg.new {
         source.with_receipt()
         git.clone { "https://github.com/microsoft/vscode-node-debug2", version = Optional.of(source.tag) }
         ctx.spawn.npm { "install" }
-        ctx.spawn.npm { "run", "build" }
+        local node_env = platform
+            .get_node_version()
+            :map(function(version)
+                if version[1] >= 18 then
+                    return {
+                        NODE_OPTIONS = "--no-experimental-fetch",
+                    }
+                else
+                    return {}
+                end
+            end)
+            :get_or_else {}
+        ctx.spawn.npm { "run", "build", env = node_env }
         ctx.spawn.npm { "install", "--production" }
         ctx:link_bin(
             "node-debug2-adapter",
