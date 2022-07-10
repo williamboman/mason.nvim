@@ -164,7 +164,7 @@ function M.get_node_version()
     return spawn.node({ "--version" }):map(function(result)
         -- Parses output such as "v16.3.1" into major, minor, patch
         local _, _, major, minor, patch = _.head(_.split("\n", result.stdout)):find "v(%d+)%.(%d+)%.(%d+)"
-        return { tonumber(major), tonumber(minor), tonumber(patch) }
+        return { major = tonumber(major), minor = tonumber(minor), patch = tonumber(patch) }
     end)
 end
 

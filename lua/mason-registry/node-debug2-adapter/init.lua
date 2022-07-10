@@ -21,15 +21,10 @@ return Pkg.new {
         ctx.spawn.npm { "install" }
         local node_env = platform
             .get_node_version()
-            :map(function(version)
-                if version[1] >= 18 then
-                    return {
-                        NODE_OPTIONS = "--no-experimental-fetch",
-                    }
-                else
-                    return {}
-                end
-            end)
+            :map(_.cond {
+                { _.prop_satisfies(_.gte(18), "major"), _.always { NODE_OPTIONS = "--no-experimental-fetch" } },
+                { _.T, _.always {} },
+            })
             :get_or_else {}
         ctx.spawn.npm { "run", "build", env = node_env }
         ctx.spawn.npm { "install", "--production" }
