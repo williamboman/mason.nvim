@@ -36,7 +36,7 @@ return {
   ["f#"] = { "fsautocomplete" },
   flux = { "flux-lsp" },
   fortran = { "fortls" },
-  go = { "delve", "go-debug-adapter", "golangci-lint", "golangci-lint-langserver", "gomodifytags", "gopls", "gotests", "impl" },
+  go = { "delve", "go-debug-adapter", "gofumpt", "golangci-lint", "golangci-lint-langserver", "golines", "gomodifytags", "gopls", "gotests", "impl", "json-to-struct", "revive", "staticcheck" },
   graphql = { "graphql-language-service-cli" },
   groovy = { "groovy-language-server" },
   haskell = { "haskell-language-server" },
