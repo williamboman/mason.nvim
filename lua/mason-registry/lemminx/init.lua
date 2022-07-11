@@ -25,7 +25,7 @@ return Pkg.new {
 
         std.download_file(
             ("https://download.jboss.org/jbosstools/vscode/snapshots/lemminx-binary/%s/%s.zip"):format(
-                ctx.requested_version:or_else "0.19.2-655", -- TODO: resolve latest version dynamically
+                ctx.requested_version:or_else "0.19.2-677", -- TODO: resolve latest version dynamically
                 unzipped_file
             ),
             "lemminx.zip"
