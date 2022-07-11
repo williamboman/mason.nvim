@@ -55,6 +55,9 @@ local function join_handles(handles)
             handles
         ))
         local failed_packages = _.filter_map(function(handle)
+            -- TODO: The outcome of a package installation is currently not captured in the handle, but is instead
+            -- internalized in the Package instance itself. Change this to assert on the handle state when it's
+            -- available.
             if not handle.package:is_installed() then
                 return Optional.of(handle.package.name)
             else
