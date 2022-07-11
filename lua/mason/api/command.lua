@@ -44,7 +44,11 @@ local function join_handles(handles)
             function(handle)
                 return function()
                     a.wait(function(resolve)
-                        handle:once("closed", resolve)
+                        if handle:is_closed() then
+                            resolve()
+                        else
+                            handle:once("closed", resolve)
+                        end
                     end)
                 end
             end,
