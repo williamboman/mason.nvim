@@ -101,6 +101,7 @@ return {
   psalm = "mason-registry.psalm",
   ["puppet-editor-services"] = "mason-registry.puppet-editor-services",
   ["purescript-language-server"] = "mason-registry.purescript-language-server",
+  pylint = "mason-registry.pylint",
   pyright = "mason-registry.pyright",
   ["python-lsp-server"] = "mason-registry.python-lsp-server",
   ["quick-lint-js"] = "mason-registry.quick-lint-js",
