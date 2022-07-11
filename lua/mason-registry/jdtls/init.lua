@@ -2,6 +2,8 @@ local Pkg = require "mason-core.package"
 local installer = require "mason-core.installer"
 local eclipse = require "mason-core.clients.eclipse"
 local std = require "mason-core.managers.std"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
 
 ---@async
 local function download_jdtls()
@@ -34,8 +36,26 @@ return Pkg.new {
     languages = { Pkg.Lang.Java },
     categories = { Pkg.Cat.LSP },
     ---@async
-    install = function()
-        std.ensure_executable "java"
+    ---@param ctx InstallContext
+    install = function(ctx)
         installer.run_concurrently { download_jdtls, download_lombok }
+        platform.when {
+            unix = function()
+                ctx:link_bin("jdtls", path.concat { "bin", "jdtls" })
+            end,
+            win = function()
+                ctx:link_bin(
+                    "jdtls",
+                    ctx:write_shell_exec_wrapper(
+                        path.concat { "bin", "jdtls-win" },
+                        ("python %q"):format(path.concat {
+                            ctx.package:get_install_path(),
+                            "bin",
+                            "jdtls.py",
+                        })
+                    )
+                )
+            end,
+        }
     end,
 }
