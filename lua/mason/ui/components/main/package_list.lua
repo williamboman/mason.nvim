@@ -113,7 +113,7 @@ end
 
 ---@param state InstallerUiState
 ---@param pkg Package
----@param opts { keybinds: KeybindHandlerNode[], icon: string[], is_installed: boolean }
+---@param opts { keybinds: KeybindHandlerNode[], icon: string[], is_installed: boolean, sticky: StickyCursorNode | nil }
 local function PackageComponent(state, pkg, opts)
     local pkg_state = state.packages.states[pkg.name]
     local is_expanded = state.packages.expanded == pkg.name
@@ -121,7 +121,7 @@ local function PackageComponent(state, pkg, opts)
 
     return Ui.Node {
         Ui.HlTextNode { { opts.icon, label } },
-        Ui.StickyCursor { id = pkg.spec.name },
+        opts.sticky or Ui.Node {},
         Ui.When(pkg_state.is_checking_new_version, function()
             return Ui.VirtualTextNode { p.Comment " checking for new version…" }
         end),
@@ -178,6 +178,7 @@ local function Installed(state)
                         Ui.Keybind(settings.current.ui.keymaps.uninstall_package, "UNINSTALL_PACKAGE", pkg),
                         Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", pkg),
                     },
+                    sticky = Ui.StickyCursor { id = ("%s-installed"):format(pkg.name) },
                 })
             end,
         },
@@ -206,7 +207,7 @@ local function Installing(state)
                         pkg_state.latest_spawn and p.Comment((" $ %s"):format(pkg_state.latest_spawn)) or p.none "",
                     },
                 },
-                Ui.StickyCursor { id = pkg.spec.name },
+                Ui.StickyCursor { id = ("%s-installing"):format(pkg.spec.name) },
                 Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLE", pkg),
                 Ui.CascadingStyleNode({ "INDENT" }, {
                     Ui.HlTextNode(_.map(function(line)
@@ -232,7 +233,7 @@ local function Queued(state)
                 Ui.HlTextNode {
                     { p.highlight(settings.current.ui.icons.package_pending), p.none(" " .. pkg.name) },
                 },
-                Ui.StickyCursor { id = pkg.spec.name },
+                Ui.StickyCursor { id = ("%s-installing"):format(pkg.spec.name) },
                 Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "DEQUEUE_PACKAGE", pkg),
             }
         end,
@@ -258,8 +259,8 @@ local function Failed(state)
                     icon = p.error(settings.current.ui.icons.package_pending),
                     keybinds = {
                         Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
-                        Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", pkg),
                     },
+                    sticky = Ui.StickyCursor { id = ("%s-installing"):format(pkg.name) },
                 }),
                 Ui.CascadingStyleNode({ "INDENT" }, {
                     Ui.HlTextNode(_.map(function(line)
@@ -285,6 +286,7 @@ local function Uninstalled(state)
                     Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
                     Ui.Keybind(settings.current.ui.keymaps.toggle_package_expand, "TOGGLE_EXPAND_PACKAGE", pkg),
                 },
+                sticky = Ui.StickyCursor { id = ("%s-uninstalled"):format(pkg.name) },
             })
         end,
     }
