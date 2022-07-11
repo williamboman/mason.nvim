@@ -24,16 +24,83 @@ local filter_valid_packages = _.filter(function(pkg_specifier)
     end
 end)
 
+---@param handles InstallHandle[]
+local function join_handles(handles)
+    local a = require "mason-core.async"
+    local Optional = require "mason-core.optional"
+
+    _.each(
+        ---@param handle InstallHandle
+        function(handle)
+            handle:on("stdout", vim.schedule_wrap(vim.api.nvim_out_write))
+            handle:on("stderr", vim.schedule_wrap(vim.api.nvim_err_write))
+        end,
+        handles
+    )
+
+    a.run_blocking(function()
+        a.wait_all(_.map(
+            ---@param handle InstallHandle
+            function(handle)
+                return function()
+                    a.wait(function(resolve)
+                        if handle:is_closed() then
+                            resolve()
+                        else
+                            handle:once("closed", resolve)
+                        end
+                    end)
+                end
+            end,
+            handles
+        ))
+        local failed_packages = _.filter_map(function(handle)
+            -- TODO: The outcome of a package installation is currently not captured in the handle, but is instead
+            -- internalized in the Package instance itself. Change this to assert on the handle state when it's
+            -- available.
+            if not handle.package:is_installed() then
+                return Optional.of(handle.package.name)
+            else
+                return Optional.empty()
+            end
+        end, handles)
+
+        if _.length(failed_packages) > 0 then
+            a.scheduler() -- wait for scheduler for logs to finalize
+            a.scheduler() -- logs have been written
+            vim.api.nvim_err_writeln ""
+            vim.api.nvim_err_writeln(
+                ("The following packages failed to install: %s"):format(_.join(", ", failed_packages))
+            )
+            vim.cmd [[1cq]]
+        end
+    end)
+end
+
 vim.api.nvim_create_user_command("MasonInstall", function(opts)
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
     local valid_packages = filter_valid_packages(opts.fargs)
-    if #valid_packages > 0 then
-        _.each(function(pkg_specifier)
-            local package_name, version = Package.Parse(pkg_specifier)
-            local pkg = registry.get_package(package_name)
-            pkg:install { version = version }
-        end, valid_packages)
+    local is_headless = #vim.api.nvim_list_uis() == 0
+
+    if is_headless and #valid_packages ~= #opts.fargs then
+        -- When executing in headless mode we don't allow any of the provided packages to be invalid.
+        -- This is to avoid things like scripts silently not erroring even if they've provided one or more invalid packages.
+        return vim.cmd [[1cq]]
+    elseif #valid_packages == 0 then
+        return
+    end
+
+    ---@type InstallHandle[]
+    local handles = _.map(function(pkg_specifier)
+        local package_name, version = Package.Parse(pkg_specifier)
+        local pkg = registry.get_package(package_name)
+        return pkg:install { version = version }
+    end, valid_packages)
+
+    if is_headless then
+        join_handles(handles)
+    else
         require("mason.ui").open()
     end
 end, {

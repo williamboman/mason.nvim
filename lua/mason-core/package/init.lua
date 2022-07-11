@@ -138,7 +138,7 @@ function Package:uninstall()
 end
 
 function Package:unlink()
-    log.fmt_info("Unlinking %s", self)
+    log.fmt_trace("Unlinking %s", self)
     local install_path = self:get_install_path()
     -- 1. Unlink
     self:get_receipt():map(_.prop "links"):if_present(function(links)

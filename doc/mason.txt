@@ -75,6 +75,10 @@ Opens the graphical status window.
 :MasonInstall <package> ...
 
 Installs the provided packages.
+Runs in blocking fashion if there are no UIs attached (i.e. running in
+headless mode), example:
+
+    $ nvim --headless -c "MasonInstall stylua" -c "qall"
 
                                                              *:MasonUninstall*
 :MasonUninstall <package> ...
