@@ -19,7 +19,7 @@ return Pkg.new {
         Pkg.Lang.Angular,
         Pkg.Lang.GraphQL,
         Pkg.Lang.Markdown,
-        Pkg.Lang.YAML
+        Pkg.Lang.YAML,
     },
     categories = { Pkg.Cat.Formatter },
     install = npm.packages { "prettier", bin = { "prettier" } },
