@@ -1,6 +1,8 @@
 -- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
 -- stylua: ignore start
 return {
+  [".net"] = { "netcoredbg" },
+  ["1С:enterprise"] = { "bsl-language-server" },
   angular = { "angular-language-server" },
   ansible = { "ansible-language-server" },
   apex = { "apex-language-server" },
