@@ -1,12 +1,5 @@
-local path = require "mason-core.path"
-
----@param install_dir string
-return function(install_dir)
+return function()
     return {
-        cmd = {
-            "node",
-            path.concat { install_dir, "node_modules", "perlnavigator-server", "out", "server.js" },
-            "--stdio",
-        },
+        cmd = { "perlnavigator", "--stdio" },
     }
 end

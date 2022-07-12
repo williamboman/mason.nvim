@@ -1,8 +1,5 @@
-local path = require "mason-core.path"
-
----@param install_dir string
-return function(install_dir)
+return function()
     return {
-        cmd = { "dotnet", path.concat { install_dir, "Bicep.LangServer.dll" } },
+        cmd = { "bicep-lsp" },
     }
 end
