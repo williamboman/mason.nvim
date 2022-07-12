@@ -24,6 +24,7 @@ return {
   cpptools = "mason-registry.cpptools",
   crystalline = "mason-registry.crystalline",
   ["csharp-language-server"] = "mason-registry.csharp-language-server",
+  cspell = "mason-registry.cspell",
   ["css-lsp"] = "mason-registry.css-lsp",
   ["cssmodules-language-server"] = "mason-registry.cssmodules-language-server",
   ["cucumber-language-server"] = "mason-registry.cucumber-language-server",
