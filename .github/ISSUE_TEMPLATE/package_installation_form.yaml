@@ -73,8 +73,8 @@ body:
     - type: textarea
       attributes:
           label: Installation log
-          description: "Make sure you set DEBUG level before installing the package. Refer to `:help mason-debugging`"
-          placeholder: ":MasonLog"
+          description: "Make sure you set the log level to DEBUG before installing the package. Refer to `:help mason-debugging`"
+          placeholder: ":MasonLog. Make sure you set the log level to DEBUG before installing the package (:h mason-debugging). The default log level is not helpful for debugging purposes."
           render: Text
       validations:
           required: true
