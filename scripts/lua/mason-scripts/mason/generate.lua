@@ -9,6 +9,7 @@ local MASON_REGISTRY_DIR = path.concat { vim.loop.cwd(), "lua", "mason-registry"
 
 ---@async
 local function create_language_map()
+    print "Creating language map…"
     local language_map = {}
     local sorted_packages = _.sort_by(_.prop "name", registry.get_all_packages())
     _.each(function(pkg)
@@ -28,6 +29,7 @@ end
 ---@async
 local function create_package_index()
     a.scheduler()
+    print "Creating package index…"
     local packages = {}
     local to_lua_path = _.compose(_.gsub("/", "."), _.gsub("^lua/", ""))
     for _, package_path in ipairs(vim.fn.glob("lua/mason-registry/*/init.lua", false, true)) do
