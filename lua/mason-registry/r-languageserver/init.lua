@@ -1,4 +1,5 @@
 local Pkg = require "mason-core.package"
+local path = require "mason-core.path"
 
 ---@param install_dir string
 local function create_install_script(install_dir)
@@ -67,5 +68,13 @@ return Pkg.new {
         }
         ctx.fs:write_file("server.R", create_server_script(ctx.handle.package:get_install_path()))
         ctx.receipt:with_primary_source(ctx.receipt.r_package "languageserver")
+
+        ctx:link_bin(
+            "r-languageserver",
+            ctx:write_shell_exec_wrapper(
+                "r-languageserver",
+                ("R --slave -f %q"):format(path.concat { ctx.package:get_install_path(), "server.R" })
+            )
+        )
     end,
 }

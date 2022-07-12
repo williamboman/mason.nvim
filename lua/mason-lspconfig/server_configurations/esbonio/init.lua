@@ -1,5 +1,4 @@
----@param install_dir string
-return function(install_dir)
+return function()
     return {
         cmd = { "esbonio" },
     }

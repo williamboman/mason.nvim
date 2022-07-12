@@ -24,8 +24,19 @@ return Pkg.new {
                 })
                 .with_receipt()
         end)
-        ctx.fs:rename(path.concat { "vscode", "extension", "bicepLanguageServer" }, "langserver")
+        ctx.fs:rename(path.concat { "vscode", "extension", "bicepLanguageServer" }, "bicepLanguageServer")
         ctx.fs:rmrf "vscode"
-        ctx:chdir "langserver"
+
+        ctx:link_bin(
+            "bicep-lsp",
+            ctx:write_shell_exec_wrapper(
+                "bicep-lsp",
+                ("dotnet %q"):format(path.concat {
+                    ctx.package:get_install_path(),
+                    "bicepLanguageServer",
+                    "Bicep.LangServer.dll",
+                })
+            )
+        )
     end,
 }

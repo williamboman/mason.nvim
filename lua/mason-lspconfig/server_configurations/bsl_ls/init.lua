@@ -1,12 +1,5 @@
-local path = require "mason-core.path"
-
----@param install_dir string
-return function(install_dir)
+return function()
     return {
-        cmd = {
-            "java",
-            "-jar",
-            path.concat { install_dir, "bsl-lsp.jar" },
-        },
+        cmd = { "bsl-language-server" },
     }
 end

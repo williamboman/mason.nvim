@@ -3,6 +3,7 @@ local github = require "mason-core.managers.github"
 local github_client = require "mason-core.managers.github.client"
 local Optional = require "mason-core.optional"
 local _ = require "mason-core.functional"
+local path = require "mason-core.path"
 
 return Pkg.new {
     name = "visualforce-language-server",
@@ -11,7 +12,8 @@ return Pkg.new {
     languages = { Pkg.Lang.Visualforce },
     categories = { Pkg.Cat.LSP },
     ---@async
-    install = function()
+    ---@param ctx InstallContext
+    install = function(ctx)
         local repo = "forcedotcom/salesforcedx-vscode"
 
         -- See https://github.com/forcedotcom/salesforcedx-vscode/issues/4184#issuecomment-1146052086
@@ -30,5 +32,21 @@ return Pkg.new {
                 repo = repo,
             })
             .with_receipt()
+
+        ctx:link_bin(
+            "visualforce-language-server",
+            ctx:write_node_exec_wrapper(
+                "visualforce-language-server",
+                path.concat {
+                    "extension",
+                    "node_modules",
+                    "@salesforce",
+                    "salesforcedx-visualforce-language-server",
+                    "out",
+                    "src",
+                    "visualforceServer.js",
+                }
+            )
+        )
     end,
 }

@@ -1,8 +1,5 @@
-local path = require "mason-core.path"
-
----@param install_dir string
-return function(install_dir)
+return function()
     return {
-        cmd = { "node", path.concat { install_dir, "extension", "server", "out", "server.js" }, "--stdio" },
+        cmd = { "rescript-lsp", "--stdio" },
     }
 end
