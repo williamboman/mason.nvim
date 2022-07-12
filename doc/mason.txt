@@ -241,6 +241,6 @@ Lua module: mason
 
                                                                *mason.setup()*
 setup({config})
-        Sets up mason with the provided {config} (see |mason-settings|).
+    Sets up mason with the provided {config} (see |mason-settings|).
 
  vim:tw=78:ft=help:norl:expandtab:sw=4
