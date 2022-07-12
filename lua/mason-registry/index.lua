@@ -13,7 +13,6 @@ return {
   ["bicep-lsp"] = "mason-registry.bicep-lsp",
   black = "mason-registry.black",
   ["bsl-language-server"] = "mason-registry.bsl-language-server",
-  ccls = "mason-registry.ccls",
   ["chrome-debug-adapter"] = "mason-registry.chrome-debug-adapter",
   clangd = "mason-registry.clangd",
   ["clarity-lsp"] = "mason-registry.clarity-lsp",
