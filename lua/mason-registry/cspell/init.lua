@@ -6,6 +6,6 @@ return Pkg.new {
     desc = [[A Spell Checker for Code]],
     homepage = "https://github.com/streetsidesoftware/cspell",
     languages = {},
-    categories = {Pkg.Cat.Linter },
+    categories = { Pkg.Cat.Linter },
     install = npm.packages { "cspell", bin = { "cspell" } },
 }
