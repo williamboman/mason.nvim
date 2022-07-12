@@ -24,6 +24,7 @@
 -   [Setup](#setup)
 -   [Commands](#commands)
 -   [Configuration](#configuration)
+-   [Extensions](#extensions)
 
 # Introduction
 
@@ -80,6 +81,8 @@ Plug "williamboman/mason.nvim", { 'branch': 'alpha' }
 require("mason").setup {}
 ```
 
+Refer to [extensions](#extensions) for extra, opt-in, functionality!
+
 Refer to the [Configuration](#configuration) section for information about which settings are available.
 
 # Commands
@@ -92,7 +95,8 @@ Refer to the [Configuration](#configuration) section for information about which
 
 # Configuration
 
-You may optionally configure certain behavior of `mason.nvim` when calling the `.setup()` function.
+You may optionally configure certain behavior of `mason.nvim` when calling the `.setup()` function. Refer to the
+[default configuration](#default-configuration) for a list of all available settings.
 
 Example:
 
@@ -107,6 +111,8 @@ require("mason").setup({
     }
 })
 ```
+
+## Default configuration
 
 ```lua
 local DEFAULT_SETTINGS = {
@@ -174,3 +180,21 @@ local DEFAULT_SETTINGS = {
     },
 }
 ```
+
+# Extensions
+
+## `mason-lspconfig`
+
+`mason-lspconfig` is a native extension to `mason.nvim` that ships with
+`mason.nvim`. It bridges `mason.nvim` with the `lspconfig` plugin in order to
+make it easier to use the both plugins together.
+
+It is recommended to use this extension if you use `lspconfig`. To use this extension, make sure to set it up after
+`mason.nvim`, like so:
+
+```lua
+require("mason").setup()
+require("mason-lspconfig").setup()
+```
+
+For more documentation, see [`:h mason-lspconfig`](./doc/mason-lspconfig.txt).
