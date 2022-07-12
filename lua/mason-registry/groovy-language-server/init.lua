@@ -25,7 +25,7 @@ return Pkg.new {
             ctx:write_shell_exec_wrapper(
                 "groovy-language-server",
                 ("java -jar %q"):format(
-                    path.concat { ctx.package:get_install_path(), "build", "libs", "groovyls-all.jar" }
+                    path.concat { ctx.package:get_install_path(), "build", "libs", "groovy-language-server-all.jar" }
                 )
             )
         )
