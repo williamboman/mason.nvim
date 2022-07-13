@@ -101,7 +101,10 @@ function Package:install(opts)
             -- This function is not expected to be run in async scope, so we create
             -- a new scope here and handle the result callback-style.
             a.run(
-                installer.execute,
+                function(...)
+                    -- we wrap installer.execute for testing purposes (to allow spy objects)
+                    return installer.execute(...)
+                end,
                 ---@param success boolean
                 ---@param result Result
                 function(success, result)
