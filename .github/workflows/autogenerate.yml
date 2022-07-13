@@ -25,7 +25,9 @@ jobs:
                   token: ${{ secrets.PAT }}
                   author: "William Botman <william+bot@redwill.se>"
                   committer: "William Botman <william+bot@redwill.se>"
-                  add-paths: lua/mason-lspconfig lua/mason-schemas
+                  add-paths: |
+                      lua/mason-lspconfig
+                      lua/mason-schemas
                   commit-message: "chore: update generated code"
                   branch: chore/autogenerate
                   branch-suffix: short-commit-hash
