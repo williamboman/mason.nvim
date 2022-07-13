@@ -27,7 +27,7 @@ describe(":MasonInstall", function()
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
             spy.on(Pkg, "install")
-            api.MasonInstall { fargs = { "dummy@1.0.0", "dummy2" } }
+            api.MasonInstall { "dummy@1.0.0", "dummy2" }
             assert.spy(Pkg.install).was_called(2)
             assert.spy(Pkg.install).was_called_with(match.is_ref(dummy), { version = "1.0.0" })
             assert
@@ -41,7 +41,7 @@ describe(":MasonInstall", function()
         async_test(function()
             local dummy = registry.get_package "dummy"
             spy.on(dummy, "install")
-            api.MasonInstall { fargs = { "dummy" } }
+            api.MasonInstall { "dummy" }
             local win = vim.api.nvim_get_current_win()
             local buf = vim.api.nvim_win_get_buf(win)
             assert.equals("mason.nvim", vim.api.nvim_buf_get_option(buf, "filetype"))
@@ -56,7 +56,7 @@ describe(":MasonUninstall", function()
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy"
             spy.on(Pkg, "uninstall")
-            api.MasonUninstall { fargs = { "dummy", "dummy2" } }
+            api.MasonUninstall { "dummy", "dummy2" }
             assert.spy(Pkg.uninstall).was_called(2)
             assert.spy(Pkg.uninstall).was_called_with(match.is_ref(dummy))
             assert.spy(Pkg.uninstall).was_called_with(match.is_ref(dummy2))
