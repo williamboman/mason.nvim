@@ -22,8 +22,8 @@ return Pkg.new {
                     when(platform.is.linux_x64, "arduino-language-server_%s_Linux_64bit.tar.gz"),
                     when(platform.is.linux_x86, "arduino-language-server_%s_Linux_32bit.tar.gz"),
                     when(platform.is.linux_arm64, "arduino-language-server_%s_Linux_ARM64.tar.gz"),
-                    when(platform.is.win_x64, "arduino-language-server_0.6.0_Windows_64bit.zip"),
-                    when(platform.is.win_x86, "arduino-language-server_0.6.0_Windows_32bit.zip")
+                    when(platform.is.win_x64, "arduino-language-server_%s_Windows_64bit.zip"),
+                    when(platform.is.win_x86, "arduino-language-server_%s_Windows_32bit.zip")
                 )
 
                 return target and target:format(release)
