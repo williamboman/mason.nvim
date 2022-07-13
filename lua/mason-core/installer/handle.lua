@@ -15,20 +15,20 @@ local uv = vim.loop
 --- | '"ACTIVE"'
 --- | '"CLOSED"'
 
----@class InstallHandleSpawnInfo
----@field handle luv_handle
+---@class InstallHandleSpawnHandle
+---@field uv_handle luv_handle
 ---@field pid integer
 ---@field cmd string
 ---@field args string[]
-local InstallHandleSpawnInfo = {}
-InstallHandleSpawnInfo.__index = InstallHandleSpawnInfo
+local InstallHandleSpawnHandle = {}
+InstallHandleSpawnHandle.__index = InstallHandleSpawnHandle
 
----@param fields InstallHandleSpawnInfo
-function InstallHandleSpawnInfo.new(fields)
-    return setmetatable(fields, InstallHandleSpawnInfo)
+---@param fields InstallHandleSpawnHandle
+function InstallHandleSpawnHandle.new(fields)
+    return setmetatable(fields, InstallHandleSpawnHandle)
 end
 
-function InstallHandleSpawnInfo:__tostring()
+function InstallHandleSpawnHandle:__tostring()
     return ("%s %s"):format(self.cmd, table.concat(self.args, " "))
 end
 
@@ -37,7 +37,7 @@ end
 ---@field state InstallHandleState
 ---@field stdio { buffers: { stdout: string[], stderr: string[] }, sink: StdioSink  }
 ---@field is_terminated boolean
----@field private spawninfo_stack InstallHandleSpawnInfo[]
+---@field private spawn_handles InstallHandleSpawnHandle[]
 local InstallHandle = setmetatable({}, { __index = EventEmitter })
 local InstallHandleMt = { __index = InstallHandle }
 
@@ -64,7 +64,7 @@ function InstallHandle.new(pkg)
     local self = EventEmitter.init(setmetatable({}, InstallHandleMt))
     self.state = "IDLE"
     self.package = pkg
-    self.spawninfo_stack = {}
+    self.spawn_handles = {}
     self.stdio = new_sink(self)
     self.is_terminated = false
     return self
@@ -74,34 +74,34 @@ end
 ---@param pid integer
 ---@param cmd string
 ---@param args string[]
-function InstallHandle:push_spawninfo(luv_handle, pid, cmd, args)
-    local spawninfo = InstallHandleSpawnInfo.new {
-        handle = luv_handle,
+function InstallHandle:register_spawn_handle(luv_handle, pid, cmd, args)
+    local spawn_handles = InstallHandleSpawnHandle.new {
+        uv_handle = luv_handle,
         pid = pid,
         cmd = cmd,
         args = args,
     }
-    log.fmt_trace("Pushing spawninfo stack for %s: %s (pid: %s)", self, spawninfo, pid)
-    self.spawninfo_stack[#self.spawninfo_stack + 1] = spawninfo
-    self:emit "spawninfo:change"
+    log.fmt_trace("Pushing spawn_handles stack for %s: %s (pid: %s)", self, spawn_handles, pid)
+    self.spawn_handles[#self.spawn_handles + 1] = spawn_handles
+    self:emit "spawn_handles:change"
 end
 
 ---@param luv_handle luv_handle
-function InstallHandle:pop_spawninfo(luv_handle)
-    for i = #self.spawninfo_stack, 1, -1 do
-        if self.spawninfo_stack[i].handle == luv_handle then
-            log.fmt_trace("Popping spawninfo stack for %s: %s", self, self.spawninfo_stack[i])
-            table.remove(self.spawninfo_stack, i)
-            self:emit "spawninfo:change"
+function InstallHandle:deregister_spawn_handle(luv_handle)
+    for i = #self.spawn_handles, 1, -1 do
+        if self.spawn_handles[i].uv_handle == luv_handle then
+            log.fmt_trace("Popping spawn_handles stack for %s: %s", self, self.spawn_handles[i])
+            table.remove(self.spawn_handles, i)
+            self:emit "spawn_handles:change"
             return true
         end
     end
     return false
 end
 
----@return Optional @Optional<InstallHandleSpawnInfo>
-function InstallHandle:peek_spawninfo_stack()
-    return Optional.of_nilable(self.spawninfo_stack[#self.spawninfo_stack])
+---@return Optional @Optional<InstallHandleSpawnHandle>
+function InstallHandle:peek_spawn_handle()
+    return Optional.of_nilable(self.spawn_handles[#self.spawn_handles])
 end
 
 function InstallHandle:is_idle()
@@ -132,8 +132,8 @@ end
 function InstallHandle:kill(signal)
     assert(not self:is_closed(), "Cannot kill closed handle.")
     log.fmt_trace("Sending signal %s to luv handles in %s", signal, self)
-    for _, spawninfo in pairs(self.spawninfo_stack) do
-        process.kill(spawninfo.handle, signal)
+    for _, spawn_handles in pairs(self.spawn_handles) do
+        process.kill(spawn_handles.uv_handle, signal)
     end
     self:emit("kill", signal)
 end
@@ -157,8 +157,8 @@ function InstallHandle:terminate()
     log.fmt_trace("Terminating %s", self)
     -- https://github.com/libuv/libuv/issues/1133
     if platform.is.win then
-        for _, spawninfo in ipairs(self.spawninfo_stack) do
-            win_taskkill(spawninfo.pid)
+        for _, spawn_handles in ipairs(self.spawn_handles) do
+            win_taskkill(spawn_handles.pid)
         end
     else
         self:kill(15) -- SIGTERM
@@ -167,8 +167,8 @@ function InstallHandle:terminate()
     self:emit "terminate"
     local check = uv.new_check()
     check:start(function()
-        for _, spawninfo in ipairs(self.spawninfo_stack) do
-            local luv_handle = spawninfo.handle
+        for _, spawn_handles in ipairs(self.spawn_handles) do
+            local luv_handle = spawn_handles.uv_handle
             local ok, is_closing = pcall(luv_handle.is_closing, luv_handle)
             if ok and not is_closing then
                 return
@@ -194,14 +194,14 @@ end
 function InstallHandle:close()
     log.fmt_trace("Closing %s", self)
     assert(not self:is_closed(), "Handle is already closed.")
-    for _, spawninfo in ipairs(self.spawninfo_stack) do
-        local luv_handle = spawninfo.handle
+    for _, spawn_handles in ipairs(self.spawn_handles) do
+        local luv_handle = spawn_handles.uv_handle
         local ok, is_closing = pcall(luv_handle.is_closing, luv_handle)
         if ok then
             assert(is_closing, "There are open libuv handles.")
         end
     end
-    self.spawninfo_stack = {}
+    self.spawn_handles = {}
     self:set_state "CLOSED"
     self:emit "closed"
     self:clear_event_handlers()
