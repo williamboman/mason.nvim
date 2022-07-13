@@ -170,5 +170,5 @@ return {
     MasonInstall = MasonInstall,
     MasonUninstall = MasonUninstall,
     MasonUninstallAll = MasonUninstallAll,
-    MasonLog = MasonLog
+    MasonLog = MasonLog,
 }
