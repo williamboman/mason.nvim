@@ -1,11 +1,11 @@
 local notify = require "mason-core.notify"
 local _ = require "mason-core.functional"
 
-local M = {}
-
-vim.api.nvim_create_user_command("Mason", function()
+local function Mason()
     require("mason.ui").open()
-end, {
+end
+
+vim.api.nvim_create_user_command("Mason", Mason, {
     desc = "Opens mason's UI window.",
     nargs = 0,
 })
@@ -77,7 +77,7 @@ local function join_handles(handles)
     end)
 end
 
-vim.api.nvim_create_user_command("MasonInstall", function(opts)
+local function MasonInstall(opts)
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
     local valid_packages = filter_valid_packages(opts.fargs)
@@ -103,42 +103,50 @@ vim.api.nvim_create_user_command("MasonInstall", function(opts)
     else
         require("mason.ui").open()
     end
-end, {
+end
+
+vim.api.nvim_create_user_command("MasonInstall", MasonInstall, {
     desc = "Install one or more packages.",
     nargs = "+",
     complete = "custom,v:lua.mason_completion.available_package_completion",
 })
 
-vim.api.nvim_create_user_command("MasonUninstall", function(opts)
+local function MasonUninstall(opts)
     local registry = require "mason-registry"
     local valid_packages = filter_valid_packages(opts.fargs)
     if #valid_packages > 0 then
         _.each(function(package_name)
             local pkg = registry.get_package(package_name)
             pkg:uninstall()
-        end, filter_valid_packages)
+        end, valid_packages)
         require("mason.ui").open()
     end
-end, {
+end
+
+vim.api.nvim_create_user_command("MasonUninstall", MasonUninstall, {
     desc = "Uninstall one or more packages.",
     nargs = "+",
     complete = "custom,v:lua.mason_completion.installed_package_completion",
 })
 
-vim.api.nvim_create_user_command("MasonUninstallAll", function()
+local function MasonUninstallAll()
     local registry = require "mason-registry"
     require("mason.ui").open()
     for _, pkg in ipairs(registry.get_installed_packages()) do
         pkg:uninstall()
     end
-end, {
+end
+
+vim.api.nvim_create_user_command("MasonUninstallAll", MasonUninstallAll, {
     desc = "Uninstall all packages.",
 })
 
-vim.api.nvim_create_user_command("MasonLog", function()
+local function MasonLog()
     local log = require "mason-core.log"
     vim.cmd(([[tabnew %s]]):format(log.outfile))
-end, {
+end
+
+vim.api.nvim_create_user_command("MasonLog", MasonLog, {
     desc = "Opens the mason.nvim log.",
 })
 
@@ -157,4 +165,10 @@ _G.mason_completion = {
     end,
 }
 
-return M
+return {
+    Mason = Mason,
+    MasonInstall = MasonInstall,
+    MasonUninstall = MasonUninstall,
+    MasonUninstallAll = MasonUninstallAll,
+    MasonLog = MasonLog,
+}
