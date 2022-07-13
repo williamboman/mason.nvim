@@ -5,6 +5,7 @@ local log = require "mason-core.log"
 local a = require "mason-core.async"
 local api = require "mason.api.command"
 local registry = require "mason-registry"
+local Pkg = require "mason-core.package"
 
 describe(":Mason", function()
     it(
@@ -25,12 +26,13 @@ describe(":MasonInstall", function()
         async_test(function()
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
-            spy.on(dummy, "install")
-            spy.on(dummy2, "install")
+            spy.on(Pkg, "install")
             api.MasonInstall { fargs = { "dummy@1.0.0", "dummy2" } }
-            assert.spy(dummy.install).was_called(2) -- twice because it's a metamethod
-            assert.spy(dummy.install).was_called_with(match.is_ref(dummy), { version = "1.0.0" })
-            assert.spy(dummy2.install).was_called_with(match.is_ref(dummy), { version = nil })
+            assert.spy(Pkg.install).was_called(2)
+            assert.spy(Pkg.install).was_called_with(match.is_ref(dummy), { version = "1.0.0" })
+            assert
+                .spy(Pkg.install)
+                .was_called_with(match.is_ref(dummy2), match.tbl_containing { version = match.is_nil() })
         end)
     )
 
@@ -53,12 +55,11 @@ describe(":MasonUninstall", function()
         async_test(function()
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy"
-            spy.on(dummy, "uninstall")
-            spy.on(dummy2, "uninstall")
+            spy.on(Pkg, "uninstall")
             api.MasonUninstall { fargs = { "dummy", "dummy2" } }
-            assert.spy(dummy.uninstall).was_called(2)
-            assert.spy(dummy.uninstall).was_called_with(match.is_ref(dummy))
-            assert.spy(dummy.uninstall).was_called_with(match.is_ref(dummy2))
+            assert.spy(Pkg.uninstall).was_called(2)
+            assert.spy(Pkg.uninstall).was_called_with(match.is_ref(dummy))
+            assert.spy(Pkg.uninstall).was_called_with(match.is_ref(dummy2))
         end)
     )
 end)
