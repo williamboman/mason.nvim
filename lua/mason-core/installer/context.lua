@@ -26,14 +26,14 @@ function ContextualSpawn.__index(self, cmd)
         local captured_handle
         args.on_spawn = function(handle, stdio, pid, ...)
             captured_handle = handle
-            self.handle:push_spawninfo(handle, pid, cmd, spawn._flatten_cmd_args(args))
+            self.handle:register_spawn_handle(handle, pid, cmd, spawn._flatten_cmd_args(args))
             if on_spawn then
                 on_spawn(handle, stdio, pid, ...)
             end
         end
         local function pop_spawn_stack()
             if captured_handle then
-                self.handle:pop_spawninfo(captured_handle)
+                self.handle:deregister_spawn_handle(captured_handle)
             end
         end
         -- We get_or_throw() here for convenience reasons.
