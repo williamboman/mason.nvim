@@ -137,7 +137,7 @@ local mutate_state, get_state = window.state(INITIAL_STATE)
 
 ---@param pkg Package
 ---@param group string
----@param tail boolean|nil @Whether to insert at the end.
+---@param tail boolean|nil: Whether to insert at the end.
 local function mutate_package_grouping(pkg, group, tail)
     mutate_state(function(state)
         remove(state.packages.installing, pkg)

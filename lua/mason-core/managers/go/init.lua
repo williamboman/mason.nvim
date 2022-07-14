@@ -24,7 +24,7 @@ local function with_receipt(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil } @The go packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[] | nil }: The go packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.packages(packages)
     return function()
         M.install(packages).with_receipt()
@@ -32,7 +32,7 @@ function M.packages(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil } @The go packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[] | nil }: The go packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.install(packages)
     local ctx = installer.context()
     local env = {
@@ -66,7 +66,7 @@ function M.install(packages)
     }
 end
 
----@param output string @The output from `go version -m` command.
+---@param output string: The output from `go version -m` command.
 function M.parse_mod_version_output(output)
     ---@type {path: string[], mod: string[], dep: string[], build: string[]}
     local result = {}

@@ -6,7 +6,7 @@ local _ = require "mason-core.functional"
 local M = {}
 
 ---@async
----@param user_args string[] @The arguments, as provided by the user.
+---@param user_args string[]: The arguments, as provided by the user.
 local function parse_packages_from_user_args(user_args)
     local Package = require "mason-core.package"
     local server_mapping = require "mason-lspconfig.mappings.server"

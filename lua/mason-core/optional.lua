@@ -72,7 +72,7 @@ function Optional:or_(supplier)
     end
 end
 
----@param exception any @(optional) The exception to throw if the result is a failure.
+---@param exception any: (optional) The exception to throw if the result is a failure.
 function Optional:or_else_throw(exception)
     if self:is_present() then
         return self._value

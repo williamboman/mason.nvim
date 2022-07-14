@@ -76,8 +76,8 @@ function M.install(crate, opts)
     }
 end
 
----@param output string @The `cargo install --list` output.
----@return table<string, string> @Key is the crate name, value is its version.
+---@param output string: The `cargo install --list` output.
+---@return table<string, string>: Key is the crate name, value is its version.
 function M.parse_installed_crates(output)
     local installed_crates = {}
     for _, line in ipairs(vim.split(output, "\n")) do

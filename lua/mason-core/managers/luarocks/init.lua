@@ -21,7 +21,7 @@ local function with_receipt(package)
     end
 end
 
----@param package string @The luarock package to install.
+---@param package string: The luarock package to install.
 ---@param opts { dev: boolean, bin : string[] | nil } | nil
 function M.package(package, opts)
     return function()
@@ -30,7 +30,7 @@ function M.package(package, opts)
 end
 
 ---@async
----@param pkg string @The luarock package to install.
+---@param pkg string: The luarock package to install.
 ---@param opts { dev: boolean, bin : string[] | nil } | nil
 function M.install(pkg, opts)
     opts = opts or {}

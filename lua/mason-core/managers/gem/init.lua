@@ -25,7 +25,7 @@ local function with_receipt(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil } @The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[] | nil }: The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.packages(packages)
     return function()
         return M.install(packages).with_receipt()
@@ -33,7 +33,7 @@ function M.packages(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil } @The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[] | nil }: The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.install(packages)
     local ctx = installer.context()
     local pkgs = _.list_copy(packages or {})

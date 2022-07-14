@@ -99,7 +99,7 @@ function InstallHandle:deregister_spawn_handle(luv_handle)
     return false
 end
 
----@return Optional @Optional<InstallHandleSpawnHandle>
+---@return Optional: Optional<InstallHandleSpawnHandle>
 function InstallHandle:peek_spawn_handle()
     return Optional.of_nilable(self.spawn_handles[#self.spawn_handles])
 end

@@ -34,7 +34,7 @@ end
 -- Also, there's no particular reason we need to refresh the environment (yet).
 local initial_environ = vim.fn.environ()
 
----@param new_paths string[] @A list of paths to prepend the existing PATH with.
+---@param new_paths string[]: A list of paths to prepend the existing PATH with.
 function M.extend_path(new_paths)
     local new_path_str = table.concat(new_paths, platform.path_sep)
     return ("%s%s%s"):format(new_path_str, platform.path_sep, initial_environ.PATH or "")
@@ -87,15 +87,15 @@ end
 ---@alias JobSpawnCallback fun(success: boolean, exit_code: integer, signal: integer)
 
 ---@class JobSpawnOpts
----@field env string[] @List of "key=value" string.
+---@field env string[]: List of "key=value" string.
 ---@field args string[]
 ---@field cwd string
 ---@field stdio_sink StdioSink
 
----@param cmd string @The command/executable.
+---@param cmd string: The command/executable.
 ---@param opts JobSpawnOpts
 ---@param callback JobSpawnCallback
----@return luv_handle,luv_pipe[],integer @Returns the job handle and the stdio array on success, otherwise returns nil.
+---@return luv_handle,luv_pipe[],integer: Returns the job handle and the stdio array on success, otherwise returns nil.
 function M.spawn(cmd, opts, callback)
     local stdin = uv.new_pipe(false)
     local stdout = uv.new_pipe(false)
