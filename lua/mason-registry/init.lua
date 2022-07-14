@@ -49,11 +49,15 @@ do
     end
 end
 
+---Checks whether the provided package name is installed.
+---In many situations, this is a more efficient option than the Package:is_installed() method due to a smaller amount of
+---modules required to load.
 ---@param package_name string
 function M.is_installed(package_name)
     return scan_install_root()[package_name] == true
 end
 
+---Returns an instance of the Package class if the provided package name exists. This function errors if a package cannot be found.
 ---@param package_name string
 ---@return Package
 function M.get_package(package_name)
@@ -67,21 +71,25 @@ end
 
 local get_packages = _.map(M.get_package)
 
+---Returns all installed package names. This is a fast function that doesn't load any extra modules.
 ---@return string[]
 function M.get_installed_package_names()
     return _.keys(scan_install_root())
 end
 
+---Returns all installed package instances. This is a slower function that loads more modules.
 ---@return Package[]
 function M.get_installed_packages()
     return get_packages(M.get_installed_package_names())
 end
 
+---Returns all package names. This is a fast function that doesn't load any extra modules.
 ---@return string[]
 function M.get_all_package_names()
     return _.keys(index)
 end
 
+---Returns all package instances. This is a slower function that loads more modules.
 ---@return Package[]
 function M.get_all_packages()
     return get_packages(M.get_all_package_names())
