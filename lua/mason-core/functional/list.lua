@@ -88,7 +88,7 @@ end, 2)
 
 ---@generic T
 ---@param list T[]
----@return T[] @A shallow copy of the list.
+---@return T[]: A shallow copy of the list.
 _.list_copy = _.map(fun.identity)
 
 _.concat = fun.curryN(function(a, b)

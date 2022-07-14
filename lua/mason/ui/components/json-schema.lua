@@ -42,7 +42,7 @@ end
 ---@param schema table
 ---@param key string|nil
 ---@param level number|nil
----@param key_width number|nil @The width the key should occupate in the UI to produce an even column.
+---@param key_width number|nil: The width the key should occupate in the UI to produce an even column.
 ---@param compound_key string|nil
 local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, compound_key)
     level = level or 0

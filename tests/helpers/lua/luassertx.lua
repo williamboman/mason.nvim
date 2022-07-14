@@ -3,9 +3,9 @@ local match = require "luassert.match"
 local a = require "mason-core.async"
 
 local function wait_for(_, arguments)
-    ---@type fun() @Function to execute until it does not error.
+    ---@type (fun()): Function to execute until it does not error.
     local assertions_fn = arguments[1]
-    ---@type number @Timeout in milliseconds. Defaults to 5000.
+    ---@type number: Timeout in milliseconds. Defaults to 5000.
     local timeout = arguments[2]
     timeout = timeout or 15000
 

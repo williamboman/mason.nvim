@@ -39,7 +39,7 @@ local function table_pack(...)
 end
 
 ---@param async_fn fun(...)
----@param should_reject_err boolean|nil @Whether the provided async_fn takes a callback with the signature `fun(err, result)`
+---@param should_reject_err boolean|nil: Whether the provided async_fn takes a callback with the signature `fun(err, result)`
 local function promisify(async_fn, should_reject_err)
     return function(...)
         local args = table_pack(...)

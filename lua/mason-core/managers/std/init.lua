@@ -163,8 +163,8 @@ function M.gunzip(file)
 end
 
 ---@async
----@param flags string @The chmod flag to apply.
----@param files string[] @A list of relative paths to apply the chmod on.
+---@param flags string: The chmod flag to apply.
+---@param files string[]: A list of relative paths to apply the chmod on.
 function M.chmod(flags, files)
     if platform.is_unix then
         local ctx = installer.context()

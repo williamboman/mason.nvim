@@ -17,7 +17,7 @@ local USER_AGENT = "mason.nvim (+https://github.com/williamboman/mason.nvim)"
 ---@alias FetchOpts {out_file: string, method: FetchMethod, headers: table<string, string>, data: string}
 
 ---@async
----@param url string @The url to fetch.
+---@param url string: The url to fetch.
 ---@param opts FetchOpts | nil
 local function fetch(url, opts)
     opts = opts or {}

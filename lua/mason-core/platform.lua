@@ -63,7 +63,7 @@ M.os_distribution = fun.lazy(function()
     local Result = require "mason-core.result"
 
     ---Parses the provided contents of an /etc/\*-release file and identifies the Linux distribution.
-    ---@param contents string @The contents of a /etc/\*-release file.
+    ---@param contents string: The contents of a /etc/\*-release file.
     ---@return table<string, any>
     local function parse_linux_dist(contents)
         local lines = vim.split(contents, "\n")
@@ -121,7 +121,7 @@ M.os_distribution = fun.lazy(function()
     }
 end)
 
----@type async fun() Result @of String
+---@type async fun(): Result<string>
 M.get_homebrew_prefix = fun.lazy(function()
     assert(M.is_mac, "Can only locate Homebrew installation on Mac systems.")
     local spawn = require "mason-core.spawn"

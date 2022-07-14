@@ -61,7 +61,7 @@ function M.CascadingStyleNode(styles, children)
     return node
 end
 
----@param virt_text string[][] @List of (text, highlight) tuples.
+---@param virt_text string[][]: List of (text, highlight) tuples.
 function M.VirtualTextNode(virt_text)
     ---@class VirtualTextNode
     local node = {
@@ -95,10 +95,10 @@ function M.When(condition, node, default_val)
     return default_val or M.Node {}
 end
 
----@param key string @The keymap to register to. Example: "<CR>".
----@param effect string @The effect to call when keymap is triggered by the user.
----@param payload any @The payload to pass to the effect handler when triggered.
----@param is_global boolean|nil @Whether to register the keybind to apply on all lines in the buffer.
+---@param key string: The keymap to register to. Example: "<CR>".
+---@param effect string: The effect to call when keymap is triggered by the user.
+---@param payload any: The payload to pass to the effect handler when triggered.
+---@param is_global boolean|nil: Whether to register the keybind to apply on all lines in the buffer.
 function M.Keybind(key, effect, payload, is_global)
     ---@class KeybindHandlerNode
     local node = {
@@ -115,7 +115,7 @@ function M.EmptyLine()
     return M.Text { "" }
 end
 
----@param rows string[][][] @A list of rows to include in the table. Each row consists of an array of (text, highlight) tuples (aka spans).
+---@param rows string[][][]: A list of rows to include in the table. Each row consists of an array of (text, highlight) tuples (aka spans).
 function M.Table(rows)
     local col_maxwidth = {}
     for i = 1, #rows do

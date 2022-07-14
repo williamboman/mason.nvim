@@ -14,7 +14,7 @@ local function with_receipt(repo)
 end
 
 ---@async
----@param opts {[1]: string, recursive: boolean, version: Optional|nil} @The first item in the table is the repository to clone.
+---@param opts {[1]: string, recursive: boolean, version: Optional|nil}: The first item in the table is the repository to clone.
 function M.clone(opts)
     local ctx = installer.context()
     local repo = assert(opts[1], "No git URL provided.")
