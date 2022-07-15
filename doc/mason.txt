@@ -243,4 +243,5 @@ Lua module: mason
 setup({config})
     Sets up mason with the provided {config} (see |mason-settings|).
 
- vim:tw=78:ft=help:norl:expandtab:sw=4
+
+vim:tw=78:ft=help:norl:expandtab:sw=4
