@@ -107,6 +107,23 @@ function M.setup(config)
     require "mason-lspconfig.api.command"
 end
 
+---Register handlers that will be called when a server is ready to be set up (i.e. is installed).
+---When this function is first called, the appropriate handler will be called for each installed server.
+---When a new server is installed, the appropriate handler for that server will be called (this allows you for example to set up-new servers without restarting Neovim).
+---The default handler is provided as the first value in the table argument.
+---
+---Example:
+---```lua
+---    require("mason-lspconfig").setup_handlers {
+---        function (server_name)
+---            -- default handler
+---            require("lspconfig")[server_name].setup {}
+---        end,
+---        ["rust_analyzer"] = function ()
+---            require("rust-tools").setup {}
+---        end
+---    }
+---```
 ---@param handlers table<string, fun(server_name: string)>
 function M.setup_handlers(handlers)
     local default_handler = Optional.of_nilable(handlers[1])
