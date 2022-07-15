@@ -95,17 +95,32 @@ Example:
     }
 
 ==============================================================================
-AUTOMATIC SERVER SETUP
-                                      *mason-lspconfig-automatic-server-setup*
+DYNAMIC SERVER SETUP                    *mason-lspconfig-dynamic-server-setup*
 
-`mason-lspconfig` provides opt-in functionality that allow you to
-automatically set up LSP servers installed with `mason.nvim`, without having
-to edit your Neovim configuration for every single server you want to use.
-This is also convenient if you want to use `mason.nvim` as the control for
-which servers to set up. It also makes it possible to set up newly installed
-servers without having to restart Neovim!
+`mason-lspconfig` provides extra opt-in functionality that allow you to set up
+LSP servers installed with `mason.nvim` without having to manually edit your
+Neovim configuration for every single server you want to use. This is also
+convenient if you want to use `mason.nvim` as the main control mechanism for
+which servers to set up. It also makes it possible to use newly installed
+servers without having to restart Neovim! Example:
 
-Refer to |mason-lspconfig.setup_handlers()| for more information!
+    require("mason").setup()
+    require("mason-lspconfig").setup()
+    require("mason-lspconfig").setup_handlers {
+        -- The first entry (without a key) will be the default handler
+        -- and will be called for each installed server that doesn't have
+        -- a dedicated handler.
+        function (server_name) -- default handler (optional)
+            require("lspconfig")[server_name].setup {}
+        end,
+        -- Next, you can provide targeted overrides for specific servers.
+        -- For example, a handler override for the `rust_analyzer`:
+        ["rust_analyzer"] = function ()
+            require("rust-tools").setup {}
+        end
+    }
+
+Refer to |mason-lspconfig.setup_handlers()| for more information.
 
 ==============================================================================
 Lua module: mason-lspconfig
@@ -123,10 +138,10 @@ setup_handlers({handlers})
     `function (server_name: string)`. It has the following structure:
 
         require("mason-lspconfig").setup_handlers({
+            -- The first entry (without a key) will be the default handler
+            -- and will be called for each installed server that doesn't have
+            -- a dedicated handler.
             function (server_name) -- default handler (optional)
-                -- The first entry (without a key) will be the default handler
-                -- and will be called for each installed server that doesn't have
-                -- a dedicated handler.
                 require("lspconfig")[server_name].setup {}
             end,
             -- Next, you can provide targeted overrides for specific servers.

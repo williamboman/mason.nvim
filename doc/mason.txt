@@ -19,6 +19,21 @@ Neovim's PATH during setup, allowing easy access for the builtin
 shell/terminal as well as other 3rd party plugins.
 
 ==============================================================================
+EXTENSIONS                                                  *mason-extensions*
+
+
+                                                  *mason-extensions-lspconfig*
+`mason-lspconfig` is a native extension to `mason.nvim` that ships with
+`mason.nvim`. It bridges `mason.nvim` with the `lspconfig` plugin in order to
+make it easier to use the both plugins together.
+
+It is recommended to use this extension if you use `lspconfig`. To use this
+extension, make sure to set it up after `mason.nvim`, like so:
+
+    require("mason").setup()
+    require("mason-lspconfig").setup()
+
+==============================================================================
 REQUIREMENTS                                              *mason-requirements*
 
 `mason.nvim` relaxes the minimum requirements by attempting multiple different
