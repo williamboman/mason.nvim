@@ -128,6 +128,10 @@ Installs the package instance this method is being called on. Accepts an
 optional `{opts}` argument, which can be used to specify a desired version to
 install.
 
+The returned [`InstallHandle`](#installhandle) can be used to observe progress and control the installation process (e.g., cancelling).
+
+_Note that if the package already have an active handle registered, that handler is returned instead of a new one._
+
 ### `Package:uninstall()`
 
 Uninstalls the package instance this method is being called on.
@@ -167,6 +171,40 @@ call this method with care as to not cause high network traffic as well as respe
 **Type:** `"IDLE" | "QUEUED" | "ACTIVE" | "CLOSED"`
 
 ## `InstallHandle`
+
+An `InstallHandle` is a handle for observing and controlling the installation of a package.
+Every package installed via Mason will be managed via a `InstallHandle` instance.
+
+It has a finite set of states, with an initial (`IDLE`) and terminal (`CLOSED`) one. This state can be accessed via the
+`InstallHandle.state` field, or through one of the `:is_idle()`, `:is_queued()`, `:is_active()`, `:is_closed()` methods.
+In most cases a handler's state will transition like so:
+
+```mermaid
+stateDiagram-v2
+    IDLE: IDLE
+    QUEUED: QUEUED
+    note right of QUEUED
+        The installation has been queued and will be ran when the next permit is available (according to the user's
+        settings.)
+        It can now be aborted via the :terminate() method.
+    end note
+    ACTIVE: ACTIVE
+    note right of ACTIVE
+        The installation has now started. The handler will emit `stdout` and `stderr` events.
+        The installation can also be cancelled via the :terminate() method, and you can send signals
+        to running processes via :kill({signal}).
+    end note
+    CLOSED: CLOSED
+    note right of CLOSED
+        The installation is now finished, and all associated resources have been closed.
+        This is the final state and the handler will not emit any more events.
+    end note
+    [*] --> IDLE
+    IDLE --> QUEUED
+    QUEUED --> ACTIVE
+    ACTIVE --> CLOSED
+    CLOSED --> [*]
+```
 
 **Events**
 
