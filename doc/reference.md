@@ -1,5 +1,11 @@
 # Mason API reference
 
+This document contains the API reference for `mason.nvim`'s' public APIs.
+The intended audience of this document are plugin developers and people who want to further customize their own Neovim
+configuration.
+
+Note that APIs not listed in this document are not considered public, and are subject to unannounced, breaking, changes.
+
 -   [Architecture diagram](#architecture-diagram)
 -   [`PackageSpec`](#packagespec)
 -   [`Package`](#package)
@@ -30,10 +36,6 @@
     -   [`EventEmitter:once({event, handler})`](#eventemitteronceevent-handler)
     -   [`EventEmitter:off({event}, {handler})`](#eventemitteroffevent-handler)
 
-This document contains the API reference for `mason.nvim`'s' public APIs.
-The intended audience of this document are plugin developers and people who want to further customize their own Neovim
-configuration.
-
 ## Architecture diagram
 
 ![architecture](https://user-images.githubusercontent.com/6705160/179120955-2f093b80-4a4e-4201-8c7a-26adfa508cdf.png)
@@ -53,6 +55,8 @@ configuration.
 
 
 ## `Package`
+
+Module: [`"mason-core.package"`](../lua/mason-core/package/init.lua)
 
 The `Package` class encapsulates the installation instructions and metadata about a Mason package.
 

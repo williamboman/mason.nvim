@@ -6,7 +6,7 @@
 <img src="https://user-images.githubusercontent.com/6705160/177613416-0c0354d2-f431-40d8-87f0-21310f0bba0e.png" alt="mason.nvim" />
 
 <p align="center">
-    Lightweight package manager for Neovim that runs everywhere Neovim runs.<br />
+    Portable package manager for Neovim that runs everywhere Neovim runs.<br />
     Easily install and manage LSP servers, DAP servers, linters, and formatters.
 </p>
 
@@ -185,9 +185,9 @@ local DEFAULT_SETTINGS = {
 
 ## `mason-lspconfig`
 
-`mason-lspconfig` is a native extension to `mason.nvim` that ships with
-`mason.nvim`. It bridges `mason.nvim` with the `lspconfig` plugin in order to
-make it easier to use the both plugins together.
+`mason-lspconfig` is a extension that ships with `mason.nvim`. It bridges `mason.nvim` with the
+[`lspconfig`](https://github.com/neovim/nvim-lspconfig) plugin in order to make it easier to use the both plugins
+together.
 
 It is recommended to use this extension if you use `lspconfig`. To use this extension, make sure to set it up after
 `mason.nvim`, like so:
