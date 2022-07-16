@@ -44,7 +44,6 @@ return {
   haxe = { "haxe-language-server" },
   hoon = { "hoon-language-server" },
   html = { "html-lsp", "prettier" },
-  htmldjango = { "djlint" },
   java = { "jdtls" },
   javascript = { "chrome-debug-adapter", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "node-debug2-adapter", "prettier", "quick-lint-js", "rome", "typescript-language-server" },
   json = { "json-lsp", "prettier" },
