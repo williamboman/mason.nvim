@@ -258,5 +258,65 @@ Lua module: mason
 setup({config})
     Sets up mason with the provided {config} (see |mason-settings|).
 
+==============================================================================
+Lua module: mason-registry
+
+                                               *mason-registry.is_installed()*
+is_installed({package_name})
+    Checks whether the provided package name is installed. In many situations,
+    this is a more efficient option than the Package:is_installed() method due
+    to a smaller amount of modules required to load.
+
+    Parameters: ~
+        {package_name} - string
+
+    Returns: ~
+        boolean
+
+                                                *mason-registry.get_package()*
+get_package({package_name})
+    Returns an instance of the Package class if the provided package name
+    exists.
+
+    This function errors if a package cannot be found.
+
+     Parameters: ~
+        {package_name} - string
+
+    Returns: ~
+        Package
+
+                                     *mason-registry.get_installed_packages()*
+get_installed_packages()
+    Returns all installed package instances. This is a slower function that
+    loads more modules.
+
+    Returns: ~
+        Package[]
+
+                                *mason-registry.get_installed_package_names()*
+get_installed_package_names()
+    Returns all installed package names. This is a fast function that doesn't
+    load any extra modules.
+
+    Returns: ~
+        string[]
+
+                                           *mason-registry.get_all_packages()*
+get_all_packages()
+    Returns all package instances. This is a slower function that loads more
+    modules.
+
+    Returns: ~
+        Package[]
+
+                                      *mason-registry.get_all_package_names()*
+get_all_package_names()
+    Returns all package names. This is a fast function that doesn't load any
+    extra modules.
+
+    Returns: ~
+        string[]
+
 
 vim:tw=78:ft=help:norl:expandtab:sw=4

@@ -21,7 +21,7 @@ index["dummy"] = "dummy_package"
 index["dummy2"] = "dummy_package"
 
 require("mason").setup {
-    install_root_dir = os.getenv("INSTALL_ROOT_DIR"),
+    install_root_dir = vim.env.INSTALL_ROOT_DIR,
 }
 EOF
 

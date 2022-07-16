@@ -10,7 +10,7 @@ local registry = require "mason-registry"
 local M = {}
 
 ---@param lspconfig_server_name string
-function M.resolve_package(lspconfig_server_name)
+local function resolve_package(lspconfig_server_name)
     return Optional.of_nilable(server_mapping.lspconfig_to_package[lspconfig_server_name]):map(function(package_name)
         local ok, pkg = pcall(registry.get_package, package_name)
         if ok then
@@ -20,7 +20,7 @@ function M.resolve_package(lspconfig_server_name)
 end
 
 ---@param lspconfig_server_name string
-function M.resolve_server_config_factory(lspconfig_server_name)
+local function resolve_server_config_factory(lspconfig_server_name)
     local ok, server_config = pcall(require, ("mason-lspconfig.server_configurations.%s"):format(lspconfig_server_name))
     if ok then
         return Optional.of(server_config)
@@ -67,7 +67,7 @@ local function setup_lspconfig_hook()
         end
 
         if registry.is_installed(pkg_name) then
-            M.resolve_server_config_factory(config.name):if_present(function(config_factory)
+            resolve_server_config_factory(config.name):if_present(function(config_factory)
                 merge_in_place(config, config_factory(path.package_prefix(pkg_name)))
             end)
         else
@@ -82,7 +82,7 @@ end
 local function ensure_installed()
     for _, server_identifier in ipairs(settings.current.ensure_installed) do
         local server_name, version = Package.Parse(server_identifier)
-        M.resolve_package(server_name):if_present(
+        resolve_package(server_name):if_present(
             ---@param pkg Package
             function(pkg)
                 if not pkg:is_installed() then
@@ -152,6 +152,13 @@ function M.setup_handlers(handlers)
             get_server_name(pkg.name):if_present(call_handler)
         end)
     )
+end
+
+---@return string[]
+function M.get_installed_servers()
+    return _.filter_map(function(pkg_name)
+        return Optional.of_nilable(server_mapping.package_to_lspconfig[pkg_name])
+    end, registry.get_installed_package_names())
 end
 
 return M
