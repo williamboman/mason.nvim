@@ -6,6 +6,6 @@ return Pkg.new {
     desc = [[HTML Template Linter and Formatter. Django - Jinja - Nunjucks - Handlebars - GoLang]],
     homepage = "https://github.com/Riverside-Healthcare/djLint",
     languages = { Pkg.Lang.HTMLDjango },
-    categories = { Pkg.Cat.LSP },
+    categories = { Pkg.Cat.Formatter, Pkg.Cat.Linter },
     install = pip3.packages { "djlint", bin = { "djlint" } },
 }
