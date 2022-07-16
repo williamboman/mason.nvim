@@ -1,7 +1,6 @@
 local Result = require "mason-core.result"
 local cargo = require "mason-core.managers.cargo"
 local composer = require "mason-core.managers.composer"
-local eclipse = require "mason-core.clients.eclipse"
 local gem = require "mason-core.managers.gem"
 local git = require "mason-core.managers.git"
 local github = require "mason-core.managers.github"
@@ -32,23 +31,7 @@ local get_installed_version_by_type = {
     ["github_release_file"] = version_in_receipt "release",
     ["github_release"] = version_in_receipt "release",
     ["github_tag"] = version_in_receipt "tag",
-    ["jdtls"] = version_in_receipt "version",
 }
-
----@async
----@param receipt InstallReceipt
-local function jdtls_check(receipt)
-    return eclipse.fetch_latest_jdtls_version():map_catching(function(latest_version)
-        if receipt.primary_source.version ~= latest_version then
-            return {
-                name = "jdtls",
-                current_version = receipt.primary_source.version,
-                latest_version = latest_version,
-            }
-        end
-        error "Primary package is not outdated."
-    end)
-end
 
 ---@class NewPackageVersion
 ---@field name string
@@ -64,7 +47,6 @@ local get_new_version_by_type = {
     ["gem"] = gem.check_outdated_primary_package,
     ["go"] = go.check_outdated_primary_package,
     ["luarocks"] = luarocks.check_outdated_primary_package,
-    ["jdtls"] = jdtls_check,
     ["github_release_file"] = github.check_outdated_primary_package_release,
     ["github_release"] = github.check_outdated_primary_package_release,
     ["github_tag"] = github.check_outdated_primary_package_tag,

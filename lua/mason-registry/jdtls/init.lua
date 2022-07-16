@@ -1,27 +1,27 @@
 local Pkg = require "mason-core.package"
 local installer = require "mason-core.installer"
-local eclipse = require "mason-core.clients.eclipse"
+local _ = require "mason-core.functional"
 local std = require "mason-core.managers.std"
+local github = require "mason-core.managers.github"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
+local fetch = require "mason-core.fetch"
 
 ---@async
 local function download_jdtls()
-    local ctx = installer.context()
-    local version = ctx.requested_version:or_else_get(function()
-        return eclipse.fetch_latest_jdtls_version():get_or_throw()
-    end)
+    local source = github.tag { repo = "eclipse/eclipse.jdt.ls" }
+    source.with_receipt()
+
+    local version = _.gsub("^v", "", source.tag)
+    local response =
+        fetch(("https://download.eclipse.org/jdtls/milestones/%s/latest.txt"):format(version)):get_or_throw "Failed to fetch latest release from eclipse.org."
+    local release_file = _.head(_.split("\n", response))
 
     std.download_file(
-        ("https://download.eclipse.org/jdtls/snapshots/jdt-language-server-%s.tar.gz"):format(version),
+        ("https://download.eclipse.org/jdtls/milestones/%s/%s"):format(version, release_file),
         "archive.tar.gz"
     )
     std.untar "archive.tar.gz"
-
-    ctx.receipt:with_primary_source {
-        type = "jdtls",
-        version = version,
-    }
 end
 
 ---@async
