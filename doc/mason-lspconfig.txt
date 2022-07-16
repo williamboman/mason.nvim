@@ -151,5 +151,22 @@ setup_handlers({handlers})
             end
         })
 
+                                     *mason-lspconfig.get_installed_servers()*
+get_installed_servers()
+    Returns the installed LSP servers supported by lspconfig.
+
+    Note that the strings returned are the lspconfig server names, not the
+    mason package names. For example, "sumneko_lua" is returned instead of
+    "lua-language-server". This is useful if you want to loop through the
+    table and use its values to directly interact with lspconfig (for example
+    setting up all installed servers).
+
+    Returns: ~
+        string[]
+
+    See also: ~
+        |mason-registry.get_installed_packages()|
+        |mason-registry.get_installed_package_names()|
+
 
  vim:tw=78:ft=help:norl:expandtab:sw=4

@@ -3,8 +3,6 @@ local Optional = require "mason-core.optional"
 local notify = require "mason-core.notify"
 local _ = require "mason-core.functional"
 
-local M = {}
-
 ---@async
 ---@param user_args string[]: The arguments, as provided by the user.
 local function parse_packages_from_user_args(user_args)
@@ -76,37 +74,41 @@ local parse_packages_to_install = _.cond {
     { _.T, _.always {} },
 }
 
-vim.api.nvim_create_user_command(
-    "LspInstall",
-    a.scope(function(opts)
-        local packages_to_install = parse_packages_to_install(opts.fargs)
-        if #packages_to_install > 0 then
-            local registry = require "mason-registry"
-            _.each(function(target)
-                local pkg = registry.get_package(target.package)
-                pkg:install { version = target.version }
-            end, packages_to_install)
-            require("mason.ui").open()
-            require("mason.ui").set_view "LSP"
-        end
-    end),
-    {
-        desc = "Install one or more LSP servers.",
-        nargs = "*",
-        complete = "custom,v:lua.mason_lspconfig_completion.available_server_completion",
-    }
-)
+local LspInstall = a.scope(function(servers)
+    local packages_to_install = parse_packages_to_install(servers)
+    if #packages_to_install > 0 then
+        local registry = require "mason-registry"
+        _.each(function(target)
+            local pkg = registry.get_package(target.package)
+            pkg:install { version = target.version }
+        end, packages_to_install)
+        require("mason.ui").open()
+        require("mason.ui").set_view "LSP"
+    end
+end)
 
-vim.api.nvim_create_user_command("LspUninstall", function(opts)
+vim.api.nvim_create_user_command("LspInstall", function(opts)
+    LspInstall(opts.fargs)
+end, {
+    desc = "Install one or more LSP servers.",
+    nargs = "*",
+    complete = "custom,v:lua.mason_lspconfig_completion.available_server_completion",
+})
+
+local function LspUninstall(servers)
     require("mason.ui").open()
     require("mason.ui").set_view "LSP"
     local registry = require "mason-registry"
     local server_mapping = require "mason-lspconfig.mappings.server"
-    for _, server_specifier in ipairs(opts.fargs) do
+    for _, server_specifier in ipairs(servers) do
         local package_name = server_mapping.lspconfig_to_package[server_specifier]
         local pkg = registry.get_package(package_name)
         pkg:uninstall()
     end
+end
+
+vim.api.nvim_create_user_command("LspUninstall", function(opts)
+    LspUninstall(opts.fargs)
 end, {
     desc = "Uninstall one or more LSP servers.",
     nargs = "+",
@@ -138,4 +140,7 @@ _G.mason_lspconfig_completion = {
     end,
 }
 
-return M
+return {
+    LspInstall = LspInstall,
+    LspUninstall = LspUninstall,
+}
