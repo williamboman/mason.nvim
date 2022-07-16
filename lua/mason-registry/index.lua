@@ -33,6 +33,7 @@ return {
   deno = "mason-registry.deno",
   ["dhall-lsp"] = "mason-registry.dhall-lsp",
   ["diagnostic-languageserver"] = "mason-registry.diagnostic-languageserver",
+  djlint = "mason-registry.djlint",
   ["dockerfile-language-server"] = "mason-registry.dockerfile-language-server",
   ["dot-language-server"] = "mason-registry.dot-language-server",
   ["editorconfig-checker"] = "mason-registry.editorconfig-checker",
