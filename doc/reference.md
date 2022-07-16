@@ -1,10 +1,15 @@
 # Mason API reference
 
-This document contains the API reference for `mason.nvim`'s' public APIs.
+This document contains the API reference for `mason.nvim`'s' public APIs and is a more in-depth complementary to the
+documentation available in `:h mason`.
 The intended audience of this document are plugin developers and people who want to further customize their own Neovim
 configuration.
 
-Note that APIs not listed in this document are not considered public, and are subject to unannounced, breaking, changes.
+Note that APIs not listed in this document (or `:h mason`) are not considered public, and are subject to unannounced,
+breaking, changes. Use at own risk.
+
+Please [reach out](https://github.com/williamboman/mason.nvim/discussions/new?category=api-suggestions) if you think
+something is missing or if something could be improved!
 
 -   [Architecture diagram](#architecture-diagram)
 -   [`PackageSpec`](#packagespec)

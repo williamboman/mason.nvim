@@ -18,6 +18,9 @@ linked to a single `bin/` directory, which `mason.nvim` will add to the
 Neovim's PATH during setup, allowing easy access for the builtin
 shell/terminal as well as other 3rd party plugins.
 
+API reference: ~
+    https://github.com/williamboman/mason.nvim/blob/alpha/doc/reference.md
+
 ==============================================================================
 EXTENSIONS                                                  *mason-extensions*
 
