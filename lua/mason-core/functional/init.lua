@@ -38,6 +38,7 @@ _.head = list.head
 _.length = list.length
 _.flatten = list.flatten
 _.sort_by = list.sort_by
+_.uniq_by = list.uniq_by
 _.join = list.join
 
 -- relation

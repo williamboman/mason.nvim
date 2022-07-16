@@ -124,8 +124,8 @@ _G.mason_lspconfig_completion = {
         local package_names = _.filter_map(function(pkg_name)
             return Optional.of_nilable(server_mapping.package_to_lspconfig[pkg_name])
         end, registry.get_all_package_names())
-        local completion = _.concat(package_names, _.keys(language_mapping))
-        table.sort(completion)
+        local completion =
+            _.compose(_.sort_by(_.identity), _.uniq_by(_.identity), _.concat(_.keys(language_mapping)))(package_names)
         return table.concat(completion, "\n")
     end,
     installed_server_completion = function()

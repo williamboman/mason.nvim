@@ -190,4 +190,9 @@ describe("functional: list", function()
     it("joins lists", function()
         assert.equals("Hello, John", _.join(", ", { "Hello", "John" }))
     end)
+
+    it("should uniq_by lists", function()
+        local list = { "Person.", "Woman.", "Man.", "Person.", "Woman.", "Camera.", "TV." }
+        assert.same({ "Person.", "Woman.", "Man.", "Camera.", "TV." }, _.uniq_by(_.identity, list))
+    end)
 end)

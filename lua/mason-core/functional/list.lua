@@ -172,4 +172,22 @@ _.join = fun.curryN(function(sep, list)
     return table.concat(list, sep)
 end, 2)
 
+---@generic T
+---@param fun (item: T): any
+---@param list T[]
+---@return T[]
+_.uniq_by = fun.curryN(function(comp, list)
+    local set = {}
+    local result = {}
+    for i = 1, #list do
+        local item = list[i]
+        local uniq_key = comp(item)
+        if not set[uniq_key] then
+            set[uniq_key] = true
+            table.insert(result, item)
+        end
+    end
+    return result
+end, 2)
+
 return _
