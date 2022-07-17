@@ -190,7 +190,10 @@ local function Installing(state)
     local packages = state.packages.installing
     return PackageListContainer {
         state = state,
-        heading = Ui.HlTextNode(p.heading "Installing"),
+        heading = Ui.Node {
+            Ui.HlTextNode(p.heading "Installing"),
+            Ui.StickyCursor { id = "installing-section" },
+        },
         hide_when_empty = true,
         packages = packages,
         ---@param pkg Package

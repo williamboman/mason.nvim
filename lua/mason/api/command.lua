@@ -102,7 +102,11 @@ local function MasonInstall(package_specifiers)
     if is_headless then
         join_handles(handles)
     else
-        require("mason.ui").open()
+        local ui = require "mason.ui"
+        ui.open()
+        vim.schedule(function()
+            ui.set_sticky_cursor "installing-section"
+        end)
     end
 end
 
