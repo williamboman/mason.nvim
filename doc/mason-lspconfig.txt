@@ -131,11 +131,30 @@ setup({config})
 
                                             *mason-lspconfig.setup_handlers()*
 setup_handlers({handlers})
-    Registers the provided {handlers}, to be called by mason when a server is
-    ready to be set up.
+    Advanced feature ~
+        This is an advanced, opt-in, feature that require some careful reading
+        of the documentation.
 
-    {handlers} is a table where all values is a function with the signature
-    `function (server_name: string)`. It has the following structure:
+        The recommended method to set up servers with lspconfig is to do so by
+        following their guides, see |lspconfig-quickstart|.
+
+    Registers the provided {handlers}, to be called by mason when an installed
+    server supported by lspconfig is ready to be setup.
+
+    {handlers} is a table where the keys are the name of an lspconfig server,
+    and the values are the function to be called when that server is ready to
+    be set up (i.e. is installed).
+
+    You may also pass a default handler that will be called when no dedicated
+    handler is provided. This is done by providing a function without a key
+    (see example below).
+
+   NOTE: ~
+       The server names provided as keys are the lspconfig server names, not
+       mason's package names, so for example instead of "lua-language-server"
+       it's "sumneko_lua".
+
+    Example: ~
 
         require("mason-lspconfig").setup_handlers({
             -- The first entry (without a key) will be the default handler
@@ -145,11 +164,26 @@ setup_handlers({handlers})
                 require("lspconfig")[server_name].setup {}
             end,
             -- Next, you can provide targeted overrides for specific servers.
-            -- For example, a handler override for the `rust_analyzer`:
             ["rust_analyzer"] = function ()
                 require("rust-tools").setup {}
-            end
+            end,
+            ["sumneko_lua"] = function ()
+                lspconfig.sumneko_lua.setup {
+                    settings = {
+                        Lua = {
+                            diagnostics = {
+                                globals = { "vim" }
+                            }
+                        }
+                    }
+                }
+            end,
         })
+
+    See also: ~
+        You may achieve similar behaviour by manually looping through the
+        installed servers (see |mason-lspconfig.get_installed_servers()|) and
+        setting each one up.
 
                                      *mason-lspconfig.get_installed_servers()*
 get_installed_servers()

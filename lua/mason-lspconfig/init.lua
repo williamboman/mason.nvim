@@ -6,6 +6,7 @@ local settings = require "mason-lspconfig.settings"
 local server_mapping = require "mason-lspconfig.mappings.server"
 local path = require "mason-core.path"
 local registry = require "mason-registry"
+local notify = require "mason-core.notify"
 
 local M = {}
 
@@ -107,26 +108,21 @@ function M.setup(config)
     require "mason-lspconfig.api.command"
 end
 
----Register handlers that will be called when a server is ready to be set up (i.e. is installed).
----When this function is first called, the appropriate handler will be called for each installed server.
----When a new server is installed, the appropriate handler for that server will be called (this allows you for example to set up-new servers without restarting Neovim).
----The default handler is provided as the first value in the table argument.
----
----Example:
----```lua
----    require("mason-lspconfig").setup_handlers {
----        function (server_name)
----            -- default handler
----            require("lspconfig")[server_name].setup {}
----        end,
----        ["rust_analyzer"] = function ()
----            require("rust-tools").setup {}
----        end
----    }
----```
+---See `:h mason-lspconfig.setup_handlers()`
 ---@param handlers table<string, fun(server_name: string)>
 function M.setup_handlers(handlers)
     local default_handler = Optional.of_nilable(handlers[1])
+
+    _.each(function(handler)
+        if type(handler) == "string" and not server_mapping.lspconfig_to_package[handler] then
+            notify(
+                ("mason-lspconfig.setup_handlers: Received handler for unknown lspconfig server name: %s."):format(
+                    handler
+                ),
+                vim.log.levels.WARN
+            )
+        end
+    end, _.keys(handlers))
 
     ---@param pkg_name string
     local function get_server_name(pkg_name)
