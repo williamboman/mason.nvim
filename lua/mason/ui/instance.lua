@@ -609,7 +609,7 @@ return {
     set_view = function(view)
         set_view { payload = view }
     end,
-    set_sticky_cursor = function (tag)
+    set_sticky_cursor = function(tag)
         window.set_sticky_cursor(tag)
-    end
+    end,
 }
