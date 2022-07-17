@@ -82,8 +82,12 @@ local LspInstall = a.scope(function(servers)
             local pkg = registry.get_package(target.package)
             pkg:install { version = target.version }
         end, packages_to_install)
-        require("mason.ui").open()
-        require("mason.ui").set_view "LSP"
+        local ui = require "mason.ui"
+        ui.open()
+        ui.set_view "LSP"
+        vim.schedule(function()
+            ui.set_sticky_cursor "installing-section"
+        end)
     end
 end)
 
