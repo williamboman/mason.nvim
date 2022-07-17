@@ -195,7 +195,7 @@ end
 ---@param filetype string
 function M.new_view_only_win(name, filetype)
     local namespace = vim.api.nvim_create_namespace(("installer_%s"):format(name))
-    local bufnr, renderer, mutate_state, get_state, unsubscribe, win_id, window_mgmt_augroup, autoclose_augroup, registered_keymaps, registered_keybinds, registered_effect_handlers
+    local bufnr, renderer, mutate_state, get_state, unsubscribe, win_id, window_mgmt_augroup, autoclose_augroup, registered_keymaps, registered_keybinds, registered_effect_handlers, sticky_cursor
     local has_initiated = false
     ---@type WindowOpts
     local window_opts = {}
@@ -261,7 +261,6 @@ function M.new_view_only_win(name, filetype)
             win_width = win_width,
         }
         local cursor_pos_pre_render = vim.api.nvim_win_get_cursor(win_id)
-        local sticky_cursor
         if output then
             sticky_cursor = output.sticky_cursors.line_map[cursor_pos_pre_render[1]]
         end
@@ -500,6 +499,17 @@ function M.new_view_only_win(name, filetype)
         get_cursor = function()
             assert(win_id ~= nil, "Window has not been opened, cannot get cursor.")
             return vim.api.nvim_win_get_cursor(win_id)
+        end,
+        ---@param tag any
+        set_sticky_cursor = function(tag)
+            if output then
+                local new_sticky_cursor_line = output.sticky_cursors.id_map[tag]
+                if new_sticky_cursor_line then
+                    sticky_cursor = tag
+                    local cursor = vim.api.nvim_win_get_cursor(win_id)
+                    vim.api.nvim_win_set_cursor(win_id, { new_sticky_cursor_line, cursor[2] })
+                end
+            end
         end,
     }
 end
