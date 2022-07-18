@@ -59,6 +59,22 @@ local function should_auto_install(server_name)
     return false
 end
 
+local expand_cmd = {
+    ["angularls"] = true,
+    ["arduino_language_server"] = true,
+    ["asm_lsp"] = true,
+    ["beancount"] = true,
+    ["bicep"] = true,
+    ["bsl_ls"] = true,
+    ["ccls"] = true,
+    ["clangd"] = true,
+    ["clarity_lsp"] = true,
+    ["clojure_lsp"] = true,
+    ["cmake"] = true,
+    ["codeqlls"] = true,
+    ["crystalline"] = true,
+}
+
 local function setup_lspconfig_hook()
     local util = require "lspconfig.util"
     util.on_setup = util.add_hook_before(util.on_setup, function(config)
@@ -69,7 +85,15 @@ local function setup_lspconfig_hook()
 
         if registry.is_installed(pkg_name) then
             resolve_server_config_factory(config.name):if_present(function(config_factory)
-                merge_in_place(config, config_factory(path.package_prefix(pkg_name)))
+                merge_in_place(config, config_factory({ install_dir = path.package_prefix(pkg_name) }, config))
+                if expand_cmd[config.name] and config.cmd and config.cmd[1] then
+                    local exepath = vim.fn.exepath(config.cmd[1])
+                    if exepath ~= "" then
+                        config.cmd[1] = exepath
+                    else
+                        log.error("Failed to expand cmd path", config.name, config.cmd)
+                    end
+                end
             end)
         else
             if should_auto_install(config.name) then
