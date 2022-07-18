@@ -100,7 +100,7 @@ end
 ---@return Result: Result<string> - The latest tag name.
 function M.fetch_latest_tag(repo)
     -- https://github.com/williamboman/vercel-github-api-latest-tag-proxy
-    return fetch(("https://latest-github-tag.redwill.se/api/latest-tag?repo=%s"):format(repo))
+    return fetch(("https://latest-github-tag.redwill.se/api/repo/%s/latest-tag"):format(repo))
         :map_catching(vim.json.decode)
         :map(_.prop "tag")
 end
