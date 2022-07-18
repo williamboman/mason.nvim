@@ -69,6 +69,7 @@ return {
   ["html-lsp"] = "mason-registry.html-lsp",
   impl = "mason-registry.impl",
   intelephense = "mason-registry.intelephense",
+  isort = "mason-registry.isort",
   jdtls = "mason-registry.jdtls",
   ["jedi-language-server"] = "mason-registry.jedi-language-server",
   ["json-lsp"] = "mason-registry.json-lsp",
