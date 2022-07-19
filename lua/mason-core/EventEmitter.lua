@@ -38,7 +38,7 @@ function EventEmitter:on(event, handler)
 end
 
 ---@param event any
----@parma handler fun(payload: any)
+---@param handler fun(payload: any)
 function EventEmitter:once(event, handler)
     if not self.__event_handlers_once[event] then
         self.__event_handlers_once[event] = {}
