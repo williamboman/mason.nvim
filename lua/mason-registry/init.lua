@@ -7,6 +7,8 @@ local EventEmitter = require "mason-core.EventEmitter"
 
 local index = require "mason-registry.index"
 
+---@class MasonRegistry : EventEmitter
+---@diagnostic disable-next-line: assign-type-mismatch
 local M = setmetatable({}, { __index = EventEmitter })
 EventEmitter.init(M)
 

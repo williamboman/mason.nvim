@@ -3,7 +3,6 @@ local _ = require "mason-core.functional"
 local M = {}
 
 ---Maps lspconfig server config name to its corresponding package name.
--- TODO go through these.. fun times
 M.lspconfig_to_package = {
     ["angularls"] = "angular-language-server",
     ["ansiblels"] = "ansible-language-server",
@@ -16,7 +15,6 @@ M.lspconfig_to_package = {
     ["beancount"] = "beancount-language-server",
     ["bicep"] = "bicep-lsp",
     ["bsl_ls"] = "bsl-language-server",
-    ["ccls"] = "ccls",
     ["clangd"] = "clangd",
     ["clarity_lsp"] = "clarity-lsp",
     ["clojure_lsp"] = "clojure-lsp",
@@ -90,7 +88,6 @@ M.lspconfig_to_package = {
     ["rome"] = "rome",
     ["rust_analyzer"] = "rust-analyzer",
     ["salt_ls"] = "salt-lsp",
-    ["scry"] = "scry",
     ["serve_d"] = "serve-d",
     ["slint_lsp"] = "slint-lsp",
     ["solang"] = "solang",
