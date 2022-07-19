@@ -38,8 +38,9 @@ local function ensure_valid_mapping()
     local registry = require "mason-registry"
 
     for lspconfig_server, mason_package in pairs(server_mappings.lspconfig_to_package) do
-        local lspconfig_ok, server_config = pcall(require,("lspconfig.server_configurations.%s"):format(lspconfig_server))
-        local mason_ok, pkg = pcall(registry.get_package,mason_package)
+        local lspconfig_ok, server_config =
+            pcall(require, ("lspconfig.server_configurations.%s"):format(lspconfig_server))
+        local mason_ok, pkg = pcall(registry.get_package, mason_package)
         assert(lspconfig_ok and server_config ~= nil, lspconfig_server .. " is not a valid lspconfig server name.")
         assert(mason_ok and pkg ~= nil, mason_package .. " is not a valid Mason package name.")
     end
