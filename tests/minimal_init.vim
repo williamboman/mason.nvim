@@ -7,7 +7,7 @@ let $mason = getcwd()
 let $test_helpers = getcwd() .. "/tests/helpers"
 let $dependencies = getcwd() .. "/dependencies"
 
-set rtp+=$mason,$test_helpers
+set rtp^=$mason,$test_helpers
 set packpath=$dependencies
 
 packloadall

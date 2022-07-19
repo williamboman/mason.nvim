@@ -37,6 +37,8 @@ describe("mason-lspconfig setup", function()
     it("should install servers listed in ensure_installed", function()
         local dummy = registry.get_package "dummy"
         spy.on(Pkg, "install")
+        stub(Pkg, "is_installed")
+        Pkg.is_installed.returns(false)
         mason_lspconfig.setup { ensure_installed = { "dummylsp@1.0.0" } }
         assert.spy(Pkg.install).was_called(1)
         assert.spy(Pkg.install).was_called_with(match.ref(dummy), {
