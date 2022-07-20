@@ -198,3 +198,10 @@ require("mason-lspconfig").setup()
 ```
 
 For more documentation, see [`:h mason-lspconfig`](./doc/mason-lspconfig.txt).
+
+## `WhoIsSethDaniel/mason-tool-installer.nvim`
+
+`mason-tool-installer` is an extension to Meson that allows automatically installing and updating a list of configured plugins.
+
+This is useful if you wish to use your Neovim configuration across several machines and have the tools required for LSP
+and linting installed automatically.
