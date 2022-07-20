@@ -66,7 +66,7 @@ return Pkg.new {
                 stdin:close()
             end,
         }
-        ctx.fs:write_file("server.R", create_server_script(ctx.handle.package:get_install_path()))
+        ctx.fs:write_file("server.R", create_server_script(ctx.package:get_install_path()))
         ctx.receipt:with_primary_source(ctx.receipt.r_package "languageserver")
 
         ctx:link_bin(

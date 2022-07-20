@@ -14,7 +14,7 @@ return {
   beancount = { "beancount-language-server" },
   bicep = { "bicep-lsp" },
   c = { "clangd", "codelldb", "cpplint", "cpptools" },
-  ["c#"] = { "csharp-language-server", "netcoredbg", "omnisharp-roslyn" },
+  ["c#"] = { "csharp-language-server", "netcoredbg", "omnisharp", "omnisharp-mono" },
   ["c++"] = { "clangd", "codelldb", "cpplint", "cpptools" },
   clarity = { "clarity-lsp" },
   clojure = { "clojure-lsp" },

@@ -43,6 +43,7 @@ return {
     ["nickel_ls"] = true,
     ["nimls"] = true,
     ["ocamllsp"] = true,
+    ["omnisharp"] = true,
     ["perlnavigator"] = true,
     ["phpactor"] = true,
     ["prosemd_lsp"] = true,
