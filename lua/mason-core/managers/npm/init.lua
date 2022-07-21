@@ -2,7 +2,6 @@ local spawn = require "mason-core.spawn"
 local Optional = require "mason-core.optional"
 local installer = require "mason-core.installer"
 local Result = require "mason-core.result"
-local process = require "mason-core.process"
 local path = require "mason-core.path"
 local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
@@ -131,13 +130,6 @@ function M.check_outdated_primary_package(receipt, install_dir)
             end)
             :or_else_throw()
     end)
-end
-
----@param install_dir string
-function M.env(install_dir)
-    return {
-        PATH = process.extend_path { path.concat { install_dir, "node_modules", ".bin" } },
-    }
 end
 
 return M

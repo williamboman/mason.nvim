@@ -1,4 +1,3 @@
-local process = require "mason-core.process"
 local installer = require "mason-core.installer"
 local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
@@ -52,12 +51,6 @@ function M.install(pkg, opt)
 
     return {
         with_receipt = with_receipt(pkg),
-    }
-end
-
-function M.env(root_dir)
-    return {
-        PATH = process.extend_path { root_dir },
     }
 end
 

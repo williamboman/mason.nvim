@@ -1,4 +1,3 @@
-local process = require "mason-core.process"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local spawn = require "mason-core.spawn"
@@ -128,13 +127,6 @@ function M.get_installed_primary_package_version(receipt, install_dir)
             local pkg = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
             return Optional.of_nilable(installed_crates[pkg]):or_else_throw "Failed to find cargo package version."
         end)
-end
-
----@param install_dir string
-function M.env(install_dir)
-    return {
-        PATH = process.extend_path { path.concat { install_dir, "bin" } },
-    }
 end
 
 return M

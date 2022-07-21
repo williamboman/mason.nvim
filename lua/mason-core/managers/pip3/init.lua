@@ -1,6 +1,5 @@
 local _ = require "mason-core.functional"
 local settings = require "mason.settings"
-local process = require "mason-core.process"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local Optional = require "mason-core.optional"
@@ -158,13 +157,6 @@ function M.get_installed_primary_package_version(receipt, install_dir)
                 end)
                 :or_else_throw "Unable to find pip package."
         end)
-end
-
----@param install_dir string
-function M.env(install_dir)
-    return {
-        PATH = process.extend_path { M.venv_path(install_dir) },
-    }
 end
 
 ---@param install_dir string
