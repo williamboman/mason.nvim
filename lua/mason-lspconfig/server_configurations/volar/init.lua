@@ -1,4 +1,3 @@
-local npm = require "mason-core.managers.npm"
 local fs = require "mason-core.fs"
 local path = require "mason-core.path"
 
@@ -21,7 +20,6 @@ return function(install_dir)
     end
 
     return {
-        cmd_env = npm.env(install_dir),
         on_new_config = function(new_config, new_install_dir)
             new_config.init_options.typescript.serverPath = get_typescript_server_path(new_install_dir)
         end,

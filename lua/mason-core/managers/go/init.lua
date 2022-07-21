@@ -1,5 +1,4 @@
 local installer = require "mason-core.installer"
-local process = require "mason-core.process"
 local platform = require "mason-core.platform"
 local spawn = require "mason-core.spawn"
 local a = require "mason-core.async"
@@ -159,13 +158,6 @@ function M.check_outdated_primary_package(receipt, install_dir)
                 end)
                 :or_else_throw "Primary package is not outdated."
         end)
-end
-
----@param install_dir string
-function M.env(install_dir)
-    return {
-        PATH = process.extend_path { install_dir },
-    }
 end
 
 return M

@@ -1,5 +1,4 @@
 local _ = require "mason-core.functional"
-local process = require "mason-core.process"
 local path = require "mason-core.path"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
@@ -123,13 +122,6 @@ function M.get_installed_primary_package_version(receipt, install_dir)
             local info = vim.json.decode(result.stdout)
             return info.versions[1]
         end)
-end
-
----@param install_dir string
-function M.env(install_dir)
-    return {
-        PATH = process.extend_path { path.concat { install_dir, "vendor", "bin" } },
-    }
 end
 
 return M
