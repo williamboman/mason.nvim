@@ -69,7 +69,7 @@ use { "williamboman/mason.nvim", branch = "alpha" }
 ```
 
 ## vim-plug
-Det
+
 ```vim
 Plug 'williamboman/mason.nvim', { 'branch': 'alpha' }
 ```
