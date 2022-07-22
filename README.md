@@ -24,7 +24,6 @@
 -   [Setup](#setup)
 -   [Commands](#commands)
 -   [Configuration](#configuration)
--   [Extensions](#extensions)
 
 # Introduction
 
@@ -81,9 +80,11 @@ Plug "williamboman/mason.nvim", { 'branch': 'alpha' }
 require("mason").setup {}
 ```
 
-Refer to [extensions](#extensions) for extra, opt-in, functionality!
-
 Refer to the [Configuration](#configuration) section for information about which settings are available.
+
+**Extensions**
+
+-   [`mason-lspconfig.nvim`](https://github.com/williamboman/mason-lspconfig.nvim) - for usage with `lspconfig`
 
 # Commands
 
