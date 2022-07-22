@@ -21,6 +21,9 @@ shell/terminal as well as other 3rd party plugins.
 API reference: ~
     https://github.com/williamboman/mason.nvim/blob/alpha/doc/reference.md
 
+Extensions: ~
+    - https://github.com/williamboman/mason-lspconfig.nvim
+
 ==============================================================================
 REQUIREMENTS                                              *mason-requirements*
 
