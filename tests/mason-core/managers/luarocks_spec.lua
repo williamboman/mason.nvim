@@ -15,6 +15,7 @@ describe("luarocks manager", function()
                 "--tree",
                 path.package_prefix "dummy",
                 vim.NIL, -- --dev flag
+                vim.NIL, -- --server flag
                 "lua-cjson",
                 vim.NIL, -- version
             }
@@ -33,6 +34,7 @@ describe("luarocks manager", function()
                 "--tree",
                 path.package_prefix "dummy",
                 vim.NIL, -- --dev flag
+                vim.NIL, -- --server flag
                 "lua-cjson",
                 "1.2.3",
             }
@@ -51,7 +53,27 @@ describe("luarocks manager", function()
                 "--tree",
                 path.package_prefix "dummy",
                 "--dev",
+                vim.NIL, -- --server flag
                 "lua-cjson",
+                vim.NIL, -- version
+            }
+        end)
+    )
+
+    it(
+        "should provide --server flag",
+        async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
+            installer.run_installer(ctx, luarocks.package("luaformatter", { server = "https://luarocks.org/dev" }))
+            assert.spy(ctx.spawn.luarocks).was_called(1)
+            assert.spy(ctx.spawn.luarocks).was_called_with {
+                "install",
+                "--tree",
+                path.package_prefix "dummy",
+                vim.NIL, -- --dev flag
+                "--server=https://luarocks.org/dev",
+                "luaformatter",
                 vim.NIL, -- version
             }
         end)
