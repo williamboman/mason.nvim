@@ -65,9 +65,8 @@ body:
     - type: textarea
       attributes:
           label: Steps to reproduce
-          description: Steps to reproduce using the **minimal debug** config. You can download it [from here](https://github.com/williamboman/mason.nvim/blob/main/tests/minimal_debug_init.lua).
           placeholder: |
-              1. Start neovim using the minimal_debug_init.lua: `nvim -u ~/Downloads/minimal_debug_init.lua`
+              1. ...
               2. ...
       validations:
           required: true
