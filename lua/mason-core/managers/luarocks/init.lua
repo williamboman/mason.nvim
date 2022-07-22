@@ -21,7 +21,7 @@ local function with_receipt(package)
 end
 
 ---@param package string: The luarock package to install.
----@param opts { dev: boolean, bin : string[] | nil } | nil
+---@param opts { dev: boolean?, server: string?, bin : string[]? | nil }?
 function M.package(package, opts)
     return function()
         return M.install(package, opts).with_receipt()
@@ -30,7 +30,7 @@ end
 
 ---@async
 ---@param pkg string: The luarock package to install.
----@param opts { dev: boolean, bin : string[] | nil } | nil
+---@param opts { dev: boolean?, server: string?, bin : string[]? | nil }?
 function M.install(pkg, opts)
     opts = opts or {}
     local ctx = installer.context()
@@ -40,6 +40,7 @@ function M.install(pkg, opts)
         "--tree",
         ctx.cwd:get(),
         opts.dev and "--dev" or vim.NIL,
+        opts.server and ("--server=%s"):format(opts.server) or vim.NIL,
         pkg,
         ctx.requested_version:or_else(vim.NIL),
     }
