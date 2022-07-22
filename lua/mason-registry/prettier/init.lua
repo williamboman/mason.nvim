@@ -13,7 +13,7 @@ return Pkg.new {
         Pkg.Lang.JSON,
         Pkg.Lang.CSS,
         Pkg.Lang.SCSS,
-        Pkg.Lang.Less,
+        Pkg.Lang.LESS,
         Pkg.Lang.HTML,
         Pkg.Lang.Vue,
         Pkg.Lang.Angular,
