@@ -2,8 +2,10 @@ local platform = require "mason-core.platform"
 local _ = require "mason-core.functional"
 local path = require "mason-core.path"
 
----@param install_dir string
-return function(install_dir)
+---@param config table
+return function(config)
+    local install_dir = config["install_dir"]
+
     local append_node_modules = _.map(function(dir)
         return path.concat { dir, "node_modules" }
     end)

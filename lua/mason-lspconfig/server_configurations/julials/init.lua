@@ -3,8 +3,10 @@ local platform = require "mason-core.platform"
 local fs = require "mason-core.fs"
 local _ = require "mason-core.functional"
 
----@param install_dir string
-return function(install_dir)
+---@param config table
+return function(config)
+    local install_dir = config["install_dir"]
+
     return {
         on_new_config = function(config, workspace_dir)
             local env_path = config.julia_env_path and vim.fn.expand(config.julia_env_path)

@@ -5,8 +5,10 @@ local process = require "mason-core.process"
 local notify = require "mason-core.notify"
 local spawn = require "mason-core.spawn"
 
----@param install_dir string
-return function(install_dir)
+---@param config table
+return function(config)
+    local install_dir = config["install_dir"]
+
     vim.api.nvim_create_user_command(
         "PylspInstall",
         a.scope(function(opts)
