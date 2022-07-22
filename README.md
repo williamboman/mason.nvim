@@ -71,7 +71,7 @@ use { "williamboman/mason.nvim", branch = "alpha" }
 ## vim-plug
 
 ```vim
-Plug "williamboman/mason.nvim", { 'branch': 'alpha' }
+Plug 'williamboman/mason.nvim', { 'branch': 'alpha' }
 ```
 
 # Setup
