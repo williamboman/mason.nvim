@@ -1,4 +1,3 @@
-local notify = require "mason-core.notify"
 local _ = require "mason-core.functional"
 
 local function Mason()
@@ -12,6 +11,7 @@ vim.api.nvim_create_user_command("Mason", Mason, {
 
 -- This is needed because neovim doesn't do any validation of command args when using custom completion (I think?)
 local filter_valid_packages = _.filter(function(pkg_specifier)
+    local notify = require "mason-core.notify"
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
     local package_name = Package.Parse(pkg_specifier)
