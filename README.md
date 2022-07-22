@@ -22,6 +22,7 @@
 -   [Requirements](#requirements)
 -   [Installation](#installation)
 -   [Setup](#setup)
+    -   [Extensions](#extensions)
 -   [Commands](#commands)
 -   [Configuration](#configuration)
 
@@ -77,14 +78,19 @@ Plug 'williamboman/mason.nvim', { 'branch': 'alpha' }
 # Setup
 
 ```lua
-require("mason").setup {}
+require("mason").setup()
 ```
+
+`mason.nvim` is optimized to load as little as possible during setup. Lazy-loading the plugin, or somehow deferring the
+setup, is not recommended.
 
 Refer to the [Configuration](#configuration) section for information about which settings are available.
 
-**Extensions**
+## Extensions
 
--   [`mason-lspconfig.nvim`](https://github.com/williamboman/mason-lspconfig.nvim) - for usage with `lspconfig`
+Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) for a list of 3rd party extensions.
+
+-   [`mason-lspconfig.nvim`](https://github.com/williamboman/mason-lspconfig.nvim) - recommended for usage with `lspconfig`
 
 # Commands
 
