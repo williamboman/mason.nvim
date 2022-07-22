@@ -180,21 +180,3 @@ local DEFAULT_SETTINGS = {
     },
 }
 ```
-
-# Extensions
-
-## `mason-lspconfig`
-
-`mason-lspconfig` is a extension that ships with `mason.nvim`. It bridges `mason.nvim` with the
-[`lspconfig`](https://github.com/neovim/nvim-lspconfig) plugin in order to make it easier to use the both plugins
-together.
-
-It is recommended to use this extension if you use `lspconfig`. To use this extension, make sure to set it up after
-`mason.nvim`, like so:
-
-```lua
-require("mason").setup()
-require("mason-lspconfig").setup()
-```
-
-For more documentation, see [`:h mason-lspconfig`](./doc/mason-lspconfig.txt).
