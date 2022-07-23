@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://github.com/Vimjas/vint",
     languages = { Pkg.Lang.VimScript },
     categories = { Pkg.Cat.Linter },
-    install = pip3.packages { "vint", bin = { "vint" } },
+    install = pip3.packages { "vim-vint", bin = { "vint" } },
 }
