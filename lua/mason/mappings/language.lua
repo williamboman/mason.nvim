@@ -77,7 +77,7 @@ return {
   prisma = { "prisma-language-server" },
   puppet = { "puppet-editor-services" },
   purescript = { "purescript-language-server" },
-  python = { "black", "debugpy", "flake8", "isort", "jedi-language-server", "pylint", "pyright", "python-lsp-server", "sourcery" },
+  python = { "black", "debugpy", "isort", "jedi-language-server", "pylint", "pyright", "python-lsp-server", "sourcery" },
   r = { "r-languageserver" },
   reason = { "reason-language-server" },
   rescript = { "rescript-lsp" },
