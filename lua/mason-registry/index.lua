@@ -48,6 +48,7 @@ return {
   ["eslint-lsp"] = "mason-registry.eslint-lsp",
   eslint_d = "mason-registry.eslint_d",
   ["firefox-debug-adapter"] = "mason-registry.firefox-debug-adapter",
+  flake8 = "mason-registry.flake8",
   ["flux-lsp"] = "mason-registry.flux-lsp",
   ["foam-language-server"] = "mason-registry.foam-language-server",
   fortls = "mason-registry.fortls",
