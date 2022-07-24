@@ -20,6 +20,7 @@ return {
   ["cmake-language-server"] = "mason-registry.cmake-language-server",
   codelldb = "mason-registry.codelldb",
   codeql = "mason-registry.codeql",
+  codespell = "mason-registry.codespell",
   cpplint = "mason-registry.cpplint",
   cpptools = "mason-registry.cpptools",
   crystalline = "mason-registry.crystalline",
