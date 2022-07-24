@@ -148,6 +148,7 @@ return {
   tflint = "mason-registry.tflint",
   ["typescript-language-server"] = "mason-registry.typescript-language-server",
   ["vala-language-server"] = "mason-registry.vala-language-server",
+  vale = "mason-registry.vale",
   verible = "mason-registry.verible",
   ["vetur-vls"] = "mason-registry.vetur-vls",
   ["vim-language-server"] = "mason-registry.vim-language-server",
