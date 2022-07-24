@@ -1,4 +1,4 @@
-[![GitHub CI](https://github.com/williamboman/mason.nvim/workflows/Tests/badge.svg)](https://github.com/williamboman/mason.nvim/actions?query=workflow%3ATests+branch%3Aalpha+event%3Apush)
+[![GitHub CI](https://github.com/williamboman/mason.nvim/workflows/Tests/badge.svg)](https://github.com/williamboman/mason.nvim/actions?query=workflow%3ATests+branch%3Amain+event%3Apush)
 ![Platforms](https://img.shields.io/badge/platform-linux%20macOS%20windows-blue)
 ![Repository size](https://img.shields.io/github/repo-size/williamboman/mason.nvim)
 [![Sponsors](https://img.shields.io/github/sponsors/williamboman?style=flat-square)](https://github.com/sponsors/williamboman)
@@ -8,11 +8,6 @@
 <p align="center">
     Portable package manager for Neovim that runs everywhere Neovim runs.<br />
     Easily install and manage LSP servers, DAP servers, linters, and formatters.
-</p>
-
-<p align="center">
-    <em>Still a WIP - things remain subject to change and documentation is somewhat lacking.</em>
-    <em><a href="https://github.com/williamboman/mason.nvim/discussions/new?category=ideas">Early feedback is very much appreciated</a></em>
 </p>
 
 # Table of Contents
@@ -38,9 +33,10 @@ etc.) as well as other 3rd party plugins.
 
 ## Screenshots
 
-|                                                                                                                  |                                                                                                                  |                                                                                                                  |                                                                                                                  |
-| :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/6705160/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617684-6bb4c13f-1235-4ac9-829e-120b06f7437b.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617688-8f9ba225-00c8-495c-9c4c-b74240d6f280.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617692-02c6ddde-a97e-42b4-bca4-4f4caf45d569.png"> |
+|                                                                                                                  |                                                                                                                  |                                                                                                                  |
+| :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
+| <img alt="Main window" src="https://user-images.githubusercontent.com/6705160/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617684-6bb4c13f-1235-4ac9-829e-120b06f7437b.png"> | <img alt="Language filter" src="https://user-images.githubusercontent.com/6705160/177617688-8f9ba225-00c8-495c-9c4c-b74240d6f280.png"> |
+| <img alt="LSP server configuration schema" src="https://user-images.githubusercontent.com/6705160/177617692-02c6ddde-a97e-42b4-bca4-4f4caf45d569.png"> | <img alt="Checking for new versions" src="https://user-images.githubusercontent.com/6705160/180648183-69077d10-8795-4da6-ba4d-57ecf0cb25c9.png"> | <img alt="Help window" src="https://user-images.githubusercontent.com/6705160/180648292-136a0888-0fb6-4226-aa29-53bd3ffed400.png"> |
 
 # Requirements
 
@@ -66,13 +62,13 @@ your personal usage, some of these will also need to be installed. Refer to `:ch
 ## [Packer](https://github.com/wbthomason/packer.nvim)
 
 ```lua
-use { "williamboman/mason.nvim", branch = "alpha" }
+use { "williamboman/mason.nvim" }
 ```
 
 ## vim-plug
 
 ```vim
-Plug 'williamboman/mason.nvim', { 'branch': 'alpha' }
+Plug 'williamboman/mason.nvim'
 ```
 
 # Setup

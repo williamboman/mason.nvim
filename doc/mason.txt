@@ -18,7 +18,7 @@ Neovim's PATH during setup, allowing easy access for the builtin
 shell/terminal as well as other 3rd party plugins.
 
 API reference: ~
-    https://github.com/williamboman/mason.nvim/blob/alpha/doc/reference.md
+    https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md
 
 Extensions: ~
     - https://github.com/williamboman/mason-lspconfig.nvim

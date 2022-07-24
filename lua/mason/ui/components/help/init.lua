@@ -6,6 +6,8 @@ local log = require "mason-core.log"
 
 local LSPHelp = require "mason.ui.components.help.lsp"
 local DAPHelp = require "mason.ui.components.help.dap"
+local LinterHelp = require "mason.ui.components.help.linter"
+local FormatterHelp = require "mason.ui.components.help.formatter"
 
 ---@param state InstallerUiState
 local function Ship(state)
@@ -138,6 +140,16 @@ return function(state)
     elseif state.view.current == "DAP" then
         heading = Ui.Node {
             DAPHelp(state),
+            Ui.EmptyLine(),
+        }
+    elseif state.view.current == "Linter" then
+        heading = Ui.Node {
+            LinterHelp(state),
+            Ui.EmptyLine(),
+        }
+    elseif state.view.current == "Formatter" then
+        heading = Ui.Node {
+            FormatterHelp(state),
             Ui.EmptyLine(),
         }
     end

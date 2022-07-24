@@ -16,5 +16,12 @@ return function(state)
         {
             p.none "between a development tool (e.g. IDE or editor) and a debugger.",
         },
+        {
+            p.none "This provides editors with a standardized interface for enabling debugging",
+        },
+        {
+            p.none "capabilities - such as pausing execution, stepping through statements,",
+        },
+        { p.none "and inspecting variables." },
     }
 end
