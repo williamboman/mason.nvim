@@ -90,7 +90,7 @@ return {
   slint = { "slint-lsp" },
   solidity = { "solang", "solidity" },
   sphinx = { "esbonio" },
-  sql = { "sql-formatter", "sqlls", "sqls" },
+  sql = { "sql-formatter", "sqlfluff", "sqlls", "sqls" },
   stylelint = { "stylelint-lsp" },
   svelte = { "svelte-language-server" },
   systemverilog = { "svlangserver", "svls", "verible" },
@@ -106,6 +106,6 @@ return {
   vue = { "prettier", "prettierd", "vetur-vls", "vue-language-server" },
   wgsl = { "wgsl-analyzer" },
   xml = { "lemminx" },
-  yaml = { "prettier", "prettierd", "yaml-language-server" },
+  yaml = { "prettier", "prettierd", "yaml-language-server", "yamllint" },
   zig = { "zls" }
 }
