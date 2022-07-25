@@ -546,6 +546,7 @@ end
 local function filter()
     vim.ui.select(_.sort_by(_.identity, _.keys(Package.Lang)), {
         prompt = "Select language:",
+        kind = "mason-lang"
     }, function(choice)
         if not choice or choice == "" then
             return
