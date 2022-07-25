@@ -94,6 +94,7 @@ return {
   ["metamath-zero-lsp"] = "mason-registry.metamath-zero-lsp",
   misspell = "mason-registry.misspell",
   mockdebug = "mason-registry.mockdebug",
+  mypy = "mason-registry.mypy",
   netcoredbg = "mason-registry.netcoredbg",
   ["nickel-lang-lsp"] = "mason-registry.nickel-lang-lsp",
   nimlsp = "mason-registry.nimlsp",
