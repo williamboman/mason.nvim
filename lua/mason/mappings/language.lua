@@ -106,6 +106,6 @@ return {
   vue = { "prettier", "prettierd", "vetur-vls", "vue-language-server" },
   wgsl = { "wgsl-analyzer" },
   xml = { "lemminx" },
-  yaml = { "prettier", "prettierd", "yaml-language-server" },
+  yaml = { "prettier", "prettierd", "yaml-language-server", "yamllint" },
   zig = { "zls" }
 }
