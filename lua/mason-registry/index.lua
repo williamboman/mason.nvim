@@ -65,6 +65,7 @@ return {
   ["grammarly-languageserver"] = "mason-registry.grammarly-languageserver",
   ["graphql-language-service-cli"] = "mason-registry.graphql-language-service-cli",
   ["groovy-language-server"] = "mason-registry.groovy-language-server",
+  hadolint = "mason-registry.hadolint",
   ["haskell-language-server"] = "mason-registry.haskell-language-server",
   ["haxe-language-server"] = "mason-registry.haxe-language-server",
   ["hoon-language-server"] = "mason-registry.hoon-language-server",
