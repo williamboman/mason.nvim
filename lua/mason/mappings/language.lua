@@ -27,7 +27,7 @@ return {
   d = { "serve-d" },
   dhall = { "dhall-lsp" },
   django = { "djlint" },
-  dockerfile = { "dockerfile-language-server" },
+  dockerfile = { "dockerfile-language-server", "hadolint" },
   dot = { "dot-language-server" },
   elixir = { "elixir-ls" },
   elm = { "elm-format", "elm-language-server" },
