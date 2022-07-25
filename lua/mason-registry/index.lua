@@ -105,6 +105,7 @@ return {
   phpactor = "mason-registry.phpactor",
   ["powershell-editor-services"] = "mason-registry.powershell-editor-services",
   prettier = "mason-registry.prettier",
+  prettierd = "mason-registry.prettierd",
   ["prisma-language-server"] = "mason-registry.prisma-language-server",
   ["prosemd-lsp"] = "mason-registry.prosemd-lsp",
   psalm = "mason-registry.psalm",
