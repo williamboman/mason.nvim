@@ -90,7 +90,7 @@ return {
   slint = { "slint-lsp" },
   solidity = { "solang", "solidity" },
   sphinx = { "esbonio" },
-  sql = { "sql-formatter", "sqlls", "sqls" },
+  sql = { "sql-formatter", "sqlls", "sqls", "sqlfluff" },
   stylelint = { "stylelint-lsp" },
   svelte = { "svelte-language-server" },
   systemverilog = { "svlangserver", "svls", "verible" },

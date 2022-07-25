@@ -139,6 +139,7 @@ return {
   sorbet = "mason-registry.sorbet",
   sourcery = "mason-registry.sourcery",
   ["sql-formatter"] = "mason-registry.sql-formatter",
+  sqlfluff = "mason-registry.sqlfluff",
   sqlls = "mason-registry.sqlls",
   sqls = "mason-registry.sqls",
   staticcheck = "mason-registry.staticcheck",
