@@ -137,6 +137,7 @@ return {
   solidity = "mason-registry.solidity",
   sorbet = "mason-registry.sorbet",
   sourcery = "mason-registry.sourcery",
+  ["sql-formatter"] = "mason-registry.sql-formatter",
   sqlls = "mason-registry.sqlls",
   sqls = "mason-registry.sqls",
   staticcheck = "mason-registry.staticcheck",
