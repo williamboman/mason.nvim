@@ -20,7 +20,7 @@ return Pkg.new {
                 repo = "hadolint/hadolint",
                 out_file = platform.is.win and "hadolint.exe" or "hadolint",
                 asset_file = coalesce(
-                    when(platform.is.mac_x64, "hadolint-Darwin-x86_64"),
+                    when(platform.is.mac, "hadolint-Darwin-x86_64"),
                     when(platform.is.linux_arm64, "hadolint-Linux-arm64"),
                     when(platform.is.linux_x64, "hadolint-Linux-x86_64"),
                     when(platform.is.win_x64, "hadolint-Windows-x86_64.exe")
