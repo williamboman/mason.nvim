@@ -19,7 +19,7 @@ return {
   clarity = { "clarity-lsp" },
   clojure = { "clojure-lsp" },
   clojurescript = { "clojure-lsp" },
-  cmake = { "cmake-language-server" },
+  cmake = { "cmake-language-server", "cmake-format" },
   codeql = { "codeql" },
   crystal = { "crystalline" },
   css = { "css-lsp", "cssmodules-language-server", "prettier", "prettierd", "tailwindcss-language-server" },
