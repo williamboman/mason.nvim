@@ -17,7 +17,6 @@ return Pkg.new {
         local source = github.tag { repo = "firefox-devtools/vscode-firefox-debug" }
         source.with_receipt()
         git.clone { "https://github.com/firefox-devtools/vscode-firefox-debug", version = Optional.of(source.tag) }
-        ctx:apply_patches(require "mason-registry.firefox-debug-adapter.patches")
         ctx.spawn.npm { "install" }
         ctx.spawn.npm { "run", "build" }
         ctx.spawn.npm { "install", "--production" }
