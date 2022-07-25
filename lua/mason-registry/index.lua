@@ -166,6 +166,7 @@ return {
   ["vue-language-server"] = "mason-registry.vue-language-server",
   ["wgsl-analyzer"] = "mason-registry.wgsl-analyzer",
   ["yaml-language-server"] = "mason-registry.yaml-language-server",
+  yamllint = "mason-registry.yamllint",
   zk = "mason-registry.zk",
   zls = "mason-registry.zls"
 }
