@@ -17,6 +17,7 @@ return {
   clangd = "mason-registry.clangd",
   ["clarity-lsp"] = "mason-registry.clarity-lsp",
   ["clojure-lsp"] = "mason-registry.clojure-lsp",
+  ["cmake-format"] = "mason-registry.cmake-format",
   ["cmake-language-server"] = "mason-registry.cmake-language-server",
   codelldb = "mason-registry.codelldb",
   codeql = "mason-registry.codeql",
