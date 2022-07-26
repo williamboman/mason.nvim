@@ -55,6 +55,7 @@ return {
   ["foam-language-server"] = "mason-registry.foam-language-server",
   fortls = "mason-registry.fortls",
   fsautocomplete = "mason-registry.fsautocomplete",
+  gitlint = "mason-registry.gitlint",
   ["go-debug-adapter"] = "mason-registry.go-debug-adapter",
   gofumpt = "mason-registry.gofumpt",
   ["golangci-lint"] = "mason-registry.golangci-lint",
