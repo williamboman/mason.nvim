@@ -132,6 +132,7 @@ return {
   selene = "mason-registry.selene",
   ["serve-d"] = "mason-registry.serve-d",
   shellcheck = "mason-registry.shellcheck",
+  shellharden = "mason-registry.shellharden",
   shfmt = "mason-registry.shfmt",
   ["shopify-theme-check"] = "mason-registry.shopify-theme-check",
   ["slint-lsp"] = "mason-registry.slint-lsp",
