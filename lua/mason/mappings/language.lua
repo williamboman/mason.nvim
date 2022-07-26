@@ -59,7 +59,7 @@ return {
   lelwel = { "lelwel" },
   less = { "css-lsp", "prettier", "prettierd" },
   liquid = { "shopify-theme-check" },
-  lua = { "lemmy-help", "lua-language-server", "luacheck", "luaformatter", "stylua" },
+  lua = { "lemmy-help", "lua-language-server", "luacheck", "luaformatter", "selene", "stylua" },
   markdown = { "grammarly-languageserver", "ltex-ls", "markdownlint", "marksman", "prettier", "prettierd", "prosemd-lsp", "remark-language-server", "vale", "write-good", "zk" },
   ["metamath zero"] = { "metamath-zero-lsp" },
   mksh = { "shfmt" },

@@ -129,6 +129,7 @@ return {
   rome = "mason-registry.rome",
   ["rust-analyzer"] = "mason-registry.rust-analyzer",
   ["salt-lsp"] = "mason-registry.salt-lsp",
+  selene = "mason-registry.selene",
   ["serve-d"] = "mason-registry.serve-d",
   shellcheck = "mason-registry.shellcheck",
   shfmt = "mason-registry.shfmt",
