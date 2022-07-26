@@ -6,6 +6,6 @@ return Pkg.new({
     desc = [[A blazing-fast modern Lua linter written in Rust]],
     homepage = "https://kampfkarren.github.io/selene/",
     languages = { Pkg.Lang.Lua },
-    categories = { Pkg.Cat.Formatter, Pkg.Cat.Linter },
+    categories = { Pkg.Cat.Linter },
     install = cargo.crate({ "selene", bin = { "selene" } }),
 })
