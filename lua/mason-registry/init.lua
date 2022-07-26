@@ -59,6 +59,15 @@ function M.is_installed(package_name)
     return scan_install_root()[package_name] == true
 end
 
+-- Add a require path to the index
+-- @param package_name string
+-- @param module_path string
+function M.add_package(package_name, module_path)
+	if not index[package_name] then
+		index[package_name] = module_path
+	end
+end
+
 ---Returns an instance of the Package class if the provided package name exists. This function errors if a package cannot be found.
 ---@param package_name string
 ---@return Package
