@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://github.com/anordal/shellharden",
     languages = { Pkg.Lang.Bash },
     categories = { Pkg.Cat.Formatter, Pkg.Cat.Linter },
-    install = cargo.crate { "shellharden", bin = { "shellharden" } },
+    install = cargo.crate("shellharden", { bin = { "shellharden" } }),
 }
