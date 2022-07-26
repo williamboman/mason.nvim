@@ -62,7 +62,11 @@ your personal usage, some of these will also need to be installed. Refer to `:ch
 ## [Packer](https://github.com/wbthomason/packer.nvim)
 
 ```lua
-use { "williamboman/mason.nvim" }
+    use ({'williamboman/mason.nvim',
+      config = function()
+        require("mason").setup()
+      end
+    })
 ```
 
 ## vim-plug
