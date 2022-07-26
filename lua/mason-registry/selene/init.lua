@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://kampfkarren.github.io/selene/",
     languages = { Pkg.Lang.Lua },
     categories = { Pkg.Cat.Linter },
-    install = cargo.crate { "selene", bin = { "selene" } },
+    install = cargo.crate("selene", { bin = { "selene" } }),
 }
