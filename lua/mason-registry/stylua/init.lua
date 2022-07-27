@@ -1,5 +1,9 @@
 local Pkg = require "mason-core.package"
-local cargo = require "mason-core.managers.cargo"
+local _ = require "mason-core.functional"
+local platform = require "mason-core.platform"
+local github = require "mason-core.managers.github"
+
+local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "stylua",
@@ -7,7 +11,20 @@ return Pkg.new {
     homepage = "https://github.com/JohnnyMorganz/StyLua",
     languages = { Pkg.Lang.Lua },
     categories = { Pkg.Cat.Formatter },
-    install = cargo.crate("stylua", {
-        bin = { "stylua" },
-    }),
+    ---@async
+    ---@param ctx InstallContext
+    install = function(ctx)
+        github
+            .unzip_release_file({
+                repo = "johnnymorganz/stylua",
+                asset_file = coalesce(
+                    when(platform.is.mac_arm64, "stylua-macos-aarch64.zip"),
+                    when(platform.is.mac_x64, "stylua-macos.zip"),
+                    when(platform.is.linux_x64, "stylua-linux.zip"),
+                    when(platform.is.win_x64, "stylua-win64.zip")
+                ),
+            })
+            .with_receipt()
+        ctx:link_bin("stylua", platform.is.win and "stylua.exe" or "stylua")
+    end,
 }
