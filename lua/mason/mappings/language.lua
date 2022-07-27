@@ -60,7 +60,7 @@ return {
   less = { "css-lsp", "prettier", "prettierd" },
   liquid = { "shopify-theme-check" },
   lua = { "lemmy-help", "lua-language-server", "luacheck", "luaformatter", "selene", "stylua" },
-  markdown = { "grammarly-languageserver", "ltex-ls", "markdownlint", "marksman", "prettier", "prettierd", "prosemd-lsp", "remark-language-server", "vale", "write-good", "zk" },
+  markdown = { "alex", "grammarly-languageserver", "ltex-ls", "markdownlint", "marksman", "prettier", "prettierd", "prosemd-lsp", "remark-language-server", "vale", "write-good", "zk" },
   ["metamath zero"] = { "metamath-zero-lsp" },
   mksh = { "shfmt" },
   mustache = { "djlint" },
@@ -107,6 +107,6 @@ return {
   vue = { "prettier", "prettierd", "vetur-vls", "vue-language-server" },
   wgsl = { "wgsl-analyzer" },
   xml = { "lemminx" },
-  yaml = { "prettier", "prettierd", "yaml-language-server", "yamllint" },
+  yaml = { "actionlint", "prettier", "prettierd", "yaml-language-server", "yamllint" },
   zig = { "zls" }
 }
