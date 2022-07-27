@@ -2,7 +2,6 @@ local Pkg = require "mason-core.package"
 local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
 local github = require "mason-core.managers.github"
-local path = require "mason-core.path"
 
 local coalesce, when = _.coalesce, _.when
 
@@ -12,6 +11,8 @@ return Pkg.new {
     homepage = "https://github.com/JohnnyMorganz/StyLua",
     languages = { Pkg.Lang.Lua },
     categories = { Pkg.Cat.Formatter },
+    ---@async
+    ---@param ctx InstallContext
     install = function(ctx)
         local source = github.unzip_release_file {
             repo = "johnnymorganz/stylua",
