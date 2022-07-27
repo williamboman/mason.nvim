@@ -1,6 +1,7 @@
 -- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY.
 -- stylua: ignore start
 return {
+  alex = "mason-registry.alex",
   ["angular-language-server"] = "mason-registry.angular-language-server",
   ["ansible-language-server"] = "mason-registry.ansible-language-server",
   ["apex-language-server"] = "mason-registry.apex-language-server",
