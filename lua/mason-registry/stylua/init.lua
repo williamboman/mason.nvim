@@ -14,7 +14,7 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        local source = github.unzip_release_file {
+        github.unzip_release_file({
             repo = "johnnymorganz/stylua",
             asset_file = coalesce(
                 when(platform.is.mac_arm64, "stylua-macos-aarch64.zip"),
@@ -22,8 +22,7 @@ return Pkg.new {
                 when(platform.is.linux, "stylua-linux.zip"),
                 when(platform.is.win_x64, "stylua-win64.zip")
             ),
-        }
-        source.with_receipt()
+        }).with_receipt()
         ctx:link_bin("stylua", platform.is.win and "stylua.exe" or "stylua" )
     end,
 }
