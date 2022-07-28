@@ -178,11 +178,10 @@ end
 
 ---@param handle InstallHandle
 local function setup_handle(handle)
-    ---@param new_state InstallHandleState
-    local function handle_state_change(new_state)
-        if new_state == "QUEUED" then
+    local function handle_state_change()
+        if handle.state == "QUEUED" then
             mutate_package_grouping(handle.package, "queued", true)
-        elseif new_state == "ACTIVE" then
+        elseif handle.state == "ACTIVE" then
             mutate_package_grouping(handle.package, "installing", true)
         end
     end
@@ -234,8 +233,7 @@ local function setup_handle(handle)
     handle:on("stderr", handle_output)
 
     -- hydrate initial state
-    handle_state_change(handle.state)
-    handle_terminate()
+    handle_state_change()
     handle_spawnhandle_change()
     mutate_state(function(state)
         state.packages.states[handle.package.name].tailed_output = {}
