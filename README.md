@@ -24,7 +24,7 @@
 # Introduction
 
 `mason.nvim` is a Neovim plugin that allow you to easily manage external editor tooling such as LSP servers, DAP servers,
-linters, and formatters through a single interface. It runs everywhere Neovim runs (across Linux, macOS, Windows, etc.),
+linters, and formatters through a single interface. Neovim runs (across Linux, macOS, Windows, etc.),
 with only a small set of [external requirements](#requirements) needed.
 
 Packages are installed to Neovim's `:h stdpath` by default. Executables are linked to a single `bin/` directory, which
