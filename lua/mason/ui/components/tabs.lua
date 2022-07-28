@@ -34,5 +34,6 @@ return function(state)
     end
     return Ui.CascadingStyleNode({ "INDENT" }, {
         Ui.HlTextNode { tabs },
+        Ui.StickyCursor { id = "tabs" },
     })
 end
