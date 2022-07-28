@@ -33,6 +33,7 @@ return {
   ["css-lsp"] = "mason-registry.css-lsp",
   ["cssmodules-language-server"] = "mason-registry.cssmodules-language-server",
   ["cucumber-language-server"] = "mason-registry.cucumber-language-server",
+  curlylint = "mason-registry.curlylint",
   debugpy = "mason-registry.debugpy",
   delve = "mason-registry.delve",
   deno = "mason-registry.deno",
