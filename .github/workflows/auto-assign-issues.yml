@@ -28,6 +28,4 @@ jobs:
                 token: ${{ secrets.PAT }}
                 issue-number: ${{ github.event.issue.number }}
                 body: |
-                    Hello! Cool! Pull requests are always very welcomed to add new packages. If the distribution of the
-                    package is simple, the installation will most likely be so as well (existing package installers may be
-                    used for reference!). Otherwise, @williamboman will get around to looking into this ASAP!
+                    Hello! Pull requests are always very welcomed to add new packages. If the distribution of the package is simple, the installation will most likely be so as well. See [CONTRIBUTING.md](https://github.com/williamboman/mason.nvim/blob/main/CONTRIBUTING.md) and the [API reference](https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md) for more details! You may also use existing packages as reference.
