@@ -14,6 +14,7 @@ return {
   black = "mason-registry.black",
   ["bsl-language-server"] = "mason-registry.bsl-language-server",
   ["chrome-debug-adapter"] = "mason-registry.chrome-debug-adapter",
+  ["clang-format"] = "mason-registry.clang-format",
   clangd = "mason-registry.clangd",
   ["clarity-lsp"] = "mason-registry.clarity-lsp",
   ["clojure-lsp"] = "mason-registry.clojure-lsp",
