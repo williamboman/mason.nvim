@@ -109,7 +109,7 @@ local function remove(list, item)
     return list
 end
 
-local window = display.new_view_only_win("Installer Info", "mason.nvim")
+local window = display.new_view_only_win("mason.nvim", "mason.nvim")
 local packages = _.sort_by(_.prop "name", registry.get_all_packages())
 
 window.view(
@@ -384,6 +384,10 @@ end
 
 local function set_view(event)
     local view = event.payload
+    local cursor_line = window.get_cursor()[1]
+    if cursor_line > (window.get_win_config().height * 0.75) then
+        window.set_sticky_cursor "tabs"
+    end
     mutate_package_visibility(function(state)
         state.view.current = view
         state.view.has_changed = true
