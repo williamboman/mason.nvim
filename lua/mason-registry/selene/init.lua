@@ -20,7 +20,7 @@ return Pkg.new {
                 repo = "Kampfkarren/selene",
                 asset_file = function(release)
                     local target = coalesce(
-                        when(platform.is.mac_x64, "selene-%s-macos.zip"),
+                        when(platform.is.mac, "selene-%s-macos.zip"),
                         when(platform.is.linux_x64, "selene-%s-linux.zip"),
                         when(platform.is.win_x64, "selene-%s-win64.zip")
                     )
