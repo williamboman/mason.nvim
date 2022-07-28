@@ -12,8 +12,8 @@
 # Contribution policy
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT
-RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14][bcp14]
-[RFC2119][rfc2119] [RFC8174][rfc8174] when, and only when, they appear in all capitals, as shown here.
+RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14][bcp14],
+[RFC2119][rfc2119], and [RFC8174][rfc8174] when, and only when, they appear in all capitals, as shown here.
 
 [bcp14]: https://tools.ietf.org/html/bcp14
 [rfc2119]: https://tools.ietf.org/html/rfc2119
@@ -28,7 +28,7 @@ MUST return a `Package` (`mason-core.package`) instance.
 ## The anatomy of a package
 
 Each package consists of a specification ([`PackageSpec`](https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md#packagespec)), describing metadata about
-the package as well as its installation instructions. The [`Package`](https://github.com/williamboman/mason.nvim/blob/main/doc/reference#package) class encapsulates a
+the package as well as its installation instructions. The [`Package`](https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md#package) class encapsulates a
 specification and provides utility methods such as `Package:install()` and `Package:check_new_version({callback})`.
 
 ### Package name
