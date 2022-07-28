@@ -5,7 +5,7 @@ return Pkg.new {
     name = "curlylint",
     desc = [[Experimental HTML templates linting for Jinja, Nunjucks, Django templates, Twig, Liquid]],
     homepage = "https://www.curlylint.org/",
-    languages = { Pkg.Lang.Python },
+    languages = { Pkg.Lang.Django, Pkg.Lang.Ninja, Pkg.Lang.Nunjucks, Pkg.Lang.Twig, Pkg.Lang.Liquid },
     categories = { Pkg.Cat.Linter },
     install = pip3.packages { "curlylint", bin = { "curlylint" } },
 }
