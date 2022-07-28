@@ -511,10 +511,10 @@ function M.new_view_only_win(name, filetype)
                 end
             end
         end,
-        get_win_config = function ()
+        get_win_config = function()
             assert(win_id ~= nil, "Window has not been opened, cannot get config.")
             return vim.api.nvim_win_get_config(win_id)
-        end
+        end,
     }
 end
 
