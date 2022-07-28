@@ -384,7 +384,10 @@ end
 
 local function set_view(event)
     local view = event.payload
-    window.set_sticky_cursor "tabs"
+    local cursor_line = window.get_cursor()[1]
+    if cursor_line > (window.get_win_config().height * .75) then
+        window.set_sticky_cursor "tabs"
+    end
     mutate_package_visibility(function(state)
         state.view.current = view
         state.view.has_changed = true
