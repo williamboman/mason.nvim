@@ -498,6 +498,9 @@ function M.new_view_only_win(name, filetype)
             assert(win_id ~= nil, "Window has not been opened, cannot get cursor.")
             return vim.api.nvim_win_get_cursor(win_id)
         end,
+        is_open = function()
+            return win_id ~= nil and vim.api.nvim_win_is_valid(win_id)
+        end,
         ---@param tag any
         set_sticky_cursor = function(tag)
             if output then
