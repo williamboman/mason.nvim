@@ -132,6 +132,7 @@ return {
   ["rnix-lsp"] = "mason-registry.rnix-lsp",
   ["robotframework-lsp"] = "mason-registry.robotframework-lsp",
   rome = "mason-registry.rome",
+  rubocop = "mason-registry.rubocop",
   ["rust-analyzer"] = "mason-registry.rust-analyzer",
   ["salt-lsp"] = "mason-registry.salt-lsp",
   selene = "mason-registry.selene",

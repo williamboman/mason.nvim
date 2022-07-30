@@ -83,7 +83,7 @@ return {
   reason = { "reason-language-server" },
   rescript = { "rescript-lsp" },
   ["robot framework"] = { "robotframework-lsp" },
-  ruby = { "solargraph", "sorbet" },
+  ruby = { "rubocop", "solargraph", "sorbet" },
   rust = { "codelldb", "cpptools", "rust-analyzer" },
   salt = { "salt-lsp" },
   scss = { "css-lsp", "prettier", "prettierd" },
