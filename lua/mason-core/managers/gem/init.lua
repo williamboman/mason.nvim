@@ -9,9 +9,38 @@ local platform = require "mason-core.platform"
 
 local M = {}
 
+---@param install_dir string
+local function env(install_dir)
+    return {
+        GEM_HOME = install_dir,
+        GEM_PATH = install_dir,
+        PATH = process.extend_path { path.concat { install_dir, "bin" } },
+    }
+end
+
 local create_bin_path = _.compose(path.concat, function(executable)
     return _.append(executable, { "bin" })
-end, _.if_else(_.always(platform.is.win), _.format "%s.cmd", _.identity))
+end, _.if_else(_.always(platform.is.win), _.format "%s.bat", _.identity))
+
+---@async
+---@param executable string
+local function link_executable(executable)
+    local ctx = installer.context()
+    local bin_path = create_bin_path(executable)
+    ctx:link_bin(
+        executable,
+        ctx:write_shell_exec_wrapper(executable, path.concat { ctx.package:get_install_path(), bin_path }, {
+            GEM_PATH = platform.when {
+                unix = function()
+                    return ("%s:$GEM_PATH"):format(ctx.package:get_install_path())
+                end,
+                win = function()
+                    return ("%s;%%GEM_PATH%%"):format(ctx.package:get_install_path())
+                end,
+            },
+        })
+    )
+end
 
 ---@param packages string[]
 local function with_receipt(packages)
@@ -49,12 +78,13 @@ function M.install(packages)
         "--bindir=bin",
         "--no-document",
         pkgs,
+        env = {
+            GEM_HOME = ctx.cwd:get(),
+        },
     }
 
     if packages.bin then
-        _.each(function(executable)
-            ctx:link_bin(executable, create_bin_path(executable))
-        end, packages.bin)
+        _.each(link_executable, packages.bin)
     end
 
     return {
@@ -109,7 +139,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "gem" then
         return Result.failure "Receipt does not have a primary source of type gem"
     end
-    return spawn.gem({ "outdated", cwd = install_dir, env = M.env(install_dir) }):map_catching(function(result)
+    return spawn.gem({ "outdated", cwd = install_dir, env = env(install_dir) }):map_catching(function(result)
         ---@type string[]
         local lines = vim.split(result.stdout, "\n")
         local outdated_gems = vim.tbl_map(M.parse_outdated_gem, vim.tbl_filter(not_empty, lines))
@@ -138,22 +168,13 @@ function M.get_installed_primary_package_version(receipt, install_dir)
         .gem({
             "list",
             cwd = install_dir,
-            env = M.env(install_dir),
+            env = env(install_dir),
         })
         :map_catching(function(result)
             local gems = M.parse_gem_list_output(result.stdout)
             return Optional.of_nilable(gems[receipt.primary_source.package])
                 :or_else_throw "Failed to find gem package version."
         end)
-end
-
----@param install_dir string
-function M.env(install_dir)
-    return {
-        GEM_HOME = install_dir,
-        GEM_PATH = install_dir,
-        PATH = process.extend_path { path.concat { install_dir, "bin" } },
-    }
 end
 
 return M
