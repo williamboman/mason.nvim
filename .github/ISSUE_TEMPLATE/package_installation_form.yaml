@@ -11,6 +11,20 @@ body:
 
               Before filing an issue, make sure that you meet the minimum requirements mentioned in the README.
 
+              **This is not a general support board for package installation issues. Please review the error output yourself first and ensure it's not a problem that is local to your system only.**
+
+    - type: checkboxes
+      attributes:
+          label: I've made an initial investigation into the error and believe this is an error with mason.nvim (or that an improvement could be made)
+          options:
+              - label: "Yes"
+
+    - type: checkboxes
+      attributes:
+          label: I've recently downloaded the latest plugin version of mason.nvim
+          options:
+              - label: "Yes"
+
     - type: textarea
       attributes:
           label: Problem description
@@ -35,12 +49,6 @@ body:
           description: "On Linux and Mac systems: `$ uname -a`"
       validations:
           required: true
-
-    - type: checkboxes
-      attributes:
-          label: I've recently downloaded the latest plugin version of mason.nvim
-          options:
-              - label: "Yes"
 
     - type: input
       attributes:
