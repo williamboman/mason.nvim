@@ -29,7 +29,7 @@ return Pkg.new {
             ctx:link_bin("taplo", "taplo")
         else
             cargo.crate("taplo-cli", {
-                features = "lsp",
+                features = "lsp,toml-test",
                 bin = { "taplo" },
             })
         end
