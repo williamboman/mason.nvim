@@ -40,6 +40,7 @@ end
 ---@field expanded_json_schema_keys table<string, table<string, boolean>>
 ---@field expanded_json_schemas table<string, boolean>
 ---@field has_expanded_before boolean
+---@field has_transitioned boolean
 ---@field is_checking_new_version boolean
 ---@field is_checking_version boolean
 ---@field is_terminated boolean
@@ -150,6 +151,7 @@ local function mutate_package_grouping(pkg, group, tail)
         else
             table.insert(state.packages[group], 1, pkg)
         end
+        state.packages.states[pkg.name].has_transitioned = true
     end)
 end
 
@@ -275,6 +277,7 @@ local function create_initial_package_state()
         expanded_json_schema_keys = {},
         expanded_json_schemas = {},
         has_expanded_before = false,
+        has_transitioned = false,
         is_checking_new_version = false,
         is_checking_version = false,
         is_terminated = false,
@@ -293,27 +296,20 @@ for _, pkg in ipairs(packages) do
     mutate_state(function(state)
         state.packages.states[pkg.name] = create_initial_package_state()
         state.packages.visible[pkg.name] = true
+        table.insert(state.packages[pkg:is_installed() and "installed" or "uninstalled"], pkg)
     end)
-    mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled", true)
 
     pkg:get_handle():if_present(setup_handle)
     pkg:on("handle", setup_handle)
 
     pkg:on("install:success", function()
-        if get_state().packages.expanded == pkg.name then
-            vim.schedule(function()
-                hydrate_detailed_package_state(pkg)
-            end)
-        end
-        mutate_package_grouping(pkg, "installed")
         mutate_state(function(state)
-            local pkg_state = state.packages.states[pkg.name]
-            pkg_state.new_version = nil
-            pkg_state.version = nil
-            pkg_state.has_expanded_before = false
-            pkg_state.tailed_output = {}
-            pkg_state.short_tailed_output = {}
+            state.packages.states[pkg.name] = create_initial_package_state()
+            if state.packages.expanded == pkg.name then
+                hydrate_detailed_package_state(pkg)
+            end
         end)
+        mutate_package_grouping(pkg, "installed")
         vim.schedule_wrap(notify)(("%q was successfully installed."):format(pkg.name))
     end)
 
@@ -323,6 +319,9 @@ for _, pkg in ipairs(packages) do
         function(handle)
             if handle.is_terminated then
                 -- If installation was explicitly terminated - restore to "pristine" state
+                mutate_state(function(state)
+                    state.packages.states[pkg.name] = create_initial_package_state()
+                end)
                 mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled")
             else
                 mutate_package_grouping(pkg, "failed")
@@ -331,10 +330,10 @@ for _, pkg in ipairs(packages) do
     )
 
     pkg:on("uninstall:success", function()
-        mutate_package_grouping(pkg, "uninstalled")
         mutate_state(function(state)
             state.packages.states[pkg.name] = create_initial_package_state()
         end)
+        mutate_package_grouping(pkg, "uninstalled")
     end)
 end
 
