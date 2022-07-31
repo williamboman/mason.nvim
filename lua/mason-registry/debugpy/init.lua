@@ -1,5 +1,6 @@
 local Pkg = require "mason-core.package"
 local pip3 = require "mason-core.managers.pip3"
+local path = require "mason-core.path"
 
 return Pkg.new {
     name = "debugpy",
@@ -7,5 +8,10 @@ return Pkg.new {
     homepage = "https://github.com/microsoft/debugpy",
     languages = { Pkg.Lang.Python },
     categories = { Pkg.Cat.DAP },
-    install = pip3.packages { "debugpy" },
+    ---@async
+    ---@param ctx InstallContext
+    install = function(ctx)
+        pip3.install({ "debugpy" }).with_receipt()
+        ctx:link_bin("debugpy", ctx:write_pyvenv_exec_wrapper("debugpy", "debugpy"))
+    end,
 }
