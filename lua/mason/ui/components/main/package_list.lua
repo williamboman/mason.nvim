@@ -117,7 +117,7 @@ end
 local function PackageComponent(state, pkg, opts)
     local pkg_state = state.packages.states[pkg.name]
     local is_expanded = state.packages.expanded == pkg.name
-    local label = is_expanded and p.Bold(" " .. pkg.name) or p.none(" " .. pkg.name)
+    local label = (is_expanded or pkg_state.has_transitioned) and p.Bold(" " .. pkg.name) or p.none(" " .. pkg.name)
 
     return Ui.Node {
         Ui.HlTextNode { { opts.icon, label } },
