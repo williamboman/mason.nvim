@@ -169,5 +169,6 @@ gopls: go1.18
         assert.equals("golang.org/x/tools/gopls", go.parse_package_mod "golang.org/x/tools/gopls/...")
         assert.equals("golang.org/x/crypto", go.parse_package_mod "golang.org/x/crypto/...")
         assert.equals("github.com/go-delve/delve", go.parse_package_mod "github.com/go-delve/delve/cmd/dlv")
+        assert.equals("mvdan.cc/sh/v3", go.parse_package_mod "mvdan.cc/sh/v3/cmd/shfmt")
     end)
 end)

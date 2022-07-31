@@ -87,22 +87,6 @@ body:
 
     - type: textarea
       attributes:
-          label: LspInfo
-          placeholder: ":LspInfo contents"
-          render: Text
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: LspLog
-          placeholder: "Are there any relevant logs in :LspLog? (don't paste its contents here)"
-          render: Text
-      validations:
-          required: false
-
-    - type: textarea
-      attributes:
           label: Healthcheck
           placeholder: ":checkhealth mason"
           render: Text

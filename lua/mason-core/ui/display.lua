@@ -245,8 +245,6 @@ function M.new_view_only_win(name, filetype)
     local draw = function(view)
         local win_valid = win_id ~= nil and vim.api.nvim_win_is_valid(win_id)
         local buf_valid = bufnr ~= nil and vim.api.nvim_buf_is_valid(bufnr)
-        log.fmt_trace("got bufnr=%s", bufnr)
-        log.fmt_trace("got win_id=%s", win_id)
 
         if not win_valid or not buf_valid then
             -- the window has been closed or the buffer is somehow no longer valid
@@ -500,6 +498,9 @@ function M.new_view_only_win(name, filetype)
             assert(win_id ~= nil, "Window has not been opened, cannot get cursor.")
             return vim.api.nvim_win_get_cursor(win_id)
         end,
+        is_open = function()
+            return win_id ~= nil and vim.api.nvim_win_is_valid(win_id)
+        end,
         ---@param tag any
         set_sticky_cursor = function(tag)
             if output then
@@ -510,6 +511,10 @@ function M.new_view_only_win(name, filetype)
                     vim.api.nvim_win_set_cursor(win_id, { new_sticky_cursor_line, cursor[2] })
                 end
             end
+        end,
+        get_win_config = function()
+            assert(win_id ~= nil, "Window has not been opened, cannot get config.")
+            return vim.api.nvim_win_get_config(win_id)
         end,
     }
 end

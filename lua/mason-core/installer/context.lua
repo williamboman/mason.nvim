@@ -226,29 +226,42 @@ end
 
 ---@param new_executable_rel_path string: Relative path to the executable file to create.
 ---@param command string: The shell command to run.
+---@param env table<string, string>?
 ---@return string: The created executable filename.
-function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, command)
+function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, command, env)
     return platform.when {
         unix = function()
             local std = require "mason-core.managers.std"
+            local formatted_envs = _.map(function(pair)
+                local var, value = pair[1], pair[2]
+                return ("export %s=%q"):format(var, value)
+            end, _.to_pairs(env or {}))
+
             self.fs:write_file(
                 new_executable_rel_path,
                 _.dedent(([[
                     #!/bin/bash
+                    %s
                     exec %s "$@"
-                ]]):format(command))
+                ]]):format(_.join("\n", formatted_envs), command))
             )
             std.chmod("+x", { new_executable_rel_path })
             return new_executable_rel_path
         end,
         win = function()
             local executable_file = ("%s.cmd"):format(new_executable_rel_path)
+            local formatted_envs = _.map(function(pair)
+                local var, value = pair[1], pair[2]
+                return ("SET %s=%s"):format(var, value)
+            end, _.to_pairs(env or {}))
+
             self.fs:write_file(
                 executable_file,
                 _.dedent(([[
                     @ECHO off
+                    %s
                     %s %%*
-                ]]):format(command))
+                ]]):format(_.join("\n", formatted_envs), command))
             )
             return executable_file
         end,
@@ -257,22 +270,6 @@ end
 
 function InstallContext:link_bin(executable, rel_path)
     self.receipt:with_link("bin", executable, rel_path)
-end
-
----@param patches string[]
-function InstallContext:apply_patches(patches)
-    for _, patch in ipairs(patches) do
-        self.spawn.patch {
-            "-g",
-            "0",
-            "-f",
-            on_spawn = function(_, stdio)
-                local stdin = stdio[1]
-                stdin:write(patch)
-                stdin:close()
-            end,
-        }
-    end
 end
 
 return InstallContext

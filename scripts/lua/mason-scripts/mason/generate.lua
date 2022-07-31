@@ -54,8 +54,6 @@ local function create_package_index()
 end
 
 a.run_blocking(function()
-    a.wait_all {
-        create_language_map,
-        create_package_index,
-    }
+    create_package_index()
+    create_language_map()
 end)

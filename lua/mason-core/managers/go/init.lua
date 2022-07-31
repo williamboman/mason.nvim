@@ -100,7 +100,12 @@ function M.parse_package_mod(pkg)
             components[4], -- repo
         }))
     else
-        return trim_wildcard_suffix(pkg)
+        local components = _.split("/", pkg)
+        return trim_wildcard_suffix(_.join("/", {
+            components[1],
+            components[2],
+            components[3],
+        }))
     end
 end
 

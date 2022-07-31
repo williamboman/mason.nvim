@@ -25,6 +25,14 @@ something is missing or if something could be improved!
     -   [`Package:get_install_path()`](#packageget_install_path)
     -   [`Package:get_installed_version({callback})`](#packageget_installed_versioncallback)
     -   [`Package:check_new_version({callback})`](#packagecheck_new_versioncallback)
+-   [`InstallContext`](#installcontext)
+    -   [`InstallContext.package`](#installcontextpackage)
+    -   [`InstallContext.handle`](#installcontexthandle)
+    -   [`InstallContext.cwd`](#installcontextcwd)
+    -   [`InstallContext.spawn`](#installcontextspawn)
+    -   [`InstallContext.fs`](#installcontextfs)
+    -   [`InstallContext.requested_version`](#installcontextrequested_version)
+    -   [`InstallContext.stdio_sink`](#installcontextstdio_sink)
 -   [`InstallHandleState`](#installhandlestate)
 -   [`InstallHandle`](#installhandle)
     -   [`InstallHandle.package`](#installhandlepackage)
@@ -57,7 +65,6 @@ something is missing or if something could be improved!
 | categories | [`PackageCategory[]`](#package-cat)  |
 | languages  | [`PackageLanguage[]`](#package-lang) |
 | install    | `async fun(ctx: InstallContext)`     |
-
 
 ## `Package`
 
@@ -174,6 +181,106 @@ This method will asynchronously check whether there's a newer version of the pac
 
 Note that this method will result in network calls and will error when there is no internet connection. Also, one should
 call this method with care as to not cause high network traffic as well as respecting user's online privacy.
+
+## `InstallContext`
+
+The `InstallContext` class will be instantiated by Mason every time a package installer is executed. The `install`
+function of a package will receive an instance of `InstallContext` as its first argument.
+
+As the name suggests, this class provides contextual information to be used when installing a package. This includes
+which package is being installed, a `spawn` method that allow you to spawn processes that (i) use the correct working
+directory of the installation, and (ii) automatically registers stdout and stderr with the `InstallHandle`.
+
+### `InstallContext.package`
+
+**Type:** [`Package`](#package)
+
+### `InstallContext.handle`
+
+**Type:** [`InstallHandle`](#installhandle)
+
+### `InstallContext.cwd`
+
+**Type:** [`CwdManager`](#cwdmanager)
+
+### `InstallContext.spawn`
+
+**Type:** [`ContextualSpawn`](#contextualspawn)
+
+### `InstallContext.fs`
+
+**Type:** [`ContextualFs`](#contextualfs)
+
+### `InstallContext.requested_version`
+
+**Type:** `Optional<string>`
+
+### `InstallContext.stdio_sink`
+
+**Type:** `{ stdout: fun(chunk: string), stderr: fun(chunk: string) }`
+
+The `.stdio_sink` property can be used to send stdout or stderr output, to be presented to the user.
+
+Example:
+
+```lua
+Pkg.new {
+    --- ...
+    ---@async
+    ---@param ctx InstallContext
+    install = function (ctx)
+        ctx.stdio_sink.stdout "I am doing stuff\n"
+        ctx.stdio_sink.stderr "Something went wrong!\n"
+    end
+}
+```
+
+## `ContextualFs`
+
+Provides wrapper functions around `mason-core.fs`. These wrapper functions all accept relative paths, which will be
+expanded based on the associated `InstallContext`'s current working directory.
+
+## `ContextualSpawn`
+
+**Type:** `table<string, async fun(opts: SpawnOpts)>`
+
+Provides an asynchronous interface to spawn processes (via libuv). Each spawned process will, by default, be spawned
+with the current working directory of the `InstallContext` it belongs to. stdout & stderr will also automatically be
+registered with the relevant `InstallHandle`.
+
+Example usage:
+
+```lua
+Pkg.new {
+    --- ...
+    ---@async
+    ---@param ctx InstallContext
+    install = function (ctx)
+        ctx.spawn.npm { "install", "some-package" }
+        -- Calls to spawn will raise an error if it exits with a non-OK exit code or signal.
+        pcall(function ()
+            ctx.spawn.commandoesntexist {}
+        end)
+    end
+}
+```
+
+## `CwdManager`
+
+Manages the current working directory of an installation (through `InstallContext`).
+
+### `CwdManager:set({cwd)})`
+
+**Parameters:**
+
+-   `cwd`: `string`
+
+Changes the current working directory to `{cwd}`. `{cwd}` MUST be within the user's configured `install_root_dir`
+setting.
+
+### `CwdManager:get()`
+
+**Returns:** `string`
 
 ## `InstallHandleState`
 
