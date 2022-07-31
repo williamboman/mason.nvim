@@ -1,7 +1,7 @@
 local Pkg = require "mason-core.package"
 local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
-local std = require "mason-core.managers.std"
+local github = require "mason-core.managers.github"
 
 local coalesce, when = _.coalesce, _.when
 
@@ -14,28 +14,20 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        local unzipped_file = assert(
-            coalesce(
-                when(platform.is.mac, "lemminx-osx-x86_64"),
-                when(platform.is.linux_x64, "lemminx-linux"),
-                when(platform.is.win, "lemminx-win32")
+        local source = github.unzip_release_file {
+            repo = "redhat-developer/vscode-xml",
+            asset_file = coalesce(
+                when(platform.is.mac, "lemminx-osx-x86_64.zip"),
+                when(platform.is.linux_x64, "lemminx-linux.zip"),
+                when(platform.is.win, "lemminx-win32.zip")
             ),
-            ("Your operating system or architecture (%q) is not yet supported."):format(platform.arch)
-        )
-
-        std.download_file(
-            ("https://download.jboss.org/jbosstools/vscode/snapshots/lemminx-binary/%s/%s.zip"):format(
-                ctx.requested_version:or_else "0.19.2-677", -- TODO: resolve latest version dynamically
-                unzipped_file
-            ),
-            "lemminx.zip"
-        )
-        std.unzip("lemminx.zip", ".")
+        }
+        source.with_receipt()
+        local unzipped_binary = _.gsub("%.zip$", "", source.asset_file)
         ctx.fs:rename(
-            platform.is.win and ("%s.exe"):format(unzipped_file) or unzipped_file,
+            platform.is.win and ("%s.exe"):format(unzipped_binary) or unzipped_binary,
             platform.is.win and "lemminx.exe" or "lemminx"
         )
-        ctx.receipt:with_primary_source(ctx.receipt.unmanaged)
         ctx:link_bin("lemminx", platform.is.win and "lemminx.exe" or "lemminx")
     end,
 }
