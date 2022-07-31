@@ -69,6 +69,26 @@ Please refer to each package's own release pages to find which versions are
 available.
 
 ==============================================================================
+HOW TO USE PACKAGES                                             *mason-how-to*
+
+Although many packages are perfectly usable out of the box through Neovim
+builtins, it is recommended to use other 3rd party plugins to further
+integrate these. The following plugins are recommended:
+
+-   LSP: `lspconfig` & `mason-lspconfig.nvim`
+-   DAP: `nvim-dap`
+-   Linters: `null-ls.nvim` or `nvim-lint`
+-   Formatters: `null-ls.nvim` or `formatter.nvim`
+
+formatter.nvim        https://github.com/mhartington/formatter.nvim
+lspconfig             https://github.com/neovim/nvim-lspconfig
+mason-lspconfig.nvim  https://github.com/williamboman/mason-lspconfig.nvim
+null-ls.nvim          https://github.com/jose-elias-alvarez/null-ls.nvim
+nvim-dap              https://github.com/mfussenegger/nvim-dap
+nvim-lint             https://github.com/mfussenegger/nvim-lint
+
+
+==============================================================================
 COMMANDS                                                      *mason-commands*
 
                                                                       *:Mason*
