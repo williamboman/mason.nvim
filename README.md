@@ -31,12 +31,29 @@ Packages are installed to Neovim's `:h stdpath` by default. Executables are link
 `mason.nvim` will add to Neovim's PATH during setup, allowing seamless access from Neovim builtins (shell, terminal,
 etc.) as well as other 3rd party plugins.
 
+## How to use installed packages
+
+Although many packages are perfectly usable out of the box through Neovim builtins, it is recommended to use other 3rd
+party plugins to further integrate these. The following plugins are recommended:
+
+-   LSP: [`lspconfig`][lspconfig] & [`mason-lspconfig.nvim`][mason-lspconfig.nvim]
+-   DAP: [`nvim-dap`][nvim-dap]
+-   Linters: [`null-ls.nvim`][null-ls.nvim] or [`nvim-lint`][nvim-lint]
+-   Formatters: [`null-ls.nvim`][null-ls.nvim] or [`formatter.nvim`][formatter.nvim]
+
+[formatter.nvim]: https://github.com/mhartington/formatter.nvim
+[lspconfig]: https://github.com/neovim/nvim-lspconfig
+[mason-lspconfig.nvim]: https://github.com/williamboman/mason-lspconfig.nvim
+[null-ls.nvim]: https://github.com/jose-elias-alvarez/null-ls.nvim
+[nvim-dap]: https://github.com/mfussenegger/nvim-dap
+[nvim-lint]: https://github.com/mfussenegger/nvim-lint
+
 ## Screenshots
 
-|                                                                                                                  |                                                                                                                  |                                                                                                                  |
-| :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
-| <img alt="Main window" src="https://user-images.githubusercontent.com/6705160/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png"> | <img src="https://user-images.githubusercontent.com/6705160/177617684-6bb4c13f-1235-4ac9-829e-120b06f7437b.png"> | <img alt="Language filter" src="https://user-images.githubusercontent.com/6705160/177617688-8f9ba225-00c8-495c-9c4c-b74240d6f280.png"> |
-| <img alt="LSP server configuration schema" src="https://user-images.githubusercontent.com/6705160/177617692-02c6ddde-a97e-42b4-bca4-4f4caf45d569.png"> | <img alt="Checking for new versions" src="https://user-images.githubusercontent.com/6705160/180648183-69077d10-8795-4da6-ba4d-57ecf0cb25c9.png"> | <img alt="Help window" src="https://user-images.githubusercontent.com/6705160/180648292-136a0888-0fb6-4226-aa29-53bd3ffed400.png"> |
+|                                                                                                                                                        |                                                                                                                                                  |                                                                                                                                        |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: |
+|           <img alt="Main window" src="https://user-images.githubusercontent.com/6705160/177617680-d62caf26-f253-4ace-ab57-4b590595adca.png">           |                 <img src="https://user-images.githubusercontent.com/6705160/177617684-6bb4c13f-1235-4ac9-829e-120b06f7437b.png">                 | <img alt="Language filter" src="https://user-images.githubusercontent.com/6705160/177617688-8f9ba225-00c8-495c-9c4c-b74240d6f280.png"> |
+| <img alt="LSP server configuration schema" src="https://user-images.githubusercontent.com/6705160/177617692-02c6ddde-a97e-42b4-bca4-4f4caf45d569.png"> | <img alt="Checking for new versions" src="https://user-images.githubusercontent.com/6705160/180648183-69077d10-8795-4da6-ba4d-57ecf0cb25c9.png"> |   <img alt="Help window" src="https://user-images.githubusercontent.com/6705160/180648292-136a0888-0fb6-4226-aa29-53bd3ffed400.png">   |
 
 # Requirements
 
