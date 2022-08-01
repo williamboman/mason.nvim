@@ -1,11 +1,11 @@
 - [Contribution policy](#contribution-policy)
 - [Adding a new package](#adding-a-new-package)
     - [The anatomy of a package](#the-anatomy-of-a-package)
-    - [Package name](#package-name)
-    - [Package homepage](#package-homepage)
-    - [Package categories](#package-categories)
-    - [Package languages](#package-languages)
-    - [Package installer](#package-installer)
+        - [Package name](#package-name)
+        - [Package homepage](#package-homepage)
+        - [Package categories](#package-categories)
+        - [Package languages](#package-languages)
+        - [Package installer](#package-installer)
 - [Code style](#code-style)
 - [Generated code](#generated-code)
 
@@ -85,8 +85,11 @@ This project adheres to Editorconfig as well as Stylua formatting rules. New pat
 
 # Generated code
 
-Some changes such as adding or changing a package defintion will require generating some new code. This can be done on
-Unix systems like so:
+Some changes such as adding or changing a package definition will require generating some new code. The changes to
+generated code MAY be included in a pull request. If it's not included in a pull request, it will automatically be
+generated and pushed to your branch before merge.
+
+Generating code can be done on Unix systems like so:
 
 ```sh
 $ make generate
@@ -104,7 +107,7 @@ $ FILE=tests/mason-core/managers/luarocks_spec.lua make test
 
 # Adding or changing a feature
 
-Adding or changing a feature MUST be preceeded with an issue where scope and acceptance criteria are agreed upon with
+Adding or changing a feature MUST be preceded with an issue where scope and acceptance criteria are agreed upon with
 project maintainers before implementation.
 
 # Commit style
