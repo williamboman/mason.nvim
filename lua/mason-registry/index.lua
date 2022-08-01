@@ -117,6 +117,7 @@ return {
   prettier = "mason-registry.prettier",
   prettierd = "mason-registry.prettierd",
   ["prisma-language-server"] = "mason-registry.prisma-language-server",
+  proselint = "mason-registry.proselint",
   ["prosemd-lsp"] = "mason-registry.prosemd-lsp",
   psalm = "mason-registry.psalm",
   ["puppet-editor-services"] = "mason-registry.puppet-editor-services",
