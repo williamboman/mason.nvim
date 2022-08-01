@@ -50,7 +50,7 @@ return {
   java = { "clang-format", "jdtls" },
   javascript = { "chrome-debug-adapter", "clang-format", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "node-debug2-adapter", "prettier", "prettierd", "quick-lint-js", "rome", "typescript-language-server" },
   jinja = { "curlylint", "djlint" },
-  json = { "clang-format", "fixjson", "json-lsp", "prettier", "prettierd" },
+  json = { "clang-format", "fixjson", "json-lsp", "prettier", "prettierd", "spectral-language-server" },
   jsonnet = { "jsonnet-language-server" },
   jsx = { "prettier", "prettierd" },
   julia = { "julia-lsp" },
@@ -108,6 +108,6 @@ return {
   vue = { "prettier", "prettierd", "vetur-vls", "vue-language-server" },
   wgsl = { "wgsl-analyzer" },
   xml = { "lemminx" },
-  yaml = { "actionlint", "prettier", "prettierd", "yaml-language-server", "yamllint" },
+  yaml = { "actionlint", "prettier", "prettierd", "spectral-language-server", "yaml-language-server", "yamllint" },
   zig = { "zls" }
 }

@@ -148,6 +148,7 @@ return {
   solidity = "mason-registry.solidity",
   sorbet = "mason-registry.sorbet",
   sourcery = "mason-registry.sourcery",
+  ["spectral-language-server"] = "mason-registry.spectral-language-server",
   ["sql-formatter"] = "mason-registry.sql-formatter",
   sqlfluff = "mason-registry.sqlfluff",
   sqlls = "mason-registry.sqlls",
