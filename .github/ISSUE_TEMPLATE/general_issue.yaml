@@ -5,9 +5,8 @@ body:
     - type: markdown
       attributes:
           value: |
-              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/mason.nvim/discussions/categories/q-a :)
-
-              Before filing an issue, make sure that you meet the minimum requirements mentioned in the README.
+              1. 👋! This is not an issue template for questions! If you have questions, please refer to [the discussion board](https://github.com/williamboman/mason.nvim/discussions/categories/q-a) :)
+              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README.
 
     - type: textarea
       attributes:
@@ -39,13 +38,6 @@ body:
           label: I've recently downloaded the latest plugin version of mason.nvim
           options:
               - label: "Yes"
-
-    - type: input
-      attributes:
-          label: Affected packages
-          description: If this issue is specific to one or more packages, list them here. If not, write 'all'.
-      validations:
-          required: true
 
     - type: textarea
       attributes:

@@ -4,12 +4,14 @@ labels:
     - enhancement
 
 body:
-    - type: markdown
+    - type: checkboxes
       attributes:
-          value: |
-              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/mason.nvim/discussions/categories/q-a :)
-
-              Before filing an issue, make sure that you meet the minimum requirements mentioned in the README.
+          label: I've searched open issues for similar requests
+          description: If possible, please contribute to any open issues instead of opening a new one.
+          options:
+              - label: "Yes"
+      validations:
+          required: true
 
     - type: textarea
       attributes:
