@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://csharpier.com",
     languages = { Pkg.Lang["C#"] },
     categories = { Pkg.Cat.Formatter },
-    install = dotnet.package("csharpier", { bin = { "csharpier" } }),
+    install = dotnet.package("csharpier", { bin = { "dotnet-csharpier" } }),
 }
