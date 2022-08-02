@@ -9,7 +9,7 @@ local coalesce, when = _.coalesce, _.when
 return Pkg.new {
     name = "joker",
     desc = [[Small Clojure interpreter, linter and formatter]],
-    homepage = "https://clojure-lsp.io",
+    homepage = "https://github.com/candid82/joker",
     languages = { Pkg.Lang.Clojure, Pkg.Lang.ClojureScript },
     categories = { Pkg.Cat.Formatter, Pkg.Cat.Linter },
     ---@async
