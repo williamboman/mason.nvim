@@ -66,6 +66,7 @@ return {
   gitlint = "mason-registry.gitlint",
   ["go-debug-adapter"] = "mason-registry.go-debug-adapter",
   gofumpt = "mason-registry.gofumpt",
+  goimports = "mason-registry.goimports",
   ["golangci-lint"] = "mason-registry.golangci-lint",
   ["golangci-lint-langserver"] = "mason-registry.golangci-lint-langserver",
   golines = "mason-registry.golines",
