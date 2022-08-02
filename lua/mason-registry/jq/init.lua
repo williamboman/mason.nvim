@@ -18,7 +18,7 @@ return Pkg.new {
         github
             .download_release_file({
                 repo = "stedolan/jq",
-                out_file = platform.is_win and "jq.exe" or "jq",
+                out_file = platform.is.win and "jq.exe" or "jq",
                 asset_file = coalesce(
                     when(platform.is.mac, "jq-osx-amd64"),
                     when(platform.is.linux_x86, "jq-linux32"),

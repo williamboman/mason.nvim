@@ -18,7 +18,7 @@ return Pkg.new {
         github
             .download_release_file({
                 repo = "bufbuild/buf",
-                out_file = platform.is_win and "buf.exe" or "buf",
+                out_file = platform.is.win and "buf.exe" or "buf",
                 asset_file = coalesce(
                     when(platform.is.mac_x64, "buf-Darwin-x86_64"),
                     when(platform.is.mac_arm64, "buf-Darwin-arm64"),
