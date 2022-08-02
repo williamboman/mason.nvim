@@ -39,7 +39,7 @@ return {
   flux = { "flux-lsp" },
   fortran = { "fortls" },
   gitcommit = { "gitlint" },
-  go = { "delve", "djlint", "go-debug-adapter", "gofumpt", "golangci-lint", "golangci-lint-langserver", "golines", "gomodifytags", "gopls", "gotests", "impl", "json-to-struct", "revive", "staticcheck" },
+  go = { "delve", "djlint", "go-debug-adapter", "gofumpt", "goimports", "golangci-lint", "golangci-lint-langserver", "golines", "gomodifytags", "gopls", "gotests", "impl", "json-to-struct", "revive", "staticcheck" },
   graphql = { "graphql-language-service-cli", "prettier", "prettierd" },
   groovy = { "groovy-language-server" },
   handlebargs = { "djlint" },
