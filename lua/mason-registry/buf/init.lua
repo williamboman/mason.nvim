@@ -8,7 +8,7 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "buf",
-    desc = [[A new way of working with Protocol Buffers]],
+    desc = [[The Buf CLI is a one stop shop for your local Protocol Buffers needs. It comes with a linter that enforces good API designs, a breaking change detector, a generator, a formatter that formats your Protobuf files in accordance with industry standards. It also helps you manage your Protobuf assets on the Buf Schema Registry.]],
     homepage = "https://buf.build",
     languages = { Pkg.Lang.Proto },
     categories = { Pkg.Cat.Linter, Pkg.Cat.Formatter },
