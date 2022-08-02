@@ -7,23 +7,26 @@ body:
     - type: markdown
       attributes:
           value: |
-              👋! This is not an issue template for questions! If you have questions, please refer to https://github.com/williamboman/mason.nvim/discussions/categories/q-a :)
-
-              Before filing an issue, make sure that you meet the minimum requirements mentioned in the README.
-
-              **This is not a general support board for package installation issues. Please review the error output yourself first and ensure it's not a problem that is local to your system only.**
+              1. 👋! This is not an issue template for questions! If you have questions, please refer to [the discussion board](https://github.com/williamboman/mason.nvim/discussions/categories/q-a) :)
+              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README.
+              1. This is not a general support board for package installation issues. Please review the error output yourself first and ensure it's not a problem that is local to your system only.
 
     - type: checkboxes
       attributes:
-          label: I've made an initial investigation into the error and believe this is an error with mason.nvim (or that an improvement could be made)
+          label: I've made an initial investigation into the error myself
+          description: I've made an investigation and believe this is an error with mason.nvim (or that an improvement could be made).
           options:
               - label: "Yes"
+      validations:
+          required: true
 
     - type: checkboxes
       attributes:
           label: I've recently downloaded the latest plugin version of mason.nvim
           options:
               - label: "Yes"
+      validations:
+          required: true
 
     - type: textarea
       attributes:
@@ -53,7 +56,7 @@ body:
     - type: input
       attributes:
           label: Affected packages
-          description: If this issue is specific to one or more packages, list them here. If not, write 'all'.
+          description: If this issue is specific to one or more packages, list them here. If not, write 'All'.
       validations:
           required: true
 
