@@ -213,6 +213,21 @@ function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_
 end
 
 ---@param new_executable_rel_path string: Relative path to the executable file to create.
+---@param module string: The python module to call.
+function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, module)
+    return self:write_shell_exec_wrapper(
+        new_executable_rel_path,
+        ("%q -m %s"):format(
+            path.concat {
+                require("mason-core.managers.pip3").venv_path(self.package:get_install_path()),
+                "python",
+            },
+            module
+        )
+    )
+end
+
+---@param new_executable_rel_path string: Relative path to the executable file to create.
 ---@param target_executable_rel_path string
 function InstallContext:write_exec_wrapper(new_executable_rel_path, target_executable_rel_path)
     return self:write_shell_exec_wrapper(
