@@ -22,7 +22,7 @@ return Pkg.new {
                     local target = coalesce(
                         when(platform.is.mac, "selene-%s-macos.zip"),
                         when(platform.is.linux_x64, "selene-%s-linux.zip"),
-                        when(platform.is.win_x64, "selene-%s-win64.zip")
+                        when(platform.is.win_x64, "selene-%s-windows.zip")
                     )
                     return target and target:format(release)
                 end,
