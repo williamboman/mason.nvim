@@ -24,6 +24,7 @@ return {
   crystal = { "crystalline" },
   css = { "css-lsp", "cssmodules-language-server", "prettier", "prettierd", "tailwindcss-language-server" },
   cucumber = { "cucumber-language-server" },
+  cue = { "cuelsp" },
   d = { "serve-d" },
   dhall = { "dhall-lsp" },
   django = { "curlylint", "djlint" },
