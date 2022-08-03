@@ -28,10 +28,12 @@ return Pkg.new {
                 .with_receipt()
             ctx:link_bin("taplo", "taplo")
         else
-            cargo.crate("taplo-cli", {
-                features = "lsp,toml-test",
-                bin = { "taplo" },
-            })
+            cargo
+                .install("taplo-cli", {
+                    features = "lsp,toml-test",
+                    bin = { "taplo" },
+                })
+                .with_receipt()
         end
     end,
 }
