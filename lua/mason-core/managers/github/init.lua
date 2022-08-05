@@ -88,7 +88,7 @@ end
 ---@param processor async fun(opts: table)
 local function release_file_processor(filename, processor)
     ---@async
-    ---@param opts {repo: string, asset_file: string|fun(release: string):string}
+    ---@param opts {repo: string, version: Optional|nil, asset_file: string|fun(release: string):string}
     return function(opts)
         local release_file_source = M.release_file(opts)
         std.download_file(release_file_source.download_url, filename)
