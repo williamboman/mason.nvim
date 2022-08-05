@@ -14,8 +14,8 @@ return Pkg.new {
     install = function(ctx)
         github
             .unzip_release_file({
-                repo = "xdebug/vscode-php-debug",
-                asset_file = _.compose(_.format "php-debug-%s.vsix", _.gsub("^v", "")),
+                repo = "rogalmic/vscode-bash-debug",
+                asset_file = _.compose(_.format "bash-debug-%s.vsix", _.gsub("^v", "")),
             })
             .with_receipt()
         ctx.fs:rmrf(path.concat { "extension", "images" })
