@@ -108,6 +108,12 @@ function Package:install(opts)
                 ---@param success boolean
                 ---@param result Result
                 function(success, result)
+                    vim.schedule(function()
+                        vim.api.nvim_exec_autocmds("User", {
+                            pattern = "MasonInstallComplete",
+                            data = { name = self.name, success = success, results = result },
+                        })
+                    end)
                     if not success then
                         log.error("Unexpected error", result)
                         self:emit("install:failed", handle)
