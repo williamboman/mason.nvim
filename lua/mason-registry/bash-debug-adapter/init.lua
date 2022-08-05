@@ -7,7 +7,7 @@ local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "bash-debug-adapter",
-    desc = [[Debug your bash scripts.]],
+    desc = [[Bash shell debugger, based on bashdb.]],
     homepage = "https://github.com/rogalmic/vscode-bash-debug",
     languages = { Pkg.Lang.JavaScript, Pkg.Lang.TypeScript },
     categories = { Pkg.Cat.DAP },
