@@ -11,7 +11,7 @@ return Pkg.new {
     desc = [[Tectonic is a modernized, complete, self-contained TeX/LaTeX engine, powered by XeTeX and TeXLive.]],
     homepage = "https://tectonic-typesetting.github.io",
     languages = { Pkg.Lang.LaTeX },
-    categories = { Pkg.Cat.LSP, Pkg.Cat.Compiler, Pkg.Cat.Runtime },
+    categories = { Pkg.Cat.Compiler },
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
@@ -28,8 +28,12 @@ return Pkg.new {
                         asset_file = coalesce(
                             when(platform.is.mac, format_release_file "tectonic-%s-x86_64-apple-darwin.tar.gz"),
                             when(
-                                platform.is.linux_x64,
+                                platform.is.linux_x64 and platform.get_libc() == "glibc",
                                 format_release_file "tectonic-%s-x86_64-unknown-linux-gnu.tar.gz"
+                            ),
+                            when(
+                                platform.is.linux_x64 and platform.get_libc() == "musl",
+                                format_release_file "tectonic-%s-x86_64-unknown-linux-musl.tar.gz"
                             ),
                             when(
                                 platform.is.linux_arm,
@@ -39,16 +43,17 @@ return Pkg.new {
                     })
                     .with_receipt()
                 std.chmod("+x", { "tectonic" })
+                ctx:link_bin("tectonic", "tectonic")
             end,
             win = function()
                 github
                     .unzip_release_file({
                         repo = repo,
-                        asset_file = format_release_file "tectonic-%s-x86_64-pc-windows-gnu.zip",
+                        asset_file = format_release_file "tectonic-%s-x86_64-pc-windows-msvc.zip",
                     })
                     .with_receipt()
+                ctx:link_bin("tectonic", "tectonic.exe")
             end,
         }
-        ctx:link_bin("tectonic", platform.is.win and "tectonic.exe" or "tectonic")
     end,
 }
