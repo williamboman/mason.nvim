@@ -10,7 +10,7 @@ return {
   assembly = { "asm-lsp" },
   astro = { "astro-language-server" },
   awk = { "awk-language-server" },
-  bash = { "bash-language-server", "shellcheck", "shellharden", "shfmt" },
+  bash = { "bash-debug-adapter", "bash-language-server", "shellcheck", "shellharden", "shfmt" },
   beancount = { "beancount-language-server" },
   bicep = { "bicep-lsp" },
   c = { "clang-format", "clangd", "codelldb", "cpplint", "cpptools" },
