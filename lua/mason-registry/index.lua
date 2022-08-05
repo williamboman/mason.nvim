@@ -170,6 +170,7 @@ return {
   ["tailwindcss-language-server"] = "mason-registry.tailwindcss-language-server",
   taplo = "mason-registry.taplo",
   ["teal-language-server"] = "mason-registry.teal-language-server",
+  tectonic = "mason-registry.tectonic",
   ["terraform-ls"] = "mason-registry.terraform-ls",
   texlab = "mason-registry.texlab",
   tflint = "mason-registry.tflint",
