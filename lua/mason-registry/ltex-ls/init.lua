@@ -19,8 +19,7 @@ local function download_platform_dependent()
                 asset_file = function(version)
                     local target = coalesce(
                         when(platform.is_mac, "ltex-ls-%s-mac-x64.tar.gz"),
-                        when(platform.is_linux, "ltex-ls-%s-linux-x64.tar.gz"),
-                        when(platform.is_win, "ltex-ls-%s-windows-x64.zip")
+                        when(platform.is_linux, "ltex-ls-%s-linux-x64.tar.gz")
                     )
                     return target:format(version)
                 end,
