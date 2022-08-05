@@ -9,7 +9,7 @@ return Pkg.new {
     name = "bash-debug-adapter",
     desc = [[Bash shell debugger, based on bashdb.]],
     homepage = "https://github.com/rogalmic/vscode-bash-debug",
-    languages = { Pkg.Lang.JavaScript, Pkg.Lang.TypeScript },
+    languages = { Pkg.Lang.Bash },
     categories = { Pkg.Cat.DAP },
     ---@async
     ---@param ctx InstallContext
