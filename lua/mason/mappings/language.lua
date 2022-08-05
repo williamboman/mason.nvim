@@ -56,7 +56,7 @@ return {
   jsx = { "prettier", "prettierd" },
   julia = { "julia-lsp" },
   kotlin = { "kotlin-language-server", "ktlint" },
-  latex = { "ltex-ls", "texlab", "vale" },
+  latex = { "ltex-ls", "tectonic", "texlab", "vale" },
   lelwel = { "lelwel" },
   less = { "css-lsp", "prettier", "prettierd" },
   liquid = { "curlylint", "shopify-theme-check" },
