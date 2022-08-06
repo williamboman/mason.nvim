@@ -217,7 +217,7 @@ end
 function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, module)
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
-        ("%q -m %s.adapter"):format(
+        ("%q -m %s"):format(
             path.concat {
                 require("mason-core.managers.pip3").venv_path(self.package:get_install_path()),
                 "python",
