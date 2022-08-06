@@ -13,5 +13,6 @@ return Pkg.new {
     install = function(ctx)
         pip3.install({ "debugpy" }).with_receipt()
         ctx:link_bin("debugpy", ctx:write_pyvenv_exec_wrapper("debugpy", "debugpy"))
+        ctx:link_bin("debugpy-adapter", ctx:write_pyvenv_exec_wrapper("debugpy-adapter", "debugpy.adapter"))
     end,
 }
