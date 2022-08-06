@@ -5,7 +5,7 @@ return Pkg.new {
     name = "textlint",
     desc = [[The pluggable natural language linter for text and markdown.]],
     homepage = "https://textlint.github.io",
-    languages = {},
+    languages = { Pkg.Lang.Text, Pkg.Lang.Markdown },
     categories = { Pkg.Cat.Linter },
     install = npm.packages { "textlint", bin = { "textlint" } },
 }

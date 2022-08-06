@@ -52,7 +52,9 @@ end
 local function ExpandedPackageInfo(state, pkg, is_installed)
     local pkg_state = state.packages.states[pkg.name]
     return Ui.CascadingStyleNode({ "INDENT" }, {
-        Ui.HlTextNode(p.Comment(pkg.spec.desc)),
+        Ui.HlTextNode(_.map(function(line)
+            return { p.Comment(line) }
+        end, _.split("\n", pkg.spec.desc))),
         Ui.EmptyLine(),
         Ui.Table(_.concat(
             _.filter(_.identity, {
