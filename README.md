@@ -7,12 +7,14 @@
 
 <p align="center">
     Portable package manager for Neovim that runs everywhere Neovim runs.<br />
-    Easily install and manage LSP servers, DAP servers, linters, and formatters.
+    Easily install and manage LSP servers, DAP servers, linters, and formatters.<br />
+    <code>:help mason.nvim</code>
 </p>
 
 # Table of Contents
 
 -   [Introduction](#introduction)
+    -   [How to use installed packages](#how-to-use-installed-packages)
 -   [Screenshots](#screenshots)
 -   [Requirements](#requirements)
 -   [Installation](#installation)
@@ -23,6 +25,8 @@
 
 # Introduction
 
+> `:h mason-introduction`
+
 `mason.nvim` is a Neovim plugin that allow you to easily manage external editor tooling such as LSP servers, DAP servers,
 linters, and formatters through a single interface. It runs everywhere Neovim runs (across Linux, macOS, Windows, etc.),
 with only a small set of [external requirements](#requirements) needed.
@@ -32,6 +36,8 @@ Packages are installed to Neovim's `:h stdpath` by default. Executables are link
 etc.) as well as other 3rd party plugins.
 
 ## How to use installed packages
+
+> `:h mason-how-to`
 
 Although many packages are perfectly usable out of the box through Neovim builtins, it is recommended to use other 3rd
 party plugins to further integrate these. The following plugins are recommended:
@@ -56,6 +62,8 @@ party plugins to further integrate these. The following plugins are recommended:
 | <img alt="LSP server configuration schema" src="https://user-images.githubusercontent.com/6705160/177617692-02c6ddde-a97e-42b4-bca4-4f4caf45d569.png"> | <img alt="Checking for new versions" src="https://user-images.githubusercontent.com/6705160/180648183-69077d10-8795-4da6-ba4d-57ecf0cb25c9.png"> |   <img alt="Help window" src="https://user-images.githubusercontent.com/6705160/180648292-136a0888-0fb6-4226-aa29-53bd3ffed400.png">   |
 
 # Requirements
+
+> `:h mason-requirements`
 
 `mason.nvim` relaxes the minimum requirements by attempting multiple different utilities (for example, `wget`,
 `curl`, and `Invoke-WebRequest` are all perfect substitutes).
@@ -90,6 +98,8 @@ Plug 'williamboman/mason.nvim'
 
 # Setup
 
+> `:h mason-quickstart`
+
 ```lua
 require("mason").setup()
 ```
@@ -107,6 +117,8 @@ Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) 
 
 # Commands
 
+> `:h mason-commands`
+
 -   `:Mason` - opens a graphical status window
 -   `:MasonInstall <package> ...` - installs/reinstalls the provided packages
 -   `:MasonUninstall <package> ...` - uninstalls the provided packages
@@ -114,6 +126,8 @@ Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) 
 -   `:MasonLog` - opens the `mason.nvim` log file in a new tab window
 
 # Configuration
+
+> `:h mason-settings`
 
 You may optionally configure certain behavior of `mason.nvim` when calling the `.setup()` function. Refer to the
 [default configuration](#default-configuration) for a list of all available settings.
