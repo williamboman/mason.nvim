@@ -1,7 +1,6 @@
 local a = require "mason-core.async"
 local path = require "mason-core.path"
 local _ = require "mason-core.functional"
-local registry = require "mason-registry"
 local script_utils = require "mason-scripts.utils"
 
 local MASON_DIR = path.concat { vim.loop.cwd(), "lua", "mason" }
@@ -9,6 +8,7 @@ local MASON_REGISTRY_DIR = path.concat { vim.loop.cwd(), "lua", "mason-registry"
 
 ---@async
 local function create_language_map()
+    local registry = require "mason-registry"
     print "Creating language map…"
     local indexed_languages = {}
     local language_map = {}
