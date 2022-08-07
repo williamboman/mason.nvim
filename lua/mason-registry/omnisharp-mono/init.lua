@@ -7,7 +7,10 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "omnisharp-mono",
-    desc = [[OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires Mono to be installed on Linux & macOS.]],
+    desc = _.dedent [[
+        OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires Mono to be installed on
+        Linux & macOS.
+    ]],
     homepage = "https://github.com/OmniSharp/omnisharp-roslyn",
     languages = { Pkg.Lang["C#"] },
     categories = { Pkg.Cat.LSP },

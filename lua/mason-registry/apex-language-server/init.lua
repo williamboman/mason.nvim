@@ -8,7 +8,10 @@ local _ = require "mason-core.functional"
 local JAR_FILE = "apex-jorje-lsp.jar"
 return Pkg.new {
     name = "apex-language-server",
-    desc = [[The Apex Language Server is an IDE-agnostic way for tools to access code-editing capabilities such as code completion, go to definition, find all usage, and refactoring.]],
+    desc = _.dedent [[
+        The Apex Language Server is an IDE-agnostic way for tools to access code-editing capabilities such as code
+        completion, go to definition, find all usage, and refactoring.
+    ]],
     homepage = "https://github.com/forcedotcom/salesforcedx-vscode",
     languages = { Pkg.Lang.Apex },
     categories = { Pkg.Cat.LSP },

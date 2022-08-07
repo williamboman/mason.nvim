@@ -1,4 +1,5 @@
 local Pkg = require "mason-core.package"
+local _ = require "mason-core.functional"
 local composer = require "mason-core.managers.composer"
 local git = require "mason-core.managers.git"
 local github = require "mason-core.managers.github"
@@ -8,7 +9,10 @@ local path = require "mason-core.path"
 
 return Pkg.new {
     name = "phpactor",
-    desc = [[Phpactor is an intelligent Completion and Refactoring tool for PHP which is available over it’s own RPC protocol and as a Language Server.]],
+    desc = _.dedent [[
+        Phpactor is an intelligent Completion and Refactoring tool for PHP which is available over it’s own RPC protocol
+        and as a Language Server.
+    ]],
     homepage = "https://phpactor.readthedocs.io/en/master/",
     languages = { Pkg.Lang.PHP },
     categories = { Pkg.Cat.LSP },

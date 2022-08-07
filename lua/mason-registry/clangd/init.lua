@@ -8,7 +8,10 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "clangd",
-    desc = [[clangd understands your C++ code and adds smart features to your editor: code completion, compile errors, go-to-definition and more.]],
+    desc = _.dedent [[
+        clangd understands your C++ code and adds smart features to your editor: code completion, compile errors,
+        go-to-definition and more.
+    ]],
     homepage = "https://clangd.llvm.org",
     languages = { Pkg.Lang.C, Pkg.Lang["C++"] },
     categories = { Pkg.Cat.LSP },

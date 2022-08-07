@@ -50,7 +50,10 @@ end
 
 return Pkg.new {
     name = "ltex-ls",
-    desc = [[LTeX Language Server: LSP language server for LanguageTool 🔍✔️ with support for LaTeX 🎓, Markdown 📝, and others]],
+    desc = _.dedent [[
+        LTeX Language Server: LSP language server for LanguageTool 🔍✔️ with support for LaTeX 🎓, Markdown 📝, and
+        others.
+    ]],
     homepage = "https://valentjn.github.io/ltex/",
     languages = { Pkg.Lang.Text, Pkg.Lang.Markdown, Pkg.Lang.LaTeX },
     categories = { Pkg.Cat.LSP },

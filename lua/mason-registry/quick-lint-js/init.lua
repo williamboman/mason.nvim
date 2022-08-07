@@ -9,7 +9,10 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "quick-lint-js",
-    desc = [[Over 130× faster than ESLint, quick-lint-js gives you instant feedback as you code. Find bugs in your JavaScript before your finger leaves the keyboard. Lint any JavaScript file with no configuration.]],
+    desc = _.dedent [[
+        Over 130× faster than ESLint, quick-lint-js gives you instant feedback as you code. Find bugs in your JavaScript
+        before your finger leaves the keyboard. Lint any JavaScript file with no configuration.
+    ]],
     homepage = "https://quick-lint-js.com/",
     languages = { Pkg.Lang.JavaScript },
     categories = { Pkg.Cat.LSP, Pkg.Cat.Linter },

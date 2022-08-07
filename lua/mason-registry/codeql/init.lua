@@ -8,7 +8,11 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "codeql",
-    desc = [[Discover vulnerabilities across a codebase with CodeQL, our industry-leading semantic code analysis engine. CodeQL lets you query code as though it were data. Write a query to find all variants of a vulnerability, eradicating it forever. Then share your query to help others do the same.]],
+    desc = _.dedent [[
+        Discover vulnerabilities across a codebase with CodeQL, our industry-leading semantic code analysis engine.
+        CodeQL lets you query code as though it were data. Write a query to find all variants of a vulnerability,
+        eradicating it forever. Then share your query to help others do the same.
+    ]],
     homepage = "https://github.com/github/codeql-cli-binaries",
     languages = { Pkg.Lang.CodeQL },
     categories = { Pkg.Cat.LSP },
