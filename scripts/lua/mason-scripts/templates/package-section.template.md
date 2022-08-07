@@ -5,8 +5,8 @@
 > {{ spec.desc }}
 
 Homepage: {% url(spec.homepage) %}  
-Languages: {% join(spec.languages) ", " %}  
-Categories: {% join(spec.categories) ", " %}  
+Languages: {% join(each(spec.languages, wrap "`")) " " %}  
+Categories: {% join(each(spec.categories, wrap "`")) " " %}  
 
 <details>
     <summary>History:</summary>

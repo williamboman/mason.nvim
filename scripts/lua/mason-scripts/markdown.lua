@@ -23,6 +23,9 @@ local TEMPLATE_GLOBALS = {
         -- TODO turn heading into valid string, not needed for now
         return ("[%s](#%s)"):format(heading, heading)
     end,
+    wrap = _.curryN(function(wrap, str)
+        return ("%s%s%s"):format(wrap, str, wrap)
+    end, 2),
     list = _.compose(_.join "\n", _.map(_.format "- %s")),
     join = _.curryN(function(items, delim)
         return _.join(delim, items)
@@ -51,7 +54,7 @@ local TEMPLATE_GLOBALS = {
 ---@param str string
 local expr_interpolate = _.curryN(function(context, str)
     return _.gsub(
-        [[{%%%s?([%w%-_%.0-9%(%)%[%]%s%+%*,"/\|=%{%}]+)%s?%%}]], -- giggity
+        [[{%%%s?([%w%-_%.0-9%(%)%[%]%s%+%*,"/\|=%{%}`]+)%s?%%}]], -- giggity
         function(expr)
             local eval_result =
                 setfenv(loadstring(("return %s"):format(expr)), setmetatable(TEMPLATE_GLOBALS, { __index = context }))()

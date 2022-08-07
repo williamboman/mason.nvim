@@ -33,7 +33,6 @@ local function create_markdown_index()
     script_utils.write_file(
         "PACKAGES.md",
         markdown.render("PACKAGES.template.md", {
-            ["last_updated"] = os.date "!%c",
             ["packages"] = packages,
         })
     )
