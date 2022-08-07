@@ -24,8 +24,12 @@ test: clean_fixtures dependencies
 schemas-generate: dependencies
 	./scripts/nvim.sh scripts/lua/mason-scripts/mason-schemas/generate.lua
 
+.PHONY: package-markdown-index-generate
+package-markdown-index-generate: dependencies
+	./scripts/nvim.sh scripts/lua/mason-scripts/mason/generate_package_index.lua
+
 .PHONY: autogenerate
-autogenerate: schemas-generate
+autogenerate: schemas-generate package-markdown-index-generate
 
 .PHONY: generate
 generate: dependencies

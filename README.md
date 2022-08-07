@@ -35,6 +35,8 @@ Packages are installed to Neovim's `:h stdpath` by default. Executables are link
 `mason.nvim` will add to Neovim's PATH during setup, allowing seamless access from Neovim builtins (shell, terminal,
 etc.) as well as other 3rd party plugins.
 
+For a list of all available packages, see [PACKAGES.md](./PACKAGES.md).
+
 ## How to use installed packages
 
 > `:h mason-how-to`
