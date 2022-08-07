@@ -1,9 +1,13 @@
 local Pkg = require "mason-core.package"
+local _ = require "mason-core.functional"
 local pip3 = require "mason-core.managers.pip3"
 
 return Pkg.new {
     name = "flake8",
-    desc = [[flake8 is a python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the style and quality of some python code. ]],
+    desc = _.dedent [[
+        flake8 is a python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the
+        style and quality of some python code.
+    ]],
     homepage = "https://github.com/PyCQA/flake8",
     languages = { Pkg.Lang.Python },
     categories = { Pkg.Cat.Linter },

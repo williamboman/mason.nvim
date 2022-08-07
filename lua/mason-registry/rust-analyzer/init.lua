@@ -8,7 +8,10 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "rust-analyzer",
-    desc = [[rust-analyzer is an implementation of Language Server Protocol for the Rust programming language. It provides features like completion and goto definition for many code editors, including VS Code, Emacs and Vim.]],
+    desc = _.dedent [[
+        rust-analyzer is an implementation of Language Server Protocol for the Rust programming language. It provides
+        features like completion and goto definition for many code editors, including VS Code, Emacs and Vim.
+    ]],
     homepage = "https://rust-analyzer.github.io",
     languages = { Pkg.Lang.Rust },
     categories = { Pkg.Cat.LSP },

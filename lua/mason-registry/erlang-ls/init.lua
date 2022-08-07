@@ -1,4 +1,5 @@
 local Pkg = require "mason-core.package"
+local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
 local std = require "mason-core.managers.std"
 local git = require "mason-core.managers.git"
@@ -10,7 +11,12 @@ local rebar3 = platform.is_win and "rebar3.cmd" or "rebar3"
 
 return Pkg.new {
     name = "erlang-ls",
-    desc = [[Implementing features such as auto-complete or go-to-definition for a programming language is not trivial. Traditionally, this work had to be repeated for each development tool and it required a mix of expertise in both the targeted programming language and the programming language internally used by the development tool of choice.]],
+    desc = _.dedent [[
+        Implementing features such as auto-complete or go-to-definition for a programming language is not trivial.
+        Traditionally, this work had to be repeated for each development tool and it required a mix of expertise in both
+        the targeted programming language and the programming language internally used by the development tool of
+        choice.
+    ]],
     languages = { Pkg.Lang.Erlang },
     categories = { Pkg.Cat.LSP },
     homepage = "https://erlang-ls.github.io/",

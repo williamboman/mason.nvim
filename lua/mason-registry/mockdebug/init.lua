@@ -6,7 +6,10 @@ local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "mockdebug",
-    desc = [[Mock Debug simulates a debug adapter. It supports step, continue, breakpoints, exceptions, and variable access but it is not connected to any real debugger.]],
+    desc = _.dedent [[
+        Mock Debug simulates a debug adapter. It supports step, continue, breakpoints, exceptions, and variable access
+        but it is not connected to any real debugger.
+    ]],
     homepage = "https://github.com/microsoft/vscode-mock-debug",
     languages = {},
     categories = { Pkg.Cat.DAP },

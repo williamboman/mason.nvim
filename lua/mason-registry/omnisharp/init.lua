@@ -8,7 +8,10 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "omnisharp",
-    desc = [[OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires dotnet (.NET 6.0) to be installed.]],
+    desc = _.dedent [[
+        OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires dotnet (.NET 6.0) to be
+        installed.
+    ]],
     homepage = "https://github.com/OmniSharp/omnisharp-roslyn",
     languages = { Pkg.Lang["C#"] },
     categories = { Pkg.Cat.LSP },

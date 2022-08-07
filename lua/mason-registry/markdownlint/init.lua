@@ -6,6 +6,6 @@ return Pkg.new {
     desc = [[A Node.js style checker and lint tool for Markdown/CommonMark files]],
     homepage = "https://github.com/igorshubovych/markdownlint-cli",
     languages = { Pkg.Lang.Markdown },
-    categories = { Pkg.Cat.Linter },
+    categories = { Pkg.Cat.Linter, Pkg.Cat.Formatter },
     install = npm.packages { "markdownlint-cli", bin = { "markdownlint" } },
 }

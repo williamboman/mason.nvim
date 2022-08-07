@@ -7,7 +7,10 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "deno",
-    desc = [[Deno (/ˈdiːnoʊ/, pronounced dee-no) is a JavaScript, TypeScript, and WebAssembly runtime with secure defaults and a great developer experience.]],
+    desc = _.dedent [[
+        Deno (/ˈdiːnoʊ/, pronounced dee-no) is a JavaScript, TypeScript, and WebAssembly runtime with secure defaults
+        and a great developer experience.
+    ]],
     homepage = "https://deno.land/manual/language_server/overview",
     languages = { Pkg.Lang.JavaScript, Pkg.Lang.TypeScript },
     categories = { Pkg.Cat.LSP, Pkg.Cat.Runtime },
