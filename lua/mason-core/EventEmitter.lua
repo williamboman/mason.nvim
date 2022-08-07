@@ -56,7 +56,8 @@ function EventEmitter:off(event, handler)
     return false
 end
 
-function EventEmitter:clear_event_handlers()
+---@private
+function EventEmitter:__clear_event_handlers()
     self.__event_handlers = {}
     self.__event_handlers_once = {}
 end
