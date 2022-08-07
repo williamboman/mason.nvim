@@ -204,7 +204,7 @@ function InstallHandle:close()
     self.spawn_handles = {}
     self:set_state "CLOSED"
     self:emit "closed"
-    self:clear_event_handlers()
+    self:__clear_event_handlers()
 end
 
 function InstallHandleMt:__tostring()
