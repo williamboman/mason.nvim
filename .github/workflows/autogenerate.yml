@@ -29,6 +29,7 @@ jobs:
                   committer: "William Botman <william+bot@redwill.se>"
                   add-paths: |
                       lua/mason-schemas
+                      PACKAGES.md
                   commit-message: "chore: update generated code"
                   branch: chore/autogenerate
                   branch-suffix: short-commit-hash
