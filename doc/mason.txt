@@ -58,7 +58,7 @@ To view the UI for mason, run:
 Install a package via `:MasonInstall`, for example:
     :MasonInstall stylua
 
-You may also install multiple languages at a time:
+You may also install multiple packages at a time:
     :MasonInstall stylua lua-language-server
 
 To install a specific version of a package, you may provide it as part of the
