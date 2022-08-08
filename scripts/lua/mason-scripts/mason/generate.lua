@@ -55,5 +55,7 @@ end
 
 a.run_blocking(function()
     create_package_index()
+    package.loaded["mason-registry"] = nil
+    package.loaded["mason-registry.index"] = nil
     create_language_map()
 end)
