@@ -9,6 +9,7 @@ return {
   ["arduino-language-server"] = "mason-registry.arduino-language-server",
   ["asm-lsp"] = "mason-registry.asm-lsp",
   ["astro-language-server"] = "mason-registry.astro-language-server",
+  autopep8 = "mason-registry.autopep8",
   ["awk-language-server"] = "mason-registry.awk-language-server",
   ["bash-debug-adapter"] = "mason-registry.bash-debug-adapter",
   ["bash-language-server"] = "mason-registry.bash-language-server",
