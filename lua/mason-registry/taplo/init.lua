@@ -16,7 +16,7 @@ return Pkg.new {
     ---@param ctx InstallContext
     install = function(ctx)
         local asset_file = coalesce(
-            when(platform.is.mac, "taplo-full-x86_64-apple-darwin-gnu.tar.gz"),
+            when(platform.is.mac_x64, "taplo-full-x86_64-apple-darwin-gnu.tar.gz"),
             when(platform.is.linux_x64, "taplo-full-x86_64-unknown-linux-gnu.tar.gz")
         )
         if asset_file then
