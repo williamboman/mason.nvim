@@ -10,6 +10,7 @@
 - [arduino-language-server](#arduino-language-server)
 - [asm-lsp](#asm-lsp)
 - [astro-language-server](#astro-language-server)
+- [autopep8](#autopep8)
 - [awk-language-server](#awk-language-server)
 - [bash-debug-adapter](#bash-debug-adapter)
 - [bash-language-server](#bash-language-server)
@@ -363,6 +364,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall astro-language-server
+```
+
+
+# autopep8
+
+> A tool that automatically formats Python code to conform to the PEP 8 style guide
+
+Homepage: [https://pypi.org/project/autopep8/](https://pypi.org/project/autopep8/)  
+Languages: `Python`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`434f784`](https://github.com/williamboman/mason.nvim/commit/434f784) 2022-08-08 - feat: add autopep8 ([#272](https://github.com/williamboman/mason.nvim/issues/272)) by Xun
+</details>
+
+```
+:MasonInstall autopep8
 ```
 
 
