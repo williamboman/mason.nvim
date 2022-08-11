@@ -112,7 +112,7 @@ return {
   visualforce = { "visualforce-language-server" },
   vue = { "prettier", "prettierd", "vetur-vls", "vue-language-server" },
   wgsl = { "wgsl-analyzer" },
-  xml = { "lemminx" },
+  xml = { "lemminx", "xmlformatter" },
   yaml = { "actionlint", "cfn-lint", "prettier", "prettierd", "spectral-language-server", "yaml-language-server", "yamllint" },
   zig = { "zls" }
 }

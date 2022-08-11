@@ -194,6 +194,7 @@ return {
   vulture = "mason-registry.vulture",
   ["wgsl-analyzer"] = "mason-registry.wgsl-analyzer",
   ["write-good"] = "mason-registry.write-good",
+  xmlformatter = "mason-registry.xmlformatter",
   xo = "mason-registry.xo",
   ["yaml-language-server"] = "mason-registry.yaml-language-server",
   yamllint = "mason-registry.yamllint",
