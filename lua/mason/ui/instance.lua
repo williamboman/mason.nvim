@@ -609,9 +609,12 @@ window.init {
 }
 
 if settings.current.ui.check_outdated_packages_on_open then
-    vim.defer_fn(a.scope(function()
-        check_new_visible_package_versions()
-    end), 100)
+    vim.defer_fn(
+        a.scope(function()
+            check_new_visible_package_versions()
+        end),
+        100
+    )
 end
 
 return {
