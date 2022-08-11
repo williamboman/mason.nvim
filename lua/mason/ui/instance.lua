@@ -291,52 +291,6 @@ local function create_initial_package_state()
     }
 end
 
-for _, pkg in ipairs(packages) do
-    -- hydrate initial state
-    mutate_state(function(state)
-        state.packages.states[pkg.name] = create_initial_package_state()
-        state.packages.visible[pkg.name] = true
-        table.insert(state.packages[pkg:is_installed() and "installed" or "uninstalled"], pkg)
-    end)
-
-    pkg:get_handle():if_present(setup_handle)
-    pkg:on("handle", setup_handle)
-
-    pkg:on("install:success", function()
-        mutate_state(function(state)
-            state.packages.states[pkg.name] = create_initial_package_state()
-            if state.packages.expanded == pkg.name then
-                hydrate_detailed_package_state(pkg)
-            end
-        end)
-        mutate_package_grouping(pkg, "installed")
-        vim.schedule_wrap(notify)(("%q was successfully installed."):format(pkg.name))
-    end)
-
-    pkg:on(
-        "install:failed",
-        ---@param handle InstallHandle
-        function(handle)
-            if handle.is_terminated then
-                -- If installation was explicitly terminated - restore to "pristine" state
-                mutate_state(function(state)
-                    state.packages.states[pkg.name] = create_initial_package_state()
-                end)
-                mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled")
-            else
-                mutate_package_grouping(pkg, "failed")
-            end
-        end
-    )
-
-    pkg:on("uninstall:success", function()
-        mutate_state(function(state)
-            state.packages.states[pkg.name] = create_initial_package_state()
-        end)
-        mutate_package_grouping(pkg, "uninstalled")
-    end)
-end
-
 local help_animation
 do
     local help_command = ":help"
@@ -603,10 +557,62 @@ local effects = {
     ["UPDATE_ALL_PACKAGES"] = update_all_packages,
 }
 
+for _, pkg in ipairs(packages) do
+    -- hydrate initial state
+    mutate_state(function(state)
+        state.packages.states[pkg.name] = create_initial_package_state()
+        state.packages.visible[pkg.name] = true
+        table.insert(state.packages[pkg:is_installed() and "installed" or "uninstalled"], pkg)
+    end)
+
+    pkg:get_handle():if_present(setup_handle)
+    pkg:on("handle", setup_handle)
+
+    pkg:on("install:success", function()
+        mutate_state(function(state)
+            state.packages.states[pkg.name] = create_initial_package_state()
+            if state.packages.expanded == pkg.name then
+                hydrate_detailed_package_state(pkg)
+            end
+        end)
+        mutate_package_grouping(pkg, "installed")
+        vim.schedule_wrap(notify)(("%q was successfully installed."):format(pkg.name))
+    end)
+
+    pkg:on(
+        "install:failed",
+        ---@param handle InstallHandle
+        function(handle)
+            if handle.is_terminated then
+                -- If installation was explicitly terminated - restore to "pristine" state
+                mutate_state(function(state)
+                    state.packages.states[pkg.name] = create_initial_package_state()
+                end)
+                mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled")
+            else
+                mutate_package_grouping(pkg, "failed")
+            end
+        end
+    )
+
+    pkg:on("uninstall:success", function()
+        mutate_state(function(state)
+            state.packages.states[pkg.name] = create_initial_package_state()
+        end)
+        mutate_package_grouping(pkg, "uninstalled")
+    end)
+end
+
 window.init {
     effects = effects,
     highlight_groups = palette.highlight_groups,
 }
+
+if settings.current.ui.check_outdated_packages_on_open then
+    vim.defer_fn(a.scope(function()
+        check_new_visible_package_versions()
+    end), 100)
+end
 
 return {
     window = window,

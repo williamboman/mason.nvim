@@ -18,10 +18,10 @@ linked to a single `bin/` directory, which `mason.nvim` will add to the
 Neovim's PATH during setup, allowing easy access for the builtin
 shell/terminal as well as other 3rd party plugins.
 
-API reference:  
+API reference: ~
     https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md
 
-Extensions:  
+Extensions: ~
     - https://github.com/williamboman/mason-lspconfig.nvim
 
 ==============================================================================
@@ -145,6 +145,9 @@ Example:
 
     local DEFAULT_SETTINGS = {
         ui = {
+            -- Whether to automatically check for new versions when opening the :Mason window.
+            check_outdated_packages_on_open = true,
+
             -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
             border = "none",
 
@@ -278,10 +281,10 @@ is_installed({package_name})
     this is a more efficient option than the Package:is_installed() method due
     to a smaller amount of modules required to load.
 
-    Parameters:  
+    Parameters: ~
         {package_name} - string
 
-    Returns:  
+    Returns: ~
         boolean
 
                                                 *mason-registry.get_package()*
@@ -291,10 +294,10 @@ get_package({package_name})
 
     This function errors if a package cannot be found.
 
-     Parameters:  
+    Parameters: ~
         {package_name} - string
 
-    Returns:  
+    Returns: ~
         Package
 
                                      *mason-registry.get_installed_packages()*
@@ -302,7 +305,7 @@ get_installed_packages()
     Returns all installed package instances. This is a slower function that
     loads more modules.
 
-    Returns:  
+    Returns: ~
         Package[]
 
                                 *mason-registry.get_installed_package_names()*
@@ -310,7 +313,7 @@ get_installed_package_names()
     Returns all installed package names. This is a fast function that doesn't
     load any extra modules.
 
-    Returns:  
+    Returns: ~
         string[]
 
                                            *mason-registry.get_all_packages()*
@@ -318,7 +321,7 @@ get_all_packages()
     Returns all package instances. This is a slower function that loads more
     modules.
 
-    Returns:  
+    Returns: ~
         Package[]
 
                                       *mason-registry.get_all_package_names()*
@@ -326,7 +329,7 @@ get_all_package_names()
     Returns all package names. This is a fast function that doesn't load any
     extra modules.
 
-    Returns:  
+    Returns: ~
         string[]
 
 
