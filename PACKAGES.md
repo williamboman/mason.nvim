@@ -195,6 +195,7 @@
 - [vulture](#vulture)
 - [wgsl-analyzer](#wgsl-analyzer)
 - [write-good](#write-good)
+- [xmlformatter](#xmlformatter)
 - [xo](#xo)
 - [yaml-language-server](#yaml-language-server)
 - [yamllint](#yamllint)
@@ -4106,6 +4107,28 @@ Categories: `Linter`
 
 ```
 :MasonInstall write-good
+```
+
+
+# xmlformatter
+
+> xmlformatter is an Open Source Python package that provides formatting of XML documents. xmlformatter differs
+from others formatters by handling whitespaces by a distinct set of formatting rules - formatting element
+content by an object style and mixed content by a text style. You may find xmlformatter useful for corrections
+and presentations.
+
+Homepage: [https://github.com/pamoller/xmlformatter](https://github.com/pamoller/xmlformatter)  
+Languages: `XML`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`66f602d`](https://github.com/williamboman/mason.nvim/commit/66f602d) 2022-08-11 - feat: add xmlformatter ([#281](https://github.com/williamboman/mason.nvim/issues/281)) by Javier
+</details>
+
+```
+:MasonInstall xmlformatter
 ```
 
 
