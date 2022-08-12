@@ -29,7 +29,7 @@ return Pkg.new {
                         ),
                     })
                     .with_receipt()
-                ctx:link_bin("omnisharp-mono", "run")
+                ctx:link_bin("omnisharp-mono", ctx:write_exec_wrapper("omnisharp-mono", "run"))
             end,
             win = function()
                 github
