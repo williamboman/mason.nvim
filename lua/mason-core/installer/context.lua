@@ -239,6 +239,18 @@ function InstallContext:write_exec_wrapper(new_executable_rel_path, target_execu
     )
 end
 
+local BASH_TEMPLATE = _.dedent [[
+#!/bin/bash
+%s
+exec %s "$@"
+]]
+
+local BATCH_TEMPLATE = _.dedent [[
+@ECHO off
+%s
+%s %%*
+]]
+
 ---@param new_executable_rel_path string: Relative path to the executable file to create.
 ---@param command string: The shell command to run.
 ---@param env table<string, string>?
@@ -252,14 +264,7 @@ function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, comman
                 return ("export %s=%q"):format(var, value)
             end, _.to_pairs(env or {}))
 
-            self.fs:write_file(
-                new_executable_rel_path,
-                _.dedent(([[
-                    #!/bin/bash
-                    %s
-                    exec %s "$@"
-                ]]):format(_.join("\n", formatted_envs), command))
-            )
+            self.fs:write_file(new_executable_rel_path, BASH_TEMPLATE:format(_.join("\n", formatted_envs), command))
             std.chmod("+x", { new_executable_rel_path })
             return new_executable_rel_path
         end,
@@ -270,14 +275,7 @@ function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, comman
                 return ("SET %s=%s"):format(var, value)
             end, _.to_pairs(env or {}))
 
-            self.fs:write_file(
-                executable_file,
-                _.dedent(([[
-                    @ECHO off
-                    %s
-                    %s %%*
-                ]]):format(_.join("\n", formatted_envs), command))
-            )
+            self.fs:write_file(executable_file, BATCH_TEMPLATE:format(_.join("\n", formatted_envs), command))
             return executable_file
         end,
     }
