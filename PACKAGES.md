@@ -2641,6 +2641,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`fd82f13`](https://github.com/williamboman/mason.nvim/commit/fd82f13) 2022-08-12 - fix(omnisharp-mono): don't link directly to the `run` script ([#290](https://github.com/williamboman/mason.nvim/issues/290)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`18ba623`](https://github.com/williamboman/mason.nvim/commit/18ba623) 2022-07-20 - refactor(omnisharp)!: separate mono into its own package ([#101](https://github.com/williamboman/mason.nvim/issues/101)) by William Boman
 </details>
