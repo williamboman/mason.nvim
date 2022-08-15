@@ -10,13 +10,13 @@ local function lazy_require(module)
     })
 end
 
--- data
+---@module "mason-core.functional.data"
 local data = lazy_require "mason-core.functional.data"
 _.table_pack = data.table_pack
 _.enum = data.enum
 _.set_of = data.set_of
 
--- function
+---@module "mason-core.functional.function"
 local fun = lazy_require "mason-core.functional.function"
 _.curryN = fun.curryN
 _.compose = fun.compose
@@ -28,7 +28,7 @@ _.F = fun.F
 _.memoize = fun.memoize
 _.lazy = fun.lazy
 
--- list
+---@module "mason-core.functional.list"
 local list = lazy_require "mason-core.functional.list"
 _.reverse = list.reverse
 _.list_not_nil = list.list_not_nil
@@ -51,13 +51,13 @@ _.sort_by = list.sort_by
 _.uniq_by = list.uniq_by
 _.join = list.join
 
--- relation
+---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"
 _.equals = relation.equals
 _.prop_eq = relation.prop_eq
 _.prop_satisfies = relation.prop_satisfies
 
--- logic
+---@module "mason-core.functional.logic"
 local logic = lazy_require "mason-core.functional.logic"
 _.all_pass = logic.all_pass
 _.any_pass = logic.any_pass
@@ -66,7 +66,7 @@ _.is_not = logic.is_not
 _.complement = logic.complement
 _.cond = logic.cond
 
--- number
+---@module "mason-core.functional.number"
 local number = lazy_require "mason-core.functional.number"
 _.negate = number.negate
 _.gt = number.gt
@@ -76,7 +76,7 @@ _.lte = number.lte
 _.inc = number.inc
 _.dec = number.dec
 
--- string
+---@module "mason-core.functional.string"
 local string = lazy_require "mason-core.functional.string"
 _.matches = string.matches
 _.format = string.format
@@ -86,7 +86,7 @@ _.trim = string.trim
 _.dedent = string.dedent
 _.starts_with = string.starts_with
 
--- table
+---@module "mason-core.functional.table"
 local tbl = lazy_require "mason-core.functional.table"
 _.prop = tbl.prop
 _.pick = tbl.pick
@@ -95,7 +95,7 @@ _.size = tbl.size
 _.to_pairs = tbl.to_pairs
 _.invert = tbl.invert
 
--- type
+---@module "mason-core.functional.type"
 local typ = lazy_require "mason-core.functional.type"
 _.is_nil = typ.is_nil
 _.is = typ.is

@@ -54,7 +54,7 @@ local function with_receipt(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.packages(packages)
     return function()
         return M.install(packages).with_receipt()
@@ -62,7 +62,7 @@ function M.packages(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The Gem packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.install(packages)
     local ctx = installer.context()
     local pkgs = _.list_copy(packages or {})
@@ -100,7 +100,7 @@ end
 function M.parse_outdated_gem(outdated_gem)
     local package_name, version_expression = outdated_gem:match "^(.+) %((.+)%)"
     if not package_name or not version_expression then
-        -- unparseable
+        -- unparsable
         return nil
     end
     local current_version, latest_version = unpack(vim.split(version_expression, "<"))
@@ -133,7 +133,7 @@ local function not_empty(s)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "gem" then
@@ -152,8 +152,8 @@ function M.check_outdated_primary_package(receipt, install_dir)
             :map(function(gem)
                 return {
                     name = receipt.primary_source.package,
-                    current_version = assert(gem.current_version),
-                    latest_version = assert(gem.latest_version),
+                    current_version = assert(gem.current_version, "current_version missing in gem"),
+                    latest_version = assert(gem.latest_version, "latest_version missing in gem"),
                 }
             end)
             :or_else_throw "Primary package is not outdated."
@@ -161,7 +161,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
     return spawn

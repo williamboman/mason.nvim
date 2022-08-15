@@ -11,11 +11,11 @@ describe("fs", function()
     it(
         "refuses to rmrf paths outside of boundary",
         async_test(function()
-            local e = assert.has.errors(function()
+            local e = assert.has_error(function()
                 fs.async.rmrf "/thisisa/path"
             end)
 
-            assert.equal(
+            assert.equals(
                 [[Refusing to rmrf "/thisisa/path" which is outside of the allowed boundary "/foo". Please report this error at https://github.com/williamboman/mason.nvim/issues/new]],
                 e
             )

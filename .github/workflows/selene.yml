@@ -1,4 +1,4 @@
-name: Stylua check
+name: Selene check
 
 on:
     push:
@@ -11,11 +11,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: Run Stylua check
-              uses: JohnnyMorganz/stylua-action@1.0.0
+            - name: Run Selene check
+              uses: NTBBloodbath/selene-action@v1.0.0
               with:
                   # token is needed because the action allegedly downloads binary from github releases
                   token: ${{ secrets.GITHUB_TOKEN }}
-                  # CLI arguments
-                  args: --check .
-                  version: 0.14.2
+                  args: lua/ tests/ scripts/
+                  version: 0.20.0

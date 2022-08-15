@@ -23,7 +23,7 @@ local function with_receipt(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The go packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The go packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.packages(packages)
     return function()
         M.install(packages).with_receipt()
@@ -31,7 +31,7 @@ function M.packages(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The go packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The go packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.install(packages)
     local ctx = installer.context()
     local env = {
@@ -65,7 +65,7 @@ function M.install(packages)
     }
 end
 
----@param output string: The output from `go version -m` command.
+---@param output string The output from `go version -m` command.
 function M.parse_mod_version_output(output)
     ---@type {path: string[], mod: string[], dep: string[], build: string[]}
     local result = {}
@@ -100,6 +100,7 @@ function M.parse_package_mod(pkg)
             components[4], -- repo
         }))
     else
+        -- selene: allow(if_same_then_else)
         local components = _.split("/", pkg)
         return trim_wildcard_suffix(_.join("/", {
             components[1],
@@ -110,7 +111,7 @@ function M.parse_package_mod(pkg)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
     if vim.in_fast_event() then
@@ -134,7 +135,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
     local normalized_pkg_name = M.parse_package_mod(receipt.primary_source.package)
@@ -156,8 +157,8 @@ function M.check_outdated_primary_package(receipt, install_dir)
                     if installed_version ~= latest_version then
                         return {
                             name = normalized_pkg_name,
-                            current_version = assert(installed_version),
-                            latest_version = assert(latest_version),
+                            current_version = assert(installed_version, "missing installed_version"),
+                            latest_version = assert(latest_version, "missing latest_version"),
                         }
                     end
                 end)

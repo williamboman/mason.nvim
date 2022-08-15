@@ -14,7 +14,7 @@ local function with_receipt(repo)
 end
 
 ---@async
----@param opts {[1]: string, recursive: boolean, version: Optional|nil}: The first item in the table is the repository to clone.
+---@param opts {[1]: string, recursive: boolean, version: Optional?} The first item in the table is the repository to clone.
 function M.clone(opts)
     local ctx = installer.context()
     local repo = assert(opts[1], "No git URL provided.")
@@ -37,7 +37,7 @@ function M.clone(opts)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_git_clone(receipt, install_dir)
     if receipt.primary_source.type ~= "git" then
@@ -51,14 +51,14 @@ function M.check_outdated_git_clone(receipt, install_dir)
         end
         return {
             name = receipt.primary_source.remote,
-            current_version = assert(local_head),
-            latest_version = assert(remote_head),
+            current_version = assert(local_head, "no local HEAD"),
+            latest_version = assert(remote_head, "no remote HEAD"),
         }
     end)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_revision(receipt, install_dir)
     return spawn

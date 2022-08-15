@@ -34,15 +34,16 @@ end
 -- Also, there's no particular reason we need to refresh the environment (yet).
 local initial_environ = vim.fn.environ()
 
----@param new_paths string[]: A list of paths to prepend the existing PATH with.
+---@param new_paths string[] A list of paths to prepend the existing PATH with.
 function M.extend_path(new_paths)
     local new_path_str = table.concat(new_paths, platform.path_sep)
     return ("%s%s%s"):format(new_path_str, platform.path_sep, initial_environ.PATH or "")
 end
 
----Merges the provided env param with the user's full environent. Provided env has precedence.
+---Merges the provided env param with the user's full environment. Provided env has precedence.
 ---@param env table<string, string>
 ---@param excluded_var_names string[]|nil
+---@return string[]
 function M.graft_env(env, excluded_var_names)
     local excluded_var_names_set = excluded_var_names and _.set_of(excluded_var_names) or {}
     local merged_env = {}
@@ -84,18 +85,18 @@ local function sanitize_env_list(env_list)
     return sanitized_list
 end
 
----@alias JobSpawnCallback fun(success: boolean, exit_code: integer, signal: integer)
+---@alias JobSpawnCallback fun(success: boolean, exit_code: integer?, signal: integer?)
 
 ---@class JobSpawnOpts
----@field env string[]: List of "key=value" string.
+---@field env string[]? List of "key=value" string.
 ---@field args string[]
 ---@field cwd string
 ---@field stdio_sink StdioSink
 
----@param cmd string: The command/executable.
+---@param cmd string The command/executable.
 ---@param opts JobSpawnOpts
 ---@param callback JobSpawnCallback
----@return luv_handle,luv_pipe[],integer: Returns the job handle and the stdio array on success, otherwise returns nil.
+---@return luv_handle?,luv_pipe[]?,integer? # Returns the job handle and the stdio array on success, otherwise returns nil.
 function M.spawn(cmd, opts, callback)
     local stdin = uv.new_pipe(false)
     local stdout = uv.new_pipe(false)
@@ -155,7 +156,7 @@ function M.spawn(cmd, opts, callback)
             opts.stdio_sink.stderr(("Failed to spawn process cmd=%s err=%s\n"):format(cmd, pid_or_err))
         end
         callback(false)
-        return nil, nil
+        return nil, nil, nil
     end
 
     log.debug("Spawned with pid", pid_or_err)

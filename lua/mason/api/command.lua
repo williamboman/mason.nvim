@@ -160,6 +160,7 @@ vim.api.nvim_create_user_command("MasonLog", MasonLog, {
     desc = "Opens the mason.nvim log.",
 })
 
+-- selene: allow(global_usage)
 _G.mason_completion = {
     available_package_completion = function()
         local registry = require "mason-registry"

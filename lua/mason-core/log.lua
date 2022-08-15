@@ -37,6 +37,7 @@ local log = {
     },
 }
 
+-- selene: allow(incorrect_standard_library_use)
 local unpack = unpack or table.unpack
 
 do

@@ -41,13 +41,13 @@ local is_executable = _.memoize(function(cmd)
 end, _.identity)
 
 ---@class SpawnArgs
----@field with_paths string[]: (optional) Paths to add to the PATH environment variable.
----@field env table<string, string>: (optional) Example { SOME_ENV = "value", SOME_OTHER_ENV = "some_value" }
----@field env_raw string[]: (optional) Example: { "SOME_ENV=value", "SOME_OTHER_ENV=some_value" }
----@field stdio_sink StdioSink: (optional) If provided, will be used to write to stdout and stderr.
----@field cwd string: (optional)
----@field on_spawn (fun(handle: luv_handle, stdio: luv_pipe[])): (optional) Will be called when the process successfully spawns.
----@field check_executable boolean: (optional) Whether to check if the provided command is executable (defaults to true).
+---@field with_paths string[]? Paths to add to the PATH environment variable.
+---@field env table<string, string>? Example { SOME_ENV = "value", SOME_OTHER_ENV = "some_value" }
+---@field env_raw string[]? Example: { "SOME_ENV=value", "SOME_OTHER_ENV=some_value" }
+---@field stdio_sink StdioSink? If provided, will be used to write to stdout and stderr.
+---@field cwd string?
+---@field on_spawn (fun(handle: luv_handle, stdio: luv_pipe[], pid: integer))? Will be called when the process successfully spawns.
+---@field check_executable boolean? Whether to check if the provided command is executable (defaults to true).
 
 setmetatable(spawn, {
     ---@param normalized_cmd string

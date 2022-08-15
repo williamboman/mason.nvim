@@ -9,7 +9,7 @@ local sep = (function()
             return "\\"
         end
     else
-        return package.config:sub(1, 1)
+        return string.sub(package.config, 1, 1)
     end
 end)()
 
@@ -27,23 +27,23 @@ function M.is_subdirectory(root_path, path)
     return root_path == path or path:sub(1, #root_path + 1) == root_path .. sep
 end
 
----@param dir string|nil
+---@param dir string?
 function M.install_prefix(dir)
     local settings = require "mason.settings"
     return M.concat { settings.current.install_root_dir, dir }
 end
 
----@param executable string|nil
+---@param executable string?
 function M.bin_prefix(executable)
     return M.concat { M.install_prefix "bin", executable }
 end
 
----@param name string|nil
+---@param name string?
 function M.package_prefix(name)
     return M.concat { M.install_prefix "packages", name }
 end
 
----@param name string|nil
+---@param name string?
 function M.package_build_prefix(name)
     return M.concat { M.install_prefix ".packages", name }
 end

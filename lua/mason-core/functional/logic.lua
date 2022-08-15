@@ -4,7 +4,8 @@ local _ = {}
 
 ---@generic T
 ---@param predicates (fun(item: T): boolean)[]
----@return fun(item: T): boolean
+---@param item T
+---@return boolean
 _.all_pass = fun.curryN(function(predicates, item)
     for i = 1, #predicates do
         if not predicates[i](item) then
@@ -16,7 +17,8 @@ end, 2)
 
 ---@generic T
 ---@param predicates (fun(item: T): boolean)[]
----@return fun(item: T): boolean
+---@param item T
+---@return boolean
 _.any_pass = fun.curryN(function(predicates, item)
     for i = 1, #predicates do
         if predicates[i](item) then
@@ -26,11 +28,12 @@ _.any_pass = fun.curryN(function(predicates, item)
     return false
 end, 2)
 
----@generic T
+---@generic T, U
 ---@param predicate fun(item: T): boolean
----@param on_true fun(item: T): any
----@param on_false fun(item: T): any
+---@param on_true fun(item: T): U
+---@param on_false fun(item: T): U
 ---@param value T
+---@return U
 _.if_else = fun.curryN(function(predicate, on_true, on_false, value)
     if predicate(value) then
         return on_true(value)
@@ -40,6 +43,7 @@ _.if_else = fun.curryN(function(predicate, on_true, on_false, value)
 end, 4)
 
 ---@param value boolean
+---@return boolean
 _.is_not = function(value)
     return not value
 end
@@ -47,10 +51,15 @@ end
 ---@generic T
 ---@param predicate fun(value: T): boolean
 ---@param value T
+---@return boolean
 _.complement = fun.curryN(function(predicate, value)
     return not predicate(value)
 end, 2)
 
+---@generic T, U
+---@param predicate_transformer_pairs {[1]: (fun(value: T): boolean), [2]: (fun(value: T): U)}[]
+---@param value T
+---@return U?
 _.cond = fun.curryN(function(predicate_transformer_pairs, value)
     for _, pair in ipairs(predicate_transformer_pairs) do
         local predicate, transformer = pair[1], pair[2]

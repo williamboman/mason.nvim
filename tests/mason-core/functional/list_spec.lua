@@ -11,7 +11,7 @@ describe("functional: list", function()
         local list = { "BLUE", { nested = "TABLE" }, "RED" }
         local list_copy = _.list_copy(list)
         assert.same({ "BLUE", { nested = "TABLE" }, "RED" }, list_copy)
-        assert.is_not.is_true(list == list_copy)
+        assert.is_false(list == list_copy)
         assert.is_true(list[2] == list_copy[2])
     end)
 
@@ -65,7 +65,7 @@ describe("functional: list", function()
             return item == "Waldo"
         end)
 
-        assert.equal(
+        assert.equals(
             "Waldo",
             _.find_first(predicate, {
                 "Where",

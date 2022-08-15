@@ -10,7 +10,7 @@ local M = {}
 ---@alias GitHubTag {name: string}
 
 ---@param path string
----@return Result: JSON decoded response.
+---@return Result # JSON decoded response.
 local function api_call(path)
     return spawn
         .gh({ "api", path })
@@ -22,8 +22,8 @@ local function api_call(path)
 end
 
 ---@async
----@param repo string: The GitHub repo ("username/repo").
----@return Result: of GitHubRelease[]
+---@param repo string The GitHub repo ("username/repo").
+---@return Result # Result<GitHubRelease[]>
 function M.fetch_releases(repo)
     log.fmt_trace("Fetching GitHub releases for repo=%s", repo)
     local path = ("repos/%s/releases"):format(repo)
@@ -33,8 +33,8 @@ function M.fetch_releases(repo)
 end
 
 ---@async
----@param repo string: The GitHub repo ("username/repo").
----@param tag_name string: The tag_name of the release to fetch.
+---@param repo string The GitHub repo ("username/repo").
+---@param tag_name string The tag_name of the release to fetch.
 function M.fetch_release(repo, tag_name)
     log.fmt_trace("Fetching GitHub release for repo=%s, tag_name=%s", repo, tag_name)
     local path = ("repos/%s/releases/tags/%s"):format(repo, tag_name)
@@ -56,12 +56,12 @@ function M.release_predicate(opts)
     }
 end
 
----@alias FetchLatestGithubReleaseOpts {tag_name_pattern:string|nil, include_prerelease: boolean}
+---@alias FetchLatestGithubReleaseOpts {tag_name_pattern:string?, include_prerelease: boolean}
 
 ---@async
----@param repo string: The GitHub repo ("username/repo").
----@param opts FetchLatestGithubReleaseOpts|nil
----@return Result: of GitHubRelease
+---@param repo string The GitHub repo ("username/repo").
+---@param opts FetchLatestGithubReleaseOpts?
+---@return Result # Result<GitHubRelease>
 function M.fetch_latest_release(repo, opts)
     opts = opts or {
         tag_name_pattern = nil,
@@ -86,8 +86,8 @@ function M.fetch_latest_release(repo, opts)
 end
 
 ---@async
----@param repo string: The GitHub repo ("username/repo").
----@return Result: of GitHubTag[]
+---@param repo string The GitHub repo ("username/repo").
+---@return Result # Result<GitHubTag[]>
 function M.fetch_tags(repo)
     local path = ("repos/%s/tags"):format(repo)
     return api_call(path):map_err(function()
@@ -96,8 +96,8 @@ function M.fetch_tags(repo)
 end
 
 ---@async
----@param repo string: The GitHub repo ("username/repo").
----@return Result: Result<string> - The latest tag name.
+---@param repo string The GitHub repo ("username/repo").
+---@return Result # Result<string> The latest tag name.
 function M.fetch_latest_tag(repo)
     -- https://github.com/williamboman/vercel-github-api-latest-tag-proxy
     return fetch(("https://latest-github-tag.redwill.se/api/repo/%s/latest-tag"):format(repo))

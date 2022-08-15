@@ -8,10 +8,17 @@ local settings = require "mason.settings"
 
 local M = {}
 
+---@class InstallReceiptGitHubReleaseFileSource
+---@field type '"github_release_file"'
+---@field repo string
+---@field file string
+---@field release string
+
 ---@param repo string
 ---@param asset_file string
 ---@param release string
 local function with_release_file_receipt(repo, asset_file, release)
+    ---@return InstallReceiptGitHubReleaseFileSource
     return function()
         local ctx = installer.context()
         ctx.receipt:with_primary_source {
@@ -22,6 +29,11 @@ local function with_release_file_receipt(repo, asset_file, release)
         }
     end
 end
+
+---@class InstallReceiptGitHubTagSource
+---@field type '"github_tag"'
+---@field repo string
+---@field tag string
 
 ---@param repo string
 ---@param tag string
@@ -37,7 +49,7 @@ local function with_tag_receipt(repo, tag)
 end
 
 ---@async
----@param opts {repo: string, version: Optional|nil, asset_file: string|fun(release: string):string}
+---@param opts {repo: string, version: Optional?, asset_file: string|fun(release: string):string}
 function M.release_file(opts)
     local ctx = installer.context()
     local release = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
@@ -50,7 +62,7 @@ function M.release_file(opts)
     local asset_file
     if type(opts.asset_file) == "function" then
         asset_file = opts.asset_file(release)
-    else
+    elseif type(asset_file) == "string" then
         asset_file = opts.asset_file
     end
     if not asset_file then
@@ -71,7 +83,7 @@ function M.release_file(opts)
 end
 
 ---@async
----@param opts {repo: string, version: Optional|nil}
+---@param opts {repo: string, version: Optional?}
 function M.tag(opts)
     local ctx = installer.context()
     local tag = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
@@ -128,7 +140,7 @@ function M.gunzip_release_file(opts)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptGitHubReleaseFileSource>
 function M.check_outdated_primary_package_release(receipt)
     local source = receipt.primary_source
     if source.type ~= "github_release" and source.type ~= "github_release_file" then
@@ -150,7 +162,7 @@ function M.check_outdated_primary_package_release(receipt)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptGitHubTagSource>
 function M.check_outdated_primary_package_tag(receipt)
     local source = receipt.primary_source
     if source.type ~= "github_tag" then
