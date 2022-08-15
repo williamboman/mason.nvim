@@ -62,7 +62,7 @@ function M.release_file(opts)
     local asset_file
     if type(opts.asset_file) == "function" then
         asset_file = opts.asset_file(release)
-    elseif type(asset_file) == "string" then
+    else
         asset_file = opts.asset_file
     end
     if not asset_file then
