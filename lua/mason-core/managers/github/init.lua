@@ -63,7 +63,8 @@ function M.release_file(opts)
     if type(opts.asset_file) == "function" then
         asset_file = opts.asset_file(release)
     else
-        asset_file = opts.asset_file
+        assert(type(opts.asset_file) == "string", "expected asset_file to be a string")
+        asset_file = opts.asset_file --[[@as string]]
     end
     if not asset_file then
         error(
