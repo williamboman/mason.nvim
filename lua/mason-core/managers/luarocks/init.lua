@@ -20,8 +20,8 @@ local function with_receipt(package)
     end
 end
 
----@param package string: The luarock package to install.
----@param opts { dev: boolean?, server: string?, bin : string[]? | nil }?
+---@param package string The luarock package to install.
+---@param opts { dev: boolean?, server: string?, bin: string[]? }?
 function M.package(package, opts)
     return function()
         return M.install(package, opts).with_receipt()
@@ -30,7 +30,7 @@ end
 
 ---@async
 ---@param pkg string: The luarock package to install.
----@param opts { dev: boolean?, server: string?, bin : string[]? | nil }?
+---@param opts { dev: boolean?, server: string?, bin: string[]? }?
 function M.install(pkg, opts)
     opts = opts or {}
     local ctx = installer.context()
@@ -67,7 +67,7 @@ M.parse_installed_rocks = _.compose(
 )
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
     if receipt.primary_source.type ~= "luarocks" then
@@ -102,7 +102,7 @@ M.parse_outdated_rocks = _.compose(
 )
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "luarocks" then
@@ -125,8 +125,8 @@ function M.check_outdated_primary_package(receipt, install_dir)
                     function(outdated_rock)
                         return {
                             name = outdated_rock.name,
-                            current_version = assert(outdated_rock.installed),
-                            latest_version = assert(outdated_rock.available),
+                            current_version = assert(outdated_rock.installed, "missing installed luarock version"),
+                            latest_version = assert(outdated_rock.available, "missing available luarock version"),
                         }
                     end
                 )

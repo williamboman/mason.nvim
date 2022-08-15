@@ -152,7 +152,7 @@ function M.execute(handle, opts)
                 fs.async.rmrf(context.cwd:get())
             end)
 
-            -- unlink linked executables (in the rare occassion an error occurs after linking)
+            -- unlink linked executables (in the rare occasion an error occurs after linking)
             linker.unlink(context.package, context.receipt.links)
 
             if not handle:is_closed() and not handle.is_terminated then

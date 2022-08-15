@@ -35,7 +35,7 @@ local function with_receipt(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The npm packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The npm packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.packages(packages)
     return function()
         return M.install(packages).with_receipt()
@@ -43,7 +43,7 @@ function M.packages(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The npm packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The npm packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.install(packages)
     local ctx = installer.context()
     local pkgs = list_copy(packages)
@@ -76,21 +76,21 @@ function M.install(packages)
 end
 
 ---@async
----@param exec_args string[]: The arguments to pass to npm exec.
+---@param exec_args string[] The arguments to pass to npm exec.
 function M.exec(exec_args)
     local ctx = installer.context()
     ctx.spawn.npm { "exec", "--yes", "--", exec_args }
 end
 
 ---@async
----@param script string: The npm script to run.
+---@param script string The npm script to run.
 function M.run(script)
     local ctx = installer.context()
     ctx.spawn.npm { "run", script }
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
     if receipt.primary_source.type ~= "npm" then
@@ -103,7 +103,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "npm" then
@@ -123,8 +123,8 @@ function M.check_outdated_primary_package(receipt, install_dir)
                 if outdated_package.current ~= outdated_package.latest then
                     return {
                         name = primary_package,
-                        current_version = assert(outdated_package.current),
-                        latest_version = assert(outdated_package.latest),
+                        current_version = assert(outdated_package.current, "missing current npm package version"),
+                        latest_version = assert(outdated_package.latest, "missing latest npm package version"),
                     }
                 end
             end)

@@ -1,7 +1,6 @@
 local spy = require "luassert.spy"
 local mock = require "luassert.mock"
 local installer = require "mason-core.installer"
-local Optional = require "mason-core.optional"
 local composer = require "mason-core.managers.composer"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"

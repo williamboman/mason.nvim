@@ -3,7 +3,6 @@ local spy = require "luassert.spy"
 local path = require "mason-core.path"
 
 local pip3 = require "mason-core.managers.pip3"
-local Optional = require "mason-core.optional"
 local installer = require "mason-core.installer"
 local Result = require "mason-core.result"
 local settings = require "mason.settings"
@@ -12,9 +11,9 @@ local spawn = require "mason-core.spawn"
 describe("pip3 manager", function()
     it("normalizes pip3 packages", function()
         local normalize = pip3.normalize_package
-        assert.equal("python-lsp-server", normalize "python-lsp-server[all]")
-        assert.equal("python-lsp-server", normalize "python-lsp-server[]")
-        assert.equal("python-lsp-server", normalize "python-lsp-server[[]]")
+        assert.equals("python-lsp-server", normalize "python-lsp-server[all]")
+        assert.equals("python-lsp-server", normalize "python-lsp-server[]")
+        assert.equals("python-lsp-server", normalize "python-lsp-server[[]]")
     end)
 
     it(

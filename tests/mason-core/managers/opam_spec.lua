@@ -1,6 +1,4 @@
 local match = require "luassert.match"
-local mock = require "luassert.mock"
-local Optional = require "mason-core.optional"
 local installer = require "mason-core.installer"
 local opam = require "mason-core.managers.opam"
 

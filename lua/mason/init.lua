@@ -4,7 +4,7 @@ local platform = require "mason-core.platform"
 
 local M = {}
 
----@param config MasonSettings | nil
+---@param config MasonSettings?
 function M.setup(config)
     if config then
         settings.set(config)

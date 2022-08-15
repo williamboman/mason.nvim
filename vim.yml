@@ -1,0 +1,65 @@
+---
+globals:
+    jit.os:
+        type: string
+        property: read-only
+    package.config:
+        type: string
+        property: read-only
+    vim:
+        any: true
+    async_test:
+        args:
+            - type: function
+    assert.wait_for:
+        args:
+            - type: function
+    InstallHandleGenerator:
+        args:
+            - type: string
+    InstallContextGenerator:
+        args:
+            - type: any
+            - type: table
+              required: false
+    mockx.throws:
+        args: []
+    mockx.just_runs:
+        args: []
+    mockx.returns:
+        args:
+            - type: any
+
+    describe:
+        args:
+            - type: string
+            - type: function
+    before_each:
+        args:
+            - type: function
+    it:
+        args:
+            - type: string
+            - type: function
+    assert.equals:
+        args:
+            - type: any
+            - type: any
+    assert.same:
+        args:
+            - type: any
+            - type: any
+    assert.is_true:
+        args:
+            - type: any
+    assert.is_false:
+        args:
+            - type: any
+    assert.has_error:
+        args:
+            - type: function
+    assert.is_nil:
+        args:
+            - type: any
+    assert.spy:
+        any: true

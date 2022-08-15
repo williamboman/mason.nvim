@@ -115,9 +115,14 @@ function InstallReceiptBuilder:build()
     }
 end
 
+---@class InstallReceiptPackageSource
+---@field type string
+---@field package string
+
 ---@param type InstallReceiptSourceType
 local function package_source(type)
     ---@param pkg string
+    ---@return InstallReceiptPackageSource
     return function(pkg)
         return { type = type, package = pkg }
     end
@@ -156,7 +161,7 @@ function InstallReceiptBuilder.git_remote(remote_url)
     return { type = "git", remote = remote_url }
 end
 
----@class InstallReceipt
+---@class InstallReceipt<T> : { primary_source: T }
 ---@field public name string
 ---@field public schema_version InstallReceiptSchemaVersion
 ---@field public metrics {start_time:integer, completion_time:integer}

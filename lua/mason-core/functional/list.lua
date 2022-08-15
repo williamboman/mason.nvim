@@ -87,8 +87,7 @@ _.each = fun.curryN(function(fn, list)
 end, 2)
 
 ---@generic T
----@param list T[]
----@return T[]: A shallow copy of the list.
+---@type fun(list: T[]): T[]
 _.list_copy = _.map(fun.identity)
 
 _.concat = fun.curryN(function(a, b)
@@ -173,15 +172,15 @@ _.join = fun.curryN(function(sep, list)
 end, 2)
 
 ---@generic T
----@param fun (item: T): any
+---@param id fun(item: T): any
 ---@param list T[]
 ---@return T[]
-_.uniq_by = fun.curryN(function(comp, list)
+_.uniq_by = fun.curryN(function(id, list)
     local set = {}
     local result = {}
     for i = 1, #list do
         local item = list[i]
-        local uniq_key = comp(item)
+        local uniq_key = id(item)
         if not set[uniq_key] then
             set[uniq_key] = true
             table.insert(result, item)

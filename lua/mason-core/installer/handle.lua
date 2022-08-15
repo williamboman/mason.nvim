@@ -35,7 +35,7 @@ end
 ---@class InstallHandle : EventEmitter
 ---@field package Package
 ---@field state InstallHandleState
----@field stdio { buffers: { stdout: string[], stderr: string[] }, sink: StdioSink  }
+---@field stdio { buffers: { stdout: string[], stderr: string[] }, sink: StdioSink }
 ---@field is_terminated boolean
 ---@field private spawn_handles InstallHandleSpawnHandle[]
 local InstallHandle = setmetatable({}, { __index = EventEmitter })
@@ -99,7 +99,7 @@ function InstallHandle:deregister_spawn_handle(luv_handle)
     return false
 end
 
----@return Optional: Optional<InstallHandleSpawnHandle>
+---@return Optional # Optional<InstallHandleSpawnHandle>
 function InstallHandle:peek_spawn_handle()
     return Optional.of_nilable(self.spawn_handles[#self.spawn_handles])
 end

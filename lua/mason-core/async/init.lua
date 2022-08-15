@@ -39,7 +39,7 @@ local function table_pack(...)
 end
 
 ---@param async_fn fun(...)
----@param should_reject_err boolean|nil: Whether the provided async_fn takes a callback with the signature `fun(err, result)`
+---@param should_reject_err boolean? Whether the provided async_fn takes a callback with the signature `fun(err, result)`
 local function promisify(async_fn, should_reject_err)
     return function(...)
         local args = table_pack(...)
@@ -64,11 +64,12 @@ local function promisify(async_fn, should_reject_err)
 end
 
 local function new_execution_context(suspend_fn, callback, ...)
+    ---@type thread?
     local thread = co.create(suspend_fn)
     local cancelled = false
     local step
     step = function(...)
-        if cancelled then
+        if cancelled or not thread then
             return
         end
         local ok, promise_or_result = co.resume(thread, ...)
@@ -103,7 +104,6 @@ end
 
 ---@generic T
 ---@param suspend_fn T
----@return T
 exports.scope = function(suspend_fn)
     return function(...)
         return new_execution_context(suspend_fn, function(success, err)

@@ -15,9 +15,9 @@ local M = {}
 
 ---@class HealthCheck
 ---@field public result HealthCheckResult
----@field public version string|nil
----@field public relaxed boolean|nil
----@field public reason string|nil
+---@field public version string?
+---@field public relaxed boolean?
+---@field public reason string?
 ---@field public name string
 local HealthCheck = {}
 HealthCheck.__index = HealthCheck
@@ -58,7 +58,7 @@ end
 
 ---@param callback fun(result: HealthCheck)
 local function mk_healthcheck(callback)
-    ---@param opts {cmd:string, args:string[], name: string, use_stderr:boolean}
+    ---@param opts {cmd:string, args:string[], name: string, use_stderr: boolean?, version_check: fun(version: string): string?, relaxed: boolean?}
     return function(opts)
         local parse_version =
             _.compose(_.head, _.split "\n", _.if_else(_.always(opts.use_stderr), _.prop "stderr", _.prop "stdout"))

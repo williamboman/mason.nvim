@@ -44,13 +44,13 @@ end
 ---@field is_checking_new_version boolean
 ---@field is_checking_version boolean
 ---@field is_terminated boolean
----@field latest_spawn string|nil
----@field linked_executables table<string, string> | nil
----@field lsp_settings_schema table|nil
----@field new_version NewPackageVersion|nil
+---@field latest_spawn string?
+---@field linked_executables table<string, string>?
+---@field lsp_settings_schema table?
+---@field new_version NewPackageVersion?
 ---@field short_tailed_output string[]
 ---@field tailed_output string[]
----@field version string|nil
+---@field version string?
 
 ---@class InstallerUiState
 local INITIAL_STATE = {
@@ -138,7 +138,7 @@ local mutate_state, get_state = window.state(INITIAL_STATE)
 
 ---@param pkg Package
 ---@param group string
----@param tail boolean|nil: Whether to insert at the end.
+---@param tail boolean? Whether to insert at the end.
 local function mutate_package_grouping(pkg, group, tail)
     mutate_state(function(state)
         remove(state.packages.installing, pkg)

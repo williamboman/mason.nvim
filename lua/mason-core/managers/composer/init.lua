@@ -25,7 +25,7 @@ local function with_receipt(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The composer packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The composer packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.packages(packages)
     return function()
         return M.require(packages).with_receipt()
@@ -33,7 +33,7 @@ function M.packages(packages)
 end
 
 ---@async
----@param packages { [number]: string, bin: string[] | nil }: The composer packages to install. The first item in this list will be the recipient of the requested version, if set.
+---@param packages { [number]: string, bin: string[]? } The composer packages to install. The first item in this list will be the recipient of the requested version, if set.
 function M.require(packages)
     local ctx = installer.context()
     local pkgs = _.list_copy(packages)
@@ -72,7 +72,7 @@ function M.install()
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "composer" then
@@ -105,7 +105,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
     if receipt.primary_source.type ~= "composer" then

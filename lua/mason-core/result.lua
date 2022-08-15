@@ -40,7 +40,7 @@ function Result:get_or_else(value)
     end
 end
 
----@param exception any: (optional) The exception to throw if the result is a failure.
+---@param exception any? The exception to throw if the result is a failure.
 function Result:get_or_throw(exception)
     if self:is_success() then
         return self.value

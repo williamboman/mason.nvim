@@ -63,7 +63,7 @@ M.os_distribution = fun.lazy(function()
     local Result = require "mason-core.result"
 
     ---Parses the provided contents of an /etc/\*-release file and identifies the Linux distribution.
-    ---@param contents string: The contents of a /etc/\*-release file.
+    ---@param contents string The contents of a /etc/\*-release file.
     ---@return table<string, any>
     local function parse_linux_dist(contents)
         local lines = vim.split(contents, "\n")
