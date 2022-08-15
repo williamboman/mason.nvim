@@ -390,6 +390,9 @@ to events on the associated object.
 Registers the provided `{handler}`, to be called every time the provided
 `{event}` is dispatched.
 
+**Note**: The provided `{handler}` may be executed outside the main Neovim loop (`:h vim.in_fast_event()`), where most of
+the Neovim API is disabled.
+
 ### `EventEmitter:once({event, handler})`
 
 **Parameters:**
@@ -399,6 +402,9 @@ Registers the provided `{handler}`, to be called every time the provided
 
 Registers the provided `{handler}`, to be called only once - the next time the
 provided `{event}` is dispatched.
+
+**Note**: The provided `{handler}` may be executed outside the main Neovim loop (`:h vim.in_fast_event()`), where most of
+the Neovim API is disabled.
 
 ### `EventEmitter:off({event}, {handler})`
 
