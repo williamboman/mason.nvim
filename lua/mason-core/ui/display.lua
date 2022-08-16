@@ -200,6 +200,13 @@ function M.new_view_only_win(name, filetype)
     ---@type WindowOpts
     local window_opts = {}
 
+    vim.diagnostic.config({
+        virtual_text = true,
+        underline = false,
+        signs = false,
+        virtual_lines = false,
+    }, namespace)
+
     local function delete_win_buf()
         -- We queue the win_buf to be deleted in a schedule call, otherwise when used with folke/which-key (and
         -- set timeoutlen=0) we run into a weird segfault.
