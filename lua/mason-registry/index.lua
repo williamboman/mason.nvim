@@ -198,6 +198,7 @@ return {
   xo = "mason-registry.xo",
   ["yaml-language-server"] = "mason-registry.yaml-language-server",
   yamllint = "mason-registry.yamllint",
+  yapf = "mason-registry.yapf",
   zk = "mason-registry.zk",
   zls = "mason-registry.zls"
 }
