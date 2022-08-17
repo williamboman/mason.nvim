@@ -3,7 +3,7 @@ local pip3 = require "mason-core.managers.pip3"
 
 return Pkg.new {
     name = "yapf",
-    desc = [[Yapf, Yet another python formatter]],
+    desc = [[YAPF, Yet Another Python Formatter]],
     homepage = "https://pypi.org/project/yapf/",
     languages = { Pkg.Lang.Python },
     categories = { Pkg.Cat.Formatter },
