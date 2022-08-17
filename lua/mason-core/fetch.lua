@@ -66,7 +66,7 @@ local function fetch(url, opts)
     return platform_specific
         :recover_catching(function()
             local headers =
-                _.sort_by(_.identity, _.map(_.compose(_.format "--header='%s'", _.join ": "), _.to_pairs(opts.headers)))
+                _.sort_by(_.identity, _.map(_.compose(_.format "--header=%s", _.join ": "), _.to_pairs(opts.headers)))
             return spawn
                 .wget({
                     headers,
