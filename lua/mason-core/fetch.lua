@@ -14,12 +14,12 @@ local USER_AGENT = "mason.nvim (+https://github.com/williamboman/mason.nvim)"
 ---| '"PATCH"'
 ---| '"DELETE"'
 
----@alias FetchOpts {out_file: string, method: FetchMethod, headers: table<string, string>, data: string}
+---@alias FetchOpts {out_file: string?, method: FetchMethod?, headers: table<string, string>?, data: string?}
 
 ---@async
----@param url string: The url to fetch.
----@param opts FetchOpts | nil
----@return Result: Result<string>
+---@param url string The url to fetch.
+---@param opts FetchOpts?
+---@return Result # Result<string>
 local function fetch(url, opts)
     opts = opts or {}
     if not opts.headers then

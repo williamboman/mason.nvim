@@ -48,8 +48,8 @@ end
 
 ---@param viewport_context ViewportContext
 ---@param node INode
----@param _render_context RenderContext|nil
----@param _output RenderOutput|nil
+---@param _render_context RenderContext?
+---@param _output RenderOutput?
 local function render_node(viewport_context, node, _render_context, _output)
     ---@class RenderContext
     ---@field viewport_context ViewportContext
@@ -77,7 +77,7 @@ local function render_node(viewport_context, node, _render_context, _output)
 
     ---@class RenderOutput
     ---@field lines string[]: The buffer lines.
-    ---@field virt_texts string[][]: List of (text, highlight) tuples.
+    ---@field virt_texts {line: integer, content: table}[]: List of tuples.
     ---@field highlights RenderHighlight[]
     ---@field keybinds RenderKeybind[]
     ---@field diagnostics RenderDiagnostic[]
@@ -168,7 +168,7 @@ M._render_node = render_node
 ---@alias WindowOpts {effects: table<string, fun()>, highlight_groups: table<string, table>, border: string|table}
 
 ---@param opts WindowOpenOpts
----@param sizes_only boolean: Whether to only return properties that control the window size.
+---@param sizes_only boolean Whether to only return properties that control the window size.
 local function create_popup_window_opts(opts, sizes_only)
     local win_height = vim.o.lines - vim.o.cmdheight - 2 -- Add margin for status and buffer line
     local win_width = vim.o.columns
@@ -191,7 +191,7 @@ local function create_popup_window_opts(opts, sizes_only)
     return popup_layout
 end
 
----@param name string: Human readable identifier.
+---@param name string Human readable identifier.
 ---@param filetype string
 function M.new_view_only_win(name, filetype)
     local namespace = vim.api.nvim_create_namespace(("installer_%s"):format(name))
@@ -199,6 +199,13 @@ function M.new_view_only_win(name, filetype)
     local has_initiated = false
     ---@type WindowOpts
     local window_opts = {}
+
+    vim.diagnostic.config({
+        virtual_text = true,
+        underline = false,
+        signs = false,
+        virtual_lines = false,
+    }, namespace)
 
     local function delete_win_buf()
         -- We queue the win_buf to be deleted in a schedule call, otherwise when used with folke/which-key (and
@@ -402,7 +409,7 @@ function M.new_view_only_win(name, filetype)
             group = autoclose_augroup,
             buffer = bufnr,
             callback = function()
-                -- Schedule is done because otherwise the window wont actually close in some cases (for example if
+                -- Schedule is done because otherwise the window won't actually close in some cases (for example if
                 -- you're loading another buffer into it)
                 vim.schedule(function()
                     if vim.api.nvim_win_is_valid(win_id) then

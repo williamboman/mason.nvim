@@ -17,16 +17,7 @@ end
 
 ---@async
 ---@param executable string
----@param opts {help_url:string|nil}
-function M.system_executable(executable, opts)
-    return function()
-        M.ensure_executable(executable, opts).with_receipt()
-    end
-end
-
----@async
----@param executable string
----@param opts {help_url:string|nil}
+---@param opts {help_url:string?}?
 function M.ensure_executable(executable, opts)
     local ctx = installer.context()
     opts = opts or {}
@@ -104,7 +95,7 @@ end
 
 ---@async
 ---@param file string
----@param opts {strip_components:integer}|nil
+---@param opts {strip_components:integer}?
 function M.untar(file, opts)
     opts = opts or {}
     local ctx = installer.context()
@@ -121,7 +112,7 @@ end
 
 ---@async
 ---@param file string
----@param opts {strip_components:integer}|nil
+---@param opts {strip_components: integer?}?
 function M.untarxz(file, opts)
     opts = opts or {}
     local ctx = installer.context()
@@ -163,8 +154,8 @@ function M.gunzip(file)
 end
 
 ---@async
----@param flags string: The chmod flag to apply.
----@param files string[]: A list of relative paths to apply the chmod on.
+---@param flags string The chmod flag to apply.
+---@param files string[] A list of relative paths to apply the chmod on.
 function M.chmod(flags, files)
     if platform.is_unix then
         local ctx = installer.context()

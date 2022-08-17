@@ -81,7 +81,8 @@ manager. The provided `{source}` MUST be a table with a field `type` that MUST b
 
 # Code style
 
-This project adheres to Editorconfig as well as Stylua formatting rules. New patches MUST adhere to these coding styles.
+This project adheres to Editorconfig, Selene, and Stylua code style & formatting rules. New patches MUST adhere to these
+coding styles.
 
 # Generated code
 

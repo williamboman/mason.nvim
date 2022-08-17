@@ -53,39 +53,39 @@ function ContextualFs.new(cwd)
 end
 
 ---@async
----@param rel_path string: The relative path from the current working directory to the file to append.
+---@param rel_path string The relative path from the current working directory to the file to append.
 ---@param contents string
 function ContextualFs:append_file(rel_path, contents)
     return fs.async.append_file(path.concat { self.cwd:get(), rel_path }, contents)
 end
 
 ---@async
----@param rel_path string: The relative path from the current working directory to the file to write.
+---@param rel_path string The relative path from the current working directory to the file to write.
 ---@param contents string
 function ContextualFs:write_file(rel_path, contents)
     return fs.async.write_file(path.concat { self.cwd:get(), rel_path }, contents)
 end
 
 ---@async
----@param rel_path string: The relative path from the current working directory.
+---@param rel_path string The relative path from the current working directory.
 function ContextualFs:file_exists(rel_path)
     return fs.async.file_exists(path.concat { self.cwd:get(), rel_path })
 end
 
 ---@async
----@param rel_path string: The relative path from the current working directory.
+---@param rel_path string The relative path from the current working directory.
 function ContextualFs:dir_exists(rel_path)
     return fs.async.dir_exists(path.concat { self.cwd:get(), rel_path })
 end
 
 ---@async
----@param rel_path string: The relative path from the current working directory.
+---@param rel_path string The relative path from the current working directory.
 function ContextualFs:rmrf(rel_path)
     return fs.async.rmrf(path.concat { self.cwd:get(), rel_path })
 end
 
 ---@async
----@param rel_path string: The relative path from the current working directory.
+---@param rel_path string The relative path from the current working directory.
 function ContextualFs:unlink(rel_path)
     return fs.async.unlink(path.concat { self.cwd:get(), rel_path })
 end
@@ -104,13 +104,13 @@ function ContextualFs:mkdir(dirpath)
 end
 
 ---@class CwdManager
----@field private install_prefix string: Defines the upper boundary for which paths are allowed as cwd.
+---@field private install_prefix string Defines the upper boundary for which paths are allowed as cwd.
 ---@field private cwd string
 local CwdManager = {}
 CwdManager.__index = CwdManager
 
 function CwdManager.new(install_prefix)
-    assert(type(install_prefix) == "string")
+    assert(type(install_prefix) == "string", "install_prefix not provided")
     return setmetatable({
         install_prefix = install_prefix,
         cwd = nil,
@@ -124,7 +124,7 @@ end
 
 ---@param new_cwd string
 function CwdManager:set(new_cwd)
-    assert(type(new_cwd) == "string")
+    assert(type(new_cwd) == "string", "new_cwd is not a string")
     assert(
         path.is_subdirectory(self.install_prefix, new_cwd),
         ("%q is not a subdirectory of %q"):format(new_cwd, self.install_prefix)
@@ -145,7 +145,7 @@ local InstallContext = {}
 InstallContext.__index = InstallContext
 
 ---@class InstallContextOpts
----@field requested_version string|nil
+---@field requested_version string?
 
 ---@param handle InstallHandle
 ---@param opts InstallContextOpts
@@ -185,8 +185,8 @@ function InstallContext:promote_cwd()
     self.cwd:set(install_path)
 end
 
----@param rel_path string: The relative path from the current working directory to change cwd to. Will only restore to the initial cwd after execution of fn (if provided).
----@param fn async (fun()): (optional) The function to run in the context of the given path.
+---@param rel_path string The relative path from the current working directory to change cwd to. Will only restore to the initial cwd after execution of fn (if provided).
+---@param fn async (fun())? The function to run in the context of the given path.
 function InstallContext:chdir(rel_path, fn)
     local old_cwd = self.cwd:get()
     self.cwd:set(path.concat { old_cwd, rel_path })
@@ -200,8 +200,8 @@ function InstallContext:chdir(rel_path, fn)
     end
 end
 
----@param new_executable_rel_path string: Relative path to the executable file to create.
----@param script_rel_path string: Relative path to the Node.js script.
+---@param new_executable_rel_path string Relative path to the executable file to create.
+---@param script_rel_path string Relative path to the Node.js script.
 function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_rel_path)
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
@@ -212,8 +212,8 @@ function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_
     )
 end
 
----@param new_executable_rel_path string: Relative path to the executable file to create.
----@param module string: The python module to call.
+---@param new_executable_rel_path string Relative path to the executable file to create.
+---@param module string The python module to call.
 function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, module)
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
@@ -227,7 +227,7 @@ function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, modul
     )
 end
 
----@param new_executable_rel_path string: Relative path to the executable file to create.
+---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param target_executable_rel_path string
 function InstallContext:write_exec_wrapper(new_executable_rel_path, target_executable_rel_path)
     return self:write_shell_exec_wrapper(
@@ -251,10 +251,10 @@ local BATCH_TEMPLATE = _.dedent [[
 %s %%*
 ]]
 
----@param new_executable_rel_path string: Relative path to the executable file to create.
----@param command string: The shell command to run.
+---@param new_executable_rel_path string Relative path to the executable file to create.
+---@param command string The shell command to run.
 ---@param env table<string, string>?
----@return string: The created executable filename.
+---@return string # The created executable filename.
 function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, command, env)
     return platform.when {
         unix = function()

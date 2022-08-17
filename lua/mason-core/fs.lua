@@ -86,7 +86,7 @@ local function make_module(uv)
 
     ---@param path string
     ---@param contents string
-    ---@param flags string|nil: Defaults to "w".
+    ---@param flags string? Defaults to "w".
     function M.write_file(path, contents, flags)
         log.debug("fs: write_file", path)
         local fd = uv.fs_open(path, flags or "w", 438)

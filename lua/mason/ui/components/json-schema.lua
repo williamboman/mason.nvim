@@ -40,10 +40,10 @@ end
 ---@param schema_id string
 ---@param state UiPackageState
 ---@param schema table
----@param key string|nil
----@param level number|nil
----@param key_width number|nil: The width the key should occupate in the UI to produce an even column.
----@param compound_key string|nil
+---@param key string?
+---@param level number?
+---@param key_width number? The width the key should occupate in the UI to produce an even column.
+---@param compound_key string?
 local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, compound_key)
     level = level or 0
     compound_key = ("%s%s"):format(compound_key or "", key or "")
@@ -112,7 +112,7 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
         -- Leaf node (aka any type that isn't an object)
         local type = resolve_type(schema)
         local heading
-        local label = (key_prefix .. key .. (" "):rep(key_width)):sub(1, key_width + 5) -- + 5 to account for key_prefix plus some extra whitespace
+        local label = (key_prefix .. key .. (" "):rep(key_width or 0)):sub(1, key_width + 5) -- + 5 to account for key_prefix plus some extra whitespace
         if schema.default ~= nil then
             heading = Ui.HlTextNode {
                 {

@@ -36,42 +36,42 @@ describe("package", function()
         end
         assert.equals(
             "name: expected string, got number",
-            assert.error(function()
+            assert.has_error(function()
                 Pkg.new(spec { name = 23 })
             end)
         )
 
         assert.equals(
             "desc: expected string, got number",
-            assert.error(function()
+            assert.has_error(function()
                 Pkg.new(spec { desc = 23 })
             end)
         )
 
         assert.equals(
             "homepage: expected string, got number",
-            assert.error(function()
+            assert.has_error(function()
                 Pkg.new(spec { homepage = 23 })
             end)
         )
 
         assert.equals(
             "categories: expected table, got number",
-            assert.error(function()
+            assert.has_error(function()
                 Pkg.new(spec { categories = 23 })
             end)
         )
 
         assert.equals(
             "languages: expected table, got number",
-            assert.error(function()
+            assert.has_error(function()
                 Pkg.new(spec { languages = 23 })
             end)
         )
 
         assert.equals(
             "install: expected function, got number",
-            assert.error(function()
+            assert.has_error(function()
                 Pkg.new(spec { install = 23 })
             end)
         )
@@ -96,7 +96,7 @@ describe("package", function()
         }
         local handle_handler = spy.new()
         dummy:once("handle", handle_handler)
-        local err = assert.error(function()
+        local err = assert.has_error(function()
             dummy:new_handle()
         end)
         assert.equals("Cannot create new handle because existing handle is not closed.", err)

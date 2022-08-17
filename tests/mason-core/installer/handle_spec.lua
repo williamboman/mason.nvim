@@ -1,4 +1,3 @@
-local a = require "mason-core.async"
 local mock = require "luassert.mock"
 local stub = require "luassert.stub"
 local spy = require "luassert.spy"

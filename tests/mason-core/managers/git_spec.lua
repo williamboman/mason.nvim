@@ -5,7 +5,6 @@ local Result = require "mason-core.result"
 local installer = require "mason-core.installer"
 
 local git = require "mason-core.managers.git"
-local Optional = require "mason-core.optional"
 
 describe("git manager", function()
     it(
@@ -13,7 +12,7 @@ describe("git manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            local err = assert.has_errors(function()
+            local err = assert.has_error(function()
                 installer.run_installer(ctx, function()
                     git.clone {}
                 end)

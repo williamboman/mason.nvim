@@ -23,7 +23,7 @@ local M = {}
 
 ---@async
 ---@param crate string The crate to install.
----@param opts {git: boolean | string, features: string|nil, bin: string[] | nil } | nil
+---@param opts {git: boolean | string, features: string?, bin: string[]? }?
 function M.crate(crate, opts)
     return function()
         M.install(crate, opts).with_receipt()
@@ -32,7 +32,7 @@ end
 
 ---@async
 ---@param crate string The crate to install.
----@param opts {git: boolean | string, features: string|nil, bin: string[] | nil } | nil
+---@param opts {git: boolean | string, features: string?, bin: string[]? }?
 function M.install(crate, opts)
     local ctx = installer.context()
     opts = opts or {}
@@ -40,6 +40,7 @@ function M.install(crate, opts)
         assert(not opts.git, "Providing a version when installing a git crate is not allowed.")
     end)
 
+    ---@type string | string[]
     local final_crate = crate
 
     if opts.git then
@@ -75,8 +76,8 @@ function M.install(crate, opts)
     }
 end
 
----@param output string: The `cargo install --list` output.
----@return table<string, string>: Key is the crate name, value is its version.
+---@param output string The `cargo install --list` output.
+---@return table<string, string> # Key is the crate name, value is its version.
 function M.parse_installed_crates(output)
     local installed_crates = {}
     for _, line in ipairs(vim.split(output, "\n")) do
@@ -89,7 +90,7 @@ function M.parse_installed_crates(output)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
     return M.get_installed_primary_package_version(receipt, install_dir):map_catching(function(installed_version)
@@ -108,7 +109,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
 end
 
 ---@async
----@param receipt InstallReceipt
+---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
     return spawn

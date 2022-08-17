@@ -16,7 +16,7 @@ end
 
 ---@async
 ---@param pkg string
----@param opt { bin: string[] | nil } | nil
+---@param opt { bin: string[]? }?
 function M.package(pkg, opt)
     return function()
         return M.install(pkg, opt).with_receipt()
@@ -25,7 +25,7 @@ end
 
 ---@async
 ---@param pkg string
----@param opt { bin: string[] | nil } | nil
+---@param opt { bin: string[]? }?
 function M.install(pkg, opt)
     local ctx = installer.context()
     ctx.spawn.dotnet {

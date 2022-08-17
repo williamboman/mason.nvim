@@ -15,7 +15,7 @@ EventEmitter.init(M)
 local scan_install_root
 
 do
-    ---@type table<string, true>
+    ---@type table<string, true>?
     local cached_dirs
 
     local get_directories = _.compose(
@@ -35,7 +35,6 @@ do
             return cached_dirs
         end
         log.trace "Scanning installation root dir"
-        ---@type string[]
         local ok, entries = pcall(fs.sync.readdir, path.package_prefix())
         if not ok then
             log.debug("Failed to scan installation root dir", entries)

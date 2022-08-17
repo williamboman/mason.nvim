@@ -33,7 +33,7 @@ local function PackageListContainer(props)
     }
 end
 
----@param executables table<string, string> | nil
+---@param executables table<string, string>?
 local function ExecutablesTable(executables)
     if not executables or _.size(executables) == 0 then
         return Ui.Node {}
@@ -80,10 +80,12 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
                     #pkg.spec.categories > 0 and p.Bold(table.concat(pkg.spec.categories, ", ")) or p.muted "-",
                 },
             }),
-            ExecutablesTable(is_installed and pkg_state.linked_executables or pkg.spec.executables)
+            Ui.When(is_installed, function()
+                return ExecutablesTable(pkg_state.linked_executables)
+            end)
         )),
         -- ExecutablesTable(is_installed and pkg_state.linked_executables or package.spec.executables),
-        Ui.When(pkg_state.lsp_settings_schema, function()
+        Ui.When(pkg_state.lsp_settings_schema ~= nil, function()
             local has_expanded = pkg_state.expanded_json_schemas["lsp"]
             return Ui.Node {
                 Ui.EmptyLine(),
@@ -115,7 +117,7 @@ end
 
 ---@param state InstallerUiState
 ---@param pkg Package
----@param opts { keybinds: KeybindHandlerNode[], icon: string[], is_installed: boolean, sticky: StickyCursorNode | nil }
+---@param opts { keybinds: KeybindHandlerNode[], icon: string[], is_installed: boolean, sticky: StickyCursorNode? }
 local function PackageComponent(state, pkg, opts)
     local pkg_state = state.packages.states[pkg.name]
     local is_expanded = state.packages.expanded == pkg.name
@@ -128,7 +130,7 @@ local function PackageComponent(state, pkg, opts)
             return Ui.VirtualTextNode { p.Comment " checking for new version…" }
         end),
         Ui.Keybind(settings.current.ui.keymaps.check_package_version, "CHECK_NEW_PACKAGE_VERSION", pkg),
-        Ui.When(pkg_state.new_version, function()
+        Ui.When(pkg_state.new_version ~= nil, function()
             return Ui.DiagnosticsNode {
                 message = ("new version available: %s %s -> %s"):format(
                     pkg_state.new_version.name,

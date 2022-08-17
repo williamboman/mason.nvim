@@ -16,11 +16,11 @@ local version_checks = require "mason-core.package.version-check"
 ---@class Package : EventEmitter
 ---@field name string
 ---@field spec PackageSpec
----@field private handle InstallHandle: The currently associated handle.
+---@field private handle InstallHandle The currently associated handle.
 local Package = setmetatable({}, { __index = EventEmitter })
 
 ---@param package_identifier string
----@return string, string | nil
+---@return string, string?
 Package.Parse = function(package_identifier)
     local name, version = unpack(vim.split(package_identifier, "@"))
     return name, version
@@ -36,7 +36,7 @@ Package.Lang = setmetatable({}, {
     end,
 })
 
----@class PackageCategory
+---@enum PackageCategory
 Package.Cat = {
     Compiler = "Compiler",
     Runtime = "Runtime",
@@ -84,7 +84,7 @@ function Package:new_handle()
     return handle
 end
 
----@param opts { version: string|nil } | nil
+---@param opts { version: string? }?
 ---@return InstallHandle
 function Package:install(opts)
     opts = opts or {}
@@ -168,7 +168,7 @@ function Package:get_install_path()
     return path.package_prefix(self.name)
 end
 
----@return Optional: Optional<InstallReceipt>
+---@return Optional # Optional<InstallReceipt>
 function Package:get_receipt()
     local receipt_path = path.concat { self:get_install_path(), "mason-receipt.json" }
     if fs.sync.file_exists(receipt_path) then

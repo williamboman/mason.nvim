@@ -47,8 +47,11 @@ _.partial = function(fn, ...)
     end
 end
 
-_.identity = function(a)
-    return a
+---@generic T
+---@param value T
+---@return T
+_.identity = function(value)
+    return value
 end
 
 _.always = function(a)
@@ -62,7 +65,7 @@ _.F = _.always(false)
 
 ---@generic T : fun(...)
 ---@param fn T
----@param cache_key_generator (fun(...): string | nil)|nil
+---@param cache_key_generator (fun(...): any)?
 ---@return T
 _.memoize = function(fn, cache_key_generator)
     cache_key_generator = cache_key_generator or _.identity
