@@ -199,6 +199,7 @@
 - [xo](#xo)
 - [yaml-language-server](#yaml-language-server)
 - [yamllint](#yamllint)
+- [yapf](#yapf)
 - [zk](#zk)
 - [zls](#zls)
 
@@ -4191,6 +4192,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall yamllint
+```
+
+
+# yapf
+
+> YAPF, Yet Another Python Formatter
+
+Homepage: [https://pypi.org/project/yapf/](https://pypi.org/project/yapf/)  
+Languages: `Python`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`ec7c134`](https://github.com/williamboman/mason.nvim/commit/ec7c134) 2022-08-17 - feat: add yapf ([#304](https://github.com/williamboman/mason.nvim/issues/304)) by Rolf Strijdhorst
+</details>
+
+```
+:MasonInstall yapf
 ```
 
 
