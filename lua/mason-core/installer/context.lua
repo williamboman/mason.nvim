@@ -254,7 +254,7 @@ function InstallContext:write_exec_wrapper(new_executable_rel_path, target_execu
 end
 
 local BASH_TEMPLATE = _.dedent [[
-#!/bin/bash
+#!/usr/bin/env bash
 %s
 exec %s "$@"
 ]]
