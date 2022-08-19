@@ -203,6 +203,9 @@ end
 ---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param script_rel_path string Relative path to the Node.js script.
 function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_rel_path)
+    if not self.fs:file_exists(script_rel_path) then
+        error(("Cannot write Node exec wrapper for path %q as it doesn't exist."):format(script_rel_path), 0)
+    end
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
         ("node %q"):format(path.concat {
@@ -215,11 +218,19 @@ end
 ---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param module string The python module to call.
 function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, module)
+    local pip3 = require "mason-core.managers.pip3"
+    local module_exists, module_err = pcall(function()
+        self.spawn.python { "-c", ("import %s"):format(module), with_paths = { pip3.venv_path(self.cwd:get()) } }
+    end)
+    if not module_exists then
+        log.fmt_error("Failed to find module %q for package %q. %s", module, self.package, module_err)
+        error(("Cannot write Python exec wrapper for module %q as it doesn't exist."):format(module), 0)
+    end
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
         ("%q -m %s"):format(
             path.concat {
-                require("mason-core.managers.pip3").venv_path(self.package:get_install_path()),
+                pip3.venv_path(self.package:get_install_path()),
                 "python",
             },
             module
@@ -230,6 +241,9 @@ end
 ---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param target_executable_rel_path string
 function InstallContext:write_exec_wrapper(new_executable_rel_path, target_executable_rel_path)
+    if not self.fs:file_exists(target_executable_rel_path) then
+        error(("Cannot write exec wrapper for path %q as it doesn't exist."):format(target_executable_rel_path), 0)
+    end
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
         ("%q"):format(path.concat {
