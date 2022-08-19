@@ -29,7 +29,7 @@ describe("installer", function()
         assert.spy(ctx.fs.write_file).was_called_with(
             match.is_ref(ctx.fs),
             "my-executable",
-            [[#!/bin/bash
+            [[#!/usr/bin/env bash
 export GREETING="Hello World!"
 exec bash -c 'echo $GREETING' "$@"]]
         )
