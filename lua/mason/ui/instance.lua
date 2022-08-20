@@ -110,7 +110,7 @@ local function remove(list, item)
     return list
 end
 
-local window = display.new_view_only_win("mason.nvim", "mason.nvim")
+local window = display.new_view_only_win("mason.nvim", "mason")
 local packages = _.sort_by(_.prop "name", registry.get_all_packages())
 
 window.view(
