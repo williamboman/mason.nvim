@@ -1,13 +1,13 @@
-- [Contribution policy](#contribution-policy)
-- [Adding a new package](#adding-a-new-package)
-    - [The anatomy of a package](#the-anatomy-of-a-package)
-        - [Package name](#package-name)
-        - [Package homepage](#package-homepage)
-        - [Package categories](#package-categories)
-        - [Package languages](#package-languages)
-        - [Package installer](#package-installer)
-- [Code style](#code-style)
-- [Generated code](#generated-code)
+-   [Contribution policy](#contribution-policy)
+-   [Adding a new package](#adding-a-new-package)
+    -   [The anatomy of a package](#the-anatomy-of-a-package)
+        -   [Package name](#package-name)
+        -   [Package homepage](#package-homepage)
+        -   [Package categories](#package-categories)
+        -   [Package languages](#package-languages)
+        -   [Package installer](#package-installer)
+-   [Code style](#code-style)
+-   [Generated code](#generated-code)
 
 # Contribution policy
 

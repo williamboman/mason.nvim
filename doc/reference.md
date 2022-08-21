@@ -99,10 +99,10 @@ Metatable used to declare language identifiers. Any key is valid and will be aut
 example:
 
 ```lua
-    print(vim.inspect(Package.Lang)) -- prints {}
-    local lang = Package.Lang.SomeMadeUpLanguage
-    print(lang) -- prints "SomeMadeUpLanguage"
-    print(vim.inspect(Package.Lang)) -- prints { SomeMadeUpLanguage = "SomeMadeUpLanguage" }
+print(vim.inspect(Package.Lang)) -- prints {}
+local lang = Package.Lang.SomeMadeUpLanguage
+print(lang) -- prints "SomeMadeUpLanguage"
+print(vim.inspect(Package.Lang)) -- prints { SomeMadeUpLanguage = "SomeMadeUpLanguage" }
 ```
 
 ### `Package.Cat`
@@ -228,10 +228,10 @@ Pkg.new {
     --- ...
     ---@async
     ---@param ctx InstallContext
-    install = function (ctx)
+    install = function(ctx)
         ctx.stdio_sink.stdout "I am doing stuff\n"
         ctx.stdio_sink.stderr "Something went wrong!\n"
-    end
+    end,
 }
 ```
 
@@ -255,13 +255,13 @@ Pkg.new {
     --- ...
     ---@async
     ---@param ctx InstallContext
-    install = function (ctx)
+    install = function(ctx)
         ctx.spawn.npm { "install", "some-package" }
         -- Calls to spawn will raise an error if it exits with a non-OK exit code or signal.
-        pcall(function ()
+        pcall(function()
             ctx.spawn.commandoesntexist {}
         end)
-    end
+    end,
 }
 ```
 
