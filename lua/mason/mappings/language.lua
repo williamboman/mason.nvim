@@ -16,7 +16,7 @@ return {
   bicep = { "bicep-lsp" },
   blade = { "blade-formatter" },
   c = { "clang-format", "clangd", "codelldb", "cpplint", "cpptools" },
-  ["c#"] = { "clang-format", "csharp-language-server", "csharpier", "netcoredbg", "omnisharp", "omnisharp-mono" },
+  ["c#"] = { "clang-format", "csharp-language-server", "csharp_ls", "csharpier", "netcoredbg", "omnisharp", "omnisharp-mono" },
   ["c++"] = { "clang-format", "clangd", "codelldb", "cpplint", "cpptools" },
   clarity = { "clarity-lsp" },
   clojure = { "clojure-lsp", "joker" },

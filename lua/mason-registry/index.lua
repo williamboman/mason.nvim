@@ -36,6 +36,7 @@ return {
   cpptools = "mason-registry.cpptools",
   crystalline = "mason-registry.crystalline",
   ["csharp-language-server"] = "mason-registry.csharp-language-server",
+  csharp_ls = "mason-registry.csharp_ls",
   csharpier = "mason-registry.csharpier",
   cspell = "mason-registry.cspell",
   ["css-lsp"] = "mason-registry.css-lsp",
