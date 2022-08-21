@@ -21,7 +21,7 @@ local Semaphore = control.Semaphore
 ---@param state InstallerUiState
 local function GlobalKeybinds(state)
     return Ui.Node {
-        Ui.Keybind("?", "TOGGLE_HELP", nil, true),
+        Ui.Keybind("g?", "TOGGLE_HELP", nil, true),
         Ui.Keybind("q", "CLOSE_WINDOW", nil, true),
         Ui.When(not state.view.language_filter, Ui.Keybind("<Esc>", "CLOSE_WINDOW", nil, true)),
         Ui.When(state.view.language_filter, Ui.Keybind("<Esc>", "CLEAR_LANGUAGE_FILTER", nil, true)),
