@@ -21,6 +21,7 @@ return {
   ["bsl-language-server"] = "mason-registry.bsl-language-server",
   buf = "mason-registry.buf",
   buildifier = "mason-registry.buildifier",
+  cbfmt = "mason-registry.cbfmt",
   ["cfn-lint"] = "mason-registry.cfn-lint",
   ["chrome-debug-adapter"] = "mason-registry.chrome-debug-adapter",
   ["clang-format"] = "mason-registry.clang-format",
