@@ -8,6 +8,10 @@
         -   [Package installer](#package-installer)
 -   [Code style](#code-style)
 -   [Generated code](#generated-code)
+-   [Tests](#tests)
+-   [Adding or changing a feature](#adding-or-changing-a-feature)
+-   [Commit style](#commit-style)
+-   [Pull requests](#pull-requests)
 
 # Contribution policy
 
@@ -93,7 +97,7 @@ generated and pushed to your branch before merge.
 Generating code can be done on Unix systems like so:
 
 ```sh
-$ make generate
+make generate
 ```
 
 # Tests
@@ -102,9 +106,9 @@ $ make generate
 Tests can be executed on Unix systems like so:
 
 ```sh
-$ make test
-$ FILE=tests/mason-core/managers/luarocks_spec.lua make test
-````
+make test
+FILE=tests/mason-core/managers/luarocks_spec.lua make test
+```
 
 # Adding or changing a feature
 
