@@ -22,6 +22,7 @@
 - [bsl-language-server](#bsl-language-server)
 - [buf](#buf)
 - [buildifier](#buildifier)
+- [cbfmt](#cbfmt)
 - [cfn-lint](#cfn-lint)
 - [chrome-debug-adapter](#chrome-debug-adapter)
 - [clang-format](#clang-format)
@@ -198,6 +199,7 @@
 - [xmlformatter](#xmlformatter)
 - [xo](#xo)
 - [yaml-language-server](#yaml-language-server)
+- [yamlfmt](#yamlfmt)
 - [yamllint](#yamllint)
 - [yapf](#yapf)
 - [zk](#zk)
@@ -608,6 +610,26 @@ Categories: `Linter` `Formatter`
 
 ```
 :MasonInstall buildifier
+```
+
+
+# cbfmt
+
+> A tool to format codeblocks inside markdown and org documents. It iterates over all codeblocks, and formats them
+with the tool(s) specified for the language of the block.
+
+Homepage: [https://github.com/lukas-reineke/cbfmt](https://github.com/lukas-reineke/cbfmt)  
+Languages: `Markdown`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`1355e3a`](https://github.com/williamboman/mason.nvim/commit/1355e3a) 2022-08-22 - feat: add cbfmt ([#327](https://github.com/williamboman/mason.nvim/issues/327)) by William Boman
+</details>
+
+```
+:MasonInstall cbfmt
 ```
 
 
@@ -4171,6 +4193,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall yaml-language-server
+```
+
+
+# yamlfmt
+
+> yamlfmt is an extensible command line tool or library to format yaml files.
+
+Homepage: [https://github.com/google/yamlfmt](https://github.com/google/yamlfmt)  
+Languages: `YAML`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`920ff4f`](https://github.com/williamboman/mason.nvim/commit/920ff4f) 2022-08-22 - feat: add yamlfmt ([#329](https://github.com/williamboman/mason.nvim/issues/329)) by JINNOUCHI Yasushi
+</details>
+
+```
+:MasonInstall yamlfmt
 ```
 
 
