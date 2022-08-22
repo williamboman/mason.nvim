@@ -533,7 +533,7 @@ local function update_all_packages()
             pkg:install(pkg)
         end,
         _.filter(function(pkg)
-            return state.packages.states[pkg.name].new_version
+            return state.packages.visible[pkg.name] and state.packages.states[pkg.name].new_version
         end, state.packages.installed)
     )
 end
