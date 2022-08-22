@@ -198,6 +198,7 @@ return {
   xmlformatter = "mason-registry.xmlformatter",
   xo = "mason-registry.xo",
   ["yaml-language-server"] = "mason-registry.yaml-language-server",
+  yamlfmt = "mason-registry.yamlfmt",
   yamllint = "mason-registry.yamllint",
   yapf = "mason-registry.yapf",
   zk = "mason-registry.zk",
