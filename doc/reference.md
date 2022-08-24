@@ -110,7 +110,7 @@ print(vim.inspect(Package.Lang)) -- prints { SomeMadeUpLanguage = "SomeMadeUpLan
 **Type:**
 
 ```lua
-{
+Package.Cat = {
     Compiler = "Compiler",
     Runtime = "Runtime",
     DAP = "DAP",
