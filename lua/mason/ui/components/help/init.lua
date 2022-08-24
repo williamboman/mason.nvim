@@ -47,7 +47,7 @@ end
 ---@param state InstallerUiState
 local function GenericHelp(state)
     local keymap_tuples = {
-        { "Toggle help", "?" },
+        { "Toggle help", "g?" },
         { "Toggle package info", settings.current.ui.keymaps.toggle_package_expand },
         { "Apply language filter", settings.current.ui.keymaps.apply_language_filter },
         { "Install package", settings.current.ui.keymaps.install_package },
