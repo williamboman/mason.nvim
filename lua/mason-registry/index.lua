@@ -125,6 +125,7 @@ return {
   ["omnisharp-mono"] = "mason-registry.omnisharp-mono",
   ["opencl-language-server"] = "mason-registry.opencl-language-server",
   perlnavigator = "mason-registry.perlnavigator",
+  ["php-cs-fixer"] = "mason-registry.php-cs-fixer",
   ["php-debug-adapter"] = "mason-registry.php-debug-adapter",
   phpactor = "mason-registry.phpactor",
   ["powershell-editor-services"] = "mason-registry.powershell-editor-services",
