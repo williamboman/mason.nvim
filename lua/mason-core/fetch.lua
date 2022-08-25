@@ -71,6 +71,8 @@ local function fetch(url, opts)
                 .wget({
                     headers,
                     "-nv",
+                    "-o",
+                    "/dev/null",
                     "-O",
                     opts.out_file or "-",
                     ("--method=%s"):format(opts.method),
