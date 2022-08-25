@@ -108,7 +108,6 @@ Tests can be executed on Unix systems like so:
 ```sh
 make test
 FILE=tests/mason-core/managers/luarocks_spec.lua make test
-echo $FILE
 ```
 
 # Adding or changing a feature
