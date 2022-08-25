@@ -6,8 +6,9 @@ local std = require "mason-core.managers.std"
 return Pkg.new {
     name = "php-cs-fixer",
     desc = _.dedent [[
-        Portable package manager for Neovim that runs everywhere Neovim runs. Easily install and manage LSP servers, DAP
-        servers, linters, and formatters.
+        The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards; whether you want to
+        follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the
+        Symfony one. You can also define your (team's) style through configuration.')
     ]],
     homepage = "https://github.com/FriendsOfPHP/PHP-CS-Fixer",
     languages = { Pkg.Lang.PHP },
