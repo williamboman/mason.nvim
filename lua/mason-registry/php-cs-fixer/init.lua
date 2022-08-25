@@ -2,6 +2,8 @@ local Pkg = require "mason-core.package"
 local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
 local std = require "mason-core.managers.std"
+local platform = require "mason-core.platform"
+local path = require "mason-core.path"
 
 return Pkg.new {
     name = "php-cs-fixer",
@@ -20,10 +22,26 @@ return Pkg.new {
             .download_release_file({
                 repo = "FriendsOfPHP/PHP-CS-Fixer",
                 asset_file = "php-cs-fixer.phar",
-                out_file = "php-cs-fixer",
+                out_file = platform.is.win and "php-cs-fixer.phar" or "php-cs-fixer",
             })
             .with_receipt()
-        std.chmod("+x", { "php-cs-fixer" })
-        ctx:link_bin("php-cs-fixer", "php-cs-fixer")
+        platform.when {
+            unix = function()
+                std.chmod("+x", { "php-cs-fixer" })
+                ctx:link_bin("php-cs-fixer", "php-cs-fixer")
+            end,
+            win = function()
+                ctx:link_bin(
+                    "php-cs-fixer",
+                    ctx:write_shell_exec_wrapper(
+                        "php-cs-fixer",
+                        ("php %q"):format(path.concat {
+                            ctx.package:get_install_path(),
+                            "php-cs-fixer.phar",
+                        })
+                    )
+                )
+            end,
+        }
     end,
 }
