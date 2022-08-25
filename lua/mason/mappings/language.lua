@@ -37,7 +37,7 @@ return {
   ember = { "ember-language-server" },
   emmet = { "emmet-ls" },
   erlang = { "erlang-ls" },
-  ["f#"] = { "fsautocomplete" },
+  ["f#"] = { "fsautocomplete", "netcoredbg" },
   flow = { "prettier", "prettierd" },
   flux = { "flux-lsp" },
   fortran = { "fortls" },

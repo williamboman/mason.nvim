@@ -8,7 +8,7 @@ return Pkg.new {
     name = "netcoredbg",
     desc = [[NetCoreDbg is a managed code debugger with MI interface for CoreCLR.]],
     homepage = "https://github.com/Samsung/netcoredbg",
-    languages = { Pkg.Lang[".NET"], Pkg.Lang["C#"] },
+    languages = { Pkg.Lang[".NET"], Pkg.Lang["C#"], Pkg.Lang["F#"] },
     categories = { Pkg.Cat.DAP },
     ---@async
     ---@param ctx InstallContext
