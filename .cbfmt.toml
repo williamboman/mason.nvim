@@ -1,0 +1,3 @@
+[languages]
+lua = ["stylua -s -"]
+sh = ["shellharden --transform "]
