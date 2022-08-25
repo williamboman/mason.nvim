@@ -77,7 +77,7 @@ return {
   opencl = { "opencl-language-server" },
   openfoam = { "foam-language-server" },
   perl = { "perlnavigator" },
-  php = { "intelephense", "php-debug-adapter", "phpactor", "psalm" },
+  php = { "intelephense", "php-debug-adapter", "phpactor", "psalm", "php-cs-fixer" },
   powershell = { "powershell-editor-services" },
   prisma = { "prisma-language-server" },
   protobuf = { "buf" },

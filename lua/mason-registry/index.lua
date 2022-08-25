@@ -127,6 +127,7 @@ return {
   perlnavigator = "mason-registry.perlnavigator",
   ["php-debug-adapter"] = "mason-registry.php-debug-adapter",
   phpactor = "mason-registry.phpactor",
+  ["php-cs-fixer"] = "mason-registry.php-cs-fixer",
   ["powershell-editor-services"] = "mason-registry.powershell-editor-services",
   prettier = "mason-registry.prettier",
   prettierd = "mason-registry.prettierd",
