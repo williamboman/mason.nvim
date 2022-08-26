@@ -126,6 +126,7 @@
 - [omnisharp-mono](#omnisharp-mono)
 - [opencl-language-server](#opencl-language-server)
 - [perlnavigator](#perlnavigator)
+- [php-cs-fixer](#php-cs-fixer)
 - [php-debug-adapter](#php-debug-adapter)
 - [phpactor](#phpactor)
 - [powershell-editor-services](#powershell-editor-services)
@@ -2533,12 +2534,13 @@ Categories: `Linter`
 > NetCoreDbg is a managed code debugger with MI interface for CoreCLR.
 
 Homepage: [https://github.com/Samsung/netcoredbg](https://github.com/Samsung/netcoredbg)  
-Languages: `.NET` `C#`  
+Languages: `.NET` `C#` `F#`  
 Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
 
+- [`ac08235`](https://github.com/williamboman/mason.nvim/commit/ac08235) 2022-08-25 - feat: add netcoredbg as tool for F# language ([#339](https://github.com/williamboman/mason.nvim/issues/339)) by Adelar da Silva Queiróz
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -2713,6 +2715,27 @@ Categories: `LSP`
 
 ```
 :MasonInstall perlnavigator
+```
+
+
+# php-cs-fixer
+
+> The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards; whether you want to
+follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the
+Symfony one. You can also define your (team's) style through configuration.')
+
+Homepage: [https://github.com/FriendsOfPHP/PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)  
+Languages: `PHP`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`f578e31`](https://github.com/williamboman/mason.nvim/commit/f578e31) 2022-08-25 - feat: add php-cs-fixer ([#340](https://github.com/williamboman/mason.nvim/issues/340)) by shura
+</details>
+
+```
+:MasonInstall php-cs-fixer
 ```
 
 
