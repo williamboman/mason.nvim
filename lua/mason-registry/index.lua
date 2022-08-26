@@ -170,6 +170,7 @@ return {
   sqlfluff = "mason-registry.sqlfluff",
   sqlls = "mason-registry.sqlls",
   sqls = "mason-registry.sqls",
+  standardrb = "mason-registry.standardrb",
   staticcheck = "mason-registry.staticcheck",
   ["stylelint-lsp"] = "mason-registry.stylelint-lsp",
   stylua = "mason-registry.stylua",
