@@ -161,6 +161,7 @@ return {
   ["slint-lsp"] = "mason-registry.slint-lsp",
   solang = "mason-registry.solang",
   solargraph = "mason-registry.solargraph",
+  solhint = "mason-registry.solhint",
   solidity = "mason-registry.solidity",
   sorbet = "mason-registry.sorbet",
   sourcery = "mason-registry.sourcery",
@@ -205,3 +206,4 @@ return {
   zk = "mason-registry.zk",
   zls = "mason-registry.zls"
 }
+
