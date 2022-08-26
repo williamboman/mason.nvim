@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://www.npmjs.com/package/solidity-language-server",
     languages = { Pkg.Lang.Solidity },
     categories = { Pkg.Cat.LSP },
-    install = npm.packages { "solidity-language-server", "graphql", bin = { "solidity-language-server" } },
+    install = npm.packages { "solidity-language-server", bin = { "solidity-language-server" } },
 }
