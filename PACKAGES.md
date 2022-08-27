@@ -162,6 +162,7 @@
 - [slint-lsp](#slint-lsp)
 - [solang](#solang)
 - [solargraph](#solargraph)
+- [solhint](#solhint)
 - [solidity](#solidity)
 - [sorbet](#sorbet)
 - [sourcery](#sourcery)
@@ -170,6 +171,7 @@
 - [sqlfluff](#sqlfluff)
 - [sqlls](#sqlls)
 - [sqls](#sqls)
+- [standardrb](#standardrb)
 - [staticcheck](#staticcheck)
 - [stylelint-lsp](#stylelint-lsp)
 - [stylua](#stylua)
@@ -3451,6 +3453,25 @@ Categories: `LSP`
 ```
 
 
+# solhint
+
+> Solhint is a linting utility for Solidity code
+
+Homepage: [https://protofire.github.io/solhint/](https://protofire.github.io/solhint/)  
+Languages: `Solidity`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`c2dc5ed`](https://github.com/williamboman/mason.nvim/commit/c2dc5ed) 2022-08-26 - feat: add solhint linter for Solidity code ([#342](https://github.com/williamboman/mason.nvim/issues/342)) by Ahmed Hashim
+</details>
+
+```
+:MasonInstall solhint
+```
+
+
 # solidity
 
 > Solidity, the Smart Contract Programming Language
@@ -3610,6 +3631,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall sqls
+```
+
+
+# standardrb
+
+> Ruby Style Guide, with linter and automatic code fixer
+
+Homepage: [https://github.com/testdouble/standard/](https://github.com/testdouble/standard/)  
+Languages: `Ruby`  
+Categories: `Formatter` `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`45d7a81`](https://github.com/williamboman/mason.nvim/commit/45d7a81) 2022-08-27 - feat: add standardrb linter/formatter for Ruby ([#344](https://github.com/williamboman/mason.nvim/issues/344)) by Matthew Critchlow
+</details>
+
+```
+:MasonInstall standardrb
 ```
 
 
