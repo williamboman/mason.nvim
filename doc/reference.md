@@ -5,11 +5,23 @@ documentation available in `:h mason`.
 The intended audience of this document are plugin developers and people who want to further customize their own Neovim
 configuration.
 
-Note that APIs not listed in this document (or `:h mason`) are not considered public, and are subject to unannounced,
-breaking, changes. Use at own risk.
+_Note that APIs not listed in this document (or `:h mason`) are not considered public, and are subject to unannounced,
+breaking, changes. Use at own risk._
 
 Please [reach out](https://github.com/williamboman/mason.nvim/discussions/new?category=api-suggestions) if you think
 something is missing or if something could be improved!
+
+---
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT
+RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14][bcp14],
+[RFC2119][rfc2119], and [RFC8174][rfc8174] when, and only when, they appear in all capitals, as shown here.
+
+---
+
+[bcp14]: https://tools.ietf.org/html/bcp14
+[rfc2119]: https://tools.ietf.org/html/rfc2119
+[rfc8174]: https://tools.ietf.org/html/rfc8174
 
 -   [Architecture diagram](#architecture-diagram)
 -   [`PackageSpec`](#packagespec)
@@ -25,6 +37,7 @@ something is missing or if something could be improved!
     -   [`Package:get_install_path()`](#packageget_install_path)
     -   [`Package:get_installed_version({callback})`](#packageget_installed_versioncallback)
     -   [`Package:check_new_version({callback})`](#packagecheck_new_versioncallback)
+-   [`NewPackageVersion`](#newpackageversion)
 -   [`InstallContext`](#installcontext)
     -   [`InstallContext.package`](#installcontextpackage)
     -   [`InstallContext.handle`](#installcontexthandle)
@@ -144,7 +157,8 @@ Installs the package instance this method is being called on. Accepts an
 optional `{opts}` argument, which can be used to specify a desired version to
 install.
 
-The returned [`InstallHandle`](#installhandle) can be used to observe progress and control the installation process (e.g., cancelling).
+The returned [`InstallHandle`](#installhandle) can be used to observe progress and control the installation process
+(e.g., cancelling).
 
 _Note that if the package already have an active handle registered, that handler is returned instead of a new one._
 
@@ -158,8 +172,8 @@ Uninstalls the package instance this method is being called on.
 
 ### `Package:get_install_path()`
 
-**Returns:** `string` The full path where this package is installed. Note that this will always return a string,
-regardless of whether the package is actually installed or not.
+**Returns:** `string` The full path where this package is installed. _Note that this will always return a string,
+regardless of whether the package is actually installed or not._
 
 ### `Package:get_installed_version({callback})`
 
@@ -174,13 +188,27 @@ results.
 
 **Parameters:**
 
--   `callback`: `fun(success: boolean, result_or_err: NewPackageVersion)`
+-   `callback`: `fun(success: boolean, result_or_err: NewPackageVersion | string)`
 
 This method will asynchronously check whether there's a newer version of the package, and invoke the provided
 `{callback}` with the results.
 
-Note that this method will result in network calls and will error when there is no internet connection. Also, one should
-call this method with care as to not cause high network traffic as well as respecting user's online privacy.
+_Note that the `{callback}` will only be invoked with `success = true` when there is a new version available (i.e. a
+version that is considered newer/greater than the one currently installed). When a new version can not be found, either
+because the current version is the latest or due to other issues, `{callback}` will be invoked with `success = false`._
+
+_Note that this method will result in network calls and will error when there is no internet connection. Also, one
+should call this method with care as to not cause high network traffic as well as respecting user's online privacy._
+
+## `NewPackageVersion`
+
+**Type:**
+
+| Key             | Value    |
+| --------------- | -------- |
+| name            | `string` |
+| current_version | `string` |
+| latest_version  | `string` |
 
 ## `InstallContext`
 
@@ -390,8 +418,8 @@ to events on the associated object.
 Registers the provided `{handler}`, to be called every time the provided
 `{event}` is dispatched.
 
-**Note**: The provided `{handler}` may be executed outside the main Neovim loop (`:h vim.in_fast_event()`), where most of
-the Neovim API is disabled.
+_Note that the provided `{handler}` may be executed outside the main Neovim loop (`:h vim.in_fast_event()`), where most
+of the Neovim API is disabled._
 
 ### `EventEmitter:once({event, handler})`
 
@@ -403,8 +431,8 @@ the Neovim API is disabled.
 Registers the provided `{handler}`, to be called only once - the next time the
 provided `{event}` is dispatched.
 
-**Note**: The provided `{handler}` may be executed outside the main Neovim loop (`:h vim.in_fast_event()`), where most of
-the Neovim API is disabled.
+_Note that the provided `{handler}` may be executed outside the main Neovim loop (`:h vim.in_fast_event()`), where most
+of the Neovim API is disabled._
 
 ### `EventEmitter:off({event}, {handler})`
 
