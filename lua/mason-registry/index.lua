@@ -110,6 +110,7 @@ return {
   ["lua-language-server"] = "mason-registry.lua-language-server",
   luacheck = "mason-registry.luacheck",
   luaformatter = "mason-registry.luaformatter",
+  ["luau-lsp"] = "mason-registry.luau-lsp",
   markdownlint = "mason-registry.markdownlint",
   marksman = "mason-registry.marksman",
   ["metamath-zero-lsp"] = "mason-registry.metamath-zero-lsp",
