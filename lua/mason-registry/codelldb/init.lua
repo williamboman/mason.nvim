@@ -26,9 +26,16 @@ return Pkg.new {
                 ),
             })
             .with_receipt()
-        ctx:link_bin(
-            "codelldb",
-            path.concat { "extension", "adapter", platform.is.win and "codelldb.exe" or "codelldb" }
-        )
+        platform.when {
+            unix = function()
+                ctx:link_bin(
+                    "codelldb",
+                    ctx:write_exec_wrapper("codelldb", path.concat { "extension", "adapter", "codelldb" })
+                )
+            end,
+            win = function()
+                ctx:link_bin("codelldb", path.concat { "extension", "adapter", "codelldb.exe" })
+            end,
+        }
     end,
 }
