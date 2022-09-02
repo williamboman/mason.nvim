@@ -1,3 +1,4 @@
+local log = require "mason-core.log"
 ---@class EventEmitter
 ---@field private __event_handlers table<any, table<fun(), fun()>>
 ---@field private __event_handlers_once table<any, table<fun(), fun()>>
@@ -14,18 +15,31 @@ function EventEmitter.init(obj)
 end
 
 ---@param event any
+---@param handler fun(...): any
+local function call_handler(event, handler, ...)
+    local ok, err = pcall(handler, ...)
+    if not ok then
+        vim.schedule(function()
+            log.fmt_warn("EventEmitter handler failed for event %s with error %s", event, err)
+            vim.api.nvim_err_writeln(err)
+        end)
+    end
+end
+
+---@param event any
 function EventEmitter:emit(event, ...)
     if self.__event_handlers[event] then
         for handler in pairs(self.__event_handlers[event]) do
-            pcall(handler, ...)
+            call_handler(event, handler, ...)
         end
     end
     if self.__event_handlers_once[event] then
         for handler in pairs(self.__event_handlers_once[event]) do
-            pcall(handler, ...)
-            self.__event_handlers_once[handler] = nil
+            call_handler(event, handler, ...)
+            self.__event_handlers_once[event][handler] = nil
         end
     end
+    return self
 end
 
 ---@param event any
@@ -35,6 +49,7 @@ function EventEmitter:on(event, handler)
         self.__event_handlers[event] = {}
     end
     self.__event_handlers[event][handler] = handler
+    return self
 end
 
 ---@param event any
@@ -44,16 +59,19 @@ function EventEmitter:once(event, handler)
         self.__event_handlers_once[event] = {}
     end
     self.__event_handlers_once[event][handler] = handler
+    return self
 end
 
 ---@param event any
 ---@param handler fun(payload: any)
 function EventEmitter:off(event, handler)
-    if vim.tbl_get(self.__event_handlers, { event, handler }) then
+    if self.__event_handlers[event] then
         self.__event_handlers[event][handler] = nil
-        return true
     end
-    return false
+    if self.__event_handlers_once[event] then
+        self.__event_handlers_once[event][handler] = nil
+    end
+    return self
 end
 
 ---@private

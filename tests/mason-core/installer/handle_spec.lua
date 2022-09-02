@@ -7,9 +7,11 @@ describe("installer handle", function()
     it("should register spawn handle", function()
         local handle = InstallHandle.new(mock.new {})
         local spawn_handle_change_handler = spy.new()
-        handle:once("spawn_handles:change", spawn_handle_change_handler)
         local luv_handle = mock.new {}
+
+        handle:once("spawn_handles:change", spawn_handle_change_handler)
         handle:register_spawn_handle(luv_handle, 1337, "tar", { "-xvf", "file" })
+
         assert.same({
             uv_handle = luv_handle,
             pid = 1337,
@@ -22,11 +24,13 @@ describe("installer handle", function()
     it("should deregister spawn handle", function()
         local handle = InstallHandle.new(mock.new {})
         local spawn_handle_change_handler = spy.new()
-        handle:once("spawn_handles:change", spawn_handle_change_handler)
         local luv_handle1 = mock.new {}
         local luv_handle2 = mock.new {}
+
+        handle:on("spawn_handles:change", spawn_handle_change_handler)
         handle:register_spawn_handle(luv_handle1, 42, "curl", { "someurl" })
         handle:register_spawn_handle(luv_handle2, 1337, "tar", { "-xvf", "file" })
+
         assert.is_true(handle:deregister_spawn_handle(luv_handle1))
         assert.equals(1, #handle.spawn_handles)
         assert.same({
@@ -41,8 +45,10 @@ describe("installer handle", function()
     it("should change state", function()
         local handle = InstallHandle.new(mock.new {})
         local state_change_handler = spy.new()
+
         handle:once("state:change", state_change_handler)
         handle:set_state "QUEUED"
+
         assert.equals("QUEUED", handle.state)
         assert.spy(state_change_handler).was_called(1)
         assert.spy(state_change_handler).was_called_with("QUEUED", "IDLE")
@@ -54,11 +60,12 @@ describe("installer handle", function()
         local uv_handle = {}
         local handle = InstallHandle.new(mock.new {})
         local kill_handler = spy.new()
+
         handle:once("kill", kill_handler)
         handle.state = "ACTIVE"
         handle.spawn_handles = { { uv_handle = uv_handle } }
-
         handle:kill(9)
+
         assert.spy(process.kill).was_called(1)
         assert.spy(process.kill).was_called_with(uv_handle, 9)
         assert.spy(kill_handler).was_called(1)
@@ -76,13 +83,14 @@ describe("installer handle", function()
             local kill_handler = spy.new()
             local terminate_handler = spy.new()
             local closed_handler = spy.new()
+
             handle:once("kill", kill_handler)
             handle:once("terminate", terminate_handler)
             handle:once("closed", closed_handler)
             handle.state = "ACTIVE"
             handle.spawn_handles = { { uv_handle = uv_handle2 }, { uv_handle = uv_handle2 } }
-
             handle:terminate()
+
             assert.spy(process.kill).was_called(2)
             assert.spy(process.kill).was_called_with(uv_handle1, 15)
             assert.spy(process.kill).was_called_with(uv_handle2, 15)
