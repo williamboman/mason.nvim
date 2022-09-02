@@ -23,7 +23,9 @@ globals:
             - type: table
               required: false
     mockx.throws:
-        args: []
+        args:
+            - type: any
+              required: false
     mockx.just_runs:
         args: []
     mockx.returns:
