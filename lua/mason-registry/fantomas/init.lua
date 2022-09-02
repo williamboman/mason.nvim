@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://fsprojects.github.io/fantomas",
     languages = { Pkg.Lang["F#"] },
     categories = { Pkg.Cat.Formatter },
-    install = dotnet.package("fantomas", { bin = { "dotnet-fantomas" } }),
+    install = dotnet.package("fantomas", { bin = { "fantomas" } }),
 }
