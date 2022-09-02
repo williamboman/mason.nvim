@@ -64,6 +64,7 @@ return {
   esbonio = "mason-registry.esbonio",
   ["eslint-lsp"] = "mason-registry.eslint-lsp",
   eslint_d = "mason-registry.eslint_d",
+  fantomas = "mason-registry.fantomas",
   ["firefox-debug-adapter"] = "mason-registry.firefox-debug-adapter",
   fixjson = "mason-registry.fixjson",
   flake8 = "mason-registry.flake8",
