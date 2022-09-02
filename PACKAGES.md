@@ -65,6 +65,7 @@
 - [esbonio](#esbonio)
 - [eslint-lsp](#eslint-lsp)
 - [eslint_d](#eslint_d)
+- [fantomas](#fantomas)
 - [firefox-debug-adapter](#firefox-debug-adapter)
 - [fixjson](#fixjson)
 - [flake8](#flake8)
@@ -111,6 +112,7 @@
 - [lua-language-server](#lua-language-server)
 - [luacheck](#luacheck)
 - [luaformatter](#luaformatter)
+- [luau-lsp](#luau-lsp)
 - [markdownlint](#markdownlint)
 - [marksman](#marksman)
 - [metamath-zero-lsp](#metamath-zero-lsp)
@@ -1483,6 +1485,25 @@ Categories: `Linter`
 ```
 
 
+# fantomas
+
+> Fantomas is an opinionated code formatter for f#
+
+Homepage: [https://fsprojects.github.io/fantomas](https://fsprojects.github.io/fantomas)  
+Languages: `F#`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`d28d6a9`](https://github.com/williamboman/mason.nvim/commit/d28d6a9) 2022-09-02 - feat: add fantomas F# formatter ([#367](https://github.com/williamboman/mason.nvim/issues/367)) by Adelar da Silva Queiróz
+</details>
+
+```
+:MasonInstall fantomas
+```
+
+
 # firefox-debug-adapter
 
 > Debug your web application or browser extension in Firefox
@@ -2408,6 +2429,25 @@ Categories: `Formatter`
 
 ```
 :MasonInstall luaformatter
+```
+
+
+# luau-lsp
+
+> An implementation of a language server for the Luau programming language.
+
+Homepage: [https://github.com/JohnnyMorganz/luau-lsp](https://github.com/JohnnyMorganz/luau-lsp)  
+Languages: `Luau`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`a761c1f`](https://github.com/williamboman/mason.nvim/commit/a761c1f) 2022-09-01 - feat: add luau-lsp ([#366](https://github.com/williamboman/mason.nvim/issues/366)) by William Boman
+</details>
+
+```
+:MasonInstall luau-lsp
 ```
 
 
