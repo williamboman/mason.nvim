@@ -809,6 +809,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`1cde8fd`](https://github.com/williamboman/mason.nvim/commit/1cde8fd) 2022-09-03 - fix(codelldb): don't symlink executable directly ([#374](https://github.com/williamboman/mason.nvim/issues/374)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -1496,6 +1497,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`c019223`](https://github.com/williamboman/mason.nvim/commit/c019223) 2022-09-02 - fix(fantomas): link correct fantomas binany name ([#370](https://github.com/williamboman/mason.nvim/issues/370)) by Adelar da Silva Queiróz
 - [`d28d6a9`](https://github.com/williamboman/mason.nvim/commit/d28d6a9) 2022-09-02 - feat: add fantomas F# formatter ([#367](https://github.com/williamboman/mason.nvim/issues/367)) by Adelar da Silva Queiróz
 </details>
 
