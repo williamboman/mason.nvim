@@ -20,6 +20,7 @@ return {
   blue = "mason-registry.blue",
   ["bsl-language-server"] = "mason-registry.bsl-language-server",
   buf = "mason-registry.buf",
+  ["buf-language-server"] = "mason-registry.buf-language-server",
   buildifier = "mason-registry.buildifier",
   cbfmt = "mason-registry.cbfmt",
   ["cfn-lint"] = "mason-registry.cfn-lint",

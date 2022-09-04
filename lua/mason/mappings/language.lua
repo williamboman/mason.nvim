@@ -81,7 +81,7 @@ return {
   php = { "intelephense", "php-cs-fixer", "php-debug-adapter", "phpactor", "psalm" },
   powershell = { "powershell-editor-services" },
   prisma = { "prisma-language-server" },
-  protobuf = { "buf" },
+  protobuf = { "buf", "buf-language-server" },
   puppet = { "puppet-editor-services" },
   purescript = { "purescript-language-server" },
   python = { "autopep8", "black", "blue", "debugpy", "flake8", "isort", "jedi-language-server", "mypy", "pylint", "pyright", "python-lsp-server", "sourcery", "vulture", "yapf" },
