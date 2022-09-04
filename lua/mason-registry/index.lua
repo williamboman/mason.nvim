@@ -2,6 +2,7 @@
 -- stylua: ignore start
 return {
   actionlint = "mason-registry.actionlint",
+  ["ada-language-server"] = "mason-registry.ada-language-server",
   alex = "mason-registry.alex",
   ["angular-language-server"] = "mason-registry.angular-language-server",
   ["ansible-language-server"] = "mason-registry.ansible-language-server",

@@ -3,6 +3,7 @@
 return {
   [".net"] = { "netcoredbg" },
   ["1С:enterprise"] = { "bsl-language-server" },
+  ada = { "ada-language-server" },
   angular = { "angular-language-server", "djlint", "prettier", "prettierd" },
   ansible = { "ansible-language-server" },
   apex = { "apex-language-server" },
