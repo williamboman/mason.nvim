@@ -8,7 +8,7 @@ return Pkg.new {
     languages = { Pkg.Lang.Protobuf },
     categories = { Pkg.Cat.LSP },
     install = go.packages {
-        "github.com/bufbuild/buf-language-server/cmd/bufls@latest",
+        "github.com/bufbuild/buf-language-server/cmd/bufls",
         bin = { "bufls" },
     },
 }
