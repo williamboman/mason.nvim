@@ -3,6 +3,7 @@
 > `:Mason`
 
 - [actionlint](#actionlint)
+- [ada-language-server](#ada-language-server)
 - [alex](#alex)
 - [angular-language-server](#angular-language-server)
 - [ansible-language-server](#ansible-language-server)
@@ -21,6 +22,7 @@
 - [blue](#blue)
 - [bsl-language-server](#bsl-language-server)
 - [buf](#buf)
+- [buf-language-server](#buf-language-server)
 - [buildifier](#buildifier)
 - [cbfmt](#cbfmt)
 - [cfn-lint](#cfn-lint)
@@ -228,6 +230,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall actionlint
+```
+
+
+# ada-language-server
+
+> Ada/SPARK language server
+
+Homepage: [https://github.com/AdaCore/ada_language_server](https://github.com/AdaCore/ada_language_server)  
+Languages: `Ada`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b109b49`](https://github.com/williamboman/mason.nvim/commit/b109b49) 2022-09-04 - feat: add ada-language-server ([#380](https://github.com/williamboman/mason.nvim/issues/380)) by Pierrick Guillaume
+</details>
+
+```
+:MasonInstall ada-language-server
 ```
 
 
@@ -596,6 +617,25 @@ Categories: `Linter` `Formatter`
 
 ```
 :MasonInstall buf
+```
+
+
+# buf-language-server
+
+> `bufls` is a prototype for the beginnings of a Protobuf language server compatible with Buf modules and workspaces.
+
+Homepage: [https://github.com/bufbuild/buf-language-server](https://github.com/bufbuild/buf-language-server)  
+Languages: `Protobuf`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`f1cb597`](https://github.com/williamboman/mason.nvim/commit/f1cb597) 2022-09-04 - feat: add buf-language-server ([#362](https://github.com/williamboman/mason.nvim/issues/362)) ([#378](https://github.com/williamboman/mason.nvim/issues/378)) by Jay Patel
+</details>
+
+```
+:MasonInstall buf-language-server
 ```
 
 
