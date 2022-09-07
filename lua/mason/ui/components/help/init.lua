@@ -80,7 +80,7 @@ local function GenericHelp(state)
         )),
         Ui.EmptyLine(),
         Ui.HlTextNode {
-            { p.Bold "Problems installing/uninstalling packages" },
+            { p.Bold "Problems installing packages" },
             {
                 p.muted "Make sure you meet the minimum requirements to install packages. For debugging, refer to:",
             },
@@ -98,18 +98,34 @@ local function GenericHelp(state)
         Ui.EmptyLine(),
         Ui.HlTextNode {
             { p.Bold "Problems with package functionality" },
+            { p.muted "Please refer to each package's own homepage for further assistance." },
+        },
+        Ui.EmptyLine(),
+        Ui.HlTextNode {
+            { p.Bold "How do I use installed packages?" },
+            { p.muted "Mason only makes packages available for use. It does not automatically integrate" },
+            { p.muted "these into Neovim. You have multiple different options for using any given" },
             {
-                p.muted "Please refer to each package's own homepage for further assistance.",
+                p.muted "package, and you are free to pick and choose as you see fit. See ",
+                p.highlight ":h mason-how-to",
             },
+            { p.muted "for a recommendation." },
         },
         Ui.EmptyLine(),
         Ui.HlTextNode {
             { p.Bold "Missing a package?" },
-            {
-                p.muted "Create an issue at ",
-                p.highlight "https://github.com/williamboman/mason.nvim/issues/new/choose",
-            },
+            { p.muted "Please consider contributing to mason.nvim:" },
         },
+        Ui.CascadingStyleNode({ "INDENT" }, {
+            Ui.HlTextNode {
+                {
+                    p.highlight "https://github.com/williamboman/mason.nvim/blob/main/CONTRIBUTING.md",
+                },
+                {
+                    p.highlight "https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md",
+                },
+            },
+        }),
         Ui.EmptyLine(),
         Ui.HlTextNode {
             {
