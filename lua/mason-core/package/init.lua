@@ -88,8 +88,7 @@ end
 ---@return InstallHandle
 function Package:install(opts)
     opts = opts or {}
-    return self
-        :get_handle()
+    return self:get_handle()
         :map(function(handle)
             if not handle:is_closed() then
                 log.fmt_debug("Handle %s already exist for package %s", handle, self)

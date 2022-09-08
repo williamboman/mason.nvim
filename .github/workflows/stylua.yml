@@ -18,4 +18,4 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   # CLI arguments
                   args: --check .
-                  version: 0.14.2
+                  version: 0.14.3
