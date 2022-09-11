@@ -1,5 +1,4 @@
 local Pkg = require "mason-core.package"
-local _ = require "mason-core.functional"
 local pip3 = require "mason-core.managers.pip3"
 
 return Pkg.new {
