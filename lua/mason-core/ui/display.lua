@@ -181,7 +181,7 @@ local function create_popup_window_opts(opts, sizes_only)
         col = math.floor((win_width - width) / 2),
         relative = "editor",
         style = "minimal",
-        zindex = 50,
+        zindex = 45,
     }
 
     if not sizes_only then
