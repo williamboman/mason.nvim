@@ -78,6 +78,7 @@ return {
   ["go-debug-adapter"] = "mason-registry.go-debug-adapter",
   gofumpt = "mason-registry.gofumpt",
   goimports = "mason-registry.goimports",
+  ["goimports-reviser"] = "mason-registry.goimports-reviser",
   ["golangci-lint"] = "mason-registry.golangci-lint",
   ["golangci-lint-langserver"] = "mason-registry.golangci-lint-langserver",
   golines = "mason-registry.golines",
