@@ -142,7 +142,9 @@
 - [psalm](#psalm)
 - [puppet-editor-services](#puppet-editor-services)
 - [purescript-language-server](#purescript-language-server)
+- [pydocstyle](#pydocstyle)
 - [pylint](#pylint)
+- [pyproject-flake8](#pyproject-flake8)
 - [pyright](#pyright)
 - [python-lsp-server](#python-lsp-server)
 - [quick-lint-js](#quick-lint-js)
@@ -154,6 +156,7 @@
 - [rnix-lsp](#rnix-lsp)
 - [robotframework-lsp](#robotframework-lsp)
 - [rome](#rome)
+- [rstcheck](#rstcheck)
 - [rubocop](#rubocop)
 - [rust-analyzer](#rust-analyzer)
 - [salt-lsp](#salt-lsp)
@@ -3050,6 +3053,25 @@ Categories: `LSP`
 ```
 
 
+# pydocstyle
+
+> pydocstyle is a static analysis tool for checking compliance with Python docstring conventions
+
+Homepage: [https://www.pydocstyle.org/](https://www.pydocstyle.org/)  
+Languages: `Python`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
+</details>
+
+```
+:MasonInstall pydocstyle
+```
+
+
 # pylint
 
 > Pylint is a static code analyser for Python 2 or 3
@@ -3066,6 +3088,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall pylint
+```
+
+
+# pyproject-flake8
+
+> A monkey patching wrapper to connect flake8 with pyproject.toml configuration.
+
+Homepage: [https://github.com/csachs/pyproject-flake8](https://github.com/csachs/pyproject-flake8)  
+Languages: `Python`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
+</details>
+
+```
+:MasonInstall pyproject-flake8
 ```
 
 
@@ -3290,6 +3331,25 @@ Categories: `LSP` `Linter`
 
 ```
 :MasonInstall rome
+```
+
+
+# rstcheck
+
+> Checks syntax of reStructuredText and code blocks nested within it.
+
+Homepage: [https://rstcheck.readthedocs.io/](https://rstcheck.readthedocs.io/)  
+Languages: `Python`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
+</details>
+
+```
+:MasonInstall rstcheck
 ```
 
 
