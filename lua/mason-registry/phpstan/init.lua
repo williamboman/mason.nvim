@@ -29,16 +29,7 @@ return Pkg.new {
                 ctx:link_bin("phpstan", "phpstan")
             end,
             win = function()
-                ctx:link_bin(
-                    "phpstan",
-                    ctx:write_shell_exec_wrapper(
-                        "phpstan",
-                        ("php %q"):format(path.concat {
-                            ctx.package:get_install_path(),
-                            "phpstan.phar",
-                        })
-                    )
-                )
+                ctx:link_bin("phpstan", ctx:write_php_exec_wrapper("phpstan", "phpstan.phar"))
             end,
         }
     end,

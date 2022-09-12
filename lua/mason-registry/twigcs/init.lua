@@ -3,14 +3,12 @@ local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
 local std = require "mason-core.managers.std"
 local platform = require "mason-core.platform"
-local path = require "mason-core.path"
 
 return Pkg.new {
     name = "twigcs",
     desc = _.dedent [[
-        The missing checkstyle for twig!
-        Twigcs aims to be what phpcs is to php.
-        It checks your codebase for violations on coding standards.
+        The missing checkstyle for twig! Twigcs aims to be what phpcs is to php. It checks your codebase for violations
+        on coding standards.
     ]],
     homepage = "https://github.com/friendsoftwig/twigcs",
     languages = { Pkg.Lang.Twig },
@@ -31,16 +29,7 @@ return Pkg.new {
                 ctx:link_bin("twigcs", "twigcs")
             end,
             win = function()
-                ctx:link_bin(
-                    "twigcs",
-                    ctx:write_shell_exec_wrapper(
-                        "twigcs",
-                        ("php %q"):format(path.concat {
-                            ctx.package:get_install_path(),
-                            "twigcs.phar",
-                        })
-                    )
-                )
+                ctx:link_bin("twigcs", ctx:write_php_exec_wrapper("twigcs", "twigcs.phar"))
             end,
         }
     end,

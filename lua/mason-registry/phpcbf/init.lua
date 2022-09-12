@@ -3,13 +3,10 @@ local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
 local std = require "mason-core.managers.std"
 local platform = require "mason-core.platform"
-local path = require "mason-core.path"
 
 return Pkg.new {
     name = "phpcbf",
-    desc = _.dedent [[
-        PHP_CodeSniffer(phpcbf) automatically corrects coding standard violations that would be detected by PHP_CodeSniffer(phpcs).
-    ]],
+    desc = [[phpcbf automatically corrects coding standard violations that would be detected by phpcs.]],
     homepage = "https://github.com/squizlabs/PHP_CodeSniffer",
     languages = { Pkg.Lang.PHP },
     categories = { Pkg.Cat.Formatter },
@@ -29,16 +26,7 @@ return Pkg.new {
                 ctx:link_bin("phpcbf", "phpcbf")
             end,
             win = function()
-                ctx:link_bin(
-                    "phpcbf",
-                    ctx:write_shell_exec_wrapper(
-                        "phpcbf",
-                        ("php %q"):format(path.concat {
-                            ctx.package:get_install_path(),
-                            "phpcbf.phar",
-                        })
-                    )
-                )
+                ctx:link_bin("phpcbf", ctx:write_php_exec_wrapper("phpcbf", "phpcbf.phar"))
             end,
         }
     end,

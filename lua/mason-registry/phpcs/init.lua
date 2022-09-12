@@ -3,13 +3,10 @@ local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
 local std = require "mason-core.managers.std"
 local platform = require "mason-core.platform"
-local path = require "mason-core.path"
 
 return Pkg.new {
     name = "phpcs",
-    desc = _.dedent [[
-        PHP_CodeSniffer(phpcs) tokenizes PHP, JavaScript and CSS files to detect violations of a defined standard.
-    ]],
+    desc = [[phpcs tokenizes PHP, JavaScript and CSS files to detect violations of a defined standard.]],
     homepage = "https://github.com/squizlabs/PHP_CodeSniffer",
     languages = { Pkg.Lang.PHP },
     categories = { Pkg.Cat.Linter },
@@ -29,16 +26,7 @@ return Pkg.new {
                 ctx:link_bin("phpcs", "phpcs")
             end,
             win = function()
-                ctx:link_bin(
-                    "phpcs",
-                    ctx:write_shell_exec_wrapper(
-                        "phpcs",
-                        ("php %q"):format(path.concat {
-                            ctx.package:get_install_path(),
-                            "phpcs.phar",
-                        })
-                    )
-                )
+                ctx:link_bin("phpcs", ctx:write_php_exec_wrapper("phpcs", "phpcs.phar"))
             end,
         }
     end,
