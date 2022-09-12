@@ -79,6 +79,7 @@
 - [go-debug-adapter](#go-debug-adapter)
 - [gofumpt](#gofumpt)
 - [goimports](#goimports)
+- [goimports-reviser](#goimports-reviser)
 - [golangci-lint](#golangci-lint)
 - [golangci-lint-langserver](#golangci-lint-langserver)
 - [golines](#golines)
@@ -1769,6 +1770,28 @@ Categories: `Formatter`
 ```
 
 
+# goimports-reviser
+
+> Tool for Golang to sort goimports by 3-4 groups: std, general, company (optional), and project dependencies.
+Also, formatting for your code will be prepared (so, you don't need to use gofmt or goimports separately).
+Use additional option -rm-unused to remove unused imports and -set-alias to rewrite import aliases for
+versioned packages.
+
+Homepage: [https://pkg.go.dev/github.com/incu6us/goimports-reviser](https://pkg.go.dev/github.com/incu6us/goimports-reviser)  
+Languages: `Go`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`6a2b45b`](https://github.com/williamboman/mason.nvim/commit/6a2b45b) 2022-09-11 - feat: add goimports-reviser ([#400](https://github.com/williamboman/mason.nvim/issues/400)) by Laytan Laats
+</details>
+
+```
+:MasonInstall goimports-reviser
+```
+
+
 # golangci-lint
 
 > golangci-lint is a fast Go linters runner. It runs linters in parallel, uses caching, supports yaml config, has
@@ -3064,6 +3087,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
+- [`e6d8f32`](https://github.com/williamboman/mason.nvim/commit/e6d8f32) 2022-09-11 - chore: remove unused import ([#403](https://github.com/williamboman/mason.nvim/issues/403)) by William Boman
 - [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
 </details>
 
@@ -3102,6 +3126,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
+- [`e6d8f32`](https://github.com/williamboman/mason.nvim/commit/e6d8f32) 2022-09-11 - chore: remove unused import ([#403](https://github.com/williamboman/mason.nvim/issues/403)) by William Boman
 - [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
 </details>
 
@@ -3345,6 +3370,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
+- [`e6d8f32`](https://github.com/williamboman/mason.nvim/commit/e6d8f32) 2022-09-11 - chore: remove unused import ([#403](https://github.com/williamboman/mason.nvim/issues/403)) by William Boman
 - [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
 </details>
 
