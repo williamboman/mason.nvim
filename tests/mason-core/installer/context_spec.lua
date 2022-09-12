@@ -204,10 +204,7 @@ cmd.exe /C echo %GREETING% %*]]
             ctx:write_php_exec_wrapper("my-wrapper-script", php_rel_path)
         end)
 
-        assert.equals(
-            [[Cannot write PHP exec wrapper for path "some/obscure/path/cli.php" as it doesn't exist.]],
-            err
-        )
+        assert.equals([[Cannot write PHP exec wrapper for path "some/obscure/path/cli.php" as it doesn't exist.]], err)
         assert.spy(ctx.write_shell_exec_wrapper).was_called(0)
     end)
 end)
