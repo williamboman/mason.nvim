@@ -216,6 +216,21 @@ function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_
 end
 
 ---@param new_executable_rel_path string Relative path to the executable file to create.
+---@param script_rel_path string Relative path to the PHP script.
+function InstallContext:write_php_exec_wrapper(new_executable_rel_path, script_rel_path)
+    if not self.fs:file_exists(script_rel_path) then
+        error(("Cannot write PHP exec wrapper for path %q as it doesn't exist."):format(script_rel_path), 0)
+    end
+    return self:write_shell_exec_wrapper(
+        new_executable_rel_path,
+        ("php %q"):format(path.concat {
+            self.package:get_install_path(),
+            script_rel_path,
+        })
+    )
+end
+
+---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param module string The python module to call.
 function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, module)
     local pip3 = require "mason-core.managers.pip3"

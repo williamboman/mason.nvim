@@ -3,7 +3,6 @@ local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
 local std = require "mason-core.managers.std"
 local platform = require "mason-core.platform"
-local path = require "mason-core.path"
 
 return Pkg.new {
     name = "phpmd",
@@ -30,16 +29,7 @@ return Pkg.new {
                 ctx:link_bin("phpmd", "phpmd")
             end,
             win = function()
-                ctx:link_bin(
-                    "phpmd",
-                    ctx:write_shell_exec_wrapper(
-                        "phpmd",
-                        ("php %q"):format(path.concat {
-                            ctx.package:get_install_path(),
-                            "phpmd.phar",
-                        })
-                    )
-                )
+                ctx:link_bin("phpmd", ctx:write_php_exec_wrapper("phpmd", "phpmd.phar"))
             end,
         }
     end,

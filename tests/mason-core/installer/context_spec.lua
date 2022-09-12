@@ -172,4 +172,39 @@ cmd.exe /C echo %GREETING% %*]]
         assert.equals([[Cannot write exec wrapper for path "obscure/path/to/server" as it doesn't exist.]], err)
         assert.spy(ctx.write_shell_exec_wrapper).was_called(0)
     end)
+
+    it("should write PHP exec wrapper", function()
+        local php_rel_path = path.concat { "some", "obscure", "path", "cli.php" }
+        local dummy = registry.get_package "dummy"
+        local handle = InstallHandleGenerator "dummy"
+        local ctx = InstallContextGenerator(handle)
+        stub(ctx, "write_shell_exec_wrapper")
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), php_rel_path).returns(true)
+
+        ctx:write_php_exec_wrapper("my-wrapper-script", php_rel_path)
+
+        assert.spy(ctx.write_shell_exec_wrapper).was_called(1)
+        assert.spy(ctx.write_shell_exec_wrapper).was_called_with(
+            match.is_ref(ctx),
+            "my-wrapper-script",
+            ("php %q"):format(path.concat { dummy:get_install_path(), php_rel_path })
+        )
+    end)
+
+    it("should not write PHP exec wrapper if the target script doesn't exist", function()
+        local php_rel_path = path.concat { "some", "obscure", "path", "cli.php" }
+        local handle = InstallHandleGenerator "dummy"
+        local ctx = InstallContextGenerator(handle)
+        stub(ctx, "write_shell_exec_wrapper")
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), php_rel_path).returns(false)
+
+        local err = assert.has_error(function()
+            ctx:write_php_exec_wrapper("my-wrapper-script", php_rel_path)
+        end)
+
+        assert.equals([[Cannot write PHP exec wrapper for path "some/obscure/path/cli.php" as it doesn't exist.]], err)
+        assert.spy(ctx.write_shell_exec_wrapper).was_called(0)
+    end)
 end)
