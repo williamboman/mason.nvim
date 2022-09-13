@@ -134,6 +134,10 @@
 - [php-cs-fixer](#php-cs-fixer)
 - [php-debug-adapter](#php-debug-adapter)
 - [phpactor](#phpactor)
+- [phpcbf](#phpcbf)
+- [phpcs](#phpcs)
+- [phpmd](#phpmd)
+- [phpstan](#phpstan)
 - [powershell-editor-services](#powershell-editor-services)
 - [prettier](#prettier)
 - [prettierd](#prettierd)
@@ -194,6 +198,7 @@
 - [texlab](#texlab)
 - [textlint](#textlint)
 - [tflint](#tflint)
+- [twigcs](#twigcs)
 - [typescript-language-server](#typescript-language-server)
 - [vala-language-server](#vala-language-server)
 - [vale](#vale)
@@ -2841,6 +2846,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
 - [`f578e31`](https://github.com/williamboman/mason.nvim/commit/f578e31) 2022-08-25 - feat: add php-cs-fixer ([#340](https://github.com/williamboman/mason.nvim/issues/340)) by shura
 </details>
 
@@ -2888,6 +2894,87 @@ Categories: `LSP`
 
 ```
 :MasonInstall phpactor
+```
+
+
+# phpcbf
+
+> phpcbf automatically corrects coding standard violations that would be detected by phpcs.
+
+Homepage: [https://github.com/squizlabs/PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)  
+Languages: `PHP`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
+- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+</details>
+
+```
+:MasonInstall phpcbf
+```
+
+
+# phpcs
+
+> phpcs tokenizes PHP, JavaScript and CSS files to detect violations of a defined standard.
+
+Homepage: [https://github.com/squizlabs/PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)  
+Languages: `PHP`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
+- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+</details>
+
+```
+:MasonInstall phpcs
+```
+
+
+# phpmd
+
+> PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD.
+PHPMD can be seen as an user friendly frontend application for the raw metrics stream measured by PHP Depend.
+
+Homepage: [https://github.com/phpmd/phpmd](https://github.com/phpmd/phpmd)  
+Languages: `PHP`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
+- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+</details>
+
+```
+:MasonInstall phpmd
+```
+
+
+# phpstan
+
+> PHP Static Analysis Tool - discover bugs in your code without running it!
+
+Homepage: [https://github.com/phpstan/phpstan](https://github.com/phpstan/phpstan)  
+Languages: `PHP`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
+- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+</details>
+
+```
+:MasonInstall phpstan
 ```
 
 
@@ -4100,6 +4187,27 @@ Categories: `LSP` `Linter`
 
 ```
 :MasonInstall tflint
+```
+
+
+# twigcs
+
+> The missing checkstyle for twig! Twigcs aims to be what phpcs is to php. It checks your codebase for violations
+on coding standards.
+
+Homepage: [https://github.com/friendsoftwig/twigcs](https://github.com/friendsoftwig/twigcs)  
+Languages: `Twig`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
+- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+</details>
+
+```
+:MasonInstall twigcs
 ```
 
 
