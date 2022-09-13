@@ -21,6 +21,7 @@ return Pkg.new {
                 asset_file = coalesce(
                     when(platform.is.mac_arm64, "clojure-lsp-native-macos-aarch64.zip"),
                     when(platform.is.mac_x64, "clojure-lsp-native-macos-amd64.zip"),
+                    when(platform.is_linux and platform.get_libc() == "musl", "clojure-lsp-native-static-linux-amd64.zip"),
                     when(platform.is.linux_x64, "clojure-lsp-native-linux-amd64.zip"),
                     when(platform.is.linux_arm64, "clojure-lsp-native-linux-aarch64.zip"),
                     when(platform.is_win, "clojure-lsp-native-windows-amd64.zip")
