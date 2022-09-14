@@ -42,11 +42,9 @@ function M.install(pkg, opt)
     }
 
     if opt and opt.bin then
-        if opt.bin then
-            _.each(function(executable)
-                ctx:link_bin(executable, create_bin_path(executable))
-            end, opt.bin)
-        end
+        _.each(function(executable)
+            ctx:link_bin(executable, create_bin_path(executable))
+        end, opt.bin)
     end
 
     return {
