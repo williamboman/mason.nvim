@@ -799,6 +799,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`beeb70f`](https://github.com/williamboman/mason.nvim/commit/beeb70f) 2022-09-13 - feat(clojure-lsp): use the static release of clojure-lsp when running on musl libc ([#410](https://github.com/williamboman/mason.nvim/issues/410)) by Ruben Slabbert
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
