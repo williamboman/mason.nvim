@@ -33,7 +33,7 @@ end
 ---@async
 ---@param context InstallContext
 local function link_bin(context)
-    local links = context.receipt.links.bin
+    local links = context.bin_links
     local pkg = context.package
     for name, rel_path in pairs(links) do
         local target_abs_path = path.concat { pkg:get_install_path(), rel_path }
@@ -71,6 +71,7 @@ local function link_bin(context)
                 )
             end,
         }
+        context.receipt:with_link("bin", name, rel_path)
     end
 end
 

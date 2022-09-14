@@ -57,12 +57,26 @@ describe("installer", function()
         "should write receipt",
         async_test(function()
             spy.on(fs.async, "write_file")
-            local handle = InstallHandleGenerator "dummy"
-            installer.execute(handle, {})
-            assert.spy(fs.async.write_file).was_called(1)
-            assert
-                .spy(fs.async.write_file)
-                .was_called_with(("%s/mason-receipt.json"):format(handle.package:get_install_path()), match.is_string())
+            local handler = InstallHandleGenerator "dummy"
+            ---@param ctx InstallContext
+            handler.package.spec.install = function(ctx)
+                ctx.receipt:with_primary_source { type = "source", metadata = {} }
+                ctx.fs:write_file("target", "script-contents")
+                ctx:link_bin("executable", "target")
+            end
+            installer.execute(handler, {})
+            assert.spy(fs.async.write_file).was_called_with(
+                ("%s/mason-receipt.json"):format(handler.package:get_install_path()),
+                match.capture(function(arg)
+                    ---@type InstallReceipt
+                    local receipt = vim.json.decode(arg)
+                    assert.equals("dummy", receipt.name)
+                    assert.same({ type = "source", metadata = {} }, receipt.primary_source)
+                    assert.same({}, receipt.secondary_sources)
+                    assert.same("1.0", receipt.schema_version)
+                    assert.same({ bin = { executable = "target" } }, receipt.links)
+                end)
+            )
         end)
     )
 

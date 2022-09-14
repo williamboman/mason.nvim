@@ -39,6 +39,9 @@ globals:
     before_each:
         args:
             - type: function
+    after_each:
+        args:
+            - type: function
     it:
         args:
             - type: string
@@ -65,3 +68,5 @@ globals:
             - type: any
     assert.spy:
         any: true
+    assert.snapshot:
+        args: []
