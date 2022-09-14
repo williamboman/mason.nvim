@@ -49,19 +49,37 @@ local function with_tag_receipt(repo, tag)
 end
 
 ---@async
----@param opts {repo: string, version: Optional?, asset_file: string|fun(release: string):string}
-function M.release_file(opts)
+---@param opts {repo: string, version: Optional?}
+function M.release_version(opts)
     local ctx = installer.context()
+    ---@type string
     local release = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
         return client
             .fetch_latest_release(opts.repo)
             :map(_.prop "tag_name")
             :get_or_throw "Failed to fetch latest release from GitHub API. Refer to :h mason-errors-github-api for more information."
     end)
+
+    return {
+        with_receipt = function()
+            ctx.receipt:with_primary_source {
+                type = "github_release",
+                repo = opts.repo,
+                release = release,
+            }
+        end,
+        release = release,
+    }
+end
+
+---@async
+---@param opts {repo: string, version: Optional?, asset_file: string|fun(release: string):string}
+function M.release_file(opts)
+    local source = M.release_version(opts)
     ---@type string
     local asset_file
     if type(opts.asset_file) == "function" then
-        asset_file = opts.asset_file(release)
+        asset_file = opts.asset_file(source.release)
     else
         assert(type(opts.asset_file) == "string", "expected asset_file to be a string")
         asset_file = opts.asset_file --[[@as string]]
@@ -75,12 +93,12 @@ function M.release_file(opts)
             0
         )
     end
-    local download_url = settings.current.github.download_url_template:format(opts.repo, release, asset_file)
+    local download_url = settings.current.github.download_url_template:format(opts.repo, source.release, asset_file)
     return {
-        release = release,
+        release = source.release,
         download_url = download_url,
         asset_file = asset_file,
-        with_receipt = with_release_file_receipt(opts.repo, download_url, release),
+        with_receipt = with_release_file_receipt(opts.repo, download_url, source.release),
     }
 end
 

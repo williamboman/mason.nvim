@@ -23,6 +23,10 @@ describe("github release file", function()
             end)
             assert.spy(client.fetch_latest_release).was_not_called()
             assert.equals("13.37", source.release)
+            assert.equals(
+                "https://github.com/williamboman/mason.nvim/releases/download/13.37/program.exe",
+                source.download_url
+            )
         end)
     )
 
@@ -47,6 +51,49 @@ describe("github release file", function()
             assert.spy(client.fetch_latest_release).was_called_with "williamboman/mason.nvim"
             assert.equals("im_the_tag", source.release)
             assert.equals("im_the_tag_for_reals", source.asset_file)
+            assert.equals(
+                "https://github.com/williamboman/mason.nvim/releases/download/im_the_tag/im_the_tag_for_reals",
+                source.download_url
+            )
+        end)
+    )
+end)
+
+describe("github release version", function()
+    it(
+        "should use provided version",
+        async_test(function()
+            stub(client, "fetch_latest_release")
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
+            local source = installer.run_installer(ctx, function()
+                return github.release_version {
+                    repo = "williamboman/mason.nvim",
+                    version = Optional.of "13.37",
+                }
+            end)
+            assert.spy(client.fetch_latest_release).was_not_called()
+            assert.equals("13.37", source.release)
+        end)
+    )
+
+    it(
+        "should fetch latest release from GitHub API",
+        async_test(function()
+            async_test(function()
+                stub(client, "fetch_latest_release")
+                client.fetch_latest_release.returns(Result.success { tag_name = "v42" })
+                local handle = InstallHandleGenerator "dummy"
+                local ctx = InstallContextGenerator(handle)
+                local source = installer.run_installer(ctx, function()
+                    return github.release_version {
+                        repo = "williamboman/mason.nvim",
+                    }
+                end)
+                assert.spy(client.fetch_latest_release).was_called(1)
+                assert.spy(client.fetch_latest_release).was_called_with "williamboman/mason.nvim"
+                assert.equals("v42", source.release)
+            end)
         end)
     )
 end)
