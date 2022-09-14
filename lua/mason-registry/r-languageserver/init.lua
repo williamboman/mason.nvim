@@ -1,8 +1,11 @@
 local Pkg = require "mason-core.package"
 local path = require "mason-core.path"
+local github_client = require "mason-core.managers.github.client"
+local github = require "mason-core.managers.github"
 
 ---@param install_dir string
-local function create_install_script(install_dir)
+---@param ref string
+local function create_install_script(install_dir, ref)
     return ([[
 options(langserver_library = %q);
 options(langserver_quiet = FALSE);
@@ -32,10 +35,11 @@ loadNamespace("languageserversetup", lib.loc = rlsLib);
 languageserversetup::languageserver_install(
     fullReinstall = FALSE,
     confirmBeforeInstall = FALSE,
-    strictLibrary = TRUE
+    strictLibrary = TRUE,
+    ref = %q
 );
 library("languageserver", lib.loc = rlsLib);
-]]):format(install_dir)
+]]):format(install_dir, ref)
 end
 
 ---@param install_dir string
@@ -58,16 +62,17 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
+        local source = github.release_version { repo = "REditorSupport/languageserver" }
+        source.with_receipt()
         ctx.spawn.R {
             "--no-save",
             on_spawn = function(_, stdio)
                 local stdin = stdio[1]
-                stdin:write(create_install_script(ctx.cwd:get()))
+                stdin:write(create_install_script(ctx.cwd:get(), source.release))
                 stdin:close()
             end,
         }
         ctx.fs:write_file("server.R", create_server_script(ctx.package:get_install_path()))
-        ctx.receipt:with_primary_source(ctx.receipt.r_package "languageserver")
 
         ctx:link_bin(
             "r-languageserver",

@@ -2,7 +2,7 @@ local a = require "mason-core.async"
 local _ = require "mason-core.functional"
 local Pkg = require "mason-core.package"
 local std = require "mason-core.managers.std"
-local github_client = require "mason-core.managers.github.client"
+local github = require "mason-core.managers.github"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 
@@ -15,24 +15,13 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        local repo = "haskell/haskell-language-server"
-        local release = ctx.requested_version:or_else_get(function()
-            return github_client
-                .fetch_latest_release(repo)
-                :map(
-                    ---@param release GitHubRelease
-                    function(release)
-                        return release.tag_name
-                    end
-                )
-                :get_or_throw()
-        end)
+        local source = github.release_version { repo = "haskell/haskell-language-server" }
+        source.with_receipt()
 
         std.ensure_executable("ghcup", { help_url = "https://www.haskell.org/ghcup/" })
         ctx:promote_cwd()
-        ctx.spawn.ghcup { "install", "hls", release, "-i", ctx.cwd:get() }
+        ctx.spawn.ghcup { "install", "hls", source.release, "-i", ctx.cwd:get() }
 
-        ctx.receipt:with_primary_source(ctx.receipt.github_release(repo, release))
         platform.when {
             unix = function()
                 ctx:link_bin(
