@@ -64,7 +64,15 @@ local function instanceof(_, arguments, _)
     end
 end
 
+local function capture(_, arguments, _)
+    return function(value)
+        arguments[1](value)
+        return true
+    end
+end
+
 assert:register("matcher", "tbl_containing", tbl_containing)
 assert:register("matcher", "list_containing", list_containing)
 assert:register("matcher", "instanceof", instanceof)
+assert:register("matcher", "capture", capture)
 assert:register("assertion", "wait_for", wait_for)

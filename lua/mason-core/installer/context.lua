@@ -141,6 +141,7 @@ end
 ---@field public package Package
 ---@field public cwd CwdManager
 ---@field public stdio_sink StdioSink
+---@field private bin_links table<string, string>
 local InstallContext = {}
 InstallContext.__index = InstallContext
 
@@ -160,6 +161,7 @@ function InstallContext.new(handle, opts)
         receipt = receipt.InstallReceiptBuilder.new(),
         requested_version = Optional.of_nilable(opts.requested_version),
         stdio_sink = handle.stdio.sink,
+        bin_links = {},
     }, InstallContext)
 end
 
@@ -310,8 +312,11 @@ function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, comman
     }
 end
 
+---@param executable string
+---@param rel_path string
 function InstallContext:link_bin(executable, rel_path)
-    self.receipt:with_link("bin", executable, rel_path)
+    self.bin_links[executable] = rel_path
+    return self
 end
 
 return InstallContext
