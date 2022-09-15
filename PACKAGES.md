@@ -151,6 +151,7 @@
 - [pylint](#pylint)
 - [pyproject-flake8](#pyproject-flake8)
 - [pyright](#pyright)
+- [pyright-python](#pyright-python)
 - [python-lsp-server](#python-lsp-server)
 - [quick-lint-js](#quick-lint-js)
 - [r-languageserver](#r-languageserver)
@@ -3241,6 +3242,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall pyright
+```
+
+
+# pyright-python
+
+> Python command line wrapper for pyright, a static type checker
+
+Homepage: [https://github.com/RobertCraigie/pyright-python](https://github.com/RobertCraigie/pyright-python)
+Languages: `Python`
+Categories: `LSP`
+
+<details>
+    <summary>History:</summary>
+
+- [`f8cd7de`](https://github.com/baco/mason.nvim/commit/f8cd7de) 2022-09-15 - feat: add pyright-python package ([#424](https://github.com/williamboman/mason.nvim/issues/424)) by Dionisio Alonso
+</details>
+
+```
+:MasonInstall pyright-python
 ```
 
 
