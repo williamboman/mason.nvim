@@ -18,11 +18,15 @@ linked to a single `bin/` directory, which `mason.nvim` will add to the
 Neovim's PATH during setup, allowing easy access for the builtin
 shell/terminal as well as other 3rd party plugins.
 
-API reference: ~
+                                                         *mason-api-reference*
+API reference:
     https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md
 
-Extensions: ~
+                                                            *mason-extensions*
+Extensions:
     - https://github.com/williamboman/mason-lspconfig.nvim
+
+3rd party extensions: https://github.com/williamboman/mason.nvim/wiki/Extensions
 
 ==============================================================================
 REQUIREMENTS                                              *mason-requirements*
@@ -70,7 +74,13 @@ Please refer to each package's own release pages to find which versions are
 available.
 
 ==============================================================================
-HOW TO USE PACKAGES                                             *mason-how-to*
+HOW TO INSTALL PACKAGES                        *mason-how-to-install-packages*
+
+You may install packages either via the command interface or via Mason's Lua
+APIs. See |MasonInstall| or |mason-api-reference| for more details.
+
+==============================================================================
+HOW TO USE PACKAGES                                *mason-how-to-use-packages*
 
 Although many packages are perfectly usable out of the box through Neovim
 builtins, it is recommended to use other 3rd party plugins to further
@@ -92,31 +102,45 @@ nvim-lint             https://github.com/mfussenegger/nvim-lint
 ==============================================================================
 COMMANDS                                                      *mason-commands*
 
-                                                                      *:Mason*
+------------------------------------------------------------------------------
+OPEN THE MASON WINDOW                                                 *:Mason*
+
 :Mason
 
 Opens the graphical status window.
 
-                                                               *:MasonInstall*
+------------------------------------------------------------------------------
+INSTALLING PACKAGES                                            *:MasonInstall*
+
 :MasonInstall <package> ...
 
-Installs the provided packages.
+Installs the provided packages. Packages may include a version specifier,
+like so:
+
+    :MasonInstall lua-language-server@v3.0.0
+
 Runs in blocking fashion if there are no UIs attached (i.e. running in
 headless mode), example:
 
     $ nvim --headless -c "MasonInstall stylua" -c "qall"
 
-                                                             *:MasonUninstall*
+------------------------------------------------------------------------------
+UNINSTALLING PACKAGES                                        *:MasonUninstall*
+
 :MasonUninstall <package> ...
 
 Uninstalls the provided packages.
 
-                                                          *:MasonUninstallAll*
+------------------------------------------------------------------------------
+UNINSTALLING ALL PACKAGES                                 *:MasonUninstallAll*
+
 :MasonUninstallAll
 
 Uninstalls all installed packages.
 
-                                                                   *:MasonLog*
+------------------------------------------------------------------------------
+VIEW THE MASON LOG                                                 *:MasonLog*
+
 :MasonLog
 
 Opens the log file in a new tab window.
@@ -281,10 +305,10 @@ is_installed({package_name})
     this is a more efficient option than the Package:is_installed() method due
     to a smaller amount of modules required to load.
 
-    Parameters: ~
+    Parameters:
         {package_name} - string
 
-    Returns: ~
+    Returns:
         boolean
 
                                                 *mason-registry.get_package()*
@@ -294,10 +318,10 @@ get_package({package_name})
 
     This function errors if a package cannot be found.
 
-    Parameters: ~
+    Parameters:
         {package_name} - string
 
-    Returns: ~
+    Returns:
         Package
 
                                      *mason-registry.get_installed_packages()*
@@ -305,7 +329,7 @@ get_installed_packages()
     Returns all installed package instances. This is a slower function that
     loads more modules.
 
-    Returns: ~
+    Returns:
         Package[]
 
                                 *mason-registry.get_installed_package_names()*
@@ -313,7 +337,7 @@ get_installed_package_names()
     Returns all installed package names. This is a fast function that doesn't
     load any extra modules.
 
-    Returns: ~
+    Returns:
         string[]
 
                                            *mason-registry.get_all_packages()*
@@ -321,7 +345,7 @@ get_all_packages()
     Returns all package instances. This is a slower function that loads more
     modules.
 
-    Returns: ~
+    Returns:
         Package[]
 
                                       *mason-registry.get_all_package_names()*
@@ -329,7 +353,7 @@ get_all_package_names()
     Returns all package names. This is a fast function that doesn't load any
     extra modules.
 
-    Returns: ~
+    Returns:
         string[]
 
 
