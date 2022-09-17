@@ -36,10 +36,10 @@ exec bash -c 'echo $GREETING' "$@"]]
     end)
 
     it("should write shell exec wrapper on Windows", function()
-        platform.is_mac = false
-        platform.is_unix = false
-        platform.is_linux = false
-        platform.is_win = true
+        platform.is.mac = false
+        platform.is.unix = false
+        platform.is.linux = false
+        platform.is.win = true
         local handle = InstallHandleGenerator "dummy"
         local ctx = InstallContextGenerator(handle)
         stub(ctx.fs, "write_file")

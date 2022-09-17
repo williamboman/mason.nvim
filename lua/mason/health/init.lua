@@ -213,11 +213,11 @@ function M.check()
             cmd = "gzip",
             args = { "--version" },
             name = "gzip",
-            use_stderr = platform.is_mac, -- Apple gzip prints version string to stderr
+            use_stderr = platform.is.mac, -- Apple gzip prints version string to stderr
         },
         check { cmd = "tar", args = { "--version" }, name = "tar" },
-        -- when(platform.is_win, check { cmd = "powershell.exe", args = { "-Version" }, name = "PowerShell" }), -- TODO fix me
-        -- when(platform.is_win, check { cmd = "cmd.exe", args = { "-Version" }, name = "cmd" }) -- TODO fix me
+        -- when(platform.is.win, check { cmd = "powershell.exe", args = { "-Version" }, name = "PowerShell" }), -- TODO fix me
+        -- when(platform.is.win, check { cmd = "cmd.exe", args = { "-Version" }, name = "cmd" }) -- TODO fix me
     }
 
     if platform.is.unix then

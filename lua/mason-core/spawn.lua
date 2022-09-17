@@ -9,13 +9,13 @@ local log = require "mason-core.log"
 ---@type JobSpawn
 local spawn = {
     _aliases = {
-        npm = platform.is_win and "npm.cmd" or "npm",
-        gem = platform.is_win and "gem.cmd" or "gem",
-        composer = platform.is_win and "composer.bat" or "composer",
-        gradlew = platform.is_win and "gradlew.bat" or "gradlew",
+        npm = platform.is.win and "npm.cmd" or "npm",
+        gem = platform.is.win and "gem.cmd" or "gem",
+        composer = platform.is.win and "composer.bat" or "composer",
+        gradlew = platform.is.win and "gradlew.bat" or "gradlew",
         -- for hererocks installations
-        luarocks = (platform.is_win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
-        rebar3 = platform.is_win and "rebar3.cmd" or "rebar3",
+        luarocks = (platform.is.win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
+        rebar3 = platform.is.win and "rebar3.cmd" or "rebar3",
     },
     _flatten_cmd_args = _.compose(_.filter(_.complement(_.equals(vim.NIL))), _.flatten),
 }

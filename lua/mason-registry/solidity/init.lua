@@ -18,7 +18,7 @@ return Pkg.new {
         github
             .download_release_file({
                 repo = "ethereum/solidity",
-                out_file = platform.is_win and "solc.exe" or "solc",
+                out_file = platform.is.win and "solc.exe" or "solc",
                 asset_file = coalesce(
                     when(platform.is.mac, "solc-macos"),
                     when(platform.is.linux, "solc-static-linux"),

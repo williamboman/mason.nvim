@@ -18,10 +18,10 @@ local function download_platform_dependent()
                 repo = repo,
                 asset_file = function(version)
                     local target = coalesce(
-                        when(platform.is_mac, "ltex-ls-%s-mac-x64.tar.gz"),
-                        when(platform.is_linux, "ltex-ls-%s-linux-x64.tar.gz")
+                        when(platform.is.mac, "ltex-ls-%s-mac-x64.tar.gz"),
+                        when(platform.is.linux_x64, "ltex-ls-%s-linux-x64.tar.gz")
                     )
-                    return target:format(version)
+                    return target and target:format(version)
                 end,
             }
         end,
@@ -29,7 +29,8 @@ local function download_platform_dependent()
             return github.unzip_release_file {
                 repo = repo,
                 asset_file = function(version)
-                    return ("ltex-ls-%s-windows-x64.zip"):format(version)
+                    local target = coalesce(when(platform.is.win_x64, "ltex-ls-%s-windows-x64.zip"))
+                    return target and target:format(version)
                 end,
             }
         end,

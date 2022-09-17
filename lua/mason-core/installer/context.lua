@@ -177,7 +177,7 @@ function InstallContext:promote_cwd()
     -- 1. Unlink any existing installation
     self.handle.package:unlink()
     -- 2. Prepare for renaming cwd to destination
-    if platform.is_unix then
+    if platform.is.unix then
         -- Some Unix systems will raise an error when renaming a directory to a destination that does not already exist.
         fs.async.mkdir(install_path)
     end

@@ -18,6 +18,8 @@ return Pkg.new {
             asset_file = coalesce(
                 when(platform.is.mac_arm64, "ec-darwin-arm64.tar.gz"),
                 when(platform.is.mac_x64, "ec-darwin-amd64.tar.gz"),
+                when(platform.is.linux_x64_openbsd, "ec-openbsd-amd64.tar.gz"),
+                when(platform.is.linux_arm64_openbsd, "ec-openbsd-arm64.tar.gz"),
                 when(platform.is.linux_arm64, "ec-linux-arm64.tar.gz"),
                 when(platform.is.linux_x64, "ec-linux-amd64.tar.gz"),
                 when(platform.is.win_x86, "ec-windows-386.tar.gz"),
