@@ -28,11 +28,11 @@ return Pkg.new {
                         asset_file = coalesce(
                             when(platform.is.mac, format_release_file "tectonic-%s-x86_64-apple-darwin.tar.gz"),
                             when(
-                                platform.is.linux_x64 and platform.get_libc() == "glibc",
+                                platform.is.linux_x64_gnu,
                                 format_release_file "tectonic-%s-x86_64-unknown-linux-gnu.tar.gz"
                             ),
                             when(
-                                platform.is.linux_x64 and platform.get_libc() == "musl",
+                                platform.is.linux_x64_musl,
                                 format_release_file "tectonic-%s-x86_64-unknown-linux-musl.tar.gz"
                             ),
                             when(

@@ -8,13 +8,24 @@ describe("platform", function()
         return require "mason-core.platform"
     end
 
-    local function stub_mac(arch)
-        arch = arch or "x86_64"
-        stub(vim.fn, "has")
+    local function stub_uname(uname)
         stub(vim.loop, "os_uname")
-        vim.loop.os_uname.returns { machine = arch }
+        vim.loop.os_uname.returns(uname)
+    end
+
+    ---@param libc string
+    local function stub_libc(libc)
+        stub(os, "execute")
+        local exit_code = libc == "musl" and 0 or 1
+        -- selene: allow(incorrect_standard_library_use)
+        os.execute.on_call_with("ldd --version 2>&1 | grep -q musl").returns(nil, nil, exit_code)
+    end
+
+    local function stub_mac()
+        stub(vim.fn, "has")
         vim.fn.has.on_call_with("mac").returns(1)
         vim.fn.has.on_call_with("unix").returns(1)
+        vim.fn.has.on_call_with("linux").returns(0)
         vim.fn.has.on_call_with(match._).returns(0)
     end
 
@@ -22,6 +33,7 @@ describe("platform", function()
         stub(vim.fn, "has")
         vim.fn.has.on_call_with("mac").returns(0)
         vim.fn.has.on_call_with("unix").returns(1)
+        vim.fn.has.on_call_with("linux").returns(1)
         vim.fn.has.on_call_with(match._).returns(0)
     end
 
@@ -32,7 +44,8 @@ describe("platform", function()
     end
 
     it("should be able to detect platform and arch", function()
-        stub_mac "arm64"
+        stub_mac()
+        stub_uname { machine = "aarch64" }
         assert.is_true(platform().is.mac_arm64)
         assert.is_false(platform().is.mac_x64)
         assert.is_false(platform().is.nothing)
@@ -40,38 +53,48 @@ describe("platform", function()
 
     it("should be able to detect macos", function()
         stub_mac()
-        assert.is_true(platform().is_mac)
         assert.is_true(platform().is.mac)
-        assert.is_true(platform().is_unix)
         assert.is_true(platform().is.unix)
-        assert.is_false(platform().is_linux)
         assert.is_false(platform().is.linux)
-        assert.is_false(platform().is_win)
         assert.is_false(platform().is.win)
     end)
 
     it("should be able to detect linux", function()
         stub_linux()
-        assert.is_false(platform().is_mac)
         assert.is_false(platform().is.mac)
-        assert.is_true(platform().is_unix)
         assert.is_true(platform().is.unix)
-        assert.is_true(platform().is_linux)
         assert.is_true(platform().is.linux)
-        assert.is_false(platform().is_win)
         assert.is_false(platform().is.win)
     end)
 
     it("should be able to detect windows", function()
         stub_windows()
-        assert.is_false(platform().is_mac)
         assert.is_false(platform().is.mac)
-        assert.is_false(platform().is_unix)
         assert.is_false(platform().is.unix)
-        assert.is_false(platform().is_linux)
         assert.is_false(platform().is.linux)
-        assert.is_true(platform().is_win)
         assert.is_true(platform().is.win)
+    end)
+
+    it("should be able to detect correct triple based on libc", function()
+        stub_linux()
+        stub_uname { machine = "aarch64" }
+        stub_libc "musl"
+        assert.is_false(platform().is.linux_x64_musl)
+        assert.is_false(platform().is.linux_x64_gnu)
+        assert.is_true(platform().is.linux_arm64_musl)
+        assert.is_false(platform().is.linux_arm64_gnu)
+        assert.is_false(platform().is.linux_arm64_gnu)
+    end)
+
+    it("should be able to detect correct triple based on sysname", function()
+        stub_linux()
+        stub_uname { machine = "aarch64", sysname = "OpenBSD" }
+        stub_libc "musl"
+        assert.is_false(platform().is.linux_x64_musl)
+        assert.is_false(platform().is.linux_x64_gnu)
+        assert.is_false(platform().is.linux_arm64_gnu)
+        assert.is_false(platform().is.linux_arm64_gnu)
+        assert.is_true(platform().is.linux_arm64_openbsd)
     end)
 
     it("should run correct case on linux", function()

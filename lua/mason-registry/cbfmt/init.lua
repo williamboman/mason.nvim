@@ -18,17 +18,10 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        local libc = platform.get_libc()
-
         local asset_file = coalesce(
             when(platform.is.mac, "cbfmt_macos-x86_64_%s.tar.gz"),
-            when(
-                platform.is.linux_x64,
-                coalesce(
-                    when(libc == "glibc", "cbfmt_linux-x86_64_%s.tar.gz"),
-                    when(libc == "musl", "cbfmt_linux-x86_64-musl_%s.tar.gz")
-                )
-            ),
+            when(platform.is.linux_x64_gnu, "cbfmt_linux-x86_64_%s.tar.gz"),
+            when(platform.is.linux_x64_musl, "cbfmt_linux-x86_64-musl_%s.tar.gz"),
             when(platform.is.win_x64, "cbfmt_windows-x86_64-msvc_%s.zip")
         )
 

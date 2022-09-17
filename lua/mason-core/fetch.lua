@@ -33,7 +33,7 @@ local function fetch(url, opts)
 
     local platform_specific = Result.failure()
 
-    if platform.is_win then
+    if platform.is.win then
         local header_entries = _.join(
             ", ",
             _.map(function(pair)

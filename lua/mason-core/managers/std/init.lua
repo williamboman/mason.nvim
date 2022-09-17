@@ -157,7 +157,7 @@ end
 ---@param flags string The chmod flag to apply.
 ---@param files string[] A list of relative paths to apply the chmod on.
 function M.chmod(flags, files)
-    if platform.is_unix then
+    if platform.is.unix then
         local ctx = installer.context()
         ctx.spawn.chmod { flags, files }
     end

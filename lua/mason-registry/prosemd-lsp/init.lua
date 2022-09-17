@@ -18,11 +18,11 @@ return Pkg.new {
         github
             .download_release_file({
                 repo = "kitten/prosemd-lsp",
-                out_file = platform.is_win and "prosemd-lsp.exe" or "prosemd-lsp",
+                out_file = platform.is.win and "prosemd-lsp.exe" or "prosemd-lsp",
                 asset_file = coalesce(
-                    when(platform.is_mac, "prosemd-lsp-macos"),
-                    when(platform.is_linux and platform.arch == "x64", "prosemd-lsp-linux"),
-                    when(platform.is_win and platform.arch == "x64", "prosemd-lsp-windows.exe")
+                    when(platform.is.mac, "prosemd-lsp-macos"),
+                    when(platform.is.linux_x64_gnu, "prosemd-lsp-linux"),
+                    when(platform.is.win_x64, "prosemd-lsp-windows.exe")
                 ),
             })
             .with_receipt()

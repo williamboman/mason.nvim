@@ -18,27 +18,12 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        local libc = platform.get_libc()
-
         local asset_file = coalesce(
             when(platform.is.mac_arm64, "rust-analyzer-aarch64-apple-darwin.gz"),
             when(platform.is.mac_x64, "rust-analyzer-x86_64-apple-darwin.gz"),
-            when(
-                platform.is.linux,
-                coalesce(
-                    when(
-                        libc == "glibc",
-                        coalesce(
-                            when(platform.arch == "arm64", "rust-analyzer-aarch64-unknown-linux-gnu.gz"),
-                            when(platform.arch == "x64", "rust-analyzer-x86_64-unknown-linux-gnu.gz")
-                        )
-                    ),
-                    when(
-                        libc == "musl",
-                        coalesce(when(platform.arch == "x64", "rust-analyzer-x86_64-unknown-linux-musl.gz"))
-                    )
-                )
-            ),
+            when(platform.is.linux_x64_gnu, "rust-analyzer-x86_64-unknown-linux-gnu.gz"),
+            when(platform.is.linux_arm64_gnu, "rust-analyzer-aarch64-unknown-linux-gnu.gz"),
+            when(platform.is.linux_x64_musl, "rust-analyzer-x86_64-unknown-linux-musl.gz"),
             when(platform.is.win_arm64, "rust-analyzer-aarch64-pc-windows-msvc.gz"),
             when(platform.is.win_x64, "rust-analyzer-x86_64-pc-windows-msvc.gz")
         )

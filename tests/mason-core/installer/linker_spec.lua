@@ -64,10 +64,10 @@ describe("installer", function()
     it(
         "should write executable wrapper on Windows",
         async_test(function()
-            platform.is_mac = false
-            platform.is_linux = false
-            platform.is_unix = false
-            platform.is_win = true
+            platform.is.mac = false
+            platform.is.linux = false
+            platform.is.unix = false
+            platform.is.win = true
 
             local dummy = registry.get_package "dummy"
             stub(fs.async, "file_exists")

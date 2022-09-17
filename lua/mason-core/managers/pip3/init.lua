@@ -12,7 +12,7 @@ local VENV_DIR = "venv"
 local M = {}
 
 local create_bin_path = _.compose(path.concat, function(executable)
-    return _.append(executable, { VENV_DIR, platform.is_win and "Scripts" or "bin" })
+    return _.append(executable, { VENV_DIR, platform.is.win and "Scripts" or "bin" })
 end, _.if_else(_.always(platform.is.win), _.format "%s.exe", _.identity))
 
 ---@param packages string[]
@@ -44,7 +44,7 @@ function M.install(packages)
         pkgs[1] = ("%s==%s"):format(pkgs[1], version)
     end)
 
-    local executables = platform.is_win and _.list_not_nil(vim.g.python3_host_prog, "python", "python3")
+    local executables = platform.is.win and _.list_not_nil(vim.g.python3_host_prog, "python", "python3")
         or _.list_not_nil(vim.g.python3_host_prog, "python3", "python")
 
     -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
@@ -161,7 +161,7 @@ end
 
 ---@param install_dir string
 function M.venv_path(install_dir)
-    return path.concat { install_dir, VENV_DIR, platform.is_win and "Scripts" or "bin" }
+    return path.concat { install_dir, VENV_DIR, platform.is.win and "Scripts" or "bin" }
 end
 
 return M

@@ -124,7 +124,7 @@ function M.get_installed_primary_package_version(receipt, install_dir)
         .go({
             "version",
             "-m",
-            platform.is_win and ("%s.exe"):format(executable) or executable,
+            platform.is.win and ("%s.exe"):format(executable) or executable,
             cwd = install_dir,
         })
         :map_catching(function(result)

@@ -7,7 +7,7 @@ local github = require "mason-core.managers.github"
 local Optional = require "mason-core.optional"
 local path = require "mason-core.path"
 
-local rebar3 = platform.is_win and "rebar3.cmd" or "rebar3"
+local rebar3 = platform.is.win and "rebar3.cmd" or "rebar3"
 
 return Pkg.new {
     name = "erlang-ls",
