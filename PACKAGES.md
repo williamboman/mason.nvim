@@ -679,6 +679,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`1355e3a`](https://github.com/williamboman/mason.nvim/commit/1355e3a) 2022-08-22 - feat: add cbfmt ([#327](https://github.com/williamboman/mason.nvim/issues/327)) by William Boman
 </details>
 
@@ -799,6 +800,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`beeb70f`](https://github.com/williamboman/mason.nvim/commit/beeb70f) 2022-09-13 - feat(clojure-lsp): use the static release of clojure-lsp when running on musl libc ([#410](https://github.com/williamboman/mason.nvim/issues/410)) by Ruben Slabbert
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -1301,6 +1303,8 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
+- [`ac70755`](https://github.com/williamboman/mason.nvim/commit/ac70755) 2022-09-17 - feat(editorconfig-checker): use the pre-packaged ec ([#434](https://github.com/williamboman/mason.nvim/issues/434)) by Seth Daniel
 - [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
 </details>
 
@@ -1465,6 +1469,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -2438,6 +2443,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`6fa15d7`](https://github.com/williamboman/mason.nvim/commit/6fa15d7) 2022-08-05 - refactor(ltex): remove windows platform detect in unix ([#251](https://github.com/williamboman/mason.nvim/issues/251)) by Vu Le Thanh
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
@@ -3093,6 +3099,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -3500,6 +3507,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -3741,6 +3749,7 @@ Categories: `Compiler` `LSP`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -4106,6 +4115,7 @@ Categories: `Compiler`
 <details>
     <summary>History:</summary>
 
+- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`7c9155b`](https://github.com/williamboman/mason.nvim/commit/7c9155b) 2022-08-06 - feat: add tectonic ([#249](https://github.com/williamboman/mason.nvim/issues/249)) by Vu Le Thanh
 </details>
 
