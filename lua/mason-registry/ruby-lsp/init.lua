@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://github.com/Shopify/ruby-lsp",
     languages = { Pkg.Lang.Ruby },
     categories = { Pkg.Cat.LSP },
-    install = gem.packages { "ruby-lsp", bin = { "ruby_lsp" } },
+    install = gem.packages { "ruby-lsp", bin = { "ruby-lsp" } },
 }
