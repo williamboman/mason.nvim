@@ -162,6 +162,7 @@ return {
   rome = "mason-registry.rome",
   rstcheck = "mason-registry.rstcheck",
   rubocop = "mason-registry.rubocop",
+  ["ruby-lsp"] = "mason-registry.ruby-lsp",
   ["rust-analyzer"] = "mason-registry.rust-analyzer",
   ["salt-lsp"] = "mason-registry.salt-lsp",
   selene = "mason-registry.selene",
