@@ -6,6 +6,7 @@ local spawn = require "mason-core.spawn"
 local Optional = require "mason-core.optional"
 local installer = require "mason-core.installer"
 local platform = require "mason-core.platform"
+local fs = require "mason-core.fs"
 
 local M = {}
 
@@ -27,6 +28,9 @@ end, _.if_else(_.always(platform.is.win), _.format "%s.bat", _.identity))
 local function link_executable(executable)
     local ctx = installer.context()
     local bin_path = create_bin_path(executable)
+    if not ctx.fs:file_exists(bin_path) then
+        error(("Cannot link Gem executable %q because it doesn't exist in %q."):format(executable, bin_path), 0)
+    end
     ctx:link_bin(
         executable,
         ctx:write_shell_exec_wrapper(executable, path.concat { ctx.package:get_install_path(), bin_path }, {
