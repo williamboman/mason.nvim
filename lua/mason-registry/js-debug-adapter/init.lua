@@ -6,7 +6,7 @@ local path = require "mason-core.path"
 local Optional = require "mason-core.optional"
 
 return Pkg.new {
-    name = "vscode-js-debug",
+    name = "js-debug-adapter",
     desc = [[The VS Code JavaScript debugger]],
     homepage = "https://github.com/microsoft/vscode-js-debug",
     languages = { Pkg.Lang.JavaScript, Pkg.Lang.TypeScript },
@@ -20,8 +20,8 @@ return Pkg.new {
         ctx.spawn.npm { "install", "--legacy-peer-deps" }
         ctx.spawn.npm { "run", "compile" }
         ctx:link_bin(
-            "vscode-js-debug",
-            ctx:write_node_exec_wrapper("vscode-js-debug", path.concat { "out", "src", "debugServerMain.js" })
+            "js-debug-adapter",
+            ctx:write_node_exec_wrapper("js-debug-adapter", path.concat { "out", "src", "debugServerMain.js" })
         )
     end,
 }
