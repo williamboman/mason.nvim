@@ -163,6 +163,7 @@
 - [rome](#rome)
 - [rstcheck](#rstcheck)
 - [rubocop](#rubocop)
+- [ruby-lsp](#ruby-lsp)
 - [rust-analyzer](#rust-analyzer)
 - [salt-lsp](#salt-lsp)
 - [selene](#selene)
@@ -3492,6 +3493,25 @@ Categories: `Formatter` `Linter`
 
 ```
 :MasonInstall rubocop
+```
+
+
+# ruby-lsp
+
+> This gem is an implementation of the language server protocol specification for Ruby, used to improve editor features.
+
+Homepage: [https://github.com/Shopify/ruby-lsp](https://github.com/Shopify/ruby-lsp)  
+Languages: `Ruby`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`6677e8f`](https://github.com/williamboman/mason.nvim/commit/6677e8f) 2022-09-20 - feat: add ruby-lsp ([#446](https://github.com/williamboman/mason.nvim/issues/446)) by Jay Patel
+</details>
+
+```
+:MasonInstall ruby-lsp
 ```
 
 
