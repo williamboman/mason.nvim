@@ -21,7 +21,7 @@ return Pkg.new {
         ctx.spawn.npm { "run", "compile" }
         ctx:link_bin(
             "js-debug-adapter",
-            ctx:write_node_exec_wrapper("js-debug-adapter", path.concat { "out", "src", "debugServerMain.js" })
+            ctx:write_node_exec_wrapper("js-debug-adapter", path.concat { "out", "src", "vsDebugServer.js" })
         )
     end,
 }
