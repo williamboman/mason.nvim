@@ -101,6 +101,7 @@ return {
   ["jedi-language-server"] = "mason-registry.jedi-language-server",
   joker = "mason-registry.joker",
   jq = "mason-registry.jq",
+  ["js-debug-adapter"] = "mason-registry.js-debug-adapter",
   ["json-lsp"] = "mason-registry.json-lsp",
   ["json-to-struct"] = "mason-registry.json-to-struct",
   ["jsonnet-language-server"] = "mason-registry.jsonnet-language-server",
