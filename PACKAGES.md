@@ -102,6 +102,7 @@
 - [jedi-language-server](#jedi-language-server)
 - [joker](#joker)
 - [jq](#jq)
+- [js-debug-adapter](#js-debug-adapter)
 - [json-lsp](#json-lsp)
 - [json-to-struct](#json-to-struct)
 - [jsonnet-language-server](#jsonnet-language-server)
@@ -2247,6 +2248,25 @@ Categories: `Formatter`
 
 ```
 :MasonInstall jq
+```
+
+
+# js-debug-adapter
+
+> The VS Code JavaScript debugger
+
+Homepage: [https://github.com/microsoft/vscode-js-debug](https://github.com/microsoft/vscode-js-debug)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`75860d2`](https://github.com/williamboman/mason.nvim/commit/75860d2) 2022-09-21 - feat: add js-debug-adapter ([#442](https://github.com/williamboman/mason.nvim/issues/442)) by Hollis Wu
+</details>
+
+```
+:MasonInstall js-debug-adapter
 ```
 
 
