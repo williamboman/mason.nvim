@@ -39,7 +39,7 @@ For a list of all available packages, see [PACKAGES.md](./PACKAGES.md).
 
 ## How to use installed packages
 
-> `:h mason-how-to`
+> `:h mason-how-to-use-packages`
 
 Although many packages are perfectly usable out of the box through Neovim builtins, it is recommended to use other 3rd
 party plugins to further integrate these. The following plugins are recommended:
