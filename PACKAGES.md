@@ -3853,6 +3853,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`e0268a6`](https://github.com/williamboman/mason.nvim/commit/e0268a6) 2022-09-26 - fix(spectral-language-server): build directly from source ([#464](https://github.com/williamboman/mason.nvim/issues/464)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`eee851f`](https://github.com/williamboman/mason.nvim/commit/eee851f) 2022-08-01 - fix(spectral-language-server): remove Linter and add LSP to categories ([#219](https://github.com/williamboman/mason.nvim/issues/219)) by William Boman
 - [`984405e`](https://github.com/williamboman/mason.nvim/commit/984405e) 2022-08-01 - feat: add spectral-language-server ([#211](https://github.com/williamboman/mason.nvim/issues/211)) by Ghassan Alduraibi
