@@ -18,7 +18,6 @@ local M = {}
 ---@param asset_file string
 ---@param release string
 local function with_release_file_receipt(repo, asset_file, release)
-    ---@return InstallReceiptGitHubReleaseFileSource
     return function()
         local ctx = installer.context()
         ctx.receipt:with_primary_source {
