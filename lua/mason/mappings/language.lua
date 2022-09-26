@@ -96,7 +96,7 @@ return {
   scss = { "css-lsp", "prettier", "prettierd" },
   shell = { "shfmt" },
   slint = { "slint-lsp" },
-  solidity = { "solang", "solhint", "solidity" },
+  solidity = { "solang", "solhint", "solidity", "solidity-ls" },
   sphinx = { "esbonio" },
   sql = { "sql-formatter", "sqlfluff", "sqlls", "sqls" },
   stylelint = { "stylelint-lsp" },

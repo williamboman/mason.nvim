@@ -8,7 +8,10 @@ describe("EventEmitter", function()
     it("should call registered event handlers", function()
         local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
         local my_event_handler = spy.new()
-        emitter:on("my:event", my_event_handler --[[@as fun()]])
+        emitter:on(
+            "my:event",
+            my_event_handler --[[@as fun()]]
+        )
 
         emitter:emit("my:event", { table = "value" })
         emitter:emit("my:event", 1337, 42)
@@ -21,7 +24,10 @@ describe("EventEmitter", function()
     it("should call registered event handlers only once", function()
         local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
         local my_event_handler = spy.new()
-        emitter:once("my:event", my_event_handler --[[@as fun()]])
+        emitter:once(
+            "my:event",
+            my_event_handler --[[@as fun()]]
+        )
 
         emitter:emit("my:event", { table = "value" })
         emitter:emit("my:event", 1337, 42)
@@ -33,10 +39,19 @@ describe("EventEmitter", function()
     it("should remove registered event handlers", function()
         local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
         local my_event_handler = spy.new()
-        emitter:on("my:event", my_event_handler --[[@as fun()]])
-        emitter:once("my:event", my_event_handler --[[@as fun()]])
+        emitter:on(
+            "my:event",
+            my_event_handler --[[@as fun()]]
+        )
+        emitter:once(
+            "my:event",
+            my_event_handler --[[@as fun()]]
+        )
 
-        emitter:off("my:event", my_event_handler --[[@as fun()]])
+        emitter:off(
+            "my:event",
+            my_event_handler --[[@as fun()]]
+        )
 
         emitter:emit("my:event", { table = "value" })
         assert.spy(my_event_handler).was_called(0)

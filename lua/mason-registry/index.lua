@@ -177,6 +177,7 @@ return {
   solargraph = "mason-registry.solargraph",
   solhint = "mason-registry.solhint",
   solidity = "mason-registry.solidity",
+  ["solidity-ls"] = "mason-registry.solidity-ls",
   sorbet = "mason-registry.sorbet",
   sourcery = "mason-registry.sourcery",
   ["spectral-language-server"] = "mason-registry.spectral-language-server",
