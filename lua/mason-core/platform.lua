@@ -147,6 +147,15 @@ M.os_distribution = _.lazy(function()
                 version_id = version_id,
                 version = { major = major, minor = minor },
             }
+        elseif entries.ID == "centos" then
+            -- Parses the CentOS VERSION_ID into a major version (the only thing available).
+            local major = tonumber(entries.VERSION_ID)
+
+            return {
+                id = "centos",
+                version_id = entries.VERSION_ID,
+                version = { major = major },
+            }
         else
             return {
                 id = "linux-generic",
