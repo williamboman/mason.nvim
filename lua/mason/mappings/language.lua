@@ -52,7 +52,7 @@ return {
   haxe = { "haxe-language-server" },
   hoon = { "hoon-language-server" },
   html = { "erb-lint", "html-lsp", "prettier", "prettierd" },
-  java = { "clang-format", "jdtls" },
+  java = { "clang-format", "java-debug-adapter", "java-test", "jdtls" },
   javascript = { "chrome-debug-adapter", "clang-format", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "js-debug-adapter", "node-debug2-adapter", "prettier", "prettierd", "quick-lint-js", "rome", "typescript-language-server", "xo" },
   jinja = { "curlylint", "djlint" },
   json = { "cfn-lint", "clang-format", "fixjson", "jq", "json-lsp", "prettier", "prettierd", "spectral-language-server" },
