@@ -33,6 +33,13 @@ return Pkg.new {
                                 )
                             )
                             return target_file and target_file:format(release)
+                        elseif os_dist.id == "centos" then
+                            local target_file = when(
+                                platform.arch == "x64",
+                                coalesce(
+                                    when(os_dist.version.major == 7, "verible-%s-CentOS-7.9.2009-Core-x86_64.tar.gz")
+                                )
+                            )
                         end
                     end,
                 }
