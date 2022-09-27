@@ -12,21 +12,22 @@ return Pkg.new {
     categories = { Pkg.Cat.Formatter },
     languages = { Pkg.Lang.YAML },
     install = function(ctx)
+        ---@param template_string string
+        local function release_file(template_string)
+            return _.compose(_.format(template_string), _.gsub("^v", ""))
+        end
+
         github
             .untargz_release_file({
                 repo = "google/yamlfmt",
-                asset_file = function(version)
-                    local target = coalesce(
-                        when(platform.is.mac_arm64, "yamlfmt_%s_Darwin_arm64.tar.gz"),
-                        when(platform.is.mac_x64, "yamlfmt_%s_Darwin_x86_64.tar.gz"),
-                        when(platform.is.linux_arm64, "yamlfmt_%s_Linux_arm64.tar.gz"),
-                        when(platform.is.linux_x64, "yamlfmt_%s_Linux_x86_64.tar.gz"),
-                        when(platform.is.win_x86, "yamlfmt_%s_Windows_i386.tar.gz"),
-                        when(platform.is.win_x64, "yamlfmt_%s_Windows_x86_64.tar.gz")
-                    )
-                    local version_number = version:gsub("^v", "")
-                    return target and target:format(version_number)
-                end,
+                asset_file = coalesce(
+                    when(platform.is.mac_arm64, release_file "yamlfmt_%s_Darwin_arm64.tar.gz"),
+                    when(platform.is.mac_x64, release_file "yamlfmt_%s_Darwin_x86_64.tar.gz"),
+                    when(platform.is.linux_arm64, release_file "yamlfmt_%s_Linux_arm64.tar.gz"),
+                    when(platform.is.linux_x64, release_file "yamlfmt_%s_Linux_x86_64.tar.gz"),
+                    when(platform.is.win_x86, release_file "yamlfmt_%s_Windows_i386.tar.gz"),
+                    when(platform.is.win_x64, release_file "yamlfmt_%s_Windows_x86_64.tar.gz")
+                ),
             })
             .with_receipt()
         ctx:link_bin("yamlfmt", platform.is_win and "yamlfmt.exe" or "yamlfmt")
