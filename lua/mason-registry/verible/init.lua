@@ -40,6 +40,7 @@ return Pkg.new {
                                     when(os_dist.version.major == 7, "verible-%s-CentOS-7.9.2009-Core-x86_64.tar.gz")
                                 )
                             )
+                            return target_file and target_file:format(release)
                         end
                     end,
                 }
