@@ -13,7 +13,7 @@ local M = {}
 ---@return Result # JSON decoded response.
 local function api_call(path)
     return spawn
-        .gh({ "api", path })
+        .gh({ "api", path, env = { CLICOLOR_FORCE = 0 } })
         :map(_.prop "stdout")
         :recover_catching(function()
             return fetch(("https://api.github.com/%s"):format(path)):get_or_throw()
