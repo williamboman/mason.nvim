@@ -178,6 +178,7 @@
 - [solargraph](#solargraph)
 - [solhint](#solhint)
 - [solidity](#solidity)
+- [solidity-ls](#solidity-ls)
 - [sorbet](#sorbet)
 - [sourcery](#sourcery)
 - [spectral-language-server](#spectral-language-server)
@@ -3796,6 +3797,25 @@ Categories: `Compiler` `LSP`
 
 ```
 :MasonInstall solidity
+```
+
+
+# solidity-ls
+
+> Solidity language server.
+
+Homepage: [https://github.com/qiuxiang/solidity-ls](https://github.com/qiuxiang/solidity-ls)  
+Languages: `Solidity`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`780495e`](https://github.com/williamboman/mason.nvim/commit/780495e) 2022-09-27 - feat: add solidity-ls ([#466](https://github.com/williamboman/mason.nvim/issues/466)) by Ali Shahid
+</details>
+
+```
+:MasonInstall solidity-ls
 ```
 
 
