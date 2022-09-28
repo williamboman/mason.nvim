@@ -160,6 +160,7 @@ M.os_distribution = _.lazy(function()
         else
             return {
                 id = "linux-generic",
+                version = {}
             }
         end
     end
@@ -173,7 +174,7 @@ M.os_distribution = _.lazy(function()
                     return parse_linux_dist(result.stdout)
                 end)
                 :recover(function()
-                    return { id = "linux-generic" }
+                    return { id = "linux-generic", version = {} }
                 end)
                 :get_or_throw()
         end,
