@@ -147,7 +147,7 @@ M.os_distribution = _.lazy(function()
                 version_id = version_id,
                 version = { major = major, minor = minor },
             }
-        elseif entries.ID == "\"centos\"" then
+        elseif entries.ID == '"centos"' then
             -- Parses the CentOS VERSION_ID into a major version (the only thing available).
             local version_id = entries.VERSION_ID:gsub([["]], "")
             local major = tonumber(version_id)
@@ -160,7 +160,7 @@ M.os_distribution = _.lazy(function()
         else
             return {
                 id = "linux-generic",
-                version = {}
+                version = {},
             }
         end
     end
