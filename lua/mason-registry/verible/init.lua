@@ -45,7 +45,12 @@ return Pkg.new {
                         ),
                         when(
                             os_dist.id == "centos" and platform.arch == "x64",
-                            coalesce(when(os_dist.version.major == 7, "verible-%s-CentOS-7.9.2009-Core-x86_64.tar.gz"))
+                            coalesce(
+                                when(
+                                    os_dist.version.major == 7,
+                                    _.format "verible-%s-CentOS-7.9.2009-Core-x86_64.tar.gz"
+                                )
+                            )
                         )
                     ),
                 }
