@@ -147,9 +147,20 @@ M.os_distribution = _.lazy(function()
                 version_id = version_id,
                 version = { major = major, minor = minor },
             }
+        elseif entries.ID == '"centos"' then
+            -- Parses the CentOS VERSION_ID into a major version (the only thing available).
+            local version_id = entries.VERSION_ID:gsub([["]], "")
+            local major = tonumber(version_id)
+
+            return {
+                id = "centos",
+                version_id = version_id,
+                version = { major = major },
+            }
         else
             return {
                 id = "linux-generic",
+                version = {},
             }
         end
     end
@@ -163,7 +174,7 @@ M.os_distribution = _.lazy(function()
                     return parse_linux_dist(result.stdout)
                 end)
                 :recover(function()
-                    return { id = "linux-generic" }
+                    return { id = "linux-generic", version = {} }
                 end)
                 :get_or_throw()
         end,
