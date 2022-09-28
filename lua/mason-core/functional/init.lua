@@ -93,6 +93,7 @@ _.pick = tbl.pick
 _.keys = tbl.keys
 _.size = tbl.size
 _.to_pairs = tbl.to_pairs
+_.from_pairs = tbl.from_pairs
 _.invert = tbl.invert
 
 ---@module "mason-core.functional.type"

@@ -36,6 +36,22 @@ describe("functional: table", function()
         )
     end)
 
+    it("converts pairs to table", function()
+        assert.same(
+            { skies = "cloudy", temperature = "20°" },
+            _.from_pairs {
+                {
+                    "skies",
+                    "cloudy",
+                },
+                {
+                    "temperature",
+                    "20°",
+                },
+            }
+        )
+    end)
+
     it("should invert tables", function()
         assert.same(
             {

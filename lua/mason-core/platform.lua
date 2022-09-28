@@ -115,74 +115,59 @@ end
 
 ---@type async fun(): table
 M.os_distribution = _.lazy(function()
-    local Result = require "mason-core.result"
+    local parse_os_release = _.compose(_.from_pairs, _.map(_.split "="), _.split "\n")
 
-    ---Parses the provided contents of an /etc/\*-release file and identifies the Linux distribution.
-    ---@param contents string The contents of a /etc/\*-release file.
-    ---@return table<string, any>
-    local function parse_linux_dist(contents)
-        local lines = vim.split(contents, "\n")
+    ---@param entries table<string, string>
+    local function parse_ubuntu(entries)
+        -- Parses the Ubuntu OS VERSION_ID into their version components, e.g. "18.04" -> {major=18, minor=04}
+        local version_id = entries.VERSION_ID:gsub([["]], "")
+        local version_parts = vim.split(version_id, "%.")
+        local major = tonumber(version_parts[1])
+        local minor = tonumber(version_parts[2])
 
-        local entries = {}
-
-        for i = 1, #lines do
-            local line = lines[i]
-            local index = line:find "="
-            if index then
-                local key = line:sub(1, index - 1)
-                local value = line:sub(index + 1)
-                entries[key] = value
-            end
-        end
-
-        if entries.ID == "ubuntu" then
-            -- Parses the Ubuntu OS VERSION_ID into their version components, e.g. "18.04" -> {major=18, minor=04}
-            local version_id = entries.VERSION_ID:gsub([["]], "")
-            local version_parts = vim.split(version_id, "%.")
-            local major = tonumber(version_parts[1])
-            local minor = tonumber(version_parts[2])
-
-            return {
-                id = "ubuntu",
-                version_id = version_id,
-                version = { major = major, minor = minor },
-            }
-        elseif entries.ID == '"centos"' then
-            -- Parses the CentOS VERSION_ID into a major version (the only thing available).
-            local version_id = entries.VERSION_ID:gsub([["]], "")
-            local major = tonumber(version_id)
-
-            return {
-                id = "centos",
-                version_id = version_id,
-                version = { major = major },
-            }
-        else
-            return {
-                id = "linux-generic",
-                version = {},
-            }
-        end
+        return {
+            id = "ubuntu",
+            version_id = version_id,
+            version = { major = major, minor = minor },
+        }
     end
+
+    ---@param entries table<string, string>
+    local function parse_centos(entries)
+        -- Parses the CentOS VERSION_ID into a major version (the only thing available).
+        local version_id = entries.VERSION_ID:gsub([["]], "")
+        local major = tonumber(version_id)
+
+        return {
+            id = "centos",
+            version_id = version_id,
+            version = { major = major },
+        }
+    end
+
+    ---Parses the provided contents of an /etc/*-release file and identifies the Linux distribution.
+    local parse_linux_dist = _.cond {
+        { _.prop_eq("ID", "ubuntu"), parse_ubuntu },
+        { _.prop_eq("ID", [["centos"]]), parse_centos },
+        { _.T, _.always { id = "linux-generic", version = {} } },
+    }
 
     return M.when {
         linux = function()
             local spawn = require "mason-core.spawn"
             return spawn
                 .bash({ "-c", "cat /etc/*-release" })
-                :map_catching(function(result)
-                    return parse_linux_dist(result.stdout)
-                end)
+                :map_catching(_.compose(parse_linux_dist, parse_os_release, _.prop "stdout"))
                 :recover(function()
                     return { id = "linux-generic", version = {} }
                 end)
                 :get_or_throw()
         end,
         mac = function()
-            return Result.success { id = "macOS" }
+            return { id = "macOS", version = {} }
         end,
         win = function()
-            return Result.success { id = "windows" }
+            return { id = "windows", version = {} }
         end,
     }
 end)
