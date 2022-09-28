@@ -3672,6 +3672,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`f3ad259`](https://github.com/williamboman/mason.nvim/commit/f3ad259) 2022-09-27 - feat(shfmt): use pre-built binaries ([#472](https://github.com/williamboman/mason.nvim/issues/472)) by Seth Daniel
 - [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
 </details>
 
@@ -4620,6 +4621,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`e86f4cb`](https://github.com/williamboman/mason.nvim/commit/e86f4cb) 2022-09-28 - feat(yamlfmt): use the pre-built binary package ([#473](https://github.com/williamboman/mason.nvim/issues/473)) by Seth Daniel
 - [`920ff4f`](https://github.com/williamboman/mason.nvim/commit/920ff4f) 2022-08-22 - feat: add yamlfmt ([#329](https://github.com/williamboman/mason.nvim/issues/329)) by JINNOUCHI Yasushi
 </details>
 
