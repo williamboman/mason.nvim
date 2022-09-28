@@ -21,28 +21,33 @@ return Pkg.new {
                 local os_dist = platform.os_distribution()
                 local source = github.untarxz_release_file {
                     repo = repo,
-                    asset_file = function(release)
-                        if os_dist.id == "ubuntu" then
-                            local target_file = when(
-                                platform.arch == "x64",
-                                coalesce(
-                                    when(os_dist.version.major == 16, "verible-%s-Ubuntu-16.04-xenial-x86_64.tar.gz"),
-                                    when(os_dist.version.major == 18, "verible-%s-Ubuntu-18.04-bionic-x86_64.tar.gz"),
-                                    when(os_dist.version.major == 20, "verible-%s-Ubuntu-20.04-focal-x86_64.tar.gz"),
-                                    when(os_dist.version.major == 22, "verible-%s-Ubuntu-22.04-jammy-x86_64.tar.gz")
+                    asset_file = coalesce(
+                        when(
+                            os_dist.id == "ubuntu" and platform.arch == "x64",
+                            coalesce(
+                                when(
+                                    os_dist.version.major == 16,
+                                    _.format "verible-%s-Ubuntu-16.04-xenial-x86_64.tar.gz"
+                                ),
+                                when(
+                                    os_dist.version.major == 18,
+                                    _.format "verible-%s-Ubuntu-18.04-bionic-x86_64.tar.gz"
+                                ),
+                                when(
+                                    os_dist.version.major == 20,
+                                    _.format "verible-%s-Ubuntu-20.04-focal-x86_64.tar.gz"
+                                ),
+                                when(
+                                    os_dist.version.major == 22,
+                                    _.format "verible-%s-Ubuntu-22.04-jammy-x86_64.tar.gz"
                                 )
                             )
-                            return target_file and target_file:format(release)
-                        elseif os_dist.id == "centos" then
-                            local target_file = when(
-                                platform.arch == "x64",
-                                coalesce(
-                                    when(os_dist.version.major == 7, "verible-%s-CentOS-7.9.2009-Core-x86_64.tar.gz")
-                                )
-                            )
-                            return target_file and target_file:format(release)
-                        end
-                    end,
+                        ),
+                        when(
+                            os_dist.id == "centos" and platform.arch == "x64",
+                            coalesce(when(os_dist.version.major == 7, "verible-%s-CentOS-7.9.2009-Core-x86_64.tar.gz"))
+                        )
+                    ),
                 }
                 source.with_receipt()
                 ctx.fs:rename(("verible-%s"):format(source.release), "verible")
