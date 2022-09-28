@@ -1,6 +1,18 @@
 local stub = require "luassert.stub"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
+local _ = require "mason-core.functional"
+local Result = require "mason-core.result"
+
+local spawn = require "mason-core.spawn"
+
+---@param contents string
+local function stub_etc_os_release(contents)
+    stub(spawn, "bash")
+    spawn.bash.on_call_with({ "-c", "cat /etc/*-release" }).returns(Result.success {
+        stdout = contents,
+    })
+end
 
 describe("platform", function()
     local function platform()
@@ -178,5 +190,86 @@ describe("platform", function()
         }
         assert.spy(unix).was_called(1)
         assert.spy(win).was_not_called()
+    end)
+
+    describe("macOS distribution detection", function()
+        before_each(function()
+            stub_mac()
+        end)
+
+        it("detects macOS", function()
+            assert.same({ id = "macOS", version = {} }, platform().os_distribution())
+        end)
+    end)
+
+    describe("Windows distribution detection", function()
+        before_each(function()
+            stub_windows()
+        end)
+
+        it("detects Windows", function()
+            assert.same({ id = "windows", version = {} }, platform().os_distribution())
+        end)
+    end)
+
+    describe("Linux distribution detection", function()
+        before_each(function()
+            stub_linux()
+        end)
+
+        it("detects Ubuntu", function()
+            stub_etc_os_release(_.dedent [[
+                NAME="Ubuntu"
+                VERSION="20.04.5 LTS (Focal Fossa)"
+                ID=ubuntu
+                ID_LIKE=debian
+                PRETTY_NAME="Ubuntu 20.04.5 LTS"
+                VERSION_ID="20.04"
+                HOME_URL="https://www.ubuntu.com/"
+                SUPPORT_URL="https://help.ubuntu.com/"
+                BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+                PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+                VERSION_CODENAME=focal
+                UBUNTU_CODENAME=focal
+            ]])
+            assert.same(
+                { id = "ubuntu", version = { major = 20, minor = 4 }, version_id = "20.04" },
+                platform().os_distribution()
+            )
+        end)
+
+        it("detects CentOS", function()
+            stub_etc_os_release(_.dedent [[
+                NAME="CentOS Linux"
+                VERSION="7 (Core)"
+                ID="centos"
+                ID_LIKE="rhel fedora"
+                VERSION_ID="7"
+                PRETTY_NAME="CentOS Linux 7 (Core)"
+                ANSI_COLOR="0;31"
+                CPE_NAME="cpe:/o:centos:centos:7"
+                HOME_URL="https://www.centos.org/"
+                BUG_REPORT_URL="https://bugs.centos.org/"
+
+                CENTOS_MANTISBT_PROJECT="CentOS-7"
+                CENTOS_MANTISBT_PROJECT_VERSION="7"
+                REDHAT_SUPPORT_PRODUCT="centos"
+                REDHAT_SUPPORT_PRODUCT_VERSION="7"
+            ]])
+            assert.same({ id = "centos", version = { major = 7 }, version_id = "7" }, platform().os_distribution())
+        end)
+
+        it("detects generic Linux", function()
+            stub(spawn, "bash")
+            spawn.bash.returns(Result.failure())
+            assert.same({ id = "linux-generic", version = {} }, platform().os_distribution())
+        end)
+
+        it("detects generic Linux", function()
+            stub_etc_os_release(_.dedent [[
+                UNKNOWN_ID=here
+            ]])
+            assert.same({ id = "linux-generic", version = {} }, platform().os_distribution())
+        end)
     end)
 end)

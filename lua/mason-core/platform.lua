@@ -115,8 +115,6 @@ end
 
 ---@type async fun(): table
 M.os_distribution = _.lazy(function()
-    local Result = require "mason-core.result"
-
     ---Parses the provided contents of an /etc/\*-release file and identifies the Linux distribution.
     ---@param contents string The contents of a /etc/\*-release file.
     ---@return table<string, any>
@@ -179,10 +177,10 @@ M.os_distribution = _.lazy(function()
                 :get_or_throw()
         end,
         mac = function()
-            return Result.success { id = "macOS" }
+            return { id = "macOS", version = {} }
         end,
         win = function()
-            return Result.success { id = "windows" }
+            return { id = "windows", version = {} }
         end,
     }
 end)
