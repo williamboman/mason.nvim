@@ -4032,6 +4032,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`b36bdad`](https://github.com/williamboman/mason.nvim/commit/b36bdad) 2022-09-28 - feat(stylua): add arm64 Linux support ([#477](https://github.com/williamboman/mason.nvim/issues/477)) by WJH
 - [`a7ab60e`](https://github.com/williamboman/mason.nvim/commit/a7ab60e) 2022-07-27 - fix(stylua): use prebuilt binary instead of building with cargo ([#163](https://github.com/williamboman/mason.nvim/issues/163)) by kanhaiya38
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -4356,6 +4357,7 @@ Categories: `LSP` `Linter` `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`b39da84`](https://github.com/williamboman/mason.nvim/commit/b39da84) 2022-09-28 - feat(verible): add support for CentOS 7.9 ([#471](https://github.com/williamboman/mason.nvim/issues/471)) by Nikhil Jha
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
