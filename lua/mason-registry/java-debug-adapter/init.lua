@@ -7,11 +7,8 @@ local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "java-debug-adapter",
-    desc = _.dedent [[
-        Java Debug Server for Visual Studio Code
-        The Java Debug Server is an implementation of Visual Studio Code (VSCode) Debug Protocol.
-    ]],
-    homepage = "https://github.com/microsoft/vscode-java-debug",
+    desc = [[The debug server implementation for Java. It conforms to the debugger adapter protocol.]],
+    homepage = "https://github.com/microsoft/java-debug",
     languages = { Pkg.Lang.Java },
     categories = { Pkg.Cat.DAP },
     ---@async
