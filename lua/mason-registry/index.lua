@@ -157,6 +157,7 @@ return {
   ["quick-lint-js"] = "mason-registry.quick-lint-js",
   ["r-languageserver"] = "mason-registry.r-languageserver",
   ["reason-language-server"] = "mason-registry.reason-language-server",
+  ["remark-cli"] = "mason-registry.remark-cli",
   ["remark-language-server"] = "mason-registry.remark-language-server",
   ["rescript-lsp"] = "mason-registry.rescript-lsp",
   revive = "mason-registry.revive",
