@@ -15,7 +15,7 @@ return Pkg.new {
         github
             .unzip_release_file({
                 repo = "microsoft/vscode-java-debug",
-                asset_file = _.compose(_.format "vscjava.vscode-java-debug-%s.vsix", _.gsub("^v", "")),
+                asset_file = _.format "vscjava.vscode-java-debug-%s.vsix",
             })
             .with_receipt()
 
