@@ -98,6 +98,8 @@
 - [impl](#impl)
 - [intelephense](#intelephense)
 - [isort](#isort)
+- [java-debug-adapter](#java-debug-adapter)
+- [java-test](#java-test)
 - [jdtls](#jdtls)
 - [jedi-language-server](#jedi-language-server)
 - [joker](#joker)
@@ -2169,6 +2171,54 @@ Categories: `Formatter`
 
 ```
 :MasonInstall isort
+```
+
+
+# java-debug-adapter
+
+> The debug server implementation for Java. It conforms to the debugger adapter protocol.
+
+Homepage: [https://github.com/microsoft/java-debug](https://github.com/microsoft/java-debug)  
+Languages: `Java`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`ac0bbad`](https://github.com/williamboman/mason.nvim/commit/ac0bbad) 2022-09-30 - feat: add java-debug-adapter and java-test ([#482](https://github.com/williamboman/mason.nvim/issues/482)) by lvimuser
+</details>
+
+```
+:MasonInstall java-debug-adapter
+```
+
+
+# java-test
+
+> The Test Runner for Java works with java-debug-adapter to provide the following features:
+- Run/Debug test cases
+- Customize test configurations
+- View test report
+- View tests in Test Explorer
+
+Enables support for the following test frameworks:
+
+- JUnit 4 (v4.8.0+)
+- JUnit 5 (v5.1.0+)
+- TestNG (v6.8.0+)
+
+Homepage: [https://github.com/microsoft/vscode-java-test](https://github.com/microsoft/vscode-java-test)  
+Languages: `Java`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`ac0bbad`](https://github.com/williamboman/mason.nvim/commit/ac0bbad) 2022-09-30 - feat: add java-debug-adapter and java-test ([#482](https://github.com/williamboman/mason.nvim/issues/482)) by lvimuser
+</details>
+
+```
+:MasonInstall java-test
 ```
 
 
