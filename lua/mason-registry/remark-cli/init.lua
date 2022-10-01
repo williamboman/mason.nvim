@@ -6,6 +6,6 @@ return Pkg.new {
     desc = [[Command line interface to inspect and change markdown files with remark.]],
     homepage = "https://github.com/remarkjs/remark/tree/main/packages/remark-cli",
     languages = { Pkg.Lang.Markdown },
-    categories = { Pkg.Cat.LSP },
+    categories = { Pkg.Cat.Formatter },
     install = npm.packages { "remark-cli", bin = { "remark" } },
 }
