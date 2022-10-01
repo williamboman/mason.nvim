@@ -28,6 +28,6 @@ return Pkg.new {
             })
             .with_receipt()
         std.chmod("+x", { "shfmt" })
-        ctx:link_bin("shfmt", platform.is_win and "shfmt.exe" or "shfmt")
+        ctx:link_bin("shfmt", platform.is.win and "shfmt.exe" or "shfmt")
     end,
 }

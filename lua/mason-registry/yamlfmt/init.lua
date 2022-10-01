@@ -30,6 +30,6 @@ return Pkg.new {
                 ),
             })
             .with_receipt()
-        ctx:link_bin("yamlfmt", platform.is_win and "yamlfmt.exe" or "yamlfmt")
+        ctx:link_bin("yamlfmt", platform.is.win and "yamlfmt.exe" or "yamlfmt")
     end,
 }
