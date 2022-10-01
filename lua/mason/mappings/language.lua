@@ -66,7 +66,7 @@ return {
   liquid = { "curlylint", "shopify-theme-check" },
   lua = { "lemmy-help", "lua-language-server", "luacheck", "luaformatter", "selene", "stylua" },
   luau = { "luau-lsp" },
-  markdown = { "alex", "cbfmt", "grammarly-languageserver", "ltex-ls", "markdownlint", "marksman", "prettier", "prettierd", "proselint", "prosemd-lsp", "remark-language-server", "textlint", "vale", "write-good", "zk" },
+  markdown = { "alex", "cbfmt", "grammarly-languageserver", "ltex-ls", "markdownlint", "marksman", "prettier", "prettierd", "proselint", "prosemd-lsp", "remark-cli", "remark-language-server", "textlint", "vale", "write-good", "zk" },
   ["metamath zero"] = { "metamath-zero-lsp" },
   mksh = { "shfmt" },
   mustache = { "djlint" },
