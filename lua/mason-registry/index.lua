@@ -152,6 +152,7 @@ return {
   pydocstyle = "mason-registry.pydocstyle",
   pylint = "mason-registry.pylint",
   ["pyproject-flake8"] = "mason-registry.pyproject-flake8",
+  pyre = "mason-registry.pyre",
   pyright = "mason-registry.pyright",
   ["python-lsp-server"] = "mason-registry.python-lsp-server",
   ["quick-lint-js"] = "mason-registry.quick-lint-js",
