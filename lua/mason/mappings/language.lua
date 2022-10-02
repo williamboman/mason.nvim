@@ -85,7 +85,7 @@ return {
   protobuf = { "buf", "buf-language-server" },
   puppet = { "puppet-editor-services" },
   purescript = { "purescript-language-server" },
-  python = { "autopep8", "black", "blue", "debugpy", "flake8", "isort", "jedi-language-server", "mypy", "pydocstyle", "pylint", "pyproject-flake8", "pyright", "python-lsp-server", "rstcheck", "sourcery", "vulture", "yapf" },
+  python = { "autopep8", "black", "blue", "debugpy", "flake8", "isort", "jedi-language-server", "mypy", "pydocstyle", "pylint", "pyproject-flake8", "pyre", "pyright", "python-lsp-server", "rstcheck", "sourcery", "vulture", "yapf" },
   r = { "r-languageserver" },
   reason = { "reason-language-server" },
   rescript = { "rescript-lsp" },
