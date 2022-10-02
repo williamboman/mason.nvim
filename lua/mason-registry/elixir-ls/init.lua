@@ -8,8 +8,6 @@ return Pkg.new {
     desc = _.dedent [[
         A frontend-independent IDE "smartness" server for Elixir. Implements the "Language Server Protocol" standard and
         provides debugger support via the "Debug Adapter Protocol".
-
-        Exposes "elixir-ls" and "elixir-ls-debugger" executables.
     ]],
     homepage = "https://github.com/elixir-lsp/elixir-ls",
     languages = { Pkg.Lang.Elixir },
