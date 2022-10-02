@@ -79,8 +79,11 @@ end
 local function win_extract(file)
     local ctx = installer.context()
     Result.run_catching(function()
-        ctx.spawn["7z"] { "x", "-y", "-r", file }
+        ctx.spawn.gzip { "-d", file }
     end)
+        :recover_catching(function()
+            ctx.spawn["7z"] { "x", "-y", "-r", file }
+        end)
         :recover_catching(function()
             ctx.spawn.peazip { "-ext2here", path.concat { ctx.cwd:get(), file } } -- peazip requires absolute paths
         end)

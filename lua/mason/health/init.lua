@@ -60,8 +60,12 @@ end
 local function mk_healthcheck(callback)
     ---@param opts {cmd:string, args:string[], name: string, use_stderr: boolean?, version_check: fun(version: string): string?, relaxed: boolean?}
     return function(opts)
-        local parse_version =
-            _.compose(_.head, _.split "\n", _.if_else(_.always(opts.use_stderr), _.prop "stderr", _.prop "stdout"))
+        local parse_version = _.compose(
+            _.head,
+            _.filter(_.complement(_.matches "^%s*$")),
+            _.split "\n",
+            _.if_else(_.always(opts.use_stderr), _.prop "stderr", _.prop "stdout")
+        )
 
         ---@async
         return function()
@@ -214,6 +218,7 @@ function M.check()
             args = { "--version" },
             name = "gzip",
             use_stderr = platform.is.mac, -- Apple gzip prints version string to stderr
+            relaxed = platform.is.win,
         },
         check { cmd = "tar", args = { "--version" }, name = "tar" },
         -- when(platform.is.win, check { cmd = "powershell.exe", args = { "-Version" }, name = "PowerShell" }), -- TODO fix me
@@ -226,14 +231,12 @@ function M.check()
     end
 
     if platform.is.win then
-        table.insert(
-            checks,
-            check { cmd = "python", use_stderr = true, args = { "--version" }, name = "python", relaxed = true }
-        )
+        table.insert(checks, check { cmd = "python", args = { "--version" }, name = "python", relaxed = true })
         table.insert(
             checks,
             check { cmd = "python", args = { "-m", "pip", "--version" }, name = "pip", relaxed = true }
         )
+        table.insert(checks, check { cmd = "7z", args = { "--help" }, name = "7z", relaxed = true })
     end
 
     if vim.g.python3_host_prog then
@@ -256,11 +259,7 @@ function M.check()
         )
     end
 
-    a.run_blocking(function()
-        for _, c in ipairs(checks) do
-            c()
-        end
-
+    table.insert(checks, function()
         github_client
             .fetch_rate_limit()
             :map(
@@ -292,6 +291,12 @@ function M.check()
                 end
                 health.report_warn "Failed to check GitHub API rate limit status."
             end)
+    end)
+
+    a.run_blocking(function()
+        for _, c in ipairs(checks) do
+            c()
+        end
     end)
 end
 
