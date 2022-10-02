@@ -69,6 +69,7 @@ return {
   markdown = { "alex", "cbfmt", "grammarly-languageserver", "ltex-ls", "markdownlint", "marksman", "prettier", "prettierd", "proselint", "prosemd-lsp", "remark-cli", "remark-language-server", "textlint", "vale", "write-good", "zk" },
   ["metamath zero"] = { "metamath-zero-lsp" },
   mksh = { "shfmt" },
+  move = { "move-analyzer" },
   mustache = { "djlint" },
   nickel = { "nickel-lang-lsp" },
   nim = { "nimlsp" },
