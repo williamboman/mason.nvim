@@ -23,5 +23,6 @@ return Pkg.new {
             .with_receipt()
 
         ctx:link_bin("elixir-ls", platform.is.win and "language_server.bat" or "language_server.sh")
+        ctx:link_bin("elixir-ls-debugger", platform.is.win and "debugger.bat" or "debugger.sh")
     end,
 }
