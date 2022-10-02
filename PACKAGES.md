@@ -158,6 +158,7 @@
 - [quick-lint-js](#quick-lint-js)
 - [r-languageserver](#r-languageserver)
 - [reason-language-server](#reason-language-server)
+- [remark-cli](#remark-cli)
 - [remark-language-server](#remark-language-server)
 - [rescript-lsp](#rescript-lsp)
 - [revive](#revive)
@@ -3408,6 +3409,25 @@ Categories: `LSP`
 ```
 
 
+# remark-cli
+
+> Command line interface to inspect and change markdown files with remark.
+
+Homepage: [https://remark.js.org/](https://remark.js.org/)  
+Languages: `Markdown`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`53e419c`](https://github.com/williamboman/mason.nvim/commit/53e419c) 2022-10-01 - feat: add remark-cli ([#486](https://github.com/williamboman/mason.nvim/issues/486)) by Dan Sully
+</details>
+
+```
+:MasonInstall remark-cli
+```
+
+
 # remark-language-server
 
 > A language server to lint and format markdown files with remark
@@ -3722,6 +3742,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`6f70671`](https://github.com/williamboman/mason.nvim/commit/6f70671) 2022-10-01 - fix(shfmt, yamlfmt): fix windows detection ([#492](https://github.com/williamboman/mason.nvim/issues/492)) by William Boman
 - [`f3ad259`](https://github.com/williamboman/mason.nvim/commit/f3ad259) 2022-09-27 - feat(shfmt): use pre-built binaries ([#472](https://github.com/williamboman/mason.nvim/issues/472)) by Seth Daniel
 - [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
 </details>
@@ -4673,6 +4694,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`6f70671`](https://github.com/williamboman/mason.nvim/commit/6f70671) 2022-10-01 - fix(shfmt, yamlfmt): fix windows detection ([#492](https://github.com/williamboman/mason.nvim/issues/492)) by William Boman
 - [`e86f4cb`](https://github.com/williamboman/mason.nvim/commit/e86f4cb) 2022-09-28 - feat(yamlfmt): use the pre-built binary package ([#473](https://github.com/williamboman/mason.nvim/issues/473)) by Seth Daniel
 - [`920ff4f`](https://github.com/williamboman/mason.nvim/commit/920ff4f) 2022-08-22 - feat: add yamlfmt ([#329](https://github.com/williamboman/mason.nvim/issues/329)) by JINNOUCHI Yasushi
 </details>
