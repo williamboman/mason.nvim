@@ -8,6 +8,8 @@ return Pkg.new {
     desc = _.dedent [[
         A frontend-independent IDE "smartness" server for Elixir. Implements the "Language Server Protocol" standard and
         provides debugger support via the "Debug Adapter Protocol".
+
+        Exposes "elixir-ls" and "elixir-ls-debugger" executables.
     ]],
     homepage = "https://github.com/elixir-lsp/elixir-ls",
     languages = { Pkg.Lang.Elixir },
@@ -23,5 +25,6 @@ return Pkg.new {
             .with_receipt()
 
         ctx:link_bin("elixir-ls", platform.is.win and "language_server.bat" or "language_server.sh")
+        ctx:link_bin("elixir-ls-debugger", platform.is.win and "debugger.bat" or "debugger.sh")
     end,
 }
