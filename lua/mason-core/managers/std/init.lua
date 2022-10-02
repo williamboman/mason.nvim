@@ -81,7 +81,7 @@ local function win_extract(file)
     Result.run_catching(function()
         ctx.spawn.gzip { "-d", file }
     end)
-        :recover_catching(function ()
+        :recover_catching(function()
             ctx.spawn["7z"] { "x", "-y", "-r", file }
         end)
         :recover_catching(function()
