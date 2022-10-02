@@ -3,7 +3,7 @@ local cargo = require "mason-core.managers.cargo"
 
 local github_url = "https://github.com/move-language/move"
 
--- cargo install --git https://github.com/move-language/move move-analyzer 
+-- cargo install --git https://github.com/move-language/move move-analyzer
 
 return Pkg.new {
     name = "move-analyzer",
