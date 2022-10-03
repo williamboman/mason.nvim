@@ -63,6 +63,7 @@
 - [ember-language-server](#ember-language-server)
 - [emmet-ls](#emmet-ls)
 - [erb-lint](#erb-lint)
+- [erg-language-server](#erg-language-server)
 - [erlang-ls](#erlang-ls)
 - [esbonio](#esbonio)
 - [eslint-lsp](#eslint-lsp)
@@ -124,6 +125,7 @@
 - [metamath-zero-lsp](#metamath-zero-lsp)
 - [misspell](#misspell)
 - [mockdebug](#mockdebug)
+- [move-analyzer](#move-analyzer)
 - [mypy](#mypy)
 - [netcoredbg](#netcoredbg)
 - [nickel-lang-lsp](#nickel-lang-lsp)
@@ -153,6 +155,7 @@
 - [pydocstyle](#pydocstyle)
 - [pylint](#pylint)
 - [pyproject-flake8](#pyproject-flake8)
+- [pyre](#pyre)
 - [pyright](#pyright)
 - [python-lsp-server](#python-lsp-server)
 - [quick-lint-js](#quick-lint-js)
@@ -1351,6 +1354,7 @@ Categories: `LSP` `DAP`
 <details>
     <summary>History:</summary>
 
+- [`724c538`](https://github.com/williamboman/mason.nvim/commit/724c538) 2022-10-02 - feat(elixir-ls): link elixir-ls-debugger executable ([#496](https://github.com/williamboman/mason.nvim/issues/496)) by Slotos
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
@@ -1458,6 +1462,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall erb-lint
+```
+
+
+# erg-language-server
+
+> ELS is a language server for the Erg programing language.
+
+Homepage: [https://github.com/erg-lang/erg-language-server](https://github.com/erg-lang/erg-language-server)  
+Languages: `Erg`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`c2d3b15`](https://github.com/williamboman/mason.nvim/commit/c2d3b15) 2022-10-03 - feat: add erg-language-server ([#503](https://github.com/williamboman/mason.nvim/issues/503)) by takuto
+</details>
+
+```
+:MasonInstall erg-language-server
 ```
 
 
@@ -2706,6 +2729,25 @@ Categories: `DAP`
 ```
 
 
+# move-analyzer
+
+> move-analyzer is a language server implementation for the Move programming language.
+
+Homepage: [https://github.com/move-language/move](https://github.com/move-language/move)  
+Languages: `Move`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`59e6fee`](https://github.com/williamboman/mason.nvim/commit/59e6fee) 2022-10-02 - feat: add move-analyzer ([#499](https://github.com/williamboman/mason.nvim/issues/499)) by Michael
+</details>
+
+```
+:MasonInstall move-analyzer
+```
+
+
 # mypy
 
 > Mypy is a static type checker for Python. 
@@ -3301,6 +3343,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall pyproject-flake8
+```
+
+
+# pyre
+
+> Pyre is a performant type checker for Python compliant with PEP 484
+
+Homepage: [https://pypi.org/project/pyre-check/](https://pypi.org/project/pyre-check/)  
+Languages: `Python`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`5dd6257`](https://github.com/williamboman/mason.nvim/commit/5dd6257) 2022-10-02 - feat: add pyre linter ([#495](https://github.com/williamboman/mason.nvim/issues/495)) by Michael
+</details>
+
+```
+:MasonInstall pyre
 ```
 
 
