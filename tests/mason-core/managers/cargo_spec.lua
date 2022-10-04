@@ -1,8 +1,10 @@
+local stub = require "luassert.stub"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
 local installer = require "mason-core.installer"
 local cargo = require "mason-core.managers.cargo"
+local client = require "mason-core.managers.cargo.client"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
 local path = require "mason-core.path"
@@ -182,7 +184,6 @@ zoxide v0.5.0:
         end)
     )
 
-    -- XXX: This test will actually send http request to crates.io's API. It's not mocked.
     it(
         "should return outdated primary package",
         async_test(function()
@@ -193,6 +194,15 @@ zoxide v0.5.0:
 ]],
                 }
             end)
+            stub(client, "fetch_crate")
+            client.fetch_crate.returns(Result.success {
+                crate = {
+                    id = "lelwel",
+                    max_stable_version = "0.4.2",
+                    max_version = "0.4.2",
+                    newest_version = "0.4.2",
+                },
+            })
 
             local result = cargo.check_outdated_primary_package(
                 mock.new {
@@ -215,7 +225,7 @@ zoxide v0.5.0:
             assert.is_true(result:is_success())
             assert.is_true(match.tbl_containing {
                 current_version = "0.4.0",
-                latest_version = match.matches "%d.%d.%d",
+                latest_version = "0.4.2",
                 name = "lelwel",
             }(result:get_or_nil()))
 
