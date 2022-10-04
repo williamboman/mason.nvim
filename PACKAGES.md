@@ -87,6 +87,7 @@
 - [gomodifytags](#gomodifytags)
 - [gopls](#gopls)
 - [gotests](#gotests)
+- [gotestsum](#gotestsum)
 - [grammarly-languageserver](#grammarly-languageserver)
 - [graphql-language-service-cli](#graphql-language-service-cli)
 - [groovy-language-server](#groovy-language-server)
@@ -1954,6 +1955,26 @@ Categories:
 
 ```
 :MasonInstall gotests
+```
+
+
+# gotestsum
+
+> 'go test' runner with output optimized for humans, JUnit XML for CI integration, and 
+a summary of the test results.
+
+Homepage: [https://github.com/gotestyourself/gotestsum](https://github.com/gotestyourself/gotestsum)  
+Languages: `Go`  
+Categories:   
+
+<details>
+    <summary>History:</summary>
+
+- [`a01073d`](https://github.com/williamboman/mason.nvim/commit/a01073d) 2022-10-03 - feat: add gotestsum ([#506](https://github.com/williamboman/mason.nvim/issues/506)) by Seth Daniel
+</details>
+
+```
+:MasonInstall gotestsum
 ```
 
 
