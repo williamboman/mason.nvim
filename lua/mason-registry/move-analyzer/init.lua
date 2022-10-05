@@ -8,7 +8,9 @@ return Pkg.new {
     languages = { Pkg.Lang.Move },
     categories = { Pkg.Cat.LSP },
     install = cargo.crate("move-analyzer", {
-        git = "https://github.com/move-language/move",
+        git = {
+            url = "https://github.com/move-language/move",
+        },
         bin = { "move-analyzer" },
     }),
 }

@@ -7,8 +7,11 @@ return Pkg.new {
     homepage = "https://github.com/influxdata/flux-lsp",
     languages = { Pkg.Lang.Flux },
     categories = { Pkg.Cat.LSP },
-    install = cargo.crate("https://github.com/influxdata/flux-lsp", {
-        git = true,
+    install = cargo.crate("flux-lsp", {
+        git = {
+            url = "https://github.com/influxdata/flux-lsp",
+            tag = true,
+        },
         bin = { "flux-lsp" },
     }),
 }

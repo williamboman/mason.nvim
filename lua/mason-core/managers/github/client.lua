@@ -8,10 +8,16 @@ local M = {}
 ---@alias GitHubReleaseAsset {url: string, id: integer, name: string, browser_download_url: string, created_at: string, updated_at: string, size: integer, download_count: integer}
 ---@alias GitHubRelease {tag_name: string, prerelease: boolean, draft: boolean, assets:GitHubReleaseAsset[]}
 ---@alias GitHubTag {name: string}
+---@alias GitHubCommit {sha: string}
 
 ---@param path string
+---@param opts { params: table<string, any>? }?
 ---@return Result # JSON decoded response.
-local function api_call(path)
+local function api_call(path, opts)
+    if opts and opts.params then
+        local params = _.join("&", _.map(_.join "=", _.sort_by(_.head, _.to_pairs(opts.params))))
+        path = ("%s?%s"):format(path, params)
+    end
     return spawn
         .gh({ "api", path, env = { CLICOLOR_FORCE = 0 } })
         :map(_.prop "stdout")
@@ -20,6 +26,8 @@ local function api_call(path)
         end)
         :map_catching(vim.json.decode)
 end
+
+M.api_call = api_call
 
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
@@ -103,6 +111,22 @@ function M.fetch_latest_tag(repo)
     return fetch(("https://latest-github-tag.redwill.se/api/repo/%s/latest-tag"):format(repo))
         :map_catching(vim.json.decode)
         :map(_.prop "tag")
+end
+
+---@async
+---@param repo string The GitHub repo ("username/repo").
+---@param opts { page: integer?, per_page: integer? }?
+---@return Result # Result<GitHubCommit[]>
+function M.fetch_commits(repo, opts)
+    local path = ("repos/%s/commits"):format(repo)
+    return api_call(path, {
+        params = {
+            page = opts and opts.page or 1,
+            per_page = opts and opts.per_page or 30,
+        },
+    }):map_err(function()
+        return ("Failed to fetch commits for GitHub repository %s."):format(repo)
+    end)
 end
 
 ---@alias GitHubRateLimit {limit: integer, remaining: integer, reset: integer, used: integer}

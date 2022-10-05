@@ -1,4 +1,5 @@
 local Optional = require "mason-core.optional"
+local Result = require "mason-core.result"
 local spy = require "luassert.spy"
 
 describe("Optional.of_nilable", function()
@@ -73,5 +74,21 @@ describe("Optional.if_not_present()", function()
         local present = spy.new()
         Optional.empty():if_not_present(present)
         assert.spy(present).was_called(1)
+    end)
+end)
+
+describe("Optional.ok_or()", function()
+    it("should return success variant if non-empty", function()
+        local result = Optional.of_nilable("Hello world!"):ok_or()
+        assert.is_true(getmetatable(result) == Result)
+        assert.equals("Hello world!", result:get_or_nil())
+    end)
+
+    it("should return failure variant if empty", function()
+        local result = Optional.empty():ok_or(function()
+            return "I'm empty."
+        end)
+        assert.is_true(getmetatable(result) == Result)
+        assert.equals("I'm empty.", result:err_or_nil())
     end)
 end)
