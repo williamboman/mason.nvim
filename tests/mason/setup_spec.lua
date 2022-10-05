@@ -3,9 +3,29 @@ local mason = require "mason"
 local path = require "mason-core.path"
 
 describe("mason setup", function()
+    before_each(function()
+        vim.env.PATH = "/usr/local/bin:/usr/bin"
+    end)
+
     it("should enhance the PATH environment", function()
         mason.setup()
-        assert.is_true(vim.startswith(vim.env.PATH, path.bin_prefix()))
+        assert.equals(("%s:/usr/local/bin:/usr/bin"):format(path.bin_prefix()), vim.env.PATH)
+    end)
+
+    it("should prepend the PATH environment", function()
+        mason.setup { PATH = "prepend" }
+        assert.equals(("%s:/usr/local/bin:/usr/bin"):format(path.bin_prefix()), vim.env.PATH)
+    end)
+
+    it("should append PATH", function()
+        mason.setup { PATH = "append" }
+        assert.equals(("/usr/local/bin:/usr/bin:%s"):format(path.bin_prefix()), vim.env.PATH)
+    end)
+
+    it("shouldn't modify PATH", function()
+        local PATH = vim.env.PATH
+        mason.setup { PATH = "skip" }
+        assert.equals(PATH, vim.env.PATH)
     end)
 
     it("should set up user commands", function()
