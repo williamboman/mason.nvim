@@ -125,6 +125,7 @@ end
 
 ---@async
 ---@param install_dir string
+---@return Result # Result<table<string, InstalledCrate>>
 local function get_installed_crates(install_dir)
     return spawn
         .cargo({
@@ -188,15 +189,15 @@ end
 ---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
-    return get_installed_crates(install_dir):map(function(pkgs)
-        if vim.in_fast_event() then
-            a.scheduler()
-        end
-        local pkg = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
-        return Optional.of_nilable(pkgs[pkg])
-            :map(_.prop "version")
-            :or_else_throw "Failed to find cargo package version."
-    end)
+    if vim.in_fast_event() then
+        a.scheduler()
+    end
+    local crate_name = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
+    return get_installed_crates(install_dir)
+        :ok()
+        :map(_.prop(crate_name))
+        :map(_.prop "version")
+        :ok_or(_.always "Failed to find cargo package version.")
 end
 
 return M
