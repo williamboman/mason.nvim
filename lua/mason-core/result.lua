@@ -138,6 +138,15 @@ function Result:on_success(fn)
     return self
 end
 
+function Result:ok()
+    local Optional = require "mason-core.optional"
+    if self:is_success() then
+        return Optional.of(self.value)
+    else
+        return Optional.empty()
+    end
+end
+
 ---@param fn fun(): any
 ---@return Result
 function Result.run_catching(fn)

@@ -1,6 +1,7 @@
 local Result = require "mason-core.result"
 local match = require "luassert.match"
 local spy = require "luassert.spy"
+local Optional = require "mason-core.optional"
 
 describe("result", function()
     it("should create success", function()
@@ -139,5 +140,17 @@ describe("result", function()
         assert.spy(on_failure).was_called(0)
         assert.spy(on_success).was_called(1)
         assert.spy(on_success).was_called_with "Oh noes"
+    end)
+
+    it("should convert success variants to non-empty optionals", function()
+        local opt = Result.success("Hello world!"):ok()
+        assert.is_true(getmetatable(opt) == Optional)
+        assert.equals("Hello world!", opt:get())
+    end)
+
+    it("should convert failure variants to empty optionals", function()
+        local opt = Result.failure("Hello world!"):ok()
+        assert.is_true(getmetatable(opt) == Optional)
+        assert.is_false(opt:is_present())
     end)
 end)

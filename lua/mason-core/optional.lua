@@ -105,4 +105,14 @@ function Optional:is_present()
     return self._value ~= nil
 end
 
+---@param err fun(): any
+function Optional:ok_or(err)
+    local Result = require "mason-core.result"
+    if self:is_present() then
+        return Result.success(self:get())
+    else
+        return Result.failure(err())
+    end
+end
+
 return Optional
