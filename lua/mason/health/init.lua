@@ -242,7 +242,12 @@ function M.check()
     if vim.g.python3_host_prog then
         table.insert(
             checks,
-            check { cmd = vim.g.python3_host_prog, args = { "--version" }, name = "python3_host_prog", relaxed = true }
+            check {
+                cmd = vim.fn.expand(vim.g.python3_host_prog),
+                args = { "--version" },
+                name = "python3_host_prog",
+                relaxed = true,
+            }
         )
     end
 
