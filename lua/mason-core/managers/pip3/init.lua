@@ -1,4 +1,5 @@
 local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local settings = require "mason.settings"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
@@ -44,8 +45,13 @@ function M.install(packages)
         pkgs[1] = ("%s==%s"):format(pkgs[1], version)
     end)
 
-    local executables = platform.is.win and _.list_not_nil(vim.g.python3_host_prog, "python", "python3")
-        or _.list_not_nil(vim.g.python3_host_prog, "python3", "python")
+    if vim.in_fast_event() then
+        a.scheduler()
+    end
+
+    local executables = platform.is.win
+            and _.list_not_nil(vim.g.python3_host_prog and vim.fn.expand(vim.g.python3_host_prog), "python", "python3")
+        or _.list_not_nil(vim.g.python3_host_prog and vim.fn.expand(vim.g.python3_host_prog), "python3", "python")
 
     -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
     ctx:promote_cwd()

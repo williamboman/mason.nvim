@@ -2,6 +2,7 @@ local mock = require "luassert.mock"
 local spy = require "luassert.spy"
 local path = require "mason-core.path"
 
+local a = require "mason-core.async"
 local pip3 = require "mason-core.managers.pip3"
 local installer = require "mason-core.installer"
 local Result = require "mason-core.result"
@@ -83,6 +84,22 @@ describe("pip3 manager", function()
             assert.spy(ctx.spawn.python3).was_called(0)
             assert.spy(ctx.spawn.python).was_called(1)
             assert.spy(ctx.spawn["/my/python3"]).was_called(1)
+        end)
+    )
+
+    it(
+        "should expand python3_host_prog path",
+        async_test(function()
+            vim.g.python3_host_prog = "~/python3"
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
+            ctx.spawn.python = spy.new(mockx.returns {})
+            ctx.spawn[vim.env.HOME .. "/python3"] = spy.new(mockx.returns {})
+
+            installer.run_installer(ctx, pip3.packages { "package" })
+            a.scheduler()
+            vim.g.python3_host_prog = nil
+            assert.spy(ctx.spawn[vim.env.HOME .. "/python3"]).was_called(1)
         end)
     )
 
