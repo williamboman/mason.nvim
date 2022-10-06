@@ -165,7 +165,7 @@ function M.check_outdated_primary_package_release(receipt)
     if source.type ~= "github_release" and source.type ~= "github_release_file" then
         return Result.failure "Receipt does not have a primary source of type (github_release|github_release_file)."
     end
-    return client.fetch_latest_release(source.repo, { tag_name_pattern = source.tag_name_pattern }):map_catching(
+    return client.fetch_latest_release(source.repo):map_catching(
         ---@param latest_release GitHubRelease
         function(latest_release)
             if source.release ~= latest_release.tag_name then

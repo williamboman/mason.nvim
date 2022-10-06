@@ -29,6 +29,18 @@ end
 
 M.api_call = api_call
 
+---@param path string
+---@param opts { params: table<string, any>? }?
+---@return Result # JSON decoded response.
+local function proxy_api_call(path, opts)
+    if opts and opts.params then
+        local params = _.join("&", _.map(_.join "=", _.sort_by(_.head, _.to_pairs(opts.params))))
+        path = ("%s?%s"):format(path, params)
+    end
+    -- https://github.com/williamboman/github-api-proxy
+    return fetch(("https://github-api-proxy.redwill.se/%s"):format(path))
+end
+
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
 ---@return Result # Result<GitHubRelease[]>
@@ -51,46 +63,20 @@ function M.fetch_release(repo, tag_name)
     end)
 end
 
----@param opts {include_prerelease: boolean, tag_name_pattern: string}
-function M.release_predicate(opts)
-    local is_not_draft = _.prop_eq("draft", false)
-    local is_not_prerelease = _.prop_eq("prerelease", false)
-    local tag_name_matches = _.prop_satisfies(_.matches(opts.tag_name_pattern), "tag_name")
-
-    return _.all_pass {
-        _.if_else(_.always(opts.include_prerelease), _.T, is_not_prerelease),
-        _.if_else(_.always(opts.tag_name_pattern), tag_name_matches, _.T),
-        is_not_draft,
-    }
-end
-
----@alias FetchLatestGithubReleaseOpts {tag_name_pattern:string?, include_prerelease: boolean}
+---@alias FetchLatestGithubReleaseOpts {include_prerelease: boolean}
 
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
 ---@param opts FetchLatestGithubReleaseOpts?
 ---@return Result # Result<GitHubRelease>
 function M.fetch_latest_release(repo, opts)
-    opts = opts or {
-        tag_name_pattern = nil,
-        include_prerelease = false,
-    }
-    return M.fetch_releases(repo):map_catching(
-        ---@param releases GitHubRelease[]
-        function(releases)
-            local is_stable_release = M.release_predicate(opts)
-            ---@type GitHubRelease|nil
-            local latest_release = _.find_first(is_stable_release, releases)
-
-            if not latest_release then
-                log.fmt_info("Failed to find latest release. repo=%s, opts=%s", repo, opts)
-                error "Failed to find latest release."
-            end
-
-            log.fmt_debug("Resolved latest version repo=%s, tag_name=%s", repo, latest_release.tag_name)
-            return latest_release
-        end
-    )
+    opts = opts or { include_prerelease = false }
+    local path = ("api/repo/%s/latest-release"):format(repo)
+    return proxy_api_call(path, {
+        params = {
+            include_prerelease = opts.include_prerelease and "true" or "false",
+        },
+    }):map_catching(vim.json.decode)
 end
 
 ---@async
@@ -107,10 +93,8 @@ end
 ---@param repo string The GitHub repo ("username/repo").
 ---@return Result # Result<string> The latest tag name.
 function M.fetch_latest_tag(repo)
-    -- https://github.com/williamboman/vercel-github-api-latest-tag-proxy
-    return fetch(("https://latest-github-tag.redwill.se/api/repo/%s/latest-tag"):format(repo))
-        :map_catching(vim.json.decode)
-        :map(_.prop "tag")
+    local path = ("api/repo/%s/latest-tag"):format(repo)
+    return proxy_api_call(path):map_catching(vim.json.decode):map(_.prop "tag")
 end
 
 ---@async
