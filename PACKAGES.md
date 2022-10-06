@@ -88,6 +88,7 @@
 - [gopls](#gopls)
 - [gotests](#gotests)
 - [gotestsum](#gotestsum)
+- [gradle-language-server](#gradle-language-server)
 - [grammarly-languageserver](#grammarly-languageserver)
 - [graphql-language-service-cli](#graphql-language-service-cli)
 - [groovy-language-server](#groovy-language-server)
@@ -1663,6 +1664,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`7386840`](https://github.com/williamboman/mason.nvim/commit/7386840) 2022-10-05 - feat(cargo): improve handling of git-based crates ([#512](https://github.com/williamboman/mason.nvim/issues/512)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -1975,6 +1977,25 @@ Categories:
 
 ```
 :MasonInstall gotestsum
+```
+
+
+# gradle-language-server
+
+> Gradle language server.
+
+Homepage: [https://github.com/microsoft/vscode-gradle](https://github.com/microsoft/vscode-gradle)  
+Languages: `Gradle`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`f8b03eb`](https://github.com/williamboman/mason.nvim/commit/f8b03eb) 2022-10-06 - feat: add gradle-language-server ([#517](https://github.com/williamboman/mason.nvim/issues/517)) by William Boman
+</details>
+
+```
+:MasonInstall gradle-language-server
 ```
 
 
@@ -2761,6 +2782,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`7386840`](https://github.com/williamboman/mason.nvim/commit/7386840) 2022-10-05 - feat(cargo): improve handling of git-based crates ([#512](https://github.com/williamboman/mason.nvim/issues/512)) by William Boman
 - [`59e6fee`](https://github.com/williamboman/mason.nvim/commit/59e6fee) 2022-10-02 - feat: add move-analyzer ([#499](https://github.com/williamboman/mason.nvim/issues/499)) by Michael
 </details>
 
@@ -4676,6 +4698,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`7386840`](https://github.com/williamboman/mason.nvim/commit/7386840) 2022-10-05 - feat(cargo): improve handling of git-based crates ([#512](https://github.com/williamboman/mason.nvim/issues/512)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
