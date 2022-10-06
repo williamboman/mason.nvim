@@ -87,6 +87,7 @@ return {
   gopls = "mason-registry.gopls",
   gotests = "mason-registry.gotests",
   gotestsum = "mason-registry.gotestsum",
+  ["gradle-language-server"] = "mason-registry.gradle-language-server",
   ["grammarly-languageserver"] = "mason-registry.grammarly-languageserver",
   ["graphql-language-service-cli"] = "mason-registry.graphql-language-service-cli",
   ["groovy-language-server"] = "mason-registry.groovy-language-server",
