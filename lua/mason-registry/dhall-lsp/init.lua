@@ -28,9 +28,9 @@ return Pkg.new {
 
         local asset_name_pattern = assert(
             _.coalesce(
-                _.when(platform.is.mac, "dhall%-lsp%-server%-.+%-x86_64%-macos.tar.bz2"),
-                _.when(platform.is.linux_x64, "dhall%-lsp%-server%-.+%-x86_64%-linux.tar.bz2"),
-                _.when(platform.is.win_x64, "dhall%-lsp%-server%-.+%-x86_64%-windows.zip")
+                _.when(platform.is.mac, "dhall%-lsp%-server%-.+%-x86_64%-[mM]acos.tar.bz2"),
+                _.when(platform.is.linux_x64, "dhall%-lsp%-server%-.+%-x86_64%-[lL]inux.tar.bz2"),
+                _.when(platform.is.win_x64, "dhall%-lsp%-server%-.+%-x86_64%-[wW]indows.zip")
             )
         )
         local dhall_lsp_server_asset =
