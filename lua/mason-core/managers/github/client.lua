@@ -2,6 +2,7 @@ local _ = require "mason-core.functional"
 local log = require "mason-core.log"
 local fetch = require "mason-core.fetch"
 local spawn = require "mason-core.spawn"
+local api = require "mason-registry.api"
 
 local M = {}
 
@@ -10,12 +11,14 @@ local M = {}
 ---@alias GitHubTag {name: string}
 ---@alias GitHubCommit {sha: string}
 
+local stringify_params = _.compose(_.join "&", _.map(_.join "="), _.sort_by(_.head), _.to_pairs)
+
 ---@param path string
 ---@param opts { params: table<string, any>? }?
 ---@return Result # JSON decoded response.
-local function api_call(path, opts)
+local function gh_api_call(path, opts)
     if opts and opts.params then
-        local params = _.join("&", _.map(_.join "=", _.sort_by(_.head, _.to_pairs(opts.params))))
+        local params = stringify_params(opts.params)
         path = ("%s?%s"):format(path, params)
     end
     return spawn
@@ -27,19 +30,7 @@ local function api_call(path, opts)
         :map_catching(vim.json.decode)
 end
 
-M.api_call = api_call
-
----@param path string
----@param opts { params: table<string, any>? }?
----@return Result # JSON decoded response.
-local function proxy_api_call(path, opts)
-    if opts and opts.params then
-        local params = _.join("&", _.map(_.join "=", _.sort_by(_.head, _.to_pairs(opts.params))))
-        path = ("%s?%s"):format(path, params)
-    end
-    -- https://github.com/williamboman/github-api-proxy
-    return fetch(("https://github-api-proxy.redwill.se/%s"):format(path))
-end
+M.api_call = gh_api_call
 
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
@@ -47,7 +38,7 @@ end
 function M.fetch_releases(repo)
     log.fmt_trace("Fetching GitHub releases for repo=%s", repo)
     local path = ("repos/%s/releases"):format(repo)
-    return api_call(path):map_err(function()
+    return gh_api_call(path):map_err(function()
         return ("Failed to fetch releases for GitHub repository %s."):format(repo)
     end)
 end
@@ -58,7 +49,7 @@ end
 function M.fetch_release(repo, tag_name)
     log.fmt_trace("Fetching GitHub release for repo=%s, tag_name=%s", repo, tag_name)
     local path = ("repos/%s/releases/tags/%s"):format(repo, tag_name)
-    return api_call(path):map_err(function()
+    return gh_api_call(path):map_err(function()
         return ("Failed to fetch release %q for GitHub repository %s."):format(tag_name, repo)
     end)
 end
@@ -71,12 +62,12 @@ end
 ---@return Result # Result<GitHubRelease>
 function M.fetch_latest_release(repo, opts)
     opts = opts or { include_prerelease = false }
-    local path = ("api/repo/%s/latest-release"):format(repo)
-    return proxy_api_call(path, {
+    local path = ("/api/repo/%s/latest-release"):format(repo)
+    return api.get(path, {
         params = {
             include_prerelease = opts.include_prerelease and "true" or "false",
         },
-    }):map_catching(vim.json.decode)
+    })
 end
 
 ---@async
@@ -84,7 +75,7 @@ end
 ---@return Result # Result<GitHubTag[]>
 function M.fetch_tags(repo)
     local path = ("repos/%s/tags"):format(repo)
-    return api_call(path):map_err(function()
+    return gh_api_call(path):map_err(function()
         return ("Failed to fetch tags for GitHub repository %s."):format(repo)
     end)
 end
@@ -93,8 +84,8 @@ end
 ---@param repo string The GitHub repo ("username/repo").
 ---@return Result # Result<string> The latest tag name.
 function M.fetch_latest_tag(repo)
-    local path = ("api/repo/%s/latest-tag"):format(repo)
-    return proxy_api_call(path):map_catching(vim.json.decode):map(_.prop "tag")
+    local path = ("/api/repo/%s/latest-tag"):format(repo)
+    return api.get(path):map(_.prop "tag")
 end
 
 ---@async
@@ -103,7 +94,7 @@ end
 ---@return Result # Result<GitHubCommit[]>
 function M.fetch_commits(repo, opts)
     local path = ("repos/%s/commits"):format(repo)
-    return api_call(path, {
+    return gh_api_call(path, {
         params = {
             page = opts and opts.page or 1,
             per_page = opts and opts.per_page or 30,
@@ -119,7 +110,7 @@ end
 ---@async
 --@return Result @of GitHubRateLimitResponse
 function M.fetch_rate_limit()
-    return api_call "rate_limit"
+    return gh_api_call "rate_limit"
 end
 
 return M
