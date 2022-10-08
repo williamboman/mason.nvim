@@ -11,7 +11,7 @@ return {
   assembly = { "asm-lsp" },
   astro = { "astro-language-server" },
   awk = { "awk-language-server" },
-  bash = { "bash-debug-adapter", "bash-language-server", "shellcheck", "shellharden", "shfmt" },
+  bash = { "bash-debug-adapter", "bash-language-server", "beautysh", "shellcheck", "shellharden", "shfmt" },
   bazel = { "buildifier" },
   beancount = { "beancount-language-server" },
   bicep = { "bicep-lsp" },
