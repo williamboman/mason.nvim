@@ -99,6 +99,7 @@ return {
   ["haxe-language-server"] = "mason-registry.haxe-language-server",
   ["hoon-language-server"] = "mason-registry.hoon-language-server",
   ["html-lsp"] = "mason-registry.html-lsp",
+  iferr = "mason-registry.iferr",
   impl = "mason-registry.impl",
   intelephense = "mason-registry.intelephense",
   isort = "mason-registry.isort",
