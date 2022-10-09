@@ -1,3 +1,4 @@
+local stub = require "luassert.stub"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
@@ -6,6 +7,7 @@ local npm = require "mason-core.managers.npm"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
 local path = require "mason-core.path"
+local api = require "mason-registry.api"
 
 describe("npm manager", function()
     it(
@@ -83,7 +85,7 @@ describe("npm version check", function()
     it(
         "should return current version",
         async_test(function()
-            spawn.npm = spy.new(function()
+            stub(spawn, "npm", function()
                 return Result.success {
                     stdout = [[
                     {
@@ -113,26 +115,27 @@ describe("npm version check", function()
             assert.spy(spawn.npm).was_called_with { "ls", "--json", cwd = path.package_prefix "dummy" }
             assert.is_true(result:is_success())
             assert.equals("2.0.0", result:get_or_nil())
-
-            spawn.npm = nil
         end)
     )
 
     it(
         "should return outdated primary package",
         async_test(function()
-            spawn.npm = spy.new(function()
-                -- npm outdated returns with exit code 1 if outdated packages are found!
-                return Result.failure {
-                    exit_code = 1,
+            stub(api, "get")
+            api.get.on_call_with("/api/npm/bash-language-server/latest-version").returns(Result.success {
+                name = "bash-language-server",
+                version = "2.0.0",
+            })
+            stub(spawn, "npm", function()
+                return Result.success {
                     stdout = [[
                     {
-                      "bash-language-server": {
-                        "current": "1.17.0",
-                        "wanted": "1.17.0",
-                        "latest": "2.0.0",
-                        "dependent": "bash",
-                        "location": "/tmp/install/dir"
+                      "name": "bash",
+                      "dependencies": {
+                        "bash-language-server": {
+                          "version": "1.17.0",
+                          "resolved": "https://registry.npmjs.org/bash-language-server/-/bash-language-server-1.17.0.tgz"
+                        }
                       }
                     }
                 ]],
@@ -149,32 +152,38 @@ describe("npm version check", function()
                 path.package_prefix "dummy"
             )
 
-            assert.spy(spawn.npm).was_called(1)
-            assert.spy(spawn.npm).was_called_with {
-                "outdated",
-                "--json",
-                "bash-language-server",
-                cwd = path.package_prefix "dummy",
-            }
             assert.is_true(result:is_success())
             assert.same({
                 name = "bash-language-server",
                 current_version = "1.17.0",
                 latest_version = "2.0.0",
             }, result:get_or_nil())
-
-            spawn.npm = nil
         end)
     )
 
     it(
         "should return failure if primary package is not outdated",
         async_test(function()
-            spawn.npm = spy.new(function()
+            stub(spawn, "npm", function()
                 return Result.success {
-                    stdout = "{}",
+                    stdout = [[
+                        {
+                          "name": "bash",
+                          "dependencies": {
+                            "bash-language-server": {
+                              "version": "1.17.0",
+                              "resolved": "https://registry.npmjs.org/bash-language-server/-/bash-language-server-1.17.0.tgz"
+                            }
+                          }
+                        }
+                    ]],
                 }
             end)
+            stub(api, "get")
+            api.get.on_call_with("/api/npm/bash-language-server/latest-version").returns(Result.success {
+                name = "bash-language-server",
+                version = "1.17.0",
+            })
 
             local result = npm.check_outdated_primary_package(
                 mock.new {
@@ -188,7 +197,6 @@ describe("npm version check", function()
 
             assert.is_true(result:is_failure())
             assert.equals("Primary package is not outdated.", result:err_or_nil())
-            spawn.npm = nil
         end)
     )
 end)

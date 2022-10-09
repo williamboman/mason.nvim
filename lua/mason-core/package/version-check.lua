@@ -8,6 +8,7 @@ local go = require "mason-core.managers.go"
 local luarocks = require "mason-core.managers.luarocks"
 local npm = require "mason-core.managers.npm"
 local pip3 = require "mason-core.managers.pip3"
+local log = require "mason-core.log"
 
 ---@param field_name string
 local function version_in_receipt(field_name)
@@ -52,7 +53,7 @@ local get_new_version_by_type = {
     ["github_tag"] = github.check_outdated_primary_package_tag,
 }
 
----@param provider_mapping table<string, async fun(receipt: InstallReceipt, install_dir: string)>: Result
+---@param provider_mapping table<string, async fun(receipt: InstallReceipt, install_dir: string): Result>
 local function version_check(provider_mapping)
     ---@param receipt InstallReceipt
     ---@param install_dir string
@@ -64,6 +65,12 @@ local function version_check(provider_mapping)
             )
         end
         return check(receipt, install_dir)
+            :on_success(function(version)
+                log.debug("Version check", version)
+            end)
+            :on_failure(function(failure)
+                log.debug("Version check failed", tostring(failure))
+            end)
     end
 end
 
