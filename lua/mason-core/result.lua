@@ -156,6 +156,15 @@ function Result:and_then(fn)
     end
 end
 
+---@param fn fun(err: any): Result
+function Result:or_else(fn)
+    if self:is_failure() then
+        return fn(self:err_or_nil())
+    else
+        return self
+    end
+end
+
 ---@param fn fun(): any
 ---@return Result
 function Result.run_catching(fn)
