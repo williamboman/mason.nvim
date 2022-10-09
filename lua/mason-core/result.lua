@@ -147,6 +147,15 @@ function Result:ok()
     end
 end
 
+---@param fn fun(value: any): Result
+function Result:and_then(fn)
+    if self:is_success() then
+        return fn(self.value)
+    else
+        return self
+    end
+end
+
 ---@param fn fun(): any
 ---@return Result
 function Result.run_catching(fn)

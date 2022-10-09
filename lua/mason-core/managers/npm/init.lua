@@ -1,10 +1,10 @@
 local spawn = require "mason-core.spawn"
-local Optional = require "mason-core.optional"
 local installer = require "mason-core.installer"
 local Result = require "mason-core.result"
 local path = require "mason-core.path"
 local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
+local api = require "mason-registry.api"
 
 local list_copy = _.list_copy
 
@@ -110,26 +110,26 @@ function M.check_outdated_primary_package(receipt, install_dir)
         return Result.failure "Receipt does not have a primary source of type npm"
     end
     local primary_package = receipt.primary_source.package
-    local npm_outdated = spawn.npm { "outdated", "--json", primary_package, cwd = install_dir }
-    if npm_outdated:is_success() then
-        return Result.failure "Primary package is not outdated."
-    end
-    return npm_outdated:recover_catching(function(result)
-        assert(result.exit_code == 1, "Expected npm outdated to return exit code 1.")
-        local data = vim.json.decode(result.stdout)
-
-        return Optional.of_nilable(data[primary_package])
-            :map(function(outdated_package)
-                if outdated_package.current ~= outdated_package.latest then
-                    return {
-                        name = primary_package,
-                        current_version = assert(outdated_package.current, "missing current npm package version"),
-                        latest_version = assert(outdated_package.latest, "missing latest npm package version"),
-                    }
-                end
+    return M.get_installed_primary_package_version(receipt, install_dir)
+        :and_then(function(installed_version)
+            return api.get(("/api/npm/%s/latest-version"):format(primary_package)):map(function(response)
+                return {
+                    installed = installed_version,
+                    latest = response.version,
+                }
             end)
-            :or_else_throw()
-    end)
+        end)
+        :and_then(function(versions)
+            if versions.installed ~= versions.latest then
+                return Result.success {
+                    name = primary_package,
+                    current_version = versions.installed,
+                    latest_version = versions.latest,
+                }
+            else
+                return Result.failure "Primary package is not outdated."
+            end
+        end)
 end
 
 return M
