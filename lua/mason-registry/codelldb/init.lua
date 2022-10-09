@@ -19,9 +19,9 @@ return Pkg.new {
                 asset_file = _.coalesce(
                     _.when(platform.is.mac_x64, "codelldb-x86_64-darwin.vsix"),
                     _.when(platform.is.mac_arm64, "codelldb-aarch64-darwin.vsix"),
-                    _.when(platform.is.linux_x64, "codelldb-x86_64-linux.vsix"),
-                    _.when(platform.is.linux_arm64, "codelldb-aarch64-linux.vsix"),
-                    _.when(platform.is.linux_arm, "codelldb-arm-linux.vsix"),
+                    _.when(platform.is.linux_x64_gnu, "codelldb-x86_64-linux.vsix"),
+                    _.when(platform.is.linux_arm64_gnu, "codelldb-aarch64-linux.vsix"),
+                    _.when(platform.is.linux_arm_gnu, "codelldb-arm-linux.vsix"),
                     _.when(platform.is.win_x64, "codelldb-x86_64-windows.vsix")
                 ),
             })
