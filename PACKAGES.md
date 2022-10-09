@@ -16,6 +16,7 @@
 - [bash-debug-adapter](#bash-debug-adapter)
 - [bash-language-server](#bash-language-server)
 - [beancount-language-server](#beancount-language-server)
+- [beautysh](#beautysh)
 - [bicep-lsp](#bicep-lsp)
 - [black](#black)
 - [blade-formatter](#blade-formatter)
@@ -76,6 +77,7 @@
 - [foam-language-server](#foam-language-server)
 - [fortls](#fortls)
 - [fsautocomplete](#fsautocomplete)
+- [gersemi](#gersemi)
 - [gitlint](#gitlint)
 - [go-debug-adapter](#go-debug-adapter)
 - [gofumpt](#gofumpt)
@@ -155,6 +157,7 @@
 - [puppet-editor-services](#puppet-editor-services)
 - [purescript-language-server](#purescript-language-server)
 - [pydocstyle](#pydocstyle)
+- [pylama](#pylama)
 - [pylint](#pylint)
 - [pyproject-flake8](#pyproject-flake8)
 - [pyre](#pyre)
@@ -513,6 +516,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall beancount-language-server
+```
+
+
+# beautysh
+
+> beautysh - A Bash beautifier for the masses.
+
+Homepage: [https://github.com/lovesegfault/beautysh](https://github.com/lovesegfault/beautysh)  
+Languages: `Bash`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`54313a6`](https://github.com/williamboman/mason.nvim/commit/54313a6) 2022-10-09 - feat(registry): add beautysh formatter ([#526](https://github.com/williamboman/mason.nvim/issues/526)) by Jay Patel
+</details>
+
+```
+:MasonInstall beautysh
 ```
 
 
@@ -1732,6 +1754,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall fsautocomplete
+```
+
+
+# gersemi
+
+> gersemi - A formatter to make your CMake code the real treasure.
+
+Homepage: [https://github.com/BlankSpruce/gersemi](https://github.com/BlankSpruce/gersemi)  
+Languages: `CMake`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`fa33319`](https://github.com/williamboman/mason.nvim/commit/fa33319) 2022-10-09 - feat(registry): add gersemi formatter ([#525](https://github.com/williamboman/mason.nvim/issues/525)) by Jay Patel
+</details>
+
+```
+:MasonInstall gersemi
 ```
 
 
@@ -3348,6 +3389,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall pydocstyle
+```
+
+
+# pylama
+
+> Code audit tool for Python.
+
+Homepage: [https://klen.github.io/pylama/](https://klen.github.io/pylama/)  
+Languages: `Python`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`d726743`](https://github.com/williamboman/mason.nvim/commit/d726743) 2022-10-08 - feat(registry): add pylama linter ([#523](https://github.com/williamboman/mason.nvim/issues/523)) by Kazi Sadman Ahmed
+</details>
+
+```
+:MasonInstall pylama
 ```
 
 
