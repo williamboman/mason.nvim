@@ -31,7 +31,7 @@ local function fetch(url, opts)
     opts.headers["User-Agent"] = USER_AGENT
     log.fmt_debug("Fetching URL %s", url)
 
-    local platform_specific = Result.failure()
+    local platform_specific = Result.failure
 
     if platform.is.win then
         local header_entries = _.join(
@@ -40,88 +40,89 @@ local function fetch(url, opts)
                 return ("%q = %q"):format(pair[1], pair[2])
             end, _.to_pairs(opts.headers))
         )
-        local headers = ("@{%s}"):format(header_entries)
+        local headers = ("-Headers @{%s}"):format(header_entries)
         if opts.out_file then
-            platform_specific = powershell.command(
-                ([[iwr %s -UseBasicParsing -Method %q -Uri %q %s -OutFile %q;]]):format(
-                    headers,
-                    opts.method,
-                    url,
-                    opts.data and ("-Body %s"):format(opts.data) or "",
-                    opts.out_file
+            platform_specific = function()
+                return powershell.command(
+                    ([[iwr %s -UseBasicParsing -Method %q -Uri %q %s -OutFile %q;]]):format(
+                        headers,
+                        opts.method,
+                        url,
+                        opts.data and ("-Body %s"):format(opts.data) or "",
+                        opts.out_file
+                    )
                 )
-            )
+            end
         else
-            platform_specific = powershell.command(
-                ([[Write-Output (iwr %s -Method %q -UseBasicParsing %s -Uri %q).Content;]]):format(
-                    headers,
-                    opts.method,
-                    opts.data and ("-Body %s"):format(opts.data) or "",
-                    url
+            platform_specific = function()
+                return powershell.command(
+                    ([[Write-Output (iwr %s -Method %q -UseBasicParsing %s -Uri %q).Content;]]):format(
+                        headers,
+                        opts.method,
+                        opts.data and ("-Body %s"):format(opts.data) or "",
+                        url
+                    )
                 )
-            )
+            end
         end
     end
 
-    return platform_specific
-        :recover_catching(function()
-            local headers =
-                _.sort_by(_.identity, _.map(_.compose(_.format "--header=%s", _.join ": "), _.to_pairs(opts.headers)))
-            return spawn
-                .wget({
-                    headers,
-                    "-nv",
-                    "-o",
-                    "/dev/null",
-                    "-O",
-                    opts.out_file or "-",
-                    ("--method=%s"):format(opts.method),
-                    opts.data and {
-                        ("--body-data=%s"):format(opts.data) or vim.NIL,
-                    } or vim.NIL,
-                    url,
-                })
-                :get_or_throw()
-        end)
-        :recover_catching(function()
-            local headers = _.sort_by(
-                _.nth(2),
-                _.map(
-                    _.compose(function(header)
-                        return { "-H", header }
-                    end, _.join ": "),
-                    _.to_pairs(opts.headers)
-                )
+    local function wget()
+        local headers =
+            _.sort_by(_.identity, _.map(_.compose(_.format "--header=%s", _.join ": "), _.to_pairs(opts.headers)))
+        return spawn.wget {
+            headers,
+            "-nv",
+            "-o",
+            "/dev/null",
+            "-O",
+            opts.out_file or "-",
+            ("--method=%s"):format(opts.method),
+            opts.data and {
+                ("--body-data=%s"):format(opts.data) or vim.NIL,
+            } or vim.NIL,
+            url,
+        }
+    end
+
+    local function curl()
+        local headers = _.sort_by(
+            _.nth(2),
+            _.map(
+                _.compose(function(header)
+                    return { "-H", header }
+                end, _.join ": "),
+                _.to_pairs(opts.headers)
             )
-            return spawn
-                .curl({
-                    headers,
-                    "-fsSL",
-                    {
-                        "-X",
-                        opts.method,
-                    },
-                    opts.data and { "-d", "@-" } or vim.NIL,
-                    opts.out_file and { "-o", opts.out_file } or vim.NIL,
-                    url,
-                    on_spawn = function(_, stdio)
-                        local stdin = stdio[1]
-                        if opts.data then
-                            log.trace("Writing stdin to curl", opts.data)
-                            stdin:write(opts.data)
-                        end
-                        stdin:close()
-                    end,
-                })
-                :get_or_throw()
-        end)
-        :map(function(result)
-            if opts.out_file then
-                return result
-            else
-                return result.stdout
-            end
-        end)
+        )
+        return spawn.curl {
+            headers,
+            "-fsSL",
+            {
+                "-X",
+                opts.method,
+            },
+            opts.data and { "-d", "@-" } or vim.NIL,
+            opts.out_file and { "-o", opts.out_file } or vim.NIL,
+            url,
+            on_spawn = function(_, stdio)
+                local stdin = stdio[1]
+                if opts.data then
+                    log.trace("Writing stdin to curl", opts.data)
+                    stdin:write(opts.data)
+                end
+                stdin:close()
+            end,
+        }
+    end
+
+    return curl():or_else(wget):or_else(platform_specific):map(function(result)
+        if opts.out_file then
+            return result
+        else
+            return result.stdout
+        end
+    end)
 end
 
 return fetch
