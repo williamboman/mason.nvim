@@ -25,6 +25,7 @@ return {
   cmake = { "cmake-language-server", "cmakelang", "gersemi" },
   codeql = { "codeql" },
   crystal = { "crystalline" },
+  csh = { "beautysh" },
   css = { "css-lsp", "cssmodules-language-server", "prettier", "prettierd", "tailwindcss-language-server" },
   cucumber = { "cucumber-language-server" },
   cue = { "cuelsp" },
@@ -62,6 +63,7 @@ return {
   jsx = { "prettier", "prettierd" },
   julia = { "julia-lsp" },
   kotlin = { "kotlin-language-server", "ktlint" },
+  ksh = { "beautysh" },
   latex = { "ltex-ls", "tectonic", "texlab", "vale" },
   lelwel = { "lelwel" },
   less = { "css-lsp", "prettier", "prettierd" },
@@ -97,6 +99,7 @@ return {
   rust = { "codelldb", "cpptools", "rust-analyzer" },
   salt = { "salt-lsp" },
   scss = { "css-lsp", "prettier", "prettierd" },
+  sh = { "beautysh" },
   shell = { "shfmt" },
   slint = { "slint-lsp" },
   solidity = { "solang", "solhint", "solidity", "solidity-ls" },
@@ -119,5 +122,6 @@ return {
   wgsl = { "wgsl-analyzer" },
   xml = { "lemminx", "xmlformatter" },
   yaml = { "actionlint", "cfn-lint", "prettier", "prettierd", "spectral-language-server", "yaml-language-server", "yamlfmt", "yamllint" },
-  zig = { "zls" }
+  zig = { "zls" },
+  zsh = { "beautysh" }
 }
