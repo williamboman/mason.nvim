@@ -79,8 +79,7 @@ function M.release_file(opts)
     local asset_file
     if type(opts.asset_file) == "function" then
         asset_file = opts.asset_file(source.release)
-    else
-        assert(type(opts.asset_file) == "string", "expected asset_file to be a string")
+    elseif type(opts.asset_file) == "string" then
         asset_file = opts.asset_file --[[@as string]]
     end
     if not asset_file then
