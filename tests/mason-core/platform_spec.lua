@@ -25,12 +25,20 @@ describe("platform", function()
         vim.loop.os_uname.returns(uname)
     end
 
-    ---@param libc string
+    ---@param libc '"glibc"' | '"musl"'
     local function stub_libc(libc)
         stub(os, "execute")
-        local exit_code = libc == "musl" and 0 or 1
-        -- selene: allow(incorrect_standard_library_use)
-        os.execute.on_call_with("ldd --version 2>&1 | grep -q musl").returns(nil, nil, exit_code)
+        stub(vim.fn, "executable")
+        stub(vim.fn, "system")
+        vim.fn.executable.on_call_with("ldd").returns(1)
+        vim.fn.executable.on_call_with("getconf").returns(1)
+        if libc == "musl" then
+            vim.fn.system.on_call_with({ "getconf", "GNU_LIBC_VERSION" }).returns ""
+            vim.fn.system.on_call_with({ "ldd", "--version" }).returns "musl libc (aarch64)"
+        elseif libc == "glibc" then
+            vim.fn.system.on_call_with({ "getconf", "GNU_LIBC_VERSION" }).returns "glibc 2.35"
+            vim.fn.system.on_call_with({ "ldd", "--version" }).returns "ldd (Ubuntu GLIBC 2.35-0ubuntu3.1) 2.35"
+        end
     end
 
     local function stub_mac()

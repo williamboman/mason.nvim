@@ -25,13 +25,30 @@ M.sysname = uname.sysname
 
 M.is_headless = #vim.api.nvim_list_uis() == 0
 
--- @return string @The libc found on the system, musl or glibc (glibc if ldd is not found)
+local function system(args)
+    if vim.fn.executable(args[1]) == 1 then
+        local ok, output = pcall(vim.fn.system, args)
+        if ok and vim.v.shell_error == 0 then
+            return true, output
+        end
+        return false, output
+    end
+    return false, args[1] .. " is not executable"
+end
+
+---@type fun(): ('"glibc"' | '"musl"')?
 local get_libc = _.lazy(function()
-    local _, _, libc_exit_code = os.execute "ldd --version 2>&1 | grep -q musl"
-    if libc_exit_code == 0 then
-        return "musl"
-    else
+    local getconf_ok, getconf_output = system { "getconf", "GNU_LIBC_VERSION" }
+    if getconf_ok and getconf_output:find "glibc" then
         return "glibc"
+    end
+    local ldd_ok, ldd_output = system { "ldd", "--version" }
+    if ldd_ok then
+        if ldd_output:find "musl" then
+            return "musl"
+        elseif ldd_output:find "GLIBC" or ldd_output:find "glibc" or ldd_output:find "GNU" then
+            return "glibc"
+        end
     end
 end)
 
