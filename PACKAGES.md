@@ -100,6 +100,7 @@
 - [haxe-language-server](#haxe-language-server)
 - [hoon-language-server](#hoon-language-server)
 - [html-lsp](#html-lsp)
+- [iferr](#iferr)
 - [impl](#impl)
 - [intelephense](#intelephense)
 - [isort](#isort)
@@ -524,12 +525,13 @@ Categories: `LSP`
 > beautysh - A Bash beautifier for the masses.
 
 Homepage: [https://github.com/lovesegfault/beautysh](https://github.com/lovesegfault/beautysh)  
-Languages: `Bash`  
+Languages: `Bash` `Csh` `Ksh` `Sh` `Zsh`  
 Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
 
+- [`4038d8b`](https://github.com/williamboman/mason.nvim/commit/4038d8b) 2022-10-09 - feat(beautysh): add missing languages ([#527](https://github.com/williamboman/mason.nvim/issues/527)) by Kazi Sadman Ahmed
 - [`54313a6`](https://github.com/williamboman/mason.nvim/commit/54313a6) 2022-10-09 - feat(registry): add beautysh formatter ([#526](https://github.com/williamboman/mason.nvim/issues/526)) by Jay Patel
 </details>
 
@@ -894,6 +896,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`d06095e`](https://github.com/williamboman/mason.nvim/commit/d06095e) 2022-10-09 - fix(codelldb): require GNU compatible system on linux ([#532](https://github.com/williamboman/mason.nvim/issues/532)) by William Boman
 - [`1cde8fd`](https://github.com/williamboman/mason.nvim/commit/1cde8fd) 2022-09-03 - fix(codelldb): don't symlink executable directly ([#374](https://github.com/williamboman/mason.nvim/issues/374)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -2220,6 +2223,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall html-lsp
+```
+
+
+# iferr
+
+> Go tool to generate if err != nil block for the current function.
+
+Homepage: [https://github.com/koron/iferr](https://github.com/koron/iferr)  
+Languages: `Go`  
+Categories:   
+
+<details>
+    <summary>History:</summary>
+
+- [`13217bb`](https://github.com/williamboman/mason.nvim/commit/13217bb) 2022-10-09 - feat(registry): add iferr tool for Go ([#528](https://github.com/williamboman/mason.nvim/issues/528)) by Fran Casas
+</details>
+
+```
+:MasonInstall iferr
 ```
 
 
