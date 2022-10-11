@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://github.com/withastro/language-tools",
     languages = { Pkg.Lang.Astro },
     categories = { Pkg.Cat.LSP },
-    install = npm.packages { "@astrojs/language-server", bin = { "astro-ls" } },
+    install = npm.packages { "@astrojs/language-server", "typescript", bin = { "astro-ls" } },
 }
