@@ -412,6 +412,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`c5c025a`](https://github.com/williamboman/mason.nvim/commit/c5c025a) 2022-10-11 - feat(astro): vendor typescript ([#542](https://github.com/williamboman/mason.nvim/issues/542)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -4696,6 +4697,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`b0cb03d`](https://github.com/williamboman/mason.nvim/commit/b0cb03d) 2022-10-10 - fix(visualforce-language-server): remove custom release resolution code ([#534](https://github.com/williamboman/mason.nvim/issues/534)) by William Boman
 - [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
