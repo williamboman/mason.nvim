@@ -150,6 +150,7 @@ return {
   ["powershell-editor-services"] = "mason-registry.powershell-editor-services",
   prettier = "mason-registry.prettier",
   prettierd = "mason-registry.prettierd",
+  ["prisma-fmt"] = "mason-registry.prisma-fmt",
   ["prisma-language-server"] = "mason-registry.prisma-language-server",
   proselint = "mason-registry.proselint",
   ["prosemd-lsp"] = "mason-registry.prosemd-lsp",

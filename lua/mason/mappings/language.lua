@@ -86,7 +86,7 @@ return {
   perl = { "perlnavigator" },
   php = { "intelephense", "php-cs-fixer", "php-debug-adapter", "phpactor", "phpcbf", "phpcs", "phpmd", "phpstan", "psalm" },
   powershell = { "powershell-editor-services" },
-  prisma = { "prisma-language-server" },
+  prisma = { "prisma-fmt", "prisma-language-server" },
   protobuf = { "buf", "buf-language-server" },
   puppet = { "puppet-editor-services" },
   purescript = { "purescript-language-server" },
