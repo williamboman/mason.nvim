@@ -10,7 +10,7 @@ return Pkg.new {
     name = "selene",
     desc = [[A blazing-fast modern Lua linter written in Rust]],
     homepage = "https://kampfkarren.github.io/selene/",
-    languages = { Pkg.Lang.Lua },
+    languages = { Pkg.Lang.Lua, Pkg.Lang.Luau },
     categories = { Pkg.Cat.Linter },
     ---@async
     ---@param ctx InstallContext
