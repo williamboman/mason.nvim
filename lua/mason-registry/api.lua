@@ -3,6 +3,9 @@ local fetch = require "mason-core.fetch"
 
 local api = {}
 
+-- https://github.com/williamboman/mason-registry-api
+local BASE_URL = "https://api.mason-registry.dev"
+
 local stringify_params = _.compose(_.join "&", _.map(_.join "="), _.sort_by(_.head), _.to_pairs)
 
 ---@async
@@ -14,8 +17,7 @@ function api.get(path, opts)
         local params = stringify_params(opts.params)
         path = ("%s?%s"):format(path, params)
     end
-    -- https://github.com/williamboman/mason-registry-api
-    return fetch(("https://api.mason-registry.dev%s"):format(path)):map_catching(vim.json.decode)
+    return fetch(("%s%s"):format(BASE_URL, path)):map_catching(vim.json.decode)
 end
 
 return api
