@@ -122,7 +122,7 @@ describe("npm version check", function()
         "should return outdated primary package",
         async_test(function()
             stub(api, "get")
-            api.get.on_call_with("/api/npm/bash-language-server/latest-version").returns(Result.success {
+            api.get.on_call_with("/api/npm/bash-language-server/versions/latest").returns(Result.success {
                 name = "bash-language-server",
                 version = "2.0.0",
             })
@@ -180,7 +180,7 @@ describe("npm version check", function()
                 }
             end)
             stub(api, "get")
-            api.get.on_call_with("/api/npm/bash-language-server/latest-version").returns(Result.success {
+            api.get.on_call_with("/api/npm/bash-language-server/versions/latest").returns(Result.success {
                 name = "bash-language-server",
                 version = "1.17.0",
             })
