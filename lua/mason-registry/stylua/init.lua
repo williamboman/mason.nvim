@@ -9,7 +9,7 @@ return Pkg.new {
     name = "stylua",
     desc = [[An opinionated Lua code formatter]],
     homepage = "https://github.com/JohnnyMorganz/StyLua",
-    languages = { Pkg.Lang.Lua },
+    languages = { Pkg.Lang.Lua, Pkg.Lang.Luau },
     categories = { Pkg.Cat.Formatter },
     ---@async
     ---@param ctx InstallContext
