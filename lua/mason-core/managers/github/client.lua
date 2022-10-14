@@ -25,7 +25,11 @@ local function gh_api_call(path, opts)
         .gh({ "api", path, env = { CLICOLOR_FORCE = 0 } })
         :map(_.prop "stdout")
         :recover_catching(function()
-            return fetch(("https://api.github.com/%s"):format(path)):get_or_throw()
+            return fetch(("https://api.github.com/%s"):format(path), {
+                headers = {
+                    Accept = "application/vnd.github.v3+json; q=1.0, application/json; q=0.8",
+                },
+            }):get_or_throw()
         end)
         :map_catching(vim.json.decode)
 end

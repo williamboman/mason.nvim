@@ -24,7 +24,11 @@ describe("mason-registry API", function()
         })
 
         assert.spy(fetch).was_called(1)
-        assert.spy(fetch).was_called_with "https://api.mason-registry.dev/api/data?page=2&page_limit=10&sort=ASC"
+        assert.spy(fetch).was_called_with("https://api.mason-registry.dev/api/data?page=2&page_limit=10&sort=ASC", {
+            headers = {
+                Accept = "application/vnd.mason-registry.v1+json; q=1.0, application/json; q=0.8",
+            },
+        })
     end)
 
     it("should deserialize JSON", function()
