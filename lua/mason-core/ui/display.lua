@@ -491,9 +491,9 @@ function M.new_view_only_win(name, filetype)
             assert(has_initiated, "Display has not been initiated, cannot close.")
             unsubscribe(true)
             log.fmt_trace("Closing window win_id=%s, bufnr=%s", win_id, bufnr)
-            delete_win_buf()
             vim.api.nvim_del_augroup_by_id(window_mgmt_augroup)
             vim.api.nvim_del_augroup_by_id(autoclose_augroup)
+            delete_win_buf()
         end),
         ---@param pos number[]: (row, col) tuple
         set_cursor = function(pos)
