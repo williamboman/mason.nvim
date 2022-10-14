@@ -3842,12 +3842,13 @@ Categories: `LSP`
 > A blazing-fast modern Lua linter written in Rust
 
 Homepage: [https://kampfkarren.github.io/selene/](https://kampfkarren.github.io/selene/)  
-Languages: `Lua`  
+Languages: `Lua` `Luau`  
 Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
 
+- [`d5abc15`](https://github.com/williamboman/mason.nvim/commit/d5abc15) 2022-10-13 - feat(registry): selene and stylua support for luau ([#548](https://github.com/williamboman/mason.nvim/issues/548)) by Lopy
 - [`ec59445`](https://github.com/williamboman/mason.nvim/commit/ec59445) 2022-08-03 - fix(selene): download error in Windows ([#233](https://github.com/williamboman/mason.nvim/issues/233)) by sitiom
 - [`e1e2032`](https://github.com/williamboman/mason.nvim/commit/e1e2032) 2022-07-28 - feat: selene now installed from pre-built binary ([#187](https://github.com/williamboman/mason.nvim/issues/187)) by Seth Daniel
 - [`cfd789c`](https://github.com/williamboman/mason.nvim/commit/cfd789c) 2022-07-26 - fix(selene): fix installation ([#165](https://github.com/williamboman/mason.nvim/issues/165)) by William Boman
@@ -4285,12 +4286,13 @@ Categories: `LSP`
 > An opinionated Lua code formatter
 
 Homepage: [https://github.com/JohnnyMorganz/StyLua](https://github.com/JohnnyMorganz/StyLua)  
-Languages: `Lua`  
+Languages: `Lua` `Luau`  
 Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
 
+- [`d5abc15`](https://github.com/williamboman/mason.nvim/commit/d5abc15) 2022-10-13 - feat(registry): selene and stylua support for luau ([#548](https://github.com/williamboman/mason.nvim/issues/548)) by Lopy
 - [`b36bdad`](https://github.com/williamboman/mason.nvim/commit/b36bdad) 2022-09-28 - feat(stylua): add arm64 Linux support ([#477](https://github.com/williamboman/mason.nvim/issues/477)) by WJH
 - [`a7ab60e`](https://github.com/williamboman/mason.nvim/commit/a7ab60e) 2022-07-27 - fix(stylua): use prebuilt binary instead of building with cargo ([#163](https://github.com/williamboman/mason.nvim/issues/163)) by kanhaiya38
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
