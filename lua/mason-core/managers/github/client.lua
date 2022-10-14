@@ -66,8 +66,7 @@ end
 ---@return Result # Result<GitHubRelease>
 function M.fetch_latest_release(repo, opts)
     opts = opts or { include_prerelease = false }
-    local path = ("/api/repo/%s/releases/latest"):format(repo)
-    return api.get(path, {
+    return api.repo.releases.latest({ repo = repo }, {
         params = {
             include_prerelease = opts.include_prerelease and "true" or "false",
         },
@@ -88,8 +87,7 @@ end
 ---@param repo string The GitHub repo ("username/repo").
 ---@return Result # Result<string> The latest tag name.
 function M.fetch_latest_tag(repo)
-    local path = ("/api/repo/%s/tags/latest"):format(repo)
-    return api.get(path):map(_.prop "tag")
+    return api.repo.tags.latest({ repo = repo }):map(_.prop "tag")
 end
 
 ---@async

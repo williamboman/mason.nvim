@@ -1,4 +1,5 @@
 local stub = require "luassert.stub"
+local match = require "luassert.match"
 local Result = require "mason-core.result"
 
 describe("mason-registry API", function()
@@ -37,5 +38,15 @@ describe("mason-registry API", function()
         local result = api.get("/"):get_or_throw()
 
         assert.same({ field = { "value" } }, result)
+    end)
+
+    it("should interpolate path parameters", function()
+        fetch.returns(Result.success [[{}]])
+
+        local result = api.repo.releases.latest { repo = "myrepo/name" }
+
+        assert.is_true(result:is_success())
+        assert.spy(fetch).was_called(1)
+        assert.spy(fetch).was_called_with(match.is_match "/api/repo/myrepo/name/releases/latest$", match.is_table())
     end)
 end)
