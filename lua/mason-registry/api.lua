@@ -17,7 +17,11 @@ function api.get(path, opts)
         local params = stringify_params(opts.params)
         path = ("%s?%s"):format(path, params)
     end
-    return fetch(("%s%s"):format(BASE_URL, path)):map_catching(vim.json.decode)
+    return fetch(("%s%s"):format(BASE_URL, path), {
+        headers = {
+            Accept = "application/vnd.mason-registry.v1+json; q=1.0, application/json; q=0.8",
+        },
+    }):map_catching(vim.json.decode)
 end
 
 return api
