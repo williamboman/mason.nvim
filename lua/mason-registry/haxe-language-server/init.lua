@@ -17,6 +17,7 @@ return Pkg.new {
         git.clone({ "https://github.com/vshaxe/haxe-language-server" }).with_receipt()
         ctx.spawn.npm { "install" }
         npm.exec { "lix", "run", "vshaxe-build", "-t", "language-server" }
+        ctx.spawn.npm { "install", "--production" }
         ctx:link_bin(
             "haxe-language-server",
             ctx:write_node_exec_wrapper("haxe-language-server", path.concat { "bin", "server.js" })
