@@ -2625,6 +2625,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
+- [`5812dc4`](https://github.com/williamboman/mason.nvim/commit/5812dc4) 2022-10-14 - feat(lemmy-help): use prebuilt binaries from release assets ([#555](https://github.com/williamboman/mason.nvim/issues/555)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
