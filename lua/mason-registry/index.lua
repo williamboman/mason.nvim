@@ -55,6 +55,7 @@ return {
   djlint = "mason-registry.djlint",
   ["dockerfile-language-server"] = "mason-registry.dockerfile-language-server",
   ["dot-language-server"] = "mason-registry.dot-language-server",
+  dprint = "mason-registry.dprint",
   ["editorconfig-checker"] = "mason-registry.editorconfig-checker",
   efm = "mason-registry.efm",
   ["elixir-ls"] = "mason-registry.elixir-ls",
