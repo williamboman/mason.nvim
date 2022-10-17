@@ -36,6 +36,7 @@ return {
   codelldb = "mason-registry.codelldb",
   codeql = "mason-registry.codeql",
   codespell = "mason-registry.codespell",
+  commitlint = "mason-registry.commitlint",
   cpplint = "mason-registry.cpplint",
   cpptools = "mason-registry.cpptools",
   crystalline = "mason-registry.crystalline",
