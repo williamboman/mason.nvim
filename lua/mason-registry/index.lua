@@ -112,6 +112,7 @@ return {
   ["js-debug-adapter"] = "mason-registry.js-debug-adapter",
   ["json-lsp"] = "mason-registry.json-lsp",
   ["json-to-struct"] = "mason-registry.json-to-struct",
+  jsonlint = "mason-registry.jsonlint",
   ["jsonnet-language-server"] = "mason-registry.jsonnet-language-server",
   ["julia-lsp"] = "mason-registry.julia-lsp",
   ["kotlin-language-server"] = "mason-registry.kotlin-language-server",
