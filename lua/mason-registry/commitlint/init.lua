@@ -8,5 +8,10 @@ return Pkg.new {
     homepage = "https://commitlint.js.org/",
     languages = { Pkg.Lang.GitCommit },
     categories = { Pkg.Cat.Linter },
-    install = npm.packages { "@commitlint/cli", "@commitlint/config-conventional", "commitlint-format-json", bin = { "commitlint" } },
+    install = npm.packages {
+        "@commitlint/cli",
+        "@commitlint/config-conventional",
+        "commitlint-format-json",
+        bin = { "commitlint" },
+    },
 }
