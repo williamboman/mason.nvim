@@ -17,8 +17,9 @@ return Pkg.new {
         local source = github.tag { repo = "microsoft/vscode-js-debug" }
         source.with_receipt()
         git.clone { "https://github.com/microsoft/vscode-js-debug", version = Optional.of(source.tag) }
-        ctx.spawn.npm { "install", "--legacy-peer-deps" }
+        ctx.spawn.npm { "install", "--ignore-scripts", "--legacy-peer-deps" }
         ctx.spawn.npm { "run", "compile" }
+        ctx.spawn.npm { "install", "--production", "--ignore-scripts", "--legacy-peer-deps" }
         ctx:link_bin(
             "js-debug-adapter",
             ctx:write_node_exec_wrapper("js-debug-adapter", path.concat { "out", "src", "vsDebugServer.js" })
