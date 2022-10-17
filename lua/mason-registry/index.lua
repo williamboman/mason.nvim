@@ -111,6 +111,7 @@ return {
   jq = "mason-registry.jq",
   ["js-debug-adapter"] = "mason-registry.js-debug-adapter",
   ["json-lsp"] = "mason-registry.json-lsp",
+  jsonlint = "mason-registry.jsonlint",
   ["json-to-struct"] = "mason-registry.json-to-struct",
   ["jsonnet-language-server"] = "mason-registry.jsonnet-language-server",
   ["julia-lsp"] = "mason-registry.julia-lsp",
