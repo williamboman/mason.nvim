@@ -37,6 +37,7 @@
 - [codelldb](#codelldb)
 - [codeql](#codeql)
 - [codespell](#codespell)
+- [commitlint](#commitlint)
 - [cpplint](#cpplint)
 - [cpptools](#cpptools)
 - [crystalline](#crystalline)
@@ -56,6 +57,7 @@
 - [djlint](#djlint)
 - [dockerfile-language-server](#dockerfile-language-server)
 - [dot-language-server](#dot-language-server)
+- [dprint](#dprint)
 - [editorconfig-checker](#editorconfig-checker)
 - [efm](#efm)
 - [elixir-ls](#elixir-ls)
@@ -113,6 +115,7 @@
 - [js-debug-adapter](#js-debug-adapter)
 - [json-lsp](#json-lsp)
 - [json-to-struct](#json-to-struct)
+- [jsonlint](#jsonlint)
 - [jsonnet-language-server](#jsonnet-language-server)
 - [julia-lsp](#julia-lsp)
 - [kotlin-language-server](#kotlin-language-server)
@@ -755,6 +758,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`2742ada`](https://github.com/williamboman/mason.nvim/commit/2742ada) 2022-10-17 - feat: reduce some package sizes ([#567](https://github.com/williamboman/mason.nvim/issues/567)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -947,6 +951,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall codespell
+```
+
+
+# commitlint
+
+> commitlint checks if your commit messages meet the conventional commit format.
+
+Homepage: [https://commitlint.js.org/](https://commitlint.js.org/)  
+Languages: `GitCommit`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`d3abfbe`](https://github.com/williamboman/mason.nvim/commit/d3abfbe) 2022-10-17 - feat(registry): add commitlint ([#564](https://github.com/williamboman/mason.nvim/issues/564)) by Dan Sully
+</details>
+
+```
+:MasonInstall commitlint
 ```
 
 
@@ -1327,6 +1350,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall dot-language-server
+```
+
+
+# dprint
+
+> A pluggable and configurable code formatting platform written in Rust.
+
+Homepage: [https://dprint.dev/](https://dprint.dev/)  
+Languages:   
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`da5f398`](https://github.com/williamboman/mason.nvim/commit/da5f398) 2022-10-17 - feat(registry): add dprint formatter ([#562](https://github.com/williamboman/mason.nvim/issues/562)) by Silas Groh
+</details>
+
+```
+:MasonInstall dprint
 ```
 
 
@@ -2178,6 +2220,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`2742ada`](https://github.com/williamboman/mason.nvim/commit/2742ada) 2022-10-17 - feat: reduce some package sizes ([#567](https://github.com/williamboman/mason.nvim/issues/567)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -2444,6 +2487,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`2742ada`](https://github.com/williamboman/mason.nvim/commit/2742ada) 2022-10-17 - feat: reduce some package sizes ([#567](https://github.com/williamboman/mason.nvim/issues/567)) by William Boman
 - [`75860d2`](https://github.com/williamboman/mason.nvim/commit/75860d2) 2022-09-21 - feat: add js-debug-adapter ([#442](https://github.com/williamboman/mason.nvim/issues/442)) by Hollis Wu
 </details>
 
@@ -2488,6 +2532,25 @@ Categories:
 
 ```
 :MasonInstall json-to-struct
+```
+
+
+# jsonlint
+
+> A pure JavaScript version of the service provided at jsonlint.com.
+
+Homepage: [https://github.com/zaach/jsonlint](https://github.com/zaach/jsonlint)  
+Languages: `JSON`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`2a04590`](https://github.com/williamboman/mason.nvim/commit/2a04590) 2022-10-17 - feat(registry): add jsonlint tool for JSON ([#565](https://github.com/williamboman/mason.nvim/issues/565)) by Afranio Martins
+</details>
+
+```
+:MasonInstall jsonlint
 ```
 
 
