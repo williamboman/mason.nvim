@@ -1,15 +1,17 @@
+---
+
 name: Feature request
 description: Suggest an idea for this project
 labels:
     - enhancement
 
 body:
-    - type: checkboxes
+    - type: dropdown
       attributes:
           label: I've searched open issues for similar requests
-          description: If possible, please contribute to any open issues instead of opening a new one.
+          description: If possible, please contribute to any [open issues](https://github.com/williamboman/mason.nvim/issues) instead of opening a new one.
           options:
-              - label: "Yes"
+              - "Yes"
       validations:
           required: true
 

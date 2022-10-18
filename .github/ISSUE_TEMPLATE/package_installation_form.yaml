@@ -1,3 +1,5 @@
+---
+
 name: Package installation issue
 description: Report an issue that occurs during the installation of a package
 labels:
@@ -7,16 +9,19 @@ body:
     - type: markdown
       attributes:
           value: |
-              1. 👋! This is not an issue template for questions! If you have questions, please refer to [the discussion board](https://github.com/williamboman/mason.nvim/discussions/categories/q-a) :)
-              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README.
-              1. This is not a general support board for package installation issues. Please review the error output yourself first and ensure it's not a problem that is local to your system only.
+              # Issue reporting guidelines
 
-    - type: checkboxes
+              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README. Also review `:checkhealth mason` for potential problems.
+              1. Please try to review the error yourself first and ensure it's not a problem that is local to your system only.
+
+              ---
+
+    - type: dropdown
       attributes:
-          label: I've made an initial investigation into the error myself
-          description: I've made an investigation and believe this is an error with mason.nvim (or that an improvement could be made).
+          label: I've searched open issues for similar requests
+          description: If possible, please contribute to any [open issues](https://github.com/williamboman/mason.nvim/issues?q=is%3Aissue+label%3Ainstallation-issue) instead of opening a new one.
           options:
-              - label: "Yes"
+              - "Yes"
       validations:
           required: true
 
@@ -25,13 +30,41 @@ body:
           label: I've recently downloaded the latest plugin version of mason.nvim
           options:
               - label: "Yes"
+
+    - type: textarea
+      attributes:
+          label: Problem description
+          description: A clear and short description of 1) what the issue is, and 2) why you think it's an issue with mason.nvim.
       validations:
           required: true
 
     - type: textarea
       attributes:
-          label: Problem description
-          description: A clear and concise description of what the issue is and why you think it's an issue with mason.nvim.
+          label: Expected behavior
+          description: A short description of the behavior you expected.
+      validations:
+          required: true
+
+    - type: input
+      attributes:
+          label: Affected packages
+          description: If this issue is specific to one or more packages, list them here. If not, write 'All'.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Mason output
+          description: Please provide the **installation output** available in the `:Mason` window, if possible.
+          placeholder: "Please only provide the output of the package installation."
+          render: Text
+
+    - type: textarea
+      attributes:
+          label: Installation log
+          description: "`:MasonLog`. Refer to `:help mason-debugging`"
+          placeholder: "The default log level is not helpful for debugging purposes! Make sure you set the log level to DEBUG before installing the package (:h mason-debugging)."
+          render: Text
       validations:
           required: true
 
@@ -50,43 +83,6 @@ body:
       attributes:
           label: "Operating system/version"
           description: "On Linux and Mac systems: `$ uname -a`"
-      validations:
-          required: true
-
-    - type: input
-      attributes:
-          label: Affected packages
-          description: If this issue is specific to one or more packages, list them here. If not, write 'All'.
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Actual behavior
-          description: A short description of what's happening.
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Expected behavior
-          description: A short description of the behavior you expected.
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Mason output
-          description: Please provide the installation output available in the `:Mason` window, if possible.
-          placeholder: ":Mason"
-          render: Text
-
-    - type: textarea
-      attributes:
-          label: Installation log
-          description: "Make sure you set the log level to DEBUG before installing the package. Refer to `:help mason-debugging`"
-          placeholder: ":MasonLog. Make sure you set the log level to DEBUG before installing the package (:h mason-debugging). The default log level is not helpful for debugging purposes."
-          render: Text
       validations:
           required: true
 
