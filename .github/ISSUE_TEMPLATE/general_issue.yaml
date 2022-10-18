@@ -1,3 +1,4 @@
+---
 name: Non-package-related issue
 description: Report an issue not related to installation or usage of packages
 
@@ -5,13 +6,48 @@ body:
     - type: markdown
       attributes:
           value: |
-              1. 👋! This is not an issue template for questions! If you have questions, please refer to [the discussion board](https://github.com/williamboman/mason.nvim/discussions/categories/q-a) :)
-              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README.
+              # Issue reporting guidelines
+
+              1. This is not a general support board for package usage questions (e.g. "How do I do X?"). For questions, please refer to [the discussion board](https://github.com/williamboman/mason.nvim/discussions/categories/q-a) first! :)
+              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README. Also review `:checkhealth mason` for potential problems.
+
+              ---
+
+    - type: dropdown
+      attributes:
+          label: I've searched open issues for similar requests
+          description: If possible, please contribute to any [open issues](https://github.com/williamboman/mason.nvim/issues?q=is%3Aissue) instead of opening a new one.
+          options:
+              - "Yes"
+      validations:
+          required: true
+
+    - type: checkboxes
+      attributes:
+          label: I've recently downloaded the latest plugin version of mason.nvim
+          options:
+              - label: "Yes"
 
     - type: textarea
       attributes:
           label: Problem description
-          description: A clear and concise description of what the issue is and why you think it's an issue with mason.nvim.
+          description: A clear and short description of 1) what the issue is, and 2) why you think it's an issue with mason.nvim.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Expected behavior
+          description: A short description of the behavior you expected.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Steps to reproduce
+          placeholder: |
+              1. ...
+              2. ...
       validations:
           required: true
 
@@ -30,26 +66,6 @@ body:
       attributes:
           label: "Operating system/version"
           description: "On Linux and Mac systems: `$ uname -a`"
-      validations:
-          required: true
-
-    - type: checkboxes
-      attributes:
-          label: I've recently downloaded the latest plugin version of mason.nvim
-          options:
-              - label: "Yes"
-
-    - type: textarea
-      attributes:
-          label: Actual behavior
-          description: A short description of what's happening.
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Expected behavior
-          description: A short description of the behavior you expected.
       validations:
           required: true
 

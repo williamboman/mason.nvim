@@ -1,3 +1,5 @@
+---
+
 name: Package issue
 description: Report an issue with using a package installed via mason.nvim
 labels:
@@ -7,23 +9,66 @@ body:
     - type: markdown
       attributes:
           value: |
-              1. 👋! This is not an issue template for questions! If you have questions, please refer to [the discussion board](https://github.com/williamboman/mason.nvim/discussions/categories/q-a) :)
-              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README.
+              # Issue reporting guidelines
+
+              1. This is not a general support board for package usage questions (e.g. "How do I do X?"). For questions, please refer to [the discussion board](https://github.com/williamboman/mason.nvim/discussions/categories/q-a) first! :)
+              1. Before reporting an issue, make sure that you meet the minimum requirements mentioned in the README. Also review `:checkhealth mason` for potential problems.
               1. General usage issues with packages should not be reported here. Please only report issues that you believe are a result of something that mason.nvim does.
+              1. Please try to review errors yourself first and ensure it's not a problem that is local to your system only.
+
+              ---
+
+    - type: dropdown
+      attributes:
+          label: I've searched open issues for similar requests
+          description: If possible, please contribute to any open issues instead of opening a new one.
+          options:
+              - "Yes"
+      validations:
+          required: true
+
+    - type: dropdown
+      attributes:
+          label: I've manually reviewed logs to find potential errors
+          description: Logs such as `:MasonLog`, `:LspLog`, etc. (don't paste logs without reviewing them yourself first)
+          options:
+              - "Yes"
+      validations:
+          required: true
 
     - type: checkboxes
       attributes:
-          label: I believe this to be an issue that should be addressed by maintainers of mason.nvim.
-          description: I don't believe this is an issue with (i) the package itself, or (ii) my local system.
+          label: I've recently downloaded the latest plugin version of mason.nvim
           options:
               - label: "Yes"
+
+    - type: textarea
+      attributes:
+          label: Problem description
+          description: A clear and short description of 1) what the issue is, and 2) why you think it's an issue with mason.nvim.
       validations:
           required: true
 
     - type: textarea
       attributes:
-          label: Why do you think this is an issue with mason.nvim?
-          description: A short explanation of why you think it's an issue with mason.nvim.
+          label: Expected behavior
+          description: A description of the behavior you expected.
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Steps to reproduce
+          placeholder: |
+              1. ...
+              2. ...
+      validations:
+          required: true
+
+    - type: input
+      attributes:
+          label: Affected packages
+          description: If this issue is specific to one or more packages, list them here. If not, write 'All'.
       validations:
           required: true
 
@@ -45,60 +90,6 @@ body:
       validations:
           required: true
 
-    - type: checkboxes
-      attributes:
-          label: I've manually reviewed logs to find potential errors
-          description: Logs such as `:MasonLog`, `:LspLog`, etc.
-          options:
-              - label: "Yes"
-      validations:
-          required: true
-
-    - type: checkboxes
-      attributes:
-          label: I've recently downloaded the latest plugin version of mason.nvim
-          options:
-              - label: "Yes"
-      validations:
-          required: true
-
-    - type: input
-      attributes:
-          label: Affected packages
-          description: If this issue is specific to one or more packages, list them here. If not, write 'All'.
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Problem description
-          description: A clear and concise description of what the issue is.
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Steps to reproduce
-          placeholder: |
-              1. ...
-              2. ...
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Actual behavior
-          description: Observed behavior.
-      validations:
-          required: true
-
-    - type: textarea
-      attributes:
-          label: Expected behavior
-          description: A description of the behavior you expected.
-      validations:
-          required: true
-
     - type: textarea
       attributes:
           label: Healthcheck
@@ -111,4 +102,4 @@ body:
       id: screenshots
       attributes:
           label: Screenshots or recordings
-          description: If applicable, add screenshots or recordings to help explain your problem
+          description: If applicable, add screenshots or recordings to help explain your problem.

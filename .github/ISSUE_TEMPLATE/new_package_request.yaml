@@ -1,3 +1,5 @@
+---
+
 name: New package request
 description: Request a new package not currently available
 title: "[New package]: "
@@ -5,6 +7,15 @@ labels:
     - new-package-request
 
 body:
+    - type: dropdown
+      attributes:
+          label: I've searched open & closed issues for similar requests
+          description: If possible, please contribute to [existing issues](https://github.com/williamboman/mason.nvim/issues?q=is%3Aissue+label%3Anew-package-request) instead of opening a new one.
+          options:
+              - "Yes"
+      validations:
+          required: true
+
     - type: input
       attributes:
           label: Package name
@@ -24,8 +35,6 @@ body:
           label: Languages
           description: Which languages does this package target?
           placeholder: typescript, javascript
-      validations:
-          required: true
 
     - type: textarea
       attributes:
