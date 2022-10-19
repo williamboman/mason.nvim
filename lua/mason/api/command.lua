@@ -78,7 +78,9 @@ local function join_handles(handles)
 end
 
 ---@param package_specifiers string[]
-local function MasonInstall(package_specifiers)
+---@param opts? { debug: boolean }
+local function MasonInstall(package_specifiers, opts)
+    opts = opts or {}
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
     local valid_packages = filter_valid_packages(package_specifiers)
@@ -96,7 +98,7 @@ local function MasonInstall(package_specifiers)
     local handles = _.map(function(pkg_specifier)
         local package_name, version = Package.Parse(pkg_specifier)
         local pkg = registry.get_package(package_name)
-        return pkg:install { version = version }
+        return pkg:install { version = version, debug = opts.debug }
     end, valid_packages)
 
     if is_headless then
@@ -110,8 +112,17 @@ local function MasonInstall(package_specifiers)
     end
 end
 
+---@param args string[]
+---@return table<string, true> opts, string[] args
+local function parse_args(args)
+    local opts_list, args = unpack(_.partition(_.starts_with "--", args))
+    local opts = _.set_of(_.map(_.gsub("^%-%-", ""), opts_list))
+    return opts, args
+end
+
 vim.api.nvim_create_user_command("MasonInstall", function(opts)
-    MasonInstall(opts.fargs)
+    local command_opts, packages = parse_args(opts.fargs)
+    MasonInstall(packages, command_opts)
 end, {
     desc = "Install one or more packages.",
     nargs = "+",

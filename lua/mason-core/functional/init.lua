@@ -50,6 +50,7 @@ _.flatten = list.flatten
 _.sort_by = list.sort_by
 _.uniq_by = list.uniq_by
 _.join = list.join
+_.partition = list.partition
 
 ---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"

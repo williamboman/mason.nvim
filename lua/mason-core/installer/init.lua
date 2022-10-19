@@ -147,10 +147,16 @@ function M.execute(handle, opts)
             context.stdio_sink.stderr(tostring(failure))
             context.stdio_sink.stderr "\n"
 
-            -- clean up installation dir
-            pcall(function()
-                fs.async.rmrf(context.cwd:get())
-            end)
+            if not opts.debug then
+                -- clean up installation dir
+                pcall(function()
+                    fs.async.rmrf(context.cwd:get())
+                end)
+            else
+                context.stdio_sink.stdout(
+                    ("[debug] Installation directory retained at %q.\n"):format(context.cwd:get())
+                )
+            end
 
             -- unlink linked executables (in the rare occasion an error occurs after linking)
             linker.unlink(context.package, context.receipt.links)

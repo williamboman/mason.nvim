@@ -195,4 +195,12 @@ describe("functional: list", function()
         local list = { "Person.", "Woman.", "Man.", "Person.", "Woman.", "Camera.", "TV." }
         assert.same({ "Person.", "Woman.", "Man.", "Camera.", "TV." }, _.uniq_by(_.identity, list))
     end)
+
+    it("should partition lists", function()
+        local words = { "person", "Woman", "Man", "camera", "TV" }
+        assert.same({
+            { "Woman", "Man", "TV" },
+            { "person", "camera" },
+        }, _.partition(_.matches "%u", words))
+    end)
 end)
