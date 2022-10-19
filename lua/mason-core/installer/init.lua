@@ -107,6 +107,14 @@ function M.execute(handle, opts)
     local pkg = handle.package
     local context = InstallContext.new(handle, opts)
 
+    if opts.debug then
+        local append_log = a.scope(function(chunk)
+            context.fs:append_file("mason-debug.log", chunk)
+        end)
+        handle:on("stdout", append_log)
+        handle:on("stderr", append_log)
+    end
+
     log.fmt_info("Executing installer for %s", pkg)
     return Result.run_catching(function()
         -- 1. run installer
