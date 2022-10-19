@@ -1915,6 +1915,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`980f565`](https://github.com/williamboman/mason.nvim/commit/980f565) 2022-10-18 - fix(goimports-reviser): use prebuilt github assets ([#573](https://github.com/williamboman/mason.nvim/issues/573)) by William Boman
 - [`6a2b45b`](https://github.com/williamboman/mason.nvim/commit/6a2b45b) 2022-09-11 - feat: add goimports-reviser ([#400](https://github.com/williamboman/mason.nvim/issues/400)) by Laytan Laats
 </details>
 
