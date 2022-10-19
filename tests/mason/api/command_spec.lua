@@ -37,6 +37,19 @@ describe(":MasonInstall", function()
     )
 
     it(
+        "should install provided packages in debug mode",
+        async_test(function()
+            local dummy = registry.get_package "dummy"
+            local dummy2 = registry.get_package "dummy2"
+            spy.on(Pkg, "install")
+            vim.cmd [[MasonInstall --debug dummy dummy2]]
+            assert.spy(Pkg.install).was_called(2)
+            assert.spy(Pkg.install).was_called_with(match.is_ref(dummy), { version = nil, debug = true })
+            assert.spy(Pkg.install).was_called_with(match.is_ref(dummy2), { version = nil, debug = true })
+        end)
+    )
+
+    it(
         "should open the UI window",
         async_test(function()
             local dummy = registry.get_package "dummy"

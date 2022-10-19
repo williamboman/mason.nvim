@@ -147,6 +147,7 @@ InstallContext.__index = InstallContext
 
 ---@class InstallContextOpts
 ---@field requested_version string?
+---@field debug boolean?
 
 ---@param handle InstallHandle
 ---@param opts InstallContextOpts

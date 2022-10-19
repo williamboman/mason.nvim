@@ -189,4 +189,16 @@ _.uniq_by = fun.curryN(function(id, list)
     return result
 end, 2)
 
+---@generic T
+---@param predicate fun(item: T): boolean
+---@param list T[]
+---@return T[][] # [T[], T[]]
+_.partition = fun.curryN(function(predicate, list)
+    local partitions = { {}, {} }
+    for _, item in ipairs(list) do
+        table.insert(partitions[predicate(item) and 1 or 2], item)
+    end
+    return partitions
+end, 2)
+
 return _
