@@ -4683,6 +4683,7 @@ Categories: `LSP` `Linter` `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`d005168`](https://github.com/williamboman/mason.nvim/commit/d005168) 2022-10-20 - feat(verible): add linux_x64_gnu ([#579](https://github.com/williamboman/mason.nvim/issues/579)) by William Boman
 - [`b39da84`](https://github.com/williamboman/mason.nvim/commit/b39da84) 2022-09-28 - feat(verible): add support for CentOS 7.9 ([#471](https://github.com/williamboman/mason.nvim/issues/471)) by Nikhil Jha
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
