@@ -51,7 +51,8 @@ return Pkg.new {
                                     _.format "verible-%s-CentOS-7.9.2009-Core-x86_64.tar.gz"
                                 )
                             )
-                        )
+                        ),
+                        when(platform.is.linux_x64_gnu, "verible-%s-Ubuntu-20.04-focal-x86_64.tar.gz")
                     ),
                 }
                 source.with_receipt()
