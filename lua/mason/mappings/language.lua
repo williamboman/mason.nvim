@@ -58,7 +58,7 @@ return {
   java = { "clang-format", "java-debug-adapter", "java-test", "jdtls" },
   javascript = { "chrome-debug-adapter", "clang-format", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "js-debug-adapter", "node-debug2-adapter", "prettier", "prettierd", "quick-lint-js", "rome", "typescript-language-server", "xo" },
   jinja = { "curlylint", "djlint" },
-  json = { "cfn-lint", "clang-format", "fixjson", "jq", "json-lsp", "jsonlint", "prettier", "prettierd", "spectral-language-server" },
+  json = { "cfn-lint", "clang-format", "fixjson", "jq", "json-lsp", "jsonlint", "nxls", "prettier", "prettierd", "spectral-language-server" },
   jsonnet = { "jsonnet-language-server" },
   jsx = { "prettier", "prettierd" },
   julia = { "julia-lsp" },

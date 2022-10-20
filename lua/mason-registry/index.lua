@@ -138,6 +138,7 @@ return {
   ["nickel-lang-lsp"] = "mason-registry.nickel-lang-lsp",
   nimlsp = "mason-registry.nimlsp",
   ["node-debug2-adapter"] = "mason-registry.node-debug2-adapter",
+  nxls = "mason-registry.nxls",
   ["ocaml-lsp"] = "mason-registry.ocaml-lsp",
   omnisharp = "mason-registry.omnisharp",
   ["omnisharp-mono"] = "mason-registry.omnisharp-mono",
