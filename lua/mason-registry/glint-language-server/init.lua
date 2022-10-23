@@ -4,7 +4,7 @@ local npm = require "mason-core.managers.npm"
 return Pkg.new {
     name = "glint-language-server",
     desc = [[Glint Language server, for Glimmer-flavored JavaScript and TypeScript]],
-    homepage = "https://github.com/typed-ember/glint/tree/main/packages/core",
+    homepage = "https://typed-ember.gitbook.io/glint/",
     categories = { Pkg.Cat.LSP },
     languages = {
         Pkg.Lang.Handlebars,
