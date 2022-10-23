@@ -48,21 +48,28 @@ will also need to be installed. Refer to `:checkhealth mason` for a full list.
 ==============================================================================
 QUICK START                                                 *mason-quickstart*
 
-The only thing needed to get started with mason.nvim is to make sure
-to call the `setup()` function:
+-----------------
+Setting up mason.nvim
+
+The only thing needed to get started with mason.nvim is to make sure to call
+the `setup()` function:
 
     require("mason").setup()
 
 This will enhance the Neovim session's PATH environment with the location of
 executables installed with mason.nvim.
 
-To view the UI for mason, run:
-    :Mason
+Refer to |mason-settings| for available settings.
 
-Install a package via `:MasonInstall`, for example:
+-----------------
+Installing packages
+
+Install a package via |:MasonInstall|, for example:
+
     :MasonInstall stylua
 
 You may also install multiple packages at a time:
+
     :MasonInstall stylua lua-language-server
 
 To install a specific version of a package, you may provide it as part of the
@@ -73,11 +80,34 @@ package name, like so:
 Please refer to each package's own release pages to find which versions are
 available.
 
+You may also install packages in headless mode. This will run the command in
+blocking mode and the command won't yield back until all packages have
+finished installing:
+
+    $ nvim --headless -c "MasonInstall lua-language-server rust-analyzer" -c qall
+
+Note: ~
+    You may also use the Lua API |mason-api-reference| to programmatically
+    manage package installations. Through this interface you will also gain
+    access to more features to allow further customization.
+
+-----------------
+The Mason window
+
+To view the UI for mason, run:
+    :Mason
+
+Through this UI you may explore which packages that are available, see which
+installed packages have new versions available, install, uninstall, or update
+packages, expand package information, and more. The UI comes with a set of
+keybinds which you may find in the help view by pressing `g?` when the Mason
+window is open.
+
 ==============================================================================
 HOW TO INSTALL PACKAGES                        *mason-how-to-install-packages*
 
 You may install packages either via the command interface or via Mason's Lua
-APIs. See |MasonInstall| or |mason-api-reference| for more details.
+APIs. See |:MasonInstall| or |mason-api-reference| for more details.
 
 ==============================================================================
 HOW TO USE PACKAGES                                *mason-how-to-use-packages*
@@ -109,6 +139,12 @@ OPEN THE MASON WINDOW                                                 *:Mason*
 
 Opens the graphical status window.
 
+Through this UI you may explore which packages that are available, see which
+installed packages have new versions available, install, uninstall, or update
+packages, expand package information, and more. The UI comes with a set of
+keybinds which you may find in the help view by pressing `g?` when the Mason
+window is open.
+
 ------------------------------------------------------------------------------
 INSTALLING PACKAGES                                            *:MasonInstall*
 
@@ -120,7 +156,7 @@ like so:
     :MasonInstall lua-language-server@v3.0.0
 
 Runs in blocking fashion if there are no UIs attached (i.e. running in
-headless mode), example:
+headless mode):
 
     $ nvim --headless -c "MasonInstall stylua" -c "qall"
 
