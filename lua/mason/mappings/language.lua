@@ -45,7 +45,7 @@ return {
   flux = { "flux-lsp" },
   fortran = { "fortls" },
   gitcommit = { "commitlint", "gitlint" },
-  ["glimmer"] = { "glint-language-server" },
+  glimmer = { "glint-language-server" },
   ["glimmer.javascript"] = { "glint-language-server" },
   ["glimmer.typescript"] = { "glint-language-server" },
   go = { "delve", "djlint", "go-debug-adapter", "gofumpt", "goimports", "goimports-reviser", "golangci-lint", "golangci-lint-langserver", "golines", "gomodifytags", "gopls", "gotests", "gotestsum", "iferr", "impl", "json-to-struct", "revive", "staticcheck" },

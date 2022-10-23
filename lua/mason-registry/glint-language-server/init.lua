@@ -10,7 +10,7 @@ return Pkg.new {
         Pkg.Lang.Handlebars,
         Pkg.Lang.Glimmer,
         Pkg.Lang["glimmer.typescript"],
-        Pkg.Lang["glimmer.javascript"]
+        Pkg.Lang["glimmer.javascript"],
     },
     install = npm.packages { "@glint/core", "typescript", bin = { "glint-language-server" } },
 }
