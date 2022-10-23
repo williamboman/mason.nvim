@@ -12,5 +12,5 @@ return Pkg.new {
         Pkg.Lang["typescript.glimmer"],
         Pkg.Lang["javascript.glimmer"],
     },
-    install = npm.packages { "@glint/core", "typescript", bin = { "glint-language-server" } },
+    install = npm.packages { "@glint/core", "typescript", bin = { "glint", "glint-language-server" } },
 }
