@@ -81,6 +81,7 @@
 - [fsautocomplete](#fsautocomplete)
 - [gersemi](#gersemi)
 - [gitlint](#gitlint)
+- [glint](#glint)
 - [go-debug-adapter](#go-debug-adapter)
 - [gofumpt](#gofumpt)
 - [goimports](#goimports)
@@ -139,6 +140,7 @@
 - [nickel-lang-lsp](#nickel-lang-lsp)
 - [nimlsp](#nimlsp)
 - [node-debug2-adapter](#node-debug2-adapter)
+- [nxls](#nxls)
 - [ocaml-lsp](#ocaml-lsp)
 - [omnisharp](#omnisharp)
 - [omnisharp-mono](#omnisharp-mono)
@@ -1841,6 +1843,28 @@ Categories: `Linter`
 ```
 
 
+# glint
+
+> Glint is a set of tools to aid in developing code that uses the Glimmer VM for rendering, such as
+Ember.js v3.24+ and GlimmerX projects. Similar to Vetur for Vue projects or Svelte Language Tools, Glint
+consists of a CLI and a language server to provide feedback and enforce correctness both locally during editing
+and project-wide in CI.
+
+Homepage: [https://typed-ember.gitbook.io/glint/](https://typed-ember.gitbook.io/glint/)  
+Languages: `Handlebars` `Glimmer` `TypeScript` `JavaScript`  
+Categories: `LSP` `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`d4992ee`](https://github.com/williamboman/mason.nvim/commit/d4992ee) 2022-10-23 - feat(registry): add glint ([#593](https://github.com/williamboman/mason.nvim/issues/593)) by NullVoxPopuli
+</details>
+
+```
+:MasonInstall glint
+```
+
+
 # go-debug-adapter
 
 > Go debug adapter sourced from the VSCode Go extension.
@@ -3022,6 +3046,25 @@ Categories: `DAP`
 
 ```
 :MasonInstall node-debug2-adapter
+```
+
+
+# nxls
+
+> A language server that provides code completion and more for Nx workspaces.
+
+Homepage: [https://github.com/nrwl/nx-console/tree/master/apps/nxls](https://github.com/nrwl/nx-console/tree/master/apps/nxls)  
+Languages: `JSON`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`fd4f676`](https://github.com/williamboman/mason.nvim/commit/fd4f676) 2022-10-24 - feat(registry): add nxls ([#585](https://github.com/williamboman/mason.nvim/issues/585)) by Jannis Morgenstern
+</details>
+
+```
+:MasonInstall nxls
 ```
 
 
