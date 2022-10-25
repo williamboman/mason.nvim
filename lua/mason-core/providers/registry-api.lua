@@ -4,9 +4,10 @@ local api = require "mason-registry.api"
 return {
     github = {
         get_latest_release = function(repo, opts)
+            opts = opts or {}
             return api.repo.releases.latest({ repo = repo }, {
                 params = {
-                    include_prerelease = opts.include_prerelease and "true" or "false",
+                    include_prerelease = (opts and opts.include_prerelease) and "true" or "false",
                 },
             })
         end,

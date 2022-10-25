@@ -6,10 +6,19 @@ local Result = require "mason-core.result"
 return {
     github = {
         get_latest_release = function(repo, opts)
-            return spawn
-                .gh({ "api", ("repos/%s/releases/latest"):format(repo) })
-                :map(_.prop "stdout")
-                :map_catching(vim.json.decode)
+            opts = opts or {}
+            if not opts.include_prerelease then
+                return spawn
+                    .gh({ "api", ("repos/%s/releases/latest"):format(repo) })
+                    :map(_.prop "stdout")
+                    :map_catching(vim.json.decode)
+            else
+                return spawn
+                    .gh({ "api", ("repos/%s/releases"):format(repo) })
+                    :map(_.prop "stdout")
+                    :map_catching(vim.json.decode)
+                    :map(_.find_first(_.prop_eq("draft", false)))
+            end
         end,
         get_all_release_versions = function(repo)
             return spawn
