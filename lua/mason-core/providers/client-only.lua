@@ -1,6 +1,7 @@
 local spawn = require "mason-core.spawn"
 local _ = require "mason-core.functional"
 local Result = require "mason-core.result"
+local Optional = require "mason-core.optional"
 
 ---@type Provider
 return {
@@ -18,6 +19,9 @@ return {
                     :map(_.prop "stdout")
                     :map_catching(vim.json.decode)
                     :map(_.find_first(_.prop_eq("draft", false)))
+                    :and_then(function(release)
+                        return Optional.of_nilable(release):ok_or "Failed to find latest release."
+                    end)
             end
         end,
         get_all_release_versions = function(repo)
