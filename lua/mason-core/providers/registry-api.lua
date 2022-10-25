@@ -1,0 +1,31 @@
+local api = require "mason-registry.api"
+
+---@type Provider
+return {
+    github = {
+        get_latest_release = function(repo, opts)
+            return api.repo.releases.latest({ repo = repo }, {
+                params = {
+                    include_prerelease = opts.include_prerelease and "true" or "false",
+                },
+            })
+        end,
+        get_all_release_versions = function(repo)
+            return api.repo.releases.all { repo = repo }
+        end,
+        get_latest_tag = function(repo)
+            return api.repo.tags.latest { repo = repo }
+        end,
+        get_all_tags = function(repo)
+            return api.repo.tags.all { repo = repo }
+        end,
+    },
+    npm = {
+        get_latest_version = function(pkg)
+            return api.npm.versions.latest { package = pkg }
+        end,
+        get_all_versions = function(pkg)
+            return api.npm.versions.all { package = pkg }
+        end,
+    },
+}

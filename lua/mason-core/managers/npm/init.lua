@@ -4,7 +4,7 @@ local Result = require "mason-core.result"
 local path = require "mason-core.path"
 local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
-local api = require "mason-registry.api"
+local providers = require "mason-core.providers"
 
 local list_copy = _.list_copy
 
@@ -112,7 +112,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
     local primary_package = receipt.primary_source.package
     return M.get_installed_primary_package_version(receipt, install_dir)
         :and_then(function(installed_version)
-            return api.npm.versions.latest({ package = primary_package }):map(function(response)
+            return providers.service.npm.get_latest_version(primary_package):map(function(response)
                 return {
                     installed = installed_version,
                     latest = response.version,

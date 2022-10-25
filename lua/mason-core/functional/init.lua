@@ -27,6 +27,7 @@ _.T = fun.T
 _.F = fun.F
 _.memoize = fun.memoize
 _.lazy = fun.lazy
+_.tap = fun.tap
 
 ---@module "mason-core.functional.list"
 local list = lazy_require "mason-core.functional.list"
