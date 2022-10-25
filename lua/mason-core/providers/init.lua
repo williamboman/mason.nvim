@@ -24,9 +24,8 @@ local Result = require "mason-core.result"
 
 local function lazy_require(module)
     return setmetatable({}, {
-        __index = function(m, k)
-            m[k] = require(module)[k]
-            return m[k]
+        __index = function(_, k)
+            return require(module)[k]
         end,
     })
 end
