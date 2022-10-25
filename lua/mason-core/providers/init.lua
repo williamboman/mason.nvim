@@ -30,6 +30,7 @@ local function lazy_require(module)
     })
 end
 
+---@type table<string, Provider>
 local providers = {
     ["mason-registry-api"] = lazy_require "mason-core.providers.registry-api",
     ["client-only"] = lazy_require "mason-core.providers.client-only",
