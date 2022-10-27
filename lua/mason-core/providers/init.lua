@@ -54,7 +54,11 @@ local function service_mt(service)
                             if ok and result:is_success() then
                                 return result
                             else
-                                log.fmt_error("Provider %s %s failed: %s", service, method, result:err_or_nil())
+                                if getmetatable(result) == Result then
+                                    log.fmt_error("Provider %s %s failed: %s", service, method, result:err_or_nil())
+                                else
+                                    log.fmt_error("Provider %s %s errored: %s", service, method, result)
+                                end
                             end
                         end
                     else

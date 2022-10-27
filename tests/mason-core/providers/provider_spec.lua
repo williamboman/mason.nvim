@@ -22,6 +22,13 @@ describe("providers", function()
                 end),
             },
         }
+        local really_failing_provider = {
+            github = {
+                get_all_release_versions = spy.new(function()
+                    error "Failed."
+                end),
+            },
+        }
         local successful_provider = {
             github = {
                 get_all_release_versions = spy.new(function()
@@ -31,10 +38,11 @@ describe("providers", function()
         }
 
         provider.register("failing-provider", failing_provider)
+        provider.register("really-failing-provider", really_failing_provider)
         provider.register("successful-provider", successful_provider)
 
         settings.set {
-            providers = { "failing-provider", "successful-provider" },
+            providers = { "failing-provider", "really-failing-provider", "successful-provider" },
         }
 
         assert.same(
@@ -43,6 +51,8 @@ describe("providers", function()
         )
         assert.spy(failing_provider.github.get_all_release_versions).was_called()
         assert.spy(failing_provider.github.get_all_release_versions).was_called_with "sumneko/lua-language-server"
+        assert.spy(really_failing_provider.github.get_all_release_versions).was_called()
+        assert.spy(really_failing_provider.github.get_all_release_versions).was_called_with "sumneko/lua-language-server"
         assert.spy(successful_provider.github.get_all_release_versions).was_called()
         assert.spy(successful_provider.github.get_all_release_versions).was_called_with "sumneko/lua-language-server"
     end)
