@@ -29,4 +29,12 @@ return {
             return api.npm.versions.all { package = pkg }
         end,
     },
+    pypi = {
+        get_latest_version = function(pkg)
+            return api.pypi.versions.latest { package = pkg }
+        end,
+        get_all_versions = function(pkg)
+            return api.pypi.versions.all { package = pkg }
+        end,
+    },
 }

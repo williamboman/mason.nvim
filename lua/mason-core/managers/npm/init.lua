@@ -112,7 +112,7 @@ function M.check_outdated_primary_package(receipt, install_dir)
     local primary_package = receipt.primary_source.package
     return M.get_installed_primary_package_version(receipt, install_dir)
         :and_then(function(installed_version)
-            return providers.service.npm.get_latest_version(primary_package):map(function(response)
+            return providers.npm.get_latest_version(primary_package):map(function(response)
                 return {
                     installed = installed_version,
                     latest = response.version,

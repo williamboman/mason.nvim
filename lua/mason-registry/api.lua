@@ -69,4 +69,13 @@ api.npm = {
     },
 }
 
+api.pypi = {
+    versions = {
+        ---@type ApiSignature<{ package: string }>
+        latest = get "/api/pypi/{package}/versions/latest",
+        ---@type ApiSignature<{ package: string }>
+        all = get "/api/pypi/{package}/versions/all",
+    },
+}
+
 return api

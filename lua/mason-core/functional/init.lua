@@ -46,6 +46,7 @@ _.prepend = list.prepend
 _.zip_table = list.zip_table
 _.nth = list.nth
 _.head = list.head
+_.last = list.last
 _.length = list.length
 _.flatten = list.flatten
 _.sort_by = list.sort_by
@@ -81,6 +82,7 @@ _.dec = number.dec
 ---@module "mason-core.functional.string"
 local string = lazy_require "mason-core.functional.string"
 _.matches = string.matches
+_.match = string.match
 _.format = string.format
 _.split = string.split
 _.gsub = string.gsub

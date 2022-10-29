@@ -10,6 +10,11 @@ describe("functional: string", function()
         assert.is_false(_.matches("bar", "foobaz"))
     end)
 
+    it("returns string pattern matches", function()
+        assert.same({ "foo" }, _.match("foo", "foo"))
+        assert.same({ "foo", "bar", "baz" }, _.match("(foo) (bar) (baz)", "foo bar baz"))
+    end)
+
     it("should format strings", function()
         assert.equals("Hello World!", _.format("%s", "Hello World!"))
         assert.equals("special manouvers", _.format("%s manouvers", "special"))

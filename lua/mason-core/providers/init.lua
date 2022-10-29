@@ -18,23 +18,16 @@ local Result = require "mason-core.result"
 ---@field get_latest_version? async fun(pkg: string): Result # Result<NpmPackage>
 ---@field get_all_versions? async fun(pkg: string): Result # Result<string[]>
 
+---@alias PyPiPackage { name: string, version: string }
+
+---@class PyPiProvider
+---@field get_latest_version? async fun(pkg: string): Result # Result<PyPiPackage>
+---@field get_all_versions? async fun(pkg: string): Result # Result<string[]> # Sorting should not be relied upon due to "proprietary" sorting algo in pip that is difficult to replicate in mason-registry-api.
+
 ---@class Provider
 ---@field github? GitHubProvider
 ---@field npm? NpmProvider
-
-local function lazy_require(module)
-    return setmetatable({}, {
-        __index = function(_, k)
-            return require(module)[k]
-        end,
-    })
-end
-
----@type table<string, Provider>
-local providers = {
-    ["mason-registry-api"] = lazy_require "mason-core.providers.registry-api",
-    ["client-only"] = lazy_require "mason-core.providers.client-only",
-}
+---@field pypi? PyPiProvider
 
 local function service_mt(service)
     return setmetatable({}, {
@@ -44,9 +37,9 @@ local function service_mt(service)
                     log.error "No providers configured."
                     return Result.failure "1 or more providers are required."
                 end
-                for _, provider_name in ipairs(settings.current.providers) do
-                    local provider = providers[provider_name]
-                    if provider then
+                for _, provider_module in ipairs(settings.current.providers) do
+                    local ok, provider = pcall(require, provider_module)
+                    if ok and provider then
                         local impl = provider[service] and provider[service][method]
                         if impl then
                             ---@type boolean, Result
@@ -62,7 +55,7 @@ local function service_mt(service)
                             end
                         end
                     else
-                        log.fmt_error("Provider %s is not registered.", provider_name)
+                        log.fmt_error("Unable to find provider %s is not registered. %s", provider_module, provider)
                     end
                 end
                 local err = ("No provider implementation found for %s.%s"):format(service, method)
@@ -73,17 +66,12 @@ local function service_mt(service)
     })
 end
 
-return {
-    ---@type Provider
-    service = setmetatable({}, {
-        __index = function(tbl, service)
-            tbl[service] = service_mt(service)
-            return tbl[service]
-        end,
-    }),
-    ---@param key string
-    ---@param provider Provider
-    register = function(key, provider)
-        providers[key] = provider
+---@type Provider
+local providers = setmetatable({}, {
+    __index = function(tbl, service)
+        tbl[service] = service_mt(service)
+        return tbl[service]
     end,
-}
+})
+
+return providers

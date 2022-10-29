@@ -63,7 +63,7 @@ end
 ---@return Result # Result<GitHubRelease>
 function M.fetch_latest_release(repo, opts)
     opts = opts or { include_prerelease = false }
-    return providers.service.github.get_latest_release(repo, { include_prerelease = opts.include_prerelease })
+    return providers.github.get_latest_release(repo, { include_prerelease = opts.include_prerelease })
 end
 
 ---@async
@@ -80,7 +80,7 @@ end
 ---@param repo string The GitHub repo ("username/repo").
 ---@return Result # Result<string> The latest tag name.
 function M.fetch_latest_tag(repo)
-    return providers.service.github.get_latest_tag(repo):map(_.prop "tag")
+    return providers.github.get_latest_tag(repo):map(_.prop "tag")
 end
 
 ---@async
