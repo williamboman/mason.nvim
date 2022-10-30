@@ -48,5 +48,5 @@ return {
     get_latest_version = function(pkg)
         return get_all_versions(pkg):map(_.compose(Optional.of_nilable, _.last)):and_then(synthesize_pkg(pkg))
     end,
-    get_all_versions_unsorted = get_all_versions,
+    get_all_versions = get_all_versions,
 }
