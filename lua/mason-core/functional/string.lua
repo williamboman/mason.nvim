@@ -8,6 +8,10 @@ _.matches = fun.curryN(function(pattern, str)
     return str:match(pattern) ~= nil
 end, 2)
 
+_.match = fun.curryN(function(pattern, str)
+    return { str:match(pattern) }
+end, 2)
+
 ---@param template string
 ---@param str string
 _.format = fun.curryN(function(template, str)

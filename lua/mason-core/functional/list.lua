@@ -148,6 +148,13 @@ end, 2)
 
 _.head = _.nth(1)
 
+---@generic T
+---@param list T[]
+---@return T?
+_.last = function(list)
+    return list[#list]
+end
+
 ---@param value string|any[]
 _.length = function(value)
     return #value

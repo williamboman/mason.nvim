@@ -7,6 +7,7 @@ local Optional = require "mason-core.optional"
 local installer = require "mason-core.installer"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
+local providers = require "mason-core.providers"
 
 local VENV_DIR = "venv"
 
@@ -103,36 +104,27 @@ function M.check_outdated_primary_package(receipt, install_dir)
         return Result.failure "Receipt does not have a primary source of type pip3"
     end
     local normalized_package = M.normalize_package(receipt.primary_source.package)
-    return spawn
-        .python({
-            "-m",
-            "pip",
-            "list",
-            "--outdated",
-            "--format=json",
-            cwd = install_dir,
-            with_paths = { M.venv_path(install_dir) },
-        })
-        :map_catching(function(result)
-            ---@alias PipOutdatedPackage {name: string, version: string, latest_version: string}
-            ---@type PipOutdatedPackage[]
-            local packages = vim.json.decode(result.stdout)
-
-            local outdated_primary_package = _.find_first(function(outdated_package)
-                return outdated_package.name == normalized_package
-                    and outdated_package.version ~= outdated_package.latest_version
-            end, packages)
-
-            return Optional.of_nilable(outdated_primary_package)
-                :map(function(pkg)
-                    return {
+    return M.get_installed_primary_package_version(receipt, install_dir):and_then(function(installed_version)
+        return providers.pypi
+            .get_latest_version(normalized_package)
+            :map(function(latest)
+                return {
+                    current = installed_version,
+                    latest = latest.version,
+                }
+            end)
+            :and_then(function(versions)
+                if versions.current ~= versions.latest then
+                    return Result.success {
                         name = normalized_package,
-                        current_version = assert(pkg.version, "missing current pip3 package version"),
-                        latest_version = assert(pkg.latest_version, "missing latest pip3 package version"),
+                        current_version = versions.current,
+                        latest_version = versions.latest,
                     }
-                end)
-                :or_else_throw "Primary package is not outdated."
-        end)
+                else
+                    return Result.failure "Primary package is not outdated."
+                end
+            end)
+    end)
 end
 
 ---@async
