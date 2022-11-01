@@ -16,14 +16,15 @@ return Pkg.new {
     ---@param ctx InstallContext
     install = function(ctx)
         local asset_file = coalesce(
-            when(platform.is.mac, "taplo-full-x86_64-apple-darwin-gnu.tar.gz"),
-            when(platform.is.linux_x64, "taplo-full-x86_64-unknown-linux-gnu.tar.gz")
+            when(platform.is.mac, "taplo-full-darwin-x86_64.gz"),
+            when(platform.is.linux_x64, "taplo-full-linux-x86_64.gz")
         )
         if asset_file then
             github
-                .untargz_release_file({
+                .gunzip_release_file({
                     repo = "tamasfe/taplo",
                     asset_file = asset_file,
+                    out_file = "taplo",
                 })
                 .with_receipt()
             ctx:link_bin("taplo", "taplo")
