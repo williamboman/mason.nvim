@@ -3,6 +3,7 @@ local cargo = require "mason-core.managers.cargo"
 local github = require "mason-core.managers.github"
 local _ = require "mason-core.functional"
 local platform = require "mason-core.platform"
+local std = require "mason-core.managers.std"
 
 local coalesce, when = _.coalesce, _.when
 
@@ -27,6 +28,7 @@ return Pkg.new {
                     out_file = "taplo",
                 })
                 .with_receipt()
+            std.chmod("+x", { "taplo" })
             ctx:link_bin("taplo", "taplo")
         else
             cargo
