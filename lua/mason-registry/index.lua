@@ -152,6 +152,7 @@ return {
   phpcs = "mason-registry.phpcs",
   phpmd = "mason-registry.phpmd",
   phpstan = "mason-registry.phpstan",
+  pint = "mason-registry.pint",
   ["powershell-editor-services"] = "mason-registry.powershell-editor-services",
   prettier = "mason-registry.prettier",
   prettierd = "mason-registry.prettierd",
