@@ -153,6 +153,7 @@
 - [phpcs](#phpcs)
 - [phpmd](#phpmd)
 - [phpstan](#phpstan)
+- [pint](#pint)
 - [powershell-editor-services](#powershell-editor-services)
 - [prettier](#prettier)
 - [prettierd](#prettierd)
@@ -3317,6 +3318,25 @@ Categories: `Linter`
 ```
 
 
+# pint
+
+> Laravel Pint is an opinionated PHP code style fixer for minimalists.
+
+Homepage: [https://laravel.com/docs/9.x/pint](https://laravel.com/docs/9.x/pint)  
+Languages: `PHP`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`f466ced`](https://github.com/williamboman/mason.nvim/commit/f466ced) 2022-11-01 - feat(registry): add laravel pint ([#614](https://github.com/williamboman/mason.nvim/issues/614)) by Michael Utz
+</details>
+
+```
+:MasonInstall pint
+```
+
+
 # powershell-editor-services
 
 > A common platform for PowerShell development support in any editor or application!
@@ -4505,6 +4525,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`f01129e`](https://github.com/williamboman/mason.nvim/commit/f01129e) 2022-11-01 - fix(taplo): rename files to match upstream ([#613](https://github.com/williamboman/mason.nvim/issues/613)) by ishigoemon
 - [`9a4dc41`](https://github.com/williamboman/mason.nvim/commit/9a4dc41) 2022-08-03 - fix(taplo): write receipt when installing via cargo ([#237](https://github.com/williamboman/mason.nvim/issues/237)) by William Boman
 - [`66f8670`](https://github.com/williamboman/mason.nvim/commit/66f8670) 2022-07-30 - feat(taplo): use prebuilt binary if available ([#201](https://github.com/williamboman/mason.nvim/issues/201)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
