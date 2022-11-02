@@ -1,8 +1,9 @@
-local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 local mock = require "luassert.mock"
 local spawn = require "mason-core.spawn"
 local Result = require "mason-core.result"
 local installer = require "mason-core.installer"
+local _ = require "mason-core.functional"
 
 local git = require "mason-core.managers.git"
 
@@ -91,11 +92,10 @@ describe("git version check", function()
     it(
         "should return current version",
         async_test(function()
-            spawn.git = spy.new(function()
-                return Result.success {
-                    stdout = [[19c668c]],
-                }
-            end)
+            stub(spawn, "git")
+            spawn.git.returns(Result.success {
+                stdout = [[19c668c]],
+            })
 
             local result = git.get_installed_revision({ type = "git" }, "/tmp/install/dir")
 
@@ -103,20 +103,19 @@ describe("git version check", function()
             assert.spy(spawn.git).was_called_with { "rev-parse", "--short", "HEAD", cwd = "/tmp/install/dir" }
             assert.is_true(result:is_success())
             assert.equals("19c668c", result:get_or_nil())
-
-            spawn.git = nil
         end)
     )
 
     it(
         "should check for outdated git clone",
         async_test(function()
-            spawn.git = spy.new(function()
-                return Result.success {
-                    stdout = [[728307a74cd5f2dec7ca2ca164785c25673d6328
-19c668cd10695b243b09452f0dfd53570c1a2e7d]],
-                }
-            end)
+            stub(spawn, "git")
+            spawn.git.returns(Result.success {
+                stdout = _.dedent [[
+                    728307a74cd5f2dec7ca2ca164785c25673d6328
+                    19c668cd10695b243b09452f0dfd53570c1a2e7d
+                ]],
+            })
 
             local result = git.check_outdated_git_clone(
                 mock.new {
@@ -147,20 +146,19 @@ describe("git version check", function()
                 current_version = "19c668cd10695b243b09452f0dfd53570c1a2e7d",
                 latest_version = "728307a74cd5f2dec7ca2ca164785c25673d6328",
             }, result:get_or_nil())
-
-            spawn.git = nil
         end)
     )
 
     it(
         "should return failure if clone is not outdated",
         async_test(function()
-            spawn.git = spy.new(function()
-                return Result.success {
-                    stdout = [[19c668cd10695b243b09452f0dfd53570c1a2e7d
-19c668cd10695b243b09452f0dfd53570c1a2e7d]],
-                }
-            end)
+            stub(spawn, "git")
+            spawn.git.returns(Result.success {
+                stdout = _.dedent [[
+                    19c668cd10695b243b09452f0dfd53570c1a2e7d
+                    19c668cd10695b243b09452f0dfd53570c1a2e7d
+                ]],
+            })
 
             local result = git.check_outdated_git_clone(
                 mock.new {
@@ -174,7 +172,6 @@ describe("git version check", function()
 
             assert.is_true(result:is_failure())
             assert.equals("Git clone is up to date.", result:err_or_nil())
-            spawn.git = nil
         end)
     )
 end)

@@ -1,4 +1,5 @@
 local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 local mock = require "luassert.mock"
 local installer = require "mason-core.installer"
 local composer = require "mason-core.managers.composer"
@@ -65,18 +66,17 @@ describe("composer version check", function()
     it(
         "should return current version",
         async_test(function()
-            spawn.composer = spy.new(function()
-                return Result.success {
-                    stdout = [[
-{
-    "name": "vimeo/psalm",
-    "versions": [
-        "4.0.0"
-    ]
-}
-]],
-                }
-            end)
+            stub(spawn, "composer")
+            spawn.composer.returns(Result.success {
+                stdout = [[
+                    {
+                        "name": "vimeo/psalm",
+                        "versions": [
+                            "4.0.0"
+                        ]
+                    }
+                ]],
+            })
 
             local result = composer.get_installed_primary_package_version(
                 mock.new {
@@ -97,31 +97,28 @@ describe("composer version check", function()
             }
             assert.is_true(result:is_success())
             assert.equals("4.0.0", result:get_or_nil())
-
-            spawn.composer = nil
         end)
     )
 
     it(
         "should return outdated primary package",
         async_test(function()
-            spawn.composer = spy.new(function()
-                return Result.success {
-                    stdout = [[
-{
-    "installed": [
-        {
-            "name": "vimeo/psalm",
-            "version": "4.0.0",
-            "latest": "4.22.0",
-            "latest-status": "semver-safe-update",
-            "description": "A static analysis tool for finding errors in PHP applications"
-        }
-    ]
-}
-]],
-                }
-            end)
+            stub(spawn, "composer")
+            spawn.composer.returns(Result.success {
+                stdout = [[
+                    {
+                        "installed": [
+                            {
+                                "name": "vimeo/psalm",
+                                "version": "4.0.0",
+                                "latest": "4.22.0",
+                                "latest-status": "semver-safe-update",
+                                "description": "A static analysis tool for finding errors in PHP applications"
+                            }
+                        ]
+                    }
+                ]],
+            })
 
             local result = composer.check_outdated_primary_package(
                 mock.new {
@@ -146,19 +143,16 @@ describe("composer version check", function()
                 current_version = "4.0.0",
                 latest_version = "4.22.0",
             }, result:get_or_nil())
-
-            spawn.composer = nil
         end)
     )
 
     it(
         "should return failure if primary package is not outdated",
         async_test(function()
-            spawn.composer = spy.new(function()
-                return Result.success {
-                    stdout = [[{"installed": []}]],
-                }
-            end)
+            stub(spawn, "composer")
+            spawn.composer.returns(Result.success {
+                stdout = [[{"installed": []}]],
+            })
 
             local result = composer.check_outdated_primary_package(
                 mock.new {
@@ -172,7 +166,6 @@ describe("composer version check", function()
 
             assert.is_true(result:is_failure())
             assert.equals("Primary package is not outdated.", result:err_or_nil())
-            spawn.composer = nil
         end)
     )
 end)
