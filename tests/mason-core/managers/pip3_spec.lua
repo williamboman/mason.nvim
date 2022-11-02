@@ -3,6 +3,7 @@ local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 local path = require "mason-core.path"
 
+local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local pip3 = require "mason-core.managers.pip3"
 local installer = require "mason-core.installer"
@@ -157,13 +158,17 @@ describe("pip3 version check", function()
     it(
         "should return current version",
         async_test(function()
-            spawn.python = spy.new(function()
-                return Result.success {
-                    stdout = [[
-    [{"name": "astroid", "version": "2.9.3"}, {"name": "mccabe", "version": "0.6.1"}, {"name": "python-lsp-server", "version": "1.3.0", "latest_version": "1.4.0", "latest_filetype": "wheel"}, {"name": "wrapt", "version": "1.13.3", "latest_version": "1.14.0", "latest_filetype": "wheel"}]
-                    ]],
-                }
-            end)
+            stub(spawn, "python")
+            spawn.python.returns(Result.success {
+                stdout = _.dedent [[
+                    [
+                        {"name": "astroid", "version": "2.9.3"},
+                        {"name": "mccabe", "version": "0.6.1"},
+                        {"name": "python-lsp-server", "version": "1.3.0", "latest_version": "1.4.0", "latest_filetype": "wheel"},
+                        {"name": "wrapt", "version": "1.13.3", "latest_version": "1.14.0", "latest_filetype": "wheel"}
+                    ]
+                ]],
+            })
 
             local result = pip3.get_installed_primary_package_version(
                 mock.new {
@@ -186,8 +191,6 @@ describe("pip3 version check", function()
             }
             assert.is_true(result:is_success())
             assert.equals("1.3.0", result:get_or_nil())
-
-            spawn.python = nil
         end)
     )
 
@@ -199,13 +202,17 @@ describe("pip3 version check", function()
                 name = "python-lsp-server",
                 version = "1.4.0",
             })
-            spawn.python = spy.new(function()
-                return Result.success {
-                    stdout = [[
-    [{"name": "astroid", "version": "2.9.3"}, {"name": "mccabe", "version": "0.6.1"}, {"name": "python-lsp-server", "version": "1.3.0", "latest_version": "1.4.0", "latest_filetype": "wheel"}, {"name": "wrapt", "version": "1.13.3", "latest_version": "1.14.0", "latest_filetype": "wheel"}]
-                    ]],
-                }
-            end)
+            stub(spawn, "python")
+            spawn.python.returns(Result.success {
+                stdout = [[
+                    [
+                        {"name": "astroid", "version": "2.9.3"},
+                        {"name": "mccabe", "version": "0.6.1"},
+                        {"name": "python-lsp-server", "version": "1.3.0", "latest_version": "1.4.0", "latest_filetype": "wheel"},
+                        {"name": "wrapt", "version": "1.13.3", "latest_version": "1.14.0", "latest_filetype": "wheel"}
+                    ]
+                ]],
+            })
 
             local result = pip3.check_outdated_primary_package(
                 mock.new {
@@ -223,21 +230,23 @@ describe("pip3 version check", function()
                 current_version = "1.3.0",
                 latest_version = "1.4.0",
             }, result:get_or_nil())
-
-            spawn.python = nil
         end)
     )
 
     it(
         "should return failure if primary package is not outdated",
         async_test(function()
-            spawn.python = spy.new(function()
-                return Result.success {
-                    stdout = [[
-    [{"name": "astroid", "version": "2.9.3"}, {"name": "mccabe", "version": "0.6.1"}, {"name": "python-lsp-server", "version": "1.3.0", "latest_version": "1.4.0", "latest_filetype": "wheel"}, {"name": "wrapt", "version": "1.13.3", "latest_version": "1.14.0", "latest_filetype": "wheel"}]
-                    ]],
-                }
-            end)
+            stub(spawn, "python")
+            spawn.python.returns(Result.success {
+                stdout = [[
+                    [
+                        {"name": "astroid", "version": "2.9.3"},
+                        {"name": "mccabe", "version": "0.6.1"},
+                        {"name": "python-lsp-server", "version": "1.3.0", "latest_version": "1.4.0", "latest_filetype": "wheel"},
+                        {"name": "wrapt", "version": "1.13.3", "latest_version": "1.14.0", "latest_filetype": "wheel"}
+                    ]
+                ]],
+            })
             stub(api, "get")
             api.get.on_call_with("/api/pypi/python-lsp-server/versions/latest").returns(Result.success {
                 name = "python-lsp-server",
@@ -256,7 +265,6 @@ describe("pip3 version check", function()
 
             assert.is_true(result:is_failure())
             assert.equals("Primary package is not outdated.", result:err_or_nil())
-            spawn.python = nil
         end)
     )
 end)

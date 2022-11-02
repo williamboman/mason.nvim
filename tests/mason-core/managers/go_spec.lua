@@ -84,9 +84,8 @@ gopls: go1.18
     it(
         "should return current version",
         async_test(function()
-            spawn.go = spy.new(function()
-                return Result.success { stdout = go_version_output }
-            end)
+            stub(spawn, "go")
+            spawn.go.returns(Result.success { stdout = go_version_output })
 
             local result = go.get_installed_primary_package_version(
                 mock.new {
@@ -107,8 +106,6 @@ gopls: go1.18
             }
             assert.is_true(result:is_success())
             assert.equals("v0.8.1", result:get_or_nil())
-
-            spawn.go = nil
         end)
     )
 
@@ -159,8 +156,6 @@ gopls: go1.18
                 current_version = "v0.8.1",
                 latest_version = "v2.0.0",
             }, result:get_or_nil())
-
-            spawn.go = nil
         end)
     )
 

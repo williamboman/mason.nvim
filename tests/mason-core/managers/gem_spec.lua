@@ -7,6 +7,7 @@ local gem = require "mason-core.managers.gem"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
 local api = require "mason-registry.api"
+local _ = require "mason-core.functional"
 
 describe("gem manager", function()
     it(
@@ -59,16 +60,16 @@ describe("gem version check", function()
     it(
         "should return current version",
         async_test(function()
-            spawn.gem = spy.new(function()
-                return Result.success {
-                    stdout = [[shellwords (default: 0.1.0)
-singleton (default: 0.1.1)
-solargraph (0.44.0)
-stringio (default: 3.0.1)
-strscan (default: 3.0.1)
-]],
-                }
-            end)
+            stub(spawn, "gem")
+            spawn.gem.returns(Result.success {
+                stdout = _.dedent [[
+                    shellwords (default: 0.1.0)
+                    singleton (default: 0.1.1)
+                    solargraph (0.44.0)
+                    stringio (default: 3.0.1)
+                    strscan (default: 3.0.1)
+                ]],
+            })
 
             local result = gem.get_installed_primary_package_version(
                 mock.new {
@@ -92,24 +93,22 @@ strscan (default: 3.0.1)
             })
             assert.is_true(result:is_success())
             assert.equals("0.44.0", result:get_or_nil())
-
-            spawn.gem = nil
         end)
     )
 
     it(
         "should return outdated primary package",
         async_test(function()
-            spawn.gem = spy.new(function()
-                return Result.success {
-                    stdout = [[shellwords (default: 0.1.0)
-singleton (default: 0.1.1)
-solargraph (0.44.0)
-stringio (default: 3.0.1)
-strscan (default: 3.0.1)
-]],
-                }
-            end)
+            stub(spawn, "gem")
+            spawn.gem.returns(Result.success {
+                stdout = _.dedent [[
+                    shellwords (default: 0.1.0)
+                    singleton (default: 0.1.1)
+                    solargraph (0.44.0)
+                    stringio (default: 3.0.1)
+                    strscan (default: 3.0.1)
+                ]],
+            })
             stub(api, "get")
             api.get.on_call_with("/api/rubygems/solargraph/versions/latest").returns(Result.success {
                 name = "solargraph",
@@ -132,24 +131,22 @@ strscan (default: 3.0.1)
                 current_version = "0.44.0",
                 latest_version = "0.44.3",
             }, result:get_or_nil())
-
-            spawn.gem = nil
         end)
     )
 
     it(
         "should return failure if primary package is not outdated",
         async_test(function()
-            spawn.gem = spy.new(function()
-                return Result.success {
-                    stdout = [[shellwords (default: 0.1.0)
-singleton (default: 0.1.1)
-solargraph (0.44.0)
-stringio (default: 3.0.1)
-strscan (default: 3.0.1)
-]],
-                }
-            end)
+            stub(spawn, "gem")
+            spawn.gem.returns(Result.success {
+                stdout = _.dedent [[
+                    shellwords (default: 0.1.0)
+                    singleton (default: 0.1.1)
+                    solargraph (0.44.0)
+                    stringio (default: 3.0.1)
+                    strscan (default: 3.0.1)
+                ]],
+            })
             stub(api, "get")
             api.get.on_call_with("/api/rubygems/solargraph/versions/latest").returns(Result.success {
                 name = "solargraph",
@@ -168,7 +165,6 @@ strscan (default: 3.0.1)
 
             assert.is_true(result:is_failure())
             assert.equals("Primary package is not outdated.", result:err_or_nil())
-            spawn.gem = nil
         end)
     )
 
