@@ -6,7 +6,7 @@ local spawn = require "mason-core.spawn"
 local Optional = require "mason-core.optional"
 local installer = require "mason-core.installer"
 local platform = require "mason-core.platform"
-local fs = require "mason-core.fs"
+local providers = require "mason-core.providers"
 
 local M = {}
 
@@ -98,26 +98,6 @@ end
 
 ---@alias GemOutdatedPackage {name:string, current_version: string, latest_version: string}
 
----Parses a string input like "package (0.1.0 < 0.2.0)" into its components
----@param outdated_gem string
----@return GemOutdatedPackage
-function M.parse_outdated_gem(outdated_gem)
-    local package_name, version_expression = outdated_gem:match "^(.+) %((.+)%)"
-    if not package_name or not version_expression then
-        -- unparsable
-        return nil
-    end
-    local current_version, latest_version = unpack(vim.split(version_expression, "<"))
-
-    ---@type GemOutdatedPackage
-    local outdated_package = {
-        name = vim.trim(package_name),
-        current_version = vim.trim(current_version),
-        latest_version = vim.trim(latest_version),
-    }
-    return outdated_package
-end
-
 ---Parses the stdout of the `gem list` command into a table<package_name, version>
 ---@param output string
 function M.parse_gem_list_output(output)
@@ -132,10 +112,6 @@ function M.parse_gem_list_output(output)
     return gem_versions
 end
 
-local function not_empty(s)
-    return s ~= nil and s ~= ""
-end
-
 ---@async
 ---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
@@ -143,25 +119,26 @@ function M.check_outdated_primary_package(receipt, install_dir)
     if receipt.primary_source.type ~= "gem" then
         return Result.failure "Receipt does not have a primary source of type gem"
     end
-    return spawn.gem({ "outdated", cwd = install_dir, env = env(install_dir) }):map_catching(function(result)
-        ---@type string[]
-        local lines = vim.split(result.stdout, "\n")
-        local outdated_gems = vim.tbl_map(M.parse_outdated_gem, vim.tbl_filter(not_empty, lines))
-
-        local outdated_gem = _.find_first(function(gem)
-            return gem.name == receipt.primary_source.package and gem.current_version ~= gem.latest_version
-        end, outdated_gems)
-
-        return Optional.of_nilable(outdated_gem)
-            :map(function(gem)
+    return M.get_installed_primary_package_version(receipt, install_dir)
+        :and_then(function(installed_version)
+            return providers.rubygems.get_latest_version(receipt.primary_source.package):map(function(latest)
                 return {
-                    name = receipt.primary_source.package,
-                    current_version = assert(gem.current_version, "current_version missing in gem"),
-                    latest_version = assert(gem.latest_version, "latest_version missing in gem"),
+                    installed = installed_version,
+                    latest = latest.version,
                 }
             end)
-            :or_else_throw "Primary package is not outdated."
-    end)
+        end)
+        :and_then(function(versions)
+            if versions.installed ~= versions.latest then
+                return Result.success {
+                    name = receipt.primary_source.package,
+                    current_version = versions.installed,
+                    latest_version = versions.latest,
+                }
+            else
+                return Result.failure "Primary package is not outdated."
+            end
+        end)
 end
 
 ---@async

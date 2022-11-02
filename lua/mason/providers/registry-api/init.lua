@@ -37,4 +37,12 @@ return {
             return api.pypi.versions.all { package = pkg }
         end,
     },
+    rubygems = {
+        get_latest_version = function(gem)
+            return api.rubygems.versions.latest { gem = gem }
+        end,
+        get_all_versions = function(gem)
+            return api.rubygems.versions.all { gem = gem }
+        end,
+    },
 }

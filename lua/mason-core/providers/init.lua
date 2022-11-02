@@ -24,10 +24,17 @@ local Result = require "mason-core.result"
 ---@field get_latest_version? async fun(pkg: string): Result # Result<PyPiPackage>
 ---@field get_all_versions? async fun(pkg: string): Result # Result<string[]> # Sorting should not be relied upon due to "proprietary" sorting algo in pip that is difficult to replicate in mason-registry-api.
 
+---@alias RubyGem { name: string, version: string }
+
+---@class RubyGemsProvider
+---@field get_latest_version? async fun(gem: string): Result # Result<RubyGem>
+---@field get_all_versions? async fun(gem: string): Result # Result<string[]>
+
 ---@class Provider
 ---@field github? GitHubProvider
 ---@field npm? NpmProvider
 ---@field pypi? PyPiProvider
+---@field rubygems? RubyGemsProvider
 
 local function service_mt(service)
     return setmetatable({}, {

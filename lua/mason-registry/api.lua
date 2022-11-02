@@ -78,4 +78,13 @@ api.pypi = {
     },
 }
 
+api.rubygems = {
+    versions = {
+        ---@type ApiSignature<{ gem: string }>
+        latest = get "/api/rubygems/{gem}/versions/latest",
+        ---@type ApiSignature<{ gem: string }>
+        all = get "/api/rubygemspypi/{gem}/versions/all",
+    },
+}
+
 return api

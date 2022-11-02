@@ -1,10 +1,12 @@
 local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
 local installer = require "mason-core.installer"
 local gem = require "mason-core.managers.gem"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
+local api = require "mason-registry.api"
 
 describe("gem manager", function()
     it(
@@ -100,16 +102,19 @@ strscan (default: 3.0.1)
         async_test(function()
             spawn.gem = spy.new(function()
                 return Result.success {
-                    stdout = [[bigdecimal (3.1.1 < 3.1.2)
-cgi (0.3.1 < 0.3.2)
-logger (1.5.0 < 1.5.1)
-ostruct (0.5.2 < 0.5.3)
-reline (0.3.0 < 0.3.1)
-securerandom (0.1.1 < 0.2.0)
-solargraph (0.44.0 < 0.44.3)
+                    stdout = [[shellwords (default: 0.1.0)
+singleton (default: 0.1.1)
+solargraph (0.44.0)
+stringio (default: 3.0.1)
+strscan (default: 3.0.1)
 ]],
                 }
             end)
+            stub(api, "get")
+            api.get.on_call_with("/api/rubygems/solargraph/versions/latest").returns(Result.success {
+                name = "solargraph",
+                version = "0.44.3",
+            })
 
             local result = gem.check_outdated_primary_package(
                 mock.new {
@@ -121,16 +126,6 @@ solargraph (0.44.0 < 0.44.3)
                 "/tmp/install/dir"
             )
 
-            assert.spy(spawn.gem).was_called(1)
-            assert.spy(spawn.gem).was_called_with(match.tbl_containing {
-                "outdated",
-                cwd = "/tmp/install/dir",
-                env = match.tbl_containing {
-                    GEM_HOME = "/tmp/install/dir",
-                    GEM_PATH = "/tmp/install/dir",
-                    PATH = match.matches "^/tmp/install/dir/bin:.*$",
-                },
-            })
             assert.is_true(result:is_success())
             assert.same({
                 name = "solargraph",
@@ -147,9 +142,19 @@ solargraph (0.44.0 < 0.44.3)
         async_test(function()
             spawn.gem = spy.new(function()
                 return Result.success {
-                    stdout = "",
+                    stdout = [[shellwords (default: 0.1.0)
+singleton (default: 0.1.1)
+solargraph (0.44.0)
+stringio (default: 3.0.1)
+strscan (default: 3.0.1)
+]],
                 }
             end)
+            stub(api, "get")
+            api.get.on_call_with("/api/rubygems/solargraph/versions/latest").returns(Result.success {
+                name = "solargraph",
+                version = "0.44.0",
+            })
 
             local result = gem.check_outdated_primary_package(
                 mock.new {
@@ -166,25 +171,6 @@ solargraph (0.44.0 < 0.44.3)
             spawn.gem = nil
         end)
     )
-
-    it("parses outdated gem output", function()
-        local normalize = gem.parse_outdated_gem
-        assert.same({
-            name = "solargraph",
-            current_version = "0.42.2",
-            latest_version = "0.44.2",
-        }, normalize [[solargraph (0.42.2 < 0.44.2)]])
-        assert.same({
-            name = "sorbet-runtime",
-            current_version = "0.5.9307",
-            latest_version = "0.5.9468",
-        }, normalize [[sorbet-runtime (0.5.9307 < 0.5.9468)]])
-    end)
-
-    it("returns nil when unable to parse outdated gem", function()
-        assert.is_nil(gem.parse_outdated_gem "a whole bunch of gibberish!")
-        assert.is_nil(gem.parse_outdated_gem "")
-    end)
 
     it("should parse gem list output", function()
         assert.same(
