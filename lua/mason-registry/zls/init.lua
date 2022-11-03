@@ -17,13 +17,13 @@ return Pkg.new {
     ---@param ctx InstallContext
     install = function(ctx)
         local asset_file = coalesce(
-            when(platform.is.mac, "x86_64-macos.tar.xz"),
-            when(platform.is.linux_x64, "x86_64-linux.tar.xz"),
-            when(platform.is.linux_x86, "i386-linux.tar.xz"),
-            when(platform.is.win_x64, "x86_64-windows.tar.xz")
+            when(platform.is.mac, "x86_64-macos.tar.zst"),
+            when(platform.is.linux_x64, "x86_64-linux.tar.zst"),
+            when(platform.is.linux_x86, "i386-linux.tar.zst"),
+            when(platform.is.win_x64, "x86_64-windows.tar.zst")
         )
         github
-            .untarxz_release_file({
+            .untarzst_release_file({
                 repo = "zigtools/zls",
                 asset_file = asset_file,
             })

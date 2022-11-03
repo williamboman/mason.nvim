@@ -112,6 +112,34 @@ function M.untar(file, opts)
         ctx.fs:unlink(file)
     end)
 end
+---@async
+---@param file string
+---@param opts {strip_components: integer?}?
+function M.untarzst(file, opts)
+    opts = opts or {}
+    local ctx = installer.context()
+    platform.when {
+        unix = function()
+            M.untar(file, opts)
+        end,
+        win = function()
+            Result.run_catching(function()
+                win_extract(file) -- unpack .tar.xz to .tar
+                local uncompressed_tar = file:gsub(".zst$", "")
+                M.untar(uncompressed_tar, opts)
+            end):recover(function()
+                ctx.spawn.arc {
+                    "unarchive",
+                    opts.strip_components and { "--strip-components", opts.strip_components } or vim.NIL,
+                    file,
+                }
+                pcall(function()
+                    ctx.fs:unlink(file)
+                end)
+            end)
+        end,
+    }
+end
 
 ---@async
 ---@param file string
