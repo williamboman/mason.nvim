@@ -17,9 +17,11 @@ return Pkg.new {
     ---@param ctx InstallContext
     install = function(ctx)
         local asset_file = coalesce(
-            when(platform.is.mac, "x86_64-macos.tar.zst"),
+            when(platform.is.mac_arm64, "aarch64-macos.tar.zst"),
+            when(platform.is.mac_x64, "x86_64-macos.tar.zst"),
             when(platform.is.linux_x64, "x86_64-linux.tar.zst"),
             when(platform.is.linux_x86, "i386-linux.tar.zst"),
+            when(platform.is.win_x64, "i386-windows.tar.zst"),
             when(platform.is.win_x64, "x86_64-windows.tar.zst")
         )
         github
