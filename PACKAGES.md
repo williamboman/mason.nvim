@@ -5097,6 +5097,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`b9e8c4a`](https://github.com/williamboman/mason.nvim/commit/b9e8c4a) 2022-11-03 - fix(zls): support zst ([#622](https://github.com/williamboman/mason.nvim/issues/622)) by Access
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
