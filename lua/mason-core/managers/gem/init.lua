@@ -78,6 +78,7 @@ function M.install(packages)
     ctx.spawn.gem {
         "install",
         "--no-user-install",
+        "--no-format-executable",
         "--install-dir=.",
         "--bindir=bin",
         "--no-document",
