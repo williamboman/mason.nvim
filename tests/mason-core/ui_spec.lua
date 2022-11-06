@@ -179,17 +179,11 @@ describe("integration test", function()
                     ["EFFECT"] = function() end,
                     ["R_EFFECT"] = function() end,
                 },
-                highlight_groups = {
-                    MyHighlight = { bold = true },
-                },
             }
             window.open { border = "none" }
 
             -- Initial window and buffer creation + initial render
             a.scheduler()
-
-            assert.spy(set_hl).was_called(1)
-            assert.spy(set_hl).was_called_with(match.is_number(), "MyHighlight", match.same { bold = true })
 
             assert.spy(win_set_option).was_called(8)
             assert.spy(win_set_option).was_called_with(match.is_number(), "number", false)

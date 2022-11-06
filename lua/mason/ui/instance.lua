@@ -605,7 +605,9 @@ end
 
 window.init {
     effects = effects,
-    highlight_groups = palette.highlight_groups,
+    winhighlight = {
+        "NormalFloat:MasonNormal",
+    },
 }
 
 if settings.current.ui.check_outdated_packages_on_open then

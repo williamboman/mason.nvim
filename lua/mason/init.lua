@@ -16,6 +16,7 @@ function M.setup(config)
         vim.env.PATH = vim.env.PATH .. platform.path_sep .. path.bin_prefix()
     end
 
+    require "mason.ui.colors"
     require "mason.api.command"
 end
 
