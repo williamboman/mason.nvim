@@ -1,11 +1,8 @@
-local settings = require "mason.settings"
 local M = {}
 
 function M.open()
     local api = require "mason.ui.instance"
-    api.window.open {
-        border = settings.current.ui.border,
-    }
+    api.window.open()
 end
 
 ---@param view string

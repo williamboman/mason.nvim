@@ -165,9 +165,9 @@ end
 -- exported for tests
 M._render_node = render_node
 
----@alias WindowOpts {effects: table<string, fun()>, highlight_groups: table<string, table>, border: string|table}
+---@alias WindowOpts { effects?: table<string, fun()>, winhighlight?: string[], border?: string|table }
 
----@param opts WindowOpenOpts
+---@param opts WindowOpts
 ---@param sizes_only boolean Whether to only return properties that control the window size.
 local function create_popup_window_opts(opts, sizes_only)
     local win_height = vim.o.lines - vim.o.cmdheight - 2 -- Add margin for status and buffer line
@@ -348,10 +348,9 @@ function M.new_view_only_win(name, filetype)
         end
     end
 
-    ---@param opts WindowOpenOpts
-    local function open(opts)
+    local function open()
         bufnr = vim.api.nvim_create_buf(false, true)
-        win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(opts, false))
+        win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(window_opts, false))
 
         registered_effect_handlers = window_opts.effects
         registered_keybinds = {}
@@ -382,6 +381,10 @@ function M.new_view_only_win(name, filetype)
         -- window options
         for key, value in pairs(win_opts) do
             vim.api.nvim_win_set_option(win_id, key, value)
+        end
+
+        if window_opts.winhighlight then
+            vim.api.nvim_win_set_option(win_id, "winhighlight", table.concat(window_opts.winhighlight, ","))
         end
 
         -- buffer options
@@ -466,16 +469,9 @@ function M.new_view_only_win(name, filetype)
             assert(renderer ~= nil, "No view function has been registered. Call .view() before .init().")
             assert(unsubscribe ~= nil, "No state has been registered. Call .state() before .init().")
             window_opts = opts
-            if opts.highlight_groups then
-                for hl_name, args in pairs(opts.highlight_groups) do
-                    vim.api.nvim_set_hl(0, hl_name, args)
-                end
-            end
             has_initiated = true
         end,
-        ---@alias WindowOpenOpts { border: string | table }
-        ---@type fun(opts: WindowOpenOpts)
-        open = vim.schedule_wrap(function(opts)
+        open = vim.schedule_wrap(function()
             log.trace "Opening window"
             assert(has_initiated, "Display has not been initiated, cannot open.")
             if win_id and vim.api.nvim_win_is_valid(win_id) then
@@ -483,7 +479,7 @@ function M.new_view_only_win(name, filetype)
                 return
             end
             unsubscribe(false)
-            open(opts)
+            open()
             draw(renderer(get_state()))
         end),
         ---@type fun()

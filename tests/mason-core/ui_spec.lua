@@ -170,7 +170,6 @@ describe("integration test", function()
             local win_set_option = spy.on(vim.api, "nvim_win_set_option")
             local set_lines = spy.on(vim.api, "nvim_buf_set_lines")
             local set_extmark = spy.on(vim.api, "nvim_buf_set_extmark")
-            local set_hl = spy.on(vim.api, "nvim_set_hl")
             local add_highlight = spy.on(vim.api, "nvim_buf_add_highlight")
             local set_keymap = spy.on(vim.keymap, "set")
 
@@ -179,8 +178,9 @@ describe("integration test", function()
                     ["EFFECT"] = function() end,
                     ["R_EFFECT"] = function() end,
                 },
-                highlight_groups = {
-                    MyHighlight = { bold = true },
+                winhighlight = {
+                    "NormalFloat:MasonNormal",
+                    "CursorLine:MasonCursorLine",
                 },
             }
             window.open { border = "none" }
@@ -188,10 +188,7 @@ describe("integration test", function()
             -- Initial window and buffer creation + initial render
             a.scheduler()
 
-            assert.spy(set_hl).was_called(1)
-            assert.spy(set_hl).was_called_with(match.is_number(), "MyHighlight", match.same { bold = true })
-
-            assert.spy(win_set_option).was_called(8)
+            assert.spy(win_set_option).was_called(9)
             assert.spy(win_set_option).was_called_with(match.is_number(), "number", false)
             assert.spy(win_set_option).was_called_with(match.is_number(), "relativenumber", false)
             assert.spy(win_set_option).was_called_with(match.is_number(), "wrap", false)
@@ -200,6 +197,9 @@ describe("integration test", function()
             assert.spy(win_set_option).was_called_with(match.is_number(), "signcolumn", "no")
             assert.spy(win_set_option).was_called_with(match.is_number(), "colorcolumn", "")
             assert.spy(win_set_option).was_called_with(match.is_number(), "cursorline", true)
+            assert
+                .spy(win_set_option)
+                .was_called_with(match.is_number(), "winhighlight", "NormalFloat:MasonNormal,CursorLine:MasonCursorLine")
 
             assert.spy(buf_set_option).was_called(10)
             assert.spy(buf_set_option).was_called_with(match.is_number(), "modifiable", false)
