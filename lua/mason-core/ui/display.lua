@@ -380,16 +380,16 @@ function M.new_view_only_win(name, filetype)
 
         -- window options
         for key, value in pairs(win_opts) do
-            vim.wo[win_id][key] = value
+            vim.api.nvim_win_set_option(win_id, key, value)
         end
 
         if window_opts.winhighlight then
-            vim.wo[win_id].winhighlight = table.concat(window_opts.winhighlight, ",")
+            vim.api.nvim_win_set_option(win_id, "winhighlight", table.concat(window_opts.winhighlight, ","))
         end
 
         -- buffer options
         for key, value in pairs(buf_opts) do
-            vim.bo[bufnr][key] = value
+            vim.api.nvim_buf_set_option(bufnr, key, value)
         end
 
         vim.cmd [[ syntax clear ]]
