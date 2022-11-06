@@ -20,6 +20,7 @@ describe("gem manager", function()
             assert.spy(ctx.spawn.gem).was_called_with(match.tbl_containing {
                 "install",
                 "--no-user-install",
+                "--no-format-executable",
                 "--install-dir=.",
                 "--bindir=bin",
                 "--no-document",
