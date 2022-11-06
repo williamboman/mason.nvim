@@ -89,6 +89,7 @@ return {
   php = { "intelephense", "php-cs-fixer", "php-debug-adapter", "phpactor", "phpcbf", "phpcs", "phpmd", "phpstan", "pint", "psalm" },
   powershell = { "powershell-editor-services" },
   prisma = { "prisma-language-server" },
+  proto = { "protolint" },
   protobuf = { "buf", "buf-language-server" },
   puppet = { "puppet-editor-services" },
   purescript = { "purescript-language-server" },

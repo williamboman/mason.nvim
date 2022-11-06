@@ -160,6 +160,7 @@ return {
   ["prisma-language-server"] = "mason-registry.prisma-language-server",
   proselint = "mason-registry.proselint",
   ["prosemd-lsp"] = "mason-registry.prosemd-lsp",
+  protolint = "mason-registry.protolint",
   psalm = "mason-registry.psalm",
   ["puppet-editor-services"] = "mason-registry.puppet-editor-services",
   ["purescript-language-server"] = "mason-registry.purescript-language-server",
