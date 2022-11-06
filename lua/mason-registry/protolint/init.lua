@@ -10,7 +10,7 @@ return Pkg.new {
     desc = [[protolint is the pluggable linting/fixing utility for Protocol Buffer files (proto2+proto3)]],
     homepage = "https://github.com/yoheimuta/protolint",
     categories = { Pkg.Cat.Linter },
-    languages = { Pkg.Lang["proto"] },
+    languages = { Pkg.Lang.Protobuf },
     install = function(ctx)
         ---@param template_string string
         local function release_file(template_string)
