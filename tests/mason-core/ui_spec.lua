@@ -183,7 +183,7 @@ describe("integration test", function()
                     "CursorLine:MasonCursorLine",
                 },
             }
-            window.open { border = "none" }
+            window.open()
 
             -- Initial window and buffer creation + initial render
             a.scheduler()
@@ -287,7 +287,7 @@ describe("integration test", function()
             end)
             local mutate_state = window.state { show_extra_lines = false }
             window.init {}
-            window.open { border = "none" }
+            window.open()
             a.scheduler()
             window.set_cursor { 5, 3 } -- move cursor to sticky line
             mutate_state(function(state)
@@ -296,6 +296,31 @@ describe("integration test", function()
             a.scheduler()
             local cursor = window.get_cursor()
             assert.same({ 8, 3 }, cursor)
+        end)
+    )
+
+    it(
+        "should respect border ui setting",
+        async_test(function()
+            local nvim_open_win = spy.on(vim.api, "nvim_open_win")
+
+            local window = display.new_view_only_win("test", "my-filetype")
+            window.view(function()
+                return Ui.Node {}
+            end)
+            window.state {}
+            window.init { border = "rounded" }
+            window.open()
+            a.scheduler()
+
+            assert.spy(nvim_open_win).was_called(1)
+            assert.spy(nvim_open_win).was_called_with(
+                match.is_number(),
+                true,
+                match.tbl_containing {
+                    border = "rounded",
+                }
+            )
         end)
     )
 end)
