@@ -4,7 +4,6 @@ local Ui = require "mason-core.ui"
 local a = require "mason-core.async"
 local control = require "mason-core.async.control"
 local _ = require "mason-core.functional"
-local palette = require "mason.ui.palette"
 local Package = require "mason-core.package"
 local settings = require "mason.settings"
 local notify = require "mason-core.notify"
@@ -17,6 +16,8 @@ local Main = require "mason.ui.components.main"
 local LanguageFilter = require "mason.ui.components.language-filter"
 
 local Semaphore = control.Semaphore
+
+require "mason.ui.colors"
 
 ---@param state InstallerUiState
 local function GlobalKeybinds(state)
@@ -605,6 +606,7 @@ end
 
 window.init {
     effects = effects,
+    border = settings.current.ui.border,
     winhighlight = {
         "NormalFloat:MasonNormal",
     },
