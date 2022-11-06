@@ -181,7 +181,7 @@ describe("integration test", function()
                 winhighlight = {
                     "NormalFloat:MasonNormal",
                     "CursorLine:MasonCursorLine",
-                }
+                },
             }
             window.open { border = "none" }
 
@@ -197,7 +197,9 @@ describe("integration test", function()
             assert.spy(win_set_option).was_called_with(match.is_number(), "signcolumn", "no")
             assert.spy(win_set_option).was_called_with(match.is_number(), "colorcolumn", "")
             assert.spy(win_set_option).was_called_with(match.is_number(), "cursorline", true)
-            assert.spy(win_set_option).was_called_with(match.is_number(), "winhighlight", "NormalFloat:MasonNormal,CursorLine:MasonCursorLine")
+            assert
+                .spy(win_set_option)
+                .was_called_with(match.is_number(), "winhighlight", "NormalFloat:MasonNormal,CursorLine:MasonCursorLine")
 
             assert.spy(buf_set_option).was_called(10)
             assert.spy(buf_set_option).was_called_with(match.is_number(), "modifiable", false)
