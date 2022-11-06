@@ -11,6 +11,7 @@
 - [arduino-language-server](#arduino-language-server)
 - [asm-lsp](#asm-lsp)
 - [astro-language-server](#astro-language-server)
+- [autoflake](#autoflake)
 - [autopep8](#autopep8)
 - [awk-language-server](#awk-language-server)
 - [bash-debug-adapter](#bash-debug-adapter)
@@ -425,6 +426,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall astro-language-server
+```
+
+
+# autoflake
+
+> autoflake removes unused imports and unused variables from Python code.
+
+Homepage: [https://pypi.org/project/autoflake/](https://pypi.org/project/autoflake/)  
+Languages: `Python`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`028019f`](https://github.com/williamboman/mason.nvim/commit/028019f) 2022-11-06 - feat(registry): add autoflake ([#631](https://github.com/williamboman/mason.nvim/issues/631)) by Andy Dirnberger
+</details>
+
+```
+:MasonInstall autoflake
 ```
 
 
