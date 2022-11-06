@@ -5,7 +5,7 @@ local process = require "mason-core.process"
 local platform = require "mason-core.platform"
 local log = require "mason-core.log"
 
----@alias JobSpawn table<string, async fun(opts: JobSpawnOpts): Result>
+---@alias JobSpawn table<string, async fun(opts: SpawnArgs): Result>
 ---@type JobSpawn
 local spawn = {
     _aliases = {

@@ -28,7 +28,7 @@ M.is_headless = #vim.api.nvim_list_uis() == 0
 local function system(args)
     if vim.fn.executable(args[1]) == 1 then
         local ok, output = pcall(vim.fn.system, args)
-        if ok and vim.v.shell_error == 0 then
+        if ok and (vim.v.shell_error == 0 or vim.v.shell_error == 1) then
             return true, output
         end
         return false, output

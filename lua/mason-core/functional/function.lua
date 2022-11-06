@@ -89,4 +89,9 @@ _.lazy = function(fn)
     end
 end
 
+_.tap = _.curryN(function(fn, value)
+    fn(value)
+    return value
+end, 2)
+
 return _

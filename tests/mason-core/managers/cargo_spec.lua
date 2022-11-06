@@ -10,6 +10,7 @@ local github_client = require "mason-core.managers.github.client"
 local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
 local path = require "mason-core.path"
+local _ = require "mason-core.functional"
 
 describe("cargo manager", function()
     it(
@@ -157,36 +158,37 @@ describe("cargo version check", function()
                 ["stylua"] = { name = "stylua", version = "0.11.2" },
                 ["zoxide"] = { name = "zoxide", version = "0.5.0" },
             },
-            cargo.parse_installed_crates [[bat v0.18.3:
-    bat
-exa v0.10.1:
-    exa
-git-select-branch v0.1.1:
-    git-select-branch
-hello_world v0.0.1 (/private/var/folders/ky/s6yyhm_d24d0jsrql4t8k4p40000gn/T/tmp.LGbguATJHj):
-    hello_world
-move-analyzer v1.0.0 (https://github.com/move-language/move#3cef7fa8):
-    move-analyzer
-rust-analyzer v0.0.0 (https://github.com/rust-lang/rust-analyzer?tag=2022-09-19#187bee0b):
-    rust-analyzer
-stylua v0.11.2:
-    stylua
-zoxide v0.5.0:
-    zoxide
-]]
+            cargo.parse_installed_crates(_.dedent [[
+                bat v0.18.3:
+                    bat
+                exa v0.10.1:
+                    exa
+                git-select-branch v0.1.1:
+                    git-select-branch
+                hello_world v0.0.1 (/private/var/folders/ky/s6yyhm_d24d0jsrql4t8k4p40000gn/T/tmp.LGbguATJHj):
+                    hello_world
+                move-analyzer v1.0.0 (https://github.com/move-language/move#3cef7fa8):
+                    move-analyzer
+                rust-analyzer v0.0.0 (https://github.com/rust-lang/rust-analyzer?tag=2022-09-19#187bee0b):
+                    rust-analyzer
+                stylua v0.11.2:
+                    stylua
+                zoxide v0.5.0:
+                    zoxide
+            ]])
         )
     end)
 
     it(
         "should return current version",
         async_test(function()
-            spawn.cargo = spy.new(function()
-                return Result.success {
-                    stdout = [[flux-lsp v0.8.8 (https://github.com/influxdata/flux-lsp#4e452f07):
-    flux-lsp
-]],
-                }
-            end)
+            stub(spawn, "cargo")
+            spawn.cargo.returns(Result.success {
+                stdout = _.dedent [[
+                    flux-lsp v0.8.8 (https://github.com/influxdata/flux-lsp#4e452f07):
+                    flux-lsp
+                ]],
+            })
 
             local result = cargo.get_installed_primary_package_version(
                 mock.new {
@@ -208,21 +210,19 @@ zoxide v0.5.0:
             })
             assert.is_true(result:is_success())
             assert.equals("4e452f07", result:get_or_nil())
-
-            spawn.cargo = nil
         end)
     )
 
     it(
         "should return outdated primary package",
         async_test(function()
-            spawn.cargo = spy.new(function()
-                return Result.success {
-                    stdout = [[lelwel v0.4.0:
-    lelwel-ls
-]],
-                }
-            end)
+            stub(spawn, "cargo")
+            spawn.cargo.returns(Result.success {
+                stdout = _.dedent [[
+                    lelwel v0.4.0:
+                    lelwel-ls
+                ]],
+            })
             stub(cargo_client, "fetch_crate")
             cargo_client.fetch_crate.returns(Result.success {
                 crate = {
@@ -257,21 +257,19 @@ zoxide v0.5.0:
                 latest_version = "0.4.2",
                 name = "lelwel",
             }(result:get_or_nil()))
-
-            spawn.cargo = nil
         end)
     )
 
     it(
         "should recognize up-to-date crates",
         async_test(function()
-            spawn.cargo = spy.new(function()
-                return Result.success {
-                    stdout = [[lelwel v0.4.0:
-    lelwel-ls
-]],
-                }
-            end)
+            stub(spawn, "cargo")
+            spawn.cargo.returns(Result.success {
+                stdout = _.dedent [[
+                    lelwel v0.4.0:
+                    lelwel-ls
+                ]],
+            })
             stub(cargo_client, "fetch_crate")
             cargo_client.fetch_crate.returns(Result.success {
                 crate = {
@@ -294,20 +292,19 @@ zoxide v0.5.0:
 
             assert.is_true(result:is_failure())
             assert.equals("Primary package is not outdated.", result:err_or_nil())
-            spawn.cargo = nil
         end)
     )
 
     it(
         "should return outdated primary package from git source",
         async_test(function()
-            spawn.cargo = spy.new(function()
-                return Result.success {
-                    stdout = [[move-analyzer v1.0.0 (https://github.com/move-language/move#3cef7fa8):
-    move-analyzer
-]],
-                }
-            end)
+            stub(spawn, "cargo")
+            spawn.cargo.returns(Result.success {
+                stdout = _.dedent [[
+                    move-analyzer v1.0.0 (https://github.com/move-language/move#3cef7fa8):
+                    move-analyzer
+                ]],
+            })
 
             stub(github_client, "fetch_commits")
             github_client.fetch_commits
@@ -342,8 +339,6 @@ zoxide v0.5.0:
                 latest_version = "b243f1fb",
                 name = "move-analyzer",
             }(result:get_or_nil()))
-
-            spawn.cargo = nil
         end)
     )
 end)

@@ -76,7 +76,7 @@ function M.unzip(file, dest)
 end
 
 ---@param file string
-local function win_extract(file)
+local function win_decompress(file)
     local ctx = installer.context()
     Result.run_catching(function()
         ctx.spawn.gzip { "-d", file }
@@ -125,7 +125,7 @@ function M.untarxz(file, opts)
         end,
         win = function()
             Result.run_catching(function()
-                win_extract(file) -- unpack .tar.xz to .tar
+                win_decompress(file) -- unpack .tar.xz to .tar
                 local uncompressed_tar = file:gsub(".xz$", "")
                 M.untar(uncompressed_tar, opts)
             end):recover(function()
@@ -151,7 +151,7 @@ function M.gunzip(file)
             ctx.spawn.gzip { "-d", file }
         end,
         win = function()
-            win_extract(file)
+            win_decompress(file)
         end,
     }
 end

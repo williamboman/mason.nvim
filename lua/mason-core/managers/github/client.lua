@@ -2,13 +2,10 @@ local _ = require "mason-core.functional"
 local log = require "mason-core.log"
 local fetch = require "mason-core.fetch"
 local spawn = require "mason-core.spawn"
-local api = require "mason-registry.api"
+local providers = require "mason-core.providers"
 
 local M = {}
 
----@alias GitHubReleaseAsset {url: string, id: integer, name: string, browser_download_url: string, created_at: string, updated_at: string, size: integer, download_count: integer}
----@alias GitHubRelease {tag_name: string, prerelease: boolean, draft: boolean, assets:GitHubReleaseAsset[]}
----@alias GitHubTag {name: string}
 ---@alias GitHubCommit {sha: string}
 
 local stringify_params = _.compose(_.join "&", _.map(_.join "="), _.sort_by(_.head), _.to_pairs)
@@ -66,11 +63,7 @@ end
 ---@return Result # Result<GitHubRelease>
 function M.fetch_latest_release(repo, opts)
     opts = opts or { include_prerelease = false }
-    return api.repo.releases.latest({ repo = repo }, {
-        params = {
-            include_prerelease = opts.include_prerelease and "true" or "false",
-        },
-    })
+    return providers.github.get_latest_release(repo, { include_prerelease = opts.include_prerelease })
 end
 
 ---@async
@@ -87,7 +80,7 @@ end
 ---@param repo string The GitHub repo ("username/repo").
 ---@return Result # Result<string> The latest tag name.
 function M.fetch_latest_tag(repo)
-    return api.repo.tags.latest({ repo = repo }):map(_.prop "tag")
+    return providers.github.get_latest_tag(repo):map(_.prop "tag")
 end
 
 ---@async

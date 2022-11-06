@@ -203,4 +203,12 @@ describe("functional: list", function()
             { "person", "camera" },
         }, _.partition(_.matches "%u", words))
     end)
+
+    it("should return head", function()
+        assert.equals("Head", _.head { "Head", "Tail", "Tail" })
+    end)
+
+    it("should return last", function()
+        assert.equals("Last", _.last { "Head", "List", "Last" })
+    end)
 end)

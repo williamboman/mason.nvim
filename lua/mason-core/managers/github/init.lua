@@ -131,6 +131,10 @@ M.unzip_release_file = release_file_processor("archive.zip", function()
     std.unzip("archive.zip", ".")
 end)
 
+M.untarzst_release_file = release_file_processor("archive.tar.zst", function(opts)
+    std.untar("archive.tar.zst", { strip_components = opts.strip_components })
+end)
+
 M.untarxz_release_file = release_file_processor("archive.tar.xz", function(opts)
     std.untarxz("archive.tar.xz", { strip_components = opts.strip_components })
 end)
