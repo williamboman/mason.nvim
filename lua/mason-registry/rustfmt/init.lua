@@ -21,7 +21,7 @@ return Pkg.new {
             .untargz_release_file({
                 repo = "rust-lang/rustfmt",
                 asset_file = coalesce(
-                    when(platform.is.mac_x64, release_file "rustfmt_macos-x86_64_%s.tar.gz"),
+                    when(platform.is.mac, release_file "rustfmt_macos-x86_64_%s.tar.gz"),
                     when(platform.is.linux_x64, release_file "rustfmt_linux-x86_64_%s.tar.gz"),
                     when(platform.is.win_x64, release_file "rustfmt_windows-x86_64-msvc_%s.tar.gz")
                 ),
