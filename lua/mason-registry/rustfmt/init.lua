@@ -12,6 +12,8 @@ return Pkg.new {
     homepage = "https://github.com/rust-lang/rustfmt",
     categories = { Pkg.Cat.Formatter },
     languages = { Pkg.Lang.Rust },
+    ---@async
+    ---@param ctx InstallContext
     install = function(ctx)
         platform.when {
             unix = function()
