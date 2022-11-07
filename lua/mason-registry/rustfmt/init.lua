@@ -15,7 +15,7 @@ return Pkg.new {
     install = function(ctx)
         platform.when {
             unix = function()
-                local source = github.untarxz_release_file {
+                local source = github.untargz_release_file {
                     repo = "rust-lang/rustfmt",
                     asset_file = coalesce(
                         when(platform.is.mac, _.format "rustfmt_macos-x86_64_%s.tar.gz"),
