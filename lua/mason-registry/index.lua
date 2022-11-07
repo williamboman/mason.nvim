@@ -185,6 +185,7 @@ return {
   rubocop = "mason-registry.rubocop",
   ["ruby-lsp"] = "mason-registry.ruby-lsp",
   ["rust-analyzer"] = "mason-registry.rust-analyzer",
+  rustfmt = "mason-registry.rustfmt",
   ["salt-lsp"] = "mason-registry.salt-lsp",
   selene = "mason-registry.selene",
   ["serve-d"] = "mason-registry.serve-d",

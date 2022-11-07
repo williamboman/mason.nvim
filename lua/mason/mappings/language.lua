@@ -98,7 +98,7 @@ return {
   rescript = { "rescript-lsp" },
   ["robot framework"] = { "robotframework-lsp" },
   ruby = { "erb-lint", "rubocop", "ruby-lsp", "solargraph", "sorbet", "standardrb" },
-  rust = { "codelldb", "cpptools", "rust-analyzer" },
+  rust = { "codelldb", "cpptools", "rust-analyzer", "rustfmt" },
   salt = { "salt-lsp" },
   scss = { "css-lsp", "prettier", "prettierd" },
   sh = { "beautysh" },
