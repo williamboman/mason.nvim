@@ -161,6 +161,7 @@
 - [prisma-language-server](#prisma-language-server)
 - [proselint](#proselint)
 - [prosemd-lsp](#prosemd-lsp)
+- [protolint](#protolint)
 - [psalm](#psalm)
 - [puppet-editor-services](#puppet-editor-services)
 - [purescript-language-server](#purescript-language-server)
@@ -185,6 +186,7 @@
 - [rubocop](#rubocop)
 - [ruby-lsp](#ruby-lsp)
 - [rust-analyzer](#rust-analyzer)
+- [rustfmt](#rustfmt)
 - [salt-lsp](#salt-lsp)
 - [selene](#selene)
 - [serve-d](#serve-d)
@@ -3480,6 +3482,26 @@ Categories: `LSP`
 ```
 
 
+# protolint
+
+> protolint is the pluggable linting/fixing utility for Protocol Buffer files (proto2+proto3)
+
+Homepage: [https://github.com/yoheimuta/protolint](https://github.com/yoheimuta/protolint)  
+Languages: `Protobuf`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`d3c2156`](https://github.com/williamboman/mason.nvim/commit/d3c2156) 2022-11-07 - fix(protolint): use Protobuf language ([#641](https://github.com/williamboman/mason.nvim/issues/641)) by William Boman
+- [`938c8fa`](https://github.com/williamboman/mason.nvim/commit/938c8fa) 2022-11-07 - feat(registry): add protolint ([#640](https://github.com/williamboman/mason.nvim/issues/640)) by Jay Patel
+</details>
+
+```
+:MasonInstall protolint
+```
+
+
 # psalm
 
 > A static analysis tool for finding errors in PHP applications
@@ -3962,6 +3984,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall rust-analyzer
+```
+
+
+# rustfmt
+
+> A tool for formatting Rust code according to style guidelines
+
+Homepage: [https://github.com/rust-lang/rustfmt](https://github.com/rust-lang/rustfmt)  
+Languages: `Rust`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`f5b1a20`](https://github.com/williamboman/mason.nvim/commit/f5b1a20) 2022-11-07 - feat(registry): add rustfmt ([#642](https://github.com/williamboman/mason.nvim/issues/642)) by Jay Patel
+</details>
+
+```
+:MasonInstall rustfmt
 ```
 
 
