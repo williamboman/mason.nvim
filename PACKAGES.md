@@ -3998,6 +3998,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`a096949`](https://github.com/williamboman/mason.nvim/commit/a096949) 2022-11-07 - fix(rustfmt): use correct asset names and use unzip on windows ([#644](https://github.com/williamboman/mason.nvim/issues/644)) by N.N
 - [`f5b1a20`](https://github.com/williamboman/mason.nvim/commit/f5b1a20) 2022-11-07 - feat(registry): add rustfmt ([#642](https://github.com/williamboman/mason.nvim/issues/642)) by Jay Patel
 </details>
 
