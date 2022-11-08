@@ -56,7 +56,7 @@ function M.release_version(opts)
         return client
             .fetch_latest_release(opts.repo)
             :map(_.prop "tag_name")
-            :get_or_throw "Failed to fetch latest release from GitHub API. Refer to :h mason-errors-github-api for more information."
+            :get_or_throw "Failed to fetch latest release from GitHub API. Refer to :h mason-provider-errors for more information."
     end)
 
     return {
