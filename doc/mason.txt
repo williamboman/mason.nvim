@@ -313,18 +313,25 @@ GITHUB MIRROR                                   *mason-download-mirror-github*
 ==============================================================================
 INSTALLATION ERRORS                                             *mason-errors*
 
-                                                     *mason-errors-github-api*
-For some installers, the GitHub API is used to fetch information about
-releases. This API imposes a rate limit that may be triggered, causing
-installations to fail. The reasons why a rate limit is triggered are many, for
-example being behind a public API, or using other software that also send
-requests to the GitHub API.
+                                                       *mason-provider-errors*
+By default, Mason uses the api.mason-registry.dev API to resolve package
+metadata. Calling this service may result in network errors on some networks
+(e.g., SSL issues on corporate VPNs). If resolving the SSL error is not an
+option, you will have to change the provider implementation. Mason provides a
+client provider which calls underlying 3rd party service APIs directly, which
+you can enable like so:
 
-To circumvent this, mason will utilize the GitHub CLI when
-available, leading to API requests being subject to a much higher rate limit
-threshold when authenticated. Should you run into errors with communicating
-with GitHub's API, it's recommended to install, and authenticate, the GitHub
-CLI: https://cli.github.com/.
+    require("mason").setup {
+        providers = {
+            "mason.providers.client",
+            "mason.providers.registry-api",
+        }
+    }
+
+    Note: ~
+        The client provider have less overall coverage and may come with
+        additional performance penalties (spawning slow commands, network &
+        parsing overheads, etc.).
 
 ==============================================================================
 DEBUGGING                                                    *mason-debugging*
