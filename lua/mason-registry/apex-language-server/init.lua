@@ -37,7 +37,7 @@ return Pkg.new {
             })
             .with_receipt()
 
-        ctx.fs:rename(path.concat { "extension", "out", JAR_FILE }, JAR_FILE)
+        ctx.fs:rename(path.concat { "extension", "dist", JAR_FILE }, JAR_FILE)
         ctx.fs:rmrf "extension"
     end,
 }
