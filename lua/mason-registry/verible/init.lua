@@ -52,7 +52,7 @@ return Pkg.new {
                                 )
                             )
                         ),
-                        when(platform.is.linux_x64_gnu, "verible-%s-Ubuntu-20.04-focal-x86_64.tar.gz")
+                        when(platform.is.linux_x64_gnu, _.format "verible-%s-Ubuntu-20.04-focal-x86_64.tar.gz")
                     ),
                 }
                 source.with_receipt()
@@ -77,10 +77,7 @@ return Pkg.new {
             win = function()
                 local source = github.unzip_release_file {
                     repo = repo,
-                    asset_file = function(release)
-                        local target_file = coalesce(when(platform.arch == "x64", "verible-%s-win64.zip"))
-                        return target_file and target_file:format(release)
-                    end,
+                    asset_file = coalesce(when(platform.is.win_x64, _.format "verible-%s-win64.zip")),
                 }
                 source.with_receipt()
                 ctx.fs:rename(("verible-%s-win64"):format(source.release), "verible")

@@ -1,7 +1,5 @@
 local Pkg = require "mason-core.package"
 local github = require "mason-core.managers.github"
-local github_client = require "mason-core.managers.github.client"
-local Optional = require "mason-core.optional"
 local _ = require "mason-core.functional"
 local path = require "mason-core.path"
 
@@ -27,11 +25,7 @@ return Pkg.new {
                 "visualforce-language-server",
                 path.concat {
                     "extension",
-                    "node_modules",
-                    "@salesforce",
-                    "salesforcedx-visualforce-language-server",
-                    "out",
-                    "src",
+                    "dist",
                     "visualforceServer.js",
                 }
             )
