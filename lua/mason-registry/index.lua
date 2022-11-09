@@ -37,6 +37,7 @@ return {
   codelldb = "mason-registry.codelldb",
   codeql = "mason-registry.codeql",
   codespell = "mason-registry.codespell",
+  ["colorgen-nvim"] = "mason-registry.colorgen-nvim",
   commitlint = "mason-registry.commitlint",
   cpplint = "mason-registry.cpplint",
   cpptools = "mason-registry.cpptools",
