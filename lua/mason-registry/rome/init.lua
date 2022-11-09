@@ -1,6 +1,5 @@
 local Pkg = require "mason-core.package"
 local npm = require "mason-core.managers.npm"
-local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "rome",
@@ -8,12 +7,5 @@ return Pkg.new {
     homepage = "https://rome.tools",
     languages = { Pkg.Lang.TypeScript, Pkg.Lang.JavaScript },
     categories = { Pkg.Cat.LSP, Pkg.Cat.Linter },
-    ---@async
-    ---@param ctx InstallContext
-    install = function(ctx)
-        ctx.requested_version = ctx.requested_version:or_(function()
-            return Optional.of "10.0.7-nightly.2021.7.27"
-        end)
-        npm.install({ "rome", bin = { "rome" } }).with_receipt()
-    end,
+    install = npm.packages { "rome", bin = { "rome" } },
 }
