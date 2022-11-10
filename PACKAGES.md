@@ -38,6 +38,7 @@
 - [codelldb](#codelldb)
 - [codeql](#codeql)
 - [codespell](#codespell)
+- [colorgen-nvim](#colorgen-nvim)
 - [commitlint](#commitlint)
 - [cpplint](#cpplint)
 - [cpptools](#cpptools)
@@ -185,6 +186,7 @@
 - [rstcheck](#rstcheck)
 - [rubocop](#rubocop)
 - [ruby-lsp](#ruby-lsp)
+- [ruff](#ruff)
 - [rust-analyzer](#rust-analyzer)
 - [rustfmt](#rustfmt)
 - [salt-lsp](#salt-lsp)
@@ -224,6 +226,7 @@
 - [tflint](#tflint)
 - [twigcs](#twigcs)
 - [typescript-language-server](#typescript-language-server)
+- [usort](#usort)
 - [vala-language-server](#vala-language-server)
 - [vale](#vale)
 - [verible](#verible)
@@ -359,6 +362,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`4a007b4`](https://github.com/williamboman/mason.nvim/commit/4a007b4) 2022-11-09 - fix(apex-language-server): update jar file path ([#652](https://github.com/williamboman/mason.nvim/issues/652)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -976,6 +980,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall codespell
+```
+
+
+# colorgen-nvim
+
+> Blazingly fast colorscheme generator for Neovim written in Rust
+
+Homepage: [https://github.com/ChristianChiarulli/colorgen-nvim](https://github.com/ChristianChiarulli/colorgen-nvim)  
+Languages:   
+Categories: `Compiler`  
+
+<details>
+    <summary>History:</summary>
+
+- [`ce84338`](https://github.com/williamboman/mason.nvim/commit/ce84338) 2022-11-09 - feat(registry): add colorgen-nvim ([#650](https://github.com/williamboman/mason.nvim/issues/650)) by Mat Jones
+</details>
+
+```
+:MasonInstall colorgen-nvim
 ```
 
 
@@ -3897,6 +3920,7 @@ Categories: `LSP` `Linter`
 <details>
     <summary>History:</summary>
 
+- [`a1f1fb0`](https://github.com/williamboman/mason.nvim/commit/a1f1fb0) 2022-11-09 - fix(rome): drop default version pin ([#649](https://github.com/williamboman/mason.nvim/issues/649)) by Otto Ahoniemi
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -3961,6 +3985,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall ruby-lsp
+```
+
+
+# ruff
+
+> An extremely fast Python linter, written in Rust.
+
+Homepage: [https://github.com/charliermarsh/ruff/](https://github.com/charliermarsh/ruff/)  
+Languages: `Python`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`4fb7c00`](https://github.com/williamboman/mason.nvim/commit/4fb7c00) 2022-11-09 - feat(registry): add ruff ([#653](https://github.com/williamboman/mason.nvim/issues/653)) by Phúc Lê Khắc
+</details>
+
+```
+:MasonInstall ruff
 ```
 
 
@@ -4759,6 +4802,25 @@ Categories: `LSP`
 ```
 
 
+# usort
+
+> Safe, minimal import sorting for Python projects.
+
+Homepage: [https://usort.readthedocs.io/](https://usort.readthedocs.io/)  
+Languages: `Python`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`07b2d6c`](https://github.com/williamboman/mason.nvim/commit/07b2d6c) 2022-11-09 - feat(registry): add usort ([#654](https://github.com/williamboman/mason.nvim/issues/654)) by Phúc Lê Khắc
+</details>
+
+```
+:MasonInstall usort
+```
+
+
 # vala-language-server
 
 > Code Intelligence for Vala & Genie
@@ -4809,6 +4871,7 @@ Categories: `LSP` `Linter` `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`8a003fd`](https://github.com/williamboman/mason.nvim/commit/8a003fd) 2022-11-09 - fix(verible): properly format asset file ([#657](https://github.com/williamboman/mason.nvim/issues/657)) by William Boman
 - [`d005168`](https://github.com/williamboman/mason.nvim/commit/d005168) 2022-10-20 - feat(verible): add linux_x64_gnu ([#579](https://github.com/williamboman/mason.nvim/issues/579)) by William Boman
 - [`b39da84`](https://github.com/williamboman/mason.nvim/commit/b39da84) 2022-09-28 - feat(verible): add support for CentOS 7.9 ([#471](https://github.com/williamboman/mason.nvim/issues/471)) by Nikhil Jha
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
@@ -4891,6 +4954,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`4f63b13`](https://github.com/williamboman/mason.nvim/commit/4f63b13) 2022-11-09 - fix(visualforce-language-server): update script path ([#656](https://github.com/williamboman/mason.nvim/issues/656)) by William Boman
 - [`b0cb03d`](https://github.com/williamboman/mason.nvim/commit/b0cb03d) 2022-10-10 - fix(visualforce-language-server): remove custom release resolution code ([#534](https://github.com/williamboman/mason.nvim/issues/534)) by William Boman
 - [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
