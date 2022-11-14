@@ -177,6 +177,7 @@ return {
   ["reason-language-server"] = "mason-registry.reason-language-server",
   ["remark-cli"] = "mason-registry.remark-cli",
   ["remark-language-server"] = "mason-registry.remark-language-server",
+  ["reorder-python-imports"] = "mason-registry.reorder-python-imports",
   ["rescript-lsp"] = "mason-registry.rescript-lsp",
   revive = "mason-registry.revive",
   ["rnix-lsp"] = "mason-registry.rnix-lsp",
