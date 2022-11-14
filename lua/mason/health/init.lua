@@ -249,6 +249,15 @@ function M.check()
                 relaxed = true,
             }
         )
+        table.insert(
+            checks,
+            check {
+                cmd = vim.fn.expand(vim.g.python3_host_prog),
+                args = { "-m", "pip", "--version" },
+                name = "python3_host_prog pip",
+                relaxed = true,
+            }
+        )
     end
 
     if vim.env.JAVA_HOME then
