@@ -178,6 +178,7 @@
 - [reason-language-server](#reason-language-server)
 - [remark-cli](#remark-cli)
 - [remark-language-server](#remark-language-server)
+- [reorder-python-imports](#reorder-python-imports)
 - [rescript-lsp](#rescript-lsp)
 - [revive](#revive)
 - [rnix-lsp](#rnix-lsp)
@@ -3829,6 +3830,25 @@ Categories: `LSP`
 ```
 
 
+# reorder-python-imports
+
+> Tool for automatically reordering python imports. Similar to isort but uses static analysis more.
+
+Homepage: [https://github.com/asottile/reorder_python_imports](https://github.com/asottile/reorder_python_imports)  
+Languages: `Python`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`7ebd92b`](https://github.com/williamboman/mason.nvim/commit/7ebd92b) 2022-11-14 - feat(registry): add reorder-python-imports ([#665](https://github.com/williamboman/mason.nvim/issues/665)) by Phúc Lê Khắc
+</details>
+
+```
+:MasonInstall reorder-python-imports
+```
+
+
 # rescript-lsp
 
 > Language Server for ReScript.
@@ -4367,6 +4387,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`30a9451`](https://github.com/williamboman/mason.nvim/commit/30a9451) 2022-11-15 - fix(spectral-language-server): link spectral-language-server executable ([#666](https://github.com/williamboman/mason.nvim/issues/666)) by William Boman
 - [`e0268a6`](https://github.com/williamboman/mason.nvim/commit/e0268a6) 2022-09-26 - fix(spectral-language-server): build directly from source ([#464](https://github.com/williamboman/mason.nvim/issues/464)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`eee851f`](https://github.com/williamboman/mason.nvim/commit/eee851f) 2022-08-01 - fix(spectral-language-server): remove Linter and add LSP to categories ([#219](https://github.com/williamboman/mason.nvim/issues/219)) by William Boman
