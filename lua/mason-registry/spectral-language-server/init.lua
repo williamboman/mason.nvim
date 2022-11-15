@@ -27,6 +27,9 @@ return Pkg.new {
         end)
         ctx.fs:rename(path.concat { "build", "dist", "server", "index.js" }, "spectral-language-server.js")
         ctx.fs:rmrf "build"
-        ctx:write_node_exec_wrapper("spectral-language-server", "spectral-language-server.js")
+        ctx:link_bin(
+            "spectral-language-server",
+            ctx:write_node_exec_wrapper("spectral-language-server", "spectral-language-server.js")
+        )
     end,
 }
