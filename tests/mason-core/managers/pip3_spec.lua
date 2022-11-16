@@ -153,7 +153,7 @@ describe("pip3 manager", function()
                 "install",
                 "-U",
                 {},
-                "pip" ,
+                "pip",
                 with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
             }
             assert.spy(ctx.spawn.python).was_called_with {
