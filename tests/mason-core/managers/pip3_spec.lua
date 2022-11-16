@@ -13,6 +13,10 @@ local spawn = require "mason-core.spawn"
 local api = require "mason-registry.api"
 
 describe("pip3 manager", function()
+    before_each(function()
+        settings.set(settings._DEFAULT_SETTINGS)
+    end)
+
     it("normalizes pip3 packages", function()
         local normalize = pip3.normalize_package
         assert.equals("python-lsp-server", normalize "python-lsp-server[all]")
@@ -117,6 +121,7 @@ describe("pip3 manager", function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, pip3.packages { "package" })
+            assert.spy(ctx.spawn.python).was_called(1)
             assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
                 "pip",
@@ -124,6 +129,42 @@ describe("pip3 manager", function()
                 "install",
                 "-U",
                 { "--proxy", "http://localhost:8080" },
+                { "package" },
+                with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
+            }
+        end)
+    )
+
+    it(
+        "should upgrade pip",
+        async_test(function()
+            settings.set {
+                pip = {
+                    upgrade_pip = true,
+                },
+            }
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
+            installer.run_installer(ctx, pip3.packages { "package" })
+            vim.pretty_print(ctx.spawn.python)
+            assert.spy(ctx.spawn.python).was_called(2)
+            assert.spy(ctx.spawn.python).was_called_with {
+                "-m",
+                "pip",
+                "--disable-pip-version-check",
+                "install",
+                "-U",
+                {},
+                "pip",
+                with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
+            }
+            assert.spy(ctx.spawn.python).was_called_with {
+                "-m",
+                "pip",
+                "--disable-pip-version-check",
+                "install",
+                "-U",
+                {},
                 { "package" },
                 with_paths = { path.concat { path.package_prefix "dummy", "venv", "bin" } },
             }
