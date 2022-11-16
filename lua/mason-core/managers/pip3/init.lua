@@ -64,6 +64,18 @@ function M.install(packages)
 
     Optional.of_nilable(executable)
         :if_present(function()
+            if settings.current.pip.upgrade_pip then
+                ctx.spawn.python {
+                    "-m",
+                    "pip",
+                    "--disable-pip-version-check",
+                    "install",
+                    "-U",
+                    settings.current.pip.install_args,
+                    "pip",
+                    with_paths = { M.venv_path(ctx.cwd:get()) },
+                }
+            end
             ctx.spawn.python {
                 "-m",
                 "pip",

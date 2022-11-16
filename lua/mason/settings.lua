@@ -15,6 +15,9 @@ local DEFAULT_SETTINGS = {
     PATH = "prepend",
 
     pip = {
+        -- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
+        upgrade_pip = false,
+
         -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior
         -- and is not recommended.
         --
@@ -92,7 +95,7 @@ M.current = M._DEFAULT_SETTINGS
 
 ---@param opts MasonSettings
 function M.set(opts)
-    M.current = vim.tbl_deep_extend("force", M.current, opts)
+    M.current = vim.tbl_deep_extend("force", vim.deepcopy(M.current), opts)
 end
 
 return M
