@@ -121,6 +121,7 @@ describe("pip3 manager", function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, pip3.packages { "package" })
+            assert.spy(ctx.spawn.python).was_called(1)
             assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
                 "pip",
@@ -146,6 +147,7 @@ describe("pip3 manager", function()
             local ctx = InstallContextGenerator(handle)
             installer.run_installer(ctx, pip3.packages { "package" })
             vim.pretty_print(ctx.spawn.python)
+            assert.spy(ctx.spawn.python).was_called(2)
             assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
                 "pip",
