@@ -1313,6 +1313,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`36231e6`](https://github.com/williamboman/mason.nvim/commit/36231e6) 2022-11-18 - fix(dhall-lsp): github release doesn't always include lsp server asset ([#675](https://github.com/williamboman/mason.nvim/issues/675)) by William Boman
 - [`5a25626`](https://github.com/williamboman/mason.nvim/commit/5a25626) 2022-10-06 - fix(dhall): new assets have capitalized naming ([#520](https://github.com/williamboman/mason.nvim/issues/520)) by kylo252
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
