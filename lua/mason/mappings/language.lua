@@ -78,7 +78,7 @@ return {
   move = { "move-analyzer" },
   mustache = { "djlint" },
   nickel = { "nickel-lang-lsp" },
-  nim = { "nimlsp" },
+  nim = { "nimlsp", "nimpretty", "nimsuggest" },
   nix = { "rnix-lsp" },
   nunjucks = { "curlylint", "djlint" },
   ocaml = { "ocaml-lsp" },

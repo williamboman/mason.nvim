@@ -140,6 +140,8 @@ return {
   netcoredbg = "mason-registry.netcoredbg",
   ["nickel-lang-lsp"] = "mason-registry.nickel-lang-lsp",
   nimlsp = "mason-registry.nimlsp",
+  nimpretty = "mason-registry.nimpretty",
+  nimsuggest = "mason-registry.nimsuggest",
   ["node-debug2-adapter"] = "mason-registry.node-debug2-adapter",
   nxls = "mason-registry.nxls",
   ["ocaml-lsp"] = "mason-registry.ocaml-lsp",
