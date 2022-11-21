@@ -5206,6 +5206,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`60a03f5`](https://github.com/williamboman/mason.nvim/commit/60a03f5) 2022-11-20 - fix(yapf): install toml to support parsing .toml config files ([#682](https://github.com/williamboman/mason.nvim/issues/682)) by William Boman
 - [`ec7c134`](https://github.com/williamboman/mason.nvim/commit/ec7c134) 2022-08-17 - feat: add yapf ([#304](https://github.com/williamboman/mason.nvim/issues/304)) by Rolf Strijdhorst
 </details>
 
