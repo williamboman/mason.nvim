@@ -15,17 +15,13 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        local function format_release_file(file)
-            return _.compose(_.format(file), _.gsub("^v", ""))
-        end
-
         github
             .unzip_release_file({
                 repo = "candid82/joker",
                 asset_file = coalesce(
-                    when(platform.is.mac, format_release_file "joker-%s-mac-amd64.zip"),
-                    when(platform.is.linux_x64, format_release_file "joker-%s-linux-amd64.zip"),
-                    when(platform.is.win_x64, format_release_file "joker-%s-win-amd64.zip")
+                    when(platform.is.mac, "joker-mac-amd64.zip"),
+                    when(platform.is.linux_x64, "joker-linux-amd64.zip"),
+                    when(platform.is.win_x64, "joker-win-amd64.zip")
                 ),
             })
             .with_receipt()
