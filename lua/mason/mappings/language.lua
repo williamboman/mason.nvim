@@ -77,6 +77,7 @@ return {
   mksh = { "shfmt" },
   move = { "move-analyzer" },
   mustache = { "djlint" },
+  nginx = { "nginx-language-server" },
   nickel = { "nickel-lang-lsp" },
   nim = { "nimlsp" },
   nix = { "rnix-lsp" },
