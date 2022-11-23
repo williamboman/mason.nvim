@@ -53,9 +53,9 @@ Setting up mason.nvim
 
 The only thing needed to get started with mason.nvim is to make sure to call
 the `setup()` function:
-
+>lua
     require("mason").setup()
-
+<
 This will enhance the Neovim session's PATH environment with the location of
 executables installed with mason.nvim.
 
@@ -65,27 +65,27 @@ Refer to |mason-settings| for available settings.
 Installing packages
 
 Install a package via |:MasonInstall|, for example:
-
+>vim
     :MasonInstall stylua
-
+<
 You may also install multiple packages at a time:
-
+>vim
     :MasonInstall stylua lua-language-server
-
+<
 To install a specific version of a package, you may provide it as part of the
 package name, like so:
-
+>vim
     :MasonInstall rust-analyzer@nightly
-
+<
 Please refer to each package's own release pages to find which versions are
 available.
 
 You may also install packages in headless mode. This will run the command in
 blocking mode and the command won't yield back until all packages have
 finished installing:
-
+>sh
     $ nvim --headless -c "MasonInstall lua-language-server rust-analyzer" -c qall
-
+<
 Note: ~
     You may also use the Lua API |mason-api-reference| to programmatically
     manage package installations. Through this interface you will also gain
@@ -94,8 +94,9 @@ Note: ~
 -----------------
 The Mason window
 
-To view the UI for mason, run:
+To view the UI for mason, run: >vim
     :Mason
+<
 
 Through this UI you may explore which packages that are available, see which
 installed packages have new versions available, install, uninstall, or update
@@ -147,38 +148,39 @@ window is open.
 
 ------------------------------------------------------------------------------
 INSTALLING PACKAGES                                            *:MasonInstall*
-
+>vim
 :MasonInstall <package> ...
-
+<
 Installs the provided packages. Packages may include a version specifier,
 like so:
-
+>vim
     :MasonInstall lua-language-server@v3.0.0
-
+<
 Runs in blocking fashion if there are no UIs attached (i.e. running in
 headless mode):
-
+>sh
     $ nvim --headless -c "MasonInstall stylua" -c "qall"
-
+<
 ------------------------------------------------------------------------------
 UNINSTALLING PACKAGES                                        *:MasonUninstall*
-
+>vim
 :MasonUninstall <package> ...
+<
 
 Uninstalls the provided packages.
 
 ------------------------------------------------------------------------------
 UNINSTALLING ALL PACKAGES                                 *:MasonUninstallAll*
-
+>vim
 :MasonUninstallAll
-
+<
 Uninstalls all installed packages.
 
 ------------------------------------------------------------------------------
 VIEW THE MASON LOG                                                 *:MasonLog*
-
+>vim
 :MasonLog
-
+<
 Opens the log file in a new tab window.
 
 ==============================================================================
@@ -190,7 +192,7 @@ function.
 Refer to the |mason-default-settings| for all available settings.
 
 Example:
-
+>lua
     require("mason").setup({
         ui = {
             icons = {
@@ -200,9 +202,9 @@ Example:
             }
         }
     })
-
+<
                                                       *mason-default-settings*
-
+>lua
     local DEFAULT_SETTINGS = {
         -- The directory in which to install packages.
         install_root_dir = path.concat { vim.fn.stdpath "data", "mason" },
@@ -289,7 +291,7 @@ Example:
             },
         },
     }
-
+<
 
 ==============================================================================
 DOWNLOAD MIRRORS                                      *mason-download-mirrors*
@@ -300,7 +302,7 @@ GITHUB MIRROR                                   *mason-download-mirror-github*
     It's possible to customize the download URL used when downloading assets
     from GitHub releases by setting the `github.download_url_template`
     settings during setup, like so:
-
+>lua
     require("mason").setup {
         github = {
             -- The template URL to use when downloading assets from GitHub.
@@ -311,7 +313,7 @@ GITHUB MIRROR                                   *mason-download-mirror-github*
             download_url_template = "https://my.mirror.com/%s/releases/download/%s/%s",
         },
     }
-
+<
 
 ==============================================================================
 INSTALLATION ERRORS                                             *mason-errors*
@@ -323,14 +325,14 @@ metadata. Calling this service may result in network errors on some networks
 option, you will have to change the provider implementation. Mason provides a
 client provider which calls underlying 3rd party service APIs directly, which
 you can enable like so:
-
+>lua
     require("mason").setup {
         providers = {
             "mason.providers.client",
             "mason.providers.registry-api",
         }
     }
-
+<
     Note: ~
         The client provider have less overall coverage and may come with
         additional performance penalties (spawning slow commands, network &
@@ -341,11 +343,11 @@ DEBUGGING                                                    *mason-debugging*
 
 To help with debugging issues with installing/uninstalling packages, please
 make sure to set mason's log level to DEBUG or TRACE, like so:
-
+>lua
     require("mason").setup {
         log_level = vim.log.levels.DEBUG
     }
-
+<
 You may find the logs by entering the command `:MasonLog`. Providing the
 contents of this file when reporting an issue will help tremendously. Remember
 to redo whatever is failing after changing the log level in order to capture
