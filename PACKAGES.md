@@ -2522,6 +2522,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
+- [`27f13da`](https://github.com/williamboman/mason.nvim/commit/27f13da) 2022-11-22 - fix(joker): update asset filenames ([#685](https://github.com/williamboman/mason.nvim/issues/685)) by William Boman
 - [`b3bb9e0`](https://github.com/williamboman/mason.nvim/commit/b3bb9e0) 2022-08-02 - feat: add xo, jq, buf, joker, csharpier ([#221](https://github.com/williamboman/mason.nvim/issues/221)) by Vu Le Thanh
 </details>
 
