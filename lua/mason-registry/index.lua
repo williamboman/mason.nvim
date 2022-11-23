@@ -138,6 +138,7 @@ return {
   ["move-analyzer"] = "mason-registry.move-analyzer",
   mypy = "mason-registry.mypy",
   netcoredbg = "mason-registry.netcoredbg",
+  ["nginx-language-server"] = "mason-registry.nginx-language-server",
   ["nickel-lang-lsp"] = "mason-registry.nickel-lang-lsp",
   nimlsp = "mason-registry.nimlsp",
   ["node-debug2-adapter"] = "mason-registry.node-debug2-adapter",
