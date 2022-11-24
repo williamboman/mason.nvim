@@ -139,6 +139,7 @@
 - [move-analyzer](#move-analyzer)
 - [mypy](#mypy)
 - [netcoredbg](#netcoredbg)
+- [nginx-language-server](#nginx-language-server)
 - [nickel-lang-lsp](#nickel-lang-lsp)
 - [nimlsp](#nimlsp)
 - [node-debug2-adapter](#node-debug2-adapter)
@@ -3031,6 +3032,25 @@ Categories: `DAP`
 
 ```
 :MasonInstall netcoredbg
+```
+
+
+# nginx-language-server
+
+> A language server for nginx configuration files.
+
+Homepage: [https://github.com/pappasam/nginx-language-server](https://github.com/pappasam/nginx-language-server)  
+Languages: `Nginx`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`0c5e610`](https://github.com/williamboman/mason.nvim/commit/0c5e610) 2022-11-23 - feat(registry): add nginx-language-server ([#688](https://github.com/williamboman/mason.nvim/issues/688)) by Stéphane Bisinger
+</details>
+
+```
+:MasonInstall nginx-language-server
 ```
 
 
