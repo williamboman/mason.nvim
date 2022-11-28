@@ -101,6 +101,7 @@ return {
   ruby = { "erb-lint", "rubocop", "ruby-lsp", "solargraph", "sorbet", "standardrb" },
   rust = { "codelldb", "cpptools", "rust-analyzer", "rustfmt" },
   salt = { "salt-lsp" },
+  scheme = { "scheme-langserver" },
   scss = { "css-lsp", "prettier", "prettierd" },
   sh = { "beautysh" },
   shell = { "shfmt" },

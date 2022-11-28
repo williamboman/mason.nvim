@@ -191,6 +191,7 @@ return {
   ["rust-analyzer"] = "mason-registry.rust-analyzer",
   rustfmt = "mason-registry.rustfmt",
   ["salt-lsp"] = "mason-registry.salt-lsp",
+  ["scheme-langserver"] = "mason-registry.scheme-langserver",
   selene = "mason-registry.selene",
   ["serve-d"] = "mason-registry.serve-d",
   shellcheck = "mason-registry.shellcheck",

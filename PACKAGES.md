@@ -2,6 +2,7 @@
 # Mason Package Index
 > `:Mason`
 
+- [Mason Package Index](#mason-package-index)
 - [actionlint](#actionlint)
 - [ada-language-server](#ada-language-server)
 - [alex](#alex)
@@ -72,7 +73,7 @@
 - [erlang-ls](#erlang-ls)
 - [esbonio](#esbonio)
 - [eslint-lsp](#eslint-lsp)
-- [eslint_d](#eslint_d)
+- [eslint\_d](#eslint_d)
 - [fantomas](#fantomas)
 - [firefox-debug-adapter](#firefox-debug-adapter)
 - [fixjson](#fixjson)
