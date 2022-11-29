@@ -351,13 +351,30 @@ end
 local function terminate_package_handle(event)
     ---@type Package
     local pkg = event.payload
+    vim.schedule_wrap(notify)(("Cancelling installation of %q."):format(pkg.name))
     pkg:get_handle():if_present(
         ---@param handle InstallHandle
         function(handle)
-            vim.schedule_wrap(notify)(("Cancelling installation of %q."):format(pkg.name))
-            handle:terminate()
+            if not handle:is_closed() then
+                handle:terminate()
+            end
         end
     )
+end
+
+local function terminate_all_package_handles(event)
+    ---@type Package[]
+    local pkgs = _.list_copy(event.payload) -- we copy because list is mutated while iterating it
+    for _, pkg in ipairs(pkgs) do
+        pkg:get_handle():if_present(
+            ---@param handle InstallHandle
+            function(handle)
+                if not handle:is_closed() then
+                    handle:terminate()
+                end
+            end
+        )
+    end
 end
 
 local function install_package(event)
@@ -371,19 +388,6 @@ local function uninstall_package(event)
     local pkg = event.payload
     pkg:uninstall()
     vim.schedule_wrap(notify)(("%q was successfully uninstalled."):format(pkg.name))
-end
-
-local function dequeue_package(event)
-    ---@type Package
-    local pkg = event.payload
-    pkg:get_handle():if_present(
-        ---@param handle InstallHandle
-        function(handle)
-            if not handle:is_closed() then
-                handle:terminate()
-            end
-        end
-    )
 end
 
 local function toggle_expand_package(event)
@@ -544,10 +548,10 @@ local effects = {
     ["CHECK_NEW_VISIBLE_PACKAGE_VERSIONS"] = a.scope(check_new_visible_package_versions),
     ["CLEAR_LANGUAGE_FILTER"] = clear_filter,
     ["CLOSE_WINDOW"] = window.close,
-    ["DEQUEUE_PACKAGE"] = dequeue_package,
     ["INSTALL_PACKAGE"] = install_package,
     ["LANGUAGE_FILTER"] = filter,
     ["SET_VIEW"] = set_view,
+    ["TERMINATE_PACKAGE_HANDLES"] = terminate_all_package_handles,
     ["TERMINATE_PACKAGE_HANDLE"] = terminate_package_handle,
     ["TOGGLE_EXPAND_CURRENT_SETTINGS"] = toggle_expand_current_settings,
     ["TOGGLE_EXPAND_PACKAGE"] = toggle_expand_package,

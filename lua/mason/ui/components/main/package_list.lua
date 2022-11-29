@@ -197,6 +197,7 @@ local function Installing(state)
         heading = Ui.Node {
             Ui.HlTextNode(p.heading "Installing"),
             Ui.StickyCursor { id = "installing-section" },
+            Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLES", packages),
         },
         hide_when_empty = true,
         packages = packages,
@@ -231,7 +232,11 @@ local function Queued(state)
     local packages = state.packages.queued
     return PackageListContainer {
         state = state,
-        heading = Ui.HlTextNode(p.heading "Queued"),
+        heading = Ui.Node {
+            Ui.HlTextNode(p.heading "Queued"),
+            Ui.StickyCursor { id = "queued-section" },
+            Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLES", packages),
+        },
         packages = packages,
         hide_when_empty = true,
         ---@param pkg Package
@@ -241,7 +246,7 @@ local function Queued(state)
                     { p.highlight(settings.current.ui.icons.package_pending), p.none(" " .. pkg.name) },
                 },
                 Ui.StickyCursor { id = ("%s-installing"):format(pkg.spec.name) },
-                Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "DEQUEUE_PACKAGE", pkg),
+                Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLE", pkg),
             }
         end,
     }
