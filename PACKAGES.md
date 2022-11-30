@@ -4716,6 +4716,7 @@ Categories: `Compiler`
 <details>
     <summary>History:</summary>
 
+- [`175408f`](https://github.com/williamboman/mason.nvim/commit/175408f) 2022-11-30 - fix(tectonic): pin version ([#708](https://github.com/williamboman/mason.nvim/issues/708)) by William Boman
 - [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`7c9155b`](https://github.com/williamboman/mason.nvim/commit/7c9155b) 2022-08-06 - feat: add tectonic ([#249](https://github.com/williamboman/mason.nvim/issues/249)) by Vu Le Thanh
 </details>
