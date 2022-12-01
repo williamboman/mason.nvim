@@ -20,6 +20,7 @@ local function ensure_npm_root(ctx)
     if not (ctx.fs:dir_exists "node_modules" or ctx.fs:file_exists "package.json") then
         -- Create a package.json to set a boundary for where npm installs packages.
         ctx.spawn.npm { "init", "--yes", "--scope=mason" }
+        ctx.stdio_sink.stdout "Initialized npm root\n"
     end
 end
 
