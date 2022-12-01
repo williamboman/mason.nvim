@@ -45,11 +45,13 @@ end
 ---@field is_checking_new_version boolean
 ---@field is_checking_version boolean
 ---@field is_terminated boolean
+---@field is_log_expanded boolean
+---@field has_failed boolean
 ---@field latest_spawn string?
 ---@field linked_executables table<string, string>?
 ---@field lsp_settings_schema table?
 ---@field new_version NewPackageVersion?
----@field short_tailed_output string[]
+---@field short_tailed_output string?
 ---@field tailed_output string[]
 ---@field version string?
 
@@ -179,6 +181,28 @@ local function mutate_package_visibility(mutate_fn)
     end)
 end
 
+---@return UiPackageState
+local function create_initial_package_state()
+    return {
+        expanded_json_schema_keys = {},
+        expanded_json_schemas = {},
+        has_expanded_before = false,
+        has_transitioned = false,
+        is_checking_new_version = false,
+        is_checking_version = false,
+        is_terminated = false,
+        is_log_expanded = false,
+        has_failed = false,
+        latest_spawn = nil,
+        linked_executables = nil,
+        lsp_settings_schema = nil,
+        new_version = nil,
+        short_tailed_output = nil,
+        tailed_output = {},
+        version = nil,
+    }
+end
+
 ---@param handle InstallHandle
 local function setup_handle(handle)
     local function handle_state_change()
@@ -199,20 +223,20 @@ local function setup_handle(handle)
     ---@param chunk string
     local function handle_output(chunk)
         mutate_state(function(state)
-            -- TODO: improve this
             local pkg_state = state.packages.states[handle.package.name]
-            for idx, line in ipairs(vim.split(chunk, "\n")) do
-                if idx == 1 and pkg_state.tailed_output[#pkg_state.tailed_output] then
+            local lines = vim.split(chunk, "\n")
+            for i = 1, #lines do
+                local line = lines[i]
+                if i == 1 and pkg_state.tailed_output[#pkg_state.tailed_output] then
                     pkg_state.tailed_output[#pkg_state.tailed_output] = pkg_state.tailed_output[#pkg_state.tailed_output]
                         .. line
                 else
                     pkg_state.tailed_output[#pkg_state.tailed_output + 1] = line
                 end
+                if not line:match "^%s*$" then
+                    pkg_state.short_tailed_output = line:gsub("^%s+", "")
+                end
             end
-            pkg_state.short_tailed_output = {
-                pkg_state.tailed_output[#pkg_state.tailed_output - 1] or "",
-                pkg_state.tailed_output[#pkg_state.tailed_output] or "",
-            }
         end)
     end
 
@@ -239,7 +263,8 @@ local function setup_handle(handle)
     handle_state_change()
     handle_spawnhandle_change()
     mutate_state(function(state)
-        state.packages.states[handle.package.name].tailed_output = {}
+        state.packages.states[handle.package.name] = create_initial_package_state()
+        state.packages.states[handle.package.name].short_tailed_output = "Installing…"
     end)
 end
 
@@ -270,26 +295,6 @@ local function hydrate_detailed_package_state(pkg)
             end)
         end
     )
-end
-
----@return UiPackageState
-local function create_initial_package_state()
-    return {
-        expanded_json_schema_keys = {},
-        expanded_json_schemas = {},
-        has_expanded_before = false,
-        has_transitioned = false,
-        is_checking_new_version = false,
-        is_checking_version = false,
-        is_terminated = false,
-        latest_spawn = nil,
-        linked_executables = nil,
-        lsp_settings_schema = nil,
-        new_version = nil,
-        short_tailed_output = {},
-        tailed_output = {},
-        version = nil,
-    }
 end
 
 local help_animation
@@ -543,6 +548,14 @@ local function update_all_packages()
     )
 end
 
+local function toggle_install_log(event)
+    ---@type Package
+    local pkg = event.payload
+    mutate_state(function(state)
+        state.packages.states[pkg.name].is_log_expanded = not state.packages.states[pkg.name].is_log_expanded
+    end)
+end
+
 local effects = {
     ["CHECK_NEW_PACKAGE_VERSION"] = a.scope(_.compose(_.partial(pcall, check_new_package_version), _.prop "payload")),
     ["CHECK_NEW_VISIBLE_PACKAGE_VERSIONS"] = a.scope(check_new_visible_package_versions),
@@ -551,11 +564,12 @@ local effects = {
     ["INSTALL_PACKAGE"] = install_package,
     ["LANGUAGE_FILTER"] = filter,
     ["SET_VIEW"] = set_view,
-    ["TERMINATE_PACKAGE_HANDLES"] = terminate_all_package_handles,
     ["TERMINATE_PACKAGE_HANDLE"] = terminate_package_handle,
+    ["TERMINATE_PACKAGE_HANDLES"] = terminate_all_package_handles,
     ["TOGGLE_EXPAND_CURRENT_SETTINGS"] = toggle_expand_current_settings,
     ["TOGGLE_EXPAND_PACKAGE"] = toggle_expand_package,
     ["TOGGLE_HELP"] = toggle_help,
+    ["TOGGLE_INSTALL_LOG"] = toggle_install_log,
     ["TOGGLE_JSON_SCHEMA"] = toggle_json_schema,
     ["TOGGLE_JSON_SCHEMA_KEY"] = toggle_json_schema_keys,
     ["UNINSTALL_PACKAGE"] = uninstall_package,
@@ -596,6 +610,9 @@ for _, pkg in ipairs(packages) do
                 mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled")
             else
                 mutate_package_grouping(pkg, "failed")
+                mutate_state(function(state)
+                    state.packages.states[pkg.name].has_failed = true
+                end)
             end
         end
     )

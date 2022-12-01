@@ -5,13 +5,13 @@ local settings = require "mason.settings"
 
 local JsonSchema = require "mason.ui.components.json-schema"
 
----@param props { state: InstallerUiState, heading: INode, packages: Package[], list_item_renderer: (fun(package: Package): INode), hide_when_empty: boolean }
+---@param props { state: InstallerUiState, heading: INode, packages: Package[], list_item_renderer: (fun(package: Package, state: InstallerUiState): INode), hide_when_empty: boolean }
 local function PackageListContainer(props)
     local items = {}
     for i = 1, #props.packages do
         local pkg = props.packages[i]
         if props.state.packages.visible[pkg.name] then
-            items[#items + 1] = props.list_item_renderer(pkg)
+            items[#items + 1] = props.list_item_renderer(pkg, props.state)
         end
     end
 
@@ -189,6 +189,42 @@ local function Installed(state)
     }
 end
 
+---@param pkg Package
+---@param state InstallerUiState
+local function InstallingPackageComponent(pkg, state)
+    ---@type UiPackageState
+    local pkg_state = state.packages.states[pkg.name]
+    local current_state = pkg_state.is_terminated and p.Comment " (cancelling)" or p.none ""
+    local tail = pkg_state.short_tailed_output
+            and ("▶ (#" .. #pkg_state.tailed_output .. ") " .. pkg_state.short_tailed_output)
+        or ""
+    return Ui.Node {
+        Ui.HlTextNode {
+            {
+                pkg_state.has_failed and p.error(settings.current.ui.icons.package_uninstalled)
+                    or p.highlight(settings.current.ui.icons.package_pending),
+                p.none(" " .. pkg.name),
+                current_state,
+                pkg_state.latest_spawn and p.Comment((" $ %s"):format(pkg_state.latest_spawn)) or p.none "",
+            },
+        },
+        Ui.StickyCursor { id = ("%s-installing"):format(pkg.spec.name) },
+        Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLE", pkg),
+        Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
+        Ui.CascadingStyleNode({ "INDENT" }, {
+            Ui.HlTextNode(pkg_state.is_log_expanded and p.Bold "▼ Displaying full log" or p.muted(tail)),
+            Ui.Keybind("<CR>", "TOGGLE_INSTALL_LOG", pkg),
+        }),
+        Ui.When(pkg_state.is_log_expanded, function()
+            return Ui.CascadingStyleNode({ "INDENT", "INDENT" }, {
+                Ui.HlTextNode(_.map(function(line)
+                    return { p.muted(line) }
+                end, pkg_state.tailed_output)),
+            })
+        end),
+    }
+end
+
 ---@param state InstallerUiState
 local function Installing(state)
     local packages = state.packages.installing
@@ -202,28 +238,7 @@ local function Installing(state)
         hide_when_empty = true,
         packages = packages,
         ---@param pkg Package
-        list_item_renderer = function(pkg)
-            ---@type UiPackageState
-            local pkg_state = state.packages.states[pkg.name]
-            local current_state = pkg_state.is_terminated and p.Comment " (cancelling)" or p.none ""
-            return Ui.Node {
-                Ui.HlTextNode {
-                    {
-                        p.highlight(settings.current.ui.icons.package_pending),
-                        p.none(" " .. pkg.name),
-                        current_state,
-                        pkg_state.latest_spawn and p.Comment((" $ %s"):format(pkg_state.latest_spawn)) or p.none "",
-                    },
-                },
-                Ui.StickyCursor { id = ("%s-installing"):format(pkg.spec.name) },
-                Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLE", pkg),
-                Ui.CascadingStyleNode({ "INDENT" }, {
-                    Ui.HlTextNode(_.map(function(line)
-                        return { p.muted(line) }
-                    end, pkg_state.short_tailed_output)),
-                }),
-            }
-        end,
+        list_item_renderer = InstallingPackageComponent,
     }
 end
 
@@ -263,24 +278,7 @@ local function Failed(state)
         heading = Ui.HlTextNode(p.heading "Failed"),
         packages = packages,
         ---@param pkg Package
-        list_item_renderer = function(pkg)
-            ---@type UiPackageState
-            local pkg_state = state.packages.states[pkg.name]
-            return Ui.Node {
-                PackageComponent(state, pkg, {
-                    icon = p.error(settings.current.ui.icons.package_pending),
-                    keybinds = {
-                        Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
-                    },
-                    sticky = Ui.StickyCursor { id = ("%s-installing"):format(pkg.name) },
-                }),
-                Ui.CascadingStyleNode({ "INDENT" }, {
-                    Ui.HlTextNode(_.map(function(line)
-                        return { p.muted(line) }
-                    end, pkg_state.tailed_output)),
-                }),
-            }
-        end,
+        list_item_renderer = InstallingPackageComponent,
     }
 end
 
@@ -307,10 +305,10 @@ end
 ---@param state InstallerUiState
 return function(state)
     return Ui.CascadingStyleNode({ "INDENT" }, {
-        Installed(state),
+        Failed(state),
         Installing(state),
         Queued(state),
-        Failed(state),
+        Installed(state),
         Uninstalled(state),
     })
 end
