@@ -208,12 +208,13 @@ local function InstallingPackageComponent(pkg, state)
                 pkg_state.latest_spawn and p.Comment((" $ %s"):format(pkg_state.latest_spawn)) or p.none "",
             },
         },
-        Ui.StickyCursor { id = ("%s-installing"):format(pkg.spec.name) },
+        Ui.StickyCursor { id = ("%s-installing"):format(pkg.name) },
         Ui.Keybind(settings.current.ui.keymaps.cancel_installation, "TERMINATE_PACKAGE_HANDLE", pkg),
         Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
         Ui.CascadingStyleNode({ "INDENT" }, {
             Ui.HlTextNode(pkg_state.is_log_expanded and p.Bold "▼ Displaying full log" or p.muted(tail)),
             Ui.Keybind("<CR>", "TOGGLE_INSTALL_LOG", pkg),
+            Ui.StickyCursor { id = ("%s-toggle-install-log"):format(pkg.name) },
         }),
         Ui.When(pkg_state.is_log_expanded, function()
             return Ui.CascadingStyleNode({ "INDENT", "INDENT" }, {
