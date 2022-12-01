@@ -198,6 +198,7 @@ return {
   shfmt = "mason-registry.shfmt",
   ["shopify-theme-check"] = "mason-registry.shopify-theme-check",
   ["slint-lsp"] = "mason-registry.slint-lsp",
+  ["smarty-language-server"] = "mason-registry.smarty-language-server",
   solang = "mason-registry.solang",
   solargraph = "mason-registry.solargraph",
   solhint = "mason-registry.solhint",
