@@ -196,7 +196,11 @@ local function InstallingPackageComponent(pkg, state)
     local pkg_state = state.packages.states[pkg.name]
     local current_state = pkg_state.is_terminated and p.Comment " (cancelling)" or p.none ""
     local tail = pkg_state.short_tailed_output
-            and ("▶ (#" .. #pkg_state.tailed_output .. ") " .. pkg_state.short_tailed_output)
+            and ("▶ # [%d/%d] %s"):format(
+                #pkg_state.tailed_output,
+                #pkg_state.tailed_output,
+                pkg_state.short_tailed_output
+            )
         or ""
     return Ui.Node {
         Ui.HlTextNode {
