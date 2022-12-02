@@ -3,7 +3,9 @@
 Minimum version of neovim: 0.7.0
 
 Author: William Boman
+                                                            *mason-help-guide*
                                        Type |gO| to see the table of contents.
+                        Press |K| on a helptag to jump to it: |mason-help-guide|
 
 ==============================================================================
 INTRODUCTION                                              *mason-introduction*
