@@ -170,15 +170,15 @@ M._render_node = render_node
 ---@param opts WindowOpts
 ---@param sizes_only boolean Whether to only return properties that control the window size.
 local function create_popup_window_opts(opts, sizes_only)
-    local win_height = vim.o.lines - vim.o.cmdheight - 2 -- Add margin for status and buffer line
-    local win_width = vim.o.columns
-    local height = math.floor(win_height * 0.9)
-    local width = math.floor(win_width * 0.8)
+    local columns = vim.o.columns
+    local top_offset = 1
+    local height = vim.o.lines - vim.o.cmdheight - top_offset
+    local width = math.floor(columns * 0.8)
     local popup_layout = {
         height = height,
         width = width,
-        row = math.floor((win_height - height) / 2),
-        col = math.floor((win_width - width) / 2),
+        row = top_offset,
+        col = math.floor((columns - width) / 2),
         relative = "editor",
         style = "minimal",
         zindex = 45,
