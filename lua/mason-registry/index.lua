@@ -181,6 +181,7 @@ return {
   ["reorder-python-imports"] = "mason-registry.reorder-python-imports",
   ["rescript-lsp"] = "mason-registry.rescript-lsp",
   revive = "mason-registry.revive",
+  ripgrep = "mason-registry.ripgrep",
   ["rnix-lsp"] = "mason-registry.rnix-lsp",
   ["robotframework-lsp"] = "mason-registry.robotframework-lsp",
   rome = "mason-registry.rome",
