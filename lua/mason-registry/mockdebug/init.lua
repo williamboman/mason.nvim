@@ -1,6 +1,7 @@
 local Pkg = require "mason-core.package"
 local github = require "mason-core.managers.github"
 local git = require "mason-core.managers.git"
+local path = require "mason-core.path"
 local _ = require "mason-core.functional"
 local Optional = require "mason-core.optional"
 
@@ -22,5 +23,9 @@ return Pkg.new {
         ctx.spawn.npm { "install" }
         ctx.spawn.npm { "run", "compile" }
         ctx.spawn.npm { "install", "--production" }
+        ctx:link_bin(
+            "mock-debug-adapter",
+            ctx:write_node_exec_wrapper("mock-debug-adapter", path.concat { "out", "debugAdapter.js" })
+        )
     end,
 }
