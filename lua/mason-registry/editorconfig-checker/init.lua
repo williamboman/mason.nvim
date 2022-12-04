@@ -28,6 +28,6 @@ return Pkg.new {
         }
         source.with_receipt()
         local prog = source.asset_file:gsub("%.tar%.gz$", "")
-        ctx:link_bin("editorconfig-checker", path.concat { "bin", prog })
+        ctx:link_bin("ec", path.concat { "bin", prog })
     end,
 }
