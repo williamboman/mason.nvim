@@ -80,7 +80,10 @@ function Package:new_handle()
     log.fmt_trace("Creating new handle for %s", self)
     local handle = InstallationHandle.new(self)
     self.handle = handle
+    -- First emit a private autocmd via the native event bus. This is to enable some internal perf improvements.
+    vim.api.nvim_exec_autocmds("User", { pattern = "__MasonPackageHandle", data = self.name })
     self:emit("handle", handle)
+    registry:emit("package:handle", self, handle)
     return handle
 end
 
