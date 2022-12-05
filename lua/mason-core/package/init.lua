@@ -81,7 +81,11 @@ function Package:new_handle()
     local handle = InstallationHandle.new(self)
     self.handle = handle
 
-    require("mason.terminator").register(handle)
+    -- Ideally we'd decouple this and leverage Mason's event system, but to allow loading as little as possible during
+    -- setup (i.e. not load modules related to Mason's event system) of the mason.nvim plugin we explicitly call into
+    -- terminator here.
+    require("mason-core.terminator").register(handle)
+
     self:emit("handle", handle)
     registry:emit("package:handle", self, handle)
 

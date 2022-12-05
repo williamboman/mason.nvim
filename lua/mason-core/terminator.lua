@@ -1,4 +1,3 @@
-local registry = require "mason-registry"
 local a = require "mason-core.async"
 
 -- Hasta la vista, baby.

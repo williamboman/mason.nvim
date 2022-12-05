@@ -7,7 +7,7 @@ local M = {}
 local function setup_autocmds()
     vim.api.nvim_create_autocmd("VimLeavePre", {
         callback = function()
-            require("mason.terminator").terminate(5000)
+            require("mason-core.terminator").terminate(5000)
         end,
         once = true,
     })
