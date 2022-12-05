@@ -56,15 +56,14 @@ end
 
 local active_handles = {}
 
-function M.setup()
-    registry:on("package:handle", function(_, handle)
-        if handle:is_closed() then
-            return
-        end
-        active_handles[handle] = true
-        handle:once("closed", function()
-            active_handles[handle] = nil
-        end)
+---@parma handle InstallHandle
+function M.register(handle)
+    if handle:is_closed() then
+        return
+    end
+    active_handles[handle] = true
+    handle:once("closed", function()
+        active_handles[handle] = nil
     end)
 end
 

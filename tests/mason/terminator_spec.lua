@@ -8,10 +8,6 @@ local _ = require "mason-core.functional"
 local InstallHandle = require "mason-core.installer.handle"
 
 describe("terminator", function()
-    before_each(function()
-        terminator.setup()
-    end)
-
     it(
         "should terminate all active handles on nvim exit",
         async_test(function()
