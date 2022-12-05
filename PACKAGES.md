@@ -2965,6 +2965,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`d8e2422`](https://github.com/williamboman/mason.nvim/commit/d8e2422) 2022-12-04 - feat(mockdebug): write & link mock-debug-adapter executable ([#723](https://github.com/williamboman/mason.nvim/issues/723)) by Svetlozar Iliev
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
