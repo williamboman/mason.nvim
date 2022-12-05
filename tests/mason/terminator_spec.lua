@@ -1,4 +1,5 @@
 local stub = require "luassert.stub"
+local match = require "luassert.match"
 local spy = require "luassert.spy"
 local a = require "mason-core.async"
 local registry = require "mason-registry"
@@ -14,6 +15,7 @@ describe("terminator", function()
     it(
         "should terminate all active handles on nvim exit",
         async_test(function()
+            spy.on(InstallHandle, "terminate")
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
             for _, pkg in ipairs { dummy, dummy2 } do
@@ -25,11 +27,9 @@ describe("terminator", function()
 
             dummy:install()
             dummy2:install()
-            spy.on(InstallHandle, "terminate")
+            terminator.terminate(5000)
 
-            terminator.terminate()
             a.scheduler()
-
             assert.spy(InstallHandle.terminate).was_called(2)
         end)
     )
@@ -39,6 +39,7 @@ describe("terminator", function()
         async_test(function()
             spy.on(vim.api, "nvim_echo")
             spy.on(vim.api, "nvim_err_writeln")
+            spy.on(InstallHandle, "terminate")
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
             for _, pkg in ipairs { dummy, dummy2 } do
@@ -50,9 +51,7 @@ describe("terminator", function()
 
             dummy:install()
             dummy2:install()
-            spy.on(InstallHandle, "terminate")
-
-            terminator.terminate()
+            terminator.terminate(5000)
 
             assert.spy(vim.api.nvim_echo).was_called(1)
             assert.spy(vim.api.nvim_echo).was_called_with({
@@ -70,6 +69,32 @@ describe("terminator", function()
                 - dummy
                 - dummy2
             ]])
+        end)
+    )
+
+    it(
+        "should send SIGTERM and then SIGKILL after grace period",
+        async_test(function()
+            spy.on(InstallHandle, "kill")
+            local dummy = registry.get_package "dummy"
+            stub(dummy.spec, "install")
+            dummy.spec.install.invokes(function(ctx)
+                -- your signals have no power here
+                ctx.spawn.bash { "-c", "function noop { :; }; trap noop SIGTERM; sleep 999999;" }
+            end)
+
+            local handle = dummy:install()
+
+            assert.wait_for(function()
+                assert.spy(dummy.spec.install).was_called()
+            end)
+            terminator.terminate(50)
+
+            assert.wait_for(function()
+                assert.spy(InstallHandle.kill).was_called(2)
+                assert.spy(InstallHandle.kill).was_called_with(match.is_ref(handle), 15) -- SIGTERM
+                assert.spy(InstallHandle.kill).was_called_with(match.is_ref(handle), 9) -- SIGKILL
+            end)
         end)
     )
 end)

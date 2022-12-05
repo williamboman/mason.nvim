@@ -22,21 +22,32 @@ local M = {}
 
 ---@async
 ---@param handles InstallHandle[]
-local function terminate_handles(handles)
+---@param grace_ms integer
+local function terminate_handles(handles, grace_ms)
     a.wait_all(vim.tbl_map(
         ---@param handle InstallHandle
         function(handle)
-            if not handle:is_closed() then
-                handle:terminate()
-            end
             return function()
-                a.wait(function(resolve)
-                    if handle:is_closed() then
-                        resolve()
-                    else
-                        handle:once("closed", resolve)
-                    end
-                end)
+                a.wait_first {
+                    function()
+                        if not handle:is_closed() then
+                            handle:terminate()
+                        end
+                        a.wait(function(resolve)
+                            if handle:is_closed() then
+                                resolve()
+                            else
+                                handle:once("closed", resolve)
+                            end
+                        end)
+                    end,
+                    function()
+                        a.sleep(grace_ms)
+                        if not handle:is_closed() then
+                            handle:kill(9) -- SIGKILL
+                        end
+                    end,
+                }
             end
         end,
         handles
@@ -57,7 +68,8 @@ function M.setup()
     end)
 end
 
-function M.terminate()
+---@param grace_ms integer
+function M.terminate(grace_ms)
     local handles = vim.tbl_keys(active_handles)
     if #handles > 0 then
         local package_names = vim.tbl_map(function(h)
@@ -76,14 +88,7 @@ function M.terminate()
 
         -- 2. Synchronously terminate all installation handles.
         a.run_blocking(function()
-            a.wait_first {
-                function()
-                    a.sleep(5000)
-                end,
-                function()
-                    terminate_handles(handles)
-                end,
-            }
+            terminate_handles(handles, grace_ms)
         end)
 
         -- 3. Schedule error message to be displayed so that Neovim prints it to the tty.
