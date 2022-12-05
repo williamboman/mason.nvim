@@ -70,3 +70,6 @@ globals:
         any: true
     assert.snapshot:
         args: []
+    assert.is_not.has_error:
+        args:
+            - type: function

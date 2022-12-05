@@ -3,15 +3,11 @@ local match = require "luassert.match"
 local spy = require "luassert.spy"
 local a = require "mason-core.async"
 local registry = require "mason-registry"
-local terminator = require "mason.terminator"
+local terminator = require "mason-core.terminator"
 local _ = require "mason-core.functional"
 local InstallHandle = require "mason-core.installer.handle"
 
 describe("terminator", function()
-    before_each(function()
-        terminator.setup()
-    end)
-
     it(
         "should terminate all active handles on nvim exit",
         async_test(function()

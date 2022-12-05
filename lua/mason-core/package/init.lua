@@ -81,12 +81,10 @@ function Package:new_handle()
     local handle = InstallationHandle.new(self)
     self.handle = handle
 
-    -- First emit a private autocmd via the native event bus. This is to enable some internal perf improvements (helps avoid loading some Lua modules).
-    if vim.fn.has "nvim-0.8.0" == 1 then
-        vim.api.nvim_exec_autocmds("User", { pattern = "__MasonPackageHandle", data = self.name })
-    else
-        vim.api.nvim_exec_autocmds("User", { pattern = "__MasonPackageHandle" })
-    end
+    -- Ideally we'd decouple this and leverage Mason's event system, but to allow loading as little as possible during
+    -- setup (i.e. not load modules related to Mason's event system) of the mason.nvim plugin we explicitly call into
+    -- terminator here.
+    require("mason-core.terminator").register(handle)
 
     self:emit("handle", handle)
     registry:emit("package:handle", self, handle)
