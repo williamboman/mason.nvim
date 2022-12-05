@@ -205,6 +205,8 @@ function M.check()
                 end
             end,
         },
+        check { cmd = "python3", args = { "--version" }, name = "python3", relaxed = true },
+        check { cmd = "python3", args = { "-m", "pip", "--version" }, name = "pip3", relaxed = true },
         check { cmd = "javac", args = { "-version" }, name = "javac", relaxed = true },
         check { cmd = "java", args = { "-version" }, name = "java", use_stderr = true, relaxed = true },
         check { cmd = "julia", args = { "--version" }, name = "julia", relaxed = true },
@@ -237,28 +239,12 @@ function M.check()
     end
 
     if platform.is.win then
-        table.insert(checks, check { cmd = "python3.bat", args = { "--version" }, name = "python3", relaxed = true })
-        table.insert(checks, check { cmd = "python.bat", args = { "--version" }, name = "python", relaxed = true })
-        table.insert(
-            checks,
-            check { cmd = "python3.bat", args = { "-m", "pip", "--version" }, name = "pip3", relaxed = true }
-        )
-        table.insert(
-            checks,
-            check { cmd = "python.bat", args = { "-m", "pip", "--version" }, name = "pip", relaxed = true }
-        )
-        table.insert(checks, check { cmd = "7z", args = { "--help" }, name = "7z", relaxed = true })
-    else
-        table.insert(checks, check { cmd = "python3", args = { "--version" }, name = "python3", relaxed = true })
         table.insert(checks, check { cmd = "python", args = { "--version" }, name = "python", relaxed = true })
-        table.insert(
-            checks,
-            check { cmd = "python3", args = { "-m", "pip", "--version" }, name = "pip3", relaxed = true }
-        )
         table.insert(
             checks,
             check { cmd = "python", args = { "-m", "pip", "--version" }, name = "pip", relaxed = true }
         )
+        table.insert(checks, check { cmd = "7z", args = { "--help" }, name = "7z", relaxed = true })
     end
 
     if vim.g.python3_host_prog then
