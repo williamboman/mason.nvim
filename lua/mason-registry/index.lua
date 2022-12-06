@@ -50,6 +50,7 @@ return {
   ["cucumber-language-server"] = "mason-registry.cucumber-language-server",
   cuelsp = "mason-registry.cuelsp",
   curlylint = "mason-registry.curlylint",
+  ["dart-debug-adapter"] = "mason-registry.dart-debug-adapter",
   debugpy = "mason-registry.debugpy",
   delve = "mason-registry.delve",
   deno = "mason-registry.deno",
