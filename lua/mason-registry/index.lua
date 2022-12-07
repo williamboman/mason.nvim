@@ -138,6 +138,7 @@ return {
   mockdebug = "mason-registry.mockdebug",
   ["move-analyzer"] = "mason-registry.move-analyzer",
   mypy = "mason-registry.mypy",
+  neocmakelsp = "mason-registry.neocmakelsp",
   netcoredbg = "mason-registry.netcoredbg",
   ["nginx-language-server"] = "mason-registry.nginx-language-server",
   ["nickel-lang-lsp"] = "mason-registry.nickel-lang-lsp",
