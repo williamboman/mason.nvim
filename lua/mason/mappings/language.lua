@@ -22,7 +22,7 @@ return {
   clarity = { "clarity-lsp" },
   clojure = { "clojure-lsp", "joker" },
   clojurescript = { "clojure-lsp", "joker" },
-  cmake = { "cmake-language-server", "cmakelang", "gersemi" },
+  cmake = { "cmake-language-server", "cmakelang", "gersemi", "neocmakelsp" },
   codeql = { "codeql" },
   crystal = { "crystalline" },
   csh = { "beautysh" },
