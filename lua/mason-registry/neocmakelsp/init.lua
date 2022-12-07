@@ -3,7 +3,7 @@ local cargo = require "mason-core.managers.cargo"
 
 return Pkg.new {
     name = "neocmakelsp",
-    desc = [[CMake lsp based on Tower and treesitter]],
+    desc = [[CMake LSP implementation based on Tower and Tree-sitter]],
     homepage = "https://github.com/Decodetalkers/neocmakelsp",
     languages = { Pkg.Lang.CMake },
     categories = { Pkg.Cat.LSP },
