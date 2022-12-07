@@ -51,6 +51,7 @@
 - [cucumber-language-server](#cucumber-language-server)
 - [cuelsp](#cuelsp)
 - [curlylint](#curlylint)
+- [dart-debug-adapter](#dart-debug-adapter)
 - [debugpy](#debugpy)
 - [delve](#delve)
 - [deno](#deno)
@@ -1236,6 +1237,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall curlylint
+```
+
+
+# dart-debug-adapter
+
+> Dart debug adapter sourced from the Dart VSCode extension.
+
+Homepage: [https://github.com/Dart-Code/Dart-Code](https://github.com/Dart-Code/Dart-Code)  
+Languages: `Dart`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`99d1b27`](https://github.com/williamboman/mason.nvim/commit/99d1b27) 2022-12-07 - feat(registry): add dart-debug-adapter ([#733](https://github.com/williamboman/mason.nvim/issues/733)) by Svetlozar Iliev
+</details>
+
+```
+:MasonInstall dart-debug-adapter
 ```
 
 
