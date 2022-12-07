@@ -30,6 +30,7 @@ return {
   cucumber = { "cucumber-language-server" },
   cue = { "cuelsp" },
   d = { "serve-d" },
+  dart = { "dart-debug-adapter" },
   dhall = { "dhall-lsp" },
   django = { "curlylint", "djlint" },
   dockerfile = { "dockerfile-language-server", "hadolint" },
