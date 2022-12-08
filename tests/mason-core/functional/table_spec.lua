@@ -5,6 +5,10 @@ describe("functional: table", function()
         assert.equals("hello", _.prop("a", { a = "hello" }))
     end)
 
+    it("retrieves nested property of table", function()
+        assert.equals("hello", _.path({ "a", "greeting" }, { a = { greeting = "hello" } }))
+    end)
+
     it("picks properties of table", function()
         local function fn() end
         assert.same(

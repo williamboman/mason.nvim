@@ -146,4 +146,18 @@ describe("functional: function", function()
         assert.spy(fn).was_called()
         assert.spy(fn).was_called_with(42)
     end)
+
+    it("should apply value to function", function()
+        local agent = spy.new()
+        _.apply_to("007", agent)
+        assert.spy(agent).was_called(1)
+        assert.spy(agent).was_called_with "007"
+    end)
+
+    it("should converge on function", function()
+        local target = spy.new()
+        _.converge(target, { _.head, _.last }, { "These", "Are", "Some", "Words", "Ain't", "That", "Pretty", "Nuts" })
+        assert.spy(target).was_called(1)
+        assert.spy(target).was_called_with("These", "Nuts")
+    end)
 end)
