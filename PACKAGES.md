@@ -139,6 +139,7 @@
 - [mockdebug](#mockdebug)
 - [move-analyzer](#move-analyzer)
 - [mypy](#mypy)
+- [neocmakelsp](#neocmakelsp)
 - [netcoredbg](#netcoredbg)
 - [nginx-language-server](#nginx-language-server)
 - [nickel-lang-lsp](#nickel-lang-lsp)
@@ -3032,6 +3033,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall mypy
+```
+
+
+# neocmakelsp
+
+> CMake LSP implementation based on Tower and Tree-sitter
+
+Homepage: [https://github.com/Decodetalkers/neocmakelsp](https://github.com/Decodetalkers/neocmakelsp)  
+Languages: `CMake`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`555168b`](https://github.com/williamboman/mason.nvim/commit/555168b) 2022-12-07 - feat(registry): add neocmakelsp ([#739](https://github.com/williamboman/mason.nvim/issues/739)) by Micah Halter
+</details>
+
+```
+:MasonInstall neocmakelsp
 ```
 
 
