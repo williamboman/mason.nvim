@@ -10,6 +10,12 @@ _.prop = fun.curryN(function(index, tbl)
     return tbl[index]
 end, 2)
 
+---@param path any[]
+---@param tbl table
+_.path = fun.curryN(function(path, tbl)
+    return vim.tbl_get(tbl, unpack(path))
+end, 2)
+
 ---@generic T, U
 ---@param keys T[]
 ---@param tbl table<T, U>
