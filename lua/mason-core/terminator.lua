@@ -55,7 +55,7 @@ end
 
 local active_handles = {}
 
----@parma handle InstallHandle
+---@param handle InstallHandle
 function M.register(handle)
     if handle:is_closed() then
         return

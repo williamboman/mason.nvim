@@ -36,6 +36,7 @@ exec bash -c 'echo $GREETING' "$@"]]
     end)
 
     it("should write shell exec wrapper on Windows", function()
+        platform.is.darwin = false
         platform.is.mac = false
         platform.is.unix = false
         platform.is.linux = false
