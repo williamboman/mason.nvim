@@ -211,4 +211,18 @@ describe("functional: list", function()
     it("should return last", function()
         assert.equals("Last", _.last { "Head", "List", "Last" })
     end)
+
+    it("should take n items", function()
+        local list = { "First", "Second", "Third", "I", "Have", "Poor", "Imagination" }
+        assert.same({ "First", "Second", "Third" }, _.take(3, list))
+        assert.same({}, _.take(0, list))
+        assert.same({ "First", "Second", "Third", "I", "Have", "Poor", "Imagination" }, _.take(10000, list))
+    end)
+
+    it("should drop n items", function()
+        local list = { "First", "Second", "Third", "I", "Have", "Poor", "Imagination" }
+        assert.same({ "I", "Have", "Poor", "Imagination" }, _.drop(3, list))
+        assert.same({ "First", "Second", "Third", "I", "Have", "Poor", "Imagination" }, _.drop(0, list))
+        assert.same({}, _.drop(10000, list))
+    end)
 end)
