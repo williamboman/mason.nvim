@@ -13,7 +13,7 @@ describe("go manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.go).was_called(3)
             assert.spy(ctx.spawn.go).was_called_with {
                 "install",
@@ -41,7 +41,7 @@ describe("go manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "go",
                 package = "main-package",
