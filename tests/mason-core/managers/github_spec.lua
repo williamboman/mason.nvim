@@ -14,7 +14,7 @@ describe("github release file", function()
             stub(client, "fetch_latest_release")
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            local source = installer.run_installer(ctx, function()
+            local source = installer.exec_in_context(ctx, function()
                 return github.release_file {
                     repo = "williamboman/mason.nvim",
                     asset_file = "program.exe",
@@ -39,7 +39,7 @@ describe("github release file", function()
             }))
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            local source = installer.run_installer(ctx, function()
+            local source = installer.exec_in_context(ctx, function()
                 return github.release_file {
                     repo = "williamboman/mason.nvim",
                     asset_file = function(version)
@@ -66,7 +66,7 @@ describe("github release version", function()
             stub(client, "fetch_latest_release")
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            local source = installer.run_installer(ctx, function()
+            local source = installer.exec_in_context(ctx, function()
                 return github.release_version {
                     repo = "williamboman/mason.nvim",
                     version = Optional.of "13.37",
@@ -85,7 +85,7 @@ describe("github release version", function()
                 client.fetch_latest_release.returns(Result.success { tag_name = "v42" })
                 local handle = InstallHandleGenerator "dummy"
                 local ctx = InstallContextGenerator(handle)
-                local source = installer.run_installer(ctx, function()
+                local source = installer.exec_in_context(ctx, function()
                     return github.release_version {
                         repo = "williamboman/mason.nvim",
                     }

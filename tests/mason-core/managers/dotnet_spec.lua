@@ -7,7 +7,7 @@ describe("dotnet manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, dotnet.package "main-package")
+            installer.exec_in_context(ctx, dotnet.package "main-package")
             assert.spy(ctx.spawn.dotnet).was_called(1)
             assert.spy(ctx.spawn.dotnet).was_called_with {
                 "tool",
@@ -25,7 +25,7 @@ describe("dotnet manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, dotnet.package "main-package")
+            installer.exec_in_context(ctx, dotnet.package "main-package")
             assert.same({
                 type = "dotnet",
                 package = "main-package",

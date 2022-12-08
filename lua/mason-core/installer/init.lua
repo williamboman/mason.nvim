@@ -58,11 +58,12 @@ end
 
 ---@async
 ---@param context InstallContext
----@param installer async fun(context: InstallContext)
-function M.run_installer(context, installer)
+---@param fn async fun(context: InstallContext)
+function M.exec_in_context(context, fn)
     local thread = coroutine.create(function(...)
-        -- We wrap the installer with a function to allow it to be a spy instance (in which case it's not a function, but a metatable - coroutine.create expects functions only)
-        return installer(...)
+        -- We wrap the function to allow it to be a spy instance (in which case it's not actually a function, but a
+        -- callable metatable - coroutine.create strictly expects functions only)
+        return fn(...)
     end)
     local step
     local ret_val
@@ -119,7 +120,7 @@ function M.execute(handle, opts)
     return Result.run_catching(function()
         -- 1. run installer
         a.wait(function(resolve, reject)
-            local cancel_thread = a.run(M.run_installer, function(success, result)
+            local cancel_thread = a.run(M.exec_in_context, function(success, result)
                 if success then
                     resolve(result)
                 else
@@ -183,7 +184,7 @@ end
 function M.run_concurrently(suspend_fns)
     local context = M.context()
     return a.wait_all(_.map(function(suspend_fn)
-        return _.partial(M.run_installer, context, suspend_fn)
+        return _.partial(M.exec_in_context, context, suspend_fn)
     end, suspend_fns))
 end
 

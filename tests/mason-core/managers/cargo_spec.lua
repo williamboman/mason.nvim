@@ -18,7 +18,7 @@ describe("cargo manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, cargo.crate "my-crate")
+            installer.exec_in_context(ctx, cargo.crate "my-crate")
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
                 "install",
@@ -38,7 +38,7 @@ describe("cargo manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, cargo.crate("my-crate", { git = { url = "https://my-crate.git" } }))
+            installer.exec_in_context(ctx, cargo.crate("my-crate", { git = { url = "https://my-crate.git" } }))
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
                 "install",
@@ -58,7 +58,7 @@ describe("cargo manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, cargo.crate("crate-name", { git = { url = "https://my-crate.git" } }))
+            installer.exec_in_context(ctx, cargo.crate("crate-name", { git = { url = "https://my-crate.git" } }))
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
                 "install",
@@ -78,7 +78,7 @@ describe("cargo manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, cargo.crate("my-crate", { features = "lsp" }))
+            installer.exec_in_context(ctx, cargo.crate("my-crate", { features = "lsp" }))
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
                 "install",
@@ -100,7 +100,7 @@ describe("cargo manager", function()
             stub(github, "tag")
             github.tag.returns { tag = "v2.1.1", with_receipt = mockx.just_runs }
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(
+            installer.exec_in_context(
                 ctx,
                 cargo.crate("my-crate", {
                     git = {
@@ -128,7 +128,7 @@ describe("cargo manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, cargo.crate "main-package")
+            installer.exec_in_context(ctx, cargo.crate "main-package")
             assert.same({
                 type = "cargo",
                 package = "main-package",

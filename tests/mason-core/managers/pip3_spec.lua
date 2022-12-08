@@ -29,7 +29,10 @@ describe("pip3 manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, pip3.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(
+                ctx,
+                pip3.packages { "main-package", "supporting-package", "supporting-package2" }
+            )
             assert.equals(path.package_prefix "dummy", ctx.cwd:get()) -- should've promoted cwd
             assert.spy(ctx.spawn.python3).was_called(1)
             assert.spy(ctx.spawn.python3).was_called_with {
@@ -65,7 +68,7 @@ describe("pip3 manager", function()
             ctx.spawn.python = spy.new(mockx.throws())
             ctx.spawn[vim.g.python3_host_prog] = spy.new(mockx.throws())
             local err = assert.has_error(function()
-                installer.run_installer(ctx, pip3.packages { "package" })
+                installer.exec_in_context(ctx, pip3.packages { "package" })
             end)
             vim.g.python3_host_prog = nil
 
@@ -86,7 +89,7 @@ describe("pip3 manager", function()
             ctx.spawn.python = spy.new(mockx.returns {})
             ctx.spawn[vim.g.python3_host_prog] = spy.new(mockx.returns {})
 
-            installer.run_installer(ctx, pip3.packages { "package" })
+            installer.exec_in_context(ctx, pip3.packages { "package" })
             vim.g.python3_host_prog = nil
             assert.spy(ctx.spawn.python3).was_called(0)
             assert.spy(ctx.spawn.python).was_called(1)
@@ -103,7 +106,7 @@ describe("pip3 manager", function()
             ctx.spawn.python = spy.new(mockx.returns {})
             ctx.spawn[vim.env.HOME .. "/python3"] = spy.new(mockx.returns {})
 
-            installer.run_installer(ctx, pip3.packages { "package" })
+            installer.exec_in_context(ctx, pip3.packages { "package" })
             a.scheduler()
             vim.g.python3_host_prog = nil
             assert.spy(ctx.spawn[vim.env.HOME .. "/python3"]).was_called(1)
@@ -120,7 +123,7 @@ describe("pip3 manager", function()
             }
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, pip3.packages { "package" })
+            installer.exec_in_context(ctx, pip3.packages { "package" })
             assert.spy(ctx.spawn.python).was_called(1)
             assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
@@ -145,7 +148,7 @@ describe("pip3 manager", function()
             }
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, pip3.packages { "package" })
+            installer.exec_in_context(ctx, pip3.packages { "package" })
             assert.spy(ctx.spawn.python).was_called(2)
             assert.spy(ctx.spawn.python).was_called_with {
                 "-m",
@@ -175,7 +178,10 @@ describe("pip3 manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, pip3.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(
+                ctx,
+                pip3.packages { "main-package", "supporting-package", "supporting-package2" }
+            )
             assert.same({
                 type = "pip3",
                 package = "main-package",
