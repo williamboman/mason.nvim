@@ -208,4 +208,28 @@ _.partition = fun.curryN(function(predicate, list)
     return partitions
 end, 2)
 
+---@generic T
+---@param n integer
+---@param list T[]
+---@return T[]
+_.take = fun.curryN(function(n, list)
+    local result = {}
+    for i = 1, math.min(n, #list) do
+        result[#result + 1] = list[i]
+    end
+    return result
+end, 2)
+
+---@generic T
+---@param n integer
+---@param list T[]
+---@return T[]
+_.drop = fun.curryN(function(n, list)
+    local result = {}
+    for i = n + 1, #list do
+        result[#result + 1] = list[i]
+    end
+    return result
+end, 2)
+
 return _
