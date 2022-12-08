@@ -16,6 +16,8 @@ local spawn = {
         -- for hererocks installations
         luarocks = (platform.is.win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
         rebar3 = platform.is.win and "rebar3.cmd" or "rebar3",
+        python3 = platform.is.win and "python3.bat" or "python3",
+        python = platform.is.win and "python.bat" or "python",
     },
     _flatten_cmd_args = _.compose(_.filter(_.complement(_.equals(vim.NIL))), _.flatten),
 }
