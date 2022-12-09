@@ -9,15 +9,6 @@ local log = require "mason-core.log"
 ---@type JobSpawn
 local spawn = {
     _aliases = {
-        npm = platform.is.win and "npm.cmd" or "npm",
-        gem = platform.is.win and "gem.cmd" or "gem",
-        composer = platform.is.win and "composer.bat" or "composer",
-        gradlew = platform.is.win and "gradlew.bat" or "gradlew",
-        -- for hererocks installations
-        luarocks = (platform.is.win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
-        rebar3 = platform.is.win and "rebar3.cmd" or "rebar3",
-        python3 = platform.is.win and "python3.bat" or "python3",
-        python = platform.is.win and "python.bat" or "python",
     },
     _flatten_cmd_args = _.compose(_.filter(_.complement(_.equals(vim.NIL))), _.flatten),
 }
@@ -88,7 +79,9 @@ setmetatable(spawn, {
             end
 
             local _, exit_code, signal = a.wait(function(resolve)
-                local handle, stdio, pid = process.spawn(cmd, spawn_args, resolve)
+                local handle, stdio, pid = process.spawn(
+                    vim.fn.exepath(cmd), spawn_args, vim.schedule_wrap(resolve)
+                )
                 if args.on_spawn and handle and stdio and pid then
                     args.on_spawn(handle, stdio, pid)
                 end
