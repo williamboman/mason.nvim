@@ -2,12 +2,13 @@ local spy = require "luassert.spy"
 local mock = require "luassert.mock"
 local stub = require "luassert.stub"
 local match = require "luassert.match"
+local a = require "mason-core.async"
 local Pkg = require "mason-core.package"
 local registry = require "mason-registry"
-local Result = require "mason-core.result"
 
 describe("package", function()
     before_each(function()
+        registry.get_package("dummy"):uninstall()
         package.loaded["dummy_package"] = nil
     end)
 
@@ -78,7 +79,6 @@ describe("package", function()
     end)
 
     it("should create new handle", function()
-        ---@type Package
         local dummy = registry.get_package "dummy"
         -- yo dawg
         local handle_handler = spy.new()
@@ -89,7 +89,6 @@ describe("package", function()
     end)
 
     it("should not create new handle if one already exists", function()
-        ---@type Package
         local dummy = registry.get_package "dummy"
         dummy.handle = mock.new {
             is_closed = mockx.returns(false),
@@ -103,57 +102,92 @@ describe("package", function()
         assert.spy(handle_handler).was_called(0)
     end)
 
-    it("should successfully install package", function()
-        local installer = require "mason-core.installer"
-        stub(installer, "execute")
-        installer.execute.returns(Result.success "Yay!")
-        ---@type Package
-        local dummy = registry.get_package "dummy"
-        local package_install_success_handler = spy.new()
-        local package_install_failed_handler = spy.new()
-        local install_success_handler = spy.new()
-        local install_failed_handler = spy.new()
-        registry:once("package:install:success", package_install_success_handler)
-        registry:once("package:install:failed", package_install_failed_handler)
-        dummy:once("install:success", install_success_handler)
-        dummy:once("install:failed", install_failed_handler)
+    it(
+        "should successfully install package",
+        async_test(function()
+            local dummy = registry.get_package "dummy"
+            local package_install_success_handler = spy.new()
+            local package_install_failed_handler = spy.new()
+            local install_success_handler = spy.new()
+            local install_failed_handler = spy.new()
+            registry:once("package:install:success", package_install_success_handler)
+            registry:once("package:install:failed", package_install_failed_handler)
+            dummy:once("install:success", install_success_handler)
+            dummy:once("install:failed", install_failed_handler)
 
-        local handle = dummy:install { version = "1337" }
+            local handle = dummy:install { version = "1337" }
 
-        assert.spy(installer.execute).was_called(1)
-        assert.spy(installer.execute).was_called_with(match.is_ref(handle), { requested_version = "1337" })
-        assert.spy(install_success_handler).was_called(1)
-        assert.spy(install_success_handler).was_called_with(match.is_ref(handle))
-        assert.spy(package_install_success_handler).was_called(1)
-        assert.spy(package_install_success_handler).was_called_with(match.is_ref(dummy), match.is_ref(handle))
-        assert.spy(package_install_failed_handler).was_called(0)
-        assert.spy(install_failed_handler).was_called(0)
-    end)
+            assert.wait_for(function()
+                assert.is_true(handle:is_closed())
+                assert.is_true(dummy:is_installed())
+            end)
 
-    it("should fail to install package", function()
-        local installer = require "mason-core.installer"
-        stub(installer, "execute")
-        installer.execute.returns(Result.failure "Oh no.")
-        ---@type Package
-        local dummy = registry.get_package "dummy"
-        local package_install_success_handler = spy.new()
-        local package_install_failed_handler = spy.new()
-        local install_success_handler = spy.new()
-        local install_failed_handler = spy.new()
-        registry:once("package:install:success", package_install_success_handler)
-        registry:once("package:install:failed", package_install_failed_handler)
-        dummy:once("install:success", install_success_handler)
-        dummy:once("install:failed", install_failed_handler)
+            assert.spy(install_success_handler).was_called(1)
+            assert.spy(install_success_handler).was_called_with(match.is_ref(handle))
+            assert.spy(package_install_success_handler).was_called(1)
+            assert.spy(package_install_success_handler).was_called_with(match.is_ref(dummy), match.is_ref(handle))
+            assert.spy(package_install_failed_handler).was_called(0)
+            assert.spy(install_failed_handler).was_called(0)
+        end)
+    )
 
-        local handle = dummy:install { version = "1337" }
+    it(
+        "should fail to install package",
+        async_test(function()
+            local dummy = registry.get_package "dummy"
+            stub(dummy.spec, "install")
+            dummy.spec.install.invokes(function()
+                error "I simply refuse to be installed."
+            end)
+            local package_install_success_handler = spy.new()
+            local package_install_failed_handler = spy.new()
+            local install_success_handler = spy.new()
+            local install_failed_handler = spy.new()
+            registry:once("package:install:success", package_install_success_handler)
+            registry:once("package:install:failed", package_install_failed_handler)
+            dummy:once("install:success", install_success_handler)
+            dummy:once("install:failed", install_failed_handler)
 
-        assert.spy(installer.execute).was_called(1)
-        assert.spy(installer.execute).was_called_with(match.is_ref(handle), { requested_version = "1337" })
-        assert.spy(install_failed_handler).was_called(1)
-        assert.spy(install_failed_handler).was_called_with(match.is_ref(handle))
-        assert.spy(package_install_failed_handler).was_called(1)
-        assert.spy(package_install_failed_handler).was_called_with(match.is_ref(dummy), match.is_ref(handle))
-        assert.spy(package_install_success_handler).was_called(0)
-        assert.spy(install_success_handler).was_called(0)
-    end)
+            local handle = dummy:install { version = "1337" }
+
+            assert.wait_for(function()
+                assert.is_true(handle:is_closed())
+                assert.is_false(dummy:is_installed())
+            end)
+
+            assert.spy(install_failed_handler).was_called(1)
+            assert.spy(install_failed_handler).was_called_with(match.is_ref(handle))
+            assert.spy(package_install_failed_handler).was_called(1)
+            assert.spy(package_install_failed_handler).was_called_with(match.is_ref(dummy), match.is_ref(handle))
+            assert.spy(package_install_success_handler).was_called(0)
+            assert.spy(install_success_handler).was_called(0)
+        end)
+    )
+
+    it(
+        "should be able to start package installation outside of main loop",
+        async_test(function()
+            local dummy = registry.get_package "dummy"
+
+            -- Move outside the main loop
+            a.wait(function(resolve)
+                local timer = vim.loop.new_timer()
+                timer:start(0, 0, function()
+                    timer:close()
+                    resolve()
+                end)
+            end)
+
+            assert.is_true(vim.in_fast_event())
+
+            local handle = assert.is_not.has_error(function()
+                return dummy:install()
+            end)
+
+            assert.wait_for(function()
+                assert.is_true(handle:is_closed())
+                assert.is_true(dummy:is_installed())
+            end)
+        end)
+    )
 end)

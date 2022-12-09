@@ -139,6 +139,8 @@ local function make_module(uv)
         return all_entries
     end
 
+    ---@param path string
+    ---@param new_path string
     function M.symlink(path, new_path)
         log.trace("fs: symlink", path, new_path)
         uv.fs_symlink(path, new_path)
