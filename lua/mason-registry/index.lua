@@ -122,6 +122,7 @@ return {
   ["jsonnet-language-server"] = "mason-registry.jsonnet-language-server",
   ["julia-lsp"] = "mason-registry.julia-lsp",
   ["kotlin-language-server"] = "mason-registry.kotlin-language-server",
+  ["kotlin-debug-adapter"] = "mason-registry.kotlin-debug-adapter",
   ktlint = "mason-registry.ktlint",
   lelwel = "mason-registry.lelwel",
   lemminx = "mason-registry.lemminx",
