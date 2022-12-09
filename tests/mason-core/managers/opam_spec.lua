@@ -8,7 +8,10 @@ describe("opam manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, opam.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(
+                ctx,
+                opam.packages { "main-package", "supporting-package", "supporting-package2" }
+            )
             assert.spy(ctx.spawn.opam).was_called(1)
             assert.spy(ctx.spawn.opam).was_called_with(match.tbl_containing {
                 "install",
@@ -29,7 +32,10 @@ describe("opam manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, opam.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(
+                ctx,
+                opam.packages { "main-package", "supporting-package", "supporting-package2" }
+            )
             assert.same({
                 type = "opam",
                 package = "main-package",

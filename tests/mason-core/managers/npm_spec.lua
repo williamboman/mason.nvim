@@ -15,7 +15,7 @@ describe("npm manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.npm).was_called_with(match.tbl_containing {
                 "install",
                 match.tbl_containing {
@@ -34,7 +34,7 @@ describe("npm manager", function()
             local ctx = InstallContextGenerator(handle)
             ctx.fs.file_exists = mockx.returns(false)
             ctx.fs.dir_exists = mockx.returns(false)
-            installer.run_installer(ctx, function()
+            installer.exec_in_context(ctx, function()
                 npm.install { "main-package", "supporting-package", "supporting-package2" }
             end)
             assert.spy(ctx.spawn.npm).was_called_with {
@@ -51,7 +51,7 @@ describe("npm manager", function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
             ctx.fs.append_file = spy.new(mockx.just_runs())
-            installer.run_installer(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.fs.append_file).was_called(1)
             assert.spy(ctx.fs.append_file).was_called_with(ctx.fs, ".npmrc", "global-style=true")
         end)
@@ -62,7 +62,7 @@ describe("npm manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
-            installer.run_installer(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
+            installer.exec_in_context(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "npm",
                 package = "main-package",

@@ -9,6 +9,7 @@ local uname = vim.loop.os_uname()
 ---| '"unix"'
 ---| '"linux"'
 ---| '"mac"'
+---| '"darwin"'
 
 local arch_aliases = {
     ["x86_64"] = "x64",
@@ -59,6 +60,7 @@ local cached_features = {
     ["win32"] = vim.fn.has "win32",
     ["win64"] = vim.fn.has "win64",
     ["mac"] = vim.fn.has "mac",
+    ["darwin"] = vim.fn.has "mac",
     ["unix"] = vim.fn.has "unix",
     ["linux"] = vim.fn.has "linux",
 }
@@ -83,7 +85,7 @@ local check_env = _.memoize(_.cond {
 
 ---Table that allows for checking whether the provided targets apply to the current system.
 ---Each key is a target tuple consisting of at most 3 targets, in the following order:
---- 1) OS (e.g. linux, unix, mac, win) - Mandatory
+--- 1) OS (e.g. linux, unix, darwin, win) - Mandatory
 --- 2) Architecture (e.g. arm64, x64) - Optional
 --- 3) Environment (e.g. gnu, musl, openbsd) - Optional
 ---Each target is separated by a "_" character, like so: "linux_x64_musl".
@@ -108,8 +110,8 @@ M.is = setmetatable({}, {
 ---@param platform_table table<Platform, T>
 ---@return T
 local function get_by_platform(platform_table)
-    if M.is.mac then
-        return platform_table.mac or platform_table.unix
+    if M.is.darwin then
+        return platform_table.darwin or platform_table.mac or platform_table.unix
     elseif M.is.linux then
         return platform_table.linux or platform_table.unix
     elseif M.is.unix then
@@ -180,7 +182,7 @@ M.os_distribution = _.lazy(function()
                 end)
                 :get_or_throw()
         end,
-        mac = function()
+        darwin = function()
             return { id = "macOS", version = {} }
         end,
         win = function()
@@ -191,7 +193,7 @@ end)
 
 ---@type async fun(): Result<string>
 M.get_homebrew_prefix = _.lazy(function()
-    assert(M.is.mac, "Can only locate Homebrew installation on Mac systems.")
+    assert(M.is.darwin, "Can only locate Homebrew installation on Mac systems.")
     local spawn = require "mason-core.spawn"
     return spawn
         .brew({ "--prefix" })

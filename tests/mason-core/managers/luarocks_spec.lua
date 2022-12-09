@@ -8,7 +8,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, luarocks.package "lua-cjson")
+            installer.exec_in_context(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
@@ -27,7 +27,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { requested_version = "1.2.3" })
-            installer.run_installer(ctx, luarocks.package "lua-cjson")
+            installer.exec_in_context(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
@@ -46,7 +46,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, luarocks.package("lua-cjson", { dev = true }))
+            installer.exec_in_context(ctx, luarocks.package("lua-cjson", { dev = true }))
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",
@@ -65,7 +65,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.run_installer(ctx, luarocks.package("luaformatter", { server = "https://luarocks.org/dev" }))
+            installer.exec_in_context(ctx, luarocks.package("luaformatter", { server = "https://luarocks.org/dev" }))
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
                 "install",

@@ -51,6 +51,7 @@
 - [cucumber-language-server](#cucumber-language-server)
 - [cuelsp](#cuelsp)
 - [curlylint](#curlylint)
+- [dart-debug-adapter](#dart-debug-adapter)
 - [debugpy](#debugpy)
 - [delve](#delve)
 - [deno](#deno)
@@ -138,6 +139,7 @@
 - [mockdebug](#mockdebug)
 - [move-analyzer](#move-analyzer)
 - [mypy](#mypy)
+- [neocmakelsp](#neocmakelsp)
 - [netcoredbg](#netcoredbg)
 - [nginx-language-server](#nginx-language-server)
 - [nickel-lang-lsp](#nickel-lang-lsp)
@@ -1236,6 +1238,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall curlylint
+```
+
+
+# dart-debug-adapter
+
+> Dart debug adapter sourced from the Dart VSCode extension.
+
+Homepage: [https://github.com/Dart-Code/Dart-Code](https://github.com/Dart-Code/Dart-Code)  
+Languages: `Dart`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`99d1b27`](https://github.com/williamboman/mason.nvim/commit/99d1b27) 2022-12-07 - feat(registry): add dart-debug-adapter ([#733](https://github.com/williamboman/mason.nvim/issues/733)) by Svetlozar Iliev
+</details>
+
+```
+:MasonInstall dart-debug-adapter
 ```
 
 
@@ -2965,6 +2986,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`d8e2422`](https://github.com/williamboman/mason.nvim/commit/d8e2422) 2022-12-04 - feat(mockdebug): write & link mock-debug-adapter executable ([#723](https://github.com/williamboman/mason.nvim/issues/723)) by Svetlozar Iliev
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -3011,6 +3033,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall mypy
+```
+
+
+# neocmakelsp
+
+> CMake LSP implementation based on Tower and Tree-sitter
+
+Homepage: [https://github.com/Decodetalkers/neocmakelsp](https://github.com/Decodetalkers/neocmakelsp)  
+Languages: `CMake`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`555168b`](https://github.com/williamboman/mason.nvim/commit/555168b) 2022-12-07 - feat(registry): add neocmakelsp ([#739](https://github.com/williamboman/mason.nvim/issues/739)) by Micah Halter
+</details>
+
+```
+:MasonInstall neocmakelsp
 ```
 
 

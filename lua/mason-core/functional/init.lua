@@ -28,6 +28,9 @@ _.F = fun.F
 _.memoize = fun.memoize
 _.lazy = fun.lazy
 _.tap = fun.tap
+_.apply_to = fun.apply_to
+_.apply = fun.apply
+_.converge = fun.converge
 
 ---@module "mason-core.functional.list"
 local list = lazy_require "mason-core.functional.list"
@@ -53,12 +56,17 @@ _.sort_by = list.sort_by
 _.uniq_by = list.uniq_by
 _.join = list.join
 _.partition = list.partition
+_.take = list.take
+_.drop = list.drop
 
 ---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"
 _.equals = relation.equals
 _.prop_eq = relation.prop_eq
 _.prop_satisfies = relation.prop_satisfies
+_.path_satisfies = relation.path_satisfies
+_.min = relation.min
+_.add = relation.add
 
 ---@module "mason-core.functional.logic"
 local logic = lazy_require "mason-core.functional.logic"
@@ -93,6 +101,7 @@ _.starts_with = string.starts_with
 ---@module "mason-core.functional.table"
 local tbl = lazy_require "mason-core.functional.table"
 _.prop = tbl.prop
+_.path = tbl.path
 _.pick = tbl.pick
 _.keys = tbl.keys
 _.size = tbl.size

@@ -4,6 +4,15 @@ local platform = require "mason-core.platform"
 
 local M = {}
 
+local function setup_autocmds()
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+        callback = function()
+            require("mason-core.terminator").terminate(5000)
+        end,
+        once = true,
+    })
+end
+
 ---@param config MasonSettings?
 function M.setup(config)
     if config then
@@ -17,6 +26,7 @@ function M.setup(config)
     end
 
     require "mason.api.command"
+    setup_autocmds()
 end
 
 return M

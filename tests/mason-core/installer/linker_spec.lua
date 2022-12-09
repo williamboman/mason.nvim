@@ -64,6 +64,7 @@ describe("installer", function()
     it(
         "should write executable wrapper on Windows",
         async_test(function()
+            platform.is.darwin = false
             platform.is.mac = false
             platform.is.linux = false
             platform.is.unix = false
