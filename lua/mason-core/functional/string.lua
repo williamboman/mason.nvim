@@ -75,4 +75,14 @@ _.starts_with = fun.curryN(function(prefix, str)
     return vim.startswith(str, prefix)
 end, 2)
 
+---@param str string
+_.to_upper = function(str)
+    return str:upper()
+end
+
+---@param str string
+_.to_lower = function(str)
+    return str:lower()
+end
+
 return _
