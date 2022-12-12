@@ -65,7 +65,7 @@ return {
   jsonnet = { "jsonnet-language-server" },
   jsx = { "prettier", "prettierd" },
   julia = { "julia-lsp" },
-  kotlin = { "kotlin-language-server", "ktlint" },
+  kotlin = { "kotlin-debug-adapter", "kotlin-language-server", "ktlint" },
   ksh = { "beautysh" },
   latex = { "ltex-ls", "tectonic", "texlab", "vale" },
   lelwel = { "lelwel" },

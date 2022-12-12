@@ -121,6 +121,7 @@ return {
   jsonlint = "mason-registry.jsonlint",
   ["jsonnet-language-server"] = "mason-registry.jsonnet-language-server",
   ["julia-lsp"] = "mason-registry.julia-lsp",
+  ["kotlin-debug-adapter"] = "mason-registry.kotlin-debug-adapter",
   ["kotlin-language-server"] = "mason-registry.kotlin-language-server",
   ktlint = "mason-registry.ktlint",
   lelwel = "mason-registry.lelwel",
