@@ -6,7 +6,7 @@ local std = require "mason-core.managers.std"
 
 return Pkg.new {
     name = "fourmolu",
-    desc = [[A fourk of ormolu that uses four space indentation and allows arbitrary configuration]],
+    desc = [[A fork of Ormolu that uses four space indentation and allows arbitrary configuration.]],
     homepage = "https://hackage.haskell.org/package/fourmolu",
     languages = { Pkg.Lang.Haskell },
     categories = { Pkg.Cat.Formatter },
