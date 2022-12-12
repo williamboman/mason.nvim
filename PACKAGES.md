@@ -81,6 +81,7 @@
 - [flux-lsp](#flux-lsp)
 - [foam-language-server](#foam-language-server)
 - [fortls](#fortls)
+- [fourmolu](#fourmolu)
 - [fsautocomplete](#fsautocomplete)
 - [gersemi](#gersemi)
 - [gitlint](#gitlint)
@@ -122,6 +123,7 @@
 - [jsonlint](#jsonlint)
 - [jsonnet-language-server](#jsonnet-language-server)
 - [julia-lsp](#julia-lsp)
+- [kotlin-debug-adapter](#kotlin-debug-adapter)
 - [kotlin-language-server](#kotlin-language-server)
 - [ktlint](#ktlint)
 - [lelwel](#lelwel)
@@ -195,6 +197,7 @@
 - [rustfmt](#rustfmt)
 - [salt-lsp](#salt-lsp)
 - [selene](#selene)
+- [semgrep](#semgrep)
 - [serve-d](#serve-d)
 - [shellcheck](#shellcheck)
 - [shellharden](#shellharden)
@@ -1855,6 +1858,25 @@ Categories: `LSP`
 ```
 
 
+# fourmolu
+
+> A fork of Ormolu that uses four space indentation and allows arbitrary configuration.
+
+Homepage: [https://hackage.haskell.org/package/fourmolu](https://hackage.haskell.org/package/fourmolu)  
+Languages: `Haskell`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`67e9cf8`](https://github.com/williamboman/mason.nvim/commit/67e9cf8) 2022-12-12 - feat(registry): add fourmolu ([#752](https://github.com/williamboman/mason.nvim/issues/752)) by shurizzle
+</details>
+
+```
+:MasonInstall fourmolu
+```
+
+
 # fsautocomplete
 
 > F# language server using Language Server Protocol
@@ -2688,6 +2710,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall julia-lsp
+```
+
+
+# kotlin-debug-adapter
+
+> Kotlin/JVM debugging for any editor/IDE using the Debug Adapter Protocol
+
+Homepage: [https://github.com/fwcd/kotlin-debug-adapter](https://github.com/fwcd/kotlin-debug-adapter)  
+Languages: `Kotlin`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`a13c298`](https://github.com/williamboman/mason.nvim/commit/a13c298) 2022-12-12 - feat: add kotlin-debug-adapter package ([#749](https://github.com/williamboman/mason.nvim/issues/749)) by Chris Werner Rau
+</details>
+
+```
+:MasonInstall kotlin-debug-adapter
 ```
 
 
@@ -4173,6 +4214,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall selene
+```
+
+
+# semgrep
+
+> Semgrep is a fast, open-source, static analysis engine for finding bugs, detecting vulnerabilities in third-party dependencies, and enforcing code standards.
+
+Homepage: [https://github.com/returntocorp/semgrep](https://github.com/returntocorp/semgrep)  
+Languages: `C#` `Go` `Java` `JavaScript` `JSON` `PHP` `Python` `Ruby` `TypeScript` `Scala`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`1a0d2de`](https://github.com/williamboman/mason.nvim/commit/1a0d2de) 2022-12-12 - feat(registry): add semgrep ([#757](https://github.com/williamboman/mason.nvim/issues/757)) by Jay Patel
+</details>
+
+```
+:MasonInstall semgrep
 ```
 
 
