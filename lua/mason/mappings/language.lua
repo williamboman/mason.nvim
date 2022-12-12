@@ -54,7 +54,7 @@ return {
   haml = { "haml-lint" },
   handlebargs = { "djlint" },
   handlebars = { "glint" },
-  haskell = { "haskell-language-server" },
+  haskell = { "fourmolu", "haskell-language-server" },
   haxe = { "haxe-language-server" },
   hoon = { "hoon-language-server" },
   html = { "erb-lint", "html-lsp", "prettier", "prettierd" },

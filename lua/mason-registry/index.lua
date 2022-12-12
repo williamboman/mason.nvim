@@ -80,6 +80,7 @@ return {
   ["flux-lsp"] = "mason-registry.flux-lsp",
   ["foam-language-server"] = "mason-registry.foam-language-server",
   fortls = "mason-registry.fortls",
+  fourmolu = "mason-registry.fourmolu",
   fsautocomplete = "mason-registry.fsautocomplete",
   gersemi = "mason-registry.gersemi",
   gitlint = "mason-registry.gitlint",
