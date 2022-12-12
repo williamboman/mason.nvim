@@ -196,6 +196,7 @@ return {
   rustfmt = "mason-registry.rustfmt",
   ["salt-lsp"] = "mason-registry.salt-lsp",
   selene = "mason-registry.selene",
+  semgrep = "mason-registry.semgrep",
   ["serve-d"] = "mason-registry.serve-d",
   shellcheck = "mason-registry.shellcheck",
   shellharden = "mason-registry.shellharden",
