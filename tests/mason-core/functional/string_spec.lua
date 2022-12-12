@@ -45,4 +45,9 @@ Ipsum
 ]]
         )
     end)
+
+    it("should transform casing", function()
+        assert.equals("HELLO!", _.to_upper "Hello!")
+        assert.equals("hello!", _.to_lower "Hello!")
+    end)
 end)

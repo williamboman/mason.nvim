@@ -31,6 +31,7 @@ _.tap = fun.tap
 _.apply_to = fun.apply_to
 _.apply = fun.apply
 _.converge = fun.converge
+_.apply_spec = fun.apply_spec
 
 ---@module "mason-core.functional.list"
 local list = lazy_require "mason-core.functional.list"
@@ -39,6 +40,7 @@ _.list_not_nil = list.list_not_nil
 _.list_copy = list.list_copy
 _.find_first = list.find_first
 _.any = list.any
+_.all = list.all
 _.filter = list.filter
 _.map = list.map
 _.filter_map = list.filter_map
@@ -58,6 +60,7 @@ _.join = list.join
 _.partition = list.partition
 _.take = list.take
 _.drop = list.drop
+_.drop_last = list.drop_last
 
 ---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"
@@ -97,6 +100,8 @@ _.gsub = string.gsub
 _.trim = string.trim
 _.dedent = string.dedent
 _.starts_with = string.starts_with
+_.to_upper = string.to_upper
+_.to_lower = string.to_lower
 
 ---@module "mason-core.functional.table"
 local tbl = lazy_require "mason-core.functional.table"
@@ -108,6 +113,9 @@ _.size = tbl.size
 _.to_pairs = tbl.to_pairs
 _.from_pairs = tbl.from_pairs
 _.invert = tbl.invert
+_.evolve = tbl.evolve
+_.merge_left = tbl.merge_left
+_.dissoc = tbl.dissoc
 
 ---@module "mason-core.functional.type"
 local typ = lazy_require "mason-core.functional.type"

@@ -94,6 +94,27 @@ describe("functional: list", function()
         assert.spy(predicate).was.called(2)
     end)
 
+    it("should check that all items in list fulfills predicate", function()
+        assert.is_true(_.all(_.is "string", {
+            "Where",
+            "On Earth",
+            "Is",
+            "Waldo",
+            "?",
+        }))
+
+        local predicate = spy.new(_.is "string")
+
+        assert.is_false(_.all(predicate, {
+            "Five",
+            "Plus",
+            42,
+            "Equals",
+            47,
+        }))
+        assert.spy(predicate).was_called(3)
+    end)
+
     it("should iterate list in .each", function()
         local list = { "BLUE", "YELLOW", "RED" }
         local iterate_fn = spy.new()
@@ -224,5 +245,12 @@ describe("functional: list", function()
         assert.same({ "I", "Have", "Poor", "Imagination" }, _.drop(3, list))
         assert.same({ "First", "Second", "Third", "I", "Have", "Poor", "Imagination" }, _.drop(0, list))
         assert.same({}, _.drop(10000, list))
+    end)
+
+    it("should drop last n items", function()
+        local list = { "First", "Second", "Third", "I", "Have", "Poor", "Imagination" }
+        assert.same({ "First", "Second", "Third" }, _.drop_last(4, list))
+        assert.same({ "First", "Second", "Third", "I", "Have", "Poor", "Imagination" }, _.drop_last(0, list))
+        assert.same({}, _.drop_last(10000, list))
     end)
 end)

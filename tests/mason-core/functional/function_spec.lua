@@ -160,4 +160,21 @@ describe("functional: function", function()
         assert.spy(target).was_called(1)
         assert.spy(target).was_called_with("These", "Nuts")
     end)
+
+    it("should apply spec", function()
+        local apply = _.apply_spec {
+            sum = _.add(2),
+            list = { _.add(2), _.add(6) },
+            nested = {
+                sum = _.min(2),
+            },
+        }
+        assert.same({
+            sum = 4,
+            list = { 4, 8 },
+            nested = {
+                sum = 0,
+            },
+        }, apply(2))
+    end)
 end)
