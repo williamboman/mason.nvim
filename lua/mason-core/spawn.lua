@@ -78,14 +78,14 @@ setmetatable(spawn, {
                 }, cmd)
             end
 
-            local _, exit_code, signal = a.wait(function(resolve)
+            local _, exit_code, signal = a.wait(vim.schedule_wrap(function(resolve)
                 local handle, stdio, pid = process.spawn(
-                    vim.fn.exepath(cmd), spawn_args, vim.schedule_wrap(resolve)
+                    vim.fn.exepath(cmd), spawn_args, resolve
                 )
                 if args.on_spawn and handle and stdio and pid then
                     args.on_spawn(handle, stdio, pid)
                 end
-            end)
+            end))
 
             if exit_code == 0 and signal == 0 then
                 return Result.success {
