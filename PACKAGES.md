@@ -51,6 +51,7 @@
 - [cucumber-language-server](#cucumber-language-server)
 - [cuelsp](#cuelsp)
 - [curlylint](#curlylint)
+- [dart-debug-adapter](#dart-debug-adapter)
 - [debugpy](#debugpy)
 - [delve](#delve)
 - [deno](#deno)
@@ -80,6 +81,7 @@
 - [flux-lsp](#flux-lsp)
 - [foam-language-server](#foam-language-server)
 - [fortls](#fortls)
+- [fourmolu](#fourmolu)
 - [fsautocomplete](#fsautocomplete)
 - [gersemi](#gersemi)
 - [gitlint](#gitlint)
@@ -121,6 +123,7 @@
 - [jsonlint](#jsonlint)
 - [jsonnet-language-server](#jsonnet-language-server)
 - [julia-lsp](#julia-lsp)
+- [kotlin-debug-adapter](#kotlin-debug-adapter)
 - [kotlin-language-server](#kotlin-language-server)
 - [ktlint](#ktlint)
 - [lelwel](#lelwel)
@@ -138,6 +141,7 @@
 - [mockdebug](#mockdebug)
 - [move-analyzer](#move-analyzer)
 - [mypy](#mypy)
+- [neocmakelsp](#neocmakelsp)
 - [netcoredbg](#netcoredbg)
 - [nginx-language-server](#nginx-language-server)
 - [nickel-lang-lsp](#nickel-lang-lsp)
@@ -193,6 +197,7 @@
 - [rustfmt](#rustfmt)
 - [salt-lsp](#salt-lsp)
 - [selene](#selene)
+- [semgrep](#semgrep)
 - [serve-d](#serve-d)
 - [shellcheck](#shellcheck)
 - [shellharden](#shellharden)
@@ -1239,6 +1244,25 @@ Categories: `Linter`
 ```
 
 
+# dart-debug-adapter
+
+> Dart debug adapter sourced from the Dart VSCode extension.
+
+Homepage: [https://github.com/Dart-Code/Dart-Code](https://github.com/Dart-Code/Dart-Code)  
+Languages: `Dart`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`99d1b27`](https://github.com/williamboman/mason.nvim/commit/99d1b27) 2022-12-07 - feat(registry): add dart-debug-adapter ([#733](https://github.com/williamboman/mason.nvim/issues/733)) by Svetlozar Iliev
+</details>
+
+```
+:MasonInstall dart-debug-adapter
+```
+
+
 # debugpy
 
 > An implementation of the Debug Adapter Protocol for Python
@@ -1831,6 +1855,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall fortls
+```
+
+
+# fourmolu
+
+> A fork of Ormolu that uses four space indentation and allows arbitrary configuration.
+
+Homepage: [https://hackage.haskell.org/package/fourmolu](https://hackage.haskell.org/package/fourmolu)  
+Languages: `Haskell`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`67e9cf8`](https://github.com/williamboman/mason.nvim/commit/67e9cf8) 2022-12-12 - feat(registry): add fourmolu ([#752](https://github.com/williamboman/mason.nvim/issues/752)) by shurizzle
+</details>
+
+```
+:MasonInstall fourmolu
 ```
 
 
@@ -2670,6 +2713,25 @@ Categories: `LSP`
 ```
 
 
+# kotlin-debug-adapter
+
+> Kotlin/JVM debugging for any editor/IDE using the Debug Adapter Protocol
+
+Homepage: [https://github.com/fwcd/kotlin-debug-adapter](https://github.com/fwcd/kotlin-debug-adapter)  
+Languages: `Kotlin`  
+Categories: `DAP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`a13c298`](https://github.com/williamboman/mason.nvim/commit/a13c298) 2022-12-12 - feat: add kotlin-debug-adapter package ([#749](https://github.com/williamboman/mason.nvim/issues/749)) by Chris Werner Rau
+</details>
+
+```
+:MasonInstall kotlin-debug-adapter
+```
+
+
 # kotlin-language-server
 
 > Kotlin code completion, linting and more for any editor/IDE using the Language Server Protocol
@@ -2965,6 +3027,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`d8e2422`](https://github.com/williamboman/mason.nvim/commit/d8e2422) 2022-12-04 - feat(mockdebug): write & link mock-debug-adapter executable ([#723](https://github.com/williamboman/mason.nvim/issues/723)) by Svetlozar Iliev
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
@@ -3011,6 +3074,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall mypy
+```
+
+
+# neocmakelsp
+
+> CMake LSP implementation based on Tower and Tree-sitter
+
+Homepage: [https://github.com/Decodetalkers/neocmakelsp](https://github.com/Decodetalkers/neocmakelsp)  
+Languages: `CMake`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`555168b`](https://github.com/williamboman/mason.nvim/commit/555168b) 2022-12-07 - feat(registry): add neocmakelsp ([#739](https://github.com/williamboman/mason.nvim/issues/739)) by Micah Halter
+</details>
+
+```
+:MasonInstall neocmakelsp
 ```
 
 
@@ -4132,6 +4214,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall selene
+```
+
+
+# semgrep
+
+> Semgrep is a fast, open-source, static analysis engine for finding bugs, detecting vulnerabilities in third-party dependencies, and enforcing code standards.
+
+Homepage: [https://github.com/returntocorp/semgrep](https://github.com/returntocorp/semgrep)  
+Languages: `C#` `Go` `Java` `JavaScript` `JSON` `PHP` `Python` `Ruby` `TypeScript` `Scala`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`1a0d2de`](https://github.com/williamboman/mason.nvim/commit/1a0d2de) 2022-12-12 - feat(registry): add semgrep ([#757](https://github.com/williamboman/mason.nvim/issues/757)) by Jay Patel
+</details>
+
+```
+:MasonInstall semgrep
 ```
 
 

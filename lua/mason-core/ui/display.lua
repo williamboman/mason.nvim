@@ -201,7 +201,10 @@ function M.new_view_only_win(name, filetype)
     local window_opts = {}
 
     vim.diagnostic.config({
-        virtual_text = true,
+        virtual_text = {
+            severity = { min = vim.diagnostic.severity.HINT, max = vim.diagnostic.severity.ERROR },
+        },
+        right_align = false,
         underline = false,
         signs = false,
         virtual_lines = false,

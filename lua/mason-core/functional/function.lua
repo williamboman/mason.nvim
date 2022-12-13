@@ -94,4 +94,47 @@ _.tap = _.curryN(function(fn, value)
     return value
 end, 2)
 
+---@generic T, U
+---@param value T
+---@param fn fun(value: T): U
+---@return U
+_.apply_to = _.curryN(function(value, fn)
+    return fn(value)
+end, 2)
+
+---@generic T, R, V
+---@param fn fun (args...: V[]): R
+---@param args V[]
+---@return R
+_.apply = _.curryN(function(fn, args)
+    return fn(args)
+end, 2)
+
+---@generic T, V
+---@param fn fun(...): T
+---@param fns (fun(value: V))[]
+---@param val V
+---@return T
+_.converge = _.curryN(function(fn, fns, val)
+    return fn(unpack(vim.tbl_map(_.apply_to(val), fns)))
+end, 3)
+
+---@param spec table
+---@param value any
+---@return table
+_.apply_spec = _.curryN(function(spec, value)
+    spec = vim.deepcopy(spec)
+    local function transform(item)
+        if type(item) == "table" then
+            for k, v in pairs(item) do
+                item[k] = transform(v)
+            end
+            return item
+        else
+            return item(value)
+        end
+    end
+    return transform(spec)
+end, 2)
+
 return _

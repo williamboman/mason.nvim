@@ -33,4 +33,26 @@ describe("functional: relation", function()
         assert.is_false(_.prop_satisfies(_.gt(10), "med")(obj))
         assert.is_true(_.prop_satisfies(_.gt(10)) "high"(obj))
     end)
+
+    it("should check whether nested property satisfies predicate", function()
+        local obj = {
+            low = { value = 0 },
+            med = { value = 10 },
+            high = { value = 15 },
+        }
+
+        assert.is_false(_.path_satisfies(_.gt(10), { "low", "value" }, obj))
+        assert.is_false(_.path_satisfies(_.gt(10), { "med", "value" })(obj))
+        assert.is_true(_.path_satisfies(_.gt(10)) { "high", "value" }(obj))
+    end)
+
+    it("should subtract numbers", function()
+        assert.equals(42, _.min(42, 84))
+        assert.equals(-1, _.min(11, 10))
+    end)
+
+    it("should add numbers", function()
+        assert.equals(1337, _.add(1300, 37))
+        assert.equals(-10, _.add(90, -100))
+    end)
 end)

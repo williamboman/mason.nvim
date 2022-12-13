@@ -5,6 +5,10 @@ describe("functional: table", function()
         assert.equals("hello", _.prop("a", { a = "hello" }))
     end)
 
+    it("retrieves nested property of table", function()
+        assert.equals("hello", _.path({ "a", "greeting" }, { a = { greeting = "hello" } }))
+    end)
+
     it("picks properties of table", function()
         local function fn() end
         assert.same(
@@ -63,5 +67,48 @@ describe("functional: table", function()
                 key2 = "val2",
             }
         )
+    end)
+
+    it("should evolve table", function()
+        assert.same(
+            {
+                non_existent = nil,
+                firstname = "JOHN",
+                lastname = "DOE",
+                age = 42,
+            },
+            _.evolve({
+                non_existent = _.always "hello",
+                firstname = _.to_upper,
+                lastname = _.to_upper,
+                age = _.add(2),
+            }, {
+                firstname = "John",
+                lastname = "Doe",
+                age = 40,
+            })
+        )
+    end)
+
+    it("should merge left", function()
+        assert.same(
+            {
+                firstname = "John",
+                lastname = "Doe",
+            },
+            _.merge_left({
+                firstname = "John",
+            }, {
+                firstname = "Jane",
+                lastname = "Doe",
+            })
+        )
+    end)
+
+    it("should dissoc keys", function()
+        assert.same({
+            a = "a",
+            c = "c",
+        }, _.dissoc("b", { a = "a", b = "b", c = "c" }))
     end)
 end)

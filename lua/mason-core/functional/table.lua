@@ -2,12 +2,29 @@ local fun = require "mason-core.functional.function"
 
 local _ = {}
 
+---@generic T : table
+---@param tbl T
+---@return T
+local function shallow_clone(tbl)
+    local res = {}
+    for k, v in pairs(tbl) do
+        res[k] = v
+    end
+    return res
+end
+
 ---@generic T, U
 ---@param index T
 ---@param tbl table<T, U>
 ---@return U?
 _.prop = fun.curryN(function(index, tbl)
     return tbl[index]
+end, 2)
+
+---@param path any[]
+---@param tbl table
+_.path = fun.curryN(function(path, tbl)
+    return vim.tbl_get(tbl, unpack(path))
 end, 2)
 
 ---@generic T, U
@@ -57,5 +74,37 @@ _.invert = fun.curryN(function(tbl)
     end
     return result
 end, 1)
+
+---@generic K, V
+---@param transforms table<K, fun (value: V): V>
+---@param tbl table<K, V>
+---@return table<K, V>
+_.evolve = fun.curryN(function(transforms, tbl)
+    local result = shallow_clone(tbl)
+    for key, value in pairs(tbl) do
+        if transforms[key] then
+            result[key] = transforms[key](value)
+        end
+    end
+    return result
+end, 2)
+
+---@generic T : table
+---@param left T
+---@param right T
+---@return T
+_.merge_left = fun.curryN(function(left, right)
+    return vim.tbl_extend("force", right, left)
+end, 2)
+
+---@generic T : table
+---@param key any
+---@param tbl T
+---@return T
+_.dissoc = fun.curryN(function(key, tbl)
+    local res = shallow_clone(tbl)
+    res[key] = nil
+    return res
+end, 2)
 
 return _

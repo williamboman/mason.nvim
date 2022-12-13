@@ -54,6 +54,19 @@ _.any = fun.curryN(function(predicate, list)
 end, 2)
 
 ---@generic T
+---@param predicate fun(item: T): boolean
+---@param list T[]
+---@return boolean
+_.all = fun.curryN(function(predicate, list)
+    for i = 1, #list do
+        if not predicate(list[i]) then
+            return false
+        end
+    end
+    return true
+end, 2)
+
+---@generic T
 ---@type fun(filter_fn: (fun(item: T): boolean), items: T[]): T[]
 _.filter = fun.curryN(vim.tbl_filter, 2)
 
@@ -206,6 +219,42 @@ _.partition = fun.curryN(function(predicate, list)
         table.insert(partitions[predicate(item) and 1 or 2], item)
     end
     return partitions
+end, 2)
+
+---@generic T
+---@param n integer
+---@param list T[]
+---@return T[]
+_.take = fun.curryN(function(n, list)
+    local result = {}
+    for i = 1, math.min(n, #list) do
+        result[#result + 1] = list[i]
+    end
+    return result
+end, 2)
+
+---@generic T
+---@param n integer
+---@param list T[]
+---@return T[]
+_.drop = fun.curryN(function(n, list)
+    local result = {}
+    for i = n + 1, #list do
+        result[#result + 1] = list[i]
+    end
+    return result
+end, 2)
+
+---@generic T
+---@param n integer
+---@param list T[]
+---@return T[]
+_.drop_last = fun.curryN(function(n, list)
+    local result = {}
+    for i = 1, #list - n do
+        result[#result + 1] = list[i]
+    end
+    return result
 end, 2)
 
 return _
