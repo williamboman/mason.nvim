@@ -68,4 +68,47 @@ describe("functional: table", function()
             }
         )
     end)
+
+    it("should evolve table", function()
+        assert.same(
+            {
+                non_existent = nil,
+                firstname = "JOHN",
+                lastname = "DOE",
+                age = 42,
+            },
+            _.evolve({
+                non_existent = _.always "hello",
+                firstname = _.to_upper,
+                lastname = _.to_upper,
+                age = _.add(2),
+            }, {
+                firstname = "John",
+                lastname = "Doe",
+                age = 40,
+            })
+        )
+    end)
+
+    it("should merge left", function()
+        assert.same(
+            {
+                firstname = "John",
+                lastname = "Doe",
+            },
+            _.merge_left({
+                firstname = "John",
+            }, {
+                firstname = "Jane",
+                lastname = "Doe",
+            })
+        )
+    end)
+
+    it("should dissoc keys", function()
+        assert.same({
+            a = "a",
+            c = "c",
+        }, _.dissoc("b", { a = "a", b = "b", c = "c" }))
+    end)
 end)

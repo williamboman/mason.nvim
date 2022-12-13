@@ -119,4 +119,22 @@ _.converge = _.curryN(function(fn, fns, val)
     return fn(unpack(vim.tbl_map(_.apply_to(val), fns)))
 end, 3)
 
+---@param spec table
+---@param value any
+---@return table
+_.apply_spec = _.curryN(function(spec, value)
+    spec = vim.deepcopy(spec)
+    local function transform(item)
+        if type(item) == "table" then
+            for k, v in pairs(item) do
+                item[k] = transform(v)
+            end
+            return item
+        else
+            return item(value)
+        end
+    end
+    return transform(spec)
+end, 2)
+
 return _
