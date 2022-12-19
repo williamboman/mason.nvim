@@ -176,4 +176,13 @@ function Result.run_catching(fn)
     end
 end
 
+function Result.pcall(fn, ...)
+    local ok, res = pcall(fn, ...)
+    if ok then
+        return Result.success(res)
+    else
+        return Result.failure(res)
+    end
+end
+
 return Result
