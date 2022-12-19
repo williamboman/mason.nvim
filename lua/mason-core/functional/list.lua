@@ -257,4 +257,16 @@ _.drop_last = fun.curryN(function(n, list)
     return result
 end, 2)
 
+---@generic T, U
+---@param fn fun(acc: U, item: T): U
+---@param acc U
+---@param list T[]
+---@return U
+_.reduce = fun.curryN(function(fn, acc, list)
+    for i = 1, #list do
+        acc = fn(acc, list[i])
+    end
+    return acc
+end, 3)
+
 return _
