@@ -107,7 +107,7 @@ end, 2)
 ---@param args V[]
 ---@return R
 _.apply = _.curryN(function(fn, args)
-    return fn(args)
+    return fn(unpack(args))
 end, 2)
 
 ---@generic T, V
