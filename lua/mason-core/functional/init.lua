@@ -61,6 +61,7 @@ _.partition = list.partition
 _.take = list.take
 _.drop = list.drop
 _.drop_last = list.drop_last
+_.reduce = list.reduce
 
 ---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"
