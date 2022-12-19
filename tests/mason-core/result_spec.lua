@@ -195,4 +195,20 @@ describe("result", function()
         assert.equals("Error", failure:get_or_nil())
         assert.spy(chain).was_not_called()
     end)
+
+    it("should pcall", function()
+        assert.same(
+            Result.success "Great success!",
+            Result.pcall(function()
+                return "Great success!"
+            end)
+        )
+
+        assert.same(
+            Result.failure "Task failed successfully!",
+            Result.pcall(function()
+                error("Task failed successfully!", 0)
+            end)
+        )
+    end)
 end)
