@@ -9,7 +9,7 @@ return Pkg.new {
     categories = {Pkg.Cat.LSP},
     install = cargo.crate("nil", {
         git = {
-            url = "https://github.com/oxalica/nil/releases/tag/2022-12-01",
+            url = "https://github.com/oxalica/nil",
             tag = true
         },
         bin = {"nil"}
