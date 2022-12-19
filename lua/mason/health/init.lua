@@ -221,16 +221,8 @@ function M.check()
             relaxed = platform.is.win,
         },
         check { cmd = "tar", args = { "--version" }, name = "tar" },
-        check {
-            cmd = "pwsh",
-            args = {
-                "-NoProfile",
-                "-Command",
-                [[$PSVersionTable.PSVersion, $PSVersionTable.OS, $PSVersionTable.Platform -join " "]],
-            },
-            name = "pwsh",
-            relaxed = not platform.is.win,
-        },
+        -- when(platform.is.win, check { cmd = "powershell.exe", args = { "-Version" }, name = "PowerShell" }), -- TODO fix me
+        -- when(platform.is.win, check { cmd = "cmd.exe", args = { "-Version" }, name = "cmd" }) -- TODO fix me
     }
 
     if platform.is.unix then
