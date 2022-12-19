@@ -144,6 +144,7 @@ return {
   netcoredbg = "mason-registry.netcoredbg",
   ["nginx-language-server"] = "mason-registry.nginx-language-server",
   ["nickel-lang-lsp"] = "mason-registry.nickel-lang-lsp",
+  ["nil"] = "mason-registry.nil",
   nimlsp = "mason-registry.nimlsp",
   ["node-debug2-adapter"] = "mason-registry.node-debug2-adapter",
   nxls = "mason-registry.nxls",
