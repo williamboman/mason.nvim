@@ -50,4 +50,12 @@ Ipsum
         assert.equals("HELLO!", _.to_upper "Hello!")
         assert.equals("hello!", _.to_lower "Hello!")
     end)
+
+    it("trim strings", function()
+        assert.equals("HELLO!", _.trim "   HELLO!  ")
+    end)
+
+    it("trim_starts strings", function()
+        assert.equals("HELLO!  ", _.trim_start("%s", "	   HELLO!  "))
+    end)
 end)

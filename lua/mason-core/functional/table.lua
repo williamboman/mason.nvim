@@ -24,7 +24,9 @@ end, 2)
 ---@param path any[]
 ---@param tbl table
 _.path = fun.curryN(function(path, tbl)
-    return vim.tbl_get(tbl, unpack(path))
+    -- see https://github.com/neovim/neovim/pull/21426
+    local value = vim.tbl_get(tbl, unpack(path))
+    return value
 end, 2)
 
 ---@generic T, U
@@ -97,10 +99,21 @@ _.merge_left = fun.curryN(function(left, right)
     return vim.tbl_extend("force", right, left)
 end, 2)
 
----@generic T : table
----@param key any
----@param tbl T
----@return T
+---@generic K, V
+---@param key K
+---@param value V
+---@param tbl table<K, V>
+---@return table<K, V>
+_.assoc = fun.curryN(function(key, value, tbl)
+    local res = shallow_clone(tbl)
+    res[key] = value
+    return res
+end, 3)
+
+---@generic K, V
+---@param key K
+---@param tbl table<K, V>
+---@return table<K, V>
 _.dissoc = fun.curryN(function(key, tbl)
     local res = shallow_clone(tbl)
     res[key] = nil

@@ -85,4 +85,15 @@ _.to_lower = function(str)
     return str:lower()
 end
 
+---@param pattern string
+---@param str string
+_.trim_start = fun.curryN(function(pattern, str)
+    for i = 1, #str do
+        if not str:sub(i, i):match(pattern) then
+            return str:sub(i)
+        end
+    end
+    return str
+end, 2)
+
 return _

@@ -18,7 +18,9 @@ end, 3)
 ---@param path any[]
 ---@param tbl table
 _.path_satisfies = fun.curryN(function(predicate, path, tbl)
-    return predicate(vim.tbl_get(tbl, unpack(path)))
+    -- see https://github.com/neovim/neovim/pull/21426
+    local value = vim.tbl_get(tbl, unpack(path))
+    return predicate(value)
 end, 3)
 
 ---@param a number

@@ -111,4 +111,36 @@ describe("functional: table", function()
             c = "c",
         }, _.dissoc("b", { a = "a", b = "b", c = "c" }))
     end)
+
+    it("should assoc keys", function()
+        assert.same({
+            a = "a",
+            b = "b",
+            c = "c",
+        }, _.assoc("b", "b", { a = "a", c = "c" }))
+    end)
+end)
+
+describe("table immutability", function()
+    it("should not mutate tables", function()
+        local og_table = setmetatable({ key = "value", imagination = "poor", hotel = "trivago" }, {
+            __newindex = function()
+                error "Tried to newindex"
+            end,
+        })
+
+        _.prop("hotel", og_table)
+        _.path({ "hotel" }, og_table)
+        _.pick({ "hotel" }, og_table)
+        _.keys(og_table)
+        _.size(og_table)
+        _.from_pairs(_.to_pairs(og_table))
+        _.invert(og_table)
+        _.evolve({ hotel = _.to_upper }, og_table)
+        _.merge_left(og_table, {})
+        _.assoc("new", "value", og_table)
+        _.dissoc("hotel", og_table)
+
+        assert.same({ key = "value", imagination = "poor", hotel = "trivago" }, og_table)
+    end)
 end)
