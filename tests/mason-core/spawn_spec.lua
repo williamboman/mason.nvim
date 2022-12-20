@@ -66,7 +66,7 @@ describe("async spawn", function()
             assert.equals("", result:get_or_nil().stderr)
             assert.spy(process.spawn).was_called(1)
             assert.spy(process.spawn).was_called_with(
-                "bash",
+                match.matches "bash$",
                 match.tbl_containing {
                     stdio_sink = match.tbl_containing {
                         stdout = match.is_function(),
@@ -139,7 +139,8 @@ describe("async spawn", function()
                 callback(false)
             end)
 
-            local result = spawn.my_cmd {}
+            local result = spawn.bash {}
+            assert.spy(process.spawn).was_called(1)
             assert.is_true(result:is_failure())
             assert.is_nil(result:err_or_nil().exit_code)
         end)
@@ -155,33 +156,40 @@ describe("async spawn", function()
 
             local result = spawn.bash {}
             assert.is_true(result:is_failure())
-            assert.equals(
-                "spawn: bash failed with exit code 127 and signal -. This is an error message for bash!",
-                tostring(result:err_or_nil())
+            assert.is_true(
+                match.matches "spawn: .+bash failed with exit code 127 and signal %-%. This is an error message for .+bash!"(
+                    tostring(result:err_or_nil())
+                )
             )
         end)
     )
 
     it(
-        "should check whether command is executable",
+        "should fail if unable to expand command",
         async_test(function()
-            local result = spawn.my_cmd {}
+            spy.on(process, "spawn")
+            stub(vim.fn, "exepath", function()
+                return ""
+            end)
+
+            local result = spawn.unexpand_cmd {}
             assert.is_true(result:is_failure())
-            assert.equals(
-                "spawn: my_cmd failed with exit code - and signal -. my_cmd is not executable",
-                tostring(result:err_or_nil())
+            assert.is_true(
+                match.matches "spawn: unexpand_cmd failed with exit code %- and signal %-%. unexpand_cmd is not executable"(
+                    tostring(result:err_or_nil())
+                )
             )
         end)
     )
 
     it(
-        "should skip checking whether command is executable",
+        "should not expand cmd if custom PATH is used",
         async_test(function()
             stub(process, "spawn", function(_, _, callback)
                 callback(false, 127)
             end)
 
-            local result = spawn.my_cmd { "arg1", check_executable = false }
+            local result = spawn.my_cmd { "arg1", env = { PATH = "/bin" } }
             assert.is_true(result:is_failure())
             assert.spy(process.spawn).was_called(1)
             assert.spy(process.spawn).was_called_with(
@@ -195,19 +203,43 @@ describe("async spawn", function()
     )
 
     it(
-        "should skip checking whether command is executable if with_paths is provided",
+        "should skip expanding command if with_paths is provided",
         async_test(function()
             stub(process, "spawn", function(_, _, callback)
                 callback(false, 127)
             end)
 
-            local result = spawn.my_cmd { "arg1", with_paths = {} }
+            local result = spawn.custom_path { "arg1", with_paths = {} }
             assert.is_true(result:is_failure())
             assert.spy(process.spawn).was_called(1)
             assert.spy(process.spawn).was_called_with(
-                "my_cmd",
+                "custom_path",
                 match.tbl_containing {
                     args = match.same { "arg1" },
+                },
+                match.is_function()
+            )
+        end)
+    )
+
+    it(
+        "should use expanded command path",
+        async_test(function()
+            stub(vim.fn, "exepath", function()
+                return "/abs/path/to/cmd"
+            end)
+            stub(process, "spawn", function(_, _, callback)
+                callback(false)
+            end)
+
+            spawn.the_command { "arg1", "arg2" }
+            assert.spy(vim.fn.exepath).was_called(1)
+            assert.spy(vim.fn.exepath).was_called_with "the_command"
+            assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                "/abs/path/to/cmd",
+                match.tbl_containing {
+                    args = match.same { "arg1", "arg2" },
                 },
                 match.is_function()
             )
