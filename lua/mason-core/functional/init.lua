@@ -99,6 +99,7 @@ _.format = string.format
 _.split = string.split
 _.gsub = string.gsub
 _.trim = string.trim
+_.trim_start = string.trim_start
 _.dedent = string.dedent
 _.starts_with = string.starts_with
 _.to_upper = string.to_upper
@@ -117,6 +118,7 @@ _.invert = tbl.invert
 _.evolve = tbl.evolve
 _.merge_left = tbl.merge_left
 _.dissoc = tbl.dissoc
+_.assoc = tbl.assoc
 
 ---@module "mason-core.functional.type"
 local typ = lazy_require "mason-core.functional.type"
