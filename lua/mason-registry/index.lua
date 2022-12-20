@@ -247,7 +247,6 @@ return {
   ["wgsl-analyzer"] = "mason-registry.wgsl-analyzer",
   ["write-good"] = "mason-registry.write-good",
   xmlformatter = "mason-registry.xmlformatter",
-  xo = "mason-registry.xo",
   ["yaml-language-server"] = "mason-registry.yaml-language-server",
   yamlfmt = "mason-registry.yamlfmt",
   yamllint = "mason-registry.yamllint",

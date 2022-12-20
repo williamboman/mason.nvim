@@ -145,6 +145,7 @@
 - [netcoredbg](#netcoredbg)
 - [nginx-language-server](#nginx-language-server)
 - [nickel-lang-lsp](#nickel-lang-lsp)
+- [nil](#nil)
 - [nimlsp](#nimlsp)
 - [node-debug2-adapter](#node-debug2-adapter)
 - [nxls](#nxls)
@@ -247,7 +248,6 @@
 - [wgsl-analyzer](#wgsl-analyzer)
 - [write-good](#write-good)
 - [xmlformatter](#xmlformatter)
-- [xo](#xo)
 - [yaml-language-server](#yaml-language-server)
 - [yamlfmt](#yamlfmt)
 - [yamllint](#yamllint)
@@ -3158,6 +3158,25 @@ Categories: `LSP`
 ```
 
 
+# nil
+
+> Language Server for Nix
+
+Homepage: [https://github.com/oxalica/nil](https://github.com/oxalica/nil)  
+Languages: `Nix`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`3ccd16b`](https://github.com/williamboman/mason.nvim/commit/3ccd16b) 2022-12-19 - feat(registry): add nil ([#774](https://github.com/williamboman/mason.nvim/issues/774)) by s1341
+</details>
+
+```
+:MasonInstall nil
+```
+
+
 # nimlsp
 
 > Language Server Protocol implementation for Nim
@@ -5234,25 +5253,6 @@ Categories: `Formatter`
 
 ```
 :MasonInstall xmlformatter
-```
-
-
-# xo
-
-> JavaScript/TypeScript linter (ESLint wrapper) with great defaults
-
-Homepage: [https://github.com/xojs/xo](https://github.com/xojs/xo)  
-Languages: `JavaScript` `TypeScript`  
-Categories: `Linter`  
-
-<details>
-    <summary>History:</summary>
-
-- [`b3bb9e0`](https://github.com/williamboman/mason.nvim/commit/b3bb9e0) 2022-08-02 - feat: add xo, jq, buf, joker, csharpier ([#221](https://github.com/williamboman/mason.nvim/issues/221)) by Vu Le Thanh
-</details>
-
-```
-:MasonInstall xo
 ```
 
 
