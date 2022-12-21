@@ -8,6 +8,8 @@ local PWSHOPT = {
     security_protocol = [[ [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; ]],
 }
 
+local powershell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell"
+
 ---@param script string
 ---@param opts JobSpawnOpts?
 ---@param custom_spawn JobSpawn?
@@ -15,7 +17,7 @@ function M.script(script, opts, custom_spawn)
     opts = opts or {}
     ---@type JobSpawn
     local spawner = custom_spawn or spawn
-    return spawner.powershell(vim.tbl_extend("keep", {
+    return spawner[powershell](vim.tbl_extend("keep", {
         "-NoProfile",
         on_spawn = function(_, stdio)
             local stdin = stdio[1]
@@ -35,7 +37,7 @@ function M.command(command, opts, custom_spawn)
     opts = opts or {}
     ---@type JobSpawn
     local spawner = custom_spawn or spawn
-    return spawner.powershell(vim.tbl_extend("keep", {
+    return spawner[powershell](vim.tbl_extend("keep", {
         "-NoProfile",
         "-Command",
         PWSHOPT.progress_preference .. PWSHOPT.security_protocol .. command,
