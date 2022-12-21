@@ -8,6 +8,15 @@ local log = require "mason-core.log"
 ---@alias JobSpawn table<string, async fun(opts: SpawnArgs): Result>
 ---@type JobSpawn
 local spawn = {
+    _aliases = {
+        npm = platform.is.win and "npm.cmd" or "npm",
+        gem = platform.is.win and "gem.cmd" or "gem",
+        composer = platform.is.win and "composer.bat" or "composer",
+        gradlew = platform.is.win and "gradlew.bat" or "gradlew",
+        -- for hererocks installations
+        luarocks = (platform.is.win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
+        rebar3 = platform.is.win and "rebar3.cmd" or "rebar3",
+    },
     _flatten_cmd_args = _.compose(_.filter(_.complement(_.equals(vim.NIL))), _.flatten),
 }
 
@@ -24,16 +33,11 @@ local function Failure(err, cmd)
     }))
 end
 
-local exepath = _.memoize(function(cmd)
+local is_executable = _.memoize(function(cmd)
     if vim.in_fast_event() then
         a.scheduler()
     end
-    local exepath = vim.fn.exepath(cmd)
-    if exepath == "" then
-        return nil
-    else
-        return exepath
-    end
+    return vim.fn.executable(cmd) == 1
 end, _.identity)
 
 ---@class SpawnArgs
@@ -43,10 +47,11 @@ end, _.identity)
 ---@field stdio_sink StdioSink? If provided, will be used to write to stdout and stderr.
 ---@field cwd string?
 ---@field on_spawn (fun(handle: luv_handle, stdio: luv_pipe[], pid: integer))? Will be called when the process successfully spawns.
+---@field check_executable boolean? Whether to check if the provided command is executable (defaults to true).
 
 setmetatable(spawn, {
-    ---@param cmd string
-    __index = function(self, cmd)
+    ---@param normalized_cmd string
+    __index = function(self, normalized_cmd)
         ---@param args SpawnArgs
         return function(args)
             local cmd_args = self._flatten_cmd_args(args)
@@ -71,16 +76,13 @@ setmetatable(spawn, {
                 spawn_args.stdio_sink = stdio.sink
             end
 
-            -- Ensure that the cmd is executable (only if PATH is not modified).
-            if (env and env.PATH) == nil then
-                local expanded_cmd = exepath(cmd)
-                if expanded_cmd == nil then
-                    log.fmt_debug("%s is not executable", cmd)
-                    return Failure({
-                        stderr = ("%s is not executable"):format(cmd),
-                    }, cmd)
-                end
-                cmd = expanded_cmd
+            local cmd = self._aliases[normalized_cmd] or normalized_cmd
+
+            if (env and env.PATH) == nil and args.check_executable ~= false and not is_executable(cmd) then
+                log.fmt_debug("%s is not executable", cmd)
+                return Failure({
+                    stderr = ("%s is not executable"):format(cmd),
+                }, cmd)
             end
 
             local _, exit_code, signal = a.wait(function(resolve)
