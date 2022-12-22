@@ -194,6 +194,7 @@
 - [rubocop](#rubocop)
 - [ruby-lsp](#ruby-lsp)
 - [ruff](#ruff)
+- [ruff-lsp](#ruff-lsp)
 - [rust-analyzer](#rust-analyzer)
 - [rustfmt](#rustfmt)
 - [salt-lsp](#salt-lsp)
@@ -4148,6 +4149,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall ruff
+```
+
+
+# ruff-lsp
+
+> A Language Server Protocol implementation for Ruff - An extremely fast Python linter, written in Rust.
+
+Homepage: [https://github.com/charliermarsh/ruff-lsp/](https://github.com/charliermarsh/ruff-lsp/)  
+Languages: `Python`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`ba8f018`](https://github.com/williamboman/mason.nvim/commit/ba8f018) 2022-12-21 - feat(registry): add ruff-lsp ([#786](https://github.com/williamboman/mason.nvim/issues/786)) by Forrest Williams
+</details>
+
+```
+:MasonInstall ruff-lsp
 ```
 
 
