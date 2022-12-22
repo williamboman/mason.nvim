@@ -181,6 +181,7 @@
 - [python-lsp-server](#python-lsp-server)
 - [quick-lint-js](#quick-lint-js)
 - [r-languageserver](#r-languageserver)
+- [rakunavigator](#rakunavigator)
 - [reason-language-server](#reason-language-server)
 - [remark-cli](#remark-cli)
 - [remark-language-server](#remark-language-server)
@@ -3893,6 +3894,24 @@ Categories: `LSP`
 
 ```
 :MasonInstall r-languageserver
+```
+
+
+# rakunavigator
+
+> Raku Language Server that includes perl critic and code navigation
+
+Homepage: [https://github.com/bscan/RakuNavigator](https://github.com/bscan/RakuNavigator)  
+Languages: `Raku`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+</details>
+
+```
+:MasonInstall rakunavigator
 ```
 
 
