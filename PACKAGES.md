@@ -117,6 +117,7 @@
 - [jedi-language-server](#jedi-language-server)
 - [joker](#joker)
 - [jq](#jq)
+- [jqls](#jqls)
 - [js-debug-adapter](#js-debug-adapter)
 - [json-lsp](#json-lsp)
 - [json-to-struct](#json-to-struct)
@@ -145,6 +146,7 @@
 - [netcoredbg](#netcoredbg)
 - [nginx-language-server](#nginx-language-server)
 - [nickel-lang-lsp](#nickel-lang-lsp)
+- [nil](#nil)
 - [nimlsp](#nimlsp)
 - [node-debug2-adapter](#node-debug2-adapter)
 - [nxls](#nxls)
@@ -268,7 +270,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`269ee22`](https://github.com/williamboman/mason.nvim/commit/269ee22) 2022-07-27 - feat: add alex, actionlint ([#170](https://github.com/williamboman/mason.nvim/issues/170)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -287,7 +289,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`b109b49`](https://github.com/williamboman/mason.nvim/commit/b109b49) 2022-09-04 - feat: add ada-language-server ([#380](https://github.com/williamboman/mason.nvim/issues/380)) by Pierrick Guillaume
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -306,7 +308,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`269ee22`](https://github.com/williamboman/mason.nvim/commit/269ee22) 2022-07-27 - feat: add alex, actionlint ([#170](https://github.com/williamboman/mason.nvim/issues/170)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -327,9 +329,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -348,8 +348,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -369,10 +368,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`4a007b4`](https://github.com/williamboman/mason.nvim/commit/4a007b4) 2022-11-09 - fix(apex-language-server): update jar file path ([#652](https://github.com/williamboman/mason.nvim/issues/652)) by William Boman
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -391,9 +387,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`ee23d7b`](https://github.com/williamboman/mason.nvim/commit/ee23d7b) 2022-07-13 - fix(arduino_language_server): fix Windows asset files ([#72](https://github.com/williamboman/mason.nvim/issues/72)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -412,8 +406,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -432,9 +425,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`c5c025a`](https://github.com/williamboman/mason.nvim/commit/c5c025a) 2022-10-11 - feat(astro): vendor typescript ([#542](https://github.com/williamboman/mason.nvim/issues/542)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -453,7 +444,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`028019f`](https://github.com/williamboman/mason.nvim/commit/028019f) 2022-11-06 - feat(registry): add autoflake ([#631](https://github.com/williamboman/mason.nvim/issues/631)) by Andy Dirnberger
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -472,7 +463,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`434f784`](https://github.com/williamboman/mason.nvim/commit/434f784) 2022-08-08 - feat: add autopep8 ([#272](https://github.com/williamboman/mason.nvim/issues/272)) by Xun
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -491,8 +482,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -511,8 +501,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`407d6ac`](https://github.com/williamboman/mason.nvim/commit/407d6ac) 2022-08-05 - fix(bash-debug-adapter): fix associated languages ([#254](https://github.com/williamboman/mason.nvim/issues/254)) by William Boman
-- [`cfa56f1`](https://github.com/williamboman/mason.nvim/commit/cfa56f1) 2022-08-06 - feat: add bash-debug-adapter ([#253](https://github.com/williamboman/mason.nvim/issues/253)) by Adam Figgins
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -531,8 +520,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -551,8 +539,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -571,8 +558,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`4038d8b`](https://github.com/williamboman/mason.nvim/commit/4038d8b) 2022-10-09 - feat(beautysh): add missing languages ([#527](https://github.com/williamboman/mason.nvim/issues/527)) by Kazi Sadman Ahmed
-- [`54313a6`](https://github.com/williamboman/mason.nvim/commit/54313a6) 2022-10-09 - feat(registry): add beautysh formatter ([#526](https://github.com/williamboman/mason.nvim/issues/526)) by Jay Patel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -591,9 +577,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -612,7 +596,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`59ee70b`](https://github.com/williamboman/mason.nvim/commit/59ee70b) 2022-07-09 - feat: add black ([#34](https://github.com/williamboman/mason.nvim/issues/34)) by jmp
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -631,7 +615,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`5734723`](https://github.com/williamboman/mason.nvim/commit/5734723) 2022-08-06 - feat: add buildifier, blade-formatter, blue, haml-lint, textlint, vulture, cfn-lint ([#255](https://github.com/williamboman/mason.nvim/issues/255)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -653,7 +637,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`5734723`](https://github.com/williamboman/mason.nvim/commit/5734723) 2022-08-06 - feat: add buildifier, blade-formatter, blue, haml-lint, textlint, vulture, cfn-lint ([#255](https://github.com/williamboman/mason.nvim/issues/255)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -672,9 +656,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -695,8 +677,7 @@ Categories: `Linter` `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`b3bb9e0`](https://github.com/williamboman/mason.nvim/commit/b3bb9e0) 2022-08-02 - feat: add xo, jq, buf, joker, csharpier ([#221](https://github.com/williamboman/mason.nvim/issues/221)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -715,7 +696,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`f1cb597`](https://github.com/williamboman/mason.nvim/commit/f1cb597) 2022-09-04 - feat: add buf-language-server ([#362](https://github.com/williamboman/mason.nvim/issues/362)) ([#378](https://github.com/williamboman/mason.nvim/issues/378)) by Jay Patel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -734,7 +715,7 @@ Categories: `Linter` `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`5734723`](https://github.com/williamboman/mason.nvim/commit/5734723) 2022-08-06 - feat: add buildifier, blade-formatter, blue, haml-lint, textlint, vulture, cfn-lint ([#255](https://github.com/williamboman/mason.nvim/issues/255)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -754,8 +735,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`1355e3a`](https://github.com/williamboman/mason.nvim/commit/1355e3a) 2022-08-22 - feat: add cbfmt ([#327](https://github.com/williamboman/mason.nvim/issues/327)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -775,7 +755,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`5734723`](https://github.com/williamboman/mason.nvim/commit/5734723) 2022-08-06 - feat: add buildifier, blade-formatter, blue, haml-lint, textlint, vulture, cfn-lint ([#255](https://github.com/williamboman/mason.nvim/issues/255)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -794,9 +774,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`2742ada`](https://github.com/williamboman/mason.nvim/commit/2742ada) 2022-10-17 - feat: reduce some package sizes ([#567](https://github.com/williamboman/mason.nvim/issues/567)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -815,7 +793,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`864d168`](https://github.com/williamboman/mason.nvim/commit/864d168) 2022-07-28 - feat: add clang-format ([#176](https://github.com/williamboman/mason.nvim/issues/176)) by Daniil Shvalov
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -835,9 +813,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -856,8 +832,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -876,10 +851,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`beeb70f`](https://github.com/williamboman/mason.nvim/commit/beeb70f) 2022-09-13 - feat(clojure-lsp): use the static release of clojure-lsp when running on musl libc ([#410](https://github.com/williamboman/mason.nvim/issues/410)) by Ruben Slabbert
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -898,8 +870,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -918,7 +889,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`cd07e42`](https://github.com/williamboman/mason.nvim/commit/cd07e42) 2022-07-25 - fix: rename cmake-format to cmakelang ([#139](https://github.com/williamboman/mason.nvim/issues/139)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -937,10 +908,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`d06095e`](https://github.com/williamboman/mason.nvim/commit/d06095e) 2022-10-09 - fix(codelldb): require GNU compatible system on linux ([#532](https://github.com/williamboman/mason.nvim/issues/532)) by William Boman
-- [`1cde8fd`](https://github.com/williamboman/mason.nvim/commit/1cde8fd) 2022-09-03 - fix(codelldb): don't symlink executable directly ([#374](https://github.com/williamboman/mason.nvim/issues/374)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -961,9 +929,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -982,7 +948,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`6747bf7`](https://github.com/williamboman/mason.nvim/commit/6747bf7) 2022-07-25 - feat(linter): add codespell ([#125](https://github.com/williamboman/mason.nvim/issues/125)) by Evan
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1001,7 +967,7 @@ Categories: `Compiler`
 <details>
     <summary>History:</summary>
 
-- [`ce84338`](https://github.com/williamboman/mason.nvim/commit/ce84338) 2022-11-09 - feat(registry): add colorgen-nvim ([#650](https://github.com/williamboman/mason.nvim/issues/650)) by Mat Jones
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1020,7 +986,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`d3abfbe`](https://github.com/williamboman/mason.nvim/commit/d3abfbe) 2022-10-17 - feat(registry): add commitlint ([#564](https://github.com/williamboman/mason.nvim/issues/564)) by Dan Sully
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1039,7 +1005,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`157ece0`](https://github.com/williamboman/mason.nvim/commit/157ece0) 2022-07-11 - feat: add pylint, cpplint, prettier ([#51](https://github.com/williamboman/mason.nvim/issues/51)) by Lvim Tech
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1058,8 +1024,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1078,8 +1043,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1098,8 +1062,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1118,7 +1081,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`b3bb9e0`](https://github.com/williamboman/mason.nvim/commit/b3bb9e0) 2022-08-02 - feat: add xo, jq, buf, joker, csharpier ([#221](https://github.com/williamboman/mason.nvim/issues/221)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1137,7 +1100,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`9c22497`](https://github.com/williamboman/mason.nvim/commit/9c22497) 2022-07-12 - feat: add cspell spell checker ([#65](https://github.com/williamboman/mason.nvim/issues/65)) by Daryl Ronningen
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1156,8 +1119,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1176,8 +1138,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1196,8 +1157,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1216,7 +1176,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`11d302b`](https://github.com/williamboman/mason.nvim/commit/11d302b) 2022-08-03 - feat: add dagger's cuelsp support ([#238](https://github.com/williamboman/mason.nvim/issues/238)) by Marcos Nils
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1235,8 +1195,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`58e4bb6`](https://github.com/williamboman/mason.nvim/commit/58e4bb6) 2022-07-28 - fix(curlylint): s/ninja/jinja/ ([#185](https://github.com/williamboman/mason.nvim/issues/185)) by William Boman
-- [`b93e53a`](https://github.com/williamboman/mason.nvim/commit/b93e53a) 2022-07-28 - feat: add curlylint ([#184](https://github.com/williamboman/mason.nvim/issues/184)) by Dan Sully
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1255,7 +1214,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`99d1b27`](https://github.com/williamboman/mason.nvim/commit/99d1b27) 2022-12-07 - feat(registry): add dart-debug-adapter ([#733](https://github.com/williamboman/mason.nvim/issues/733)) by Svetlozar Iliev
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1274,10 +1233,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`cd1af57`](https://github.com/williamboman/mason.nvim/commit/cd1af57) 2022-08-06 - feat(debugpy): link debugpy-adapter by Xun
-- [`546d818`](https://github.com/williamboman/mason.nvim/commit/546d818) 2022-08-02 - feat(debugpy): write executable for convenient access ([#229](https://github.com/williamboman/mason.nvim/issues/229)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1296,8 +1252,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1317,9 +1272,7 @@ Categories: `LSP` `Runtime`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1338,10 +1291,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`36231e6`](https://github.com/williamboman/mason.nvim/commit/36231e6) 2022-11-18 - fix(dhall-lsp): github release doesn't always include lsp server asset ([#675](https://github.com/williamboman/mason.nvim/issues/675)) by William Boman
-- [`5a25626`](https://github.com/williamboman/mason.nvim/commit/5a25626) 2022-10-06 - fix(dhall): new assets have capitalized naming ([#520](https://github.com/williamboman/mason.nvim/issues/520)) by kylo252
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1360,8 +1310,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1380,7 +1329,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`06fd166`](https://github.com/williamboman/mason.nvim/commit/06fd166) 2022-07-16 - feat: add djlint ([#81](https://github.com/williamboman/mason.nvim/issues/81)) by Ali Shahid
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1399,8 +1348,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1419,8 +1367,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1439,7 +1386,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`da5f398`](https://github.com/williamboman/mason.nvim/commit/da5f398) 2022-10-17 - feat(registry): add dprint formatter ([#562](https://github.com/williamboman/mason.nvim/issues/562)) by Silas Groh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1458,9 +1405,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`ac70755`](https://github.com/williamboman/mason.nvim/commit/ac70755) 2022-09-17 - feat(editorconfig-checker): use the pre-packaged ec ([#434](https://github.com/williamboman/mason.nvim/issues/434)) by Seth Daniel
-- [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1479,8 +1424,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1500,11 +1444,7 @@ Categories: `LSP` `DAP`
 <details>
     <summary>History:</summary>
 
-- [`724c538`](https://github.com/williamboman/mason.nvim/commit/724c538) 2022-10-02 - feat(elixir-ls): link elixir-ls-debugger executable ([#496](https://github.com/williamboman/mason.nvim/issues/496)) by Slotos
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1523,8 +1463,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1543,8 +1482,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1563,8 +1501,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1583,8 +1520,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1603,7 +1539,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`1c8c8f4`](https://github.com/williamboman/mason.nvim/commit/1c8c8f4) 2022-07-31 - feat: add erb-lint ([#204](https://github.com/williamboman/mason.nvim/issues/204)) by David Bernheisel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1622,7 +1558,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`c2d3b15`](https://github.com/williamboman/mason.nvim/commit/c2d3b15) 2022-10-03 - feat: add erg-language-server ([#503](https://github.com/williamboman/mason.nvim/issues/503)) by takuto
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1644,10 +1580,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1666,8 +1599,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1687,9 +1619,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1708,7 +1638,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`fe1dad7`](https://github.com/williamboman/mason.nvim/commit/fe1dad7) 2022-07-08 - feat: add eslint_d linter ([#31](https://github.com/williamboman/mason.nvim/issues/31)) by Daryl Ronningen
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1727,8 +1657,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`c019223`](https://github.com/williamboman/mason.nvim/commit/c019223) 2022-09-02 - fix(fantomas): link correct fantomas binany name ([#370](https://github.com/williamboman/mason.nvim/issues/370)) by Adelar da Silva Queiróz
-- [`d28d6a9`](https://github.com/williamboman/mason.nvim/commit/d28d6a9) 2022-09-02 - feat: add fantomas F# formatter ([#367](https://github.com/williamboman/mason.nvim/issues/367)) by Adelar da Silva Queiróz
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1747,9 +1676,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`e61d2b7`](https://github.com/williamboman/mason.nvim/commit/e61d2b7) 2022-07-25 - fix(firefox-debug-adapter): don't apply outdated patch ([#135](https://github.com/williamboman/mason.nvim/issues/135)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1768,7 +1695,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`2680ff4`](https://github.com/williamboman/mason.nvim/commit/2680ff4) 2022-07-29 - feat: add fixjson ([#191](https://github.com/williamboman/mason.nvim/issues/191)) by Josa Gesell
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1788,8 +1715,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`5154710`](https://github.com/williamboman/mason.nvim/commit/5154710) 2022-07-24 - feat: add flake8 ([#123](https://github.com/williamboman/mason.nvim/issues/123)) by Ali Shahid
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1808,9 +1734,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`7386840`](https://github.com/williamboman/mason.nvim/commit/7386840) 2022-10-05 - feat(cargo): improve handling of git-based crates ([#512](https://github.com/williamboman/mason.nvim/issues/512)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1829,8 +1753,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1849,8 +1772,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1888,8 +1810,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1908,7 +1829,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`fa33319`](https://github.com/williamboman/mason.nvim/commit/fa33319) 2022-10-09 - feat(registry): add gersemi formatter ([#525](https://github.com/williamboman/mason.nvim/issues/525)) by Jay Patel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1927,7 +1848,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`54532bb`](https://github.com/williamboman/mason.nvim/commit/54532bb) 2022-07-26 - feat: add gitlint ([#155](https://github.com/williamboman/mason.nvim/issues/155)) by Chad Condon
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1949,7 +1870,7 @@ Categories: `LSP` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`d4992ee`](https://github.com/williamboman/mason.nvim/commit/d4992ee) 2022-10-23 - feat(registry): add glint ([#593](https://github.com/williamboman/mason.nvim/issues/593)) by NullVoxPopuli
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1968,8 +1889,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -1988,7 +1908,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`3ae3c54`](https://github.com/williamboman/mason.nvim/commit/3ae3c54) 2022-07-10 - feat: add gofumpt, golines, json-to-struct, revive, staticcheck ([#43](https://github.com/williamboman/mason.nvim/issues/43)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2008,8 +1928,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`ca40b80`](https://github.com/williamboman/mason.nvim/commit/ca40b80) 2022-08-02 - feat: add goimports ([#224](https://github.com/williamboman/mason.nvim/issues/224)) by Sergio Hernandez
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2031,8 +1950,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`980f565`](https://github.com/williamboman/mason.nvim/commit/980f565) 2022-10-18 - fix(goimports-reviser): use prebuilt github assets ([#573](https://github.com/williamboman/mason.nvim/issues/573)) by William Boman
-- [`6a2b45b`](https://github.com/williamboman/mason.nvim/commit/6a2b45b) 2022-09-11 - feat: add goimports-reviser ([#400](https://github.com/williamboman/mason.nvim/issues/400)) by Laytan Laats
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2052,9 +1970,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2073,8 +1989,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2093,7 +2008,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`3ae3c54`](https://github.com/williamboman/mason.nvim/commit/3ae3c54) 2022-07-10 - feat: add gofumpt, golines, json-to-struct, revive, staticcheck ([#43](https://github.com/williamboman/mason.nvim/issues/43)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2112,8 +2027,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`a342c97`](https://github.com/williamboman/mason.nvim/commit/a342c97) 2022-07-08 - feat: add gotests, gomodifytags, impl ([#28](https://github.com/williamboman/mason.nvim/issues/28)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2133,9 +2047,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2155,9 +2067,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`a342c97`](https://github.com/williamboman/mason.nvim/commit/a342c97) 2022-07-08 - feat: add gotests, gomodifytags, impl ([#28](https://github.com/williamboman/mason.nvim/issues/28)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2177,7 +2087,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
-- [`a01073d`](https://github.com/williamboman/mason.nvim/commit/a01073d) 2022-10-03 - feat: add gotestsum ([#506](https://github.com/williamboman/mason.nvim/issues/506)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2196,7 +2106,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`f8b03eb`](https://github.com/williamboman/mason.nvim/commit/f8b03eb) 2022-10-06 - feat: add gradle-language-server ([#517](https://github.com/williamboman/mason.nvim/issues/517)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2215,8 +2125,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2235,8 +2144,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2255,10 +2163,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`679233a`](https://github.com/williamboman/mason.nvim/commit/679233a) 2022-07-13 - fix(groovy-language-server): update jar path ([#64](https://github.com/williamboman/mason.nvim/issues/64)) by William Boman
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2277,7 +2182,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`5a19cb2`](https://github.com/williamboman/mason.nvim/commit/5a19cb2) 2022-07-25 - feat: add hadolint ([#128](https://github.com/williamboman/mason.nvim/issues/128)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2297,7 +2202,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`5734723`](https://github.com/williamboman/mason.nvim/commit/5734723) 2022-08-06 - feat: add buildifier, blade-formatter, blue, haml-lint, textlint, vulture, cfn-lint ([#255](https://github.com/williamboman/mason.nvim/issues/255)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2316,9 +2221,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`07d949a`](https://github.com/williamboman/mason.nvim/commit/07d949a) 2022-09-14 - fix(r-languageserver): use github releases as version source ([#417](https://github.com/williamboman/mason.nvim/issues/417)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2337,9 +2240,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`2742ada`](https://github.com/williamboman/mason.nvim/commit/2742ada) 2022-10-17 - feat: reduce some package sizes ([#567](https://github.com/williamboman/mason.nvim/issues/567)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2358,8 +2259,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2378,8 +2278,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2398,7 +2297,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
-- [`13217bb`](https://github.com/williamboman/mason.nvim/commit/13217bb) 2022-10-09 - feat(registry): add iferr tool for Go ([#528](https://github.com/williamboman/mason.nvim/issues/528)) by Fran Casas
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2417,8 +2316,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`a342c97`](https://github.com/williamboman/mason.nvim/commit/a342c97) 2022-07-08 - feat: add gotests, gomodifytags, impl ([#28](https://github.com/williamboman/mason.nvim/issues/28)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2437,8 +2335,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2457,7 +2354,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`e0dcb07`](https://github.com/williamboman/mason.nvim/commit/e0dcb07) 2022-07-18 - feat: add isort formatter ([#98](https://github.com/williamboman/mason.nvim/issues/98)) by Yi Ming
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2476,7 +2373,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`ac0bbad`](https://github.com/williamboman/mason.nvim/commit/ac0bbad) 2022-09-30 - feat: add java-debug-adapter and java-test ([#482](https://github.com/williamboman/mason.nvim/issues/482)) by lvimuser
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2505,7 +2402,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`ac0bbad`](https://github.com/williamboman/mason.nvim/commit/ac0bbad) 2022-09-30 - feat: add java-debug-adapter and java-test ([#482](https://github.com/williamboman/mason.nvim/issues/482)) by lvimuser
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2524,10 +2421,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`23f513d`](https://github.com/williamboman/mason.nvim/commit/23f513d) 2022-07-17 - fix(jdtls): download milestone versions instead of snapshots ([#87](https://github.com/williamboman/mason.nvim/issues/87)) by William Boman
-- [`9399b0e`](https://github.com/williamboman/mason.nvim/commit/9399b0e) 2022-07-11 - fix(jdtls): link jdtls executable ([#56](https://github.com/williamboman/mason.nvim/issues/56)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2546,8 +2440,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2566,8 +2459,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`27f13da`](https://github.com/williamboman/mason.nvim/commit/27f13da) 2022-11-22 - fix(joker): update asset filenames ([#685](https://github.com/williamboman/mason.nvim/issues/685)) by William Boman
-- [`b3bb9e0`](https://github.com/williamboman/mason.nvim/commit/b3bb9e0) 2022-08-02 - feat: add xo, jq, buf, joker, csharpier ([#221](https://github.com/williamboman/mason.nvim/issues/221)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2586,11 +2478,31 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`b3bb9e0`](https://github.com/williamboman/mason.nvim/commit/b3bb9e0) 2022-08-02 - feat: add xo, jq, buf, joker, csharpier ([#221](https://github.com/williamboman/mason.nvim/issues/221)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
 :MasonInstall jq
+```
+
+
+# jqls
+
+> jqls is a language server for the jq language, developed by Matthias Wader. It provides
+IDE features to any LSP-compatible editor.
+
+Homepage: [https://github.com/wader/jq-lsp](https://github.com/wader/jq-lsp)  
+Languages: `Jq`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`37f4b79`](https://github.com/williamboman/mason.nvim/commit/37f4b79) 2022-12-23 - adds jq language server (jqls) by David McDonald
+</details>
+
+```
+:MasonInstall jqls
 ```
 
 
@@ -2605,8 +2517,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`2742ada`](https://github.com/williamboman/mason.nvim/commit/2742ada) 2022-10-17 - feat: reduce some package sizes ([#567](https://github.com/williamboman/mason.nvim/issues/567)) by William Boman
-- [`75860d2`](https://github.com/williamboman/mason.nvim/commit/75860d2) 2022-09-21 - feat: add js-debug-adapter ([#442](https://github.com/williamboman/mason.nvim/issues/442)) by Hollis Wu
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2625,8 +2536,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2645,7 +2555,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
-- [`3ae3c54`](https://github.com/williamboman/mason.nvim/commit/3ae3c54) 2022-07-10 - feat: add gofumpt, golines, json-to-struct, revive, staticcheck ([#43](https://github.com/williamboman/mason.nvim/issues/43)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2664,7 +2574,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`2a04590`](https://github.com/williamboman/mason.nvim/commit/2a04590) 2022-10-17 - feat(registry): add jsonlint tool for JSON ([#565](https://github.com/williamboman/mason.nvim/issues/565)) by Afranio Martins
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2683,8 +2593,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2703,9 +2612,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`cb7bdcd`](https://github.com/williamboman/mason.nvim/commit/cb7bdcd) 2022-08-13 - fix(julia-lsp): adjust for changes in latest release ([#289](https://github.com/williamboman/mason.nvim/issues/289)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2743,8 +2650,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2763,8 +2669,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2783,8 +2688,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2803,10 +2707,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`5676d6d`](https://github.com/williamboman/mason.nvim/commit/5676d6d) 2022-07-31 - fix(lemminx): download from GitHub releases ([#207](https://github.com/williamboman/mason.nvim/issues/207)) by William Boman
-- [`d3645e4`](https://github.com/williamboman/mason.nvim/commit/d3645e4) 2022-07-11 - chore(lemminx): update latest default version ([#49](https://github.com/williamboman/mason.nvim/issues/49)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2825,9 +2726,7 @@ Categories:
 <details>
     <summary>History:</summary>
 
-- [`5812dc4`](https://github.com/williamboman/mason.nvim/commit/5812dc4) 2022-10-14 - feat(lemmy-help): use prebuilt binaries from release assets ([#555](https://github.com/williamboman/mason.nvim/issues/555)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2847,11 +2746,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`6fa15d7`](https://github.com/williamboman/mason.nvim/commit/6fa15d7) 2022-08-05 - refactor(ltex): remove windows platform detect in unix ([#251](https://github.com/williamboman/mason.nvim/issues/251)) by Vu Le Thanh
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2870,8 +2765,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2890,7 +2784,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`e885f06`](https://github.com/williamboman/mason.nvim/commit/e885f06) 2022-07-10 - feat: add luacheck to the registry ([#46](https://github.com/williamboman/mason.nvim/issues/46)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2909,7 +2803,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`1e3c60c`](https://github.com/williamboman/mason.nvim/commit/1e3c60c) 2022-07-22 - feat: add luaformatter ([#116](https://github.com/williamboman/mason.nvim/issues/116)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2928,7 +2822,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`a761c1f`](https://github.com/williamboman/mason.nvim/commit/a761c1f) 2022-09-01 - feat: add luau-lsp ([#366](https://github.com/williamboman/mason.nvim/issues/366)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2947,8 +2841,7 @@ Categories: `Linter` `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`4029c39`](https://github.com/williamboman/mason.nvim/commit/4029c39) 2022-07-21 - feat: add markdownlint linter ([#107](https://github.com/williamboman/mason.nvim/issues/107)) by Bao
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2967,8 +2860,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -2987,8 +2879,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3007,7 +2898,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3027,10 +2918,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`d8e2422`](https://github.com/williamboman/mason.nvim/commit/d8e2422) 2022-12-04 - feat(mockdebug): write & link mock-debug-adapter executable ([#723](https://github.com/williamboman/mason.nvim/issues/723)) by Svetlozar Iliev
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3049,8 +2937,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`7386840`](https://github.com/williamboman/mason.nvim/commit/7386840) 2022-10-05 - feat(cargo): improve handling of git-based crates ([#512](https://github.com/williamboman/mason.nvim/issues/512)) by William Boman
-- [`59e6fee`](https://github.com/williamboman/mason.nvim/commit/59e6fee) 2022-10-02 - feat: add move-analyzer ([#499](https://github.com/williamboman/mason.nvim/issues/499)) by Michael
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3069,7 +2956,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`24b743a`](https://github.com/williamboman/mason.nvim/commit/24b743a) 2022-07-25 - feat: add mypy ([#142](https://github.com/williamboman/mason.nvim/issues/142)) by Phúc Lê Khắc
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3088,7 +2975,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`555168b`](https://github.com/williamboman/mason.nvim/commit/555168b) 2022-12-07 - feat(registry): add neocmakelsp ([#739](https://github.com/williamboman/mason.nvim/issues/739)) by Micah Halter
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3107,9 +2994,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`ac08235`](https://github.com/williamboman/mason.nvim/commit/ac08235) 2022-08-25 - feat: add netcoredbg as tool for F# language ([#339](https://github.com/williamboman/mason.nvim/issues/339)) by Adelar da Silva Queiróz
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3128,7 +3013,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`0c5e610`](https://github.com/williamboman/mason.nvim/commit/0c5e610) 2022-11-23 - feat(registry): add nginx-language-server ([#688](https://github.com/williamboman/mason.nvim/issues/688)) by Stéphane Bisinger
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3148,13 +3033,30 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
 :MasonInstall nickel-lang-lsp
+```
+
+
+# nil
+
+> Language Server for Nix
+
+Homepage: [https://github.com/oxalica/nil](https://github.com/oxalica/nil)  
+Languages: `Nix`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`3ccd16b`](https://github.com/williamboman/mason.nvim/commit/3ccd16b) 2022-12-19 - feat(registry): add nil ([#774](https://github.com/williamboman/mason.nvim/issues/774)) by s1341
+</details>
+
+```
+:MasonInstall nil
 ```
 
 
@@ -3169,8 +3071,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3189,10 +3090,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`da3cac4`](https://github.com/williamboman/mason.nvim/commit/da3cac4) 2022-07-10 - refactor: return table with declarative keys ([#48](https://github.com/williamboman/mason.nvim/issues/48)) by William Boman
-- [`d1a88ff`](https://github.com/williamboman/mason.nvim/commit/d1a88ff) 2022-07-10 - fix(node-debug2-adapter): fix build on Node >= 18 ([#47](https://github.com/williamboman/mason.nvim/issues/47)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3211,7 +3109,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`fd4f676`](https://github.com/williamboman/mason.nvim/commit/fd4f676) 2022-10-24 - feat(registry): add nxls ([#585](https://github.com/williamboman/mason.nvim/issues/585)) by Jannis Morgenstern
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3230,8 +3128,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3251,8 +3148,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`18ba623`](https://github.com/williamboman/mason.nvim/commit/18ba623) 2022-07-20 - refactor(omnisharp)!: separate mono into its own package ([#101](https://github.com/williamboman/mason.nvim/issues/101)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3272,9 +3168,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`fd82f13`](https://github.com/williamboman/mason.nvim/commit/fd82f13) 2022-08-12 - fix(omnisharp-mono): don't link directly to the `run` script ([#290](https://github.com/williamboman/mason.nvim/issues/290)) by William Boman
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`18ba623`](https://github.com/williamboman/mason.nvim/commit/18ba623) 2022-07-20 - refactor(omnisharp)!: separate mono into its own package ([#101](https://github.com/williamboman/mason.nvim/issues/101)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3293,8 +3187,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3313,9 +3206,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3336,8 +3227,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
-- [`f578e31`](https://github.com/williamboman/mason.nvim/commit/f578e31) 2022-08-25 - feat: add php-cs-fixer ([#340](https://github.com/williamboman/mason.nvim/issues/340)) by shura
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3356,8 +3246,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3377,9 +3266,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3398,8 +3285,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
-- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3418,8 +3304,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
-- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3439,8 +3324,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
-- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3459,8 +3343,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
-- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3479,7 +3362,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`f466ced`](https://github.com/williamboman/mason.nvim/commit/f466ced) 2022-11-01 - feat(registry): add laravel pint ([#614](https://github.com/williamboman/mason.nvim/issues/614)) by Michael Utz
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3498,8 +3381,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3518,8 +3400,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`8d7dd71`](https://github.com/williamboman/mason.nvim/commit/8d7dd71) 2022-07-22 - fix: ensure no duplicate languages with different casing ([#117](https://github.com/williamboman/mason.nvim/issues/117)) by William Boman
-- [`157ece0`](https://github.com/williamboman/mason.nvim/commit/157ece0) 2022-07-11 - feat: add pylint, cpplint, prettier ([#51](https://github.com/williamboman/mason.nvim/issues/51)) by Lvim Tech
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3538,7 +3419,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`d02deb7`](https://github.com/williamboman/mason.nvim/commit/d02deb7) 2022-07-25 - feat: add prettierd ([#127](https://github.com/williamboman/mason.nvim/issues/127)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3558,9 +3439,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3580,8 +3459,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`c49e75f`](https://github.com/williamboman/mason.nvim/commit/c49e75f) 2022-08-01 - feat: add proselint ([#214](https://github.com/williamboman/mason.nvim/issues/214)) by the continium
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3600,9 +3478,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3621,8 +3497,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`d3c2156`](https://github.com/williamboman/mason.nvim/commit/d3c2156) 2022-11-07 - fix(protolint): use Protobuf language ([#641](https://github.com/williamboman/mason.nvim/issues/641)) by William Boman
-- [`938c8fa`](https://github.com/williamboman/mason.nvim/commit/938c8fa) 2022-11-07 - feat(registry): add protolint ([#640](https://github.com/williamboman/mason.nvim/issues/640)) by Jay Patel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3641,8 +3516,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3661,8 +3535,7 @@ Categories: `LSP` `DAP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3683,9 +3556,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3704,8 +3575,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`e6d8f32`](https://github.com/williamboman/mason.nvim/commit/e6d8f32) 2022-09-11 - chore: remove unused import ([#403](https://github.com/williamboman/mason.nvim/issues/403)) by William Boman
-- [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3724,7 +3594,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`d726743`](https://github.com/williamboman/mason.nvim/commit/d726743) 2022-10-08 - feat(registry): add pylama linter ([#523](https://github.com/williamboman/mason.nvim/issues/523)) by Kazi Sadman Ahmed
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3743,7 +3613,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`157ece0`](https://github.com/williamboman/mason.nvim/commit/157ece0) 2022-07-11 - feat: add pylint, cpplint, prettier ([#51](https://github.com/williamboman/mason.nvim/issues/51)) by Lvim Tech
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3762,8 +3632,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`e6d8f32`](https://github.com/williamboman/mason.nvim/commit/e6d8f32) 2022-09-11 - chore: remove unused import ([#403](https://github.com/williamboman/mason.nvim/issues/403)) by William Boman
-- [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3782,7 +3651,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`5dd6257`](https://github.com/williamboman/mason.nvim/commit/5dd6257) 2022-10-02 - feat: add pyre linter ([#495](https://github.com/williamboman/mason.nvim/issues/495)) by Michael
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3801,8 +3670,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3821,8 +3689,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3842,9 +3709,7 @@ Categories: `LSP` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3863,11 +3728,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`07d949a`](https://github.com/williamboman/mason.nvim/commit/07d949a) 2022-09-14 - fix(r-languageserver): use github releases as version source ([#417](https://github.com/williamboman/mason.nvim/issues/417)) by William Boman
-- [`18ba623`](https://github.com/williamboman/mason.nvim/commit/18ba623) 2022-07-20 - refactor(omnisharp)!: separate mono into its own package ([#101](https://github.com/williamboman/mason.nvim/issues/101)) by William Boman
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3886,8 +3747,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3906,7 +3766,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`53e419c`](https://github.com/williamboman/mason.nvim/commit/53e419c) 2022-10-01 - feat: add remark-cli ([#486](https://github.com/williamboman/mason.nvim/issues/486)) by Dan Sully
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3925,8 +3785,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3945,7 +3804,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`7ebd92b`](https://github.com/williamboman/mason.nvim/commit/7ebd92b) 2022-11-14 - feat(registry): add reorder-python-imports ([#665](https://github.com/williamboman/mason.nvim/issues/665)) by Phúc Lê Khắc
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3964,9 +3823,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -3985,7 +3842,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`3ae3c54`](https://github.com/williamboman/mason.nvim/commit/3ae3c54) 2022-07-10 - feat: add gofumpt, golines, json-to-struct, revive, staticcheck ([#43](https://github.com/williamboman/mason.nvim/issues/43)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4004,8 +3861,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4024,8 +3880,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4044,9 +3899,7 @@ Categories: `LSP` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`a1f1fb0`](https://github.com/williamboman/mason.nvim/commit/a1f1fb0) 2022-11-09 - fix(rome): drop default version pin ([#649](https://github.com/williamboman/mason.nvim/issues/649)) by Otto Ahoniemi
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4065,8 +3918,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`e6d8f32`](https://github.com/williamboman/mason.nvim/commit/e6d8f32) 2022-09-11 - chore: remove unused import ([#403](https://github.com/williamboman/mason.nvim/issues/403)) by William Boman
-- [`e89217b`](https://github.com/williamboman/mason.nvim/commit/e89217b) 2022-09-11 - feat: add pydocstyle, pyproject-flake8 & rstcheck Python related linters ([#398](https://github.com/williamboman/mason.nvim/issues/398)) by Dan Sully
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4085,7 +3937,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`41e075a`](https://github.com/williamboman/mason.nvim/commit/41e075a) 2022-07-31 - feat: add rubocop ([#167](https://github.com/williamboman/mason.nvim/issues/167)) by Chad Condon
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4104,7 +3956,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`6677e8f`](https://github.com/williamboman/mason.nvim/commit/6677e8f) 2022-09-20 - feat: add ruby-lsp ([#446](https://github.com/williamboman/mason.nvim/issues/446)) by Jay Patel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4123,7 +3975,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`4fb7c00`](https://github.com/williamboman/mason.nvim/commit/4fb7c00) 2022-11-09 - feat(registry): add ruff ([#653](https://github.com/williamboman/mason.nvim/issues/653)) by Phúc Lê Khắc
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4143,10 +3995,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4165,8 +4014,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`a096949`](https://github.com/williamboman/mason.nvim/commit/a096949) 2022-11-07 - fix(rustfmt): use correct asset names and use unzip on windows ([#644](https://github.com/williamboman/mason.nvim/issues/644)) by N.N
-- [`f5b1a20`](https://github.com/williamboman/mason.nvim/commit/f5b1a20) 2022-11-07 - feat(registry): add rustfmt ([#642](https://github.com/williamboman/mason.nvim/issues/642)) by Jay Patel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4185,8 +4033,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4205,11 +4052,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`d5abc15`](https://github.com/williamboman/mason.nvim/commit/d5abc15) 2022-10-13 - feat(registry): selene and stylua support for luau ([#548](https://github.com/williamboman/mason.nvim/issues/548)) by Lopy
-- [`ec59445`](https://github.com/williamboman/mason.nvim/commit/ec59445) 2022-08-03 - fix(selene): download error in Windows ([#233](https://github.com/williamboman/mason.nvim/issues/233)) by sitiom
-- [`e1e2032`](https://github.com/williamboman/mason.nvim/commit/e1e2032) 2022-07-28 - feat: selene now installed from pre-built binary ([#187](https://github.com/williamboman/mason.nvim/issues/187)) by Seth Daniel
-- [`cfd789c`](https://github.com/williamboman/mason.nvim/commit/cfd789c) 2022-07-26 - fix(selene): fix installation ([#165](https://github.com/williamboman/mason.nvim/issues/165)) by William Boman
-- [`b7ac6ac`](https://github.com/williamboman/mason.nvim/commit/b7ac6ac) 2022-07-26 - feat: add selene ([#159](https://github.com/williamboman/mason.nvim/issues/159)) by oncomouse
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4247,8 +4090,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4267,8 +4109,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4287,8 +4128,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`9973678`](https://github.com/williamboman/mason.nvim/commit/9973678) 2022-07-26 - fix(shellharden): fix installation ([#164](https://github.com/williamboman/mason.nvim/issues/164)) by Seth Daniel
-- [`09e6f22`](https://github.com/williamboman/mason.nvim/commit/09e6f22) 2022-07-26 - feat: add shellharden ([#160](https://github.com/williamboman/mason.nvim/issues/160)) by oncomouse
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4307,9 +4147,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`6f70671`](https://github.com/williamboman/mason.nvim/commit/6f70671) 2022-10-01 - fix(shfmt, yamlfmt): fix windows detection ([#492](https://github.com/williamboman/mason.nvim/issues/492)) by William Boman
-- [`f3ad259`](https://github.com/williamboman/mason.nvim/commit/f3ad259) 2022-09-27 - feat(shfmt): use pre-built binaries ([#472](https://github.com/williamboman/mason.nvim/issues/472)) by Seth Daniel
-- [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4328,8 +4166,7 @@ Categories: `LSP` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4348,8 +4185,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4368,8 +4204,7 @@ Categories: `LSP` `Compiler`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4388,8 +4223,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4408,7 +4242,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`c2dc5ed`](https://github.com/williamboman/mason.nvim/commit/c2dc5ed) 2022-08-26 - feat: add solhint linter for Solidity code ([#342](https://github.com/williamboman/mason.nvim/issues/342)) by Ahmed Hashim
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4427,9 +4261,7 @@ Categories: `Compiler` `LSP`
 <details>
     <summary>History:</summary>
 
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4448,7 +4280,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`780495e`](https://github.com/williamboman/mason.nvim/commit/780495e) 2022-09-27 - feat: add solidity-ls ([#466](https://github.com/williamboman/mason.nvim/issues/466)) by Ali Shahid
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4467,8 +4299,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4488,9 +4319,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4510,11 +4339,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`30a9451`](https://github.com/williamboman/mason.nvim/commit/30a9451) 2022-11-15 - fix(spectral-language-server): link spectral-language-server executable ([#666](https://github.com/williamboman/mason.nvim/issues/666)) by William Boman
-- [`e0268a6`](https://github.com/williamboman/mason.nvim/commit/e0268a6) 2022-09-26 - fix(spectral-language-server): build directly from source ([#464](https://github.com/williamboman/mason.nvim/issues/464)) by William Boman
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`eee851f`](https://github.com/williamboman/mason.nvim/commit/eee851f) 2022-08-01 - fix(spectral-language-server): remove Linter and add LSP to categories ([#219](https://github.com/williamboman/mason.nvim/issues/219)) by William Boman
-- [`984405e`](https://github.com/williamboman/mason.nvim/commit/984405e) 2022-08-01 - feat: add spectral-language-server ([#211](https://github.com/williamboman/mason.nvim/issues/211)) by Ghassan Alduraibi
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4533,7 +4358,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`f438dff`](https://github.com/williamboman/mason.nvim/commit/f438dff) 2022-07-25 - feat: add sql-formatter ([#140](https://github.com/williamboman/mason.nvim/issues/140)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4552,7 +4377,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`9cfbed4`](https://github.com/williamboman/mason.nvim/commit/9cfbed4) 2022-07-25 - feat: add sqlfluff ([#150](https://github.com/williamboman/mason.nvim/issues/150)) by David Bernheisel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4571,8 +4396,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4591,8 +4415,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4611,7 +4434,7 @@ Categories: `Formatter` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`45d7a81`](https://github.com/williamboman/mason.nvim/commit/45d7a81) 2022-08-27 - feat: add standardrb linter/formatter for Ruby ([#344](https://github.com/williamboman/mason.nvim/issues/344)) by Matthew Critchlow
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4630,7 +4453,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`3ae3c54`](https://github.com/williamboman/mason.nvim/commit/3ae3c54) 2022-07-10 - feat: add gofumpt, golines, json-to-struct, revive, staticcheck ([#43](https://github.com/williamboman/mason.nvim/issues/43)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4649,8 +4472,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4669,11 +4491,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`d5abc15`](https://github.com/williamboman/mason.nvim/commit/d5abc15) 2022-10-13 - feat(registry): selene and stylua support for luau ([#548](https://github.com/williamboman/mason.nvim/issues/548)) by Lopy
-- [`b36bdad`](https://github.com/williamboman/mason.nvim/commit/b36bdad) 2022-09-28 - feat(stylua): add arm64 Linux support ([#477](https://github.com/williamboman/mason.nvim/issues/477)) by WJH
-- [`a7ab60e`](https://github.com/williamboman/mason.nvim/commit/a7ab60e) 2022-07-27 - fix(stylua): use prebuilt binary instead of building with cargo ([#163](https://github.com/williamboman/mason.nvim/issues/163)) by kanhaiya38
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4692,8 +4510,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4713,9 +4530,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4734,8 +4549,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4754,8 +4568,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4774,11 +4587,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`f01129e`](https://github.com/williamboman/mason.nvim/commit/f01129e) 2022-11-01 - fix(taplo): rename files to match upstream ([#613](https://github.com/williamboman/mason.nvim/issues/613)) by ishigoemon
-- [`9a4dc41`](https://github.com/williamboman/mason.nvim/commit/9a4dc41) 2022-08-03 - fix(taplo): write receipt when installing via cargo ([#237](https://github.com/williamboman/mason.nvim/issues/237)) by William Boman
-- [`66f8670`](https://github.com/williamboman/mason.nvim/commit/66f8670) 2022-07-30 - feat(taplo): use prebuilt binary if available ([#201](https://github.com/williamboman/mason.nvim/issues/201)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4797,8 +4606,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4817,9 +4625,7 @@ Categories: `Compiler`
 <details>
     <summary>History:</summary>
 
-- [`175408f`](https://github.com/williamboman/mason.nvim/commit/175408f) 2022-11-30 - fix(tectonic): pin version ([#708](https://github.com/williamboman/mason.nvim/issues/708)) by William Boman
-- [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
-- [`7c9155b`](https://github.com/williamboman/mason.nvim/commit/7c9155b) 2022-08-06 - feat: add tectonic ([#249](https://github.com/williamboman/mason.nvim/issues/249)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4838,8 +4644,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4858,8 +4663,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4878,7 +4682,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`5734723`](https://github.com/williamboman/mason.nvim/commit/5734723) 2022-08-06 - feat: add buildifier, blade-formatter, blue, haml-lint, textlint, vulture, cfn-lint ([#255](https://github.com/williamboman/mason.nvim/issues/255)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4897,8 +4701,7 @@ Categories: `LSP` `Linter`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4918,8 +4721,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`b56ea0b`](https://github.com/williamboman/mason.nvim/commit/b56ea0b) 2022-09-12 - refactor: add ctx:write_php_exec_wrapper utility ([#409](https://github.com/williamboman/mason.nvim/issues/409)) by William Boman
-- [`f0d2184`](https://github.com/williamboman/mason.nvim/commit/f0d2184) 2022-09-12 - feat: add phpcs, phpcbf, phpmd, phpstan and twigcs ([#399](https://github.com/williamboman/mason.nvim/issues/399)) by Laytan Laats
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4938,8 +4740,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4958,7 +4759,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`07b2d6c`](https://github.com/williamboman/mason.nvim/commit/07b2d6c) 2022-11-09 - feat(registry): add usort ([#654](https://github.com/williamboman/mason.nvim/issues/654)) by Phúc Lê Khắc
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4977,8 +4778,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -4997,7 +4797,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`4d609fd`](https://github.com/williamboman/mason.nvim/commit/4d609fd) 2022-07-24 - feat: add vale ([#121](https://github.com/williamboman/mason.nvim/issues/121)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5016,11 +4816,7 @@ Categories: `LSP` `Linter` `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`8a003fd`](https://github.com/williamboman/mason.nvim/commit/8a003fd) 2022-11-09 - fix(verible): properly format asset file ([#657](https://github.com/williamboman/mason.nvim/issues/657)) by William Boman
-- [`d005168`](https://github.com/williamboman/mason.nvim/commit/d005168) 2022-10-20 - feat(verible): add linux_x64_gnu ([#579](https://github.com/williamboman/mason.nvim/issues/579)) by William Boman
-- [`b39da84`](https://github.com/williamboman/mason.nvim/commit/b39da84) 2022-09-28 - feat(verible): add support for CentOS 7.9 ([#471](https://github.com/williamboman/mason.nvim/issues/471)) by Nikhil Jha
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5039,8 +4835,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5059,8 +4854,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5079,8 +4873,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`ada92b1`](https://github.com/williamboman/mason.nvim/commit/ada92b1) 2022-07-23 - fix: correct package name for vint is vim-vint ([#118](https://github.com/williamboman/mason.nvim/issues/118)) by Seth Daniel
-- [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5099,11 +4892,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`4f63b13`](https://github.com/williamboman/mason.nvim/commit/4f63b13) 2022-11-09 - fix(visualforce-language-server): update script path ([#656](https://github.com/williamboman/mason.nvim/issues/656)) by William Boman
-- [`b0cb03d`](https://github.com/williamboman/mason.nvim/commit/b0cb03d) 2022-10-10 - fix(visualforce-language-server): remove custom release resolution code ([#534](https://github.com/williamboman/mason.nvim/issues/534)) by William Boman
-- [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5122,8 +4911,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5142,8 +4930,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5167,7 +4954,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`5734723`](https://github.com/williamboman/mason.nvim/commit/5734723) 2022-08-06 - feat: add buildifier, blade-formatter, blue, haml-lint, textlint, vulture, cfn-lint ([#255](https://github.com/williamboman/mason.nvim/issues/255)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5186,9 +4973,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`7386840`](https://github.com/williamboman/mason.nvim/commit/7386840) 2022-10-05 - feat(cargo): improve handling of git-based crates ([#512](https://github.com/williamboman/mason.nvim/issues/512)) by William Boman
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5207,7 +4992,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`8638887`](https://github.com/williamboman/mason.nvim/commit/8638887) 2022-07-25 - feat: add write-good ([#151](https://github.com/williamboman/mason.nvim/issues/151))a by David Bernheisel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5229,7 +5014,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`66f602d`](https://github.com/williamboman/mason.nvim/commit/66f602d) 2022-08-11 - feat: add xmlformatter ([#281](https://github.com/williamboman/mason.nvim/issues/281)) by Javier
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5248,7 +5033,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`b3bb9e0`](https://github.com/williamboman/mason.nvim/commit/b3bb9e0) 2022-08-02 - feat: add xo, jq, buf, joker, csharpier ([#221](https://github.com/williamboman/mason.nvim/issues/221)) by Vu Le Thanh
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5267,8 +5052,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5287,9 +5071,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`6f70671`](https://github.com/williamboman/mason.nvim/commit/6f70671) 2022-10-01 - fix(shfmt, yamlfmt): fix windows detection ([#492](https://github.com/williamboman/mason.nvim/issues/492)) by William Boman
-- [`e86f4cb`](https://github.com/williamboman/mason.nvim/commit/e86f4cb) 2022-09-28 - feat(yamlfmt): use the pre-built binary package ([#473](https://github.com/williamboman/mason.nvim/issues/473)) by Seth Daniel
-- [`920ff4f`](https://github.com/williamboman/mason.nvim/commit/920ff4f) 2022-08-22 - feat: add yamlfmt ([#329](https://github.com/williamboman/mason.nvim/issues/329)) by JINNOUCHI Yasushi
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5309,8 +5091,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
-- [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
-- [`8755723`](https://github.com/williamboman/mason.nvim/commit/8755723) 2022-07-25 - feat: add yamllint ([#149](https://github.com/williamboman/mason.nvim/issues/149)) by David Bernheisel
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5329,8 +5110,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
-- [`60a03f5`](https://github.com/williamboman/mason.nvim/commit/60a03f5) 2022-11-20 - fix(yapf): install toml to support parsing .toml config files ([#682](https://github.com/williamboman/mason.nvim/issues/682)) by William Boman
-- [`ec7c134`](https://github.com/williamboman/mason.nvim/commit/ec7c134) 2022-08-17 - feat: add yapf ([#304](https://github.com/williamboman/mason.nvim/issues/304)) by Rolf Strijdhorst
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5349,8 +5129,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
@@ -5369,9 +5148,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
-- [`b9e8c4a`](https://github.com/williamboman/mason.nvim/commit/b9e8c4a) 2022-11-03 - fix(zls): support zst ([#622](https://github.com/williamboman/mason.nvim/issues/622)) by Access
-- [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
-- [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
+- [`0146492`](https://github.com/williamboman/mason.nvim/commit/0146492) 2022-12-08 - chore: update generated code ([#746](https://github.com/williamboman/mason.nvim/issues/746)) by williambotman[bot]
 </details>
 
 ```
