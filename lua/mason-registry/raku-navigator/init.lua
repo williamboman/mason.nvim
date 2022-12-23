@@ -3,7 +3,7 @@ local npm = require "mason-core.managers.npm"
 local path = require "mason-core.path"
 
 return Pkg.new {
-    name = "rakunavigator",
+    name = "raku-navigator",
     desc = [[Raku Language Server that includes Raku critic and code navigation]],
     homepage = "https://github.com/bscan/RakuNavigator",
     languages = { Pkg.Lang.Raku },
@@ -11,11 +11,11 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        npm.packages { "raku-navigator-server" }()
+        npm.packages { "https://github.com/bscan/RakuNavigator" }()
         ctx:link_bin(
-            "rakunavigator",
+            "raku-navigator",
             ctx:write_node_exec_wrapper(
-                "rakunavigator",
+                "raku-navigator",
                 path.concat { "node_modules", "raku-navigator-server", "out", "server.js" }
             )
         )
