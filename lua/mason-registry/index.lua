@@ -205,6 +205,7 @@ return {
   shfmt = "mason-registry.shfmt",
   ["shopify-theme-check"] = "mason-registry.shopify-theme-check",
   ["slint-lsp"] = "mason-registry.slint-lsp",
+  ["smithy-language-server"] = "mason-registry.smithy-language-server",
   solang = "mason-registry.solang",
   solargraph = "mason-registry.solargraph",
   solhint = "mason-registry.solhint",
