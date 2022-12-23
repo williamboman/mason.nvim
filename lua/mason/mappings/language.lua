@@ -61,6 +61,7 @@ return {
   java = { "clang-format", "java-debug-adapter", "java-test", "jdtls", "semgrep" },
   javascript = { "chrome-debug-adapter", "clang-format", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "glint", "js-debug-adapter", "node-debug2-adapter", "prettier", "prettierd", "quick-lint-js", "rome", "semgrep", "typescript-language-server", "xo" },
   jinja = { "curlylint", "djlint" },
+  jq = { "jqls" },
   json = { "cfn-lint", "clang-format", "fixjson", "jq", "json-lsp", "jsonlint", "nxls", "prettier", "prettierd", "semgrep", "spectral-language-server" },
   jsonnet = { "jsonnet-language-server" },
   jsx = { "prettier", "prettierd" },
