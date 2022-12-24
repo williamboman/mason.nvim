@@ -67,6 +67,12 @@ function ContextualFs:write_file(rel_path, contents)
 end
 
 ---@async
+---@param rel_path string The relative path from the current working directory to the file to read.
+function ContextualFs:read_file(rel_path)
+    return fs.async.read_file(path.concat { self.cwd:get(), rel_path })
+end
+
+---@async
 ---@param rel_path string The relative path from the current working directory.
 function ContextualFs:file_exists(rel_path)
     return fs.async.file_exists(path.concat { self.cwd:get(), rel_path })

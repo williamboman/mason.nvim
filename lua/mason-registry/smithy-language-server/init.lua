@@ -20,20 +20,18 @@ return Pkg.new {
             with_paths = { ctx.cwd:get() },
         }
 
-        local version = _.trim(fs.sync.read_file(path.concat { ctx.cwd:get(), "VERSION" }))
+        local version = _.trim(ctx.fs:read_file "VERSION")
 
         ctx:link_bin(
             "smithy-language-server",
             ctx:write_shell_exec_wrapper(
                 "smithy-language-server",
-                ("java -jar %q"):format(
-                    path.concat {
-                        ctx.package:get_install_path(),
-                        "build",
-                        "libs",
-                        "smithy-language-server-" .. version .. ".jar",
-                    }
-                )
+                ("java -jar %q"):format(path.concat {
+                    ctx.package:get_install_path(),
+                    "build",
+                    "libs",
+                    ("smithy-language-server-%s.jar"):format(version),
+                })
             )
         )
     end,
