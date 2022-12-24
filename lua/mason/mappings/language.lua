@@ -107,6 +107,7 @@ return {
   sh = { "beautysh" },
   shell = { "shfmt" },
   slint = { "slint-lsp" },
+  smithy = { "smithy-language-server" },
   solidity = { "solang", "solhint", "solidity", "solidity-ls" },
   sphinx = { "esbonio" },
   sql = { "sql-formatter", "sqlfluff", "sqlls", "sqls" },
