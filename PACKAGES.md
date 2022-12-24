@@ -206,6 +206,7 @@
 - [shfmt](#shfmt)
 - [shopify-theme-check](#shopify-theme-check)
 - [slint-lsp](#slint-lsp)
+- [smithy-language-server](#smithy-language-server)
 - [solang](#solang)
 - [solargraph](#solargraph)
 - [solhint](#solhint)
@@ -4394,6 +4395,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall slint-lsp
+```
+
+
+# smithy-language-server
+
+> A Language Server Protocol implementation for the Smithy IDL.
+
+Homepage: [https://github.com/awslabs/smithy-language-server](https://github.com/awslabs/smithy-language-server)  
+Languages: `Smithy`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`e5e7d71`](https://github.com/williamboman/mason.nvim/commit/e5e7d71) 2022-12-24 - feat(registry): add smithy-language-server ([#795](https://github.com/williamboman/mason.nvim/issues/795)) by Nick Rodgers
+</details>
+
+```
+:MasonInstall smithy-language-server
 ```
 
 
