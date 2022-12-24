@@ -73,7 +73,7 @@ The _minimum_ recommended requirements are:
 
 -   neovim `>= 0.7.0`
 -   For Unix systems: `git(1)`, `curl(1)` or `wget(1)`, `unzip(1)`, `tar(1)`, `gzip(1)`
--   For Windows systems: powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip] or [WinRAR][winrar]
+-   For Windows systems: pwsh or powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip] or [WinRAR][winrar]
 
 Note that `mason.nvim` will regularly shell out to external package managers, such as `cargo` and `npm`. Depending on
 your personal usage, some of these will also need to be installed. Refer to `:checkhealth mason` for a full list.
