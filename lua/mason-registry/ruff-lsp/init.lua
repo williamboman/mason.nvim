@@ -6,6 +6,6 @@ return Pkg.new {
     desc = [[A Language Server Protocol implementation for Ruff - An extremely fast Python linter, written in Rust.]],
     homepage = "https://github.com/charliermarsh/ruff-lsp/",
     languages = { Pkg.Lang.Python },
-    categories = { Pkg.Cat.Linter },
+    categories = { Pkg.Cat.LSP },
     install = pip3.packages { "ruff-lsp", bin = { "ruff-lsp" } },
 }
