@@ -4159,7 +4159,7 @@ Categories: `Linter`
 
 Homepage: [https://github.com/charliermarsh/ruff-lsp/](https://github.com/charliermarsh/ruff-lsp/)  
 Languages: `Python`  
-Categories: `Linter`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
