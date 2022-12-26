@@ -28,7 +28,7 @@ return {
   csh = { "beautysh" },
   css = { "css-lsp", "cssmodules-language-server", "prettier", "prettierd", "tailwindcss-language-server" },
   cucumber = { "cucumber-language-server" },
-  cue = { "cuelsp" },
+  cue = { "cueimports", "cuelsp" },
   d = { "serve-d" },
   dart = { "dart-debug-adapter" },
   dhall = { "dhall-lsp" },
