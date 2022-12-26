@@ -117,6 +117,7 @@
 - [jedi-language-server](#jedi-language-server)
 - [joker](#joker)
 - [jq](#jq)
+- [jq-lsp](#jq-lsp)
 - [js-debug-adapter](#js-debug-adapter)
 - [json-lsp](#json-lsp)
 - [json-to-struct](#json-to-struct)
@@ -2597,6 +2598,26 @@ Categories: `Formatter`
 ```
 
 
+# jq-lsp
+
+> jq-lsp is a language server for the jq language, developed by Mattias Wadman. It provides IDE features to any
+LSP-compatible editor.
+
+Homepage: [https://github.com/wader/jq-lsp](https://github.com/wader/jq-lsp)  
+Languages: `Jq`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`99ac190`](https://github.com/williamboman/mason.nvim/commit/99ac190) 2022-12-25 - feat(registry): add jq-lsp ([#793](https://github.com/williamboman/mason.nvim/issues/793)) by David McDonald
+</details>
+
+```
+:MasonInstall jq-lsp
+```
+
+
 # js-debug-adapter
 
 > The VS Code JavaScript debugger
@@ -4164,6 +4185,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`b2b6e4d`](https://github.com/williamboman/mason.nvim/commit/b2b6e4d) 2022-12-25 - chore(registry): change ruff-lsp category from linter to lsp ([#799](https://github.com/williamboman/mason.nvim/issues/799)) by Dawit Abate
 - [`ba8f018`](https://github.com/williamboman/mason.nvim/commit/ba8f018) 2022-12-21 - feat(registry): add ruff-lsp ([#786](https://github.com/williamboman/mason.nvim/issues/786)) by Forrest Williams
 </details>
 
