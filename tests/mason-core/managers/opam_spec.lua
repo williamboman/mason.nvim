@@ -7,7 +7,7 @@ describe("opam manager", function()
         "should call opam install",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(
                 ctx,
                 opam.packages { "main-package", "supporting-package", "supporting-package2" }
@@ -31,7 +31,7 @@ describe("opam manager", function()
         "should provide receipt information",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(
                 ctx,
                 opam.packages { "main-package", "supporting-package", "supporting-package2" }

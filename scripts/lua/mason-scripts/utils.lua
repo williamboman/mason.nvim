@@ -7,7 +7,7 @@ local M = {}
 ---@async
 ---@param path string
 ---@param contents string
----@param flags string
+---@param flags string?
 function M.write_file(path, contents, flags)
     local header = _.cond {
         { _.matches "%.md$", _.always { "<!--- THIS FILE IS GENERATED. DO NOT EDIT MANUALLY. -->" } },

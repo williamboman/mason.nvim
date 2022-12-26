@@ -40,7 +40,7 @@ end
 
 -- selene: allow(unused_variable)
 ---@param handle InstallHandle
----@param opts InstallContextOpts?
+---@param opts PackageInstallOpts?
 function InstallContextGenerator(handle, opts)
     local context = InstallContext.new(handle, opts or {})
     context.spawn = setmetatable({}, {

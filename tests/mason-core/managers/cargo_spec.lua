@@ -17,7 +17,7 @@ describe("cargo manager", function()
         "should call cargo install",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, cargo.crate "my-crate")
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
@@ -77,7 +77,7 @@ describe("cargo manager", function()
         "should respect options",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, cargo.crate("my-crate", { features = "lsp" }))
             assert.spy(ctx.spawn.cargo).was_called(1)
             assert.spy(ctx.spawn.cargo).was_called_with {
@@ -99,7 +99,7 @@ describe("cargo manager", function()
             local handle = InstallHandleGenerator "dummy"
             stub(github, "tag")
             github.tag.returns { tag = "v2.1.1", with_receipt = mockx.just_runs }
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(
                 ctx,
                 cargo.crate("my-crate", {
