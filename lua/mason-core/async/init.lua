@@ -29,7 +29,7 @@ end
 local function await(resolver)
     local ok, value = co.yield(Promise.new(resolver))
     if not ok then
-        error(value[1], 2)
+        error(value[1], 0)
     end
     return unpack(value)
 end
@@ -38,8 +38,10 @@ local function table_pack(...)
     return { n = select("#", ...), ... }
 end
 
----@param async_fn fun(...)
+---@generic T
+---@param async_fn T
 ---@param should_reject_err boolean? Whether the provided async_fn takes a callback with the signature `fun(err, result)`
+---@return T
 local function promisify(async_fn, should_reject_err)
     return function(...)
         local args = table_pack(...)
