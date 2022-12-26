@@ -1,4 +1,5 @@
 local a = require "mason-core.async"
+local async_uv = require "mason-core.async.uv"
 local spawn = require "mason-core.spawn"
 local process = require "mason-core.process"
 
@@ -23,12 +24,12 @@ function M.script(script, opts, custom_spawn)
         "-NoProfile",
         on_spawn = a.scope(function(_, stdio)
             local stdin = stdio[1]
-            local write = a.promisify(vim.loop.write)
-            write(stdin, PWSHOPT.error_action_preference)
-            write(stdin, PWSHOPT.progress_preference)
-            write(stdin, PWSHOPT.security_protocol)
-            write(stdin, script)
-            stdin:shutdown()
+            async_uv.write(stdin, PWSHOPT.error_action_preference)
+            async_uv.write(stdin, PWSHOPT.progress_preference)
+            async_uv.write(stdin, PWSHOPT.security_protocol)
+            async_uv.write(stdin, script)
+            async_uv.shutdown(stdin)
+            async_uv.close(stdin)
         end),
         env_raw = process.graft_env(opts.env or {}, { "PSMODULEPATH" }),
     }, opts))

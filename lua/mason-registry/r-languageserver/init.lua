@@ -1,6 +1,7 @@
+local a = require "mason-core.async"
+local async_uv = require "mason-core.async.uv"
 local Pkg = require "mason-core.package"
 local path = require "mason-core.path"
-local github_client = require "mason-core.managers.github.client"
 local github = require "mason-core.managers.github"
 
 ---@param install_dir string
@@ -66,11 +67,12 @@ return Pkg.new {
         source.with_receipt()
         ctx.spawn.R {
             "--no-save",
-            on_spawn = function(_, stdio)
+            on_spawn = a.scope(function(_, stdio)
                 local stdin = stdio[1]
-                stdin:write(create_install_script(ctx.cwd:get(), source.release))
-                stdin:close()
-            end,
+                async_uv.write(create_install_script(ctx.cwd:get(), source.release))
+                async_uv.close(stdin)
+                async_uv.shutdown(stdin)
+            end),
         }
         ctx.fs:write_file("server.R", create_server_script(ctx.package:get_install_path()))
 
