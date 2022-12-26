@@ -1,3 +1,4 @@
+local stub = require "luassert.stub"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local fs = require "mason-core.fs"
@@ -109,6 +110,24 @@ describe("installer", function()
             local grace_ms = 25
             assert.is_true((stop - start) >= (100 - grace_ms))
             assert.spy(capture).was_called_with(match.instanceof(InstallContext), "two", "three")
+        end)
+    )
+
+    it(
+        "should write log files if debug is true",
+        async_test(function()
+            spy.on(fs.async, "write_file")
+            local handle = InstallHandleGenerator "dummy"
+            stub(handle.package.spec, "install", function(ctx)
+                ctx.stdio_sink.stdout "Hello stdout!\n"
+                ctx.stdio_sink.stderr "Hello "
+                ctx.stdio_sink.stderr "stderr!"
+                ctx.receipt:with_primary_source { type = "unmanaged" }
+            end)
+            installer.execute(handle, { debug = true })
+            assert
+                .spy(fs.async.write_file)
+                .was_called_with(path.package_prefix "dummy/mason-debug.log", "Hello stdout!\nHello stderr!")
         end)
     )
 end)
