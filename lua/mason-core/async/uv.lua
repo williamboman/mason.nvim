@@ -11,6 +11,9 @@ local M = setmetatable({}, {
 return M
 
 ---@alias UvMethod
+---| '"write"'
+---| '"shutdown"'
+---| '"close"'
 ---| '"fs_close"'
 ---| '"fs_open"'
 ---| '"fs_read"'
