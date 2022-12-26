@@ -37,7 +37,7 @@ describe("registry expressions", function()
 
         assert.same(
             Result.success "Gloves",
-            expr.eval("G{{ 'Cloves' | trim_start(trim) }}", {
+            expr.eval("G{{ 'Cloves' | strip_prefix(trim) }}", {
                 trim = "C",
             })
         )

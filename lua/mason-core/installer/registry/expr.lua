@@ -20,6 +20,9 @@ local FILTERS = {
     to_upper = _.to_upper,
     trim = _.trim,
     trim_start = _.trim_start,
+    trim_end = _.trim_end,
+    strip_prefix = _.strip_prefix,
+    strip_suffix = _.strip_suffix,
     tostring = tostring,
 }
 
