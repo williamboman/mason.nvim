@@ -14,7 +14,7 @@ describe("npm manager", function()
         "should call npm install",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.npm).was_called_with(match.tbl_containing {
                 "install",
@@ -49,7 +49,7 @@ describe("npm manager", function()
         "should append .npmrc file",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             ctx.fs.append_file = spy.new(mockx.just_runs())
             installer.exec_in_context(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.fs.append_file).was_called(1)
@@ -61,7 +61,7 @@ describe("npm manager", function()
         "should provide receipt information",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, npm.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "npm",

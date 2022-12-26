@@ -12,7 +12,7 @@ describe("go manager", function()
         "should call go install",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.go).was_called(3)
             assert.spy(ctx.spawn.go).was_called_with {
@@ -40,7 +40,7 @@ describe("go manager", function()
         "should provide receipt information",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, go.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "go",

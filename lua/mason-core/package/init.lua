@@ -92,7 +92,9 @@ function Package:new_handle()
     return handle
 end
 
----@param opts? { version: string?, debug: boolean? }
+---@alias PackageInstallOpts { version: string?, debug: boolean?, target: string? }
+
+---@param opts? PackageInstallOpts
 ---@return InstallHandle
 function Package:install(opts)
     opts = opts or {}
@@ -131,10 +133,7 @@ function Package:install(opts)
                         end)
                 end,
                 handle,
-                {
-                    requested_version = opts.version,
-                    debug = opts.debug,
-                }
+                opts
             )
             return handle
         end)

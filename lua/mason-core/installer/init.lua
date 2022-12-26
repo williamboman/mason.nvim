@@ -88,7 +88,7 @@ end
 
 ---@async
 ---@param handle InstallHandle
----@param opts InstallContextOpts
+---@param opts PackageInstallOpts
 function M.execute(handle, opts)
     if handle:is_active() or handle:is_closed() then
         log.fmt_debug("Received active or closed handle %s", handle)

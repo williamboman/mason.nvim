@@ -28,7 +28,7 @@ describe("pip3 manager", function()
         "should create venv and call pip3 install",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(
                 ctx,
                 pip3.packages { "main-package", "supporting-package", "supporting-package2" }
@@ -177,7 +177,7 @@ describe("pip3 manager", function()
         "should provide receipt information",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(
                 ctx,
                 pip3.packages { "main-package", "supporting-package", "supporting-package2" }
