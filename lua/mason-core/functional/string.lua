@@ -87,13 +87,42 @@ end
 
 ---@param pattern string
 ---@param str string
-_.trim_start = fun.curryN(function(pattern, str)
+_.trim_start_matches = fun.curryN(function(pattern, str)
     for i = 1, #str do
         if not str:sub(i, i):match(pattern) then
             return str:sub(i)
         end
     end
     return str
+end, 2)
+
+---@param pattern string
+---@param str string
+_.trim_end_matches = fun.curryN(function(pattern, str)
+    for i = #str, 1, -1 do
+        if not str:sub(i, i):match(pattern) then
+            return str:sub(1, i)
+        end
+    end
+    return str
+end, 2)
+
+_.strip_prefix = fun.curryN(function(prefix_pattern, str)
+    local _, start = string.find(str, "^" .. prefix_pattern)
+    if start then
+        return str:sub(start + 1)
+    else
+        return str
+    end
+end, 2)
+
+_.strip_suffix = fun.curryN(function(suffix_pattern, str)
+    local stop = string.find(str, suffix_pattern .. "$")
+    if stop then
+        return str:sub(1, stop - 1)
+    else
+        return str
+    end
 end, 2)
 
 return _
