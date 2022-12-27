@@ -49,6 +49,7 @@
 - [css-lsp](#css-lsp)
 - [cssmodules-language-server](#cssmodules-language-server)
 - [cucumber-language-server](#cucumber-language-server)
+- [cueimports](#cueimports)
 - [cuelsp](#cuelsp)
 - [curlylint](#curlylint)
 - [dart-debug-adapter](#dart-debug-adapter)
@@ -1206,6 +1207,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall cucumber-language-server
+```
+
+
+# cueimports
+
+> CUE tool that updates your import lines, adding missing ones and removing unused ones.
+
+Homepage: [https://github.com/asdine/cueimports](https://github.com/asdine/cueimports)  
+Languages: `Cue`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`2004a4a`](https://github.com/williamboman/mason.nvim/commit/2004a4a) 2022-12-27 - feat(registry): add cueimports ([#811](https://github.com/williamboman/mason.nvim/issues/811)) by John Allen
+</details>
+
+```
+:MasonInstall cueimports
 ```
 
 
@@ -3906,6 +3926,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`21a2475`](https://github.com/williamboman/mason.nvim/commit/21a2475) 2022-12-26 - refactor: interact with libuv pipes in async context ([#808](https://github.com/williamboman/mason.nvim/issues/808)) by William Boman
 - [`07d949a`](https://github.com/williamboman/mason.nvim/commit/07d949a) 2022-09-14 - fix(r-languageserver): use github releases as version source ([#417](https://github.com/williamboman/mason.nvim/issues/417)) by William Boman
 - [`18ba623`](https://github.com/williamboman/mason.nvim/commit/18ba623) 2022-07-20 - refactor(omnisharp)!: separate mono into its own package ([#101](https://github.com/williamboman/mason.nvim/issues/101)) by William Boman
 - [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
