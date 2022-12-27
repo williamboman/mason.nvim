@@ -48,6 +48,7 @@ return {
   ["css-lsp"] = "mason-registry.css-lsp",
   ["cssmodules-language-server"] = "mason-registry.cssmodules-language-server",
   ["cucumber-language-server"] = "mason-registry.cucumber-language-server",
+  cueimports = "mason-registry.cueimports",
   cuelsp = "mason-registry.cuelsp",
   curlylint = "mason-registry.curlylint",
   ["dart-debug-adapter"] = "mason-registry.dart-debug-adapter",
