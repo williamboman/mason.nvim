@@ -24,6 +24,7 @@ return Pkg.new {
                 local target = coalesce(
                     when(platform.is.mac, "clangd-mac-%s.zip"),
                     when(platform.is.linux_x64, "clangd-linux-%s.zip"),
+                    when(platform.is.linux_arm64, "clangd-linux-%s.zip"),
                     when(platform.is.win_x64, "clangd-windows-%s.zip")
                 )
                 return target and target:format(release)
