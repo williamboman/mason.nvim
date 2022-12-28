@@ -3926,6 +3926,8 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`45e9cbc`](https://github.com/williamboman/mason.nvim/commit/45e9cbc) 2022-12-28 - fix(r-languageserver): pass missing libuv pipe arg ([#820](https://github.com/williamboman/mason.nvim/issues/820)) by William Boman
+- [`10d3917`](https://github.com/williamboman/mason.nvim/commit/10d3917) 2022-12-28 - fix(libuv): shutdown -> close ([#816](https://github.com/williamboman/mason.nvim/issues/816)) by William Boman
 - [`21a2475`](https://github.com/williamboman/mason.nvim/commit/21a2475) 2022-12-26 - refactor: interact with libuv pipes in async context ([#808](https://github.com/williamboman/mason.nvim/issues/808)) by William Boman
 - [`07d949a`](https://github.com/williamboman/mason.nvim/commit/07d949a) 2022-09-14 - fix(r-languageserver): use github releases as version source ([#417](https://github.com/williamboman/mason.nvim/issues/417)) by William Boman
 - [`18ba623`](https://github.com/williamboman/mason.nvim/commit/18ba623) 2022-07-20 - refactor(omnisharp)!: separate mono into its own package ([#101](https://github.com/williamboman/mason.nvim/issues/101)) by William Boman
