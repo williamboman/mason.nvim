@@ -76,7 +76,7 @@ describe("powershell manager", function()
         powershell().script "echo 'Is this bash?'"
 
         assert.spy(spawn.pwsh).was_called(1)
-        assert.spy(vim.loop.write).was_called(4)
+        assert.spy(vim.loop.write).was_called(5)
         assert
             .spy(vim.loop.write)
             .was_called_with(match.is_ref(stdin), [[ $ErrorActionPreference = "Stop"; ]], match.is_function())
@@ -89,6 +89,7 @@ describe("powershell manager", function()
             match.is_function()
         )
         assert.spy(vim.loop.write).was_called_with(match.is_ref(stdin), "echo 'Is this bash?'", match.is_function())
+        assert.spy(vim.loop.write).was_called_with(match.is_ref(stdin), "\n", match.is_function())
         assert.spy(vim.loop.shutdown).was_called(1)
         assert.spy(vim.loop.shutdown).was_called_with(match.is_ref(stdin), match.is_function())
     end)

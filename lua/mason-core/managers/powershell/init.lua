@@ -28,6 +28,7 @@ function M.script(script, opts, custom_spawn)
             async_uv.write(stdin, PWSHOPT.progress_preference)
             async_uv.write(stdin, PWSHOPT.security_protocol)
             async_uv.write(stdin, script)
+            async_uv.write(stdin, "\n")
             async_uv.shutdown(stdin)
             async_uv.close(stdin)
         end),
