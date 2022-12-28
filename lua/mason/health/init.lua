@@ -76,8 +76,8 @@ local function mk_healthcheck(callback)
                     on_spawn = a.scope(function(_, stdio)
                         local stdin = stdio[1]
                         -- some processes (`sh` for example) will endlessly read from stdin, so we close it immediately
-                        async_uv.close(stdin)
                         async_uv.shutdown(stdin)
+                        async_uv.close(stdin)
                     end),
                 })
                 :map(parse_version)
