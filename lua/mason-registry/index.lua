@@ -182,6 +182,7 @@ return {
   ["python-lsp-server"] = "mason-registry.python-lsp-server",
   ["quick-lint-js"] = "mason-registry.quick-lint-js",
   ["r-languageserver"] = "mason-registry.r-languageserver",
+  ["raku-navigator"] = "mason-registry.raku-navigator",
   ["reason-language-server"] = "mason-registry.reason-language-server",
   ["remark-cli"] = "mason-registry.remark-cli",
   ["remark-language-server"] = "mason-registry.remark-language-server",
