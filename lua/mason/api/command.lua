@@ -94,18 +94,20 @@ local function MasonInstall(package_specifiers, opts)
         return
     end
 
-    ---@type InstallHandle[]
-    local handles = _.map(function(pkg_specifier)
+    local install_packages = _.map(function(pkg_specifier)
         local package_name, version = Package.Parse(pkg_specifier)
         local pkg = registry.get_package(package_name)
         return pkg:install { version = version, debug = opts.debug }
-    end, valid_packages)
+    end)
 
     if is_headless then
-        join_handles(handles)
+        join_handles(install_packages(valid_packages))
     else
         local ui = require "mason.ui"
         ui.open()
+        -- Important: We start installation of packages _after_ opening the UI. This gives the UI components a chance to
+        -- register the necessary event handlers in time, avoiding desynced state.
+        install_packages(valid_packages)
         vim.schedule(function()
             ui.set_sticky_cursor "installing-section"
         end)

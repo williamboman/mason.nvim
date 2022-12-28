@@ -176,6 +176,38 @@ function Result.run_catching(fn)
     end
 end
 
+---@generic V
+---@param fn fun(try: fun(result: Result): any): V
+---@return Result # Result<V>
+function Result.try(fn)
+    local thread = coroutine.create(fn)
+    local step
+    step = function(...)
+        local ok, result = coroutine.resume(thread, ...)
+        if not ok then
+            -- l'exception! panique!!!
+            error(result, 0)
+        end
+        if coroutine.status(thread) == "dead" then
+            if getmetatable(result) == Result then
+                return result
+            else
+                return Result.success(result)
+            end
+        elseif getmetatable(result) == Result then
+            if result:is_failure() then
+                return result
+            else
+                return step(result:get_or_nil())
+            end
+        else
+            -- yield to parent coroutine
+            return step(coroutine.yield(result))
+        end
+    end
+    return step(coroutine.yield)
+end
+
 function Result.pcall(fn, ...)
     local ok, res = pcall(fn, ...)
     if ok then

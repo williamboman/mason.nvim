@@ -14,7 +14,7 @@ describe("gem manager", function()
         "should call gem install",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, gem.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.spy(ctx.spawn.gem).was_called(1)
             assert.spy(ctx.spawn.gem).was_called_with(match.tbl_containing {
@@ -37,7 +37,7 @@ describe("gem manager", function()
         "should provide receipt information",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "42.13.37" })
+            local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             installer.exec_in_context(ctx, gem.packages { "main-package", "supporting-package", "supporting-package2" })
             assert.same({
                 type = "gem",

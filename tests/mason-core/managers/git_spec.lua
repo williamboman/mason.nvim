@@ -47,7 +47,7 @@ describe("git manager", function()
         "should fetch and checkout revision if requested",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            local ctx = InstallContextGenerator(handle, { requested_version = "1337" })
+            local ctx = InstallContextGenerator(handle, { version = "1337" })
             installer.exec_in_context(ctx, function()
                 git.clone { "https://github.com/williamboman/mason.nvim.git" }
             end)

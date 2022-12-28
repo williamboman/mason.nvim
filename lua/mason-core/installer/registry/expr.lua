@@ -20,6 +20,9 @@ local FILTERS = {
     to_upper = _.to_upper,
     trim = _.trim,
     trim_start = _.trim_start,
+    trim_end = _.trim_end,
+    strip_prefix = _.strip_prefix,
+    strip_suffix = _.strip_suffix,
     tostring = tostring,
 }
 
@@ -46,28 +49,45 @@ function M.eval(str, ctx)
                 setfenv(
                     assert(
                         loadstring("return " .. components.value_expr),
-                        ("Failed to parse value :%q."):format(components.value_expr)
+                        ("Failed to parse value: %q"):format(components.value_expr)
                     ),
                     ctx
                 )(),
-                ("Value is nil: %q."):format(components.value_expr)
+                ("Value is nil: %q"):format(components.value_expr)
             )
             return _.reduce(
                 _.apply_to,
                 value,
                 _.map(function(filter_expr)
                     local filter = setfenv(
-                        assert(
-                            loadstring("return " .. filter_expr),
-                            ("Failed to parse filter: %q."):format(filter_expr)
-                        ),
+                        assert(loadstring("return " .. filter_expr), ("Failed to parse filter: %q"):format(filter_expr)),
                         ctx
                     )()
-                    assert(type(filter) == "function", ("Invalid filter expression: %q."):format(filter_expr))
+                    assert(type(filter) == "function", ("Invalid filter expression: %q"):format(filter_expr))
                     return filter
                 end, components.filters)
             )
         end, str)
+    end)
+end
+
+---@generic T : table
+---@param tbl T
+---@param ctx table
+---@return T
+function M.tbl_interpolate(tbl, ctx)
+    return Result.try(function(try)
+        local interpolated = {}
+        for k, v in pairs(tbl) do
+            if type(v) == "string" then
+                interpolated[k] = try(M.eval(v, ctx))
+            elseif type(v) == "table" then
+                interpolated[k] = try(M.tbl_interpolate(v, ctx))
+            else
+                interpolated[k] = v
+            end
+        end
+        return interpolated
     end)
 end
 

@@ -67,6 +67,12 @@ function ContextualFs:write_file(rel_path, contents)
 end
 
 ---@async
+---@param rel_path string The relative path from the current working directory to the file to read.
+function ContextualFs:read_file(rel_path)
+    return fs.async.read_file(path.concat { self.cwd:get(), rel_path })
+end
+
+---@async
 ---@param rel_path string The relative path from the current working directory.
 function ContextualFs:file_exists(rel_path)
     return fs.async.file_exists(path.concat { self.cwd:get(), rel_path })
@@ -145,12 +151,8 @@ end
 local InstallContext = {}
 InstallContext.__index = InstallContext
 
----@class InstallContextOpts
----@field requested_version string?
----@field debug boolean?
-
 ---@param handle InstallHandle
----@param opts InstallContextOpts
+---@param opts PackageInstallOpts
 function InstallContext.new(handle, opts)
     local cwd_manager = CwdManager.new(path.install_prefix())
     return setmetatable({
@@ -160,7 +162,7 @@ function InstallContext.new(handle, opts)
         package = handle.package, -- for convenience
         fs = ContextualFs.new(cwd_manager),
         receipt = receipt.InstallReceiptBuilder.new(),
-        requested_version = Optional.of_nilable(opts.requested_version),
+        requested_version = Optional.of_nilable(opts.version),
         stdio_sink = handle.stdio.sink,
         bin_links = {},
     }, InstallContext)

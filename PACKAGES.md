@@ -49,6 +49,7 @@
 - [css-lsp](#css-lsp)
 - [cssmodules-language-server](#cssmodules-language-server)
 - [cucumber-language-server](#cucumber-language-server)
+- [cueimports](#cueimports)
 - [cuelsp](#cuelsp)
 - [curlylint](#curlylint)
 - [dart-debug-adapter](#dart-debug-adapter)
@@ -117,6 +118,7 @@
 - [jedi-language-server](#jedi-language-server)
 - [joker](#joker)
 - [jq](#jq)
+- [jq-lsp](#jq-lsp)
 - [js-debug-adapter](#js-debug-adapter)
 - [json-lsp](#json-lsp)
 - [json-to-struct](#json-to-struct)
@@ -207,6 +209,7 @@
 - [shfmt](#shfmt)
 - [shopify-theme-check](#shopify-theme-check)
 - [slint-lsp](#slint-lsp)
+- [smithy-language-server](#smithy-language-server)
 - [solang](#solang)
 - [solargraph](#solargraph)
 - [solhint](#solhint)
@@ -1205,6 +1208,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall cucumber-language-server
+```
+
+
+# cueimports
+
+> CUE tool that updates your import lines, adding missing ones and removing unused ones.
+
+Homepage: [https://github.com/asdine/cueimports](https://github.com/asdine/cueimports)  
+Languages: `Cue`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`2004a4a`](https://github.com/williamboman/mason.nvim/commit/2004a4a) 2022-12-27 - feat(registry): add cueimports ([#811](https://github.com/williamboman/mason.nvim/issues/811)) by John Allen
+</details>
+
+```
+:MasonInstall cueimports
 ```
 
 
@@ -2597,6 +2619,26 @@ Categories: `Formatter`
 ```
 
 
+# jq-lsp
+
+> jq-lsp is a language server for the jq language, developed by Mattias Wadman. It provides IDE features to any
+LSP-compatible editor.
+
+Homepage: [https://github.com/wader/jq-lsp](https://github.com/wader/jq-lsp)  
+Languages: `Jq`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`99ac190`](https://github.com/williamboman/mason.nvim/commit/99ac190) 2022-12-25 - feat(registry): add jq-lsp ([#793](https://github.com/williamboman/mason.nvim/issues/793)) by David McDonald
+</details>
+
+```
+:MasonInstall jq-lsp
+```
+
+
 # js-debug-adapter
 
 > The VS Code JavaScript debugger
@@ -3885,6 +3927,9 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`45e9cbc`](https://github.com/williamboman/mason.nvim/commit/45e9cbc) 2022-12-28 - fix(r-languageserver): pass missing libuv pipe arg ([#820](https://github.com/williamboman/mason.nvim/issues/820)) by William Boman
+- [`10d3917`](https://github.com/williamboman/mason.nvim/commit/10d3917) 2022-12-28 - fix(libuv): shutdown -> close ([#816](https://github.com/williamboman/mason.nvim/issues/816)) by William Boman
+- [`21a2475`](https://github.com/williamboman/mason.nvim/commit/21a2475) 2022-12-26 - refactor: interact with libuv pipes in async context ([#808](https://github.com/williamboman/mason.nvim/issues/808)) by William Boman
 - [`07d949a`](https://github.com/williamboman/mason.nvim/commit/07d949a) 2022-09-14 - fix(r-languageserver): use github releases as version source ([#417](https://github.com/williamboman/mason.nvim/issues/417)) by William Boman
 - [`18ba623`](https://github.com/williamboman/mason.nvim/commit/18ba623) 2022-07-20 - refactor(omnisharp)!: separate mono into its own package ([#101](https://github.com/williamboman/mason.nvim/issues/101)) by William Boman
 - [`ca2385a`](https://github.com/williamboman/mason.nvim/commit/ca2385a) 2022-07-13 - feat: add more wrapper executables for packages that don't provide one ([#63](https://github.com/williamboman/mason.nvim/issues/63)) by William Boman
@@ -4177,11 +4222,12 @@ Categories: `Linter`
 
 Homepage: [https://github.com/charliermarsh/ruff-lsp/](https://github.com/charliermarsh/ruff-lsp/)  
 Languages: `Python`  
-Categories: `Linter`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
 
+- [`b2b6e4d`](https://github.com/williamboman/mason.nvim/commit/b2b6e4d) 2022-12-25 - chore(registry): change ruff-lsp category from linter to lsp ([#799](https://github.com/williamboman/mason.nvim/issues/799)) by Dawit Abate
 - [`ba8f018`](https://github.com/williamboman/mason.nvim/commit/ba8f018) 2022-12-21 - feat(registry): add ruff-lsp ([#786](https://github.com/williamboman/mason.nvim/issues/786)) by Forrest Williams
 </details>
 
@@ -4413,6 +4459,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall slint-lsp
+```
+
+
+# smithy-language-server
+
+> A Language Server Protocol implementation for the Smithy IDL.
+
+Homepage: [https://github.com/awslabs/smithy-language-server](https://github.com/awslabs/smithy-language-server)  
+Languages: `Smithy`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`e5e7d71`](https://github.com/williamboman/mason.nvim/commit/e5e7d71) 2022-12-24 - feat(registry): add smithy-language-server ([#795](https://github.com/williamboman/mason.nvim/issues/795)) by Nick Rodgers
+</details>
+
+```
+:MasonInstall smithy-language-server
 ```
 
 

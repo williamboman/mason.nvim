@@ -88,7 +88,7 @@ end
 
 ---@async
 ---@param handle InstallHandle
----@param opts InstallContextOpts
+---@param opts PackageInstallOpts
 function M.execute(handle, opts)
     if handle:is_active() or handle:is_closed() then
         log.fmt_debug("Received active or closed handle %s", handle)
@@ -107,11 +107,12 @@ function M.execute(handle, opts)
 
     local pkg = handle.package
     local context = InstallContext.new(handle, opts)
+    local tailed_output = {}
 
     if opts.debug then
-        local append_log = a.scope(function(chunk)
-            context.fs:append_file("mason-debug.log", chunk)
-        end)
+        local function append_log(chunk)
+            tailed_output[#tailed_output + 1] = chunk
+        end
         handle:on("stdout", append_log)
         handle:on("stderr", append_log)
     end
@@ -149,6 +150,9 @@ function M.execute(handle, opts)
             permit:forget()
             handle:close()
             log.fmt_info("Installation succeeded for %s", pkg)
+            if opts.debug then
+                context.fs:write_file("mason-debug.log", table.concat(tailed_output, ""))
+            end
         end)
         :on_failure(function(failure)
             permit:forget()
@@ -162,6 +166,7 @@ function M.execute(handle, opts)
                     fs.async.rmrf(context.cwd:get())
                 end)
             else
+                context.fs:write_file("mason-debug.log", table.concat(tailed_output, ""))
                 context.stdio_sink.stdout(
                     ("[debug] Installation directory retained at %q.\n"):format(context.cwd:get())
                 )

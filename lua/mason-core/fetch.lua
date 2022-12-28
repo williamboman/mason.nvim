@@ -1,3 +1,5 @@
+local a = require "mason-core.async"
+local async_uv = require "mason-core.async.uv"
 local log = require "mason-core.log"
 local platform = require "mason-core.platform"
 local Result = require "mason-core.result"
@@ -105,14 +107,15 @@ local function fetch(url, opts)
             opts.data and { "-d", "@-" } or vim.NIL,
             opts.out_file and { "-o", opts.out_file } or vim.NIL,
             url,
-            on_spawn = function(_, stdio)
+            on_spawn = a.scope(function(_, stdio)
                 local stdin = stdio[1]
                 if opts.data then
                     log.trace("Writing stdin to curl", opts.data)
-                    stdin:write(opts.data)
+                    async_uv.write(stdin, opts.data)
                 end
-                stdin:close()
-            end,
+                async_uv.shutdown(stdin)
+                async_uv.close(stdin)
+            end),
         }
     end
 
