@@ -1,5 +1,5 @@
 local Pkg = require "mason-core.package"
-local npm = require "mason-core.managers.npm"
+local git = require "mason-core.managers.git"
 local path = require "mason-core.path"
 
 return Pkg.new {
@@ -11,13 +11,12 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        npm.packages { "https://github.com/bscan/RakuNavigator" }()
+        git.clone({ "https://github.com/bscan/RakuNavigator" }).with_receipt()
+        ctx.spawn.npm { "install" }
+        ctx.spawn.npm { "run", "compile" }
         ctx:link_bin(
             "raku-navigator",
-            ctx:write_node_exec_wrapper(
-                "raku-navigator",
-                path.concat { "node_modules", "raku-navigator-server", "out", "server.js" }
-            )
+            ctx:write_node_exec_wrapper("raku-navigator", path.concat { "server", "out", "server.js" })
         )
     end,
 }
