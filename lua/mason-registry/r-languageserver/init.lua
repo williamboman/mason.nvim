@@ -70,8 +70,8 @@ return Pkg.new {
             on_spawn = a.scope(function(_, stdio)
                 local stdin = stdio[1]
                 async_uv.write(create_install_script(ctx.cwd:get(), source.release))
-                async_uv.close(stdin)
                 async_uv.shutdown(stdin)
+                async_uv.close(stdin)
             end),
         }
         ctx.fs:write_file("server.R", create_server_script(ctx.package:get_install_path()))
