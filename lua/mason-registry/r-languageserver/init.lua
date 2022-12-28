@@ -69,7 +69,7 @@ return Pkg.new {
             "--no-save",
             on_spawn = a.scope(function(_, stdio)
                 local stdin = stdio[1]
-                async_uv.write(create_install_script(ctx.cwd:get(), source.release))
+                async_uv.write(stdin, create_install_script(ctx.cwd:get(), source.release))
                 async_uv.shutdown(stdin)
                 async_uv.close(stdin)
             end),
