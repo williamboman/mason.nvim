@@ -183,6 +183,7 @@
 - [python-lsp-server](#python-lsp-server)
 - [quick-lint-js](#quick-lint-js)
 - [r-languageserver](#r-languageserver)
+- [raku-navigator](#raku-navigator)
 - [reason-language-server](#reason-language-server)
 - [remark-cli](#remark-cli)
 - [remark-language-server](#remark-language-server)
@@ -3938,6 +3939,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall r-languageserver
+```
+
+
+# raku-navigator
+
+> Raku Language Server that includes Raku critic and code navigation
+
+Homepage: [https://github.com/bscan/RakuNavigator](https://github.com/bscan/RakuNavigator)  
+Languages: `Raku`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`86409b6`](https://github.com/williamboman/mason.nvim/commit/86409b6) 2022-12-28 - feat(registry): add raku-navigator ([#791](https://github.com/williamboman/mason.nvim/issues/791)) by Humberto Massa
+</details>
+
+```
+:MasonInstall raku-navigator
 ```
 
 
