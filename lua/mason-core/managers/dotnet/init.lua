@@ -31,6 +31,7 @@ function M.install(pkg, opt)
     ctx.spawn.dotnet {
         "tool",
         "update",
+        "--ignore-failed-sources",
         "--tool-path",
         ".",
         ctx.requested_version

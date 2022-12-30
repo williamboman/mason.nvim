@@ -12,6 +12,7 @@ describe("dotnet manager", function()
             assert.spy(ctx.spawn.dotnet).was_called_with {
                 "tool",
                 "update",
+                "--ignore-failed-sources",
                 "--tool-path",
                 ".",
                 { "--version", "42.13.37" },
