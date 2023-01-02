@@ -39,12 +39,13 @@ end
 
 ---@param str string
 ---@param ctx table<string, any>
-function M.eval(str, ctx)
+function M.interpolate(str, ctx)
     ctx = shallow_clone(ctx)
     return Result.pcall(function()
         setmetatable(ctx, { __index = FILTERS })
         return _.gsub("{{([^}]+)}}", function(expr)
             local components = parse_expr(expr)
+
             local value = assert(
                 setfenv(
                     assert(
@@ -55,18 +56,17 @@ function M.eval(str, ctx)
                 )(),
                 ("Value is nil: %q"):format(components.value_expr)
             )
-            return _.reduce(
-                _.apply_to,
-                value,
-                _.map(function(filter_expr)
-                    local filter = setfenv(
-                        assert(loadstring("return " .. filter_expr), ("Failed to parse filter: %q"):format(filter_expr)),
-                        ctx
-                    )()
-                    assert(type(filter) == "function", ("Invalid filter expression: %q"):format(filter_expr))
-                    return filter
-                end, components.filters)
-            )
+
+            local filters = _.map(function(filter_expr)
+                local filter = setfenv(
+                    assert(loadstring("return " .. filter_expr), ("Failed to parse filter: %q"):format(filter_expr)),
+                    ctx
+                )()
+                assert(type(filter) == "function", ("Invalid filter expression: %q"):format(filter_expr))
+                return filter
+            end, components.filters)
+
+            return _.reduce(_.apply_to, value, filters)
         end, str)
     end)
 end
@@ -80,7 +80,7 @@ function M.tbl_interpolate(tbl, ctx)
         local interpolated = {}
         for k, v in pairs(tbl) do
             if type(v) == "string" then
-                interpolated[k] = try(M.eval(v, ctx))
+                interpolated[k] = try(M.interpolate(v, ctx))
             elseif type(v) == "table" then
                 interpolated[k] = try(M.tbl_interpolate(v, ctx))
             else
