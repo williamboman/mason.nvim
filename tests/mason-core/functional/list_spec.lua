@@ -264,6 +264,21 @@ describe("functional: list", function()
         assert.spy(add).was_called_with(6, 4)
         assert.spy(add).was_called_with(10, 5)
     end)
+
+    it("should split lists", function()
+        assert.same({
+            { 1, 2, 3 },
+            { 4, 5, 6 },
+            { 7 },
+        }, _.split_every(3, { 1, 2, 3, 4, 5, 6, 7 }))
+
+        assert.same({ { 1, 2, 3 } }, _.split_every(5, { 1, 2, 3 }))
+        assert.same({ { 1 }, { 2 }, { 3 } }, _.split_every(1, { 1, 2, 3 }))
+
+        assert.has_error(function()
+            _.split_every(0, {})
+        end)
+    end)
 end)
 
 describe("list immutability", function()
