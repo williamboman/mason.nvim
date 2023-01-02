@@ -269,4 +269,19 @@ _.reduce = fun.curryN(function(fn, acc, list)
     return acc
 end, 3)
 
+---@generic T
+---@param n integer
+---@param list T[]
+---@return T[][]
+_.split_every = fun.curryN(function(n, list)
+    assert(n > 0, "n needs to be greater than 0.")
+    local res = {}
+    local idx = 1
+    while idx <= #list do
+        table.insert(res, { unpack(list, idx, idx + n - 1) })
+        idx = idx + n
+    end
+    return res
+end, 2)
+
 return _

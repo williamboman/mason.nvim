@@ -62,6 +62,7 @@ _.take = list.take
 _.drop = list.drop
 _.drop_last = list.drop_last
 _.reduce = list.reduce
+_.split_every = list.split_every
 
 ---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"
@@ -80,6 +81,7 @@ _.if_else = logic.if_else
 _.is_not = logic.is_not
 _.complement = logic.complement
 _.cond = logic.cond
+_.default_to = logic.default_to
 
 ---@module "mason-core.functional.number"
 local number = lazy_require "mason-core.functional.number"

@@ -69,4 +69,16 @@ _.cond = fun.curryN(function(predicate_transformer_pairs, value)
     end
 end, 2)
 
+---@generic T
+---@param default_val T
+---@param val T?
+---@return T
+_.default_to = fun.curryN(function(default_val, val)
+    if val ~= nil then
+        return val
+    else
+        return default_val
+    end
+end, 2)
+
 return _
