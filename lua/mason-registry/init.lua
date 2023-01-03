@@ -64,7 +64,7 @@ end
 function M.get_package(package_name)
     local ok, pkg = pcall(require, index[package_name])
     if not ok then
-        log.error(pkg)
+        log.fmt_error("Failed to load package %s: %s", package_name, pkg or "")
         error(("Cannot find package %q."):format(package_name))
     end
     return pkg
