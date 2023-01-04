@@ -151,6 +151,7 @@ return {
   ["node-debug2-adapter"] = "mason-registry.node-debug2-adapter",
   nxls = "mason-registry.nxls",
   ["ocaml-lsp"] = "mason-registry.ocaml-lsp",
+  ocamlformat = "mason-registry.ocamlformat",
   omnisharp = "mason-registry.omnisharp",
   ["omnisharp-mono"] = "mason-registry.omnisharp-mono",
   ["opencl-language-server"] = "mason-registry.opencl-language-server",
