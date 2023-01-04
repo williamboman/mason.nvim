@@ -78,7 +78,7 @@ The `mason-registry` Lua modules extends the [EventEmitter](#eventemitter) inter
 | `package:install:failed`    | `fun(pkg: Package, handle: InstallHandle)` |
 | `package:uninstall:success` | `fun(pkg: Package)`                        |
 
-To register handlers for these events:
+The following is an example for how to register handlers for events:
 
 ```lua
 local registry = require "mason-registry"
