@@ -152,7 +152,6 @@
 - [node-debug2-adapter](#node-debug2-adapter)
 - [nxls](#nxls)
 - [ocaml-lsp](#ocaml-lsp)
-- [ocamlformat](#ocamlformat)
 - [omnisharp](#omnisharp)
 - [omnisharp-mono](#omnisharp-mono)
 - [opencl-language-server](#opencl-language-server)
@@ -268,9 +267,9 @@
 
 > Static checker for GitHub Actions workflow files
 
-Homepage: [https://github.com/rhysd/actionlint](https://github.com/rhysd/actionlint)
-Languages: `YAML`
-Categories: `Linter`
+Homepage: [https://github.com/rhysd/actionlint](https://github.com/rhysd/actionlint)  
+Languages: `YAML`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -287,9 +286,9 @@ Categories: `Linter`
 
 > Ada/SPARK language server
 
-Homepage: [https://github.com/AdaCore/ada_language_server](https://github.com/AdaCore/ada_language_server)
-Languages: `Ada`
-Categories: `LSP`
+Homepage: [https://github.com/AdaCore/ada_language_server](https://github.com/AdaCore/ada_language_server)  
+Languages: `Ada`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -306,9 +305,9 @@ Categories: `LSP`
 
 > Catch insensitive, inconsiderate writing
 
-Homepage: [https://github.com/get-alex/alex](https://github.com/get-alex/alex)
-Languages: `Markdown`
-Categories: `Linter`
+Homepage: [https://github.com/get-alex/alex](https://github.com/get-alex/alex)  
+Languages: `Markdown`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -327,9 +326,9 @@ Categories: `Linter`
 inside Angular templates. It works with external templates in separate HTML files, and also with in-line
 templates.
 
-Homepage: [https://angular.io/guide/language-service](https://angular.io/guide/language-service)
-Languages: `Angular`
-Categories: `LSP`
+Homepage: [https://angular.io/guide/language-service](https://angular.io/guide/language-service)  
+Languages: `Angular`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -348,9 +347,9 @@ Categories: `LSP`
 
 > Ansible Language Server
 
-Homepage: [https://github.com/ansible/ansible-language-server](https://github.com/ansible/ansible-language-server)
-Languages: `Ansible`
-Categories: `LSP`
+Homepage: [https://github.com/ansible/ansible-language-server](https://github.com/ansible/ansible-language-server)  
+Languages: `Ansible`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -369,9 +368,9 @@ Categories: `LSP`
 > The Apex Language Server is an IDE-agnostic way for tools to access code-editing capabilities such as code
 completion, go to definition, find all usage, and refactoring.
 
-Homepage: [https://github.com/forcedotcom/salesforcedx-vscode](https://github.com/forcedotcom/salesforcedx-vscode)
-Languages: `Apex`
-Categories: `LSP`
+Homepage: [https://github.com/forcedotcom/salesforcedx-vscode](https://github.com/forcedotcom/salesforcedx-vscode)  
+Languages: `Apex`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -391,9 +390,9 @@ Categories: `LSP`
 
 > An Arduino Language Server based on Clangd to Arduino code autocompletion
 
-Homepage: [https://github.com/arduino/arduino-language-server](https://github.com/arduino/arduino-language-server)
-Languages: `Arduino`
-Categories: `LSP`
+Homepage: [https://github.com/arduino/arduino-language-server](https://github.com/arduino/arduino-language-server)  
+Languages: `Arduino`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -412,9 +411,9 @@ Categories: `LSP`
 
 > Language server for NASM/GAS/GO Assembly
 
-Homepage: [https://github.com/bergercookie/asm-lsp](https://github.com/bergercookie/asm-lsp)
-Languages: `Assembly`
-Categories: `LSP`
+Homepage: [https://github.com/bergercookie/asm-lsp](https://github.com/bergercookie/asm-lsp)  
+Languages: `Assembly`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -432,9 +431,9 @@ Categories: `LSP`
 
 > The Astro language server, its structure is inspired by the Svelte Language Server.
 
-Homepage: [https://github.com/withastro/language-tools](https://github.com/withastro/language-tools)
-Languages: `Astro`
-Categories: `LSP`
+Homepage: [https://github.com/withastro/language-tools](https://github.com/withastro/language-tools)  
+Languages: `Astro`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -453,9 +452,9 @@ Categories: `LSP`
 
 > autoflake removes unused imports and unused variables from Python code.
 
-Homepage: [https://pypi.org/project/autoflake/](https://pypi.org/project/autoflake/)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://pypi.org/project/autoflake/](https://pypi.org/project/autoflake/)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -472,9 +471,9 @@ Categories: `Formatter`
 
 > A tool that automatically formats Python code to conform to the PEP 8 style guide
 
-Homepage: [https://pypi.org/project/autopep8/](https://pypi.org/project/autopep8/)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://pypi.org/project/autopep8/](https://pypi.org/project/autopep8/)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -491,9 +490,9 @@ Categories: `Formatter`
 
 > Language Server for AWK
 
-Homepage: [https://github.com/Beaglefoot/awk-language-server](https://github.com/Beaglefoot/awk-language-server)
-Languages: `AWK`
-Categories: `LSP`
+Homepage: [https://github.com/Beaglefoot/awk-language-server](https://github.com/Beaglefoot/awk-language-server)  
+Languages: `AWK`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -511,9 +510,9 @@ Categories: `LSP`
 
 > Bash shell debugger, based on bashdb.
 
-Homepage: [https://github.com/rogalmic/vscode-bash-debug](https://github.com/rogalmic/vscode-bash-debug)
-Languages: `Bash`
-Categories: `DAP`
+Homepage: [https://github.com/rogalmic/vscode-bash-debug](https://github.com/rogalmic/vscode-bash-debug)  
+Languages: `Bash`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -531,9 +530,9 @@ Categories: `DAP`
 
 > A language server for Bash
 
-Homepage: [https://github.com/bash-lsp/bash-language-server](https://github.com/bash-lsp/bash-language-server)
-Languages: `Bash`
-Categories: `LSP`
+Homepage: [https://github.com/bash-lsp/bash-language-server](https://github.com/bash-lsp/bash-language-server)  
+Languages: `Bash`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -551,9 +550,9 @@ Categories: `LSP`
 
 > A Language Server Protocol (LSP) for beancount files
 
-Homepage: [https://github.com/polarmutex/beancount-language-server](https://github.com/polarmutex/beancount-language-server)
-Languages: `Beancount`
-Categories: `LSP`
+Homepage: [https://github.com/polarmutex/beancount-language-server](https://github.com/polarmutex/beancount-language-server)  
+Languages: `Beancount`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -571,9 +570,9 @@ Categories: `LSP`
 
 > beautysh - A Bash beautifier for the masses.
 
-Homepage: [https://github.com/lovesegfault/beautysh](https://github.com/lovesegfault/beautysh)
-Languages: `Bash` `Csh` `Ksh` `Sh` `Zsh`
-Categories: `Formatter`
+Homepage: [https://github.com/lovesegfault/beautysh](https://github.com/lovesegfault/beautysh)  
+Languages: `Bash` `Csh` `Ksh` `Sh` `Zsh`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -591,9 +590,9 @@ Categories: `Formatter`
 
 > Bicep is a declarative language for describing and deploying Azure resources
 
-Homepage: [https://github.com/Azure/bicep](https://github.com/Azure/bicep)
-Languages: `Bicep`
-Categories: `LSP`
+Homepage: [https://github.com/Azure/bicep](https://github.com/Azure/bicep)  
+Languages: `Bicep`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -612,9 +611,9 @@ Categories: `LSP`
 
 > Black, the uncompromising Python code formatter
 
-Homepage: [https://pypi.org/project/black/](https://pypi.org/project/black/)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://pypi.org/project/black/](https://pypi.org/project/black/)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -631,9 +630,9 @@ Categories: `Formatter`
 
 > An opinionated blade template formatter for Laravel that respects readability
 
-Homepage: [https://github.com/shufo/blade-formatter](https://github.com/shufo/blade-formatter)
-Languages: `Blade`
-Categories: `Formatter`
+Homepage: [https://github.com/shufo/blade-formatter](https://github.com/shufo/blade-formatter)  
+Languages: `Blade`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -653,9 +652,9 @@ of automatically formatting Python code, for the same reasons that inspired blac
 some of the decisions black makes. Kudos to black for pioneering code formatting for Python, and for its
 excellent implementation.
 
-Homepage: [https://blue.readthedocs.io/en/latest/](https://blue.readthedocs.io/en/latest/)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://blue.readthedocs.io/en/latest/](https://blue.readthedocs.io/en/latest/)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -672,9 +671,9 @@ Categories: `Formatter`
 
 > Implementation of Language Server Protocol for Language 1C (BSL)
 
-Homepage: [https://1c-syntax.github.io/bsl-language-server](https://1c-syntax.github.io/bsl-language-server)
-Languages: `1С:Enterprise` `OneScript`
-Categories: `LSP`
+Homepage: [https://1c-syntax.github.io/bsl-language-server](https://1c-syntax.github.io/bsl-language-server)  
+Languages: `1С:Enterprise` `OneScript`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -695,9 +694,9 @@ Categories: `LSP`
 API designs, a breaking change detector, a generator, a formatter that formats your Protobuf files in accordance
 with industry standards. It also helps you manage your Protobuf assets on the Buf Schema Registry.
 
-Homepage: [https://buf.build](https://buf.build)
-Languages: `Protobuf`
-Categories: `Linter` `Formatter`
+Homepage: [https://buf.build](https://buf.build)  
+Languages: `Protobuf`  
+Categories: `Linter` `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -715,9 +714,9 @@ Categories: `Linter` `Formatter`
 
 > `bufls` is a prototype for the beginnings of a Protobuf language server compatible with Buf modules and workspaces.
 
-Homepage: [https://github.com/bufbuild/buf-language-server](https://github.com/bufbuild/buf-language-server)
-Languages: `Protobuf`
-Categories: `LSP`
+Homepage: [https://github.com/bufbuild/buf-language-server](https://github.com/bufbuild/buf-language-server)  
+Languages: `Protobuf`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -734,9 +733,9 @@ Categories: `LSP`
 
 > buildifier is a tool for formatting and linting bazel BUILD, WORKSPACE, and .bzl files.
 
-Homepage: [https://github.com/bazelbuild/buildtools](https://github.com/bazelbuild/buildtools)
-Languages: `Bazel`
-Categories: `Linter` `Formatter`
+Homepage: [https://github.com/bazelbuild/buildtools](https://github.com/bazelbuild/buildtools)  
+Languages: `Bazel`  
+Categories: `Linter` `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -754,9 +753,9 @@ Categories: `Linter` `Formatter`
 > A tool to format codeblocks inside markdown and org documents. It iterates over all codeblocks, and formats them
 with the tool(s) specified for the language of the block.
 
-Homepage: [https://github.com/lukas-reineke/cbfmt](https://github.com/lukas-reineke/cbfmt)
-Languages: `Markdown`
-Categories: `Formatter`
+Homepage: [https://github.com/lukas-reineke/cbfmt](https://github.com/lukas-reineke/cbfmt)  
+Languages: `Markdown`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -775,9 +774,9 @@ Categories: `Formatter`
 > CloudFormation Linter. Validate AWS CloudFormation YAML/JSON templates against the AWS CloudFormation Resource
 Specification and additional checks. Includes checking valid values for resource properties and best practices.
 
-Homepage: [https://github.com/aws-cloudformation/cfn-lint](https://github.com/aws-cloudformation/cfn-lint)
-Languages: `YAML` `JSON`
-Categories: `Linter`
+Homepage: [https://github.com/aws-cloudformation/cfn-lint](https://github.com/aws-cloudformation/cfn-lint)  
+Languages: `YAML` `JSON`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -794,9 +793,9 @@ Categories: `Linter`
 
 > Debug your JavaScript code running in Google Chrome.
 
-Homepage: [https://github.com/Microsoft/vscode-chrome-debug](https://github.com/Microsoft/vscode-chrome-debug)
-Languages: `JavaScript` `TypeScript`
-Categories: `DAP`
+Homepage: [https://github.com/Microsoft/vscode-chrome-debug](https://github.com/Microsoft/vscode-chrome-debug)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -815,9 +814,9 @@ Categories: `DAP`
 
 > clang-format is formatter for C/C++/Java/JavaScript/JSON/Objective-C/Protobuf/C# code
 
-Homepage: [https://pypi.org/project/clang-format/](https://pypi.org/project/clang-format/)
-Languages: `C` `C++` `Java` `JavaScript` `JSON` `C#`
-Categories: `Formatter`
+Homepage: [https://pypi.org/project/clang-format/](https://pypi.org/project/clang-format/)  
+Languages: `C` `C++` `Java` `JavaScript` `JSON` `C#`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -835,9 +834,9 @@ Categories: `Formatter`
 > clangd understands your C++ code and adds smart features to your editor: code completion, compile errors,
 go-to-definition and more.
 
-Homepage: [https://clangd.llvm.org](https://clangd.llvm.org)
-Languages: `C` `C++`
-Categories: `LSP`
+Homepage: [https://clangd.llvm.org](https://clangd.llvm.org)  
+Languages: `C` `C++`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -856,9 +855,9 @@ Categories: `LSP`
 
 > Language Server Protocol implementation for Clarity.
 
-Homepage: [https://github.com/hirosystems/clarity-lsp](https://github.com/hirosystems/clarity-lsp)
-Languages: `Clarity`
-Categories: `LSP`
+Homepage: [https://github.com/hirosystems/clarity-lsp](https://github.com/hirosystems/clarity-lsp)  
+Languages: `Clarity`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -876,9 +875,9 @@ Categories: `LSP`
 
 > A Language Server for Clojure(script). Taking a Cursive-like approach of statically analyzing code.
 
-Homepage: [https://clojure-lsp.io](https://clojure-lsp.io)
-Languages: `Clojure` `ClojureScript`
-Categories: `LSP`
+Homepage: [https://clojure-lsp.io](https://clojure-lsp.io)  
+Languages: `Clojure` `ClojureScript`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -898,9 +897,9 @@ Categories: `LSP`
 
 > CMake LSP Implementation
 
-Homepage: [https://github.com/regen100/cmake-language-server](https://github.com/regen100/cmake-language-server)
-Languages: `CMake`
-Categories: `LSP`
+Homepage: [https://github.com/regen100/cmake-language-server](https://github.com/regen100/cmake-language-server)  
+Languages: `CMake`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -918,9 +917,9 @@ Categories: `LSP`
 
 > Language tools for cmake (format, lint, etc)
 
-Homepage: [https://pypi.org/project/cmakelang/](https://pypi.org/project/cmakelang/)
-Languages: `CMake`
-Categories: `Formatter` `Linter`
+Homepage: [https://pypi.org/project/cmakelang/](https://pypi.org/project/cmakelang/)  
+Languages: `CMake`  
+Categories: `Formatter` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -937,9 +936,9 @@ Categories: `Formatter` `Linter`
 
 > A native debugger based on LLDB
 
-Homepage: [https://github.com/vadimcn/vscode-lldb](https://github.com/vadimcn/vscode-lldb)
-Languages: `C` `C++` `Rust`
-Categories: `DAP`
+Homepage: [https://github.com/vadimcn/vscode-lldb](https://github.com/vadimcn/vscode-lldb)  
+Languages: `C` `C++` `Rust`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -961,9 +960,9 @@ Categories: `DAP`
 CodeQL lets you query code as though it were data. Write a query to find all variants of a vulnerability,
 eradicating it forever. Then share your query to help others do the same.
 
-Homepage: [https://github.com/github/codeql-cli-binaries](https://github.com/github/codeql-cli-binaries)
-Languages: `CodeQL`
-Categories: `LSP`
+Homepage: [https://github.com/github/codeql-cli-binaries](https://github.com/github/codeql-cli-binaries)  
+Languages: `CodeQL`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -982,9 +981,9 @@ Categories: `LSP`
 
 > check code for common misspellings
 
-Homepage: [https://github.com/codespell-project/codespell](https://github.com/codespell-project/codespell)
-Languages:
-Categories: `Linter`
+Homepage: [https://github.com/codespell-project/codespell](https://github.com/codespell-project/codespell)  
+Languages:   
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1001,9 +1000,9 @@ Categories: `Linter`
 
 > Blazingly fast colorscheme generator for Neovim written in Rust
 
-Homepage: [https://github.com/ChristianChiarulli/colorgen-nvim](https://github.com/ChristianChiarulli/colorgen-nvim)
-Languages:
-Categories: `Compiler`
+Homepage: [https://github.com/ChristianChiarulli/colorgen-nvim](https://github.com/ChristianChiarulli/colorgen-nvim)  
+Languages:   
+Categories: `Compiler`  
 
 <details>
     <summary>History:</summary>
@@ -1020,9 +1019,9 @@ Categories: `Compiler`
 
 > commitlint checks if your commit messages meet the conventional commit format.
 
-Homepage: [https://commitlint.js.org/](https://commitlint.js.org/)
-Languages: `GitCommit`
-Categories: `Linter`
+Homepage: [https://commitlint.js.org/](https://commitlint.js.org/)  
+Languages: `GitCommit`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1039,9 +1038,9 @@ Categories: `Linter`
 
 > Cpplint is a command-line tool to check C/C++ files for style issues following Google's C++ style guide
 
-Homepage: [https://pypi.org/project/cpplint/](https://pypi.org/project/cpplint/)
-Languages: `C` `C++`
-Categories: `Linter`
+Homepage: [https://pypi.org/project/cpplint/](https://pypi.org/project/cpplint/)  
+Languages: `C` `C++`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1058,9 +1057,9 @@ Categories: `Linter`
 
 > Official repository for the Microsoft C/C++ extension for VS Code.
 
-Homepage: [https://github.com/microsoft/vscode-cpptools](https://github.com/microsoft/vscode-cpptools)
-Languages: `C` `C++` `Rust`
-Categories: `DAP`
+Homepage: [https://github.com/microsoft/vscode-cpptools](https://github.com/microsoft/vscode-cpptools)  
+Languages: `C` `C++` `Rust`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -1078,9 +1077,9 @@ Categories: `DAP`
 
 > A Language Server Protocol implementation for Crystal. 🔮
 
-Homepage: [https://github.com/elbywan/crystalline](https://github.com/elbywan/crystalline)
-Languages: `Crystal`
-Categories: `LSP`
+Homepage: [https://github.com/elbywan/crystalline](https://github.com/elbywan/crystalline)  
+Languages: `Crystal`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1098,9 +1097,9 @@ Categories: `LSP`
 
 > Roslyn-based LSP language server for C#
 
-Homepage: [https://github.com/razzmatazz/csharp-language-server](https://github.com/razzmatazz/csharp-language-server)
-Languages: `C#`
-Categories: `LSP`
+Homepage: [https://github.com/razzmatazz/csharp-language-server](https://github.com/razzmatazz/csharp-language-server)  
+Languages: `C#`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1118,9 +1117,9 @@ Categories: `LSP`
 
 > CSharpier is an opinionated code formatter for c#
 
-Homepage: [https://csharpier.com](https://csharpier.com)
-Languages: `C#`
-Categories: `Formatter`
+Homepage: [https://csharpier.com](https://csharpier.com)  
+Languages: `C#`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1137,9 +1136,9 @@ Categories: `Formatter`
 
 > A Spell Checker for Code
 
-Homepage: [https://github.com/streetsidesoftware/cspell](https://github.com/streetsidesoftware/cspell)
-Languages:
-Categories: `Linter`
+Homepage: [https://github.com/streetsidesoftware/cspell](https://github.com/streetsidesoftware/cspell)  
+Languages:   
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1156,9 +1155,9 @@ Categories: `Linter`
 
 > Language Server Protocol implementation for CSS, SCSS & LESS.
 
-Homepage: [https://github.com/microsoft/vscode-css-languageservice](https://github.com/microsoft/vscode-css-languageservice)
-Languages: `CSS` `SCSS` `LESS`
-Categories: `LSP`
+Homepage: [https://github.com/microsoft/vscode-css-languageservice](https://github.com/microsoft/vscode-css-languageservice)  
+Languages: `CSS` `SCSS` `LESS`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1176,9 +1175,9 @@ Categories: `LSP`
 
 > autocompletion and go-to-defintion for cssmodules
 
-Homepage: [https://github.com/antonk52/cssmodules-language-server](https://github.com/antonk52/cssmodules-language-server)
-Languages: `CSS`
-Categories: `LSP`
+Homepage: [https://github.com/antonk52/cssmodules-language-server](https://github.com/antonk52/cssmodules-language-server)  
+Languages: `CSS`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1196,9 +1195,9 @@ Categories: `LSP`
 
 > Cucumber Language Server
 
-Homepage: [https://github.com/cucumber/language-server](https://github.com/cucumber/language-server)
-Languages: `Cucumber`
-Categories: `LSP`
+Homepage: [https://github.com/cucumber/language-server](https://github.com/cucumber/language-server)  
+Languages: `Cucumber`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1216,9 +1215,9 @@ Categories: `LSP`
 
 > CUE tool that updates your import lines, adding missing ones and removing unused ones.
 
-Homepage: [https://github.com/asdine/cueimports](https://github.com/asdine/cueimports)
-Languages: `Cue`
-Categories: `Formatter`
+Homepage: [https://github.com/asdine/cueimports](https://github.com/asdine/cueimports)  
+Languages: `Cue`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1235,9 +1234,9 @@ Categories: `Formatter`
 
 > Language Server implementation for CUE, with built-in support for Dagger.
 
-Homepage: [https://github.com/dagger/cuelsp](https://github.com/dagger/cuelsp)
-Languages: `Cue`
-Categories: `LSP`
+Homepage: [https://github.com/dagger/cuelsp](https://github.com/dagger/cuelsp)  
+Languages: `Cue`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1254,9 +1253,9 @@ Categories: `LSP`
 
 > Experimental HTML templates linting for Jinja, Nunjucks, Django templates, Twig, Liquid
 
-Homepage: [https://www.curlylint.org/](https://www.curlylint.org/)
-Languages: `Django` `Jinja` `Nunjucks` `Twig` `Liquid`
-Categories: `Linter`
+Homepage: [https://www.curlylint.org/](https://www.curlylint.org/)  
+Languages: `Django` `Jinja` `Nunjucks` `Twig` `Liquid`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1274,9 +1273,9 @@ Categories: `Linter`
 
 > Dart debug adapter sourced from the Dart VSCode extension.
 
-Homepage: [https://github.com/Dart-Code/Dart-Code](https://github.com/Dart-Code/Dart-Code)
-Languages: `Dart`
-Categories: `DAP`
+Homepage: [https://github.com/Dart-Code/Dart-Code](https://github.com/Dart-Code/Dart-Code)  
+Languages: `Dart`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -1293,9 +1292,9 @@ Categories: `DAP`
 
 > An implementation of the Debug Adapter Protocol for Python
 
-Homepage: [https://github.com/microsoft/debugpy](https://github.com/microsoft/debugpy)
-Languages: `Python`
-Categories: `DAP`
+Homepage: [https://github.com/microsoft/debugpy](https://github.com/microsoft/debugpy)  
+Languages: `Python`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -1315,9 +1314,9 @@ Categories: `DAP`
 
 > Delve is a debugger for the Go programming language.
 
-Homepage: [https://github.com/go-delve/delve](https://github.com/go-delve/delve)
-Languages: `Go`
-Categories: `DAP`
+Homepage: [https://github.com/go-delve/delve](https://github.com/go-delve/delve)  
+Languages: `Go`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -1336,9 +1335,9 @@ Categories: `DAP`
 > Deno (/ˈdiːnoʊ/, pronounced dee-no) is a JavaScript, TypeScript, and WebAssembly runtime with secure defaults
 and a great developer experience.
 
-Homepage: [https://deno.land/manual/language_server/overview](https://deno.land/manual/language_server/overview)
-Languages: `JavaScript` `TypeScript`
-Categories: `LSP` `Runtime`
+Homepage: [https://deno.land/manual/language_server/overview](https://deno.land/manual/language_server/overview)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `LSP` `Runtime`  
 
 <details>
     <summary>History:</summary>
@@ -1357,9 +1356,9 @@ Categories: `LSP` `Runtime`
 
 > LSP server implementation for Dhall.
 
-Homepage: [https://github.com/dhall-lang/dhall-haskell/tree/master/dhall-lsp-server](https://github.com/dhall-lang/dhall-haskell/tree/master/dhall-lsp-server)
-Languages: `Dhall`
-Categories: `LSP`
+Homepage: [https://github.com/dhall-lang/dhall-haskell/tree/master/dhall-lsp-server](https://github.com/dhall-lang/dhall-haskell/tree/master/dhall-lsp-server)  
+Languages: `Dhall`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1379,9 +1378,9 @@ Categories: `LSP`
 
 > Diagnostic language server that integrates with linters.
 
-Homepage: [https://github.com/iamcco/diagnostic-languageserver](https://github.com/iamcco/diagnostic-languageserver)
-Languages:
-Categories: `LSP`
+Homepage: [https://github.com/iamcco/diagnostic-languageserver](https://github.com/iamcco/diagnostic-languageserver)  
+Languages:   
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1399,9 +1398,9 @@ Categories: `LSP`
 
 > HTML Template Linter and Formatter. Django - Jinja - Nunjucks - Handlebars - GoLang
 
-Homepage: [https://github.com/Riverside-Healthcare/djLint](https://github.com/Riverside-Healthcare/djLint)
-Languages: `Django` `Go` `Nunjucks` `Handlebargs` `Mustache` `Angular` `Jinja`
-Categories: `Formatter` `Linter`
+Homepage: [https://github.com/Riverside-Healthcare/djLint](https://github.com/Riverside-Healthcare/djLint)  
+Languages: `Django` `Go` `Nunjucks` `Handlebargs` `Mustache` `Angular` `Jinja`  
+Categories: `Formatter` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1418,9 +1417,9 @@ Categories: `Formatter` `Linter`
 
 > A language server for Dockerfiles powered by Node.js, TypeScript, and VSCode technologies.
 
-Homepage: [https://github.com/rcjsuen/dockerfile-language-server-nodejs](https://github.com/rcjsuen/dockerfile-language-server-nodejs)
-Languages: `Dockerfile`
-Categories: `LSP`
+Homepage: [https://github.com/rcjsuen/dockerfile-language-server-nodejs](https://github.com/rcjsuen/dockerfile-language-server-nodejs)  
+Languages: `Dockerfile`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1438,9 +1437,9 @@ Categories: `LSP`
 
 > A language server for the DOT language
 
-Homepage: [https://github.com/nikeee/dot-language-server](https://github.com/nikeee/dot-language-server)
-Languages: `DOT`
-Categories: `LSP`
+Homepage: [https://github.com/nikeee/dot-language-server](https://github.com/nikeee/dot-language-server)  
+Languages: `DOT`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1458,9 +1457,9 @@ Categories: `LSP`
 
 > A pluggable and configurable code formatting platform written in Rust.
 
-Homepage: [https://dprint.dev/](https://dprint.dev/)
-Languages:
-Categories: `Formatter`
+Homepage: [https://dprint.dev/](https://dprint.dev/)  
+Languages:   
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1477,9 +1476,9 @@ Categories: `Formatter`
 
 > A tool to verify that your files are in harmony with your `.editorconfig`.
 
-Homepage: [https://github.com/editorconfig-checker/editorconfig-checker](https://github.com/editorconfig-checker/editorconfig-checker)
-Languages:
-Categories: `Linter`
+Homepage: [https://github.com/editorconfig-checker/editorconfig-checker](https://github.com/editorconfig-checker/editorconfig-checker)  
+Languages:   
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1498,9 +1497,9 @@ Categories: `Linter`
 
 > General purpose Language Server
 
-Homepage: [https://github.com/mattn/efm-langserver](https://github.com/mattn/efm-langserver)
-Languages:
-Categories: `LSP`
+Homepage: [https://github.com/mattn/efm-langserver](https://github.com/mattn/efm-langserver)  
+Languages:   
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1519,9 +1518,9 @@ Categories: `LSP`
 > A frontend-independent IDE "smartness" server for Elixir. Implements the "Language Server Protocol" standard and
 provides debugger support via the "Debug Adapter Protocol".
 
-Homepage: [https://github.com/elixir-lsp/elixir-ls](https://github.com/elixir-lsp/elixir-ls)
-Languages: `Elixir`
-Categories: `LSP` `DAP`
+Homepage: [https://github.com/elixir-lsp/elixir-ls](https://github.com/elixir-lsp/elixir-ls)  
+Languages: `Elixir`  
+Categories: `LSP` `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -1542,9 +1541,9 @@ Categories: `LSP` `DAP`
 
 > elm-format formats Elm source code according to a standard set of rules based on the official Elm Style Guide
 
-Homepage: [https://github.com/avh4/elm-format](https://github.com/avh4/elm-format)
-Languages: `Elm`
-Categories: `Formatter`
+Homepage: [https://github.com/avh4/elm-format](https://github.com/avh4/elm-format)  
+Languages: `Elm`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1562,9 +1561,9 @@ Categories: `Formatter`
 
 > Language server implementation for Elm
 
-Homepage: [https://github.com/elm-tooling/elm-language-server](https://github.com/elm-tooling/elm-language-server)
-Languages: `Elm`
-Categories: `LSP`
+Homepage: [https://github.com/elm-tooling/elm-language-server](https://github.com/elm-tooling/elm-language-server)  
+Languages: `Elm`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1582,9 +1581,9 @@ Categories: `LSP`
 
 > Language Server Protocol implementation for Ember.js and Glimmer projects
 
-Homepage: [https://github.com/lifeart/ember-language-server](https://github.com/lifeart/ember-language-server)
-Languages: `Ember`
-Categories: `LSP`
+Homepage: [https://github.com/lifeart/ember-language-server](https://github.com/lifeart/ember-language-server)  
+Languages: `Ember`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1602,9 +1601,9 @@ Categories: `LSP`
 
 > Emmet support based on LSP.
 
-Homepage: [https://github.com/aca/emmet-ls](https://github.com/aca/emmet-ls)
-Languages: `Emmet`
-Categories: `LSP`
+Homepage: [https://github.com/aca/emmet-ls](https://github.com/aca/emmet-ls)  
+Languages: `Emmet`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1622,9 +1621,9 @@ Categories: `LSP`
 
 > erb-lint is a tool to help lint your ERB or HTML files using the included linters or by writing your own
 
-Homepage: [https://github.com/Shopify/erb-lint](https://github.com/Shopify/erb-lint)
-Languages: `HTML` `Ruby`
-Categories: `Linter`
+Homepage: [https://github.com/Shopify/erb-lint](https://github.com/Shopify/erb-lint)  
+Languages: `HTML` `Ruby`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1641,9 +1640,9 @@ Categories: `Linter`
 
 > ELS is a language server for the Erg programing language.
 
-Homepage: [https://github.com/erg-lang/erg-language-server](https://github.com/erg-lang/erg-language-server)
-Languages: `Erg`
-Categories: `LSP`
+Homepage: [https://github.com/erg-lang/erg-language-server](https://github.com/erg-lang/erg-language-server)  
+Languages: `Erg`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1663,9 +1662,9 @@ Traditionally, this work had to be repeated for each development tool and it req
 the targeted programming language and the programming language internally used by the development tool of
 choice.
 
-Homepage: [https://erlang-ls.github.io/](https://erlang-ls.github.io/)
-Languages: `Erlang`
-Categories: `LSP`
+Homepage: [https://erlang-ls.github.io/](https://erlang-ls.github.io/)  
+Languages: `Erlang`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1685,9 +1684,9 @@ Categories: `LSP`
 
 > A Language Server for Sphinx projects.
 
-Homepage: [https://pypi.org/project/esbonio/](https://pypi.org/project/esbonio/)
-Languages: `Sphinx`
-Categories: `LSP`
+Homepage: [https://pypi.org/project/esbonio/](https://pypi.org/project/esbonio/)  
+Languages: `Sphinx`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1706,9 +1705,9 @@ Categories: `LSP`
 > Language Server Protocol implementation for ESLint. The server uses the ESLint library installed in the opened
 workspace folder. If the folder doesn't provide one the extension looks for a global install version.
 
-Homepage: [https://github.com/Microsoft/vscode-eslint](https://github.com/Microsoft/vscode-eslint)
-Languages: `JavaScript` `TypeScript`
-Categories: `LSP`
+Homepage: [https://github.com/Microsoft/vscode-eslint](https://github.com/Microsoft/vscode-eslint)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1727,9 +1726,9 @@ Categories: `LSP`
 
 > Makes eslint the fastest linter on the planet
 
-Homepage: [https://github.com/mantoni/eslint_d.js/](https://github.com/mantoni/eslint_d.js/)
-Languages: `TypeScript` `JavaScript`
-Categories: `Linter`
+Homepage: [https://github.com/mantoni/eslint_d.js/](https://github.com/mantoni/eslint_d.js/)  
+Languages: `TypeScript` `JavaScript`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1746,9 +1745,9 @@ Categories: `Linter`
 
 > Fantomas is an opinionated code formatter for f#
 
-Homepage: [https://fsprojects.github.io/fantomas](https://fsprojects.github.io/fantomas)
-Languages: `F#`
-Categories: `Formatter`
+Homepage: [https://fsprojects.github.io/fantomas](https://fsprojects.github.io/fantomas)  
+Languages: `F#`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1766,9 +1765,9 @@ Categories: `Formatter`
 
 > Debug your web application or browser extension in Firefox
 
-Homepage: [https://github.com/firefox-devtools/vscode-firefox-debug](https://github.com/firefox-devtools/vscode-firefox-debug)
-Languages: `JavaScript` `TypeScript`
-Categories: `DAP`
+Homepage: [https://github.com/firefox-devtools/vscode-firefox-debug](https://github.com/firefox-devtools/vscode-firefox-debug)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -1787,9 +1786,9 @@ Categories: `DAP`
 
 > A JSON file fixer/formatter for humans using (relaxed) JSON5
 
-Homepage: [https://github.com/rhysd/fixjson](https://github.com/rhysd/fixjson)
-Languages: `JSON`
-Categories: `Formatter`
+Homepage: [https://github.com/rhysd/fixjson](https://github.com/rhysd/fixjson)  
+Languages: `JSON`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1807,9 +1806,9 @@ Categories: `Formatter`
 > flake8 is a python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the
 style and quality of some python code.
 
-Homepage: [https://github.com/PyCQA/flake8](https://github.com/PyCQA/flake8)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://github.com/PyCQA/flake8](https://github.com/PyCQA/flake8)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1827,9 +1826,9 @@ Categories: `Linter`
 
 > Implementation of Language Server Protocol for the Flux language
 
-Homepage: [https://github.com/influxdata/flux-lsp](https://github.com/influxdata/flux-lsp)
-Languages: `Flux`
-Categories: `LSP`
+Homepage: [https://github.com/influxdata/flux-lsp](https://github.com/influxdata/flux-lsp)  
+Languages: `Flux`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1848,9 +1847,9 @@ Categories: `LSP`
 
 > A language server for OpenFOAM case files
 
-Homepage: [https://github.com/FoamScience/foam-language-server](https://github.com/FoamScience/foam-language-server)
-Languages: `OpenFOAM`
-Categories: `LSP`
+Homepage: [https://github.com/FoamScience/foam-language-server](https://github.com/FoamScience/foam-language-server)  
+Languages: `OpenFOAM`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1868,9 +1867,9 @@ Categories: `LSP`
 
 > fortls - Fortran Language Server
 
-Homepage: [https://github.com/gnikit/fortls](https://github.com/gnikit/fortls)
-Languages: `Fortran`
-Categories: `LSP`
+Homepage: [https://github.com/gnikit/fortls](https://github.com/gnikit/fortls)  
+Languages: `Fortran`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1888,9 +1887,9 @@ Categories: `LSP`
 
 > A fork of Ormolu that uses four space indentation and allows arbitrary configuration.
 
-Homepage: [https://hackage.haskell.org/package/fourmolu](https://hackage.haskell.org/package/fourmolu)
-Languages: `Haskell`
-Categories: `Formatter`
+Homepage: [https://hackage.haskell.org/package/fourmolu](https://hackage.haskell.org/package/fourmolu)  
+Languages: `Haskell`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1907,9 +1906,9 @@ Categories: `Formatter`
 
 > F# language server using Language Server Protocol
 
-Homepage: [https://github.com/fsharp/FsAutoComplete](https://github.com/fsharp/FsAutoComplete)
-Languages: `F#`
-Categories: `LSP`
+Homepage: [https://github.com/fsharp/FsAutoComplete](https://github.com/fsharp/FsAutoComplete)  
+Languages: `F#`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -1927,9 +1926,9 @@ Categories: `LSP`
 
 > gersemi - A formatter to make your CMake code the real treasure.
 
-Homepage: [https://github.com/BlankSpruce/gersemi](https://github.com/BlankSpruce/gersemi)
-Languages: `CMake`
-Categories: `Formatter`
+Homepage: [https://github.com/BlankSpruce/gersemi](https://github.com/BlankSpruce/gersemi)  
+Languages: `CMake`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -1946,9 +1945,9 @@ Categories: `Formatter`
 
 > Gitlint is a git commit message linter written in python: it checks your commit messages for style.
 
-Homepage: [https://jorisroovers.com/gitlint/](https://jorisroovers.com/gitlint/)
-Languages: `GitCommit`
-Categories: `Linter`
+Homepage: [https://jorisroovers.com/gitlint/](https://jorisroovers.com/gitlint/)  
+Languages: `GitCommit`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1968,9 +1967,9 @@ Ember.js v3.24+ and GlimmerX projects. Similar to Vetur for Vue projects or Svel
 consists of a CLI and a language server to provide feedback and enforce correctness both locally during editing
 and project-wide in CI.
 
-Homepage: [https://typed-ember.gitbook.io/glint/](https://typed-ember.gitbook.io/glint/)
-Languages: `Handlebars` `Glimmer` `TypeScript` `JavaScript`
-Categories: `LSP` `Linter`
+Homepage: [https://typed-ember.gitbook.io/glint/](https://typed-ember.gitbook.io/glint/)  
+Languages: `Handlebars` `Glimmer` `TypeScript` `JavaScript`  
+Categories: `LSP` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -1987,9 +1986,9 @@ Categories: `LSP` `Linter`
 
 > Go debug adapter sourced from the VSCode Go extension.
 
-Homepage: [https://github.com/golang/vscode-go](https://github.com/golang/vscode-go)
-Languages: `Go`
-Categories: `DAP`
+Homepage: [https://github.com/golang/vscode-go](https://github.com/golang/vscode-go)  
+Languages: `Go`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -2007,9 +2006,9 @@ Categories: `DAP`
 
 > A stricter gofmt
 
-Homepage: [https://pkg.go.dev/mvdan.cc/gofumpt](https://pkg.go.dev/mvdan.cc/gofumpt)
-Languages: `Go`
-Categories: `Formatter`
+Homepage: [https://pkg.go.dev/mvdan.cc/gofumpt](https://pkg.go.dev/mvdan.cc/gofumpt)  
+Languages: `Go`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -2027,9 +2026,9 @@ Categories: `Formatter`
 > A golang formatter which formats your code in the same style as gofmt and additionally updates your Go import
 lines, adding missing ones and removing unreferenced ones.
 
-Homepage: [https://pkg.go.dev/golang.org/x/tools/cmd/goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)
-Languages: `Go`
-Categories: `Formatter`
+Homepage: [https://pkg.go.dev/golang.org/x/tools/cmd/goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)  
+Languages: `Go`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -2050,9 +2049,9 @@ Also, formatting for your code will be prepared (so, you don't need to use gofmt
 Use additional option -rm-unused to remove unused imports and -set-alias to rewrite import aliases for
 versioned packages.
 
-Homepage: [https://pkg.go.dev/github.com/incu6us/goimports-reviser](https://pkg.go.dev/github.com/incu6us/goimports-reviser)
-Languages: `Go`
-Categories: `Formatter`
+Homepage: [https://pkg.go.dev/github.com/incu6us/goimports-reviser](https://pkg.go.dev/github.com/incu6us/goimports-reviser)  
+Languages: `Go`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -2071,9 +2070,9 @@ Categories: `Formatter`
 > golangci-lint is a fast Go linters runner. It runs linters in parallel, uses caching, supports yaml config, has
 integrations with all major IDE and has dozens of linters included.
 
-Homepage: [https://golangci-lint.run/](https://golangci-lint.run/)
-Languages: `Go`
-Categories: `Linter`
+Homepage: [https://golangci-lint.run/](https://golangci-lint.run/)  
+Languages: `Go`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -2092,9 +2091,9 @@ Categories: `Linter`
 
 > golangci-lint language server
 
-Homepage: [https://github.com/nametake/golangci-lint-langserver](https://github.com/nametake/golangci-lint-langserver)
-Languages: `Go`
-Categories: `LSP`
+Homepage: [https://github.com/nametake/golangci-lint-langserver](https://github.com/nametake/golangci-lint-langserver)  
+Languages: `Go`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2112,9 +2111,9 @@ Categories: `LSP`
 
 > A golang formatter that fixes long lines
 
-Homepage: [https://github.com/segmentio/golines](https://github.com/segmentio/golines)
-Languages: `Go`
-Categories: `Formatter`
+Homepage: [https://github.com/segmentio/golines](https://github.com/segmentio/golines)  
+Languages: `Go`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -2131,9 +2130,9 @@ Categories: `Formatter`
 
 > Go tool to modify/update field tags in structs
 
-Homepage: [https://github.com/fatih/gomodifytags](https://github.com/fatih/gomodifytags)
-Languages: `Go`
-Categories:
+Homepage: [https://github.com/fatih/gomodifytags](https://github.com/fatih/gomodifytags)  
+Languages: `Go`  
+Categories:   
 
 <details>
     <summary>History:</summary>
@@ -2152,9 +2151,9 @@ Categories:
 > gopls (pronounced "Go please") is the official Go language server developed by the Go team. It provides IDE
 features to any LSP-compatible editor.
 
-Homepage: [https://pkg.go.dev/golang.org/x/tools/gopls](https://pkg.go.dev/golang.org/x/tools/gopls)
-Languages: `Go`
-Categories: `LSP`
+Homepage: [https://pkg.go.dev/golang.org/x/tools/gopls](https://pkg.go.dev/golang.org/x/tools/gopls)  
+Languages: `Go`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2174,9 +2173,9 @@ Categories: `LSP`
 > Gotests is a Golang commandline tool that generates table driven tests based on its target source files'
 function and method signatures.
 
-Homepage: [https://github.com/cweill/gotests](https://github.com/cweill/gotests)
-Languages: `Go`
-Categories:
+Homepage: [https://github.com/cweill/gotests](https://github.com/cweill/gotests)  
+Languages: `Go`  
+Categories:   
 
 <details>
     <summary>History:</summary>
@@ -2193,12 +2192,12 @@ Categories:
 
 # gotestsum
 
-> 'go test' runner with output optimized for humans, JUnit XML for CI integration, and
+> 'go test' runner with output optimized for humans, JUnit XML for CI integration, and 
 a summary of the test results.
 
-Homepage: [https://github.com/gotestyourself/gotestsum](https://github.com/gotestyourself/gotestsum)
-Languages: `Go`
-Categories:
+Homepage: [https://github.com/gotestyourself/gotestsum](https://github.com/gotestyourself/gotestsum)  
+Languages: `Go`  
+Categories:   
 
 <details>
     <summary>History:</summary>
@@ -2215,9 +2214,9 @@ Categories:
 
 > Gradle language server.
 
-Homepage: [https://github.com/microsoft/vscode-gradle](https://github.com/microsoft/vscode-gradle)
-Languages: `Gradle`
-Categories: `LSP`
+Homepage: [https://github.com/microsoft/vscode-gradle](https://github.com/microsoft/vscode-gradle)  
+Languages: `Gradle`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2234,9 +2233,9 @@ Categories: `LSP`
 
 > A language server implementation on top of Grammarly's SDK.
 
-Homepage: [https://github.com/znck/grammarly](https://github.com/znck/grammarly)
-Languages: `Markdown` `Text`
-Categories: `LSP`
+Homepage: [https://github.com/znck/grammarly](https://github.com/znck/grammarly)  
+Languages: `Markdown` `Text`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2254,9 +2253,9 @@ Categories: `LSP`
 
 > GraphQL Language Service provides an interface for building GraphQL language services for IDEs.
 
-Homepage: [https://www.npmjs.com/package/graphql-language-service-cli](https://www.npmjs.com/package/graphql-language-service-cli)
-Languages: `GraphQL`
-Categories: `LSP`
+Homepage: [https://www.npmjs.com/package/graphql-language-service-cli](https://www.npmjs.com/package/graphql-language-service-cli)  
+Languages: `GraphQL`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2274,9 +2273,9 @@ Categories: `LSP`
 
 > A language server for Groovy
 
-Homepage: [https://github.com/GroovyLanguageServer/groovy-language-server](https://github.com/GroovyLanguageServer/groovy-language-server)
-Languages: `Groovy`
-Categories: `LSP`
+Homepage: [https://github.com/GroovyLanguageServer/groovy-language-server](https://github.com/GroovyLanguageServer/groovy-language-server)  
+Languages: `Groovy`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2296,9 +2295,9 @@ Categories: `LSP`
 
 > Dockerfile linter, validate inline bash, written in Haskell
 
-Homepage: [https://github.com/hadolint/hadolint](https://github.com/hadolint/hadolint)
-Languages: `Dockerfile`
-Categories: `Linter`
+Homepage: [https://github.com/hadolint/hadolint](https://github.com/hadolint/hadolint)  
+Languages: `Dockerfile`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -2316,9 +2315,9 @@ Categories: `Linter`
 > haml-lint is a tool to help keep your HAML files clean and readable. In addition to HAML-specific style and lint
 checks, it integrates with RuboCop to bring its powerful static analysis tools to your HAML documents.
 
-Homepage: [https://github.com/sds/haml-lint](https://github.com/sds/haml-lint)
-Languages: `HAML`
-Categories: `Linter`
+Homepage: [https://github.com/sds/haml-lint](https://github.com/sds/haml-lint)  
+Languages: `HAML`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -2335,9 +2334,9 @@ Categories: `Linter`
 
 > Official Haskell Language Server implementation.
 
-Homepage: [https://haskell-language-server.readthedocs.io/en/latest/](https://haskell-language-server.readthedocs.io/en/latest/)
-Languages: `Haskell`
-Categories: `LSP`
+Homepage: [https://haskell-language-server.readthedocs.io/en/latest/](https://haskell-language-server.readthedocs.io/en/latest/)  
+Languages: `Haskell`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2356,9 +2355,9 @@ Categories: `LSP`
 
 > Language Server Protocol implementation for the Haxe language
 
-Homepage: [https://github.com/vshaxe/haxe-language-server](https://github.com/vshaxe/haxe-language-server)
-Languages: `Haxe`
-Categories: `LSP`
+Homepage: [https://github.com/vshaxe/haxe-language-server](https://github.com/vshaxe/haxe-language-server)  
+Languages: `Haxe`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2377,9 +2376,9 @@ Categories: `LSP`
 
 > Language Server for Hoon. Middleware to translate between the Language Server Protocol and your Urbit.
 
-Homepage: [https://github.com/urbit/hoon-language-server](https://github.com/urbit/hoon-language-server)
-Languages: `Hoon`
-Categories: `LSP`
+Homepage: [https://github.com/urbit/hoon-language-server](https://github.com/urbit/hoon-language-server)  
+Languages: `Hoon`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2397,9 +2396,9 @@ Categories: `LSP`
 
 > Language Server Protocol implementation for HTML.
 
-Homepage: [https://github.com/microsoft/vscode-html-languageservice](https://github.com/microsoft/vscode-html-languageservice)
-Languages: `HTML`
-Categories: `LSP`
+Homepage: [https://github.com/microsoft/vscode-html-languageservice](https://github.com/microsoft/vscode-html-languageservice)  
+Languages: `HTML`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2417,9 +2416,9 @@ Categories: `LSP`
 
 > Go tool to generate if err != nil block for the current function.
 
-Homepage: [https://github.com/koron/iferr](https://github.com/koron/iferr)
-Languages: `Go`
-Categories:
+Homepage: [https://github.com/koron/iferr](https://github.com/koron/iferr)  
+Languages: `Go`  
+Categories:   
 
 <details>
     <summary>History:</summary>
@@ -2436,9 +2435,9 @@ Categories:
 
 > impl generates method stubs for implementing an interface.
 
-Homepage: [https://github.com/josharian/impl](https://github.com/josharian/impl)
-Languages: `Go`
-Categories:
+Homepage: [https://github.com/josharian/impl](https://github.com/josharian/impl)  
+Languages: `Go`  
+Categories:   
 
 <details>
     <summary>History:</summary>
@@ -2456,9 +2455,9 @@ Categories:
 
 > Professional PHP tooling for any Language Server Protocol capable editor.
 
-Homepage: [https://intelephense.com](https://intelephense.com)
-Languages: `PHP`
-Categories: `LSP`
+Homepage: [https://intelephense.com](https://intelephense.com)  
+Languages: `PHP`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2476,9 +2475,9 @@ Categories: `LSP`
 
 > isort is a Python utility / library to sort imports alphabetically
 
-Homepage: [https://pypi.org/project/isort/](https://pypi.org/project/isort/)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://pypi.org/project/isort/](https://pypi.org/project/isort/)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -2495,9 +2494,9 @@ Categories: `Formatter`
 
 > The debug server implementation for Java. It conforms to the debugger adapter protocol.
 
-Homepage: [https://github.com/microsoft/java-debug](https://github.com/microsoft/java-debug)
-Languages: `Java`
-Categories: `DAP`
+Homepage: [https://github.com/microsoft/java-debug](https://github.com/microsoft/java-debug)  
+Languages: `Java`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -2524,9 +2523,9 @@ Enables support for the following test frameworks:
 - JUnit 5 (v5.1.0+)
 - TestNG (v6.8.0+)
 
-Homepage: [https://github.com/microsoft/vscode-java-test](https://github.com/microsoft/vscode-java-test)
-Languages: `Java`
-Categories: `DAP`
+Homepage: [https://github.com/microsoft/vscode-java-test](https://github.com/microsoft/vscode-java-test)  
+Languages: `Java`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -2543,9 +2542,9 @@ Categories: `DAP`
 
 > Java language server
 
-Homepage: [https://github.com/eclipse/eclipse.jdt.ls](https://github.com/eclipse/eclipse.jdt.ls)
-Languages: `Java`
-Categories: `LSP`
+Homepage: [https://github.com/eclipse/eclipse.jdt.ls](https://github.com/eclipse/eclipse.jdt.ls)  
+Languages: `Java`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2565,9 +2564,9 @@ Categories: `LSP`
 
 > A Python language server exclusively for Jedi. If Jedi supports it well, this language server should too.
 
-Homepage: [https://github.com/pappasam/jedi-language-server](https://github.com/pappasam/jedi-language-server)
-Languages: `Python`
-Categories: `LSP`
+Homepage: [https://github.com/pappasam/jedi-language-server](https://github.com/pappasam/jedi-language-server)  
+Languages: `Python`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2585,9 +2584,9 @@ Categories: `LSP`
 
 > Small Clojure interpreter, linter and formatter
 
-Homepage: [https://github.com/candid82/joker](https://github.com/candid82/joker)
-Languages: `Clojure` `ClojureScript`
-Categories: `Formatter` `Linter`
+Homepage: [https://github.com/candid82/joker](https://github.com/candid82/joker)  
+Languages: `Clojure` `ClojureScript`  
+Categories: `Formatter` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -2605,9 +2604,9 @@ Categories: `Formatter` `Linter`
 
 > Command-line JSON processor
 
-Homepage: [https://github.com/stedolan/jq](https://github.com/stedolan/jq)
-Languages: `JSON`
-Categories: `Formatter`
+Homepage: [https://github.com/stedolan/jq](https://github.com/stedolan/jq)  
+Languages: `JSON`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -2625,9 +2624,9 @@ Categories: `Formatter`
 > jq-lsp is a language server for the jq language, developed by Mattias Wadman. It provides IDE features to any
 LSP-compatible editor.
 
-Homepage: [https://github.com/wader/jq-lsp](https://github.com/wader/jq-lsp)
-Languages: `Jq`
-Categories: `LSP`
+Homepage: [https://github.com/wader/jq-lsp](https://github.com/wader/jq-lsp)  
+Languages: `Jq`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2644,9 +2643,9 @@ Categories: `LSP`
 
 > The VS Code JavaScript debugger
 
-Homepage: [https://github.com/microsoft/vscode-js-debug](https://github.com/microsoft/vscode-js-debug)
-Languages: `JavaScript` `TypeScript`
-Categories: `DAP`
+Homepage: [https://github.com/microsoft/vscode-js-debug](https://github.com/microsoft/vscode-js-debug)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -2664,9 +2663,9 @@ Categories: `DAP`
 
 > Language Server Protocol implementation for JSON.
 
-Homepage: [https://github.com/microsoft/vscode-json-languageservice](https://github.com/microsoft/vscode-json-languageservice)
-Languages: `JSON`
-Categories: `LSP`
+Homepage: [https://github.com/microsoft/vscode-json-languageservice](https://github.com/microsoft/vscode-json-languageservice)  
+Languages: `JSON`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2684,9 +2683,9 @@ Categories: `LSP`
 
 > A simple command-line tool for generating to struct definitions from JSON
 
-Homepage: [https://github.com/tmc/json-to-struct](https://github.com/tmc/json-to-struct)
-Languages: `Go`
-Categories:
+Homepage: [https://github.com/tmc/json-to-struct](https://github.com/tmc/json-to-struct)  
+Languages: `Go`  
+Categories:   
 
 <details>
     <summary>History:</summary>
@@ -2703,9 +2702,9 @@ Categories:
 
 > A pure JavaScript version of the service provided at jsonlint.com.
 
-Homepage: [https://github.com/zaach/jsonlint](https://github.com/zaach/jsonlint)
-Languages: `JSON`
-Categories: `Linter`
+Homepage: [https://github.com/zaach/jsonlint](https://github.com/zaach/jsonlint)  
+Languages: `JSON`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -2722,9 +2721,9 @@ Categories: `Linter`
 
 > A Language Server Protocol (LSP) server for Jsonnet (https://jsonnet.org)
 
-Homepage: [https://github.com/grafana/jsonnet-language-server](https://github.com/grafana/jsonnet-language-server)
-Languages: `Jsonnet`
-Categories: `LSP`
+Homepage: [https://github.com/grafana/jsonnet-language-server](https://github.com/grafana/jsonnet-language-server)  
+Languages: `Jsonnet`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2742,9 +2741,9 @@ Categories: `LSP`
 
 > An implementation of the Microsoft Language Server Protocol for the Julia language.
 
-Homepage: [https://github.com/julia-vscode/LanguageServer.jl](https://github.com/julia-vscode/LanguageServer.jl)
-Languages: `Julia`
-Categories: `LSP`
+Homepage: [https://github.com/julia-vscode/LanguageServer.jl](https://github.com/julia-vscode/LanguageServer.jl)  
+Languages: `Julia`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2763,9 +2762,9 @@ Categories: `LSP`
 
 > Kotlin/JVM debugging for any editor/IDE using the Debug Adapter Protocol
 
-Homepage: [https://github.com/fwcd/kotlin-debug-adapter](https://github.com/fwcd/kotlin-debug-adapter)
-Languages: `Kotlin`
-Categories: `DAP`
+Homepage: [https://github.com/fwcd/kotlin-debug-adapter](https://github.com/fwcd/kotlin-debug-adapter)  
+Languages: `Kotlin`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -2782,9 +2781,9 @@ Categories: `DAP`
 
 > Kotlin code completion, linting and more for any editor/IDE using the Language Server Protocol
 
-Homepage: [https://github.com/fwcd/kotlin-language-server](https://github.com/fwcd/kotlin-language-server)
-Languages: `Kotlin`
-Categories: `LSP`
+Homepage: [https://github.com/fwcd/kotlin-language-server](https://github.com/fwcd/kotlin-language-server)  
+Languages: `Kotlin`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2802,9 +2801,9 @@ Categories: `LSP`
 
 > An anti-bikeshedding Kotlin linter with built-in formatter
 
-Homepage: [https://github.com/pinterest/ktlint](https://github.com/pinterest/ktlint)
-Languages: `Kotlin`
-Categories: `Formatter` `Linter`
+Homepage: [https://github.com/pinterest/ktlint](https://github.com/pinterest/ktlint)  
+Languages: `Kotlin`  
+Categories: `Formatter` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -2822,9 +2821,9 @@ Categories: `Formatter` `Linter`
 
 > LL(1) parser generator for Rust
 
-Homepage: [https://github.com/0x2a-42/lelwel](https://github.com/0x2a-42/lelwel)
-Languages: `Lelwel`
-Categories: `LSP`
+Homepage: [https://github.com/0x2a-42/lelwel](https://github.com/0x2a-42/lelwel)  
+Languages: `Lelwel`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2842,9 +2841,9 @@ Categories: `LSP`
 
 > XML Language Server
 
-Homepage: [https://github.com/eclipse/lemminx](https://github.com/eclipse/lemminx)
-Languages: `XML`
-Categories: `LSP`
+Homepage: [https://github.com/eclipse/lemminx](https://github.com/eclipse/lemminx)  
+Languages: `XML`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2864,9 +2863,9 @@ Categories: `LSP`
 
 > Every one needs help, so lemmy-help you! A CLI to generate vim/nvim help doc from emmylua
 
-Homepage: [https://github.com/numToStr/lemmy-help](https://github.com/numToStr/lemmy-help)
-Languages: `Lua`
-Categories:
+Homepage: [https://github.com/numToStr/lemmy-help](https://github.com/numToStr/lemmy-help)  
+Languages: `Lua`  
+Categories:   
 
 <details>
     <summary>History:</summary>
@@ -2886,9 +2885,9 @@ Categories:
 > LTeX Language Server: LSP language server for LanguageTool 🔍✔️ with support for LaTeX 🎓, Markdown 📝, and
 others.
 
-Homepage: [https://valentjn.github.io/ltex/](https://valentjn.github.io/ltex/)
-Languages: `Text` `Markdown` `LaTeX`
-Categories: `LSP`
+Homepage: [https://valentjn.github.io/ltex/](https://valentjn.github.io/ltex/)  
+Languages: `Text` `Markdown` `LaTeX`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2909,9 +2908,9 @@ Categories: `LSP`
 
 > Lua Language Server
 
-Homepage: [https://github.com/sumneko/lua-language-server](https://github.com/sumneko/lua-language-server)
-Languages: `Lua`
-Categories: `LSP`
+Homepage: [https://github.com/sumneko/lua-language-server](https://github.com/sumneko/lua-language-server)  
+Languages: `Lua`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2929,9 +2928,9 @@ Categories: `LSP`
 
 > A tool for linting and static analysis of Lua code.
 
-Homepage: [https://github.com/mpeterv/luacheck](https://github.com/mpeterv/luacheck)
-Languages: `Lua`
-Categories: `Linter`
+Homepage: [https://github.com/mpeterv/luacheck](https://github.com/mpeterv/luacheck)  
+Languages: `Lua`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -2948,9 +2947,9 @@ Categories: `Linter`
 
 > Code formatter for Lua
 
-Homepage: [https://github.com/Koihik/LuaFormatter](https://github.com/Koihik/LuaFormatter)
-Languages: `Lua`
-Categories: `Formatter`
+Homepage: [https://github.com/Koihik/LuaFormatter](https://github.com/Koihik/LuaFormatter)  
+Languages: `Lua`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -2967,9 +2966,9 @@ Categories: `Formatter`
 
 > An implementation of a language server for the Luau programming language.
 
-Homepage: [https://github.com/JohnnyMorganz/luau-lsp](https://github.com/JohnnyMorganz/luau-lsp)
-Languages: `Luau`
-Categories: `LSP`
+Homepage: [https://github.com/JohnnyMorganz/luau-lsp](https://github.com/JohnnyMorganz/luau-lsp)  
+Languages: `Luau`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -2986,9 +2985,9 @@ Categories: `LSP`
 
 > A Node.js style checker and lint tool for Markdown/CommonMark files
 
-Homepage: [https://github.com/igorshubovych/markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)
-Languages: `Markdown`
-Categories: `Linter` `Formatter`
+Homepage: [https://github.com/igorshubovych/markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)  
+Languages: `Markdown`  
+Categories: `Linter` `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -3006,9 +3005,9 @@ Categories: `Linter` `Formatter`
 
 > Markdown LSP server providing completion, cross-references, diagnostics, and more.
 
-Homepage: [https://github.com/artempyanykh/marksman](https://github.com/artempyanykh/marksman)
-Languages: `Markdown`
-Categories: `LSP`
+Homepage: [https://github.com/artempyanykh/marksman](https://github.com/artempyanykh/marksman)  
+Languages: `Markdown`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3026,9 +3025,9 @@ Categories: `LSP`
 
 > An MM0/MM1 server written in Rust.
 
-Homepage: [https://github.com/digama0/mm0](https://github.com/digama0/mm0)
-Languages: `Metamath Zero`
-Categories: `LSP`
+Homepage: [https://github.com/digama0/mm0](https://github.com/digama0/mm0)  
+Languages: `Metamath Zero`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3046,9 +3045,9 @@ Categories: `LSP`
 
 > Correct commonly misspelled English words in source files
 
-Homepage: [https://github.com/client9/misspell](https://github.com/client9/misspell)
-Languages:
-Categories: `Linter`
+Homepage: [https://github.com/client9/misspell](https://github.com/client9/misspell)  
+Languages:   
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3066,9 +3065,9 @@ Categories: `Linter`
 > Mock Debug simulates a debug adapter. It supports step, continue, breakpoints, exceptions, and variable access
 but it is not connected to any real debugger.
 
-Homepage: [https://github.com/microsoft/vscode-mock-debug](https://github.com/microsoft/vscode-mock-debug)
-Languages:
-Categories: `DAP`
+Homepage: [https://github.com/microsoft/vscode-mock-debug](https://github.com/microsoft/vscode-mock-debug)  
+Languages:   
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -3088,9 +3087,9 @@ Categories: `DAP`
 
 > move-analyzer is a language server implementation for the Move programming language.
 
-Homepage: [https://github.com/move-language/move](https://github.com/move-language/move)
-Languages: `Move`
-Categories: `LSP`
+Homepage: [https://github.com/move-language/move](https://github.com/move-language/move)  
+Languages: `Move`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3106,11 +3105,11 @@ Categories: `LSP`
 
 # mypy
 
-> Mypy is a static type checker for Python.
+> Mypy is a static type checker for Python. 
 
-Homepage: [https://github.com/python/mypy](https://github.com/python/mypy)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://github.com/python/mypy](https://github.com/python/mypy)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3127,9 +3126,9 @@ Categories: `Linter`
 
 > CMake LSP implementation based on Tower and Tree-sitter
 
-Homepage: [https://github.com/Decodetalkers/neocmakelsp](https://github.com/Decodetalkers/neocmakelsp)
-Languages: `CMake`
-Categories: `LSP`
+Homepage: [https://github.com/Decodetalkers/neocmakelsp](https://github.com/Decodetalkers/neocmakelsp)  
+Languages: `CMake`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3146,9 +3145,9 @@ Categories: `LSP`
 
 > NetCoreDbg is a managed code debugger with MI interface for CoreCLR.
 
-Homepage: [https://github.com/Samsung/netcoredbg](https://github.com/Samsung/netcoredbg)
-Languages: `.NET` `C#` `F#`
-Categories: `DAP`
+Homepage: [https://github.com/Samsung/netcoredbg](https://github.com/Samsung/netcoredbg)  
+Languages: `.NET` `C#` `F#`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -3167,9 +3166,9 @@ Categories: `DAP`
 
 > A language server for nginx configuration files.
 
-Homepage: [https://github.com/pappasam/nginx-language-server](https://github.com/pappasam/nginx-language-server)
-Languages: `Nginx`
-Categories: `LSP`
+Homepage: [https://github.com/pappasam/nginx-language-server](https://github.com/pappasam/nginx-language-server)  
+Languages: `Nginx`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3187,9 +3186,9 @@ Categories: `LSP`
 > The Nickel Language Server (NLS) is a language server for the Nickel programming language. NLS offers error
 messages, type hints, and auto-completion right in your favorite LSP-enabled editor.
 
-Homepage: [https://nickel-lang.org/](https://nickel-lang.org/)
-Languages: `Nickel`
-Categories: `LSP`
+Homepage: [https://nickel-lang.org/](https://nickel-lang.org/)  
+Languages: `Nickel`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3208,9 +3207,9 @@ Categories: `LSP`
 
 > Language Server for Nix
 
-Homepage: [https://github.com/oxalica/nil](https://github.com/oxalica/nil)
-Languages: `Nix`
-Categories: `LSP`
+Homepage: [https://github.com/oxalica/nil](https://github.com/oxalica/nil)  
+Languages: `Nix`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3227,9 +3226,9 @@ Categories: `LSP`
 
 > Language Server Protocol implementation for Nim
 
-Homepage: [https://github.com/PMunch/nimlsp](https://github.com/PMunch/nimlsp)
-Languages: `Nim`
-Categories: `LSP`
+Homepage: [https://github.com/PMunch/nimlsp](https://github.com/PMunch/nimlsp)  
+Languages: `Nim`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3247,9 +3246,9 @@ Categories: `LSP`
 
 > A debug adapter that supports debugging Node via the Chrome Debugging Protocol. No longer maintained.
 
-Homepage: [https://github.com/microsoft/vscode-node-debug2](https://github.com/microsoft/vscode-node-debug2)
-Languages: `JavaScript` `TypeScript`
-Categories: `DAP`
+Homepage: [https://github.com/microsoft/vscode-node-debug2](https://github.com/microsoft/vscode-node-debug2)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -3269,9 +3268,9 @@ Categories: `DAP`
 
 > A language server that provides code completion and more for Nx workspaces.
 
-Homepage: [https://github.com/nrwl/nx-console/tree/master/apps/nxls](https://github.com/nrwl/nx-console/tree/master/apps/nxls)
-Languages: `JSON`
-Categories: `LSP`
+Homepage: [https://github.com/nrwl/nx-console/tree/master/apps/nxls](https://github.com/nrwl/nx-console/tree/master/apps/nxls)  
+Languages: `JSON`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3288,9 +3287,9 @@ Categories: `LSP`
 
 > OCaml Language Server Protocol implementation
 
-Homepage: [https://github.com/ocaml/ocaml-lsp](https://github.com/ocaml/ocaml-lsp)
-Languages: `OCaml`
-Categories: `LSP`
+Homepage: [https://github.com/ocaml/ocaml-lsp](https://github.com/ocaml/ocaml-lsp)  
+Languages: `OCaml`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3303,31 +3302,15 @@ Categories: `LSP`
 :MasonInstall ocaml-lsp
 ```
 
-# ocamlformat
-
-> ocamlformat is a tool for formatting OCaml code
-
-Homepage: [https://github.com/ocaml-ppx/ocamlformat](https://github.com/ocaml-ppx/ocamlformat)
-Languages: `OCaml`
-Categories: `Formatter`
-
-<details>
-    <summary>History:</summary>
-</details>
-
-```
-:MasonInstall ocamlformat
-```
-
 
 # omnisharp
 
 > OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires dotnet (.NET 6.0) to be
 installed.
 
-Homepage: [https://github.com/OmniSharp/omnisharp-roslyn](https://github.com/OmniSharp/omnisharp-roslyn)
-Languages: `C#`
-Categories: `LSP`
+Homepage: [https://github.com/OmniSharp/omnisharp-roslyn](https://github.com/OmniSharp/omnisharp-roslyn)  
+Languages: `C#`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3346,9 +3329,9 @@ Categories: `LSP`
 > OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires Mono to be installed on
 Linux & macOS.
 
-Homepage: [https://github.com/OmniSharp/omnisharp-roslyn](https://github.com/OmniSharp/omnisharp-roslyn)
-Languages: `C#`
-Categories: `LSP`
+Homepage: [https://github.com/OmniSharp/omnisharp-roslyn](https://github.com/OmniSharp/omnisharp-roslyn)  
+Languages: `C#`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3367,9 +3350,9 @@ Categories: `LSP`
 
 > Provides an OpenCL kernel diagnostics
 
-Homepage: [https://github.com/Galarius/opencl-language-server](https://github.com/Galarius/opencl-language-server)
-Languages: `OpenCL`
-Categories: `LSP`
+Homepage: [https://github.com/Galarius/opencl-language-server](https://github.com/Galarius/opencl-language-server)  
+Languages: `OpenCL`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3387,9 +3370,9 @@ Categories: `LSP`
 
 > Perl Language Server that includes perl critic and code navigation
 
-Homepage: [https://github.com/bscan/PerlNavigator](https://github.com/bscan/PerlNavigator)
-Languages: `Perl`
-Categories: `LSP`
+Homepage: [https://github.com/bscan/PerlNavigator](https://github.com/bscan/PerlNavigator)  
+Languages: `Perl`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3410,9 +3393,9 @@ Categories: `LSP`
 follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the
 Symfony one. You can also define your (team's) style through configuration.')
 
-Homepage: [https://github.com/FriendsOfPHP/PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
-Languages: `PHP`
-Categories: `Formatter`
+Homepage: [https://github.com/FriendsOfPHP/PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)  
+Languages: `PHP`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -3430,9 +3413,9 @@ Categories: `Formatter`
 
 > PHP Debug Adapter 🐞⛔
 
-Homepage: [https://github.com/xdebug/vscode-php-debug](https://github.com/xdebug/vscode-php-debug)
-Languages: `PHP`
-Categories: `DAP`
+Homepage: [https://github.com/xdebug/vscode-php-debug](https://github.com/xdebug/vscode-php-debug)  
+Languages: `PHP`  
+Categories: `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -3451,9 +3434,9 @@ Categories: `DAP`
 > Phpactor is an intelligent Completion and Refactoring tool for PHP which is available over it’s own RPC protocol
 and as a Language Server.
 
-Homepage: [https://phpactor.readthedocs.io/en/master/](https://phpactor.readthedocs.io/en/master/)
-Languages: `PHP`
-Categories: `LSP`
+Homepage: [https://phpactor.readthedocs.io/en/master/](https://phpactor.readthedocs.io/en/master/)  
+Languages: `PHP`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3472,9 +3455,9 @@ Categories: `LSP`
 
 > phpcbf automatically corrects coding standard violations that would be detected by phpcs.
 
-Homepage: [https://github.com/squizlabs/PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-Languages: `PHP`
-Categories: `Formatter`
+Homepage: [https://github.com/squizlabs/PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)  
+Languages: `PHP`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -3492,9 +3475,9 @@ Categories: `Formatter`
 
 > phpcs tokenizes PHP, JavaScript and CSS files to detect violations of a defined standard.
 
-Homepage: [https://github.com/squizlabs/PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-Languages: `PHP`
-Categories: `Linter`
+Homepage: [https://github.com/squizlabs/PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)  
+Languages: `PHP`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3513,9 +3496,9 @@ Categories: `Linter`
 > PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD.
 PHPMD can be seen as an user friendly frontend application for the raw metrics stream measured by PHP Depend.
 
-Homepage: [https://github.com/phpmd/phpmd](https://github.com/phpmd/phpmd)
-Languages: `PHP`
-Categories: `Linter`
+Homepage: [https://github.com/phpmd/phpmd](https://github.com/phpmd/phpmd)  
+Languages: `PHP`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3533,9 +3516,9 @@ Categories: `Linter`
 
 > PHP Static Analysis Tool - discover bugs in your code without running it!
 
-Homepage: [https://github.com/phpstan/phpstan](https://github.com/phpstan/phpstan)
-Languages: `PHP`
-Categories: `Linter`
+Homepage: [https://github.com/phpstan/phpstan](https://github.com/phpstan/phpstan)  
+Languages: `PHP`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3553,9 +3536,9 @@ Categories: `Linter`
 
 > Laravel Pint is an opinionated PHP code style fixer for minimalists.
 
-Homepage: [https://laravel.com/docs/9.x/pint](https://laravel.com/docs/9.x/pint)
-Languages: `PHP`
-Categories: `Formatter`
+Homepage: [https://laravel.com/docs/9.x/pint](https://laravel.com/docs/9.x/pint)  
+Languages: `PHP`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -3572,9 +3555,9 @@ Categories: `Formatter`
 
 > A common platform for PowerShell development support in any editor or application!
 
-Homepage: [https://github.com/PowerShell/PowerShellEditorServices](https://github.com/PowerShell/PowerShellEditorServices)
-Languages: `PowerShell`
-Categories: `LSP`
+Homepage: [https://github.com/PowerShell/PowerShellEditorServices](https://github.com/PowerShell/PowerShellEditorServices)  
+Languages: `PowerShell`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3592,9 +3575,9 @@ Categories: `LSP`
 
 > Prettier is an opinionated code formatter
 
-Homepage: [https://prettier.io](https://prettier.io)
-Languages: `JavaScript` `TypeScript` `Flow` `JSX` `JSON` `CSS` `SCSS` `LESS` `HTML` `Vue` `Angular` `GraphQL` `Markdown` `YAML`
-Categories: `Formatter`
+Homepage: [https://prettier.io](https://prettier.io)  
+Languages: `JavaScript` `TypeScript` `Flow` `JSX` `JSON` `CSS` `SCSS` `LESS` `HTML` `Vue` `Angular` `GraphQL` `Markdown` `YAML`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -3612,9 +3595,9 @@ Categories: `Formatter`
 
 > Prettier, as a daemon, for ludicrous formatting speed
 
-Homepage: [https://github.com/fsouza/prettierd](https://github.com/fsouza/prettierd)
-Languages: `JavaScript` `TypeScript` `Flow` `JSX` `JSON` `CSS` `SCSS` `LESS` `HTML` `Vue` `Angular` `GraphQL` `Markdown` `YAML`
-Categories: `Formatter`
+Homepage: [https://github.com/fsouza/prettierd](https://github.com/fsouza/prettierd)  
+Languages: `JavaScript` `TypeScript` `Flow` `JSX` `JSON` `CSS` `SCSS` `LESS` `HTML` `Vue` `Angular` `GraphQL` `Markdown` `YAML`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -3632,9 +3615,9 @@ Categories: `Formatter`
 > Any editor that is compatible with the Language Server Protocol can create clients that can use the features
 provided by this language server.
 
-Homepage: [https://github.com/prisma/language-tools](https://github.com/prisma/language-tools)
-Languages: `Prisma`
-Categories: `LSP`
+Homepage: [https://github.com/prisma/language-tools](https://github.com/prisma/language-tools)  
+Languages: `Prisma`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3654,9 +3637,9 @@ Categories: `LSP`
 > proselint is a linter for English prose. It places the world's greatest writers and editors by your side, where
 they whisper suggestions on how to improve your prose.
 
-Homepage: [https://github.com/amperser/proselint](https://github.com/amperser/proselint)
-Languages: `Text` `Markdown`
-Categories: `Linter`
+Homepage: [https://github.com/amperser/proselint](https://github.com/amperser/proselint)  
+Languages: `Text` `Markdown`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3674,9 +3657,9 @@ Categories: `Linter`
 
 > An experimental proofreading and linting language server for markdown files ✍️
 
-Homepage: [https://github.com/kitten/prosemd-lsp](https://github.com/kitten/prosemd-lsp)
-Languages: `Markdown`
-Categories: `LSP`
+Homepage: [https://github.com/kitten/prosemd-lsp](https://github.com/kitten/prosemd-lsp)  
+Languages: `Markdown`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3695,9 +3678,9 @@ Categories: `LSP`
 
 > protolint is the pluggable linting/fixing utility for Protocol Buffer files (proto2+proto3)
 
-Homepage: [https://github.com/yoheimuta/protolint](https://github.com/yoheimuta/protolint)
-Languages: `Protobuf`
-Categories: `Linter`
+Homepage: [https://github.com/yoheimuta/protolint](https://github.com/yoheimuta/protolint)  
+Languages: `Protobuf`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3715,9 +3698,9 @@ Categories: `Linter`
 
 > A static analysis tool for finding errors in PHP applications
 
-Homepage: [https://psalm.dev/](https://psalm.dev/)
-Languages: `PHP`
-Categories: `LSP`
+Homepage: [https://psalm.dev/](https://psalm.dev/)  
+Languages: `PHP`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3735,9 +3718,9 @@ Categories: `LSP`
 
 > Puppet Language Server for editors
 
-Homepage: [https://github.com/puppetlabs/puppet-editor-services](https://github.com/puppetlabs/puppet-editor-services)
-Languages: `Puppet`
-Categories: `LSP` `DAP`
+Homepage: [https://github.com/puppetlabs/puppet-editor-services](https://github.com/puppetlabs/puppet-editor-services)  
+Languages: `Puppet`  
+Categories: `LSP` `DAP`  
 
 <details>
     <summary>History:</summary>
@@ -3757,9 +3740,9 @@ Categories: `LSP` `DAP`
 ide server). Used as the vscode plugin backend but should be compatible with other Language Server Client
 implementations.
 
-Homepage: [https://github.com/nwolverson/purescript-language-server](https://github.com/nwolverson/purescript-language-server)
-Languages: `PureScript`
-Categories: `LSP`
+Homepage: [https://github.com/nwolverson/purescript-language-server](https://github.com/nwolverson/purescript-language-server)  
+Languages: `PureScript`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3778,9 +3761,9 @@ Categories: `LSP`
 
 > pydocstyle is a static analysis tool for checking compliance with Python docstring conventions
 
-Homepage: [https://www.pydocstyle.org/](https://www.pydocstyle.org/)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://www.pydocstyle.org/](https://www.pydocstyle.org/)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3798,9 +3781,9 @@ Categories: `Linter`
 
 > Code audit tool for Python.
 
-Homepage: [https://klen.github.io/pylama/](https://klen.github.io/pylama/)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://klen.github.io/pylama/](https://klen.github.io/pylama/)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3817,9 +3800,9 @@ Categories: `Linter`
 
 > Pylint is a static code analyser for Python 2 or 3
 
-Homepage: [https://pypi.org/project/pylint/](https://pypi.org/project/pylint/)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://pypi.org/project/pylint/](https://pypi.org/project/pylint/)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3836,9 +3819,9 @@ Categories: `Linter`
 
 > A monkey patching wrapper to connect flake8 with pyproject.toml configuration.
 
-Homepage: [https://github.com/csachs/pyproject-flake8](https://github.com/csachs/pyproject-flake8)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://github.com/csachs/pyproject-flake8](https://github.com/csachs/pyproject-flake8)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3856,9 +3839,9 @@ Categories: `Linter`
 
 > Pyre is a performant type checker for Python compliant with PEP 484
 
-Homepage: [https://pypi.org/project/pyre-check/](https://pypi.org/project/pyre-check/)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://pypi.org/project/pyre-check/](https://pypi.org/project/pyre-check/)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3875,9 +3858,9 @@ Categories: `Linter`
 
 > Static type checker for Python
 
-Homepage: [https://github.com/microsoft/pyright](https://github.com/microsoft/pyright)
-Languages: `Python`
-Categories: `LSP`
+Homepage: [https://github.com/microsoft/pyright](https://github.com/microsoft/pyright)  
+Languages: `Python`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3895,9 +3878,9 @@ Categories: `LSP`
 
 > Fork of the python-language-server project, maintained by the Spyder IDE team and the community
 
-Homepage: [https://github.com/python-lsp/python-lsp-server](https://github.com/python-lsp/python-lsp-server)
-Languages: `Python`
-Categories: `LSP`
+Homepage: [https://github.com/python-lsp/python-lsp-server](https://github.com/python-lsp/python-lsp-server)  
+Languages: `Python`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3916,9 +3899,9 @@ Categories: `LSP`
 > Over 130× faster than ESLint, quick-lint-js gives you instant feedback as you code. Find bugs in your JavaScript
 before your finger leaves the keyboard. Lint any JavaScript file with no configuration.
 
-Homepage: [https://quick-lint-js.com/](https://quick-lint-js.com/)
-Languages: `JavaScript`
-Categories: `LSP` `Linter`
+Homepage: [https://quick-lint-js.com/](https://quick-lint-js.com/)  
+Languages: `JavaScript`  
+Categories: `LSP` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -3937,9 +3920,9 @@ Categories: `LSP` `Linter`
 
 > An implementation of the Language Server Protocol for R
 
-Homepage: [https://github.com/REditorSupport/languageserver](https://github.com/REditorSupport/languageserver)
-Languages: `R`
-Categories: `LSP`
+Homepage: [https://github.com/REditorSupport/languageserver](https://github.com/REditorSupport/languageserver)  
+Languages: `R`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3963,9 +3946,9 @@ Categories: `LSP`
 
 > Raku Language Server that includes Raku critic and code navigation
 
-Homepage: [https://github.com/bscan/RakuNavigator](https://github.com/bscan/RakuNavigator)
-Languages: `Raku`
-Categories: `LSP`
+Homepage: [https://github.com/bscan/RakuNavigator](https://github.com/bscan/RakuNavigator)  
+Languages: `Raku`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -3982,9 +3965,9 @@ Categories: `LSP`
 
 > A language server for reason, in reason
 
-Homepage: [https://github.com/jaredly/reason-language-server](https://github.com/jaredly/reason-language-server)
-Languages: `Reason`
-Categories: `LSP`
+Homepage: [https://github.com/jaredly/reason-language-server](https://github.com/jaredly/reason-language-server)  
+Languages: `Reason`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4002,9 +3985,9 @@ Categories: `LSP`
 
 > Command line interface to inspect and change markdown files with remark.
 
-Homepage: [https://remark.js.org/](https://remark.js.org/)
-Languages: `Markdown`
-Categories: `Formatter`
+Homepage: [https://remark.js.org/](https://remark.js.org/)  
+Languages: `Markdown`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -4021,9 +4004,9 @@ Categories: `Formatter`
 
 > A language server to lint and format markdown files with remark
 
-Homepage: [https://github.com/remarkjs/remark-language-server](https://github.com/remarkjs/remark-language-server)
-Languages: `Markdown`
-Categories: `LSP`
+Homepage: [https://github.com/remarkjs/remark-language-server](https://github.com/remarkjs/remark-language-server)  
+Languages: `Markdown`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4041,9 +4024,9 @@ Categories: `LSP`
 
 > Tool for automatically reordering python imports. Similar to isort but uses static analysis more.
 
-Homepage: [https://github.com/asottile/reorder_python_imports](https://github.com/asottile/reorder_python_imports)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://github.com/asottile/reorder_python_imports](https://github.com/asottile/reorder_python_imports)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -4060,9 +4043,9 @@ Categories: `Formatter`
 
 > Language Server for ReScript.
 
-Homepage: [https://github.com/rescript-lang/rescript-vscode](https://github.com/rescript-lang/rescript-vscode)
-Languages: `ReScript`
-Categories: `LSP`
+Homepage: [https://github.com/rescript-lang/rescript-vscode](https://github.com/rescript-lang/rescript-vscode)  
+Languages: `ReScript`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4081,9 +4064,9 @@ Categories: `LSP`
 
 > ~6x faster, stricter, configurable, extensible, and beautiful drop-in replacement for golint
 
-Homepage: [https://github.com/mgechev/revive](https://github.com/mgechev/revive)
-Languages: `Go`
-Categories: `Linter`
+Homepage: [https://github.com/mgechev/revive](https://github.com/mgechev/revive)  
+Languages: `Go`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4100,9 +4083,9 @@ Categories: `Linter`
 
 > Language Server for Nix
 
-Homepage: [https://github.com/nix-community/rnix-lsp](https://github.com/nix-community/rnix-lsp)
-Languages: `Nix`
-Categories: `LSP`
+Homepage: [https://github.com/nix-community/rnix-lsp](https://github.com/nix-community/rnix-lsp)  
+Languages: `Nix`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4120,9 +4103,9 @@ Categories: `LSP`
 
 > Language Server Protocol implementation for Robot Framework
 
-Homepage: [https://github.com/robocorp/robotframework-lsp](https://github.com/robocorp/robotframework-lsp)
-Languages: `Robot Framework`
-Categories: `LSP`
+Homepage: [https://github.com/robocorp/robotframework-lsp](https://github.com/robocorp/robotframework-lsp)  
+Languages: `Robot Framework`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4140,9 +4123,9 @@ Categories: `LSP`
 
 > Rome is a formatter, linter, bundler, and more for JavaScript, TypeScript, JSON, HTML, Markdown, and CSS.
 
-Homepage: [https://rome.tools](https://rome.tools)
-Languages: `TypeScript` `JavaScript`
-Categories: `LSP` `Linter`
+Homepage: [https://rome.tools](https://rome.tools)  
+Languages: `TypeScript` `JavaScript`  
+Categories: `LSP` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4161,9 +4144,9 @@ Categories: `LSP` `Linter`
 
 > Checks syntax of reStructuredText and code blocks nested within it.
 
-Homepage: [https://rstcheck.readthedocs.io/](https://rstcheck.readthedocs.io/)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://rstcheck.readthedocs.io/](https://rstcheck.readthedocs.io/)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4181,9 +4164,9 @@ Categories: `Linter`
 
 > The Ruby Linter/Formatter that Serves and Protects
 
-Homepage: [https://rubocop.org](https://rubocop.org)
-Languages: `Ruby`
-Categories: `Formatter` `Linter`
+Homepage: [https://rubocop.org](https://rubocop.org)  
+Languages: `Ruby`  
+Categories: `Formatter` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4200,9 +4183,9 @@ Categories: `Formatter` `Linter`
 
 > This gem is an implementation of the language server protocol specification for Ruby, used to improve editor features.
 
-Homepage: [https://github.com/Shopify/ruby-lsp](https://github.com/Shopify/ruby-lsp)
-Languages: `Ruby`
-Categories: `LSP`
+Homepage: [https://github.com/Shopify/ruby-lsp](https://github.com/Shopify/ruby-lsp)  
+Languages: `Ruby`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4219,9 +4202,9 @@ Categories: `LSP`
 
 > An extremely fast Python linter, written in Rust.
 
-Homepage: [https://github.com/charliermarsh/ruff/](https://github.com/charliermarsh/ruff/)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://github.com/charliermarsh/ruff/](https://github.com/charliermarsh/ruff/)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4238,9 +4221,9 @@ Categories: `Linter`
 
 > A Language Server Protocol implementation for Ruff - An extremely fast Python linter, written in Rust.
 
-Homepage: [https://github.com/charliermarsh/ruff-lsp/](https://github.com/charliermarsh/ruff-lsp/)
-Languages: `Python`
-Categories: `LSP`
+Homepage: [https://github.com/charliermarsh/ruff-lsp/](https://github.com/charliermarsh/ruff-lsp/)  
+Languages: `Python`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4259,9 +4242,9 @@ Categories: `LSP`
 > rust-analyzer is an implementation of Language Server Protocol for the Rust programming language. It provides
 features like completion and goto definition for many code editors, including VS Code, Emacs and Vim.
 
-Homepage: [https://rust-analyzer.github.io](https://rust-analyzer.github.io)
-Languages: `Rust`
-Categories: `LSP`
+Homepage: [https://rust-analyzer.github.io](https://rust-analyzer.github.io)  
+Languages: `Rust`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4281,9 +4264,9 @@ Categories: `LSP`
 
 > A tool for formatting Rust code according to style guidelines
 
-Homepage: [https://github.com/rust-lang/rustfmt](https://github.com/rust-lang/rustfmt)
-Languages: `Rust`
-Categories: `Formatter`
+Homepage: [https://github.com/rust-lang/rustfmt](https://github.com/rust-lang/rustfmt)  
+Languages: `Rust`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -4301,9 +4284,9 @@ Categories: `Formatter`
 
 > Salt Language Server Protocol Server
 
-Homepage: [https://github.com/dcermak/salt-lsp](https://github.com/dcermak/salt-lsp)
-Languages: `Salt`
-Categories: `LSP`
+Homepage: [https://github.com/dcermak/salt-lsp](https://github.com/dcermak/salt-lsp)  
+Languages: `Salt`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4321,9 +4304,9 @@ Categories: `LSP`
 
 > A blazing-fast modern Lua linter written in Rust
 
-Homepage: [https://kampfkarren.github.io/selene/](https://kampfkarren.github.io/selene/)
-Languages: `Lua` `Luau`
-Categories: `Linter`
+Homepage: [https://kampfkarren.github.io/selene/](https://kampfkarren.github.io/selene/)  
+Languages: `Lua` `Luau`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4344,9 +4327,9 @@ Categories: `Linter`
 
 > Semgrep is a fast, open-source, static analysis engine for finding bugs, detecting vulnerabilities in third-party dependencies, and enforcing code standards.
 
-Homepage: [https://github.com/returntocorp/semgrep](https://github.com/returntocorp/semgrep)
-Languages: `C#` `Go` `Java` `JavaScript` `JSON` `PHP` `Python` `Ruby` `TypeScript` `Scala`
-Categories: `Linter`
+Homepage: [https://github.com/returntocorp/semgrep](https://github.com/returntocorp/semgrep)  
+Languages: `C#` `Go` `Java` `JavaScript` `JSON` `PHP` `Python` `Ruby` `TypeScript` `Scala`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4363,9 +4346,9 @@ Categories: `Linter`
 
 > Microsoft language server protocol implementation for D using workspace-d
 
-Homepage: [https://github.com/Pure-D/serve-d](https://github.com/Pure-D/serve-d)
-Languages: `D`
-Categories: `LSP`
+Homepage: [https://github.com/Pure-D/serve-d](https://github.com/Pure-D/serve-d)  
+Languages: `D`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4383,9 +4366,9 @@ Categories: `LSP`
 
 > ShellCheck, a static analysis tool for shell scripts
 
-Homepage: [https://www.shellcheck.net/](https://www.shellcheck.net/)
-Languages: `Bash`
-Categories: `Linter`
+Homepage: [https://www.shellcheck.net/](https://www.shellcheck.net/)  
+Languages: `Bash`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4403,9 +4386,9 @@ Categories: `Linter`
 
 > The corrective bash syntax highlighter
 
-Homepage: [https://github.com/anordal/shellharden](https://github.com/anordal/shellharden)
-Languages: `Bash`
-Categories: `Formatter` `Linter`
+Homepage: [https://github.com/anordal/shellharden](https://github.com/anordal/shellharden)  
+Languages: `Bash`  
+Categories: `Formatter` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4423,9 +4406,9 @@ Categories: `Formatter` `Linter`
 
 > A shell formatter (sh/bash/mksh)
 
-Homepage: [https://github.com/mvdan/sh](https://github.com/mvdan/sh)
-Languages: `Bash` `Mksh` `Shell`
-Categories: `Formatter`
+Homepage: [https://github.com/mvdan/sh](https://github.com/mvdan/sh)  
+Languages: `Bash` `Mksh` `Shell`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -4444,9 +4427,9 @@ Categories: `Formatter`
 
 > The Ultimate Shopify Theme Linter
 
-Homepage: [https://github.com/Shopify/theme-check](https://github.com/Shopify/theme-check)
-Languages: `Liquid`
-Categories: `LSP` `Linter`
+Homepage: [https://github.com/Shopify/theme-check](https://github.com/Shopify/theme-check)  
+Languages: `Liquid`  
+Categories: `LSP` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4464,9 +4447,9 @@ Categories: `LSP` `Linter`
 
 > A LSP Server that adds features like auto-complete and live preview of the .slint files to many editors.
 
-Homepage: [https://slint-ui.com/](https://slint-ui.com/)
-Languages: `Slint`
-Categories: `LSP`
+Homepage: [https://slint-ui.com/](https://slint-ui.com/)  
+Languages: `Slint`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4484,9 +4467,9 @@ Categories: `LSP`
 
 > A Language Server Protocol implementation for the Smithy IDL.
 
-Homepage: [https://github.com/awslabs/smithy-language-server](https://github.com/awslabs/smithy-language-server)
-Languages: `Smithy`
-Categories: `LSP`
+Homepage: [https://github.com/awslabs/smithy-language-server](https://github.com/awslabs/smithy-language-server)  
+Languages: `Smithy`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4503,9 +4486,9 @@ Categories: `LSP`
 
 > Solidity Compiler for Solana, Substrate, and ewasm
 
-Homepage: [https://solang.readthedocs.io/en/latest/](https://solang.readthedocs.io/en/latest/)
-Languages: `Solidity`
-Categories: `LSP` `Compiler`
+Homepage: [https://solang.readthedocs.io/en/latest/](https://solang.readthedocs.io/en/latest/)  
+Languages: `Solidity`  
+Categories: `LSP` `Compiler`  
 
 <details>
     <summary>History:</summary>
@@ -4523,9 +4506,9 @@ Categories: `LSP` `Compiler`
 
 > Solargraph is a Ruby gem that provides intellisense features through the language server protocol.
 
-Homepage: [https://solargraph.org](https://solargraph.org)
-Languages: `Ruby`
-Categories: `LSP`
+Homepage: [https://solargraph.org](https://solargraph.org)  
+Languages: `Ruby`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4543,9 +4526,9 @@ Categories: `LSP`
 
 > Solhint is a linting utility for Solidity code
 
-Homepage: [https://protofire.github.io/solhint/](https://protofire.github.io/solhint/)
-Languages: `Solidity`
-Categories: `Linter`
+Homepage: [https://protofire.github.io/solhint/](https://protofire.github.io/solhint/)  
+Languages: `Solidity`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4562,9 +4545,9 @@ Categories: `Linter`
 
 > Solidity, the Smart Contract Programming Language
 
-Homepage: [https://github.com/ethereum/solidity](https://github.com/ethereum/solidity)
-Languages: `Solidity`
-Categories: `Compiler` `LSP`
+Homepage: [https://github.com/ethereum/solidity](https://github.com/ethereum/solidity)  
+Languages: `Solidity`  
+Categories: `Compiler` `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4583,9 +4566,9 @@ Categories: `Compiler` `LSP`
 
 > Solidity language server.
 
-Homepage: [https://github.com/qiuxiang/solidity-ls](https://github.com/qiuxiang/solidity-ls)
-Languages: `Solidity`
-Categories: `LSP`
+Homepage: [https://github.com/qiuxiang/solidity-ls](https://github.com/qiuxiang/solidity-ls)  
+Languages: `Solidity`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4602,9 +4585,9 @@ Categories: `LSP`
 
 > Sorbet is a fast, powerful type checker designed for Ruby.
 
-Homepage: [https://sorbet.org/](https://sorbet.org/)
-Languages: `Ruby`
-Categories: `LSP`
+Homepage: [https://sorbet.org/](https://sorbet.org/)  
+Languages: `Ruby`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4623,9 +4606,9 @@ Categories: `LSP`
 > Sourcery is a tool available in your IDE, GitHub, or as a CLI that suggests refactoring improvements to help
 make your code more readable and generally higher quality.
 
-Homepage: [https://docs.sourcery.ai/](https://docs.sourcery.ai/)
-Languages: `Python`
-Categories: `LSP`
+Homepage: [https://docs.sourcery.ai/](https://docs.sourcery.ai/)  
+Languages: `Python`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4645,9 +4628,9 @@ Categories: `LSP`
 > Awesome Spectral JSON/YAML linter with OpenAPI/AsyncAPI support. Spectral is a flexible object linter with out
 of the box support for OpenAPI v2 and v3, JSON Schema, and AsyncAPI.
 
-Homepage: [https://github.com/luizcorreia/spectral-language-server](https://github.com/luizcorreia/spectral-language-server)
-Languages: `JSON` `YAML`
-Categories: `LSP`
+Homepage: [https://github.com/luizcorreia/spectral-language-server](https://github.com/luizcorreia/spectral-language-server)  
+Languages: `JSON` `YAML`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4668,9 +4651,9 @@ Categories: `LSP`
 
 > A whitespace formatter for different query languages
 
-Homepage: [https://sql-formatter-org.github.io/sql-formatter/](https://sql-formatter-org.github.io/sql-formatter/)
-Languages: `SQL`
-Categories: `Formatter`
+Homepage: [https://sql-formatter-org.github.io/sql-formatter/](https://sql-formatter-org.github.io/sql-formatter/)  
+Languages: `SQL`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -4687,9 +4670,9 @@ Categories: `Formatter`
 
 > SQLFluff is a dialect-flexible and configurable SQL linter
 
-Homepage: [https://github.com/sqlfluff/sqlfluff](https://github.com/sqlfluff/sqlfluff)
-Languages: `SQL`
-Categories: `Linter`
+Homepage: [https://github.com/sqlfluff/sqlfluff](https://github.com/sqlfluff/sqlfluff)  
+Languages: `SQL`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4706,9 +4689,9 @@ Categories: `Linter`
 
 > SQL Language Server
 
-Homepage: [https://github.com/joe-re/sql-language-server](https://github.com/joe-re/sql-language-server)
-Languages: `SQL`
-Categories: `LSP`
+Homepage: [https://github.com/joe-re/sql-language-server](https://github.com/joe-re/sql-language-server)  
+Languages: `SQL`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4726,9 +4709,9 @@ Categories: `LSP`
 
 > SQL language server written in Go.
 
-Homepage: [https://github.com/lighttiger2505/sqls](https://github.com/lighttiger2505/sqls)
-Languages: `SQL`
-Categories: `LSP`
+Homepage: [https://github.com/lighttiger2505/sqls](https://github.com/lighttiger2505/sqls)  
+Languages: `SQL`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4746,9 +4729,9 @@ Categories: `LSP`
 
 > Ruby Style Guide, with linter and automatic code fixer
 
-Homepage: [https://github.com/testdouble/standard/](https://github.com/testdouble/standard/)
-Languages: `Ruby`
-Categories: `Formatter` `Linter`
+Homepage: [https://github.com/testdouble/standard/](https://github.com/testdouble/standard/)  
+Languages: `Ruby`  
+Categories: `Formatter` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4765,9 +4748,9 @@ Categories: `Formatter` `Linter`
 
 > The advanced Go linter
 
-Homepage: [https://staticcheck.io/](https://staticcheck.io/)
-Languages: `Go`
-Categories: `Linter`
+Homepage: [https://staticcheck.io/](https://staticcheck.io/)  
+Languages: `Go`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -4784,9 +4767,9 @@ Categories: `Linter`
 
 > A stylelint Language Server
 
-Homepage: [https://github.com/bmatcuk/stylelint-lsp](https://github.com/bmatcuk/stylelint-lsp)
-Languages: `Stylelint`
-Categories: `LSP`
+Homepage: [https://github.com/bmatcuk/stylelint-lsp](https://github.com/bmatcuk/stylelint-lsp)  
+Languages: `Stylelint`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4804,9 +4787,9 @@ Categories: `LSP`
 
 > An opinionated Lua code formatter
 
-Homepage: [https://github.com/JohnnyMorganz/StyLua](https://github.com/JohnnyMorganz/StyLua)
-Languages: `Lua` `Luau`
-Categories: `Formatter`
+Homepage: [https://github.com/JohnnyMorganz/StyLua](https://github.com/JohnnyMorganz/StyLua)  
+Languages: `Lua` `Luau`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -4827,9 +4810,9 @@ Categories: `Formatter`
 
 > A language server (implementing the language server protocol) for Svelte.
 
-Homepage: [https://github.com/sveltejs/language-tools](https://github.com/sveltejs/language-tools)
-Languages: `Svelte`
-Categories: `LSP`
+Homepage: [https://github.com/sveltejs/language-tools](https://github.com/sveltejs/language-tools)  
+Languages: `Svelte`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4848,9 +4831,9 @@ Categories: `LSP`
 > A language server for systemverilog that has been tested to work with coc.nvim, VSCode, Sublime Text 4, emacs,
 and Neovim.
 
-Homepage: [https://github.com/imc-trading/svlangserver](https://github.com/imc-trading/svlangserver)
-Languages: `SystemVerilog`
-Categories: `LSP`
+Homepage: [https://github.com/imc-trading/svlangserver](https://github.com/imc-trading/svlangserver)  
+Languages: `SystemVerilog`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4869,9 +4852,9 @@ Categories: `LSP`
 
 > SystemVerilog language server
 
-Homepage: [https://github.com/dalance/svls](https://github.com/dalance/svls)
-Languages: `SystemVerilog`
-Categories: `LSP`
+Homepage: [https://github.com/dalance/svls](https://github.com/dalance/svls)  
+Languages: `SystemVerilog`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4889,9 +4872,9 @@ Categories: `LSP`
 
 > Language Server Protocol implementation for Tailwind CSS.
 
-Homepage: [https://github.com/tailwindlabs/tailwindcss-intellisense](https://github.com/tailwindlabs/tailwindcss-intellisense)
-Languages: `CSS`
-Categories: `LSP`
+Homepage: [https://github.com/tailwindlabs/tailwindcss-intellisense](https://github.com/tailwindlabs/tailwindcss-intellisense)  
+Languages: `CSS`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4909,9 +4892,9 @@ Categories: `LSP`
 
 > A versatile, feature-rich TOML toolkit.
 
-Homepage: [https://taplo.tamasfe.dev/](https://taplo.tamasfe.dev/)
-Languages: `TOML`
-Categories: `LSP`
+Homepage: [https://taplo.tamasfe.dev/](https://taplo.tamasfe.dev/)  
+Languages: `TOML`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4932,9 +4915,9 @@ Categories: `LSP`
 
 > A language server for Teal, a typed dialect of Lua
 
-Homepage: [https://github.com/teal-language/teal-language-server](https://github.com/teal-language/teal-language-server)
-Languages: `Teal`
-Categories: `LSP`
+Homepage: [https://github.com/teal-language/teal-language-server](https://github.com/teal-language/teal-language-server)  
+Languages: `Teal`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4952,9 +4935,9 @@ Categories: `LSP`
 
 > Tectonic is a modernized, complete, self-contained TeX/LaTeX engine, powered by XeTeX and TeXLive.
 
-Homepage: [https://tectonic-typesetting.github.io](https://tectonic-typesetting.github.io)
-Languages: `LaTeX`
-Categories: `Compiler`
+Homepage: [https://tectonic-typesetting.github.io](https://tectonic-typesetting.github.io)  
+Languages: `LaTeX`  
+Categories: `Compiler`  
 
 <details>
     <summary>History:</summary>
@@ -4973,9 +4956,9 @@ Categories: `Compiler`
 
 > Terraform Language Server
 
-Homepage: [https://github.com/hashicorp/terraform-ls](https://github.com/hashicorp/terraform-ls)
-Languages: `Terraform`
-Categories: `LSP`
+Homepage: [https://github.com/hashicorp/terraform-ls](https://github.com/hashicorp/terraform-ls)  
+Languages: `Terraform`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -4993,9 +4976,9 @@ Categories: `LSP`
 
 > An implementation of the Language Server Protocol for LaTeX
 
-Homepage: [https://github.com/latex-lsp/texlab](https://github.com/latex-lsp/texlab)
-Languages: `LaTeX`
-Categories: `LSP`
+Homepage: [https://github.com/latex-lsp/texlab](https://github.com/latex-lsp/texlab)  
+Languages: `LaTeX`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5013,9 +4996,9 @@ Categories: `LSP`
 
 > The pluggable natural language linter for text and markdown.
 
-Homepage: [https://textlint.github.io](https://textlint.github.io)
-Languages: `Text` `Markdown`
-Categories: `Linter`
+Homepage: [https://textlint.github.io](https://textlint.github.io)  
+Languages: `Text` `Markdown`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5032,9 +5015,9 @@ Categories: `Linter`
 
 > A Pluggable Terraform Linter
 
-Homepage: [https://github.com/terraform-linters/tflint](https://github.com/terraform-linters/tflint)
-Languages: `Terraform`
-Categories: `LSP` `Linter`
+Homepage: [https://github.com/terraform-linters/tflint](https://github.com/terraform-linters/tflint)  
+Languages: `Terraform`  
+Categories: `LSP` `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5053,9 +5036,9 @@ Categories: `LSP` `Linter`
 > The missing checkstyle for twig! Twigcs aims to be what phpcs is to php. It checks your codebase for violations
 on coding standards.
 
-Homepage: [https://github.com/friendsoftwig/twigcs](https://github.com/friendsoftwig/twigcs)
-Languages: `Twig`
-Categories: `Linter`
+Homepage: [https://github.com/friendsoftwig/twigcs](https://github.com/friendsoftwig/twigcs)  
+Languages: `Twig`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5073,9 +5056,9 @@ Categories: `Linter`
 
 > TypeScript & JavaScript Language Server
 
-Homepage: [https://github.com/typescript-language-server/typescript-language-server](https://github.com/typescript-language-server/typescript-language-server)
-Languages: `TypeScript` `JavaScript`
-Categories: `LSP`
+Homepage: [https://github.com/typescript-language-server/typescript-language-server](https://github.com/typescript-language-server/typescript-language-server)  
+Languages: `TypeScript` `JavaScript`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5093,9 +5076,9 @@ Categories: `LSP`
 
 > Safe, minimal import sorting for Python projects.
 
-Homepage: [https://usort.readthedocs.io/](https://usort.readthedocs.io/)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://usort.readthedocs.io/](https://usort.readthedocs.io/)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -5112,9 +5095,9 @@ Categories: `Formatter`
 
 > Code Intelligence for Vala & Genie
 
-Homepage: [https://github.com/vala-lang/vala-language-server](https://github.com/vala-lang/vala-language-server)
-Languages: `Vala`
-Categories: `LSP`
+Homepage: [https://github.com/vala-lang/vala-language-server](https://github.com/vala-lang/vala-language-server)  
+Languages: `Vala`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5132,9 +5115,9 @@ Categories: `LSP`
 
 > 📝 A syntax-aware linter for prose built with speed and extensibility in mind.
 
-Homepage: [https://vale.sh/](https://vale.sh/)
-Languages: `Text` `Markdown` `LaTeX`
-Categories: `Linter`
+Homepage: [https://vale.sh/](https://vale.sh/)  
+Languages: `Text` `Markdown` `LaTeX`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5151,9 +5134,9 @@ Categories: `Linter`
 
 > Verible is a suite of SystemVerilog developer tools, including a parser, style-linter, and formatter.
 
-Homepage: [https://chipsalliance.github.io/verible/](https://chipsalliance.github.io/verible/)
-Languages: `SystemVerilog`
-Categories: `LSP` `Linter` `Formatter`
+Homepage: [https://chipsalliance.github.io/verible/](https://chipsalliance.github.io/verible/)  
+Languages: `SystemVerilog`  
+Categories: `LSP` `Linter` `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -5174,9 +5157,9 @@ Categories: `LSP` `Linter` `Formatter`
 
 > VLS (Vue Language Server) is a language server implementation compatible with Language Server Protocol.
 
-Homepage: [https://github.com/vuejs/vetur](https://github.com/vuejs/vetur)
-Languages: `Vue`
-Categories: `LSP`
+Homepage: [https://github.com/vuejs/vetur](https://github.com/vuejs/vetur)  
+Languages: `Vue`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5194,9 +5177,9 @@ Categories: `LSP`
 
 > VimScript language server.
 
-Homepage: [https://github.com/iamcco/vim-language-server](https://github.com/iamcco/vim-language-server)
-Languages: `VimScript`
-Categories: `LSP`
+Homepage: [https://github.com/iamcco/vim-language-server](https://github.com/iamcco/vim-language-server)  
+Languages: `VimScript`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5214,9 +5197,9 @@ Categories: `LSP`
 
 > Fast and Highly Extensible Vim script Language Lint implemented in Python.
 
-Homepage: [https://github.com/Vimjas/vint](https://github.com/Vimjas/vint)
-Languages: `VimScript`
-Categories: `Linter`
+Homepage: [https://github.com/Vimjas/vint](https://github.com/Vimjas/vint)  
+Languages: `VimScript`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5234,9 +5217,9 @@ Categories: `Linter`
 
 > Visualforce language server
 
-Homepage: [https://github.com/forcedotcom/salesforcedx-vscode](https://github.com/forcedotcom/salesforcedx-vscode)
-Languages: `Visualforce`
-Categories: `LSP`
+Homepage: [https://github.com/forcedotcom/salesforcedx-vscode](https://github.com/forcedotcom/salesforcedx-vscode)  
+Languages: `Visualforce`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5257,9 +5240,9 @@ Categories: `LSP`
 
 > V language server
 
-Homepage: [https://github.com/vlang/vls](https://github.com/vlang/vls)
-Languages: `V`
-Categories: `LSP`
+Homepage: [https://github.com/vlang/vls](https://github.com/vlang/vls)  
+Languages: `V`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5277,9 +5260,9 @@ Categories: `LSP`
 
 > ⚡ Explore high-performance tooling for Vue
 
-Homepage: [https://github.com/johnsoncodehk/volar](https://github.com/johnsoncodehk/volar)
-Languages: `Vue`
-Categories: `LSP`
+Homepage: [https://github.com/johnsoncodehk/volar](https://github.com/johnsoncodehk/volar)  
+Languages: `Vue`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5302,9 +5285,9 @@ Due to Python's dynamic nature, static code analyzers like Vulture are likely to
 that is only called implicitly may be reported as unused. Nonetheless, Vulture can be a very helpful tool for
 higher code quality.
 
-Homepage: [https://github.com/jendrikseipp/vulture](https://github.com/jendrikseipp/vulture)
-Languages: `Python`
-Categories: `Linter`
+Homepage: [https://github.com/jendrikseipp/vulture](https://github.com/jendrikseipp/vulture)  
+Languages: `Python`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5321,9 +5304,9 @@ Categories: `Linter`
 
 > A language server implementation for the WGSL shading language
 
-Homepage: [https://github.com/wgsl-analyzer/wgsl-analyzer](https://github.com/wgsl-analyzer/wgsl-analyzer)
-Languages: `WGSL`
-Categories: `LSP`
+Homepage: [https://github.com/wgsl-analyzer/wgsl-analyzer](https://github.com/wgsl-analyzer/wgsl-analyzer)  
+Languages: `WGSL`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5342,9 +5325,9 @@ Categories: `LSP`
 
 > Naive linter for English prose for developers who can't write good and wanna learn to do other stuff good too.
 
-Homepage: [https://github.com/btford/write-good](https://github.com/btford/write-good)
-Languages: `Markdown`
-Categories: `Linter`
+Homepage: [https://github.com/btford/write-good](https://github.com/btford/write-good)  
+Languages: `Markdown`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5364,9 +5347,9 @@ from others formatters by handling whitespaces by a distinct set of formatting r
 content by an object style and mixed content by a text style. You may find xmlformatter useful for corrections
 and presentations.
 
-Homepage: [https://github.com/pamoller/xmlformatter](https://github.com/pamoller/xmlformatter)
-Languages: `XML`
-Categories: `Formatter`
+Homepage: [https://github.com/pamoller/xmlformatter](https://github.com/pamoller/xmlformatter)  
+Languages: `XML`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -5383,9 +5366,9 @@ Categories: `Formatter`
 
 > JavaScript/TypeScript linter (ESLint wrapper) with great defaults
 
-Homepage: [https://github.com/xojs/xo](https://github.com/xojs/xo)
-Languages: `JavaScript` `TypeScript`
-Categories: `Linter`
+Homepage: [https://github.com/xojs/xo](https://github.com/xojs/xo)  
+Languages: `JavaScript` `TypeScript`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5402,9 +5385,9 @@ Categories: `Linter`
 
 > Language Server for YAML Files
 
-Homepage: [https://github.com/redhat-developer/yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
-Languages: `YAML`
-Categories: `LSP`
+Homepage: [https://github.com/redhat-developer/yaml-language-server](https://github.com/redhat-developer/yaml-language-server)  
+Languages: `YAML`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5422,9 +5405,9 @@ Categories: `LSP`
 
 > yamlfmt is an extensible command line tool or library to format yaml files.
 
-Homepage: [https://github.com/google/yamlfmt](https://github.com/google/yamlfmt)
-Languages: `YAML`
-Categories: `Formatter`
+Homepage: [https://github.com/google/yamlfmt](https://github.com/google/yamlfmt)  
+Languages: `YAML`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -5444,9 +5427,9 @@ Categories: `Formatter`
 > Linter for YAML files. yamllint does not only check for syntax validity, but for weirdnesses like key repetition
 and cosmetic problems such as lines length, trailing spaces, indentation, etc.
 
-Homepage: [https://github.com/adrienverge/yamllint](https://github.com/adrienverge/yamllint)
-Languages: `YAML`
-Categories: `Linter`
+Homepage: [https://github.com/adrienverge/yamllint](https://github.com/adrienverge/yamllint)  
+Languages: `YAML`  
+Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
@@ -5464,9 +5447,9 @@ Categories: `Linter`
 
 > YAPF, Yet Another Python Formatter
 
-Homepage: [https://pypi.org/project/yapf/](https://pypi.org/project/yapf/)
-Languages: `Python`
-Categories: `Formatter`
+Homepage: [https://pypi.org/project/yapf/](https://pypi.org/project/yapf/)  
+Languages: `Python`  
+Categories: `Formatter`  
 
 <details>
     <summary>History:</summary>
@@ -5484,9 +5467,9 @@ Categories: `Formatter`
 
 > A plain text note-taking assistant
 
-Homepage: [https://github.com/mickael-menu/zk](https://github.com/mickael-menu/zk)
-Languages: `Markdown`
-Categories: `LSP`
+Homepage: [https://github.com/mickael-menu/zk](https://github.com/mickael-menu/zk)  
+Languages: `Markdown`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
@@ -5504,9 +5487,9 @@ Categories: `LSP`
 
 > Zig LSP implementation + Zig Language Server
 
-Homepage: [https://github.com/zigtools/zls](https://github.com/zigtools/zls)
-Languages: `Zig`
-Categories: `LSP`
+Homepage: [https://github.com/zigtools/zls](https://github.com/zigtools/zls)  
+Languages: `Zig`  
+Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
