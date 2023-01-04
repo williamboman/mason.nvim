@@ -84,7 +84,7 @@ return {
   nim = { "nimlsp" },
   nix = { "nil", "rnix-lsp" },
   nunjucks = { "curlylint", "djlint" },
-  ocaml = { "ocaml-lsp" },
+  ocaml = { "ocaml-lsp", "ocamlformat" },
   onescript = { "bsl-language-server" },
   opencl = { "opencl-language-server" },
   openfoam = { "foam-language-server" },
