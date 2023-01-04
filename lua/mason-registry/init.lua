@@ -70,6 +70,13 @@ function M.get_package(package_name)
     return pkg
 end
 
+---Returns true if the provided package_name can be found in the registry.
+---@param package_name string
+---@return boolean
+function M.has_package(package_name)
+    return index[package_name] ~= nil
+end
+
 local get_packages = _.map(M.get_package)
 
 ---Returns all installed package names. This is a fast function that doesn't load any extra modules.
