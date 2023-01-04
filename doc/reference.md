@@ -24,6 +24,7 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 [rfc8174]: https://tools.ietf.org/html/rfc8174
 
 -   [Architecture diagram](#architecture-diagram)
+-   [Registry events](#registry-events)
 -   [`PackageSpec`](#packagespec)
 -   [`Package`](#package)
     -   [`Package.Parse({package_identifier})`](#packageparsepackage_identifier)
@@ -65,6 +66,37 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 ## Architecture diagram
 
 ![architecture](https://user-images.githubusercontent.com/6705160/179120955-2f093b80-4a4e-4201-8c7a-26adfa508cdf.png)
+
+## Registry events
+
+The `mason-registry` Lua modules extends the [EventEmitter](#eventemitter) interface and emits the following events:
+
+| Event                       | Handler signature                          |
+| --------------------------- | ------------------------------------------ |
+| `package:handle`            | `fun(pkg: Package, handle: InstallHandle)` |
+| `package:install:success`   | `fun(pkg: Package, handle: InstallHandle)` |
+| `package:install:failed`    | `fun(pkg: Package, handle: InstallHandle)` |
+| `package:uninstall:success` | `fun(pkg: Package)`                        |
+
+To register handlers for these events:
+
+```lua
+local registry = require "mason-registry"
+
+registry:on(
+    "package:handle",
+    vim.schedule_wrap(function(pkg, handle)
+        print(string.format("Installing %s", pkg.name))
+    end)
+)
+
+registry:on(
+    "package:install:success",
+    vim.schedule_wrap(function(pkg, handle)
+        print(string.format("Successfully installed %s", pkg.name))
+    end)
+)
+```
 
 ## `PackageSpec`
 
