@@ -411,6 +411,16 @@ get_package({package_name})
     Returns:
         Package
 
+                                                *mason-registry.has_package()*
+has_package({package_name})
+    Returns true if the provided package_name can be found in the registry.
+
+    Parameters:
+        {package_name} - string
+
+    Returns:
+        boolean
+
                                      *mason-registry.get_installed_packages()*
 get_installed_packages()
     Returns all installed package instances. This is a slower function that
