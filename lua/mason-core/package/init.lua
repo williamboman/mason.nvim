@@ -143,6 +143,7 @@ function Package:uninstall()
     local was_unlinked = self:unlink()
     if was_unlinked then
         self:emit "uninstall:success"
+        registry:emit("package:uninstall:success", self)
     end
     return was_unlinked
 end
