@@ -69,7 +69,7 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 
 ## Registry events
 
-The `mason-registry` Lua modules extends the [EventEmitter](#eventemitter) interface and emits the following events:
+The `mason-registry` Lua module extends the [EventEmitter](#eventemitter) interface and emits the following events:
 
 | Event                       | Handler signature                          |
 | --------------------------- | ------------------------------------------ |
