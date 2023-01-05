@@ -1,8 +1,10 @@
 local Pkg = require "mason-core.package"
 local std = require "mason-core.managers.std"
 local github = require "mason-core.managers.github"
+local git = require "mason-core.managers.git"
 local platform = require "mason-core.platform"
 local path = require "mason-core.path"
+local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "vala-language-server",
@@ -17,21 +19,14 @@ return Pkg.new {
         std.ensure_executable("ninja", { help_url = "https://ninja-build.org/" })
         std.ensure_executable("valac", { help_url = "https://wiki.gnome.org/Projects/Vala" })
 
-        local release_source = github.untarxz_release_file {
-            repo = "vala-lang/vala-language-server",
-            asset_file = function(version)
-                return ("vala-language-server-%s.tar.xz"):format(version)
-            end,
-        }
-        release_source.with_receipt()
+        local repo = "vala-lang/vala-language-server"
+        local source = github.tag { repo = repo }
+        source.with_receipt()
+        git.clone { ("https://github.com/%s.git"):format(repo), version = Optional.of(source.tag) }
 
-        local vala_dirname = ("vala-language-server-%s"):format(release_source.release)
         local install_dir = ctx.cwd:get()
-        ctx:chdir(vala_dirname, function()
-            ctx.spawn.meson { ("-Dprefix=%s"):format(install_dir), "build" }
-            ctx.spawn.ninja { "-C", "build", "install" }
-        end)
-        ctx.fs:rmrf(vala_dirname)
+        ctx.spawn.meson { ("-Dprefix=%s"):format(install_dir), "build" }
+        ctx.spawn.ninja { "-C", "build", "install" }
         ctx:link_bin(
             "vala-language-server",
             path.concat { "bin", platform.is.win and "vala-language-server.exe" or "vala-language-server" }
