@@ -152,6 +152,7 @@
 - [node-debug2-adapter](#node-debug2-adapter)
 - [nxls](#nxls)
 - [ocaml-lsp](#ocaml-lsp)
+- [ocamlformat](#ocamlformat)
 - [omnisharp](#omnisharp)
 - [omnisharp-mono](#omnisharp-mono)
 - [opencl-language-server](#opencl-language-server)
@@ -3300,6 +3301,26 @@ Categories: `LSP`
 
 ```
 :MasonInstall ocaml-lsp
+```
+
+
+# ocamlformat
+
+> ocamlformat is a tool for formatting OCaml code. It automatically adjusts the layout of your code to follow the
+recommended style guidelines, making it easier to read and understand.
+
+Homepage: [https://github.com/ocaml-ppx/ocamlformat](https://github.com/ocaml-ppx/ocamlformat)  
+Languages: `OCaml`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b71538a`](https://github.com/williamboman/mason.nvim/commit/b71538a) 2023-01-05 - feat(registry): add ocamlformat ([#851](https://github.com/williamboman/mason.nvim/issues/851)) by Feiyou Guo
+</details>
+
+```
+:MasonInstall ocamlformat
 ```
 
 
