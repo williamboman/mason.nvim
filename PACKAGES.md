@@ -4649,13 +4649,14 @@ Categories: `LSP`
 > Awesome Spectral JSON/YAML linter with OpenAPI/AsyncAPI support. Spectral is a flexible object linter with out
 of the box support for OpenAPI v2 and v3, JSON Schema, and AsyncAPI.
 
-Homepage: [https://github.com/luizcorreia/spectral-language-server](https://github.com/luizcorreia/spectral-language-server)  
+Homepage: [https://github.com/stoplightio/vscode-spectral](https://github.com/stoplightio/vscode-spectral)  
 Languages: `JSON` `YAML`  
 Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
 
+- [`b94f8ff`](https://github.com/williamboman/mason.nvim/commit/b94f8ff) 2023-01-05 - fix(spectral-language-server): update homepage ([#855](https://github.com/williamboman/mason.nvim/issues/855)) by William Boman
 - [`30a9451`](https://github.com/williamboman/mason.nvim/commit/30a9451) 2022-11-15 - fix(spectral-language-server): link spectral-language-server executable ([#666](https://github.com/williamboman/mason.nvim/issues/666)) by William Boman
 - [`e0268a6`](https://github.com/williamboman/mason.nvim/commit/e0268a6) 2022-09-26 - fix(spectral-language-server): build directly from source ([#464](https://github.com/williamboman/mason.nvim/issues/464)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
@@ -5123,6 +5124,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`38f0d1e`](https://github.com/williamboman/mason.nvim/commit/38f0d1e) 2023-01-05 - fix(vala-language-server): use git tag source instead of releases ([#856](https://github.com/williamboman/mason.nvim/issues/856)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
