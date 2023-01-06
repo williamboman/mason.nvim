@@ -61,6 +61,7 @@ return {
   ["dockerfile-language-server"] = "mason-registry.dockerfile-language-server",
   ["dot-language-server"] = "mason-registry.dot-language-server",
   dprint = "mason-registry.dprint",
+  ["drools-lsp"] = "mason-registry.drools-lsp",
   ["editorconfig-checker"] = "mason-registry.editorconfig-checker",
   efm = "mason-registry.efm",
   ["elixir-ls"] = "mason-registry.elixir-ls",
