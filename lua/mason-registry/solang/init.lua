@@ -32,11 +32,11 @@ local function download_llvm()
     local source = github.release_file {
         repo = "hyperledger-labs/solang",
         asset_file = coalesce(
-            when(platform.is.mac_x64, "llvm13.0-mac-intel.tar.xz"),
-            when(platform.is.mac_arm64, "llvm13.0-mac-arm.tar.xz"),
-            when(platform.is.linux_x64, "llvm13.0-linux-x86-64.tar.xz"),
-            when(platform.is.linux_arm64, "llvm13.0-linux-arm64.tar.xz"),
-            when(platform.is.win_x64, "llvm13.0-win.zip")
+            when(platform.is.mac_x64, "llvm14.0-mac-intel.tar.xz"),
+            when(platform.is.mac_arm64, "llvm14.0-mac-arm.tar.xz"),
+            when(platform.is.linux_x64, "llvm14.0-linux-x86-64.tar.xz"),
+            when(platform.is.linux_arm64, "llvm14.0-linux-arm64.tar.xz"),
+            when(platform.is.win_x64, "llvm14.0-win.zip")
         ),
     }
     if platform.is.win then
