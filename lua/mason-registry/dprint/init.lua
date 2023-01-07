@@ -21,6 +21,7 @@ return Pkg.new {
                     _.when(platform.is.mac_x64, "dprint-x86_64-apple-darwin.zip"),
                     _.when(platform.is.linux_arm64_gnu, "dprint-aarch64-unknown-linux-gnu.zip"),
                     _.when(platform.is.linux_x64_gnu, "dprint-x86_64-unknown-linux-gnu.zip"),
+                    _.when(platform.is.linux_x64_musl, "dprint-x86_64-unknown-linux-musl.zip"),
                     _.when(platform.is.win_x64, "dprint-x86_64-pc-windows-msvc.zip")
                 ),
             })
