@@ -172,6 +172,7 @@ return {
   omnisharp = "mason-registry.index.omnisharp",
   ["omnisharp-mono"] = "mason-registry.index.omnisharp-mono",
   ["opencl-language-server"] = "mason-registry.index.opencl-language-server",
+  ["openedge-language-server"] = "mason-registry.index.openedge-language-server",
   ["openscad-lsp"] = "mason-registry.index.openscad-lsp",
   perlnavigator = "mason-registry.index.perlnavigator",
   ["php-cs-fixer"] = "mason-registry.index.php-cs-fixer",

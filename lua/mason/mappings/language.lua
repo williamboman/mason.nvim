@@ -92,6 +92,7 @@ return {
   onescript = { "bsl-language-server" },
   openapi = { "vacuum" },
   opencl = { "opencl-language-server" },
+  openedge = { "openedge-language-server" },
   openfoam = { "foam-language-server" },
   openscad = { "openscad-lsp" },
   perl = { "perlnavigator" },
