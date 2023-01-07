@@ -4514,6 +4514,7 @@ Categories: `LSP` `Compiler`
 <details>
     <summary>History:</summary>
 
+- [`73831cb`](https://github.com/williamboman/mason.nvim/commit/73831cb) 2023-01-06 - fix(solang): llvm13 -> llvm14 ([#859](https://github.com/williamboman/mason.nvim/issues/859)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
