@@ -76,6 +76,7 @@
 - [eslint-lsp](#eslint-lsp)
 - [eslint_d](#eslint_d)
 - [fantomas](#fantomas)
+- [fennel-ls](#fennel-ls)
 - [firefox-debug-adapter](#firefox-debug-adapter)
 - [fixjson](#fixjson)
 - [flake8](#flake8)
@@ -1760,6 +1761,18 @@ Categories: `Formatter`
 
 ```
 :MasonInstall fantomas
+```
+
+# fennel-ls
+
+> fennel-ls is a language server for the fennel language
+
+Homepage: [https://sr.ht/~xerool/fennel-ls](https://sr.ht/~xerool/fennel-ls)  
+Languages: `Fennel`  
+Categories: `LSP`  
+
+```
+:MasonInstall fennel-ls
 ```
 
 
