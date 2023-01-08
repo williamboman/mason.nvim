@@ -1,6 +1,0 @@
-{
-    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
-    "Lua.workspace.library": [
-        "${3rd}/luassert/library"
-    ]
-}
