@@ -1465,6 +1465,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`369d520`](https://github.com/williamboman/mason.nvim/commit/369d520) 2023-01-07 - feat(dprint): add linux_x64 musl target ([#862](https://github.com/williamboman/mason.nvim/issues/862)) by XDream8
 - [`da5f398`](https://github.com/williamboman/mason.nvim/commit/da5f398) 2022-10-17 - feat(registry): add dprint formatter ([#562](https://github.com/williamboman/mason.nvim/issues/562)) by Silas Groh
 </details>
 
