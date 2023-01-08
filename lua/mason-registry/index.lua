@@ -155,6 +155,7 @@ return {
   omnisharp = "mason-registry.omnisharp",
   ["omnisharp-mono"] = "mason-registry.omnisharp-mono",
   ["opencl-language-server"] = "mason-registry.opencl-language-server",
+  ["openscad-language-server"] = "mason-registry.openscad-language-server",
   perlnavigator = "mason-registry.perlnavigator",
   ["php-cs-fixer"] = "mason-registry.php-cs-fixer",
   ["php-debug-adapter"] = "mason-registry.php-debug-adapter",

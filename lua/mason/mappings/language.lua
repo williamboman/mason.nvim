@@ -88,6 +88,7 @@ return {
   onescript = { "bsl-language-server" },
   opencl = { "opencl-language-server" },
   openfoam = { "foam-language-server" },
+  openscad = { "openscad-language-server" },
   perl = { "perlnavigator" },
   php = { "intelephense", "php-cs-fixer", "php-debug-adapter", "phpactor", "phpcbf", "phpcs", "phpmd", "phpstan", "pint", "psalm", "semgrep" },
   powershell = { "powershell-editor-services" },
