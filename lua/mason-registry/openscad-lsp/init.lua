@@ -2,7 +2,7 @@ local Pkg = require "mason-core.package"
 local cargo = require "mason-core.managers.cargo"
 
 return Pkg.new {
-    name = "openscad-language-server",
+    name = "openscad-lsp",
     desc = [[Language Server Protocol implementation for OpenSCAD, written in Rust.]],
     homepage = "https://github.com/Leathong/openscad-LSP",
     languages = { Pkg.Lang.OpenSCAD },
