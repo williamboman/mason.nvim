@@ -24,8 +24,8 @@ return Pkg.new {
             when(platform.is.linux_x64_gnu, "rust-analyzer-x86_64-unknown-linux-gnu.gz"),
             when(platform.is.linux_arm64_gnu, "rust-analyzer-aarch64-unknown-linux-gnu.gz"),
             when(platform.is.linux_x64_musl, "rust-analyzer-x86_64-unknown-linux-musl.gz"),
-            when(platform.is.win_arm64, "rust-analyzer-aarch64-pc-windows-msvc.gz"),
-            when(platform.is.win_x64, "rust-analyzer-x86_64-pc-windows-msvc.gz")
+            when(platform.is.win_arm64, "rust-analyzer-aarch64-pc-windows-msvc.zip"),
+            when(platform.is.win_x64, " rust-analyzer-x86_64-pc-windows-msvc.zip ")
         )
 
         github
