@@ -25,16 +25,28 @@ return Pkg.new {
             when(platform.is.linux_arm64_gnu, "rust-analyzer-aarch64-unknown-linux-gnu.gz"),
             when(platform.is.linux_x64_musl, "rust-analyzer-x86_64-unknown-linux-musl.gz"),
             when(platform.is.win_arm64, "rust-analyzer-aarch64-pc-windows-msvc.zip"),
-            when(platform.is.win_x64, " rust-analyzer-x86_64-pc-windows-msvc.zip ")
+            when(platform.is.win_x64, "rust-analyzer-x86_64-pc-windows-msvc.zip")
         )
 
-        github
-            .gunzip_release_file({
-                repo = "rust-lang/rust-analyzer",
-                asset_file = asset_file,
-                out_file = platform.is.win and "rust-analyzer.exe" or "rust-analyzer",
-            })
-            .with_receipt()
+        platform.when {
+            unix = function()
+                github
+                    .gunzip_release_file({
+                        repo = "rust-lang/rust-analyzer",
+                        asset_file = asset_file,
+                        out_file = "rust-analyzer",
+                    })
+                    .with_receipt()
+            end,
+            win = function()
+                github
+                    .unzip_release_file({
+                        repo = "rust-lang/rust-analyzer",
+                        asset_file = asset_file,
+                    })
+                    .with_receipt()
+            end,
+        }
         std.chmod("+x", { "rust-analyzer" })
         ctx:link_bin("rust-analyzer", platform.is.win and "rust-analyzer.exe" or "rust-analyzer")
     end,
