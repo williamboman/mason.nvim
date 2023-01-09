@@ -8,6 +8,6 @@ return Pkg.new {
     languages = { Pkg.Lang.OpenSCAD },
     categories = { Pkg.Cat.LSP },
     install = cargo.crate("openscad-lsp", {
-        bin = "openscad-lsp",
+        bin = { "openscad-lsp" },
     }),
 }
