@@ -17,12 +17,9 @@ return Pkg.new {
     install = function(ctx)
         local repo = "vlang/vls"
 
-        ---@type GitHubRelease
-        local latest_dev_build = github_client.fetch_latest_release(repo, { include_prerelease = true }):get_or_throw()
-
         github
             .download_release_file({
-                version = Optional.of(latest_dev_build.tag_name),
+                version = Optional.of "latest",
                 repo = repo,
                 out_file = platform.is.win and "vls.exe" or "vls",
                 asset_file = _.coalesce(

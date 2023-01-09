@@ -55,15 +55,11 @@ function M.fetch_release(repo, tag_name)
     end)
 end
 
----@alias FetchLatestGithubReleaseOpts {include_prerelease: boolean}
-
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
----@param opts FetchLatestGithubReleaseOpts?
 ---@return Result # Result<GitHubRelease>
-function M.fetch_latest_release(repo, opts)
-    opts = opts or { include_prerelease = false }
-    return providers.github.get_latest_release(repo, { include_prerelease = opts.include_prerelease })
+function M.fetch_latest_release(repo)
+    return providers.github.get_latest_release(repo)
 end
 
 ---@async
