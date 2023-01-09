@@ -7,7 +7,7 @@ local Result = require "mason-core.result"
 ---@alias GitHubTag { name: string }
 
 ---@class GitHubProvider
----@field get_latest_release? async fun(repo: string, opts?: { include_prerelease?: boolean }): Result # Result<GitHubRelease>
+---@field get_latest_release? async fun(repo: string): Result # Result<GitHubRelease>
 ---@field get_all_release_versions? async fun(repo: string): Result # Result<string[]>
 ---@field get_latest_tag? async fun(repo: string): Result # Result<GitHubTag>
 ---@field get_all_tags? async fun(repo: string): Result # Result<string[]>
