@@ -156,6 +156,7 @@
 - [omnisharp](#omnisharp)
 - [omnisharp-mono](#omnisharp-mono)
 - [opencl-language-server](#opencl-language-server)
+- [openscad-lsp](#openscad-lsp)
 - [perlnavigator](#perlnavigator)
 - [php-cs-fixer](#php-cs-fixer)
 - [php-debug-adapter](#php-debug-adapter)
@@ -3388,6 +3389,25 @@ Categories: `LSP`
 ```
 
 
+# openscad-lsp
+
+> Language Server Protocol implementation for OpenSCAD, written in Rust.
+
+Homepage: [https://github.com/Leathong/openscad-LSP](https://github.com/Leathong/openscad-LSP)  
+Languages: `OpenSCAD`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`0975eea`](https://github.com/williamboman/mason.nvim/commit/0975eea) 2023-01-08 - feat(registry): add openscad-lsp ([#869](https://github.com/williamboman/mason.nvim/issues/869)) by Alexander Berg
+</details>
+
+```
+:MasonInstall openscad-lsp
+```
+
+
 # perlnavigator
 
 > Perl Language Server that includes perl critic and code navigation
@@ -5272,6 +5292,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`f52f438`](https://github.com/williamboman/mason.nvim/commit/f52f438) 2023-01-09 - refactor(providers): remove ?include_prerelease query param ([#872](https://github.com/williamboman/mason.nvim/issues/872)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
