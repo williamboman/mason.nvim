@@ -3400,6 +3400,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`a4ebe1f`](https://github.com/williamboman/mason.nvim/commit/a4ebe1f) 2023-01-09 - fix(openscad-lsp): fix bin definition ([#876](https://github.com/williamboman/mason.nvim/issues/876)) by William Boman
 - [`0975eea`](https://github.com/williamboman/mason.nvim/commit/0975eea) 2023-01-08 - feat(registry): add openscad-lsp ([#869](https://github.com/williamboman/mason.nvim/issues/869)) by Alexander Berg
 </details>
 
@@ -4291,6 +4292,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`8a1a49b`](https://github.com/williamboman/mason.nvim/commit/8a1a49b) 2023-01-09 - feat(rust-analyzer): use .zip archives on Windows ([#873](https://github.com/williamboman/mason.nvim/issues/873)) by MordechaiHadad
 - [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
