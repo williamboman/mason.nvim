@@ -279,6 +279,19 @@ describe("functional: list", function()
             _.split_every(0, {})
         end)
     end)
+
+    it("should index_by lists", function()
+        assert.same(
+            {
+                apple = { fruit = "apple", color = "red" },
+                banana = { fruit = "banana", color = "yellow" },
+            },
+            _.index_by(_.prop "fruit", {
+                { fruit = "apple", color = "red" },
+                { fruit = "banana", color = "yellow" },
+            })
+        )
+    end)
 end)
 
 describe("list immutability", function()

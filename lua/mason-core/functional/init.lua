@@ -63,6 +63,7 @@ _.drop = list.drop
 _.drop_last = list.drop_last
 _.reduce = list.reduce
 _.split_every = list.split_every
+_.index_by = list.index_by
 
 ---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"
