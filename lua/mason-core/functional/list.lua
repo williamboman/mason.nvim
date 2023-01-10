@@ -288,7 +288,7 @@ end, 2)
 ---@param index fun(item: T): U
 ---@param list T[]
 ---@return table<U, T>
-_.index_by = fun.curryN(function (index, list)
+_.index_by = fun.curryN(function(index, list)
     local res = {}
     for _, item in ipairs(list) do
         res[index(item)] = item
