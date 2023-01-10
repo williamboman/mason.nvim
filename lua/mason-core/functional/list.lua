@@ -284,4 +284,16 @@ _.split_every = fun.curryN(function(n, list)
     return res
 end, 2)
 
+---@generic T, U
+---@param index fun(item: T): U
+---@param list T[]
+---@return table<U, T>
+_.index_by = fun.curryN(function(index, list)
+    local res = {}
+    for _, item in ipairs(list) do
+        res[index(item)] = item
+    end
+    return res
+end, 2)
+
 return _
