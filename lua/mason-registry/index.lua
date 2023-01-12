@@ -86,6 +86,7 @@ return {
   gersemi = "mason-registry.gersemi",
   gitlint = "mason-registry.gitlint",
   glint = "mason-registry.glint",
+  glow = "mason-registry.glow",
   ["go-debug-adapter"] = "mason-registry.go-debug-adapter",
   gofumpt = "mason-registry.gofumpt",
   goimports = "mason-registry.goimports",
