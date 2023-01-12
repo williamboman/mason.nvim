@@ -87,6 +87,7 @@
 - [gersemi](#gersemi)
 - [gitlint](#gitlint)
 - [glint](#glint)
+- [glow](#glow)
 - [go-debug-adapter](#go-debug-adapter)
 - [gofumpt](#gofumpt)
 - [goimports](#goimports)
@@ -241,6 +242,7 @@
 - [tflint](#tflint)
 - [twigcs](#twigcs)
 - [typescript-language-server](#typescript-language-server)
+- [unocss-language-server](#unocss-language-server)
 - [usort](#usort)
 - [vala-language-server](#vala-language-server)
 - [vale](#vale)
@@ -1982,6 +1984,25 @@ Categories: `LSP` `Linter`
 
 ```
 :MasonInstall glint
+```
+
+
+# glow
+
+> Render markdown on the CLI, with pizzazz
+
+Homepage: [https://github.com/charmbracelet/glow](https://github.com/charmbracelet/glow)  
+Languages: `Markdown`  
+Categories:   
+
+<details>
+    <summary>History:</summary>
+
+- [`160bd7c`](https://github.com/williamboman/mason.nvim/commit/160bd7c) 2023-01-12 - feat(registry): add glow ([#886](https://github.com/williamboman/mason.nvim/issues/886)) by Seth Daniel
+</details>
+
+```
+:MasonInstall glow
 ```
 
 
@@ -5115,6 +5136,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall typescript-language-server
+```
+
+
+# unocss-language-server
+
+> Language Server Protocol implementation for UnoCSS.
+
+Homepage: [https://github.com/xna00/unocss-language-server](https://github.com/xna00/unocss-language-server)  
+Languages: `CSS`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`8e61dbc`](https://github.com/williamboman/mason.nvim/commit/8e61dbc) 2023-01-12 - feat(registry): add unocss-language-server ([#888](https://github.com/williamboman/mason.nvim/issues/888)) by Tom Mi
+</details>
+
+```
+:MasonInstall unocss-language-server
 ```
 
 
