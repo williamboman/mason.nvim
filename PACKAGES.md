@@ -231,6 +231,7 @@
 - [svelte-language-server](#svelte-language-server)
 - [svlangserver](#svlangserver)
 - [svls](#svls)
+- [unocss-language-server](#unocss-language-server)
 - [tailwindcss-language-server](#tailwindcss-language-server)
 - [taplo](#taplo)
 - [teal-language-server](#teal-language-server)
