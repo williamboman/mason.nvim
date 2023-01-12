@@ -241,7 +241,6 @@
 - [tflint](#tflint)
 - [twigcs](#twigcs)
 - [typescript-language-server](#typescript-language-server)
-- [unocss-language-server](#unocss-language-server)
 - [usort](#usort)
 - [vala-language-server](#vala-language-server)
 - [vale](#vale)
