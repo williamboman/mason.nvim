@@ -22,8 +22,8 @@ return Pkg.new {
                     local target = coalesce(
                         when(platform.is.mac_x64, "vscode-lua-%s-darwin-x64.vsix"),
                         when(platform.is.mac_arm64, "vscode-lua-%s-darwin-arm64.vsix"),
-                        when(platform.is.linux_x64, "vscode-lua-%s-linux-x64.vsix"),
-                        when(platform.is.linux_arm64, "vscode-lua-%s-linux-arm64.vsix"),
+                        when(platform.is.linux_x64_gnu, "vscode-lua-%s-linux-x64.vsix"),
+                        when(platform.is.linux_arm64_gnu, "vscode-lua-%s-linux-arm64.vsix"),
                         when(platform.is.win_x64, "vscode-lua-%s-win32-x64.vsix"),
                         when(platform.is.win_x86, "vscode-lua-%s-win32-ia32.vsix")
                     )
