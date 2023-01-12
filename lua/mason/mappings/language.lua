@@ -26,7 +26,7 @@ return {
   codeql = { "codeql" },
   crystal = { "crystalline" },
   csh = { "beautysh" },
-  css = { "css-lsp", "cssmodules-language-server", "prettier", "prettierd", "tailwindcss-language-server" },
+  css = { "css-lsp", "cssmodules-language-server", "prettier", "prettierd", "tailwindcss-language-server", "unocss-language-server" },
   cucumber = { "cucumber-language-server" },
   cue = { "cueimports", "cuelsp" },
   d = { "serve-d" },

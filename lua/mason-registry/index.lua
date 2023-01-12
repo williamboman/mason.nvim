@@ -241,6 +241,7 @@ return {
   tflint = "mason-registry.tflint",
   twigcs = "mason-registry.twigcs",
   ["typescript-language-server"] = "mason-registry.typescript-language-server",
+  ["unocss-language-server"] = "mason-registry.unocss-language-server",
   usort = "mason-registry.usort",
   ["vala-language-server"] = "mason-registry.vala-language-server",
   vale = "mason-registry.vale",
