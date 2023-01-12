@@ -394,6 +394,7 @@ function M.new_view_only_win(name, filetype)
         for key, value in pairs(buf_opts) do
             vim.api.nvim_buf_set_option(bufnr, key, value)
         end
+        vim.api.nvim_buf_set_name(bufnr, "Mason")
 
         vim.cmd [[ syntax clear ]]
 
