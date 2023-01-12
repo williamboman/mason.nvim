@@ -13,17 +13,19 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
+        ---@param template string
+        local function release_file(template_string)
+            return _.compose(_.format(template_string), _.gsub("^v", ""))
+        end
+
         github
             .download_release_file({
                 repo = "fourmolu/fourmolu",
                 out_file = "fourmolu",
-                asset_file = function(version)
-                    local target = _.coalesce(
-                        _.when(platform.is.mac_x64, "fourmolu-%s-osx-x86_64"),
-                        _.when(platform.is.linux_x64_gnu, "fourmolu-%s-linux-x86_64")
-                    )
-                    return target and target:format(version:gsub("^v", ""))
-                end,
+                asset_file = _.coalesce(
+                    _.when(platform.is.mac_x64, release_file "fourmolu-%s-osx-x86_64"),
+                    _.when(platform.is.linux_x64_gnu, release_file "fourmolu-%s-linux-x86_64")
+                ),
             })
             .with_receipt()
         std.chmod("+x", { "fourmolu" })
