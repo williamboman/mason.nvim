@@ -18,18 +18,14 @@ return Pkg.new {
         github
             .unzip_release_file({
                 repo = "sumneko/vscode-lua",
-                asset_file = function(version)
-                    local target = coalesce(
-                        when(platform.is.mac_x64, "vscode-lua-%s-darwin-x64.vsix"),
-                        when(platform.is.mac_arm64, "vscode-lua-%s-darwin-arm64.vsix"),
-                        when(platform.is.linux_x64_gnu, "vscode-lua-%s-linux-x64.vsix"),
-                        when(platform.is.linux_arm64_gnu, "vscode-lua-%s-linux-arm64.vsix"),
-                        when(platform.is.win_x64, "vscode-lua-%s-win32-x64.vsix"),
-                        when(platform.is.win_x86, "vscode-lua-%s-win32-ia32.vsix")
-                    )
-
-                    return target and target:format(version)
-                end,
+                asset_file = coalesce(
+                    when(platform.is.mac_x64, _.format "vscode-lua-%s-darwin-x64.vsix"),
+                    when(platform.is.mac_arm64, _.format "vscode-lua-%s-darwin-arm64.vsix"),
+                    when(platform.is.linux_x64_gnu, _.format "vscode-lua-%s-linux-x64.vsix"),
+                    when(platform.is.linux_arm64_gnu, _.format "vscode-lua-%s-linux-arm64.vsix"),
+                    when(platform.is.win_x64, _.format "vscode-lua-%s-win32-x64.vsix"),
+                    when(platform.is.win_x86, _.format "vscode-lua-%s-win32-ia32.vsix")
+                ),
             })
             .with_receipt()
 
