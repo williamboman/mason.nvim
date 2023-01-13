@@ -25,7 +25,7 @@ return Pkg.new {
             "drools-lsp",
             ctx:write_shell_exec_wrapper(
                 "drools-lsp",
-                ("java -cp %q org.drools.lsp.server.Main"):format(path.concat { ctx.package:get_install_path(), jar })
+                "java -jar " .. path.concat { ctx.package:get_install_path(), jar }
             )
         )
     end,
