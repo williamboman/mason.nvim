@@ -27,8 +27,7 @@ function M.clone(opts)
         ".",
     }
     _.coalesce(opts.version, ctx.requested_version):if_present(function(version)
-        ctx.spawn.git { "fetch", "--depth", "1", "origin", version }
-        ctx.spawn.git { "checkout", "FETCH_HEAD" }
+        ctx.spawn.git { "switch", "-c", version }
     end)
 
     return {
