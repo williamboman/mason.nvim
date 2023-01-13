@@ -202,6 +202,7 @@ return {
   ["ruff-lsp"] = "mason-registry.ruff-lsp",
   ["rust-analyzer"] = "mason-registry.rust-analyzer",
   rustfmt = "mason-registry.rustfmt",
+  rustywind = "mason-registry.rustywind",
   ["salt-lsp"] = "mason-registry.salt-lsp",
   selene = "mason-registry.selene",
   semgrep = "mason-registry.semgrep",
