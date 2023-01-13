@@ -20,7 +20,7 @@ return Pkg.new {
                 repo = "elbywan/crystalline",
                 asset_file = coalesce(
                     when(platform.is.mac_x64, "crystalline_x86_64-apple-darwin.gz"),
-                    when(platform.is.linux_x64, "crystalline_x86_64-unknown-linux-gnu.gz")
+                    when(platform.is.linux_x64, "crystalline_x86_64-unknown-linux-musl.gz")
                 ),
                 out_file = "crystalline",
             })
