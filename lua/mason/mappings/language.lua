@@ -35,6 +35,7 @@ return {
   django = { "curlylint", "djlint" },
   dockerfile = { "dockerfile-language-server", "hadolint" },
   dot = { "dot-language-server" },
+  drools = { "drools-lsp" },
   elixir = { "elixir-ls" },
   elm = { "elm-format", "elm-language-server" },
   ember = { "ember-language-server" },
