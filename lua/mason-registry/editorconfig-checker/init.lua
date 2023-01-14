@@ -22,8 +22,10 @@ return Pkg.new {
                 when(platform.is.linux_arm64_openbsd, "ec-openbsd-arm64.tar.gz"),
                 when(platform.is.linux_arm64, "ec-linux-arm64.tar.gz"),
                 when(platform.is.linux_x64, "ec-linux-amd64.tar.gz"),
-                when(platform.is.win_x86, "ec-windows-386.tar.gz"),
-                when(platform.is.win_x64, "ec-windows-amd64.tar.gz")
+                when(platform.is.win_x86, "ec-windows-386.exe.tar.gz"),
+                when(platform.is.win_x64, "ec-windows-amd64.exe.tar.gz"),
+                when(platform.is.win_arm64, "ec-windows-arm64.exe.tar.gz"),
+                when(platform.is.win_arm, "ec-windows-arm.exe.tar.gz")
             ),
         }
         source.with_receipt()
