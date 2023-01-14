@@ -172,7 +172,11 @@ M._render_node = render_node
 local function create_popup_window_opts(opts, sizes_only)
     local columns = vim.o.columns
     local top_offset = 1
-    local height = vim.o.lines - math.max(vim.o.cmdheight, top_offset) - top_offset
+    local bottom_offset = 1 + vim.o.cmdheight
+    if vim.o.laststatus == 0 then
+        bottom_offset = math.max(bottom_offset - 1, 1)
+    end
+    local height = vim.o.lines - bottom_offset - top_offset
     local width = math.floor(columns * 0.8)
     local popup_layout = {
         height = height,
