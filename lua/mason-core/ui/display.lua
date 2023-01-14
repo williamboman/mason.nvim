@@ -1,5 +1,6 @@
 local log = require "mason-core.log"
 local state = require "mason-core.ui.state"
+local settings = require "mason.settings"
 
 local M = {}
 
@@ -170,19 +171,29 @@ M._render_node = render_node
 ---@param opts WindowOpts
 ---@param sizes_only boolean Whether to only return properties that control the window size.
 local function create_popup_window_opts(opts, sizes_only)
+    local lines = vim.o.lines - vim.o.cmdheight
     local columns = vim.o.columns
-    local top_offset = 1
-    local bottom_offset = 1 + vim.o.cmdheight
-    if vim.o.laststatus == 0 then
-        bottom_offset = math.max(bottom_offset - 1, 1)
-    end
-    local height = vim.o.lines - bottom_offset - top_offset
-    local width = math.floor(columns * 0.8)
+    local height = (type(settings.current.ui.height) == 'number'    -- fixed width
+                    and math.floor(settings.current.ui.height) == settings.current.ui.height
+                    and settings.current.ui.height) or
+                   (type(settings.current.ui.height) == 'number'    -- percentage width
+                    and math.floor(settings.current.ui.height) == 0
+                    and math.ceil(lines * settings.current.ui.height)) or
+                   math.ceil(lines * 0.8)
+    local width = (type(settings.current.ui.width) == 'number'     -- fixed width
+                   and math.floor(settings.current.ui.width) == settings.current.ui.width
+                   and settings.current.ui.width) or
+                  (type(settings.current.ui.width) == 'number'      -- percentage width
+                   and math.floor(settings.current.ui.width) == 0
+                   and math.ceil(columns * settings.current.ui.width)) or
+                  math.ceil(columns * 0.8)
+    local row = math.floor((lines - height) / 2)
+    local col = math.floor((columns - width) / 2)
     local popup_layout = {
         height = height,
         width = width,
-        row = top_offset,
-        col = math.floor((columns - width) / 2),
+        row = row,
+        col = col,
         relative = "editor",
         style = "minimal",
         zindex = 45,
