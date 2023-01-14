@@ -62,6 +62,7 @@
 - [dockerfile-language-server](#dockerfile-language-server)
 - [dot-language-server](#dot-language-server)
 - [dprint](#dprint)
+- [drools-lsp](#drools-lsp)
 - [editorconfig-checker](#editorconfig-checker)
 - [efm](#efm)
 - [elixir-ls](#elixir-ls)
@@ -203,6 +204,7 @@
 - [ruff-lsp](#ruff-lsp)
 - [rust-analyzer](#rust-analyzer)
 - [rustfmt](#rustfmt)
+- [rustywind](#rustywind)
 - [salt-lsp](#salt-lsp)
 - [selene](#selene)
 - [semgrep](#semgrep)
@@ -1088,6 +1090,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`01cba2a`](https://github.com/williamboman/mason.nvim/commit/01cba2a) 2023-01-13 - fix(crystalline): update linux asset name ([#901](https://github.com/williamboman/mason.nvim/issues/901)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -1474,6 +1477,25 @@ Categories: `Formatter`
 
 ```
 :MasonInstall dprint
+```
+
+
+# drools-lsp
+
+> An implementation of a language server for the Drools Rule Language.
+
+Homepage: [https://github.com/kiegroup/drools-lsp](https://github.com/kiegroup/drools-lsp)  
+Languages: `Drools`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`dd61453`](https://github.com/williamboman/mason.nvim/commit/dd61453) 2023-01-13 - feat(registry): add drools-lsp ([#898](https://github.com/williamboman/mason.nvim/issues/898)) by David Ward
+</details>
+
+```
+:MasonInstall drools-lsp
 ```
 
 
@@ -4345,6 +4367,25 @@ Categories: `Formatter`
 
 ```
 :MasonInstall rustfmt
+```
+
+
+# rustywind
+
+> CLI for organizing Tailwind CSS classes
+
+Homepage: [https://github.com/avencera/rustywind](https://github.com/avencera/rustywind)  
+Languages: `JavaScript` `TypeScript` `JSX` `HTML` `Vue` `Angular`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`e562473`](https://github.com/williamboman/mason.nvim/commit/e562473) 2023-01-13 - feat(registry): add rustywind ([#900](https://github.com/williamboman/mason.nvim/issues/900)) by Celso Benedetti
+</details>
+
+```
+:MasonInstall rustywind
 ```
 
 
