@@ -1510,6 +1510,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
+- [`24e78fc`](https://github.com/williamboman/mason.nvim/commit/24e78fc) 2023-01-14 - fix(editorconfig-checker): update Windows assets ([#904](https://github.com/williamboman/mason.nvim/issues/904)) by William Boman
 - [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`ac70755`](https://github.com/williamboman/mason.nvim/commit/ac70755) 2022-09-17 - feat(editorconfig-checker): use the pre-packaged ec ([#434](https://github.com/williamboman/mason.nvim/issues/434)) by Seth Daniel
 - [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
