@@ -218,6 +218,8 @@ Example:
 >lua
     require("mason").setup({
         ui = {
+            height = 0.8,   -- 0.8 * (vim.o.lines - vim.o.cmdheight)
+            width = 60,     -- 60 columns
             icons = {
                 package_installed = "✓",
                 package_pending = "➜",

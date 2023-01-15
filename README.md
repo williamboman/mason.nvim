@@ -139,6 +139,8 @@ Example:
 ```lua
 require("mason").setup({
     ui = {
+        height = 0.8,
+        width = 60,
         icons = {
             package_installed = "✓",
             package_pending = "➜",
@@ -205,6 +207,12 @@ local DEFAULT_SETTINGS = {
 
         -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
         border = "none",
+
+        -- Width of the window, accepts integer (fixed width) or float (percentage of screen width).
+        width = 0.8,
+
+        -- Height of the window, accepts integer (fixed height) or float (percentage of screen height).
+        height = 0.8,
 
         icons = {
             -- The list icon to use for installed packages.

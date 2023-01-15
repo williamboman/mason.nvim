@@ -1,5 +1,6 @@
 local log = require "mason-core.log"
 local state = require "mason-core.ui.state"
+local settings = require "mason.settings"
 
 local M = {}
 
@@ -167,22 +168,29 @@ M._render_node = render_node
 
 ---@alias WindowOpts { effects?: table<string, fun()>, winhighlight?: string[], border?: string|table }
 
+---@param size integer | float
+---@param viewport integer
+local function calc_size(size, viewport)
+    if size <= 1 then
+        return math.ceil(size * viewport)
+    end
+    return math.min(size, viewport)
+end
+
 ---@param opts WindowOpts
 ---@param sizes_only boolean Whether to only return properties that control the window size.
 local function create_popup_window_opts(opts, sizes_only)
+    local lines = vim.o.lines - vim.o.cmdheight
     local columns = vim.o.columns
-    local top_offset = 1
-    local bottom_offset = 1 + vim.o.cmdheight
-    if vim.o.laststatus == 0 then
-        bottom_offset = math.max(bottom_offset - 1, 1)
-    end
-    local height = vim.o.lines - bottom_offset - top_offset
-    local width = math.floor(columns * 0.8)
+    local height = calc_size(settings.current.ui.height, lines)
+    local width = calc_size(settings.current.ui.width, columns)
+    local row = math.floor((lines - height) / 2)
+    local col = math.floor((columns - width) / 2)
     local popup_layout = {
         height = height,
         width = width,
-        row = top_offset,
-        col = math.floor((columns - width) / 2),
+        row = row,
+        col = col,
         relative = "editor",
         style = "minimal",
         zindex = 45,
