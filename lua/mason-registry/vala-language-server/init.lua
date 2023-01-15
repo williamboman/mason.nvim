@@ -25,8 +25,9 @@ return Pkg.new {
         git.clone { ("https://github.com/%s.git"):format(repo), version = Optional.of(source.tag) }
 
         local install_dir = ctx.cwd:get()
-        ctx.spawn.meson { ("-Dprefix=%s"):format(install_dir), "build" }
-        ctx.spawn.ninja { "-C", "build", "install" }
+        ctx.spawn.meson { "setup", ("-Dprefix=%s"):format(install_dir), "build" }
+        ctx.spawn.meson { "compile", "-C", "build" }
+        ctx.spawn.meson { "install", "-C", "build" }
         ctx:link_bin(
             "vala-language-server",
             path.concat { "bin", platform.is.win and "vala-language-server.exe" or "vala-language-server" }
