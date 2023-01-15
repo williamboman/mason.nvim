@@ -62,6 +62,7 @@
 - [dockerfile-language-server](#dockerfile-language-server)
 - [dot-language-server](#dot-language-server)
 - [dprint](#dprint)
+- [drools-lsp](#drools-lsp)
 - [editorconfig-checker](#editorconfig-checker)
 - [efm](#efm)
 - [elixir-ls](#elixir-ls)
@@ -203,6 +204,7 @@
 - [ruff-lsp](#ruff-lsp)
 - [rust-analyzer](#rust-analyzer)
 - [rustfmt](#rustfmt)
+- [rustywind](#rustywind)
 - [salt-lsp](#salt-lsp)
 - [selene](#selene)
 - [semgrep](#semgrep)
@@ -1088,6 +1090,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`01cba2a`](https://github.com/williamboman/mason.nvim/commit/01cba2a) 2023-01-13 - fix(crystalline): update linux asset name ([#901](https://github.com/williamboman/mason.nvim/issues/901)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -1477,6 +1480,25 @@ Categories: `Formatter`
 ```
 
 
+# drools-lsp
+
+> An implementation of a language server for the Drools Rule Language.
+
+Homepage: [https://github.com/kiegroup/drools-lsp](https://github.com/kiegroup/drools-lsp)  
+Languages: `Drools`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`dd61453`](https://github.com/williamboman/mason.nvim/commit/dd61453) 2023-01-13 - feat(registry): add drools-lsp ([#898](https://github.com/williamboman/mason.nvim/issues/898)) by David Ward
+</details>
+
+```
+:MasonInstall drools-lsp
+```
+
+
 # editorconfig-checker
 
 > A tool to verify that your files are in harmony with your `.editorconfig`.
@@ -1488,6 +1510,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
+- [`24e78fc`](https://github.com/williamboman/mason.nvim/commit/24e78fc) 2023-01-14 - fix(editorconfig-checker): update Windows assets ([#904](https://github.com/williamboman/mason.nvim/issues/904)) by William Boman
 - [`d7eb2ee`](https://github.com/williamboman/mason.nvim/commit/d7eb2ee) 2022-09-17 - feat: more competent platform detection ([#436](https://github.com/williamboman/mason.nvim/issues/436)) by William Boman
 - [`ac70755`](https://github.com/williamboman/mason.nvim/commit/ac70755) 2022-09-17 - feat(editorconfig-checker): use the pre-packaged ec ([#434](https://github.com/williamboman/mason.nvim/issues/434)) by Seth Daniel
 - [`4f87e41`](https://github.com/williamboman/mason.nvim/commit/4f87e41) 2022-07-10 - feat: add editorconfig-checker, misspell, shfmt, vint ([#39](https://github.com/williamboman/mason.nvim/issues/39)) by Seth Daniel
@@ -1899,6 +1922,7 @@ Categories: `Formatter`
 <details>
     <summary>History:</summary>
 
+- [`4d734ae`](https://github.com/williamboman/mason.nvim/commit/4d734ae) 2023-01-12 - fix: avoid calling API functions inside fast event ([#892](https://github.com/williamboman/mason.nvim/issues/892)) by William Boman
 - [`67e9cf8`](https://github.com/williamboman/mason.nvim/commit/67e9cf8) 2022-12-12 - feat(registry): add fourmolu ([#752](https://github.com/williamboman/mason.nvim/issues/752)) by shurizzle
 </details>
 
@@ -2939,6 +2963,8 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`4d734ae`](https://github.com/williamboman/mason.nvim/commit/4d734ae) 2023-01-12 - fix: avoid calling API functions inside fast event ([#892](https://github.com/williamboman/mason.nvim/issues/892)) by William Boman
+- [`7344927`](https://github.com/williamboman/mason.nvim/commit/7344927) 2023-01-12 - fix(lua-language-server): only install Linux assets on GNU systems ([#890](https://github.com/williamboman/mason.nvim/issues/890)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -4342,6 +4368,25 @@ Categories: `Formatter`
 
 ```
 :MasonInstall rustfmt
+```
+
+
+# rustywind
+
+> CLI for organizing Tailwind CSS classes
+
+Homepage: [https://github.com/avencera/rustywind](https://github.com/avencera/rustywind)  
+Languages: `JavaScript` `TypeScript` `JSX` `HTML` `Vue` `Angular`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`e562473`](https://github.com/williamboman/mason.nvim/commit/e562473) 2023-01-13 - feat(registry): add rustywind ([#900](https://github.com/williamboman/mason.nvim/issues/900)) by Celso Benedetti
+</details>
+
+```
+:MasonInstall rustywind
 ```
 
 
