@@ -168,25 +168,22 @@ M._render_node = render_node
 
 ---@alias WindowOpts { effects?: table<string, fun()>, winhighlight?: string[], border?: string|table }
 
+---@param size integer | float
+---@param viewport integer
+local function calc_size(size, viewport)
+    if size <= 1 then
+        return math.ceil(size * viewport)
+    end
+    return math.min(size, viewport)
+end
+
 ---@param opts WindowOpts
 ---@param sizes_only boolean Whether to only return properties that control the window size.
 local function create_popup_window_opts(opts, sizes_only)
     local lines = vim.o.lines - vim.o.cmdheight
     local columns = vim.o.columns
-    local height = (type(settings.current.ui.height) == 'number'    -- fixed width
-                    and math.floor(settings.current.ui.height) == settings.current.ui.height
-                    and settings.current.ui.height) or
-                   (type(settings.current.ui.height) == 'number'    -- percentage width
-                    and math.floor(settings.current.ui.height) == 0
-                    and math.ceil(lines * settings.current.ui.height)) or
-                   math.ceil(lines * 0.8)
-    local width = (type(settings.current.ui.width) == 'number'     -- fixed width
-                   and math.floor(settings.current.ui.width) == settings.current.ui.width
-                   and settings.current.ui.width) or
-                  (type(settings.current.ui.width) == 'number'      -- percentage width
-                   and math.floor(settings.current.ui.width) == 0
-                   and math.ceil(columns * settings.current.ui.width)) or
-                  math.ceil(columns * 0.8)
+    local height = calc_size(settings.current.ui.height, lines)
+    local width = calc_size(settings.current.ui.width, columns)
     local row = math.floor((lines - height) / 2)
     local col = math.floor((columns - width) / 2)
     local popup_layout = {
