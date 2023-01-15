@@ -4,9 +4,7 @@ local github = require "mason-core.managers.github"
 local git = require "mason-core.managers.git"
 local platform = require "mason-core.platform"
 local path = require "mason-core.path"
-
--- FIXME:because release verson break , so use git version
---local Optional = require "mason-core.optional"
+local Optional = require "mason-core.optional"
 
 return Pkg.new {
     name = "vala-language-server",
@@ -24,7 +22,7 @@ return Pkg.new {
         local repo = "vala-lang/vala-language-server"
         local source = github.tag { repo = repo }
         source.with_receipt()
-        git.clone { ("https://github.com/%s.git"):format(repo) }
+        git.clone { ("https://github.com/%s.git"):format(repo), version = Optional.of(source.tag) }
 
         local install_dir = ctx.cwd:get()
         ctx.spawn.meson { "setup", ("-Dprefix=%s"):format(install_dir), "build" }
