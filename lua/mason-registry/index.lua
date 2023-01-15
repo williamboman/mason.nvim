@@ -114,6 +114,7 @@ return {
   intelephense = "mason-registry.intelephense",
   isort = "mason-registry.isort",
   ["java-debug-adapter"] = "mason-registry.java-debug-adapter",
+  ["java-language-server"] = "mason-registry.java-language-server",
   ["java-test"] = "mason-registry.java-test",
   jdtls = "mason-registry.jdtls",
   ["jedi-language-server"] = "mason-registry.jedi-language-server",

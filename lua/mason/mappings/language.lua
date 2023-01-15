@@ -59,7 +59,7 @@ return {
   haxe = { "haxe-language-server" },
   hoon = { "hoon-language-server" },
   html = { "erb-lint", "html-lsp", "prettier", "prettierd", "rustywind" },
-  java = { "clang-format", "java-debug-adapter", "java-test", "jdtls", "semgrep" },
+  java = { "clang-format", "java-debug-adapter", "java-language-server", "java-test", "jdtls", "semgrep" },
   javascript = { "chrome-debug-adapter", "clang-format", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "glint", "js-debug-adapter", "node-debug2-adapter", "prettier", "prettierd", "quick-lint-js", "rome", "rustywind", "semgrep", "typescript-language-server", "xo" },
   jinja = { "curlylint", "djlint" },
   jq = { "jq-lsp" },
