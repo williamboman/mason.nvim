@@ -213,7 +213,7 @@ local DEFAULT_SETTINGS = {
         width = 0.8,
 
         -- Height of the window, accepts integer (fixed height) or float (percentage of screen height).
-        height = 0.8,
+        height = 0.9,
 
         icons = {
             -- The list icon to use for installed packages.
