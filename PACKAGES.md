@@ -5233,6 +5233,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`b61d7f1`](https://github.com/williamboman/mason.nvim/commit/b61d7f1) 2023-01-15 - fix(vala-lanaguager-server): update meson build commands  ([#896](https://github.com/williamboman/mason.nvim/issues/896)) by Access
 - [`38f0d1e`](https://github.com/williamboman/mason.nvim/commit/38f0d1e) 2023-01-05 - fix(vala-language-server): use git tag source instead of releases ([#856](https://github.com/williamboman/mason.nvim/issues/856)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
