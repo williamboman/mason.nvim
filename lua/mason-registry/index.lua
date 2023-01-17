@@ -237,6 +237,7 @@ return {
   taplo = "mason-registry.taplo",
   ["teal-language-server"] = "mason-registry.teal-language-server",
   tectonic = "mason-registry.tectonic",
+  ["terraform-docs"] = "mason-registry.terraform-docs",
   ["terraform-ls"] = "mason-registry.terraform-ls",
   texlab = "mason-registry.texlab",
   textlint = "mason-registry.textlint",

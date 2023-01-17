@@ -119,7 +119,7 @@ return {
   svelte = { "svelte-language-server" },
   systemverilog = { "svlangserver", "svls", "verible" },
   teal = { "teal-language-server" },
-  terraform = { "terraform-ls", "tflint" },
+  terraform = { "terraform-docs", "terraform-ls", "tflint" },
   text = { "grammarly-languageserver", "ltex-ls", "proselint", "textlint", "vale" },
   toml = { "taplo" },
   twig = { "curlylint", "twigcs" },
