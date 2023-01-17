@@ -1491,6 +1491,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`d4601be`](https://github.com/williamboman/mason.nvim/commit/d4601be) 2023-01-16 - feat(drools-lsp): link executable to jar file ([#912](https://github.com/williamboman/mason.nvim/issues/912)) by David Ward
 - [`dd61453`](https://github.com/williamboman/mason.nvim/commit/dd61453) 2023-01-13 - feat(registry): add drools-lsp ([#898](https://github.com/williamboman/mason.nvim/issues/898)) by David Ward
 </details>
 
