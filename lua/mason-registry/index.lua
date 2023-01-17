@@ -86,6 +86,7 @@ return {
   fsautocomplete = "mason-registry.fsautocomplete",
   gersemi = "mason-registry.gersemi",
   gitlint = "mason-registry.gitlint",
+  gitui = "mason-registry.gitui",
   glint = "mason-registry.glint",
   glow = "mason-registry.glow",
   ["go-debug-adapter"] = "mason-registry.go-debug-adapter",
