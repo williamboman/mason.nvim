@@ -87,6 +87,7 @@
 - [fsautocomplete](#fsautocomplete)
 - [gersemi](#gersemi)
 - [gitlint](#gitlint)
+- [gitui](#gitui)
 - [glint](#glint)
 - [glow](#glow)
 - [go-debug-adapter](#go-debug-adapter)
@@ -1987,6 +1988,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall gitlint
+```
+
+
+# gitui
+
+> Blazing fast terminal-ui for git written in Rust
+
+Homepage: [https://github.com/extrawurst/gitui](https://github.com/extrawurst/gitui)  
+Languages:   
+Categories:   
+
+<details>
+    <summary>History:</summary>
+
+- [`d825d3d`](https://github.com/williamboman/mason.nvim/commit/d825d3d) 2023-01-18 - feat(registry): add gitui ([#919](https://github.com/williamboman/mason.nvim/issues/919)) by Dan Sully
+</details>
+
+```
+:MasonInstall gitui
 ```
 
 
