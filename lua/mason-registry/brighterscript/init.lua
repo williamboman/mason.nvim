@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://github.com/RokuCommunity/brighterscript",
     languages = { Pkg.Lang.BrighterScript },
     categories = { Pkg.Cat.LSP, Pkg.Cat.Compiler },
-    install = npm.packages { "brighterscript", bin = { "brighterscript" } },
+    install = npm.packages { "brighterscript", bin = { "bsc" } },
 }
