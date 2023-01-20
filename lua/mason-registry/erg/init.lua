@@ -8,7 +8,7 @@ return Pkg.new {
     desc = [[A statically typed language that can deeply improve the Python ecosystem.]],
     homepage = "https://github.com/erg-lang/erg",
     languages = { Pkg.Lang.Erg },
-    categories = { Pkg.Cat.LSP },
+    categories = { Pkg.Cat.LSP, Pkg.Cat.Compiler },
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
