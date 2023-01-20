@@ -9,4 +9,3 @@ return Pkg.new {
     categories = { Pkg.Cat.LSP, Pkg.Cat.Compiler },
     install = npm.packages { "brighterscript", bin = { "brighterscript" } },
 }
-
