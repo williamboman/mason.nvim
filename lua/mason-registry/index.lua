@@ -19,6 +19,7 @@ return {
   beautysh = "mason-registry.beautysh",
   ["bicep-lsp"] = "mason-registry.bicep-lsp",
   black = "mason-registry.black",
+  ["blackd-client"] = "mason-registry.blackd-client",
   ["blade-formatter"] = "mason-registry.blade-formatter",
   blue = "mason-registry.blue",
   ["bsl-language-server"] = "mason-registry.bsl-language-server",
