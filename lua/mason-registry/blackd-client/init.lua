@@ -20,7 +20,7 @@ return Pkg.new {
                 repo = "disrupted/blackd-client",
                 asset_file = coalesce(
                     when(platform.is.mac, "blackd-client_macos"),
-                    when(platform.is.linux, "blackd-client_linux")
+                    when(platform.is.linux_x64_gnu, "blackd-client_linux")
                 ),
                 out_file = "blackd-client",
             })
