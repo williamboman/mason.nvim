@@ -87,6 +87,7 @@
 - [fsautocomplete](#fsautocomplete)
 - [gersemi](#gersemi)
 - [gitlint](#gitlint)
+- [gitui](#gitui)
 - [glint](#glint)
 - [glow](#glow)
 - [go-debug-adapter](#go-debug-adapter)
@@ -1491,6 +1492,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`db162f3`](https://github.com/williamboman/mason.nvim/commit/db162f3) 2023-01-19 - fix(drools-lsp): remove unused shell exec wrapper ([#925](https://github.com/williamboman/mason.nvim/issues/925)) by David Ward
 - [`d4601be`](https://github.com/williamboman/mason.nvim/commit/d4601be) 2023-01-16 - feat(drools-lsp): link executable to jar file ([#912](https://github.com/williamboman/mason.nvim/issues/912)) by David Ward
 - [`dd61453`](https://github.com/williamboman/mason.nvim/commit/dd61453) 2023-01-13 - feat(registry): add drools-lsp ([#898](https://github.com/williamboman/mason.nvim/issues/898)) by David Ward
 </details>
@@ -1987,6 +1989,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall gitlint
+```
+
+
+# gitui
+
+> Blazing fast terminal-ui for git written in Rust
+
+Homepage: [https://github.com/extrawurst/gitui](https://github.com/extrawurst/gitui)  
+Languages:   
+Categories:   
+
+<details>
+    <summary>History:</summary>
+
+- [`d825d3d`](https://github.com/williamboman/mason.nvim/commit/d825d3d) 2023-01-18 - feat(registry): add gitui ([#919](https://github.com/williamboman/mason.nvim/issues/919)) by Dan Sully
+</details>
+
+```
+:MasonInstall gitui
 ```
 
 

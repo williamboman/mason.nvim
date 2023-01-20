@@ -1,7 +1,6 @@
 local Pkg = require "mason-core.package"
 local github = require "mason-core.managers.github"
 local Optional = require "mason-core.optional"
-local path = require "mason-core.path"
 
 return Pkg.new {
     name = "drools-lsp",
@@ -10,8 +9,7 @@ return Pkg.new {
     languages = { Pkg.Lang.Drools },
     categories = { Pkg.Cat.LSP },
     ---@async
-    ---@param ctx InstallContext
-    install = function(ctx)
+    install = function()
         local jar = "drools-lsp-server-jar-with-dependencies.jar"
         github
             .download_release_file({
@@ -21,12 +19,5 @@ return Pkg.new {
                 out_file = jar,
             })
             .with_receipt()
-        ctx:link_bin(
-            "drools-lsp",
-            ctx:write_shell_exec_wrapper(
-                "drools-lsp",
-                ("java -jar %q"):format(path.concat { ctx.package:get_install_path(), jar })
-            )
-        )
     end,
 }
