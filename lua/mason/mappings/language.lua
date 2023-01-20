@@ -41,7 +41,7 @@ return {
   elm = { "elm-format", "elm-language-server" },
   ember = { "ember-language-server" },
   emmet = { "emmet-ls" },
-  erg = { "erg-language-server" },
+  erg = { "erg", "erg-language-server" },
   erlang = { "erlang-ls" },
   ["f#"] = { "fantomas", "fsautocomplete", "netcoredbg" },
   flow = { "prettier", "prettierd" },
