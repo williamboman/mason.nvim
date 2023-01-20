@@ -71,6 +71,7 @@ return {
   ["ember-language-server"] = "mason-registry.ember-language-server",
   ["emmet-ls"] = "mason-registry.emmet-ls",
   ["erb-lint"] = "mason-registry.erb-lint",
+  erg = "mason-registry.erg",
   ["erg-language-server"] = "mason-registry.erg-language-server",
   ["erlang-ls"] = "mason-registry.erlang-ls",
   esbonio = "mason-registry.esbonio",
