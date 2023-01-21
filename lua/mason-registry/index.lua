@@ -256,6 +256,7 @@ return {
   vint = "mason-registry.vint",
   ["visualforce-language-server"] = "mason-registry.visualforce-language-server",
   vls = "mason-registry.vls",
+  vtsls = "mason-registry.vtsls",
   ["vue-language-server"] = "mason-registry.vue-language-server",
   vulture = "mason-registry.vulture",
   ["wgsl-analyzer"] = "mason-registry.wgsl-analyzer",
