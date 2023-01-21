@@ -22,6 +22,7 @@
 - [black](#black)
 - [blade-formatter](#blade-formatter)
 - [blue](#blue)
+- [brighterscript](#brighterscript)
 - [bsl-language-server](#bsl-language-server)
 - [buf](#buf)
 - [buf-language-server](#buf-language-server)
@@ -71,6 +72,7 @@
 - [ember-language-server](#ember-language-server)
 - [emmet-ls](#emmet-ls)
 - [erb-lint](#erb-lint)
+- [erg](#erg)
 - [erg-language-server](#erg-language-server)
 - [erlang-ls](#erlang-ls)
 - [esbonio](#esbonio)
@@ -671,6 +673,26 @@ Categories: `Formatter`
 
 ```
 :MasonInstall blue
+```
+
+
+# brighterscript
+
+> A superset of Roku's BrightScript language.
+
+Homepage: [https://github.com/RokuCommunity/brighterscript](https://github.com/RokuCommunity/brighterscript)  
+Languages: `BrighterScript`  
+Categories: `LSP` `Compiler`  
+
+<details>
+    <summary>History:</summary>
+
+- [`9660a81`](https://github.com/williamboman/mason.nvim/commit/9660a81) 2023-01-20 - fix(brighterscript): link correct executable ([#931](https://github.com/williamboman/mason.nvim/issues/931)) by William Boman
+- [`62f5569`](https://github.com/williamboman/mason.nvim/commit/62f5569) 2023-01-20 - feat(registry): add brighterscript ([#926](https://github.com/williamboman/mason.nvim/issues/926)) by Cason Adams
+</details>
+
+```
+:MasonInstall brighterscript
 ```
 
 
@@ -1664,6 +1686,25 @@ Categories: `Linter`
 
 ```
 :MasonInstall erb-lint
+```
+
+
+# erg
+
+> A statically typed language that can deeply improve the Python ecosystem.
+
+Homepage: [https://github.com/erg-lang/erg](https://github.com/erg-lang/erg)  
+Languages: `Erg`  
+Categories: `LSP` `Compiler`  
+
+<details>
+    <summary>History:</summary>
+
+- [`0f4d8e7`](https://github.com/williamboman/mason.nvim/commit/0f4d8e7) 2023-01-20 - feat(registry): add erg ([#921](https://github.com/williamboman/mason.nvim/issues/921)) by takuto
+</details>
+
+```
+:MasonInstall erg
 ```
 
 
