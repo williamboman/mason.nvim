@@ -7,5 +7,5 @@ return Pkg.new {
     homepage = "https://github.com/yioneko/vtsls",
     categories = { Pkg.Cat.LSP },
     languages = { Pkg.Lang.TypeScript, Pkg.Lang.JavaScript },
-    install = npm.packages { "@vtsls/language-server" },
+    install = npm.packages { "@vtsls/language-server", bin = { "vtsls --stdio" } },
 }
