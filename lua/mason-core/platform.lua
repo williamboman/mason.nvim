@@ -18,6 +18,7 @@ local arch_aliases = {
     ["aarch64"] = "arm64",
     ["aarch64_be"] = "arm64",
     ["armv8b"] = "arm64", -- arm64 compat
+    ["armv7l"] = "arm64", -- arm64 compat
     ["armv8l"] = "arm64", -- arm64 compat
 }
 
