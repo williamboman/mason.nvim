@@ -257,6 +257,7 @@
 - [vint](#vint)
 - [visualforce-language-server](#visualforce-language-server)
 - [vls](#vls)
+- [vtsls](#vtsls)
 - [vue-language-server](#vue-language-server)
 - [vulture](#vulture)
 - [wgsl-analyzer](#wgsl-analyzer)
@@ -5450,6 +5451,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall vls
+```
+
+
+# vtsls
+
+> LSP wrapper around the TypeScript extension bundled with VSCode.
+
+Homepage: [https://github.com/yioneko/vtsls](https://github.com/yioneko/vtsls)  
+Languages: `TypeScript` `JavaScript`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`71069da`](https://github.com/williamboman/mason.nvim/commit/71069da) 2023-01-21 - feat(registry): add vtsls ([#935](https://github.com/williamboman/mason.nvim/issues/935)) by Bruno Mello
+</details>
+
+```
+:MasonInstall vtsls
 ```
 
 
