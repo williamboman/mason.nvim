@@ -6,6 +6,6 @@ return Pkg.new {
     desc = [[Pyre is a performant type checker for Python compliant with PEP 484]],
     homepage = "https://pypi.org/project/pyre-check/",
     languages = { Pkg.Lang.Python },
-    categories = { Pkg.Cat.Linter },
+    categories = { Pkg.Cat.Linter, Pkg.Cat.LSP },
     install = pip3.packages { "pyre-check", bin = { "pyre" } },
 }
