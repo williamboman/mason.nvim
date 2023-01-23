@@ -20,6 +20,7 @@
 - [beautysh](#beautysh)
 - [bicep-lsp](#bicep-lsp)
 - [black](#black)
+- [blackd-client](#blackd-client)
 - [blade-formatter](#blade-formatter)
 - [blue](#blue)
 - [brighterscript](#brighterscript)
@@ -633,6 +634,25 @@ Categories: `Formatter`
 
 ```
 :MasonInstall black
+```
+
+
+# blackd-client
+
+> Tiny HTTP client for the Black (blackd) Python code formatter
+
+Homepage: [https://github.com/disrupted/blackd-client](https://github.com/disrupted/blackd-client)  
+Languages: `Python`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`b66333c`](https://github.com/williamboman/mason.nvim/commit/b66333c) 2023-01-22 - feat(registry): add blackd-client ([#928](https://github.com/williamboman/mason.nvim/issues/928)) by Dan Sully
+</details>
+
+```
+:MasonInstall blackd-client
 ```
 
 
