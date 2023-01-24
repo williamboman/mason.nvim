@@ -4015,11 +4015,12 @@ Categories: `Linter`
 
 Homepage: [https://pypi.org/project/pyre-check/](https://pypi.org/project/pyre-check/)  
 Languages: `Python`  
-Categories: `Linter`  
+Categories: `Linter` `LSP`  
 
 <details>
     <summary>History:</summary>
 
+- [`22c8a1e`](https://github.com/williamboman/mason.nvim/commit/22c8a1e) 2023-01-23 - feat(pyre): add LSP category ([#940](https://github.com/williamboman/mason.nvim/issues/940)) by William Boman
 - [`5dd6257`](https://github.com/williamboman/mason.nvim/commit/5dd6257) 2022-10-02 - feat: add pyre linter ([#495](https://github.com/williamboman/mason.nvim/issues/495)) by Michael
 </details>
 
