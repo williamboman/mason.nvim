@@ -16,6 +16,7 @@ return {
   ["bash-debug-adapter"] = "mason-registry.bash-debug-adapter",
   ["bash-language-server"] = "mason-registry.bash-language-server",
   ["beancount-language-server"] = "mason-registry.beancount-language-server",
+  beartype = "mason-registry.beartype",
   beautysh = "mason-registry.beautysh",
   ["bicep-lsp"] = "mason-registry.bicep-lsp",
   black = "mason-registry.black",
