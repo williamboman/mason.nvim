@@ -127,6 +127,7 @@ return {
   typescript = { "chrome-debug-adapter", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "glint", "js-debug-adapter", "node-debug2-adapter", "prettier", "prettierd", "rome", "rustywind", "semgrep", "typescript-language-server", "vtsls", "xo" },
   v = { "vls" },
   vala = { "vala-language-server" },
+  veryl = { "veryl-ls" },
   vimscript = { "vim-language-server", "vint" },
   visualforce = { "visualforce-language-server" },
   vue = { "prettier", "prettierd", "rustywind", "vetur-vls", "vue-language-server" },

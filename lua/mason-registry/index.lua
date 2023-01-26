@@ -252,6 +252,7 @@ return {
   ["vala-language-server"] = "mason-registry.vala-language-server",
   vale = "mason-registry.vale",
   verible = "mason-registry.verible",
+  ["veryl-ls"] = "mason-registry.veryl-ls",
   ["vetur-vls"] = "mason-registry.vetur-vls",
   ["vim-language-server"] = "mason-registry.vim-language-server",
   vint = "mason-registry.vint",
