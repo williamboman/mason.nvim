@@ -21,8 +21,8 @@ return Pkg.new {
             when(platform.is.mac_x64, "x86_64-macos.tar.zst"),
             when(platform.is.linux_x64, "x86_64-linux.tar.zst"),
             when(platform.is.linux_x86, "i386-linux.tar.zst"),
-            when(platform.is.win_x64, "i386-windows.tar.zst"),
-            when(platform.is.win_x64, "x86_64-windows.tar.zst")
+            when(platform.is.win_x64, "x86_64-windows.tar.zst"),
+            when(platform.is.win_x86, "i386-windows.tar.zst")
         )
         github
             .untarzst_release_file({
