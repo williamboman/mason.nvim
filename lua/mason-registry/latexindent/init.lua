@@ -8,7 +8,10 @@ local coalesce, when = _.coalesce, _.when
 
 return Pkg.new {
     name = "latexindent",
-    desc = [[Perl script to add indentation to LaTeX files.]],
+    desc = _.dedent [[
+        latexindent.pl is a perl script to beautify/tidy/format/indent (add horizontal leading space to) code within
+        environments, commands, after headings and within special code blocks.
+    ]],
     homepage = "https://github.com/cmhughes/latexindent.pl",
     languages = { Pkg.Lang.LaTeX },
     categories = { Pkg.Cat.Formatter },
