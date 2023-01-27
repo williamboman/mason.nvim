@@ -22,8 +22,7 @@ return Pkg.new {
                 asset_file = coalesce(
                     when(platform.is.mac_x64, "latexindent-macos"),
                     when(platform.is.mac_arm64, "latexindent-macos"),
-                    when(platform.is.linux_arm64, "latexindent-linux"),
-                    when(platform.is.linux_x64, "latexindent-linux"),
+                    when(platform.is.linux_x64_gnu, "latexindent-linux"),
                     when(platform.is.win_x64, "latexindent.exe")
                 ),
             })
