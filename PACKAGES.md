@@ -253,6 +253,7 @@
 - [vala-language-server](#vala-language-server)
 - [vale](#vale)
 - [verible](#verible)
+- [veryl-ls](#veryl-ls)
 - [vetur-vls](#vetur-vls)
 - [vim-language-server](#vim-language-server)
 - [vint](#vint)
@@ -5371,6 +5372,25 @@ Categories: `LSP` `Linter` `Formatter`
 ```
 
 
+# veryl-ls
+
+> Veryl language server
+
+Homepage: [https://github.com/dalance/veryl](https://github.com/dalance/veryl)  
+Languages: `Veryl`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`621730a`](https://github.com/williamboman/mason.nvim/commit/621730a) 2023-01-26 - feat(registry): add veryl language server ([#945](https://github.com/williamboman/mason.nvim/issues/945)) by dalance
+</details>
+
+```
+:MasonInstall veryl-ls
+```
+
+
 # vetur-vls
 
 > VLS (Vue Language Server) is a language server implementation compatible with Language Server Protocol.
@@ -5732,6 +5752,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`3717745`](https://github.com/williamboman/mason.nvim/commit/3717745) 2023-01-26 - fix(zls): fix Windows x64 target ([#948](https://github.com/williamboman/mason.nvim/issues/948)) by William Boman
 - [`b9e8c4a`](https://github.com/williamboman/mason.nvim/commit/b9e8c4a) 2022-11-03 - fix(zls): support zst ([#622](https://github.com/williamboman/mason.nvim/issues/622)) by Access
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
