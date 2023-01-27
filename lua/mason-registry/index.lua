@@ -133,6 +133,7 @@ return {
   ["kotlin-debug-adapter"] = "mason-registry.kotlin-debug-adapter",
   ["kotlin-language-server"] = "mason-registry.kotlin-language-server",
   ktlint = "mason-registry.ktlint",
+  latexindent = "mason-registry.latexindent",
   lelwel = "mason-registry.lelwel",
   lemminx = "mason-registry.lemminx",
   ["lemmy-help"] = "mason-registry.lemmy-help",

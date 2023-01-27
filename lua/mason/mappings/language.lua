@@ -70,7 +70,7 @@ return {
   julia = { "julia-lsp" },
   kotlin = { "kotlin-debug-adapter", "kotlin-language-server", "ktlint" },
   ksh = { "beautysh" },
-  latex = { "ltex-ls", "tectonic", "texlab", "vale" },
+  latex = { "latexindent", "ltex-ls", "tectonic", "texlab", "vale" },
   lelwel = { "lelwel" },
   less = { "css-lsp", "prettier", "prettierd" },
   liquid = { "curlylint", "shopify-theme-check" },
