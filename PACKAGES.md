@@ -134,6 +134,7 @@
 - [kotlin-debug-adapter](#kotlin-debug-adapter)
 - [kotlin-language-server](#kotlin-language-server)
 - [ktlint](#ktlint)
+- [latexindent](#latexindent)
 - [lelwel](#lelwel)
 - [lemminx](#lemminx)
 - [lemmy-help](#lemmy-help)
@@ -2947,6 +2948,26 @@ Categories: `Formatter` `Linter`
 
 ```
 :MasonInstall ktlint
+```
+
+
+# latexindent
+
+> latexindent.pl is a perl script to beautify/tidy/format/indent (add horizontal leading space to) code within
+environments, commands, after headings and within special code blocks.
+
+Homepage: [https://github.com/cmhughes/latexindent.pl](https://github.com/cmhughes/latexindent.pl)  
+Languages: `LaTeX`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`dc48fae`](https://github.com/williamboman/mason.nvim/commit/dc48fae) 2023-01-27 - feat(registry): add latexindent formatter ([#949](https://github.com/williamboman/mason.nvim/issues/949)) by Jack Woodside
+</details>
+
+```
+:MasonInstall latexindent
 ```
 
 
