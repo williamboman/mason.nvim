@@ -29,6 +29,20 @@ local function download_lombok()
     std.download_file("https://projectlombok.org/downloads/lombok.jar", "lombok.jar")
 end
 
+---@async
+local function download_quiltflower()
+    github
+        .download_release_file({
+            repo = "QuiltMC/quiltflower",
+            out_file = "quiltflower.jar",
+            asset_file = function(release)
+                local version = release:gsub("^v", "")
+                return ("quiltflower-%s.jar"):format(version)
+            end,
+        })
+        .with_receipt()
+end
+
 return Pkg.new {
     name = "jdtls",
     desc = [[Java language server]],
@@ -38,7 +52,7 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        installer.run_concurrently { download_jdtls, download_lombok }
+        installer.run_concurrently { download_jdtls, download_lombok, download_quiltflower }
         platform.when {
             unix = function()
                 ctx:link_bin("jdtls", path.concat { "bin", "jdtls" })
