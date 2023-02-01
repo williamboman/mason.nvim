@@ -100,6 +100,7 @@ return {
   ["golangci-lint-langserver"] = "mason-registry.golangci-lint-langserver",
   golines = "mason-registry.golines",
   gomodifytags = "mason-registry.gomodifytags",
+  ["google-java-format"] = "mason-registry.google-java-format",
   gopls = "mason-registry.gopls",
   gotests = "mason-registry.gotests",
   gotestsum = "mason-registry.gotestsum",
