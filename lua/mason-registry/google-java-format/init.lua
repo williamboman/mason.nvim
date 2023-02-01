@@ -17,7 +17,7 @@ return Pkg.new {
                 out_file = "google-java-format.jar",
                 asset_file = function(release)
                     local version = release:gsub("^v", "")
-                    return ("google-java-format-%s.jar"):format(version)
+                    return ("google-java-format-%s-all-deps.jar"):format(version)
                 end,
             })
             .with_receipt()
