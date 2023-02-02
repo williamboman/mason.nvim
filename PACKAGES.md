@@ -101,6 +101,7 @@
 - [golangci-lint-langserver](#golangci-lint-langserver)
 - [golines](#golines)
 - [gomodifytags](#gomodifytags)
+- [google-java-format](#google-java-format)
 - [gopls](#gopls)
 - [gotests](#gotests)
 - [gotestsum](#gotestsum)
@@ -2277,6 +2278,25 @@ Categories:
 
 ```
 :MasonInstall gomodifytags
+```
+
+
+# google-java-format
+
+> google-java-format is a program that reformats Java source code to comply with Google Java Style.
+
+Homepage: [https://github.com/google/google-java-format](https://github.com/google/google-java-format)  
+Languages: `Java`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`07de1d1`](https://github.com/williamboman/mason.nvim/commit/07de1d1) 2023-02-01 - feat(registry): add google-java-format ([#958](https://github.com/williamboman/mason.nvim/issues/958)) by Jay Patel
+</details>
+
+```
+:MasonInstall google-java-format
 ```
 
 
