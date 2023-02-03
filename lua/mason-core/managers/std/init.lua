@@ -102,11 +102,21 @@ end
 function M.untar(file, opts)
     opts = opts or {}
     local ctx = installer.context()
+    local tarfile = string.gsub(file, ".zst$", "")
+    if platform.is.win and file ~= tarfile then
+        ctx.spawn.zstd {
+            "-d",
+            "-f",
+            "-o",
+            tarfile,
+            file,
+        }
+    end       
     ctx.spawn.tar {
         opts.strip_components and { "--strip-components", opts.strip_components } or vim.NIL,
         "--no-same-owner",
         "-xvf",
-        file,
+        tarfile,
     }
     pcall(function()
         ctx.fs:unlink(file)
