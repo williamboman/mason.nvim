@@ -102,6 +102,7 @@ return {
   gomodifytags = "mason-registry.gomodifytags",
   ["google-java-format"] = "mason-registry.google-java-format",
   gopls = "mason-registry.gopls",
+  gospel = "mason-registry.gospel",
   gotests = "mason-registry.gotests",
   gotestsum = "mason-registry.gotestsum",
   ["gradle-language-server"] = "mason-registry.gradle-language-server",
