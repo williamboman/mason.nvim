@@ -2,6 +2,7 @@ local M = {}
 
 ---@alias InstallReceiptSchemaVersion
 ---| '"1.0"'
+---| '"1.1"'
 
 ---@alias InstallReceiptSourceType
 ---| '"npm"'
@@ -22,7 +23,8 @@ local M = {}
 ---@alias InstallReceiptSource {type: InstallReceiptSourceType}
 
 ---@class InstallReceiptLinks
----@field bin table<string, string>
+---@field bin? table<string, string>
+---@field share? table<string, string>
 
 ---@class InstallReceiptBuilder
 ---@field private secondary_sources InstallReceiptSource[]
@@ -36,6 +38,7 @@ function InstallReceiptBuilder.new()
         secondary_sources = {},
         links = {
             bin = vim.empty_dict(),
+            share = vim.empty_dict(),
         },
     }, InstallReceiptBuilder)
 end
@@ -64,7 +67,7 @@ function InstallReceiptBuilder:with_secondary_source(source)
     return self
 end
 
----@param typ '"bin"'
+---@param typ '"bin"' | '"share"'
 ---@param name string
 ---@param rel_path string
 function InstallReceiptBuilder:with_link(typ, name, rel_path)

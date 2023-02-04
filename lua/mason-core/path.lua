@@ -38,6 +38,11 @@ function M.bin_prefix(executable)
     return M.concat { M.install_prefix "bin", executable }
 end
 
+---@param share string?
+function M.share_prefix(share)
+    return M.concat { M.install_prefix "share", share }
+end
+
 ---@param name string?
 function M.package_prefix(name)
     return M.concat { M.install_prefix "packages", name }

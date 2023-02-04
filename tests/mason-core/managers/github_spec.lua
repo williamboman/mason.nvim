@@ -14,6 +14,7 @@ describe("github release file", function()
             stub(client, "fetch_latest_release")
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             local source = installer.exec_in_context(ctx, function()
                 return github.release_file {
                     repo = "williamboman/mason.nvim",
@@ -39,6 +40,7 @@ describe("github release file", function()
             }))
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             local source = installer.exec_in_context(ctx, function()
                 return github.release_file {
                     repo = "williamboman/mason.nvim",
@@ -66,6 +68,7 @@ describe("github release version", function()
             stub(client, "fetch_latest_release")
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             local source = installer.exec_in_context(ctx, function()
                 return github.release_version {
                     repo = "williamboman/mason.nvim",
@@ -85,6 +88,7 @@ describe("github release version", function()
                 client.fetch_latest_release.returns(Result.success { tag_name = "v42" })
                 local handle = InstallHandleGenerator "dummy"
                 local ctx = InstallContextGenerator(handle)
+                installer.prepare_installer(ctx)
                 local source = installer.exec_in_context(ctx, function()
                     return github.release_version {
                         repo = "williamboman/mason.nvim",

@@ -8,6 +8,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             installer.exec_in_context(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
@@ -27,6 +28,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "1.2.3" })
+            installer.prepare_installer(ctx)
             installer.exec_in_context(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
@@ -46,6 +48,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             installer.exec_in_context(ctx, luarocks.package("lua-cjson", { dev = true }))
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
@@ -65,6 +68,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             installer.exec_in_context(ctx, luarocks.package("luaformatter", { server = "https://luarocks.org/dev" }))
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
