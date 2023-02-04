@@ -49,7 +49,7 @@ return {
   fortran = { "fortls" },
   gitcommit = { "commitlint", "gitlint" },
   glimmer = { "glint" },
-  go = { "delve", "djlint", "go-debug-adapter", "gofumpt", "goimports", "goimports-reviser", "golangci-lint", "golangci-lint-langserver", "golines", "gomodifytags", "gopls", "gotests", "gotestsum", "iferr", "impl", "json-to-struct", "revive", "semgrep", "staticcheck" },
+  go = { "delve", "djlint", "go-debug-adapter", "gofumpt", "goimports", "goimports-reviser", "golangci-lint", "golangci-lint-langserver", "golines", "gomodifytags", "gopls", "gospel", "gotests", "gotestsum", "iferr", "impl", "json-to-struct", "revive", "semgrep", "staticcheck" },
   gradle = { "gradle-language-server" },
   graphql = { "graphql-language-service-cli", "prettier", "prettierd" },
   groovy = { "groovy-language-server" },
