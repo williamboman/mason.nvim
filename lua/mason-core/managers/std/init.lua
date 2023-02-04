@@ -98,15 +98,25 @@ end
 
 ---@async
 ---@param file string
----@param opts {strip_components:integer}?
+---@param opts { strip_components?: integer }?
 function M.untar(file, opts)
     opts = opts or {}
     local ctx = installer.context()
+    local tarfile = string.gsub(file, ".zst$", "")
+    if platform.is.win and file ~= tarfile then
+        ctx.spawn.zstd {
+            "-d",
+            "-f",
+            "-o",
+            tarfile,
+            file,
+        }
+    end
     ctx.spawn.tar {
         opts.strip_components and { "--strip-components", opts.strip_components } or vim.NIL,
         "--no-same-owner",
         "-xvf",
-        file,
+        tarfile,
     }
     pcall(function()
         ctx.fs:unlink(file)
@@ -115,7 +125,25 @@ end
 
 ---@async
 ---@param file string
----@param opts {strip_components: integer?}?
+---@param opts { strip_components?: integer }?
+function M.untarzst(file, opts)
+    opts = opts or {}
+    platform.when {
+        unix = function()
+            M.untar(file, opts)
+        end,
+        win = function()
+            local ctx = installer.context()
+            local uncompressed_tar = file:gsub("%.zst$", "")
+            ctx.spawn.zstd { "-dfo", uncompressed_tar, file }
+            M.untar(uncompressed_tar, opts)
+        end,
+    }
+end
+
+---@async
+---@param file string
+---@param opts { strip_components?: integer }?
 function M.untarxz(file, opts)
     opts = opts or {}
     local ctx = installer.context()
@@ -126,7 +154,7 @@ function M.untarxz(file, opts)
         win = function()
             Result.run_catching(function()
                 win_decompress(file) -- unpack .tar.xz to .tar
-                local uncompressed_tar = file:gsub(".xz$", "")
+                local uncompressed_tar = file:gsub("%.xz$", "")
                 M.untar(uncompressed_tar, opts)
             end):recover(function()
                 ctx.spawn.arc {
