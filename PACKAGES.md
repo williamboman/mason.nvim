@@ -103,6 +103,7 @@
 - [gomodifytags](#gomodifytags)
 - [google-java-format](#google-java-format)
 - [gopls](#gopls)
+- [gospel](#gospel)
 - [gotests](#gotests)
 - [gotestsum](#gotestsum)
 - [gradle-language-server](#gradle-language-server)
@@ -2319,6 +2320,25 @@ Categories: `LSP`
 
 ```
 :MasonInstall gopls
+```
+
+
+# gospel
+
+> misspelled word linter for Go comments, string literals and embedded files
+
+Homepage: [https://github.com/kortschak/gospel](https://github.com/kortschak/gospel)  
+Languages: `Go`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`9ec92c1`](https://github.com/williamboman/mason.nvim/commit/9ec92c1) 2023-02-04 - feat(registry): add gospel ([#961](https://github.com/williamboman/mason.nvim/issues/961)) by Seth Daniel
+</details>
+
+```
+:MasonInstall gospel
 ```
 
 
