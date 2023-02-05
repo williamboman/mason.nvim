@@ -78,7 +78,7 @@ local function join_handles(handles)
 end
 
 ---@param package_specifiers string[]
----@param opts? { debug: boolean }
+---@param opts? PackageInstallOpts
 local function MasonInstall(package_specifiers, opts)
     opts = opts or {}
     local Package = require "mason-core.package"
@@ -97,7 +97,12 @@ local function MasonInstall(package_specifiers, opts)
     local install_packages = _.map(function(pkg_specifier)
         local package_name, version = Package.Parse(pkg_specifier)
         local pkg = registry.get_package(package_name)
-        return pkg:install { version = version, debug = opts.debug }
+        return pkg:install {
+            version = version,
+            debug = opts.debug,
+            force = opts.force,
+            target = opts.target,
+        }
     end)
 
     if is_headless then
@@ -114,11 +119,22 @@ local function MasonInstall(package_specifiers, opts)
     end
 end
 
+local parse_opts = _.compose(
+    _.from_pairs,
+    _.map(_.compose(function(arg)
+        if #arg == 2 then
+            return arg
+        else
+            return { arg[1], true }
+        end
+    end, _.split "=", _.gsub("^%-%-", "")))
+)
+
 ---@param args string[]
----@return table<string, true> opts, string[] args
+---@return table<string, true|string> opts, string[] args
 local function parse_args(args)
     local opts_list, args = unpack(_.partition(_.starts_with "--", args))
-    local opts = _.set_of(_.map(_.gsub("^%-%-", ""), opts_list))
+    local opts = parse_opts(opts_list)
     return opts, args
 end
 
