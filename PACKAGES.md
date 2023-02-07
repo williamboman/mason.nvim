@@ -2213,6 +2213,7 @@ Categories: `Linter`
 <details>
     <summary>History:</summary>
 
+- [`4772aec`](https://github.com/williamboman/mason.nvim/commit/4772aec) 2023-02-06 - feat(golangci-lint): change installation method ([#969](https://github.com/williamboman/mason.nvim/issues/969)) by Michalis Fotiadis
 - [`3f4071f`](https://github.com/williamboman/mason.nvim/commit/3f4071f) 2022-08-07 - chore: reformat long descriptions ([#264](https://github.com/williamboman/mason.nvim/issues/264)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
