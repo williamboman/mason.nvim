@@ -44,6 +44,7 @@ return {
   erg = { "erg", "erg-language-server" },
   erlang = { "erlang-ls" },
   ["f#"] = { "fantomas", "fsautocomplete", "netcoredbg" },
+  fennel = { "fennel-language-server" },
   flow = { "prettier", "prettierd" },
   flux = { "flux-lsp" },
   fortran = { "fortls" },
