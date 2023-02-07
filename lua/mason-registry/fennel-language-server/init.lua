@@ -15,4 +15,3 @@ return Pkg.new {
         bin = { "fennel-language-server" },
     }),
 }
-
