@@ -80,6 +80,7 @@
 - [eslint-lsp](#eslint-lsp)
 - [eslint_d](#eslint_d)
 - [fantomas](#fantomas)
+- [fennel-language-server](#fennel-language-server)
 - [firefox-debug-adapter](#firefox-debug-adapter)
 - [fixjson](#fixjson)
 - [flake8](#flake8)
@@ -1855,6 +1856,25 @@ Categories: `Formatter`
 
 ```
 :MasonInstall fantomas
+```
+
+
+# fennel-language-server
+
+> Fennel language server protocol (LSP) support. 
+
+Homepage: [https://github.com/rydesun/fennel-language-server](https://github.com/rydesun/fennel-language-server)  
+Languages: `Fennel`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`6f8f1ab`](https://github.com/williamboman/mason.nvim/commit/6f8f1ab) 2023-02-07 - feat(registry): add fennel-language-server ([#971](https://github.com/williamboman/mason.nvim/issues/971)) by Massolari
+</details>
+
+```
+:MasonInstall fennel-language-server
 ```
 
 
