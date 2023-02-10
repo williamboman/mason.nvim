@@ -45,18 +45,18 @@ local function get(path_template)
     end
 end
 
-api.repo = {
+api.github = {
     releases = {
         ---@type ApiSignature<{ repo: string }>
-        latest = get "/api/repo/{repo}/releases/latest",
+        latest = get "/api/github/{repo}/releases/latest",
         ---@type ApiSignature<{ repo: string }>
-        all = get "/api/repo/{repo}/releases/all",
+        all = get "/api/github/{repo}/releases/all",
     },
     tags = {
         ---@type ApiSignature<{ repo: string }>
-        latest = get "/api/repo/{repo}/tags/latest",
+        latest = get "/api/github/{repo}/tags/latest",
         ---@type ApiSignature<{ repo: string }>
-        all = get "/api/repo/{repo}/tags/all",
+        all = get "/api/github/{repo}/tags/all",
     },
 }
 

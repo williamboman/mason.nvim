@@ -4,16 +4,16 @@ local api = require "mason-registry.api"
 return {
     github = {
         get_latest_release = function(repo)
-            return api.repo.releases.latest { repo = repo }
+            return api.github.releases.latest { repo = repo }
         end,
         get_all_release_versions = function(repo)
-            return api.repo.releases.all { repo = repo }
+            return api.github.releases.all { repo = repo }
         end,
         get_latest_tag = function(repo)
-            return api.repo.tags.latest { repo = repo }
+            return api.github.tags.latest { repo = repo }
         end,
         get_all_tags = function(repo)
-            return api.repo.tags.all { repo = repo }
+            return api.github.tags.all { repo = repo }
         end,
     },
     npm = {
