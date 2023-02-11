@@ -3121,15 +3121,16 @@ Categories: `LSP`
 
 # lua-language-server
 
-> Lua Language Server
+> A language server that offers Lua language support - programmed in Lua.
 
-Homepage: [https://github.com/sumneko/lua-language-server](https://github.com/sumneko/lua-language-server)  
+Homepage: [https://github.com/LuaLS/lua-language-server](https://github.com/LuaLS/lua-language-server)  
 Languages: `Lua`  
 Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
 
+- [`14ae1ca`](https://github.com/williamboman/mason.nvim/commit/14ae1ca) 2023-02-09 - feat(lua-language-server): update source repo ([#975](https://github.com/williamboman/mason.nvim/issues/975)) by T727
 - [`4d734ae`](https://github.com/williamboman/mason.nvim/commit/4d734ae) 2023-01-12 - fix: avoid calling API functions inside fast event ([#892](https://github.com/williamboman/mason.nvim/issues/892)) by William Boman
 - [`7344927`](https://github.com/williamboman/mason.nvim/commit/7344927) 2023-01-12 - fix(lua-language-server): only install Linux assets on GNU systems ([#890](https://github.com/williamboman/mason.nvim/issues/890)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
