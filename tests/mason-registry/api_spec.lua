@@ -43,10 +43,10 @@ describe("mason-registry API", function()
     it("should interpolate path parameters", function()
         fetch.returns(Result.success [[{}]])
 
-        local result = api.repo.releases.latest { repo = "myrepo/name" }
+        local result = api.github.releases.latest { repo = "myrepo/name" }
 
         assert.is_true(result:is_success())
         assert.spy(fetch).was_called(1)
-        assert.spy(fetch).was_called_with(match.is_match "/api/repo/myrepo/name/releases/latest$", match.is_table())
+        assert.spy(fetch).was_called_with(match.is_match "/api/github/myrepo/name/releases/latest$", match.is_table())
     end)
 end)
