@@ -6,6 +6,7 @@ return {
   ada = { "ada-language-server" },
   angular = { "angular-language-server", "djlint", "prettier", "prettierd", "rustywind" },
   ansible = { "ansible-language-server" },
+  antlers = { "antlers-language-server" },
   apex = { "apex-language-server" },
   arduino = { "arduino-language-server" },
   assembly = { "asm-lsp" },
