@@ -10,7 +10,7 @@ return Pkg.new {
     name = "hadolint",
     desc = [[Dockerfile linter, validate inline bash, written in Haskell]],
     homepage = "https://github.com/hadolint/hadolint",
-    languages = { Pkg.Lang.Dockerfile },
+    languages = { Pkg.Lang.Docker },
     categories = { Pkg.Cat.Linter },
     ---@async
     ---@param ctx InstallContext
