@@ -61,6 +61,7 @@ return {
   ["dhall-lsp"] = "mason-registry.dhall-lsp",
   ["diagnostic-languageserver"] = "mason-registry.diagnostic-languageserver",
   djlint = "mason-registry.djlint",
+  ["docker-compose-language-service"] = "mason-registry.docker-compose-language-service",
   ["dockerfile-language-server"] = "mason-registry.dockerfile-language-server",
   ["dot-language-server"] = "mason-registry.dot-language-server",
   dprint = "mason-registry.dprint",

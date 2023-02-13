@@ -35,7 +35,7 @@ return {
   dart = { "dart-debug-adapter" },
   dhall = { "dhall-lsp" },
   django = { "curlylint", "djlint" },
-  dockerfile = { "dockerfile-language-server", "hadolint" },
+  docker = { "docker-compose-language-service", "dockerfile-language-server", "hadolint" },
   dot = { "dot-language-server" },
   drools = { "drools-lsp" },
   elixir = { "elixir-ls" },
