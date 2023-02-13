@@ -5,7 +5,7 @@ return {
   ["1С:enterprise"] = { "bsl-language-server" },
   ada = { "ada-language-server" },
   angular = { "angular-language-server", "djlint", "prettier", "prettierd", "rustywind" },
-  ansible = { "ansible-language-server" },
+  ansible = { "ansible-language-server", "ansible-lint" },
   antlers = { "antlers-language-server" },
   apex = { "apex-language-server" },
   arduino = { "arduino-language-server" },
