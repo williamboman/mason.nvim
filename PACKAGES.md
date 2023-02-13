@@ -7,6 +7,7 @@
 - [alex](#alex)
 - [angular-language-server](#angular-language-server)
 - [ansible-language-server](#ansible-language-server)
+- [antlers-language-server](#antlers-language-server)
 - [apex-language-server](#apex-language-server)
 - [arduino-language-server](#arduino-language-server)
 - [asm-lsp](#asm-lsp)
@@ -376,6 +377,26 @@ Categories: `LSP`
 
 ```
 :MasonInstall ansible-language-server
+```
+
+
+# antlers-language-server
+
+> Provides rich language features for Statamic's Antlers templating language, including code completions, syntax
+highlighting, and more.
+
+Homepage: [https://github.com/Stillat/vscode-antlers-language-server](https://github.com/Stillat/vscode-antlers-language-server)  
+Languages: `Antlers`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`f557094`](https://github.com/williamboman/mason.nvim/commit/f557094) 2023-02-12 - feat: add antlers-language-server ([#985](https://github.com/williamboman/mason.nvim/issues/985)) by William Boman
+</details>
+
+```
+:MasonInstall antlers-language-server
 ```
 
 
