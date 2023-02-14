@@ -7,6 +7,7 @@
 - [alex](#alex)
 - [angular-language-server](#angular-language-server)
 - [ansible-language-server](#ansible-language-server)
+- [ansible-lint](#ansible-lint)
 - [antlers-language-server](#antlers-language-server)
 - [apex-language-server](#apex-language-server)
 - [arduino-language-server](#arduino-language-server)
@@ -62,6 +63,7 @@
 - [dhall-lsp](#dhall-lsp)
 - [diagnostic-languageserver](#diagnostic-languageserver)
 - [djlint](#djlint)
+- [docker-compose-language-service](#docker-compose-language-service)
 - [dockerfile-language-server](#dockerfile-language-server)
 - [dot-language-server](#dot-language-server)
 - [dprint](#dprint)
@@ -377,6 +379,26 @@ Categories: `LSP`
 
 ```
 :MasonInstall ansible-language-server
+```
+
+
+# ansible-lint
+
+> Ansible Lint is a command-line tool for linting playbooks,
+roles and collections aimed toward any Ansible users.
+
+Homepage: [https://github.com/ansible/ansible-lint](https://github.com/ansible/ansible-lint)  
+Languages: `Ansible`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`bd3b991`](https://github.com/williamboman/mason.nvim/commit/bd3b991) 2023-02-13 - feat(registry): add ansible-lint ([#989](https://github.com/williamboman/mason.nvim/issues/989)) by Can Güvendiren
+</details>
+
+```
+:MasonInstall ansible-lint
 ```
 
 
@@ -1490,17 +1512,37 @@ Categories: `Formatter` `Linter`
 ```
 
 
-# dockerfile-language-server
+# docker-compose-language-service
 
-> A language server for Dockerfiles powered by Node.js, TypeScript, and VSCode technologies.
+> A language server for Docker Compose.
 
-Homepage: [https://github.com/rcjsuen/dockerfile-language-server-nodejs](https://github.com/rcjsuen/dockerfile-language-server-nodejs)  
-Languages: `Dockerfile`  
+Homepage: [https://github.com/microsoft/compose-language-service](https://github.com/microsoft/compose-language-service)  
+Languages: `Docker`  
 Categories: `LSP`  
 
 <details>
     <summary>History:</summary>
 
+- [`a35f3c4`](https://github.com/williamboman/mason.nvim/commit/a35f3c4) 2023-02-13 - feat(registry): add docker-compose-language-service ([#986](https://github.com/williamboman/mason.nvim/issues/986)) by Marc Deop
+</details>
+
+```
+:MasonInstall docker-compose-language-service
+```
+
+
+# dockerfile-language-server
+
+> A language server for Dockerfiles powered by Node.js, TypeScript, and VSCode technologies.
+
+Homepage: [https://github.com/rcjsuen/dockerfile-language-server-nodejs](https://github.com/rcjsuen/dockerfile-language-server-nodejs)  
+Languages: `Docker`  
+Categories: `LSP`  
+
+<details>
+    <summary>History:</summary>
+
+- [`a35f3c4`](https://github.com/williamboman/mason.nvim/commit/a35f3c4) 2023-02-13 - feat(registry): add docker-compose-language-service ([#986](https://github.com/williamboman/mason.nvim/issues/986)) by Marc Deop
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -2512,12 +2554,13 @@ Categories: `LSP`
 > Dockerfile linter, validate inline bash, written in Haskell
 
 Homepage: [https://github.com/hadolint/hadolint](https://github.com/hadolint/hadolint)  
-Languages: `Dockerfile`  
+Languages: `Docker`  
 Categories: `Linter`  
 
 <details>
     <summary>History:</summary>
 
+- [`a35f3c4`](https://github.com/williamboman/mason.nvim/commit/a35f3c4) 2023-02-13 - feat(registry): add docker-compose-language-service ([#986](https://github.com/williamboman/mason.nvim/issues/986)) by Marc Deop
 - [`5a19cb2`](https://github.com/williamboman/mason.nvim/commit/5a19cb2) 2022-07-25 - feat: add hadolint ([#128](https://github.com/williamboman/mason.nvim/issues/128)) by Vu Le Thanh
 </details>
 
