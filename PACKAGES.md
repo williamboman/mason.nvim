@@ -1272,7 +1272,7 @@ Categories: `LSP`
 
 # cssmodules-language-server
 
-> autocompletion and go-to-definition for cssmodules
+> autocompletion and go-to-defintion for cssmodules
 
 Homepage: [https://github.com/antonk52/cssmodules-language-server](https://github.com/antonk52/cssmodules-language-server)  
 Languages: `CSS`  
