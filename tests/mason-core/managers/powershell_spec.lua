@@ -23,7 +23,7 @@ describe("powershell manager", function()
     end)
 
     it(
-        "should use powershell if pwsh is not availble",
+        "should use powershell if pwsh is not available",
         async_test(function()
             stub(spawn, "pwsh", function() end)
             stub(spawn, "powershell", function() end)
