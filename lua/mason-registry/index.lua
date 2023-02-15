@@ -256,6 +256,7 @@ return {
   ["typescript-language-server"] = "mason-registry.typescript-language-server",
   ["unocss-language-server"] = "mason-registry.unocss-language-server",
   usort = "mason-registry.usort",
+  vacuum = "mason-registry.vacuum",
   ["vala-language-server"] = "mason-registry.vala-language-server",
   vale = "mason-registry.vale",
   verible = "mason-registry.verible",
