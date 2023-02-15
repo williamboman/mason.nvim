@@ -90,6 +90,7 @@ return {
   nunjucks = { "curlylint", "djlint" },
   ocaml = { "ocaml-lsp", "ocamlformat" },
   onescript = { "bsl-language-server" },
+  openapi = { "vacuum" },
   opencl = { "opencl-language-server" },
   openfoam = { "foam-language-server" },
   openscad = { "openscad-lsp" },
