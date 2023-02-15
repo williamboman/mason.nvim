@@ -3,7 +3,7 @@ local npm = require "mason-core.managers.npm"
 
 return Pkg.new {
     name = "cssmodules-language-server",
-    desc = [[autocompletion and go-to-defintion for cssmodules]],
+    desc = [[autocompletion and go-to-definition for cssmodules]],
     homepage = "https://github.com/antonk52/cssmodules-language-server",
     languages = { Pkg.Lang.CSS },
     categories = { Pkg.Cat.LSP },
