@@ -1523,6 +1523,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`eb6010a`](https://github.com/williamboman/mason.nvim/commit/eb6010a) 2023-02-14 - fix(docker-compose-language-service): upstream added a binary ([#990](https://github.com/williamboman/mason.nvim/issues/990)) by Marc Deop
 - [`a35f3c4`](https://github.com/williamboman/mason.nvim/commit/a35f3c4) 2023-02-13 - feat(registry): add docker-compose-language-service ([#986](https://github.com/williamboman/mason.nvim/issues/986)) by Marc Deop
 </details>
 
