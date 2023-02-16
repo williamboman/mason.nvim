@@ -257,6 +257,7 @@
 - [typescript-language-server](#typescript-language-server)
 - [unocss-language-server](#unocss-language-server)
 - [usort](#usort)
+- [vacuum](#vacuum)
 - [vala-language-server](#vala-language-server)
 - [vale](#vale)
 - [verible](#verible)
@@ -1272,7 +1273,7 @@ Categories: `LSP`
 
 # cssmodules-language-server
 
-> autocompletion and go-to-defintion for cssmodules
+> autocompletion and go-to-definition for cssmodules
 
 Homepage: [https://github.com/antonk52/cssmodules-language-server](https://github.com/antonk52/cssmodules-language-server)  
 Languages: `CSS`  
@@ -1281,6 +1282,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`63ccfe5`](https://github.com/williamboman/mason.nvim/commit/63ccfe5) 2023-02-15 - chore: fix some typos by Zhizhen He
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
@@ -5453,6 +5455,28 @@ Categories: `Formatter`
 
 ```
 :MasonInstall usort
+```
+
+
+# vacuum
+
+> vacuum is the worlds fastest OpenAPI 3, OpenAPI 2 / Swagger linter and quality analysis tool.
+Built in go, it tears through API specs faster than you can think.
+vacuum is compatible with Spectral rulesets and generates compatible reports.
+
+Homepage: [https://github.com/daveshanley/vacuum](https://github.com/daveshanley/vacuum)  
+Languages: `OpenAPI`  
+Categories: `Linter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`fecabaf`](https://github.com/williamboman/mason.nvim/commit/fecabaf) 2023-02-16 - refactor(vacuum): use github source ([#998](https://github.com/williamboman/mason.nvim/issues/998)) by William Boman
+- [`28b27ad`](https://github.com/williamboman/mason.nvim/commit/28b27ad) 2023-02-15 - feat(registry): add vacuum ([#996](https://github.com/williamboman/mason.nvim/issues/996)) by Micah Halter
+</details>
+
+```
+:MasonInstall vacuum
 ```
 
 
