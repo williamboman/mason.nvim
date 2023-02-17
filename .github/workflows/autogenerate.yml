@@ -30,12 +30,12 @@ jobs:
                   add-paths: |
                       lua/mason-schemas
                       PACKAGES.md
-                  commit-message: "chore: update generated code"
+                  commit-message: "chore: autogenerate"
                   branch: chore/autogenerate
                   branch-suffix: short-commit-hash
                   delete-branch: true
                   labels: automerge
-                  title: "chore: update generated code"
+                  title: "chore: autogenerate"
 
             - name: Enable Pull Request Automerge
               if: steps.cpr.outputs.pull-request-operation == 'created'
