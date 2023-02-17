@@ -185,8 +185,7 @@ function Result.try(fn)
     step = function(...)
         local ok, result = coroutine.resume(thread, ...)
         if not ok then
-            -- l'exception! panique!!!
-            error(result, 0)
+            return Result.failure(result)
         end
         if coroutine.status(thread) == "dead" then
             if getmetatable(result) == Result then
