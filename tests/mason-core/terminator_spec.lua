@@ -11,6 +11,8 @@ describe("terminator", function()
     it(
         "should terminate all active handles on nvim exit",
         async_test(function()
+            -- TODO: Tests on CI fail for some reason - sleeping helps
+            a.sleep(500)
             spy.on(InstallHandle, "terminate")
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
@@ -39,6 +41,8 @@ describe("terminator", function()
     it(
         "should print warning messages",
         async_test(function()
+            -- TODO: Tests on CI fail for some reason - sleeping helps
+            a.sleep(500)
             spy.on(vim.api, "nvim_echo")
             spy.on(vim.api, "nvim_err_writeln")
             spy.on(InstallHandle, "terminate")
@@ -81,6 +85,8 @@ describe("terminator", function()
     it(
         "should send SIGTERM and then SIGKILL after grace period",
         async_test(function()
+            -- TODO: Tests on CI fail for some reason - sleeping helps
+            a.sleep(500)
             spy.on(InstallHandle, "kill")
             local dummy = registry.get_package "dummy"
             stub(dummy.spec, "install")
