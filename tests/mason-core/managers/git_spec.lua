@@ -14,6 +14,7 @@ describe("git manager", function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
             local err = assert.has_error(function()
+                installer.prepare_installer(ctx)
                 installer.exec_in_context(ctx, function()
                     git.clone {}
                 end)
@@ -28,6 +29,7 @@ describe("git manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             installer.exec_in_context(ctx, function()
                 git.clone { "https://github.com/williamboman/mason.nvim.git" }
             end)
@@ -48,6 +50,7 @@ describe("git manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "1337" })
+            installer.prepare_installer(ctx)
             installer.exec_in_context(ctx, function()
                 git.clone { "https://github.com/williamboman/mason.nvim.git" }
             end)
@@ -76,6 +79,7 @@ describe("git manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
+            installer.prepare_installer(ctx)
             installer.exec_in_context(ctx, function()
                 git.clone({ "https://github.com/williamboman/mason.nvim.git" }).with_receipt()
             end)

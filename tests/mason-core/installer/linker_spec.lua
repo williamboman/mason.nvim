@@ -12,9 +12,9 @@ EXIT /b
 SETLOCAL
 CALL :find_dp0
 
-endLocal & goto #_undefined_# 2>NUL || title %%COMSPEC%% & "%%dp0%%\%s" %%*]]
+endLocal & goto #_undefined_# 2>NUL || title %%COMSPEC%% & "%s" %%*]]
 
-describe("installer", function()
+describe("linker", function()
     ---@module "mason-core.installer.linker"
     local linker
     ---@module "mason-core.platform"
@@ -48,16 +48,17 @@ describe("installer", function()
             local ctx = InstallContextGenerator(handle)
             ctx:link_bin("my-executable", path.concat { "nested", "path", "my-executable" })
             ctx:link_bin("another-executable", "another-executable")
-            linker.link(ctx)
+            assert.is_true(linker.link(ctx):is_success())
 
             assert.spy(fs.async.write_file).was_called(0)
             assert.spy(fs.async.symlink).was_called(2)
             assert
                 .spy(fs.async.symlink)
-                .was_called_with("../packages/dummy/another-executable", path.bin_prefix "another-executable")
-            assert
-                .spy(fs.async.symlink)
-                .was_called_with("../packages/dummy/nested/path/my-executable", path.bin_prefix "my-executable")
+                .was_called_with(path.concat { dummy:get_install_path(), "another-executable" }, path.bin_prefix "another-executable")
+            assert.spy(fs.async.symlink).was_called_with(
+                path.concat { dummy:get_install_path(), "nested", "path", "my-executable" },
+                path.bin_prefix "my-executable"
+            )
         end)
     )
 
@@ -88,19 +89,63 @@ describe("installer", function()
             local ctx = InstallContextGenerator(handle)
             ctx:link_bin("my-executable", path.concat { "nested", "path", "my-executable" })
             ctx:link_bin("another-executable", "another-executable")
-            linker.link(ctx)
+            assert.is_true(linker.link(ctx):is_success())
 
             assert.spy(fs.async.symlink).was_called(0)
             assert.spy(fs.async.write_file).was_called(2)
+            assert.spy(fs.async.write_file).was_called_with(
+                path.bin_prefix "another-executable.cmd",
+                WIN_CMD_SCRIPT:format(path.concat { dummy:get_install_path(), "another-executable" })
+            )
+            assert.spy(fs.async.write_file).was_called_with(
+                path.bin_prefix "my-executable.cmd",
+                WIN_CMD_SCRIPT:format(path.concat { dummy:get_install_path(), "nested", "path", "my-executable" })
+            )
+        end)
+    )
+
+    it(
+        "should symlink share files",
+        async_test(function()
+            local dummy = registry.get_package "dummy"
+            stub(fs.async, "mkdirp")
+            stub(fs.async, "dir_exists")
+            stub(fs.async, "file_exists")
+            stub(fs.async, "symlink")
+            stub(fs.async, "write_file")
+
+            -- mock non-existent dest files
+            fs.async.file_exists.on_call_with(path.share_prefix "share-file").returns(false)
+            fs.async.file_exists.on_call_with(path.share_prefix(path.concat { "nested", "share-file" })).returns(false)
+
+            fs.async.dir_exists.on_call_with(path.share_prefix()).returns(false)
+            fs.async.dir_exists.on_call_with(path.share_prefix "nested/path").returns(false)
+
+            -- mock existent source files
+            fs.async.file_exists.on_call_with(path.concat { dummy:get_install_path(), "share-file" }).returns(true)
+            fs.async.file_exists
+                .on_call_with(path.concat { dummy:get_install_path(), "nested", "path", "to", "share-file" })
+                .returns(true)
+
+            local handle = InstallHandleGenerator "dummy"
+            local ctx = InstallContextGenerator(handle)
+            ctx:link_share("nested/path/share-file", path.concat { "nested", "path", "to", "share-file" })
+            ctx:link_share("share-file", "share-file")
+            assert.is_true(linker.link(ctx):is_success())
+
+            assert.spy(fs.async.write_file).was_called(0)
+            assert.spy(fs.async.symlink).was_called(2)
             assert
-                .spy(fs.async.write_file)
-                .was_called_with(path.bin_prefix "another-executable.cmd", WIN_CMD_SCRIPT:format "../packages/dummy/another-executable")
-            assert
-                .spy(fs.async.write_file)
-                .was_called_with(
-                    path.bin_prefix "my-executable.cmd",
-                    WIN_CMD_SCRIPT:format "../packages/dummy/nested/path/my-executable"
-                )
+                .spy(fs.async.symlink)
+                .was_called_with(path.concat { dummy:get_install_path(), "share-file" }, path.share_prefix "share-file")
+            assert.spy(fs.async.symlink).was_called_with(
+                path.concat { dummy:get_install_path(), "nested", "path", "to", "share-file" },
+                path.share_prefix "nested/path/share-file"
+            )
+
+            assert.spy(fs.async.mkdirp).was_called(2)
+            assert.spy(fs.async.mkdirp).was_called_with(path.share_prefix())
+            assert.spy(fs.async.mkdirp).was_called_with(path.share_prefix "nested/path")
         end)
     )
 end)

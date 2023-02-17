@@ -146,8 +146,9 @@ end
 ---@field public handle InstallHandle
 ---@field public package Package
 ---@field public cwd CwdManager
+---@field public opts PackageInstallOpts
 ---@field public stdio_sink StdioSink
----@field private bin_links table<string, string>
+---@field links { bin: table<string, string>, share: table<string, string> }
 local InstallContext = {}
 InstallContext.__index = InstallContext
 
@@ -164,7 +165,11 @@ function InstallContext.new(handle, opts)
         receipt = receipt.InstallReceiptBuilder.new(),
         requested_version = Optional.of_nilable(opts.version),
         stdio_sink = handle.stdio.sink,
-        bin_links = {},
+        links = {
+            bin = {},
+            share = {},
+        },
+        opts = opts,
     }, InstallContext)
 end
 
@@ -318,7 +323,14 @@ end
 ---@param executable string
 ---@param rel_path string
 function InstallContext:link_bin(executable, rel_path)
-    self.bin_links[executable] = rel_path
+    self.links.bin[executable] = rel_path
+    return self
+end
+
+---@param rel_dest string
+---@param rel_source string
+function InstallContext:link_share(rel_dest, rel_source)
+    self.links.share[rel_dest] = rel_source
     return self
 end
 

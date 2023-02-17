@@ -1,6 +1,7 @@
 local stub = require "luassert.stub"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
+local stub = require "luassert.stub"
 local fs = require "mason-core.fs"
 local a = require "mason-core.async"
 local path = require "mason-core.path"
@@ -44,7 +45,8 @@ describe("installer", function()
                 error("something went wrong. don't try again.", 0)
             end)
             local handler = InstallHandleGenerator "dummy"
-            handler.package.spec.install = installer_fn
+            stub(handler.package.spec, "install")
+            handler.package.spec.install.invokes(installer_fn)
             local result = installer.execute(handler, {})
             assert.spy(installer_fn).was_called(1)
             assert.is_true(result:is_failure())
@@ -74,8 +76,8 @@ describe("installer", function()
                     assert.equals("dummy", receipt.name)
                     assert.same({ type = "source", metadata = {} }, receipt.primary_source)
                     assert.same({}, receipt.secondary_sources)
-                    assert.same("1.0", receipt.schema_version)
-                    assert.same({ bin = { executable = "target" } }, receipt.links)
+                    assert.same("1.1", receipt.schema_version)
+                    assert.same({ bin = { executable = "target" }, share = {} }, receipt.links)
                 end)
             )
         end)

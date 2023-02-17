@@ -14,6 +14,7 @@ describe("composer manager", function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
             ctx.fs.file_exists = spy.new(mockx.returns(false))
+            installer.prepare_installer(ctx)
             installer.exec_in_context(
                 ctx,
                 composer.packages { "main-package", "supporting-package", "supporting-package2" }
@@ -40,6 +41,7 @@ describe("composer manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
+            installer.prepare_installer(ctx)
             installer.exec_in_context(
                 ctx,
                 composer.packages { "main-package", "supporting-package", "supporting-package2" }

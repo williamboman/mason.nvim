@@ -27,26 +27,25 @@ local function terminate_handles(handles, grace_ms)
         ---@param handle InstallHandle
         function(handle)
             return function()
-                a.wait_first {
-                    function()
-                        if not handle:is_closed() then
-                            handle:terminate()
-                        end
-                        a.wait(function(resolve)
-                            if handle:is_closed() then
-                                resolve()
-                            else
-                                handle:once("closed", resolve)
-                            end
-                        end)
-                    end,
-                    function()
-                        a.sleep(grace_ms)
+                local timer
+                if not handle:is_closed() then
+                    handle:terminate()
+                    timer = vim.defer_fn(function()
                         if not handle:is_closed() then
                             handle:kill(9) -- SIGKILL
                         end
-                    end,
-                }
+                    end, grace_ms)
+                end
+                a.wait(function(resolve)
+                    if handle:is_closed() then
+                        resolve()
+                    else
+                        handle:once("closed", resolve)
+                    end
+                end)
+                if timer then
+                    timer:stop()
+                end
             end
         end,
         handles

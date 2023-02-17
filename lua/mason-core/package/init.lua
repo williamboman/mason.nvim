@@ -92,7 +92,7 @@ function Package:new_handle()
     return handle
 end
 
----@alias PackageInstallOpts { version: string?, debug: boolean?, target: string? }
+---@alias PackageInstallOpts { version?: string, debug?: boolean, target?: string, force?: boolean }
 
 ---@param opts? PackageInstallOpts
 ---@return InstallHandle
@@ -152,8 +152,8 @@ function Package:unlink()
     log.fmt_trace("Unlinking %s", self)
     local install_path = self:get_install_path()
     -- 1. Unlink
-    self:get_receipt():map(_.prop "links"):if_present(function(links)
-        linker.unlink(self, links)
+    self:get_receipt():if_present(function(receipt)
+        linker.unlink(self, receipt)
     end)
 
     -- 2. Remove installation artifacts

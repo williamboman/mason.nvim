@@ -17,24 +17,34 @@ local M = {}
 
 ---@async
 local function create_prefix_dirs()
-    for _, p in ipairs { path.install_prefix(), path.bin_prefix(), path.package_prefix(), path.package_build_prefix() } do
-        if not fs.async.dir_exists(p) then
-            fs.async.mkdirp(p)
+    return Result.try(function(try)
+        for _, p in ipairs {
+            path.install_prefix(),
+            path.bin_prefix(),
+            path.share_prefix(),
+            path.package_prefix(),
+            path.package_build_prefix(),
+        } do
+            if not fs.async.dir_exists(p) then
+                try(Result.pcall(fs.async.mkdirp, p))
+            end
         end
-    end
+    end)
 end
 
 ---@async
 ---@param context InstallContext
 local function write_receipt(context)
-    log.fmt_debug("Writing receipt for %s", context.package)
-    context.receipt
-        :with_name(context.package.name)
-        :with_schema_version("1.0")
-        :with_completion_time(vim.loop.gettimeofday())
-    local receipt_path = path.concat { context.cwd:get(), "mason-receipt.json" }
-    local install_receipt = context.receipt:build()
-    fs.async.write_file(receipt_path, vim.json.encode(install_receipt))
+    return Result.pcall(function()
+        log.fmt_debug("Writing receipt for %s", context.package)
+        context.receipt
+            :with_name(context.package.name)
+            :with_schema_version("1.1")
+            :with_completion_time(vim.loop.gettimeofday())
+        local receipt_path = path.concat { context.cwd:get(), "mason-receipt.json" }
+        local install_receipt = context.receipt:build()
+        fs.async.write_file(receipt_path, vim.json.encode(install_receipt))
+    end)
 end
 
 local CONTEXT_REQUEST = {}
@@ -47,13 +57,17 @@ end
 ---@async
 ---@param context InstallContext
 function M.prepare_installer(context)
-    create_prefix_dirs()
-    local package_build_prefix = path.package_build_prefix(context.package.name)
-    if fs.async.dir_exists(package_build_prefix) then
-        fs.async.rmrf(package_build_prefix)
-    end
-    fs.async.mkdirp(package_build_prefix)
-    context.cwd:set(package_build_prefix)
+    return Result.try(function(try)
+        try(create_prefix_dirs())
+        local package_build_prefix = path.package_build_prefix(context.package.name)
+        if fs.async.dir_exists(package_build_prefix) then
+            try(Result.pcall(fs.async.rmrf, package_build_prefix))
+        end
+        try(Result.pcall(fs.async.mkdirp, package_build_prefix))
+        context.cwd:set(package_build_prefix)
+
+        return context.package.spec.install
+    end)
 end
 
 ---@async
@@ -81,9 +95,37 @@ function M.exec_in_context(context, fn)
         end
     end
     context.receipt:with_start_time(vim.loop.gettimeofday())
-    M.prepare_installer(context)
     step(context)
     return ret_val
+end
+
+---@async
+---@param context InstallContext
+---@param installer async fun(ctx: InstallContext)
+local function run_installer(context, installer)
+    local handle = context.handle
+    return Result.pcall(function()
+        return a.wait(function(resolve, reject)
+            local cancel_thread = a.run(M.exec_in_context, function(success, result)
+                if success then
+                    resolve(result)
+                else
+                    reject(result)
+                end
+            end, context, installer)
+
+            handle:once("terminate", function()
+                cancel_thread()
+                if handle:is_closed() then
+                    reject "Installation was aborted."
+                else
+                    handle:once("closed", function()
+                        reject "Installation was aborted."
+                    end)
+                end
+            end)
+        end)
+    end)
 end
 
 ---@async
@@ -117,34 +159,25 @@ function M.execute(handle, opts)
         handle:on("stderr", append_log)
     end
 
-    log.fmt_info("Executing installer for %s", pkg)
-    return Result.run_catching(function()
-        -- 1. run installer
-        a.wait(function(resolve, reject)
-            local cancel_thread = a.run(M.exec_in_context, function(success, result)
-                if success then
-                    resolve(result)
-                else
-                    reject(result)
-                end
-            end, context, pkg.spec.install)
+    log.fmt_info("Executing installer for %s version=%s", pkg, opts.version or "latest")
 
-            handle:once("terminate", function()
-                handle:once("closed", function()
-                    reject "Installation was aborted."
-                end)
-                cancel_thread()
-            end)
-        end)
+    return Result.try(function(try)
+        -- 1. prepare directories and initialize cwd
+        local installer = try(M.prepare_installer(context))
 
-        -- 2. promote temporary installation dir
-        context:promote_cwd()
+        -- 2. execute installer
+        try(run_installer(context, installer))
 
-        -- 3. link package
-        linker.link(context)
+        -- 3. promote temporary installation dir
+        try(Result.pcall(function()
+            context:promote_cwd()
+        end))
 
-        -- 4. write receipt
-        write_receipt(context)
+        -- 4. link package
+        try(linker.link(context))
+
+        -- 5. write receipt
+        try(write_receipt(context))
     end)
         :on_success(function()
             permit:forget()
@@ -173,7 +206,7 @@ function M.execute(handle, opts)
             end
 
             -- unlink linked executables (in the rare occasion an error occurs after linking)
-            linker.unlink(context.package, context.receipt.links)
+            linker.unlink(context.package, context.receipt)
 
             if not handle:is_closed() and not handle.is_terminated then
                 handle:close()

@@ -11,6 +11,8 @@ describe("terminator", function()
     it(
         "should terminate all active handles on nvim exit",
         async_test(function()
+            -- TODO: Tests on CI fail for some reason - sleeping helps
+            a.sleep(500)
             spy.on(InstallHandle, "terminate")
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
@@ -21,18 +23,26 @@ describe("terminator", function()
                 end)
             end
 
-            dummy:install()
-            dummy2:install()
+            local dummy_handle = dummy:install()
+            local dummy2_handle = dummy2:install()
             terminator.terminate(5000)
 
             a.scheduler()
             assert.spy(InstallHandle.terminate).was_called(2)
+            assert.spy(InstallHandle.terminate).was_called_with(match.is_ref(dummy_handle))
+            assert.spy(InstallHandle.terminate).was_called_with(match.is_ref(dummy2_handle))
+            assert.wait_for(function()
+                assert.is_true(dummy_handle:is_closed())
+                assert.is_true(dummy2_handle:is_closed())
+            end)
         end)
     )
 
     it(
         "should print warning messages",
         async_test(function()
+            -- TODO: Tests on CI fail for some reason - sleeping helps
+            a.sleep(500)
             spy.on(vim.api, "nvim_echo")
             spy.on(vim.api, "nvim_err_writeln")
             spy.on(InstallHandle, "terminate")
@@ -45,8 +55,8 @@ describe("terminator", function()
                 end)
             end
 
-            dummy:install()
-            dummy2:install()
+            local dummy_handle = dummy:install()
+            local dummy2_handle = dummy2:install()
             terminator.terminate(5000)
 
             assert.spy(vim.api.nvim_echo).was_called(1)
@@ -65,12 +75,18 @@ describe("terminator", function()
                 - dummy
                 - dummy2
             ]])
+            assert.wait_for(function()
+                assert.is_true(dummy_handle:is_closed())
+                assert.is_true(dummy2_handle:is_closed())
+            end)
         end)
     )
 
     it(
         "should send SIGTERM and then SIGKILL after grace period",
         async_test(function()
+            -- TODO: Tests on CI fail for some reason - sleeping helps
+            a.sleep(500)
             spy.on(InstallHandle, "kill")
             local dummy = registry.get_package "dummy"
             stub(dummy.spec, "install")
@@ -90,6 +106,10 @@ describe("terminator", function()
                 assert.spy(InstallHandle.kill).was_called(2)
                 assert.spy(InstallHandle.kill).was_called_with(match.is_ref(handle), 15) -- SIGTERM
                 assert.spy(InstallHandle.kill).was_called_with(match.is_ref(handle), 9) -- SIGKILL
+            end)
+
+            assert.wait_for(function()
+                assert.is_true(handle:is_closed())
             end)
         end)
     )
