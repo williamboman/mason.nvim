@@ -5311,6 +5311,7 @@ Categories: `LSP`
 <details>
     <summary>History:</summary>
 
+- [`511457c`](https://github.com/williamboman/mason.nvim/commit/511457c) 2023-02-16 - fix(terraform-ls): use releases.hashicorp.com ([#1002](https://github.com/williamboman/mason.nvim/issues/1002)) by William Boman
 - [`976aa4f`](https://github.com/williamboman/mason.nvim/commit/976aa4f) 2022-07-08 - refactor: add mason-schemas and mason-core modules ([#29](https://github.com/williamboman/mason.nvim/issues/29)) by William Boman
 - [`8cad236`](https://github.com/williamboman/mason.nvim/commit/8cad236) 2022-07-08 - refactor: move packages to mason-registry ([#27](https://github.com/williamboman/mason.nvim/issues/27)) by William Boman
 </details>
