@@ -26,10 +26,18 @@ function api.get(path, opts)
     }):map_catching(vim.json.decode)
 end
 
----@alias ApiSignature<T> fun(path_params: T, opts?: ApiFetchOpts): Result
+---@alias ApiSignature<T> async fun(path_params: T, opts?: ApiFetchOpts): Result
+
+---@param char string
+local function percent_encode(char)
+    return ("%%%x"):format(string.byte(char, 1, 1))
+end
+
+api.encode_uri_component = _.gsub("[!#%$&'%(%)%*%+,/:;=%?@%[%]]", percent_encode)
 
 ---@param path_template string
 local function get(path_template)
+    ---@async
     ---@param path_params table
     ---@param opts ApiFetchOpts?
     return function(path_params, opts)
@@ -83,7 +91,32 @@ api.rubygems = {
         ---@type ApiSignature<{ gem: string }>
         latest = get "/api/rubygems/{gem}/versions/latest",
         ---@type ApiSignature<{ gem: string }>
-        all = get "/api/rubygemspypi/{gem}/versions/all",
+        all = get "/api/rubygems/{gem}/versions/all",
+    },
+}
+
+api.packagist = {
+    versions = {
+        ---@type ApiSignature<{ pkg: string }>
+        latest = get "/api/packagist/{pkg}/versions/latest",
+        ---@type ApiSignature<{ pkg: string }>
+        all = get "/api/packagist/{pkg}/versions/all",
+    },
+}
+
+api.crate = {
+    versions = {
+        ---@type ApiSignature<{ crate: string }>
+        latest = get "/api/crate/{crate}/versions/latest",
+        ---@type ApiSignature<{ crate: string }>
+        all = get "/api/crate/{crate}/versions/all",
+    },
+}
+
+api.golang = {
+    versions = {
+        ---@type ApiSignature<{ pkg: string }>
+        all = get "/api/golang/{pkg}/versions/all",
     },
 }
 
