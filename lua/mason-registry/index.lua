@@ -25,6 +25,7 @@ return {
   ["blade-formatter"] = "mason-registry.blade-formatter",
   blue = "mason-registry.blue",
   brighterscript = "mason-registry.brighterscript",
+  ["brighterscript-formatter"] = "mason-registry.brighterscript-formatter",
   ["bsl-language-server"] = "mason-registry.bsl-language-server",
   buf = "mason-registry.buf",
   ["buf-language-server"] = "mason-registry.buf-language-server",

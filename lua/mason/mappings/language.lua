@@ -17,7 +17,7 @@ return {
   beancount = { "beancount-language-server" },
   bicep = { "bicep-lsp" },
   blade = { "blade-formatter" },
-  brighterscript = { "brighterscript" },
+  brighterscript = { "brighterscript", "brighterscript-formatter" },
   c = { "clang-format", "clangd", "codelldb", "cpplint", "cpptools" },
   ["c#"] = { "clang-format", "csharp-language-server", "csharpier", "netcoredbg", "omnisharp", "omnisharp-mono", "semgrep" },
   ["c++"] = { "clang-format", "clangd", "codelldb", "cpplint", "cpptools" },
