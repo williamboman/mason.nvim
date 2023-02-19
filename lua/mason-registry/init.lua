@@ -4,13 +4,20 @@ local _ = require "mason-core.functional"
 local Optional = require "mason-core.optional"
 local path = require "mason-core.path"
 local EventEmitter = require "mason-core.EventEmitter"
+local sources = require "mason-registry.sources"
 
-local index = require "mason-registry.index"
+---@class RegistrySource
+---@field get_package fun(self: RegistrySource, pkg_name: string): Package
+---@field get_all_package_names fun(self: RegistrySource): string[]
+---@field is_installed fun(self: RegistrySource): boolean
+---@field install async fun(self: RegistrySource): Result
 
 ---@class MasonRegistry : EventEmitter
 ---@diagnostic disable-next-line: assign-type-mismatch
 local M = setmetatable({}, { __index = EventEmitter })
 EventEmitter.init(M)
+
+M.set_registries = sources.set_registries
 
 local scan_install_root
 
@@ -21,7 +28,7 @@ do
     local get_directories = _.compose(
         _.set_of,
         _.filter_map(function(entry)
-            if entry.type == "directory" and index[entry.name] then
+            if entry.type == "directory" then
                 return Optional.of(entry.name)
             else
                 return Optional.empty()
@@ -62,19 +69,21 @@ end
 ---@param package_name string
 ---@return Package
 function M.get_package(package_name)
-    local ok, pkg = pcall(require, index[package_name])
-    if not ok then
-        log.fmt_error("Failed to load package %s: %s", package_name, pkg or "")
-        error(("Cannot find package %q."):format(package_name))
+    for source in sources.iter() do
+        local pkg = source:get_package(package_name)
+        if pkg then
+            return pkg
+        end
     end
-    return pkg
+    log.fmt_error("Cannot find package %q.", package_name)
+    error(("Cannot find package %q."):format(package_name))
 end
 
 ---Returns true if the provided package_name can be found in the registry.
 ---@param package_name string
 ---@return boolean
 function M.has_package(package_name)
-    return index[package_name] ~= nil
+    return M.get_package(package_name) ~= nil
 end
 
 local get_packages = _.map(M.get_package)
@@ -94,7 +103,13 @@ end
 ---Returns all package names. This is a fast function that doesn't load any extra modules.
 ---@return string[]
 function M.get_all_package_names()
-    return _.keys(index)
+    local pkgs = {}
+    for source in sources.iter() do
+        for _, name in ipairs(source:get_all_package_names()) do
+            pkgs[name] = true
+        end
+    end
+    return _.keys(pkgs)
 end
 
 ---Returns all package instances. This is a slower function that loads more modules.
