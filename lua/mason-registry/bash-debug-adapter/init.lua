@@ -25,7 +25,6 @@ return Pkg.new {
             end)
             :get_or_throw()
 
-        ---@type GitHubReleaseAsset
         local release_asset = _.find_first(_.prop_satisfies(_.matches "%.vsix$", "name"), release.assets)
 
         github
