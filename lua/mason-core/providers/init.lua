@@ -2,8 +2,7 @@ local settings = require "mason.settings"
 local log = require "mason-core.log"
 local Result = require "mason-core.result"
 
----@alias GitHubReleaseAsset {url: string, id: integer, name: string, browser_download_url: string, created_at: string, updated_at: string, size: integer, download_count: integer}
----@alias GitHubRelease { tag_name: string, prerelease: boolean, draft: boolean, assets:GitHubReleaseAsset[] }
+---@alias GitHubRelease { tag_name: string, prerelease: boolean, draft: boolean, assets: table[] }
 ---@alias GitHubTag { name: string }
 
 ---@class GitHubProvider
@@ -30,11 +29,29 @@ local Result = require "mason-core.result"
 ---@field get_latest_version? async fun(gem: string): Result # Result<RubyGem>
 ---@field get_all_versions? async fun(gem: string): Result # Result<string[]>
 
+---@alias PackagistPackage { name: string, version: string }
+
+---@class PackagistProvider
+---@field get_latest_version? async fun(pkg: string): Result # Result<PackagistPackage>
+---@field get_all_versions? async fun(pkg: string): Result # Result<string[]>
+
+---@alias Crate { name: string, version: string }
+
+---@class CratesProvider
+---@field get_latest_version? async fun(crate: string): Result # Result<Crate>
+---@field get_all_versions? async fun(crate: string): Result # Result<string[]>
+
+---@class GolangProvider
+---@field get_all_versions? async fun(pkg: string): Result # Result<string[]>
+
 ---@class Provider
----@field github? GitHubProvider
----@field npm? NpmProvider
----@field pypi? PyPiProvider
----@field rubygems? RubyGemsProvider
+---@field github?     GitHubProvider
+---@field npm?        NpmProvider
+---@field pypi?       PyPiProvider
+---@field rubygems?   RubyGemsProvider
+---@field packagist?  PackagistProvider
+---@field crates?     CratesProvider
+---@field golang?     GolangProvider
 
 local function service_mt(service)
     return setmetatable({}, {
@@ -65,7 +82,7 @@ local function service_mt(service)
                         log.fmt_error("Unable to find provider %s is not registered. %s", provider_module, provider)
                     end
                 end
-                local err = ("No provider implementation found for %s.%s"):format(service, method)
+                local err = ("No provider implementation succeeded for %s.%s"):format(service, method)
                 log.error(err)
                 return Result.failure(err)
             end
