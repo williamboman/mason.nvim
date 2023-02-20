@@ -26,6 +26,7 @@
 - [blade-formatter](#blade-formatter)
 - [blue](#blue)
 - [brighterscript](#brighterscript)
+- [brighterscript-formatter](#brighterscript-formatter)
 - [bsl-language-server](#bsl-language-server)
 - [buf](#buf)
 - [buf-language-server](#buf-language-server)
@@ -577,6 +578,7 @@ Categories: `DAP`
 <details>
     <summary>History:</summary>
 
+- [`3e5c8e1`](https://github.com/williamboman/mason.nvim/commit/3e5c8e1) 2023-02-19 - feat(providers): add more endpoints ([#1013](https://github.com/williamboman/mason.nvim/issues/1013)) by William Boman
 - [`407d6ac`](https://github.com/williamboman/mason.nvim/commit/407d6ac) 2022-08-05 - fix(bash-debug-adapter): fix associated languages ([#254](https://github.com/williamboman/mason.nvim/issues/254)) by William Boman
 - [`cfa56f1`](https://github.com/williamboman/mason.nvim/commit/cfa56f1) 2022-08-06 - feat: add bash-debug-adapter ([#253](https://github.com/williamboman/mason.nvim/issues/253)) by Adam Figgins
 </details>
@@ -763,6 +765,25 @@ Categories: `LSP` `Compiler`
 
 ```
 :MasonInstall brighterscript
+```
+
+
+# brighterscript-formatter
+
+> A code formatter for BrightScript and BrighterScript.
+
+Homepage: [https://github.com/rokucommunity/brighterscript-formatter](https://github.com/rokucommunity/brighterscript-formatter)  
+Languages: `BrighterScript`  
+Categories: `Formatter`  
+
+<details>
+    <summary>History:</summary>
+
+- [`838eedb`](https://github.com/williamboman/mason.nvim/commit/838eedb) 2023-02-19 - feat(registry): add brighterscript-formatter ([#1009](https://github.com/williamboman/mason.nvim/issues/1009)) by Cason Adams
+</details>
+
+```
+:MasonInstall brighterscript-formatter
 ```
 
 
