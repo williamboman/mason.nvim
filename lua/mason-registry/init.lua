@@ -83,7 +83,8 @@ end
 ---@param package_name string
 ---@return boolean
 function M.has_package(package_name)
-    return M.get_package(package_name) ~= nil
+    local ok = pcall(M.get_package, package_name)
+    return ok
 end
 
 local get_packages = _.map(M.get_package)
