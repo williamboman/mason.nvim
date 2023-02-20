@@ -31,7 +31,7 @@ function M.set_registries(registry_ids)
             local log = require "mason-core.log"
             local notify = require "mason-core.notify"
             log.fmt_error("Failed to parse registry %q: %s", registry, err)
-            notify(err)
+            notify(err, vim.log.levels.ERROR)
         end
     end
 end
