@@ -9,6 +9,9 @@ local MASON_REGISTRY_DIR = path.concat { vim.loop.cwd(), "lua", "mason-registry"
 ---@async
 local function create_language_map()
     local registry = require "mason-registry"
+    require("mason-registry").set_registries {
+        "lua:mason-registry.index",
+    }
     print "Creating language map…"
     local indexed_languages = {}
     local language_map = {}
@@ -42,7 +45,7 @@ local function create_package_index()
     print "Creating package index…"
     local packages = {}
     local to_lua_path = _.compose(_.gsub("/", "."), _.gsub("^lua/", ""))
-    for _, package_path in ipairs(vim.fn.glob("lua/mason-registry/*/init.lua", false, true)) do
+    for _, package_path in ipairs(vim.fn.glob("lua/mason-registry/index/*/init.lua", false, true)) do
         local package_filename = vim.fn.fnamemodify(package_path, ":h:t")
         local lua_path = to_lua_path(vim.fn.fnamemodify(package_path, ":h"))
         local pkg = require(lua_path)
@@ -50,12 +53,14 @@ local function create_package_index()
         packages[pkg.name] = lua_path
     end
 
-    script_utils.write_file(path.concat { MASON_REGISTRY_DIR, "index.lua" }, "return " .. vim.inspect(packages), "w")
+    script_utils.write_file(
+        path.concat { MASON_REGISTRY_DIR, "index", "init.lua" },
+        "return " .. vim.inspect(packages),
+        "w"
+    )
 end
 
 a.run_blocking(function()
     create_package_index()
-    package.loaded["mason-registry"] = nil
-    package.loaded["mason-registry.index"] = nil
     create_language_map()
 end)

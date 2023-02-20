@@ -163,15 +163,10 @@ local DEFAULT_SETTINGS = {
     ---@type '"prepend"' | '"append"' | '"skip"'
     PATH = "prepend",
 
-    pip = {
-        -- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
-        upgrade_pip = false,
-
-        -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior
-        -- and is not recommended.
-        --
-        -- Example: { "--proxy", "https://proxyserver" }
-        install_args = {},
+    -- The registries to source packages from. Accepts multiple entries. Should a package with the same name exist in
+    -- multiple registries, the registry listed first will be used.
+    registries = {
+        "lua:mason-registry.index",
     },
 
     -- Controls to which degree logs are written to the log file. It's useful to set this to vim.log.levels.DEBUG when
@@ -182,6 +177,16 @@ local DEFAULT_SETTINGS = {
     -- packages that are requested to be installed will be put in a queue.
     max_concurrent_installers = 4,
 
+    -- The provider implementations to use for resolving supplementary package metadata (e.g., all available versions).
+    -- Accepts multiple entries, where later entries will be used as fallback should prior providers fail.
+    -- Builtin providers are:
+    --   - mason.providers.registry-api  - uses the https://api.mason-registry.dev API
+    --   - mason.providers.client        - uses only client-side tooling to resolve metadata
+    providers = {
+        "mason.providers.registry-api",
+        "mason.providers.client",
+    },
+
     github = {
         -- The template URL to use when downloading assets from GitHub.
         -- The placeholders are the following (in order):
@@ -191,13 +196,15 @@ local DEFAULT_SETTINGS = {
         download_url_template = "https://github.com/%s/releases/download/%s/%s",
     },
 
-    -- The provider implementations to use for resolving package metadata (latest version, available versions, etc.).
-    -- Accepts multiple entries, where later entries will be used as fallback should prior providers fail.
-    -- Builtin providers are:
-    --   - mason.providers.registry-api (default) - uses the https://api.mason-registry.dev API
-    --   - mason.providers.client                 - uses only client-side tooling to resolve metadata
-    providers = {
-        "mason.providers.registry-api",
+    pip = {
+        -- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
+        upgrade_pip = false,
+
+        -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior
+        -- and is not recommended.
+        --
+        -- Example: { "--proxy", "https://proxyserver" }
+        install_args = {},
     },
 
     ui = {
