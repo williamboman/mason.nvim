@@ -37,9 +37,9 @@ local function fetch(url, opts)
 
     if platform.is.win then
         local header_entries = _.join(
-            ", ",
+            "; ",
             _.map(function(pair)
-                return ("%q = %q"):format(pair[1], pair[2])
+                return ("%q=%q"):format(pair[1], pair[2])
             end, _.to_pairs(opts.headers))
         )
         local headers = ("-Headers @{%s}"):format(header_entries)
