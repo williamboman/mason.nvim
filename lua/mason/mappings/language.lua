@@ -137,6 +137,7 @@ return {
   wgsl = { "wgsl-analyzer" },
   xml = { "lemminx", "xmlformatter" },
   yaml = { "actionlint", "cfn-lint", "prettier", "prettierd", "spectral-language-server", "yaml-language-server", "yamlfmt", "yamllint" },
+  yara = { "yls-yara" },
   zig = { "zls" },
   zsh = { "beautysh" }
 }

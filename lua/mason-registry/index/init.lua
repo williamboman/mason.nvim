@@ -278,6 +278,7 @@ return {
   yamlfmt = "mason-registry.index.yamlfmt",
   yamllint = "mason-registry.index.yamllint",
   yapf = "mason-registry.index.yapf",
+  ["yls-yara"] = "mason-registry.index.yls-yara",
   zk = "mason-registry.index.zk",
   zls = "mason-registry.index.zls"
 }
