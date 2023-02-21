@@ -27,7 +27,7 @@ function M.setup(config)
 
     require "mason.api.command"
     setup_autocmds()
-    require("mason-registry").set_registries(settings.current.registries)
+    require("mason-registry.sources").set_registries(settings.current.registries)
 end
 
 return M

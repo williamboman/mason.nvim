@@ -17,8 +17,6 @@ local sources = require "mason-registry.sources"
 local M = setmetatable({}, { __index = EventEmitter })
 EventEmitter.init(M)
 
-M.set_registries = sources.set_registries
-
 local scan_install_root
 
 do
