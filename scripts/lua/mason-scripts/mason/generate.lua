@@ -9,7 +9,7 @@ local MASON_REGISTRY_DIR = path.concat { vim.loop.cwd(), "lua", "mason-registry"
 ---@async
 local function create_language_map()
     local registry = require "mason-registry"
-    require("mason-registry").set_registries {
+    require("mason-registry.sources").set_registries {
         "lua:mason-registry.index",
     }
     print "Creating language map…"

@@ -6,7 +6,7 @@ local markdown = require "mason-scripts.markdown"
 ---@async
 local function create_markdown_index()
     local registry = require "mason-registry"
-    require("mason-registry").set_registries {
+    require("mason-registry.sources").set_registries {
         "lua:mason-registry.index",
     }
     print "Creating markdown index…"
