@@ -279,6 +279,7 @@
 - [yamlfmt](#yamlfmt)
 - [yamllint](#yamllint)
 - [yapf](#yapf)
+- [yls-yara](#yls-yara)
 - [zk](#zk)
 - [zls](#zls)
 
@@ -3405,6 +3406,17 @@ Categories: `Formatter`
 
 ```
 :MasonInstall yapf
+```
+# yls-yara
+
+> Language Server for YARA Files
+
+Homepage: [https://avast.github.io/yls/](https://avast.github.io/yls/)  
+Languages: `Yara`  
+Categories: `LSP`  
+
+```
+:MasonInstall yls-yara
 ```
 # zk
 
