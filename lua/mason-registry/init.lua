@@ -7,7 +7,7 @@ local EventEmitter = require "mason-core.EventEmitter"
 local sources = require "mason-registry.sources"
 
 ---@class RegistrySource
----@field get_package fun(self: RegistrySource, pkg_name: string): Package
+---@field get_package fun(self: RegistrySource, pkg_name: string): Package?
 ---@field get_all_package_names fun(self: RegistrySource): string[]
 ---@field is_installed fun(self: RegistrySource): boolean
 ---@field install async fun(self: RegistrySource): Result

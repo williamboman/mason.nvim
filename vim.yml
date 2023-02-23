@@ -66,6 +66,9 @@ globals:
     assert.is_nil:
         args:
             - type: any
+    assert.is_not_nil:
+        args:
+            - type: any
     assert.spy:
         any: true
     assert.snapshot:

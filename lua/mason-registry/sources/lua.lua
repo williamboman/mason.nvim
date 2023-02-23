@@ -14,6 +14,8 @@ function LuaRegistrySource.new(spec)
     }, LuaRegistrySource)
 end
 
+---@param pkg_name string
+---@return Package?
 function LuaRegistrySource:get_package(pkg_name)
     local index = require(self.spec.mod)
     if index[pkg_name] then
@@ -21,6 +23,7 @@ function LuaRegistrySource:get_package(pkg_name)
     end
 end
 
+---@return string[]
 function LuaRegistrySource:get_all_package_names()
     local index = require(self.spec.mod)
     return vim.tbl_keys(index)
@@ -37,7 +40,7 @@ function LuaRegistrySource:install()
 end
 
 function LuaRegistrySource:__tostring()
-    return ("LuaRegistry(mod=%s)"):format(self.spec.mod)
+    return ("LuaRegistrySource(mod=%s)"):format(self.spec.mod)
 end
 
 return LuaRegistrySource
