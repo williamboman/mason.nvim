@@ -1,4 +1,3 @@
-local stub = require "luassert.stub"
 local spy = require "luassert.spy"
 local match = require "luassert.match"
 local stub = require "luassert.stub"
@@ -64,8 +63,20 @@ describe("installer", function()
             ---@param ctx InstallContext
             handler.package.spec.install = function(ctx)
                 ctx.receipt:with_primary_source { type = "source", metadata = {} }
-                ctx.fs:write_file("target", "script-contents")
-                ctx:link_bin("executable", "target")
+
+                ctx.fs:write_file("target", "")
+                ctx.fs:write_file("file.jar", "")
+                ctx.fs:write_file("opt-cmd", "")
+
+                ctx.links.bin = {
+                    ["executable"] = "target",
+                }
+                ctx.links.share = {
+                    ["package/file.jar"] = "file.jar",
+                }
+                ctx.links.opt = {
+                    ["package/bin/opt-cmd"] = "opt-cmd",
+                }
             end
             installer.execute(handler, {})
             assert.spy(fs.async.write_file).was_called_with(
@@ -77,7 +88,11 @@ describe("installer", function()
                     assert.same({ type = "source", metadata = {} }, receipt.primary_source)
                     assert.same({}, receipt.secondary_sources)
                     assert.same("1.1", receipt.schema_version)
-                    assert.same({ bin = { executable = "target" }, share = {} }, receipt.links)
+                    assert.same({
+                        bin = { executable = "target" },
+                        share = { ["package/file.jar"] = "file.jar" },
+                        opt = { ["package/bin/opt-cmd"] = "opt-cmd" },
+                    }, receipt.links)
                 end)
             )
         end)

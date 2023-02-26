@@ -129,8 +129,8 @@ describe("linker", function()
 
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            ctx:link_share("nested/path/share-file", path.concat { "nested", "path", "to", "share-file" })
-            ctx:link_share("share-file", "share-file")
+            ctx.links.share["nested/path/share-file"] = path.concat { "nested", "path", "to", "share-file" }
+            ctx.links.share["share-file"] = "share-file"
             assert.is_true(linker.link(ctx):is_success())
 
             assert.spy(fs.async.write_file).was_called(0)
