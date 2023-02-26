@@ -25,6 +25,33 @@ local M = {}
 ---@class InstallReceiptLinks
 ---@field bin? table<string, string>
 ---@field share? table<string, string>
+---@field opt? table<string, string>
+
+---@class InstallReceipt<T> : { primary_source: T }
+---@field public name string
+---@field public schema_version InstallReceiptSchemaVersion
+---@field public metrics {start_time:integer, completion_time:integer}
+---@field public primary_source InstallReceiptSource
+---@field public secondary_sources InstallReceiptSource[]
+---@field public links InstallReceiptLinks
+local InstallReceipt = {}
+InstallReceipt.__index = InstallReceipt
+
+function InstallReceipt.new(data)
+    return setmetatable(data, InstallReceipt)
+end
+
+function InstallReceipt.from_json(json)
+    return InstallReceipt.new(json)
+end
+
+---@async
+---@param cwd string
+function InstallReceipt:write(cwd)
+    local path = require "mason-core.path"
+    local fs = require "mason-core.fs"
+    fs.async.write_file(path.concat { cwd, "mason-receipt.json" }, vim.json.encode(self))
+end
 
 ---@class InstallReceiptBuilder
 ---@field private secondary_sources InstallReceiptSource[]
@@ -39,6 +66,7 @@ function InstallReceiptBuilder.new()
         links = {
             bin = vim.empty_dict(),
             share = vim.empty_dict(),
+            opt = vim.empty_dict(),
         },
     }, InstallReceiptBuilder)
 end
@@ -67,7 +95,7 @@ function InstallReceiptBuilder:with_secondary_source(source)
     return self
 end
 
----@param typ '"bin"' | '"share"'
+---@param typ '"bin"' | '"share"' | '"opt"'
 ---@param name string
 ---@param rel_path string
 function InstallReceiptBuilder:with_link(typ, name, rel_path)
@@ -104,7 +132,7 @@ function InstallReceiptBuilder:build()
     assert(self.start_time, "start_time is required")
     assert(self.completion_time, "completion_time is required")
     assert(self.primary_source, "primary_source is required")
-    return {
+    return InstallReceipt.new {
         name = self.name,
         schema_version = self.schema_version,
         metrics = {
@@ -160,24 +188,6 @@ end
 ---@param remote_url string
 function InstallReceiptBuilder.git_remote(remote_url)
     return { type = "git", remote = remote_url }
-end
-
----@class InstallReceipt<T> : { primary_source: T }
----@field public name string
----@field public schema_version InstallReceiptSchemaVersion
----@field public metrics {start_time:integer, completion_time:integer}
----@field public primary_source InstallReceiptSource
----@field public secondary_sources InstallReceiptSource[]
----@field public links InstallReceiptLinks
-local InstallReceipt = {}
-InstallReceipt.__index = InstallReceipt
-
-function InstallReceipt.new(props)
-    return setmetatable(props, InstallReceipt)
-end
-
-function InstallReceipt.from_json(json)
-    return InstallReceipt.new(json)
 end
 
 M.InstallReceiptBuilder = InstallReceiptBuilder

@@ -148,7 +148,7 @@ end
 ---@field public cwd CwdManager
 ---@field public opts PackageInstallOpts
 ---@field public stdio_sink StdioSink
----@field links { bin: table<string, string>, share: table<string, string> }
+---@field links { bin: table<string, string>, share: table<string, string>, opt: table<string, string> }
 local InstallContext = {}
 InstallContext.__index = InstallContext
 
@@ -168,6 +168,7 @@ function InstallContext.new(handle, opts)
         links = {
             bin = {},
             share = {},
+            opt = {},
         },
         opts = opts,
     }, InstallContext)
@@ -324,13 +325,6 @@ end
 ---@param rel_path string
 function InstallContext:link_bin(executable, rel_path)
     self.links.bin[executable] = rel_path
-    return self
-end
-
----@param rel_dest string
----@param rel_source string
-function InstallContext:link_share(rel_dest, rel_source)
-    self.links.share[rel_dest] = rel_source
     return self
 end
 

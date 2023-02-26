@@ -34,16 +34,14 @@ end
 
 ---@async
 ---@param context InstallContext
-local function write_receipt(context)
+local function build_receipt(context)
     return Result.pcall(function()
-        log.fmt_debug("Writing receipt for %s", context.package)
-        context.receipt
+        log.fmt_debug("Building receipt for %s", context.package)
+        return context.receipt
             :with_name(context.package.name)
             :with_schema_version("1.1")
             :with_completion_time(vim.loop.gettimeofday())
-        local receipt_path = path.concat { context.cwd:get(), "mason-receipt.json" }
-        local install_receipt = context.receipt:build()
-        fs.async.write_file(receipt_path, vim.json.encode(install_receipt))
+            :build()
     end)
 end
 
@@ -176,8 +174,12 @@ function M.execute(handle, opts)
         -- 4. link package
         try(linker.link(context))
 
-        -- 5. write receipt
-        try(write_receipt(context))
+        -- 5. build & write receipt
+        ---@type InstallReceipt
+        local receipt = try(build_receipt(context))
+        try(Result.pcall(function()
+            receipt:write(context.cwd:get())
+        end))
     end)
         :on_success(function()
             permit:forget()
@@ -205,8 +207,12 @@ function M.execute(handle, opts)
                 )
             end
 
-            -- unlink linked executables (in the rare occasion an error occurs after linking)
-            linker.unlink(context.package, context.receipt)
+            -- unlink linked executables (in the occasion an error occurs after linking)
+            build_receipt(context):on_success(function(receipt)
+                linker.unlink(context.package, receipt):on_failure(function(err)
+                    log.error("Failed to unlink failed installation", err)
+                end)
+            end)
 
             if not handle:is_closed() and not handle.is_terminated then
                 handle:close()

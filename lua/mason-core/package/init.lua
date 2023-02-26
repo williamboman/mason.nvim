@@ -153,7 +153,7 @@ function Package:unlink()
     local install_path = self:get_install_path()
     -- 1. Unlink
     self:get_receipt():if_present(function(receipt)
-        linker.unlink(self, receipt)
+        linker.unlink(self, receipt):get_or_throw()
     end)
 
     -- 2. Remove installation artifacts
