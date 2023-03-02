@@ -26,10 +26,6 @@ function M.setup(config)
         vim.env.PATH = vim.env.PATH .. platform.path_sep .. path.bin_prefix()
     end
 
-    if platform.is.unix then
-        vim.env.MANPATH = path.share_prefix "man" .. ":" .. (vim.env.MANPATH or "")
-    end
-
     require "mason.api.command"
     setup_autocmds()
     require("mason-registry.sources").set_registries(settings.current.registries)
