@@ -46,6 +46,7 @@ return {
   commitlint = "mason-registry.index.commitlint",
   cpplint = "mason-registry.index.cpplint",
   cpptools = "mason-registry.index.cpptools",
+  ["cql-language-server"] = "mason-registry.index.cql-language-server",
   crystalline = "mason-registry.index.crystalline",
   ["csharp-language-server"] = "mason-registry.index.csharp-language-server",
   csharpier = "mason-registry.index.csharpier",

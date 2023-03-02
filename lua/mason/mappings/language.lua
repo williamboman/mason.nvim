@@ -26,6 +26,7 @@ return {
   clojurescript = { "clojure-lsp", "joker" },
   cmake = { "cmake-language-server", "cmakelang", "gersemi", "neocmakelsp" },
   codeql = { "codeql" },
+  cqlang = { "cql-language-server" },
   crystal = { "crystalline" },
   csh = { "beautysh" },
   css = { "css-lsp", "cssmodules-language-server", "prettier", "prettierd", "tailwindcss-language-server", "unocss-language-server" },
