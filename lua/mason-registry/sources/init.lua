@@ -36,7 +36,9 @@ function M.set_registries(registry_ids)
     end
 end
 
-function M.iter()
+---@param opts? { include_uninstalled?: boolean }
+function M.iter(opts)
+    opts = opts or {}
     local i = 1
     return function()
         while i <= #registries do
@@ -47,7 +49,7 @@ function M.iter()
                 registries[i] = registry
             end
             i = i + 1
-            if registry:is_installed() then
+            if opts.include_uninstalled or registry:is_installed() then
                 return registry
             end
         end
