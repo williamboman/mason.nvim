@@ -116,6 +116,7 @@ return {
   shell = { "shfmt" },
   slint = { "slint-lsp" },
   smithy = { "smithy-language-server" },
+  snakemake = { "snakefmt" },
   solidity = { "solang", "solhint", "solidity", "solidity-ls" },
   sphinx = { "esbonio" },
   sql = { "sql-formatter", "sqlfluff", "sqlls", "sqls" },

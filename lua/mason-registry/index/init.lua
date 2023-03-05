@@ -226,6 +226,7 @@ return {
   ["shopify-theme-check"] = "mason-registry.index.shopify-theme-check",
   ["slint-lsp"] = "mason-registry.index.slint-lsp",
   ["smithy-language-server"] = "mason-registry.index.smithy-language-server",
+  snakefmt = "mason-registry.index.snakefmt",
   solang = "mason-registry.index.solang",
   solargraph = "mason-registry.index.solargraph",
   solhint = "mason-registry.index.solhint",
