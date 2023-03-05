@@ -37,36 +37,30 @@ local function shallow_clone(tbl)
     return res
 end
 
+---@param expr string
+---@param ctx table<string, any>
+local function eval(expr, ctx)
+    return setfenv(assert(loadstring("return " .. expr), ("Failed to parse expression: %q"):format(expr)), ctx)()
+end
+
 ---@param str string
 ---@param ctx table<string, any>
 function M.interpolate(str, ctx)
     ctx = shallow_clone(ctx)
+    setmetatable(ctx, { __index = FILTERS })
     return Result.pcall(function()
-        setmetatable(ctx, { __index = FILTERS })
         return _.gsub("{{([^}]+)}}", function(expr)
             local components = parse_expr(expr)
 
-            local value = assert(
-                setfenv(
-                    assert(
-                        loadstring("return " .. components.value_expr),
-                        ("Failed to parse value: %q"):format(components.value_expr)
-                    ),
-                    ctx
-                )(),
-                ("Value is nil: %q"):format(components.value_expr)
-            )
+            local value = eval(components.value_expr, ctx)
 
             local filters = _.map(function(filter_expr)
-                local filter = setfenv(
-                    assert(loadstring("return " .. filter_expr), ("Failed to parse filter: %q"):format(filter_expr)),
-                    ctx
-                )()
+                local filter = eval(filter_expr, ctx)
                 assert(type(filter) == "function", ("Invalid filter expression: %q"):format(filter_expr))
                 return filter
             end, components.filters)
 
-            return _.reduce(_.apply_to, value, filters)
+            return _.reduce(_.apply_to, value, filters) or ""
         end, str)
     end)
 end

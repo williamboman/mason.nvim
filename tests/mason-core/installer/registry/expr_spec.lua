@@ -61,12 +61,16 @@ describe("registry expressions", function()
         )
     end)
 
-    it("should reject invalid values", function()
-        assert.is_true(
-            match.matches [[^.*Value is nil: "non_existent"]](
-                expr.interpolate("Hello, {{non_existent}}", {}):err_or_nil()
-            )
-        )
+    it("should not interpolate nil values", function()
+        assert.same(Result.success "Hello, ", expr.interpolate("Hello, {{non_existent}}", {}))
+        assert.same(Result.success "", expr.interpolate("{{non_existent}}", {}))
+    end)
+
+    it("should error if piping nil values to functions that require non-nil values", function()
+        local err = assert.has_error(function()
+            expr.interpolate("Hello, {{ non_existent | to_upper }}", {}):get_or_throw()
+        end)
+        assert.is_true(match.matches "attempt to index local 'str' %(a nil value%)$"(err))
     end)
 
     it("should reject invalid filters", function()
@@ -75,9 +79,8 @@ describe("registry expressions", function()
                 expr.interpolate("Hello, {{ value | whut }}", { value = "value" }):err_or_nil()
             )
         )
-
         assert.is_true(
-            match.matches [[^.*Failed to parse filter: "wh%-!uut"]](
+            match.matches [[^.*Failed to parse expression: "wh%-!uut"]](
                 expr.interpolate("Hello, {{ value | wh-!uut }}", { value = "value" }):err_or_nil()
             )
         )
