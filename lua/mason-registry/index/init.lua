@@ -6,6 +6,7 @@ return {
   alex = "mason-registry.index.alex",
   ["angular-language-server"] = "mason-registry.index.angular-language-server",
   ["ansible-language-server"] = "mason-registry.index.ansible-language-server",
+  ["azure-pipelines-language-server"] = "mason-registry.index.azure-pipelines-language-server",
   ["ansible-lint"] = "mason-registry.index.ansible-lint",
   ["antlers-language-server"] = "mason-registry.index.antlers-language-server",
   ["apex-language-server"] = "mason-registry.index.apex-language-server",
