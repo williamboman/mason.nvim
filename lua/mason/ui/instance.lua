@@ -9,7 +9,6 @@ local settings = require "mason.settings"
 local notify = require "mason-core.notify"
 
 local Header = require "mason.ui.components.header"
-local Footer = require "mason.ui.components.footer"
 local Help = require "mason.ui.components.help"
 local Tabs = require "mason.ui.components.tabs"
 local Main = require "mason.ui.components.main"
@@ -57,9 +56,11 @@ end
 
 ---@class InstallerUiState
 local INITIAL_STATE = {
-    stats = {
+    info = {
         ---@type string | nil
         used_disk_space = nil,
+        ---@type string[]
+        registries = {},
     },
     view = {
         is_showing_help = false,
@@ -132,7 +133,6 @@ window.view(
                     Main(state),
                 }
             end),
-            Footer(state),
         }
     end
 )
@@ -210,6 +210,10 @@ local function setup_handle(handle)
             mutate_package_grouping(handle.package, "queued", true)
         elseif handle.state == "ACTIVE" then
             mutate_package_grouping(handle.package, "installing", true)
+        elseif handle.state == "CLOSED" then
+            mutate_state(function(state)
+                state.packages.states[handle.package.name].is_terminated = false
+            end)
         end
     end
 
@@ -264,7 +268,6 @@ local function setup_handle(handle)
     handle_spawnhandle_change()
     mutate_state(function(state)
         state.packages.states[handle.package.name] = create_initial_package_state()
-        state.packages.states[handle.package.name].short_tailed_output = "Installing…"
     end)
 end
 
@@ -640,6 +643,16 @@ if settings.current.ui.check_outdated_packages_on_open then
         end),
         100
     )
+end
+
+do
+    local registries = {}
+    for source in require("mason-registry.sources").iter { include_uninstalled = true } do
+        table.insert(registries, source:get_display_name())
+    end
+    mutate_state(function(state)
+        state.info.registries = registries
+    end)
 end
 
 return {

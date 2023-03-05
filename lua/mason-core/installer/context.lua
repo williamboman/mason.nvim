@@ -8,17 +8,22 @@ local Optional = require "mason-core.optional"
 local _ = require "mason-core.functional"
 
 ---@class ContextualSpawn
+---@field strict_mode boolean Whether spawn failures should raise an exception rather then return a Result.
 ---@field cwd CwdManager
 ---@field handle InstallHandle
+---@field [string] async fun(opts: SpawnArgs): Result
 local ContextualSpawn = {}
 
 ---@param cwd CwdManager
 ---@param handle InstallHandle
-function ContextualSpawn.new(cwd, handle)
-    return setmetatable({ cwd = cwd, handle = handle }, ContextualSpawn)
+---@param strict_mode boolean
+function ContextualSpawn.new(cwd, handle, strict_mode)
+    return setmetatable({ cwd = cwd, handle = handle, strict_mode = strict_mode }, ContextualSpawn)
 end
 
-function ContextualSpawn.__index(self, cmd)
+---@param cmd string
+function ContextualSpawn:__index(cmd)
+    ---@param args JobSpawnOpts
     return function(args)
         args.cwd = args.cwd or self.cwd:get()
         args.stdio_sink = args.stdio_sink or self.handle.stdio.sink
@@ -36,9 +41,12 @@ function ContextualSpawn.__index(self, cmd)
                 self.handle:deregister_spawn_handle(captured_handle)
             end
         end
-        -- We get_or_throw() here for convenience reasons.
-        -- Almost every time spawn is called via context we want the command to succeed.
-        return spawn[cmd](args):on_success(pop_spawn_stack):on_failure(pop_spawn_stack):get_or_throw()
+        local result = spawn[cmd](args):on_success(pop_spawn_stack):on_failure(pop_spawn_stack)
+        if self.strict_mode then
+            return result:get_or_throw()
+        else
+            return result
+        end
     end
 end
 
@@ -104,9 +112,22 @@ function ContextualFs:rename(old_path, new_path)
 end
 
 ---@async
----@param dirpath string
-function ContextualFs:mkdir(dirpath)
-    return fs.async.mkdir(path.concat { self.cwd:get(), dirpath })
+---@param dir_path string
+function ContextualFs:mkdir(dir_path)
+    return fs.async.mkdir(path.concat { self.cwd:get(), dir_path })
+end
+
+---@async
+---@param file_path string
+---@param mode integer
+function ContextualFs:chmod(file_path, mode)
+    return fs.async.chmod(path.concat { self.cwd:get(), file_path }, mode)
+end
+
+---@async
+---@param file_path string
+function ContextualFs:fstat(file_path)
+    return fs.async.fstat(path.concat { self.cwd:get(), file_path })
 end
 
 ---@class CwdManager
@@ -142,7 +163,7 @@ end
 ---@field public receipt InstallReceiptBuilder
 ---@field public requested_version Optional
 ---@field public fs ContextualFs
----@field public spawn JobSpawn
+---@field public spawn ContextualSpawn
 ---@field public handle InstallHandle
 ---@field public package Package
 ---@field public cwd CwdManager
@@ -158,7 +179,7 @@ function InstallContext.new(handle, opts)
     local cwd_manager = CwdManager.new(path.install_prefix())
     return setmetatable({
         cwd = cwd_manager,
-        spawn = ContextualSpawn.new(cwd_manager, handle),
+        spawn = ContextualSpawn.new(cwd_manager, handle, handle.package.spec.schema ~= "registry+v1"),
         handle = handle,
         package = handle.package, -- for convenience
         fs = ContextualFs.new(cwd_manager),
@@ -246,7 +267,11 @@ end
 function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, module)
     local pip3 = require "mason-core.managers.pip3"
     local module_exists, module_err = pcall(function()
-        self.spawn.python { "-c", ("import %s"):format(module), with_paths = { pip3.venv_path(self.cwd:get()) } }
+        local result =
+            self.spawn.python { "-c", ("import %s"):format(module), with_paths = { pip3.venv_path(self.cwd:get()) } }
+        if self.spawn.strict_mode then
+            result:get_or_throw()
+        end
     end)
     if not module_exists then
         log.fmt_error("Failed to find module %q for package %q. %s", module, self.package, module_err)

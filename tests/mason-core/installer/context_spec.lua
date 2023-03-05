@@ -105,7 +105,6 @@ cmd.exe /C echo %GREETING% %*]]
         stub(ctx.cwd, "get")
         ctx.cwd.get.returns "/tmp/placeholder"
         stub(ctx, "write_shell_exec_wrapper")
-        stub(ctx.spawn, "python")
 
         ctx:write_pyvenv_exec_wrapper("my-wrapper-script", "my-module")
 
