@@ -1,4 +1,5 @@
 std="lua51+vim"
+exclude = ["lua/mason-vendor/*"]
 
 [rules]
 unused_variable = "allow"
