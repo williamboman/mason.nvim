@@ -191,7 +191,6 @@
 - [puppet-editor-services](#puppet-editor-services)
 - [purescript-language-server](#purescript-language-server)
 - [pydocstyle](#pydocstyle)
-- [pyflakes](#pyflakes)
 - [pylama](#pylama)
 - [pylint](#pylint)
 - [pyproject-flake8](#pyproject-flake8)
@@ -2422,17 +2421,6 @@ Categories: `Linter`
 
 ```
 :MasonInstall pydocstyle
-```
-# pyflakes
-
-> A simple program which checks Python source files for errors.
-
-Homepage: [https://pypi.org/project/pyflakes/](https://pypi.org/project/pyflakes/)  
-Languages: `Python`  
-Categories: `Linter`  
-
-```
-:MasonInstall pyflakes
 ```
 # pylama
 
