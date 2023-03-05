@@ -191,6 +191,7 @@ return {
   ["puppet-editor-services"] = "mason-registry.index.puppet-editor-services",
   ["purescript-language-server"] = "mason-registry.index.purescript-language-server",
   pydocstyle = "mason-registry.index.pydocstyle",
+  pyflakes = "mason-registry.index.pyflakes",
   pylama = "mason-registry.index.pylama",
   pylint = "mason-registry.index.pylint",
   ["pyproject-flake8"] = "mason-registry.index.pyproject-flake8",
