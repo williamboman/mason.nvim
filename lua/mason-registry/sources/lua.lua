@@ -39,6 +39,14 @@ function LuaRegistrySource:install()
     return Result.success()
 end
 
+function LuaRegistrySource:get_display_name()
+    if self:is_installed() then
+        return ("require(%q)"):format(self.spec.mod)
+    else
+        return ("require(%q) [uninstalled]"):format(self.spec.mod)
+    end
+end
+
 function LuaRegistrySource:__tostring()
     return ("LuaRegistrySource(mod=%s)"):format(self.spec.mod)
 end
