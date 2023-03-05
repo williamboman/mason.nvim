@@ -101,7 +101,7 @@ return {
   protobuf = { "buf", "buf-language-server", "protolint" },
   puppet = { "puppet-editor-services" },
   purescript = { "purescript-language-server" },
-  python = { "autoflake", "autopep8", "black", "blackd-client", "blue", "cmake-lint", "debugpy", "flake8", "isort", "jedi-language-server", "mypy", "pydocstyle", "pylama", "pylint", "pyproject-flake8", "pyre", "pyright", "python-lsp-server", "reorder-python-imports", "rstcheck", "ruff", "ruff-lsp", "semgrep", "sourcery", "usort", "vulture", "yapf" },
+  python = { "autoflake", "autopep8", "black", "blackd-client", "blue", "cmakelint", "debugpy", "flake8", "isort", "jedi-language-server", "mypy", "pydocstyle", "pylama", "pylint", "pyproject-flake8", "pyre", "pyright", "python-lsp-server", "reorder-python-imports", "rstcheck", "ruff", "ruff-lsp", "semgrep", "sourcery", "usort", "vulture", "yapf" },
   r = { "r-languageserver" },
   raku = { "raku-navigator" },
   reason = { "reason-language-server" },
