@@ -108,8 +108,19 @@ function Package:install(opts)
                 ---@param result Result
                 function(success, result)
                     if not success then
+                        -- Installer failed abnormally (i.e. unexpected exception in the installer code itself).
                         log.error("Unexpected error", result)
+                        handle.stdio.sink.stderr(tostring(result))
+                        handle.stdio.sink.stderr "\nInstallation failed abnormally. Please report this error."
                         self:emit("install:failed", handle)
+                        registry:emit("package:install:failed", self, handle)
+
+                        -- We terminate _after_ emitting failure events because [termination -> failed] have different
+                        -- meaning than [failed -> terminate] ([termination -> failed] is interpreted as a triggered
+                        -- termination).
+                        if not handle:is_closed() and not handle.is_terminated then
+                            handle:terminate()
+                        end
                         return
                     end
                     result
