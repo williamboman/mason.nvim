@@ -4,6 +4,7 @@ local stub = require "luassert.stub"
 local fs = require "mason-core.fs"
 local a = require "mason-core.async"
 local path = require "mason-core.path"
+local Result = require "mason-core.result"
 local installer = require "mason-core.installer"
 local InstallContext = require "mason-core.installer.context"
 
@@ -145,6 +146,25 @@ describe("installer", function()
             assert
                 .spy(fs.async.write_file)
                 .was_called_with(path.package_prefix "dummy/mason-debug.log", "Hello stdout!\nHello stderr!")
+        end)
+    )
+
+    it(
+        "should raise spawn errors in strict mode",
+        async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            stub(handle.package.spec, "install", function(ctx)
+                ctx.spawn.bash { "-c", "exit 42" }
+            end)
+            local result = installer.execute(handle, { debug = true })
+            assert.same(
+                Result.failure {
+                    exit_code = 42,
+                    signal = 0,
+                },
+                result
+            )
+            assert.equals("spawn: bash failed with exit code 42 and signal 0. ", tostring(result:err_or_nil()))
         end)
     )
 end)

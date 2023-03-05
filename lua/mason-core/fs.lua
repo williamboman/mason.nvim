@@ -146,6 +146,13 @@ local function make_module(uv)
         uv.fs_symlink(path, new_path)
     end
 
+    ---@param path string
+    ---@param mode integer
+    function M.chmod(path, mode)
+        log.trace("fs: chmod", path, mode)
+        uv.fs_chmod(path, mode)
+    end
+
     return M
 end
 
