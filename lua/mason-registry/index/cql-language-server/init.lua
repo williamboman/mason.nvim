@@ -10,7 +10,7 @@ return Pkg.new {
     name = "cql-language-server",
     desc = [[A language server for Clinical Quality Language (CQL)]],
     homepage = "https://github.com/cqframework/cql-language-server",
-    languages = { Pkg.Lang.cqlang },
+    languages = { Pkg.Lang.CQL },
     categories = { Pkg.Cat.LSP },
     --@async
     --@param ctx InstallContext
