@@ -269,7 +269,7 @@ function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, modul
     local module_exists, module_err = pcall(function()
         local result =
             self.spawn.python { "-c", ("import %s"):format(module), with_paths = { pip3.venv_path(self.cwd:get()) } }
-        if self.spawn.strict_mode then
+        if not self.spawn.strict_mode then
             result:get_or_throw()
         end
     end)
