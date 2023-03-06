@@ -40,6 +40,7 @@
 - [clojure-lsp](#clojure-lsp)
 - [cmake-language-server](#cmake-language-server)
 - [cmakelang](#cmakelang)
+- [cmakelint](#cmakelint)
 - [codelldb](#codelldb)
 - [codeql](#codeql)
 - [codespell](#codespell)
@@ -191,6 +192,7 @@
 - [puppet-editor-services](#puppet-editor-services)
 - [purescript-language-server](#purescript-language-server)
 - [pydocstyle](#pydocstyle)
+- [pyflakes](#pyflakes)
 - [pylama](#pylama)
 - [pylint](#pylint)
 - [pyproject-flake8](#pyproject-flake8)
@@ -227,6 +229,7 @@
 - [shopify-theme-check](#shopify-theme-check)
 - [slint-lsp](#slint-lsp)
 - [smithy-language-server](#smithy-language-server)
+- [snakefmt](#snakefmt)
 - [solang](#solang)
 - [solargraph](#solargraph)
 - [solhint](#solhint)
@@ -713,6 +716,17 @@ Categories: `Formatter` `Linter`
 
 ```
 :MasonInstall cmakelang
+```
+# cmakelint
+
+> cmakelint parses CMake files and reports style issues
+
+Homepage: [https://github.com/cmake-lint/cmake-lint](https://github.com/cmake-lint/cmake-lint)  
+Languages: `CMake`  
+Categories: `Linter`  
+
+```
+:MasonInstall cmakelint
 ```
 # codelldb
 
@@ -2422,6 +2436,20 @@ Categories: `Linter`
 ```
 :MasonInstall pydocstyle
 ```
+# pyflakes
+
+> A simple program which checks Python source files for errors.
+
+Pyflakes analyzes programs and detects various errors. It works by parsing the source file, not importing it, so
+it is safe to use on modules with side effects. It’s also much faster.
+
+Homepage: [https://pypi.org/project/pyflakes/](https://pypi.org/project/pyflakes/)  
+Languages: `Python`  
+Categories: `Linter`  
+
+```
+:MasonInstall pyflakes
+```
 # pylama
 
 > Code audit tool for Python.
@@ -2819,6 +2847,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall smithy-language-server
+```
+# snakefmt
+
+> The uncompromising Snakemake code formatter
+
+Homepage: [https://github.com/snakemake/snakefmt](https://github.com/snakemake/snakefmt)  
+Languages: `Snakemake`  
+Categories: `Formatter`  
+
+```
+:MasonInstall snakefmt
 ```
 # solang
 
