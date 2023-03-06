@@ -43,7 +43,7 @@ end
 ---@param opts PackageInstallOpts?
 function InstallContextGenerator(handle, opts)
     local context = InstallContext.new(handle, opts or {})
-    context.spawn = setmetatable({ strict_mode = false }, {
+    context.spawn = setmetatable({ strict_mode = true }, {
         __index = function(self, cmd)
             self[cmd] = spy.new(mockx.just_runs())
             return self[cmd]
