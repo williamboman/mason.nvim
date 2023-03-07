@@ -30,6 +30,7 @@ return {
   buf = "mason-registry.index.buf",
   ["buf-language-server"] = "mason-registry.index.buf-language-server",
   buildifier = "mason-registry.index.buildifier",
+  bzl = "mason-registry.index.bzl",
   cbfmt = "mason-registry.index.cbfmt",
   ["cfn-lint"] = "mason-registry.index.cfn-lint",
   ["chrome-debug-adapter"] = "mason-registry.index.chrome-debug-adapter",
