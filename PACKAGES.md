@@ -28,6 +28,7 @@
 - [brighterscript](#brighterscript)
 - [brighterscript-formatter](#brighterscript-formatter)
 - [bsl-language-server](#bsl-language-server)
+- [bslint](#bslint)
 - [buf](#buf)
 - [buf-language-server](#buf-language-server)
 - [buildifier](#buildifier)
@@ -579,6 +580,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall bsl-language-server
+```
+# bslint
+
+> A brighterscript CLI tool to lint your code without compiling your project.
+
+Homepage: [https://github.com/rokucommunity/bslint](https://github.com/rokucommunity/bslint)  
+Languages: `BrighterScript`  
+Categories: `Linter`  
+
+```
+:MasonInstall bslint
 ```
 # buf
 
