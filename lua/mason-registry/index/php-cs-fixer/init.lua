@@ -11,7 +11,7 @@ return Pkg.new {
         follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the
         Symfony one. You can also define your (team's) style through configuration.')
     ]],
-    homepage = "https://github.com/FriendsOfPHP/PHP-CS-Fixer",
+    homepage = "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer",
     languages = { Pkg.Lang.PHP },
     categories = { Pkg.Cat.Formatter },
     ---@async
@@ -19,7 +19,7 @@ return Pkg.new {
     install = function(ctx)
         github
             .download_release_file({
-                repo = "FriendsOfPHP/PHP-CS-Fixer",
+                repo = "PHP-CS-Fixer/PHP-CS-Fixer",
                 asset_file = "php-cs-fixer.phar",
                 out_file = platform.is.win and "php-cs-fixer.phar" or "php-cs-fixer",
             })
