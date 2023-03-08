@@ -27,6 +27,7 @@ return {
   brighterscript = "mason-registry.index.brighterscript",
   ["brighterscript-formatter"] = "mason-registry.index.brighterscript-formatter",
   ["bsl-language-server"] = "mason-registry.index.bsl-language-server",
+  bslint = "mason-registry.index.bslint",
   buf = "mason-registry.index.buf",
   ["buf-language-server"] = "mason-registry.index.buf-language-server",
   buildifier = "mason-registry.index.buildifier",
