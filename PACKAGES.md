@@ -2237,7 +2237,7 @@ Categories: `LSP`
 follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the
 Symfony one. You can also define your (team's) style through configuration.')
 
-Homepage: [https://github.com/PHP-CS-Fixer/PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)  
+Homepage: [https://github.com/FriendsOfPHP/PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)  
 Languages: `PHP`  
 Categories: `Formatter`  
 
