@@ -37,6 +37,7 @@ return {
   ["clang-format"] = "mason-registry.index.clang-format",
   clangd = "mason-registry.index.clangd",
   ["clarity-lsp"] = "mason-registry.index.clarity-lsp",
+  ["clj-kondo"] = "mason-registry.index.clj-kondo",
   ["clojure-lsp"] = "mason-registry.index.clojure-lsp",
   ["cmake-language-server"] = "mason-registry.index.cmake-language-server",
   cmakelang = "mason-registry.index.cmakelang",
