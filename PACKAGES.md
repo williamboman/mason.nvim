@@ -38,6 +38,7 @@
 - [clang-format](#clang-format)
 - [clangd](#clangd)
 - [clarity-lsp](#clarity-lsp)
+- [clj-kondo](#clj-kondo)
 - [clojure-lsp](#clojure-lsp)
 - [cmake-language-server](#cmake-language-server)
 - [cmakelang](#cmakelang)
@@ -695,6 +696,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall clarity-lsp
+```
+# clj-kondo
+
+> Static analyzer and linter for Clojure code that sparks joy
+
+Homepage: [https://github.com/clj-kondo/clj-kondo](https://github.com/clj-kondo/clj-kondo)  
+Languages: `Clojure` `ClojureScript`  
+Categories: `Linter`  
+
+```
+:MasonInstall clj-kondo
 ```
 # clojure-lsp
 
@@ -2237,7 +2249,7 @@ Categories: `LSP`
 follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the
 Symfony one. You can also define your (team's) style through configuration.')
 
-Homepage: [https://github.com/FriendsOfPHP/PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)  
+Homepage: [https://github.com/PHP-CS-Fixer/PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)  
 Languages: `PHP`  
 Categories: `Formatter`  
 
