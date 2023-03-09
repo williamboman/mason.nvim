@@ -19,6 +19,7 @@ return Pkg.new {
         git.clone { "https://github.com/microsoft/vscode-js-debug", version = Optional.of(source.tag) }
         ctx.spawn.npm { "install", "--ignore-scripts", "--legacy-peer-deps" }
         ctx.spawn.npm { "run", "compile" }
+        ctx.spawn.npm { "exec", "gulp", "vsDebugServerBundle" }
         ctx.spawn.npm { "install", "--production", "--ignore-scripts", "--legacy-peer-deps" }
         ctx:link_bin(
             "js-debug-adapter",
