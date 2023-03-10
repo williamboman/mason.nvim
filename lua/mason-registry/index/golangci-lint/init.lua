@@ -29,6 +29,7 @@ return Pkg.new {
                     asset_file = coalesce(
                         when(platform.is.linux_armv6l, release_file "golangci-lint-%s-linux-armv6.tar.gz"),
                         when(platform.is.linux_armv7l, release_file "golangci-lint-%s-linux-armv7.tar.gz"),
+                        when(platform.is.linux_arm64, release_file "golangci-lint-%s-linux-arm64.tar.gz"),
                         when(platform.is.linux_x64, release_file "golangci-lint-%s-linux-amd64.tar.gz"),
                         when(platform.is.linux_x86, release_file "golangci-lint-%s-linux-386.tar.gz"),
                         when(platform.is.darwin_x64, release_file "golangci-lint-%s-darwin-amd64.tar.gz"),
