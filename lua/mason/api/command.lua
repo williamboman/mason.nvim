@@ -180,6 +180,24 @@ vim.api.nvim_create_user_command("MasonUninstallAll", MasonUninstallAll, {
     desc = "Uninstall all packages.",
 })
 
+local function MasonUpdate()
+    local notify = require "mason-core.notify"
+    local registry = require "mason-registry"
+    notify "Updating registries…"
+    registry.update(vim.schedule_wrap(function(success, updated_registries)
+        if success then
+            local count = #updated_registries
+            notify(("Successfully updated %d %s."):format(count, count == 1 and "registry" or "registries"))
+        else
+            notify(("Failed to update registries: %s"):format(updated_registries), vim.log.levels.ERROR)
+        end
+    end))
+end
+
+vim.api.nvim_create_user_command("MasonUpdate", MasonUpdate, {
+    desc = "Update Mason registries.",
+})
+
 local function MasonLog()
     local log = require "mason-core.log"
     vim.cmd(([[tabnew %s]]):format(log.outfile))
@@ -210,5 +228,6 @@ return {
     MasonInstall = MasonInstall,
     MasonUninstall = MasonUninstall,
     MasonUninstallAll = MasonUninstallAll,
+    MasonUpdate = MasonUpdate,
     MasonLog = MasonLog,
 }

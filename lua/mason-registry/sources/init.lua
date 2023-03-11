@@ -4,7 +4,23 @@ local M = {}
 ---@return fun(): RegistrySource # Thunk to instantiate provider.
 local function parse(registry_id)
     local type, id = registry_id:match "^(.+):(.+)$"
-    if type == "lua" then
+    if type == "github" then
+        local namespace, name = id:match "^(.+)/(.+)$"
+        if not namespace or not name then
+            error(("Failed to parse repository from GitHub registry: %q."):format(registry_id), 0)
+        end
+        local name, version = unpack(vim.split(name, "@"))
+        return function()
+            local GitHubRegistrySource = require "mason-registry.sources.github"
+            return GitHubRegistrySource.new {
+                id = registry_id,
+                repo = ("%s/%s"):format(namespace, name),
+                namespace = namespace,
+                name = name,
+                version = version or "latest",
+            }
+        end
+    elseif type == "lua" then
         return function()
             local LuaRegistrySource = require "mason-registry.sources.lua"
             return LuaRegistrySource.new {

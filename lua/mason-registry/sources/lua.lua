@@ -34,9 +34,9 @@ function LuaRegistrySource:is_installed()
     return ok
 end
 
-function LuaRegistrySource:install()
-    local Result = require "mason-core.result"
-    return Result.success()
+function LuaRegistrySource:get_installer()
+    local Optional = require "mason-core.optional"
+    return Optional.empty()
 end
 
 function LuaRegistrySource:get_display_name()

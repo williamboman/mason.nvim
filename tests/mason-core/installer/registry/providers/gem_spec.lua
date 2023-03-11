@@ -1,0 +1,72 @@
+local stub = require "luassert.stub"
+local Result = require "mason-core.result"
+local gem = require "mason-core.installer.registry.providers.gem"
+local Purl = require "mason-core.purl"
+local installer = require "mason-core.installer"
+
+---@param overrides Purl
+local function purl(overrides)
+    local purl = Purl.parse("pkg:gem/package@1.2.0"):get_or_throw()
+    if not overrides then
+        return purl
+    end
+    return vim.tbl_deep_extend("force", purl, overrides)
+end
+
+describe("gem provider :: parsing", function()
+    it("should parse package", function()
+        assert.same(
+            Result.success {
+                package = "package",
+                version = "1.2.0",
+                extra_packages = { "extra" },
+            },
+            gem.parse({ extra_packages = { "extra" } }, purl())
+        )
+    end)
+
+    it("should check supported platforms", function()
+        assert.same(Result.failure "PLATFORM_UNSUPPORTED", gem.parse({ supported_platforms = { "VIC64" } }, purl()))
+    end)
+end)
+
+describe("gem provider :: installing", function()
+    it("should install gem packages", function()
+        local ctx = create_dummy_context()
+        local manager = require "mason-core.installer.managers.gem"
+        stub(manager, "install", mockx.returns(Result.success()))
+
+        local result = installer.exec_in_context(ctx, function()
+            return gem.install(ctx, {
+                package = "package",
+                version = "5.2.0",
+                extra_packages = { "extra" },
+            })
+        end)
+
+        assert.is_true(result:is_success())
+        assert.spy(manager.install).was_called(1)
+        assert.spy(manager.install).was_called_with("package", "5.2.0", { extra_packages = { "extra" } })
+    end)
+
+    it("should ensure valid version", function()
+        local ctx = create_dummy_context {
+            version = "1.10.0",
+        }
+        local manager = require "mason-core.installer.managers.gem"
+        local providers = require "mason-core.providers"
+        stub(providers.rubygems, "get_all_versions", mockx.returns(Result.success { "1.0.0" }))
+        stub(manager, "install", mockx.returns(Result.success()))
+
+        local result = installer.exec_in_context(ctx, function()
+            return gem.install(ctx, {
+                package = "package",
+                version = "1.10.0",
+            })
+        end)
+
+        assert.is_true(result:is_failure())
+        assert.same(Result.failure [[Version "1.10.0" is not available.]], result)
+        assert.spy(manager.install).was_called(0)
+    end)
+end)

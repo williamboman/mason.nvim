@@ -2,7 +2,9 @@
 local util = require "luassert.util"
 local spy = require "luassert.spy"
 
+local path = require "mason-core.path"
 local a = require "mason-core.async"
+local Result = require "mason-core.result"
 local InstallHandle = require "mason-core.installer.handle"
 local InstallContext = require "mason-core.installer.context"
 local registry = require "mason-registry"
@@ -31,6 +33,21 @@ mockx = {
         end
     end,
 }
+
+---@param opts? PackageInstallOpts
+function create_dummy_context(opts)
+    local ctx = InstallContextGenerator(InstallHandleGenerator "registry", opts)
+    ctx.cwd:set(path.package_build_prefix "registry")
+    ctx.spawn = setmetatable({}, {
+        __index = function(s, cmd)
+            s[cmd] = spy.new(function()
+                return Result.success { stdout = nil, stderr = nil }
+            end)
+            return s[cmd]
+        end,
+    })
+    return ctx
+end
 
 -- selene: allow(unused_variable)
 ---@param package_name string

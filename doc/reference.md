@@ -26,6 +26,7 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 -   [Architecture diagram](#architecture-diagram)
 -   [Registry events](#registry-events)
 -   [`PackageSpec`](#packagespec)
+-   [`RegistryPackageSpec`](#registrypackagespec)
 -   [`Package`](#package)
     -   [`Package.Parse({package_identifier})`](#packageparsepackage_identifier)
     -   [`Package.Lang`](#packagelang)
@@ -65,7 +66,9 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 
 ## Architecture diagram
 
-![architecture](https://user-images.githubusercontent.com/6705160/179120955-2f093b80-4a4e-4201-8c7a-26adfa508cdf.png)
+<!-- https://excalidraw.com/#json=vbTmp7nM8H5odJDiaw7Ue,TghucvHHAw8bl7sgX1VuvA -->
+
+![architecture](https://user-images.githubusercontent.com/6705160/224515490-de6381f4-d0c0-40e6-82a0-89f95d08e865.png)
 
 ## Registry events
 
@@ -107,9 +110,25 @@ registry:on(
 | name       | `string`                             |
 | desc       | `string`                             |
 | homepage   | `string`                             |
-| categories | [`PackageCategory[]`](#package-cat)  |
-| languages  | [`PackageLanguage[]`](#package-lang) |
+| categories | [`PackageCategory[]`](#packagecat)  |
+| languages  | [`PackageLanguage[]`](#packagelang) |
 | install    | `async fun(ctx: InstallContext)`     |
+
+## `RegistryPackageSpec`
+
+| Key         | Value                                |
+| ----------- | ------------------------------------ |
+| schema      | `"registry+v1"`                      |
+| name        | `string`                             |
+| description | `string`                             |
+| homepage    | `string`                             |
+| licenses    | `string`                             |
+| categories  | [`PackageCategory[]`](#packagecat)  |
+| languages   | [`PackageLanguage[]`](#packagelang) |
+| source      | `table`                              |
+| bin         | `table<string, string>?`             |
+| share       | `table<string, string>?`             |
+| opt         | `table<string, string>?`             |
 
 ## `Package`
 
@@ -175,7 +194,7 @@ All the available categories a package can be tagged with.
 
 ### `Package.spec`
 
-**Type**: [`PackageSpec`](#packagespec)
+**Type**: [`PackageSpec`](#packagespec) or [`RegistryPackageSpec`](#registrypackagespec)
 
 ### `Package:install({opts})`
 

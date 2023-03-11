@@ -63,7 +63,7 @@ describe("installer", function()
             local handler = InstallHandleGenerator "dummy"
             ---@param ctx InstallContext
             handler.package.spec.install = function(ctx)
-                ctx.receipt:with_primary_source { type = "source", metadata = {} }
+                ctx.receipt:with_primary_source { type = "source", source = {} }
 
                 ctx.fs:write_file("target", "")
                 ctx.fs:write_file("file.jar", "")
@@ -86,7 +86,7 @@ describe("installer", function()
                     ---@type InstallReceipt
                     local receipt = vim.json.decode(arg)
                     assert.equals("dummy", receipt.name)
-                    assert.same({ type = "source", metadata = {} }, receipt.primary_source)
+                    assert.same({ type = "source", source = {} }, receipt.primary_source)
                     assert.same({}, receipt.secondary_sources)
                     assert.same("1.1", receipt.schema_version)
                     assert.same({

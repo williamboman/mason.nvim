@@ -118,6 +118,12 @@ function ContextualFs:mkdir(dir_path)
 end
 
 ---@async
+---@param dir_path string
+function ContextualFs:mkdirp(dir_path)
+    return fs.async.mkdirp(path.concat { self.cwd:get(), dir_path })
+end
+
+---@async
 ---@param file_path string
 ---@param mode integer
 function ContextualFs:chmod(file_path, mode)
@@ -179,7 +185,7 @@ function InstallContext.new(handle, opts)
     local cwd_manager = CwdManager.new(path.install_prefix())
     return setmetatable({
         cwd = cwd_manager,
-        spawn = ContextualSpawn.new(cwd_manager, handle, handle.package.spec.schema ~= "registry+v1"),
+        spawn = ContextualSpawn.new(cwd_manager, handle, not handle.package:is_registry_spec()),
         handle = handle,
         package = handle.package, -- for convenience
         fs = ContextualFs.new(cwd_manager),

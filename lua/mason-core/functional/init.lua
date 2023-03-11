@@ -10,6 +10,8 @@ local function lazy_require(module)
     })
 end
 
+_.lazy_require = lazy_require
+
 ---@module "mason-core.functional.data"
 local data = lazy_require "mason-core.functional.data"
 _.table_pack = data.table_pack

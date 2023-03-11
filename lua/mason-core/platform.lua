@@ -5,11 +5,22 @@ local M = {}
 local uname = vim.loop.os_uname()
 
 ---@alias Platform
----| '"win"'
----| '"unix"'
----| '"linux"'
----| '"mac"'
----| '"darwin"'
+---| '"darwin_arm64"'
+---| '"darwin_x64"'
+---| '"linux_arm"'
+---| '"linux_arm64"'
+---| '"linux_arm64_gnu"'
+---| '"linux_arm64_openbsd"'
+---| '"linux_arm_gnu"'
+---| '"linux_x64"'
+---| '"linux_x64_gnu"'
+---| '"linux_x64_openbsd"'
+---| '"linux_x86"'
+---| '"linux_x86_gnu"'
+---| '"win_arm"'
+---| '"win_arm64"'
+---| '"win_x64"'
+---| '"win_x86"'
 
 local arch_aliases = {
     ["x86_64"] = "x64",

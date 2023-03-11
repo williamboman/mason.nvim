@@ -1,0 +1,66 @@
+local stub = require "luassert.stub"
+local Result = require "mason-core.result"
+local composer = require "mason-core.installer.registry.providers.composer"
+local Purl = require "mason-core.purl"
+local installer = require "mason-core.installer"
+
+---@param overrides Purl
+local function purl(overrides)
+    local purl = Purl.parse("pkg:composer/vendor/package@2.0.0"):get_or_throw()
+    if not overrides then
+        return purl
+    end
+    return vim.tbl_deep_extend("force", purl, overrides)
+end
+
+describe("composer provider :: parsing", function()
+    it("should parse package", function()
+        assert.same(
+            Result.success {
+                package = "vendor/package",
+                version = "2.0.0",
+            },
+            composer.parse({}, purl())
+        )
+    end)
+end)
+
+describe("composer provider :: installing", function()
+    it("should install composer packages", function()
+        local ctx = create_dummy_context()
+        local manager = require "mason-core.installer.managers.composer"
+        stub(manager, "install", mockx.returns(Result.success()))
+
+        local result = installer.exec_in_context(ctx, function()
+            return composer.install(ctx, {
+                package = "vendor/package",
+                version = "1.2.0",
+            })
+        end)
+
+        assert.is_true(result:is_success())
+        assert.spy(manager.install).was_called(1)
+        assert.spy(manager.install).was_called_with("vendor/package", "1.2.0")
+    end)
+
+    it("should ensure valid version", function()
+        local ctx = create_dummy_context {
+            version = "1.10.0",
+        }
+        local manager = require "mason-core.installer.managers.composer"
+        local providers = require "mason-core.providers"
+        stub(providers.packagist, "get_all_versions", mockx.returns(Result.success { "1.0.0" }))
+        stub(manager, "install", mockx.returns(Result.success()))
+
+        local result = installer.exec_in_context(ctx, function()
+            return composer.install(ctx, {
+                package = "vendor/package",
+                version = "1.10.0",
+            })
+        end)
+
+        assert.is_true(result:is_failure())
+        assert.same(Result.failure [[Version "1.10.0" is not available.]], result)
+        assert.spy(manager.install).was_called(0)
+    end)
+end)
