@@ -14,13 +14,13 @@ jobs:
             - name: Download cbfmt
               run: |
                   mkdir /tmp/cbfmt && cd $_
-                  curl -fsSL -o cbfmt.tar.gz "https://github.com/lukas-reineke/cbfmt/releases/download/v0.1.4/cbfmt_linux-x86_64_v0.1.4.tar.gz"
+                  curl -fsSL -o cbfmt.tar.gz "https://github.com/lukas-reineke/cbfmt/releases/download/v0.2.0/cbfmt_linux-x86_64_v0.2.0.tar.gz"
                   tar --strip-components 1 -xvf cbfmt.tar.gz
                   mv cbfmt /usr/local/bin/
             - name: Download Stylua
               run: |
                   mkdir /tmp/stylua && cd $_
-                  curl -fsSL -o stylua.zip "https://github.com/JohnnyMorganz/StyLua/releases/download/v0.14.2/stylua-linux.zip"
+                  curl -fsSL -o stylua.zip "https://github.com/JohnnyMorganz/StyLua/releases/download/v0.17.0/stylua-linux.zip"
                   unzip -d /usr/local/bin stylua.zip
             - name: Download Shellharden
               run: |
