@@ -1,13 +1,13 @@
+local Optional = require "mason-core.optional"
+local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
-local settings = require "mason.settings"
+local installer = require "mason-core.installer"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
-local Optional = require "mason-core.optional"
-local installer = require "mason-core.installer"
-local Result = require "mason-core.result"
-local spawn = require "mason-core.spawn"
 local providers = require "mason-core.providers"
+local settings = require "mason.settings"
+local spawn = require "mason-core.spawn"
 
 local VENV_DIR = "venv"
 

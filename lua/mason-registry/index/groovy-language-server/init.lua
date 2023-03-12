@@ -1,7 +1,7 @@
 local Pkg = require "mason-core.package"
-local std = require "mason-core.managers.std"
 local git = require "mason-core.managers.git"
 local path = require "mason-core.path"
+local std = require "mason-core.managers.std"
 
 return Pkg.new {
     name = "groovy-language-server",

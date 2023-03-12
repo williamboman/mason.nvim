@@ -1,18 +1,18 @@
-local registry = require "mason-registry"
-local display = require "mason-core.ui.display"
+local Package = require "mason-core.package"
 local Ui = require "mason-core.ui"
+local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local control = require "mason-core.async.control"
-local _ = require "mason-core.functional"
-local Package = require "mason-core.package"
-local settings = require "mason.settings"
+local display = require "mason-core.ui.display"
 local notify = require "mason-core.notify"
+local registry = require "mason-registry"
+local settings = require "mason.settings"
 
 local Header = require "mason.ui.components.header"
 local Help = require "mason.ui.components.help"
-local Tabs = require "mason.ui.components.tabs"
-local Main = require "mason.ui.components.main"
 local LanguageFilter = require "mason.ui.components.language-filter"
+local Main = require "mason.ui.components.main"
+local Tabs = require "mason.ui.components.tabs"
 
 local Semaphore = control.Semaphore
 

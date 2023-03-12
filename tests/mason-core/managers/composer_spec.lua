@@ -1,11 +1,11 @@
+local Result = require "mason-core.result"
+local composer = require "mason-core.managers.composer"
+local installer = require "mason-core.installer"
+local mock = require "luassert.mock"
+local path = require "mason-core.path"
+local spawn = require "mason-core.spawn"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
-local mock = require "luassert.mock"
-local installer = require "mason-core.installer"
-local composer = require "mason-core.managers.composer"
-local Result = require "mason-core.result"
-local spawn = require "mason-core.spawn"
-local path = require "mason-core.path"
 
 describe("composer manager", function()
     it(

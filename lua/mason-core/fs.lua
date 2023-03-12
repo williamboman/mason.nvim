@@ -1,6 +1,6 @@
-local log = require "mason-core.log"
-local a = require "mason-core.async"
 local Path = require "mason-core.path"
+local a = require "mason-core.async"
+local log = require "mason-core.log"
 local settings = require "mason.settings"
 
 local function make_module(uv)

@@ -1,8 +1,8 @@
-local stub = require "luassert.stub"
+local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
 local generic = require "mason-core.installer.registry.providers.generic"
-local Purl = require "mason-core.purl"
 local installer = require "mason-core.installer"
+local stub = require "luassert.stub"
 
 ---@param overrides Purl
 local function purl(overrides)

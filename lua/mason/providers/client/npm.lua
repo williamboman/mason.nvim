@@ -1,5 +1,5 @@
-local spawn = require "mason-core.spawn"
 local _ = require "mason-core.functional"
+local spawn = require "mason-core.spawn"
 
 ---@type NpmProvider
 return {

@@ -1,6 +1,6 @@
-local settings = require "mason.settings"
-local log = require "mason-core.log"
 local Result = require "mason-core.result"
+local log = require "mason-core.log"
+local settings = require "mason.settings"
 
 ---@alias GitHubRelease { tag_name: string, prerelease: boolean, draft: boolean, assets: table[] }
 ---@alias GitHubTag { name: string }

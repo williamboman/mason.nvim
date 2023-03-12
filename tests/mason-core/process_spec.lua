@@ -1,6 +1,6 @@
-local spy = require "luassert.spy"
 local match = require "luassert.match"
 local process = require "mason-core.process"
+local spy = require "luassert.spy"
 
 describe("process.spawn", function()
     -- Unix only

@@ -1,5 +1,5 @@
-local spy = require "luassert.spy"
 local _ = require "mason-core.functional"
+local spy = require "luassert.spy"
 
 describe("functional: logic", function()
     it("should check that all_pass checks that all predicates pass", function()

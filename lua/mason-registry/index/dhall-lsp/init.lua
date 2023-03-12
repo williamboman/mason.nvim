@@ -1,11 +1,11 @@
+local Optional = require "mason-core.optional"
 local Pkg = require "mason-core.package"
+local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
+local github_client = require "mason-core.managers.github.client"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
-local _ = require "mason-core.functional"
 local std = require "mason-core.managers.std"
-local github_client = require "mason-core.managers.github.client"
-local Optional = require "mason-core.optional"
-local Result = require "mason-core.result"
 
 return Pkg.new {
     name = "dhall-lsp",

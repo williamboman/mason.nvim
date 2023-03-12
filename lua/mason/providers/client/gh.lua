@@ -1,6 +1,6 @@
-local spawn = require "mason-core.spawn"
-local _ = require "mason-core.functional"
 local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
+local spawn = require "mason-core.spawn"
 
 ---@type GitHubProvider
 return {

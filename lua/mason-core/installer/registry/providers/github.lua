@@ -1,11 +1,11 @@
-local a = require "mason-core.async"
-local async_uv = require "mason-core.async.uv"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local platform = require "mason-core.platform"
-local path = require "mason-core.path"
-local settings = require "mason.settings"
+local a = require "mason-core.async"
+local async_uv = require "mason-core.async.uv"
 local expr = require "mason-core.installer.registry.expr"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local settings = require "mason.settings"
 local util = require "mason-core.installer.registry.util"
 
 local build = {

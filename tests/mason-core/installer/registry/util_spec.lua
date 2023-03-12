@@ -1,8 +1,8 @@
-local match = require "luassert.match"
 local Result = require "mason-core.result"
-local util = require "mason-core.installer.registry.util"
-local platform = require "mason-core.platform"
 local installer = require "mason-core.installer"
+local match = require "luassert.match"
+local platform = require "mason-core.platform"
+local util = require "mason-core.installer.registry.util"
 
 describe("registry installer util", function()
     it("should coalesce single target", function()

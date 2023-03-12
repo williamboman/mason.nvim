@@ -1,9 +1,9 @@
-local a = require "mason-core.async"
-local _ = require "mason-core.functional"
 local Result = require "mason-core.result"
-local process = require "mason-core.process"
-local platform = require "mason-core.platform"
+local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local log = require "mason-core.log"
+local platform = require "mason-core.platform"
+local process = require "mason-core.process"
 
 ---@alias JobSpawn table<string, async fun(opts: SpawnArgs): Result>
 ---@type JobSpawn

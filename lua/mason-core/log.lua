@@ -1,7 +1,7 @@
 local _ = require "mason-core.functional"
 local path = require "mason-core.path"
-local settings = require "mason.settings"
 local platform = require "mason-core.platform"
+local settings = require "mason.settings"
 
 local config = {
     -- Name of the plugin. Prepended to log messages

@@ -1,9 +1,9 @@
 local Pkg = require "mason-core.package"
-local github = require "mason-core.managers.github"
-local std = require "mason-core.managers.std"
 local _ = require "mason-core.functional"
-local platform = require "mason-core.platform"
+local github = require "mason-core.managers.github"
 local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local std = require "mason-core.managers.std"
 
 return Pkg.new {
     name = "cpptools",

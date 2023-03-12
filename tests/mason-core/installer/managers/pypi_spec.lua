@@ -1,7 +1,7 @@
 local installer = require "mason-core.installer"
-local stub = require "luassert.stub"
 local path = require "mason-core.path"
 local pypi = require "mason-core.installer.managers.pypi"
+local stub = require "luassert.stub"
 
 ---@param ctx InstallContext
 local function venv_py(ctx)

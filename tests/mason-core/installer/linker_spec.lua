@@ -1,7 +1,7 @@
-local stub = require "luassert.stub"
 local fs = require "mason-core.fs"
 local path = require "mason-core.path"
 local registry = require "mason-registry"
+local stub = require "luassert.stub"
 
 local WIN_CMD_SCRIPT = [[@ECHO off
 GOTO start

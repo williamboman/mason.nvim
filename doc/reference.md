@@ -105,30 +105,30 @@ registry:on(
 
 **Type:**
 
-| Key        | Value                                |
-| ---------- | ------------------------------------ |
-| name       | `string`                             |
-| desc       | `string`                             |
-| homepage   | `string`                             |
+| Key        | Value                               |
+| ---------- | ----------------------------------- |
+| name       | `string`                            |
+| desc       | `string`                            |
+| homepage   | `string`                            |
 | categories | [`PackageCategory[]`](#packagecat)  |
 | languages  | [`PackageLanguage[]`](#packagelang) |
-| install    | `async fun(ctx: InstallContext)`     |
+| install    | `async fun(ctx: InstallContext)`    |
 
 ## `RegistryPackageSpec`
 
-| Key         | Value                                |
-| ----------- | ------------------------------------ |
-| schema      | `"registry+v1"`                      |
-| name        | `string`                             |
-| description | `string`                             |
-| homepage    | `string`                             |
-| licenses    | `string`                             |
+| Key         | Value                               |
+| ----------- | ----------------------------------- |
+| schema      | `"registry+v1"`                     |
+| name        | `string`                            |
+| description | `string`                            |
+| homepage    | `string`                            |
+| licenses    | `string`                            |
 | categories  | [`PackageCategory[]`](#packagecat)  |
 | languages   | [`PackageLanguage[]`](#packagelang) |
-| source      | `table`                              |
-| bin         | `table<string, string>?`             |
-| share       | `table<string, string>?`             |
-| opt         | `table<string, string>?`             |
+| source      | `table`                             |
+| bin         | `table<string, string>?`            |
+| share       | `table<string, string>?`            |
+| opt         | `table<string, string>?`            |
 
 ## `Package`
 

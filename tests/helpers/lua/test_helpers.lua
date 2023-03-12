@@ -1,12 +1,12 @@
 ---@diagnostic disable: lowercase-global
-local util = require "luassert.util"
 local spy = require "luassert.spy"
+local util = require "luassert.util"
 
-local path = require "mason-core.path"
-local a = require "mason-core.async"
-local Result = require "mason-core.result"
-local InstallHandle = require "mason-core.installer.handle"
 local InstallContext = require "mason-core.installer.context"
+local InstallHandle = require "mason-core.installer.handle"
+local Result = require "mason-core.result"
+local a = require "mason-core.async"
+local path = require "mason-core.path"
 local registry = require "mason-registry"
 
 -- selene: allow(unused_variable)

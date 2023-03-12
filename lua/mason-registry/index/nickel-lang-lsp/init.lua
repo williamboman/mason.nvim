@@ -1,6 +1,6 @@
 local Pkg = require "mason-core.package"
-local cargo = require "mason-core.managers.cargo"
 local _ = require "mason-core.functional"
+local cargo = require "mason-core.managers.cargo"
 
 return Pkg.new {
     name = "nickel-lang-lsp",

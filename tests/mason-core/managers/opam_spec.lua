@@ -1,5 +1,5 @@
-local match = require "luassert.match"
 local installer = require "mason-core.installer"
+local match = require "luassert.match"
 local opam = require "mason-core.managers.opam"
 
 describe("opam manager", function()

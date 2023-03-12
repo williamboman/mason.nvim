@@ -1,9 +1,9 @@
+local Optional = require "mason-core.optional"
+local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local installer = require "mason-core.installer"
-local Optional = require "mason-core.optional"
-local platform = require "mason-core.platform"
-local Result = require "mason-core.result"
 local log = require "mason-core.log"
+local platform = require "mason-core.platform"
 
 local M = {}
 

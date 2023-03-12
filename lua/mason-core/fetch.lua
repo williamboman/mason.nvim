@@ -1,11 +1,11 @@
+local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local async_uv = require "mason-core.async.uv"
 local log = require "mason-core.log"
 local platform = require "mason-core.platform"
-local Result = require "mason-core.result"
-local spawn = require "mason-core.spawn"
 local powershell = require "mason-core.managers.powershell"
-local _ = require "mason-core.functional"
+local spawn = require "mason-core.spawn"
 
 local USER_AGENT = "mason.nvim (+https://github.com/williamboman/mason.nvim)"
 

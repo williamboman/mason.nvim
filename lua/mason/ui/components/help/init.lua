@@ -1,13 +1,13 @@
 local Ui = require "mason-core.ui"
-local p = require "mason.ui.palette"
 local _ = require "mason-core.functional"
-local settings = require "mason.settings"
 local log = require "mason-core.log"
+local p = require "mason.ui.palette"
+local settings = require "mason.settings"
 
-local LSPHelp = require "mason.ui.components.help.lsp"
 local DAPHelp = require "mason.ui.components.help.dap"
-local LinterHelp = require "mason.ui.components.help.linter"
 local FormatterHelp = require "mason.ui.components.help.formatter"
+local LSPHelp = require "mason.ui.components.help.lsp"
+local LinterHelp = require "mason.ui.components.help.linter"
 
 ---@param state InstallerUiState
 local function Ship(state)

@@ -1,10 +1,10 @@
-local _ = require "mason-core.functional"
-local path = require "mason-core.path"
-local Result = require "mason-core.result"
-local spawn = require "mason-core.spawn"
 local Optional = require "mason-core.optional"
+local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
 local installer = require "mason-core.installer"
+local path = require "mason-core.path"
 local platform = require "mason-core.platform"
+local spawn = require "mason-core.spawn"
 
 local M = {}
 

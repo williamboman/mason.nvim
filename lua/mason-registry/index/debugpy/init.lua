@@ -1,6 +1,6 @@
 local Pkg = require "mason-core.package"
-local pip3 = require "mason-core.managers.pip3"
 local path = require "mason-core.path"
+local pip3 = require "mason-core.managers.pip3"
 
 return Pkg.new {
     name = "debugpy",

@@ -1,11 +1,11 @@
-local a = require "mason-core.async"
-local spawn = require "mason-core.spawn"
-local _ = require "mason-core.functional"
-local process = require "mason-core.process"
 local EventEmitter = require "mason-core.EventEmitter"
-local log = require "mason-core.log"
 local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
+local a = require "mason-core.async"
+local log = require "mason-core.log"
 local platform = require "mason-core.platform"
+local process = require "mason-core.process"
+local spawn = require "mason-core.spawn"
 
 local uv = vim.loop
 

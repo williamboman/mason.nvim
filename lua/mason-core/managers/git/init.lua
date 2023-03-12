@@ -1,7 +1,7 @@
-local spawn = require "mason-core.spawn"
 local Result = require "mason-core.result"
-local installer = require "mason-core.installer"
 local _ = require "mason-core.functional"
+local installer = require "mason-core.installer"
+local spawn = require "mason-core.spawn"
 
 local M = {}
 

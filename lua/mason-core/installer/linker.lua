@@ -1,10 +1,10 @@
-local path = require "mason-core.path"
 local Result = require "mason-core.result"
-local platform = require "mason-core.platform"
 local _ = require "mason-core.functional"
-local log = require "mason-core.log"
-local fs = require "mason-core.fs"
 local a = require "mason-core.async"
+local fs = require "mason-core.fs"
+local log = require "mason-core.log"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
 
 local M = {}
 

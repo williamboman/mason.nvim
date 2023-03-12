@@ -1,8 +1,8 @@
 local _ = require "mason-core.functional"
-local log = require "mason-core.log"
 local fetch = require "mason-core.fetch"
-local spawn = require "mason-core.spawn"
+local log = require "mason-core.log"
 local providers = require "mason-core.providers"
+local spawn = require "mason-core.spawn"
 
 local M = {}
 

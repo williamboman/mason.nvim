@@ -1,7 +1,7 @@
 local Pkg = require "mason-core.package"
 local git = require "mason-core.managers.git"
-local platform = require "mason-core.platform"
 local path = require "mason-core.path"
+local platform = require "mason-core.platform"
 
 return Pkg.new {
     name = "metamath-zero-lsp",

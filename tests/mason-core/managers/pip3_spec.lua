@@ -1,16 +1,16 @@
 local mock = require "luassert.mock"
+local path = require "mason-core.path"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
-local path = require "mason-core.path"
 
+local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
-local pip3 = require "mason-core.managers.pip3"
+local api = require "mason-registry.api"
 local installer = require "mason-core.installer"
-local Result = require "mason-core.result"
+local pip3 = require "mason-core.managers.pip3"
 local settings = require "mason.settings"
 local spawn = require "mason-core.spawn"
-local api = require "mason-registry.api"
 
 describe("pip3 manager", function()
     before_each(function()

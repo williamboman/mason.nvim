@@ -1,8 +1,8 @@
-local match = require "luassert.match"
-local spy = require "luassert.spy"
-local display = require "mason-core.ui.display"
 local Ui = require "mason-core.ui"
 local a = require "mason-core.async"
+local display = require "mason-core.ui.display"
+local match = require "luassert.match"
+local spy = require "luassert.spy"
 
 describe("ui", function()
     it("produces a correct tree", function()

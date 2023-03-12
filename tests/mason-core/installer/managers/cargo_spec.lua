@@ -1,5 +1,5 @@
-local installer = require "mason-core.installer"
 local cargo = require "mason-core.installer.managers.cargo"
+local installer = require "mason-core.installer"
 
 describe("cargo manager", function()
     it("should install", function()

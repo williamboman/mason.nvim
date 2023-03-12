@@ -1,9 +1,9 @@
-local log = require "mason-core.log"
-local fs = require "mason-core.fs"
-local _ = require "mason-core.functional"
-local Optional = require "mason-core.optional"
-local path = require "mason-core.path"
 local EventEmitter = require "mason-core.EventEmitter"
+local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
+local fs = require "mason-core.fs"
+local log = require "mason-core.log"
+local path = require "mason-core.path"
 local sources = require "mason-registry.sources"
 
 ---@class RegistrySource

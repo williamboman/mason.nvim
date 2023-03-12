@@ -1,7 +1,7 @@
-local a = require "mason-core.async"
-local spawn = require "mason-core.spawn"
-local process = require "mason-core.process"
 local _ = require "mason-core.functional"
+local a = require "mason-core.async"
+local process = require "mason-core.process"
+local spawn = require "mason-core.spawn"
 
 local M = {}
 

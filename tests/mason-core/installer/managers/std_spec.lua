@@ -1,7 +1,7 @@
 local installer = require "mason-core.installer"
-local stub = require "luassert.stub"
 local match = require "luassert.match"
 local std = require "mason-core.installer.managers.std"
+local stub = require "luassert.stub"
 
 describe("std unpack [Unix]", function()
     it("should unpack .gz", function()

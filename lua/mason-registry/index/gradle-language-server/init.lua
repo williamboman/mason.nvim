@@ -1,7 +1,7 @@
 local Pkg = require "mason-core.package"
+local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
 local path = require "mason-core.path"
-local _ = require "mason-core.functional"
 
 return Pkg.new {
     name = "gradle-language-server",

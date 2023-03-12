@@ -1,5 +1,5 @@
-local installer = require "mason-core.installer"
 local composer = require "mason-core.installer.managers.composer"
+local installer = require "mason-core.installer"
 
 describe("composer manager", function()
     it("should install", function()

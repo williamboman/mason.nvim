@@ -5,10 +5,10 @@ local gem = require "mason-core.managers.gem"
 local git = require "mason-core.managers.git"
 local github = require "mason-core.managers.github"
 local go = require "mason-core.managers.go"
+local log = require "mason-core.log"
 local luarocks = require "mason-core.managers.luarocks"
 local npm = require "mason-core.managers.npm"
 local pip3 = require "mason-core.managers.pip3"
-local log = require "mason-core.log"
 
 ---@param field_name string
 local function version_in_receipt(field_name)

@@ -1,8 +1,8 @@
-local assert = require "luassert"
-local spy = require "luassert.spy"
-local match = require "luassert.match"
 local a = require "mason-core.async"
+local assert = require "luassert"
+local match = require "luassert.match"
 local process = require "mason-core.process"
+local spy = require "luassert.spy"
 
 local function timestamp()
     local seconds, microseconds = vim.loop.gettimeofday()

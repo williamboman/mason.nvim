@@ -1,10 +1,10 @@
-local stub = require "luassert.stub"
-local match = require "luassert.match"
-local Result = require "mason-core.result"
 local Purl = require "mason-core.purl"
-local link = require "mason-core.installer.registry.link"
+local Result = require "mason-core.result"
 local fs = require "mason-core.fs"
+local link = require "mason-core.installer.registry.link"
+local match = require "luassert.match"
 local path = require "mason-core.path"
+local stub = require "luassert.stub"
 
 describe("registry linker", function()
     it("should expand bin table", function()

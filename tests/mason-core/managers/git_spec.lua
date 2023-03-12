@@ -1,9 +1,9 @@
-local stub = require "luassert.stub"
+local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
+local installer = require "mason-core.installer"
 local mock = require "luassert.mock"
 local spawn = require "mason-core.spawn"
-local Result = require "mason-core.result"
-local installer = require "mason-core.installer"
-local _ = require "mason-core.functional"
+local stub = require "luassert.stub"
 
 local git = require "mason-core.managers.git"
 

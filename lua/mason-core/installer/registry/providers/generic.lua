@@ -1,5 +1,5 @@
-local _ = require "mason-core.functional"
 local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
 local expr = require "mason-core.installer.registry.expr"
 local util = require "mason-core.installer.registry.util"
 

@@ -1,8 +1,8 @@
-local stub = require "luassert.stub"
-local match = require "luassert.match"
-local fetch = require "mason-core.fetch"
-local spawn = require "mason-core.spawn"
 local Result = require "mason-core.result"
+local fetch = require "mason-core.fetch"
+local match = require "luassert.match"
+local spawn = require "mason-core.spawn"
+local stub = require "luassert.stub"
 
 describe("fetch", function()
     it(

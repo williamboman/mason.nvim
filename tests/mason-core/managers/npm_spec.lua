@@ -1,13 +1,13 @@
-local stub = require "luassert.stub"
-local spy = require "luassert.spy"
+local Result = require "mason-core.result"
+local api = require "mason-registry.api"
+local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
-local installer = require "mason-core.installer"
 local npm = require "mason-core.managers.npm"
-local Result = require "mason-core.result"
-local spawn = require "mason-core.spawn"
 local path = require "mason-core.path"
-local api = require "mason-registry.api"
+local spawn = require "mason-core.spawn"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 describe("npm manager", function()
     it(

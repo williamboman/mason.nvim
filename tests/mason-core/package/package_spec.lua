@@ -1,10 +1,10 @@
-local spy = require "luassert.spy"
-local mock = require "luassert.mock"
-local stub = require "luassert.stub"
-local match = require "luassert.match"
-local a = require "mason-core.async"
 local Pkg = require "mason-core.package"
+local a = require "mason-core.async"
+local match = require "luassert.match"
+local mock = require "luassert.mock"
 local registry = require "mason-registry"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 describe("package", function()
     before_each(function()

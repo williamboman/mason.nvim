@@ -1,8 +1,8 @@
 local Pkg = require "mason-core.package"
-local path = require "mason-core.path"
-local std = require "mason-core.managers.std"
 local github = require "mason-core.managers.github"
+local path = require "mason-core.path"
 local platform = require "mason-core.platform"
+local std = require "mason-core.managers.std"
 
 local server_script = [[
 if VERSION < v"1.0.0"

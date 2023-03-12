@@ -1,5 +1,5 @@
-local installer = require "mason-core.installer"
 local gem = require "mason-core.installer.managers.gem"
+local installer = require "mason-core.installer"
 
 describe("gem manager", function()
     it("should install", function()

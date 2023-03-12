@@ -1,8 +1,8 @@
-local stub = require "luassert.stub"
-local spy = require "luassert.spy"
-local match = require "luassert.match"
-local _ = require "mason-core.functional"
 local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
+local match = require "luassert.match"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 local spawn = require "mason-core.spawn"
 
