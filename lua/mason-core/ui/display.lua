@@ -1,6 +1,6 @@
 local log = require "mason-core.log"
-local state = require "mason-core.ui.state"
 local settings = require "mason.settings"
+local state = require "mason-core.ui.state"
 
 local M = {}
 

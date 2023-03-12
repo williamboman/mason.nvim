@@ -1,11 +1,11 @@
-local stub = require "luassert.stub"
-local match = require "luassert.match"
-local spy = require "luassert.spy"
-local a = require "mason-core.async"
-local registry = require "mason-registry"
-local terminator = require "mason-core.terminator"
-local _ = require "mason-core.functional"
 local InstallHandle = require "mason-core.installer.handle"
+local _ = require "mason-core.functional"
+local a = require "mason-core.async"
+local match = require "luassert.match"
+local registry = require "mason-registry"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
+local terminator = require "mason-core.terminator"
 
 describe("terminator", function()
     it(

@@ -1,8 +1,8 @@
-local a = require "mason-core.async"
-local path = require "mason-core.path"
-local fetch = require "mason-core.fetch"
 local _ = require "mason-core.functional"
+local a = require "mason-core.async"
+local fetch = require "mason-core.fetch"
 local lspconfig_server_mapping = require "mason-lspconfig.mappings.server"
+local path = require "mason-core.path"
 local script_utils = require "mason-scripts.utils"
 
 local MASON_SCHEMAS_DIR = path.concat { vim.loop.cwd(), "lua", "mason-schemas" }

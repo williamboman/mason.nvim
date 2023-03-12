@@ -1,5 +1,5 @@
-local _ = require "mason-core.functional"
 local Pkg = require "mason-core.package"
+local _ = require "mason-core.functional"
 local opam = require "mason-core.managers.opam"
 
 return Pkg.new {

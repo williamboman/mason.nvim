@@ -1,6 +1,6 @@
-local spy = require "luassert.spy"
-local _ = require "mason-core.functional"
 local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
+local spy = require "luassert.spy"
 
 describe("functional: list", function()
     it("should produce list without nils", function()

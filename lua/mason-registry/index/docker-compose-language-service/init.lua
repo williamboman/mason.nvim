@@ -1,6 +1,6 @@
 local Pkg = require "mason-core.package"
-local path = require "mason-core.path"
 local npm = require "mason-core.managers.npm"
+local path = require "mason-core.path"
 
 return Pkg.new {
     name = "docker-compose-language-service",

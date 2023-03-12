@@ -1,5 +1,5 @@
-local purl = require "mason-core.purl"
 local Result = require "mason-core.result"
+local purl = require "mason-core.purl"
 
 describe("purl", function()
     it("should parse well-formed PURLs", function()

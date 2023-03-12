@@ -1,5 +1,5 @@
-local installer = require "mason-core.installer"
 local golang = require "mason-core.installer.managers.golang"
+local installer = require "mason-core.installer"
 
 describe("golang manager", function()
     it("should install", function()

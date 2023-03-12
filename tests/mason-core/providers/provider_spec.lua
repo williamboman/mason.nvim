@@ -1,5 +1,5 @@
-local spy = require "luassert.spy"
 local Result = require "mason-core.result"
+local spy = require "luassert.spy"
 
 describe("providers", function()
     ---@module "mason-core.providers"

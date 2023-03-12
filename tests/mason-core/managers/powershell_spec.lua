@@ -1,9 +1,9 @@
-local stub = require "luassert.stub"
-local spy = require "luassert.spy"
+local a = require "mason-core.async"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
 local spawn = require "mason-core.spawn"
-local a = require "mason-core.async"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 describe("powershell manager", function()
     local function powershell()

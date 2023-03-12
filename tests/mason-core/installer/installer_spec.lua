@@ -1,12 +1,12 @@
-local spy = require "luassert.spy"
-local match = require "luassert.match"
-local stub = require "luassert.stub"
-local fs = require "mason-core.fs"
-local a = require "mason-core.async"
-local path = require "mason-core.path"
-local Result = require "mason-core.result"
-local installer = require "mason-core.installer"
 local InstallContext = require "mason-core.installer.context"
+local Result = require "mason-core.result"
+local a = require "mason-core.async"
+local fs = require "mason-core.fs"
+local installer = require "mason-core.installer"
+local match = require "luassert.match"
+local path = require "mason-core.path"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 local function timestamp()
     local seconds, microseconds = vim.loop.gettimeofday()

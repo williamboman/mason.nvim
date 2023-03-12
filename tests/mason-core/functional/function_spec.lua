@@ -1,6 +1,6 @@
-local spy = require "luassert.spy"
-local match = require "luassert.match"
 local _ = require "mason-core.functional"
+local match = require "luassert.match"
+local spy = require "luassert.spy"
 
 describe("functional: function", function()
     it("curries functions", function()

@@ -1,13 +1,13 @@
-local log = require "mason-core.log"
-local _ = require "mason-core.functional"
-local path = require "mason-core.path"
-local fs = require "mason-core.fs"
-local a = require "mason-core.async"
-local Result = require "mason-core.result"
 local InstallContext = require "mason-core.installer.context"
-local settings = require "mason.settings"
-local linker = require "mason-core.installer.linker"
+local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local control = require "mason-core.async.control"
+local fs = require "mason-core.fs"
+local linker = require "mason-core.installer.linker"
+local log = require "mason-core.log"
+local path = require "mason-core.path"
+local settings = require "mason.settings"
 
 local Semaphore = control.Semaphore
 

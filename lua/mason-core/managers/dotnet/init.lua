@@ -1,5 +1,5 @@
-local installer = require "mason-core.installer"
 local _ = require "mason-core.functional"
+local installer = require "mason-core.installer"
 local platform = require "mason-core.platform"
 
 local M = {}

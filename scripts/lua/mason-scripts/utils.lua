@@ -1,5 +1,5 @@
-local _ = require "mason-core.functional"
 local Path = require "mason-core.path"
+local _ = require "mason-core.functional"
 local fs = require "mason-core.fs"
 
 local M = {}

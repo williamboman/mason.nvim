@@ -1,7 +1,7 @@
 local Pkg = require "mason-core.package"
+local github = require "mason-core.managers.github"
 local path = require "mason-core.path"
 local std = require "mason-core.managers.std"
-local github = require "mason-core.managers.github"
 
 return Pkg.new {
     name = "bicep-lsp",

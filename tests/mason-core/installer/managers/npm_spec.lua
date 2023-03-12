@@ -1,7 +1,7 @@
 local installer = require "mason-core.installer"
-local stub = require "luassert.stub"
 local match = require "luassert.match"
 local npm = require "mason-core.installer.managers.npm"
+local stub = require "luassert.stub"
 
 describe("npm manager", function()
     it("should init package.json", function()

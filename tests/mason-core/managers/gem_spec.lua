@@ -1,13 +1,13 @@
-local spy = require "luassert.spy"
-local stub = require "luassert.stub"
+local Result = require "mason-core.result"
+local _ = require "mason-core.functional"
+local api = require "mason-registry.api"
+local gem = require "mason-core.managers.gem"
+local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
-local installer = require "mason-core.installer"
-local gem = require "mason-core.managers.gem"
-local Result = require "mason-core.result"
 local spawn = require "mason-core.spawn"
-local api = require "mason-registry.api"
-local _ = require "mason-core.functional"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 describe("gem manager", function()
     it(

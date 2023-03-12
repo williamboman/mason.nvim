@@ -1,6 +1,6 @@
 local Pkg = require "mason-core.package"
-local npm = require "mason-core.managers.npm"
 local _ = require "mason-core.functional"
+local npm = require "mason-core.managers.npm"
 
 return Pkg.new {
     name = "antlers-language-server",

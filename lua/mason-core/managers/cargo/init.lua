@@ -1,13 +1,13 @@
-local path = require "mason-core.path"
-local platform = require "mason-core.platform"
-local spawn = require "mason-core.spawn"
-local a = require "mason-core.async"
 local Optional = require "mason-core.optional"
-local installer = require "mason-core.installer"
+local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local client = require "mason-core.managers.cargo.client"
 local github = require "mason-core.managers.github"
 local github_client = require "mason-core.managers.github.client"
-local _ = require "mason-core.functional"
+local installer = require "mason-core.installer"
+local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local spawn = require "mason-core.spawn"
 
 local get_bin_path = _.compose(path.concat, function(executable)
     return _.append(executable, { "bin" })

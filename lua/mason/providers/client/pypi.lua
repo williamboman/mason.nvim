@@ -1,9 +1,9 @@
+local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local fs = require "mason-core.fs"
-local spawn = require "mason-core.spawn"
 local platform = require "mason-core.platform"
-local _ = require "mason-core.functional"
-local Optional = require "mason-core.optional"
+local spawn = require "mason-core.spawn"
 
 ---@param args SpawnArgs
 local function python(args)

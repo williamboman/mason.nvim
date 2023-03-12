@@ -1,11 +1,11 @@
-local stub = require "luassert.stub"
 local mock = require "luassert.mock"
+local stub = require "luassert.stub"
 
-local Result = require "mason-core.result"
-local installer = require "mason-core.installer"
-local github = require "mason-core.managers.github"
 local Optional = require "mason-core.optional"
+local Result = require "mason-core.result"
 local client = require "mason-core.managers.github.client"
+local github = require "mason-core.managers.github"
+local installer = require "mason-core.installer"
 
 describe("github release file", function()
     it(

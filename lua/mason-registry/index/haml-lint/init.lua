@@ -1,6 +1,6 @@
 local Pkg = require "mason-core.package"
-local gem = require "mason-core.managers.gem"
 local _ = require "mason-core.functional"
+local gem = require "mason-core.managers.gem"
 
 return Pkg.new {
     name = "haml-lint",

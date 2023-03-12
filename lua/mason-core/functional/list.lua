@@ -1,5 +1,5 @@
-local fun = require "mason-core.functional.function"
 local data = require "mason-core.functional.data"
+local fun = require "mason-core.functional.function"
 
 local _ = {}
 

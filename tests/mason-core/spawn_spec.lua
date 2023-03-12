@@ -1,8 +1,8 @@
+local match = require "luassert.match"
+local process = require "mason-core.process"
+local spawn = require "mason-core.spawn"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
-local match = require "luassert.match"
-local spawn = require "mason-core.spawn"
-local process = require "mason-core.process"
 
 describe("async spawn", function()
     it(

@@ -1,10 +1,10 @@
-local installer = require "mason-core.installer"
-local std = require "mason-core.managers.std"
-local client = require "mason-core.managers.github.client"
-local platform = require "mason-core.platform"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local client = require "mason-core.managers.github.client"
+local installer = require "mason-core.installer"
+local platform = require "mason-core.platform"
 local settings = require "mason.settings"
+local std = require "mason-core.managers.std"
 
 local M = {}
 

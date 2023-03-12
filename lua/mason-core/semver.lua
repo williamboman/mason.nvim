@@ -1,5 +1,5 @@
-local semver = require "mason-vendor.semver"
 local Result = require "mason-core.result"
+local semver = require "mason-vendor.semver"
 
 local M = {}
 

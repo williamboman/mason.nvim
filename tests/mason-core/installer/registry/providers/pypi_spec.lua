@@ -1,9 +1,9 @@
-local stub = require "luassert.stub"
-local settings = require "mason.settings"
-local Result = require "mason-core.result"
-local pypi = require "mason-core.installer.registry.providers.pypi"
 local Purl = require "mason-core.purl"
+local Result = require "mason-core.result"
 local installer = require "mason-core.installer"
+local pypi = require "mason-core.installer.registry.providers.pypi"
+local settings = require "mason.settings"
+local stub = require "luassert.stub"
 
 ---@param overrides Purl
 local function purl(overrides)

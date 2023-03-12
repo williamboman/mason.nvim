@@ -1,6 +1,6 @@
 local installer = require "mason-core.installer"
-local stub = require "luassert.stub"
 local luarocks = require "mason-core.installer.managers.luarocks"
+local stub = require "luassert.stub"
 
 describe("luarocks manager", function()
     it("should install", function()

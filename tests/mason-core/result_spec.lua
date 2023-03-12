@@ -1,8 +1,8 @@
+local Optional = require "mason-core.optional"
 local Result = require "mason-core.result"
+local a = require "mason-core.async"
 local match = require "luassert.match"
 local spy = require "luassert.spy"
-local Optional = require "mason-core.optional"
-local a = require "mason-core.async"
 
 describe("result", function()
     it("should create success", function()

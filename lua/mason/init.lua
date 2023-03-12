@@ -1,6 +1,6 @@
-local settings = require "mason.settings"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
+local settings = require "mason.settings"
 
 local M = {}
 

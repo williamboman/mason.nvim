@@ -1,11 +1,11 @@
-local spy = require "luassert.spy"
-local match = require "luassert.match"
 local log = require "mason-core.log"
+local match = require "luassert.match"
+local spy = require "luassert.spy"
 
+local Pkg = require "mason-core.package"
 local a = require "mason-core.async"
 local api = require "mason.api.command"
 local registry = require "mason-registry"
-local Pkg = require "mason-core.package"
 
 describe(":Mason", function()
     it(

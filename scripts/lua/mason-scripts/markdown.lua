@@ -1,7 +1,7 @@
-local path = require "mason-core.path"
 local _ = require "mason-core.functional"
-local script_utils = require "mason-scripts.utils"
 local fs = require "mason-core.fs"
+local path = require "mason-core.path"
+local script_utils = require "mason-scripts.utils"
 
 local M = {}
 

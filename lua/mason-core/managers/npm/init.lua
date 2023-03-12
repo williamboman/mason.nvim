@@ -1,10 +1,10 @@
-local spawn = require "mason-core.spawn"
-local installer = require "mason-core.installer"
 local Result = require "mason-core.result"
-local path = require "mason-core.path"
 local _ = require "mason-core.functional"
+local installer = require "mason-core.installer"
+local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local providers = require "mason-core.providers"
+local spawn = require "mason-core.spawn"
 
 local list_copy = _.list_copy
 

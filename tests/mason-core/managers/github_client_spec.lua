@@ -1,7 +1,7 @@
-local stub = require "luassert.stub"
+local Result = require "mason-core.result"
 local client = require "mason-core.managers.github.client"
 local spawn = require "mason-core.spawn"
-local Result = require "mason-core.result"
+local stub = require "luassert.stub"
 
 describe("github client", function()
     it("should provide query parameters in api calls", function()

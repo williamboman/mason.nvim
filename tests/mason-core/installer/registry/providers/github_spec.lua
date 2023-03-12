@@ -1,12 +1,12 @@
-local stub = require "luassert.stub"
-local mock = require "luassert.mock"
-local spy = require "luassert.spy"
-local match = require "luassert.match"
+local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
 local github = require "mason-core.installer.registry.providers.github"
-local Purl = require "mason-core.purl"
 local installer = require "mason-core.installer"
+local match = require "luassert.match"
+local mock = require "luassert.mock"
 local registry_installer = require "mason-core.installer.registry"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 ---@param overrides Purl
 local function purl(overrides)

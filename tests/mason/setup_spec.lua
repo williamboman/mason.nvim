@@ -1,5 +1,5 @@
-local match = require "luassert.match"
 local mason = require "mason"
+local match = require "luassert.match"
 local path = require "mason-core.path"
 local settings = require "mason.settings"
 

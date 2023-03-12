@@ -1,5 +1,5 @@
-local log = require "mason-core.log"
 local _ = require "mason-core.functional"
+local log = require "mason-core.log"
 local platform = require "mason-core.platform"
 local uv = vim.loop
 

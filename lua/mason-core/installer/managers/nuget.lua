@@ -1,7 +1,7 @@
-local installer = require "mason-core.installer"
-local platform = require "mason-core.platform"
 local Result = require "mason-core.result"
+local installer = require "mason-core.installer"
 local log = require "mason-core.log"
+local platform = require "mason-core.platform"
 
 local M = {}
 

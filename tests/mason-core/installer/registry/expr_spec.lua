@@ -1,6 +1,6 @@
-local match = require "luassert.match"
-local expr = require "mason-core.installer.registry.expr"
 local Result = require "mason-core.result"
+local expr = require "mason-core.installer.registry.expr"
+local match = require "luassert.match"
 
 describe("registry expressions", function()
     it("should eval simple expressions", function()

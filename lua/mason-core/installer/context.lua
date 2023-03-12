@@ -1,11 +1,11 @@
-local spawn = require "mason-core.spawn"
-local log = require "mason-core.log"
+local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
 local fs = require "mason-core.fs"
+local log = require "mason-core.log"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local receipt = require "mason-core.receipt"
-local Optional = require "mason-core.optional"
-local _ = require "mason-core.functional"
+local spawn = require "mason-core.spawn"
 
 ---@class ContextualSpawn
 ---@field strict_mode boolean Whether spawn failures should raise an exception rather then return a Result.

@@ -1,9 +1,9 @@
 local health = vim.health or require "health"
+local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local async_uv = require "mason-core.async.uv"
-local platform = require "mason-core.platform"
 local github_client = require "mason-core.managers.github.client"
-local _ = require "mason-core.functional"
+local platform = require "mason-core.platform"
 local spawn = require "mason-core.spawn"
 
 local M = {}

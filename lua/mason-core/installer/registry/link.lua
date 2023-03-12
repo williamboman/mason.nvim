@@ -1,12 +1,12 @@
-local expr = require "mason-core.installer.registry.expr"
-local log = require "mason-core.log"
+local Optional = require "mason-core.optional"
+local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local a = require "mason-core.async"
+local expr = require "mason-core.installer.registry.expr"
+local fs = require "mason-core.fs"
+local log = require "mason-core.log"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
-local fs = require "mason-core.fs"
-local Result = require "mason-core.result"
-local Optional = require "mason-core.optional"
-local a = require "mason-core.async"
 
 local M = {}
 

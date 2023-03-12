@@ -1,11 +1,11 @@
-local mock = require "luassert.mock"
-local stub = require "luassert.stub"
-local spy = require "luassert.spy"
 local Result = require "mason-core.result"
 local go = require "mason-core.managers.go"
-local spawn = require "mason-core.spawn"
 local installer = require "mason-core.installer"
+local mock = require "luassert.mock"
 local path = require "mason-core.path"
+local spawn = require "mason-core.spawn"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 describe("go manager", function()
     it(

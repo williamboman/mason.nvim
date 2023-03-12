@@ -1,5 +1,5 @@
-local installer = require "mason-core.installer"
 local dotnet = require "mason-core.managers.dotnet"
+local installer = require "mason-core.installer"
 
 describe("dotnet manager", function()
     it(

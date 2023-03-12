@@ -1,6 +1,6 @@
-local path = require "mason-core.path"
-local installer = require "mason-core.installer"
 local _ = require "mason-core.functional"
+local installer = require "mason-core.installer"
+local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 
 local M = {}

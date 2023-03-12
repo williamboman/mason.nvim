@@ -1,11 +1,11 @@
 local Pkg = require "mason-core.package"
-local installer = require "mason-core.installer"
 local _ = require "mason-core.functional"
-local std = require "mason-core.managers.std"
+local fetch = require "mason-core.fetch"
 local github = require "mason-core.managers.github"
+local installer = require "mason-core.installer"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
-local fetch = require "mason-core.fetch"
+local std = require "mason-core.managers.std"
 
 ---@async
 local function download_jdtls()

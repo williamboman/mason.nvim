@@ -1,6 +1,6 @@
-local stub = require "luassert.stub"
-local match = require "luassert.match"
 local Result = require "mason-core.result"
+local match = require "luassert.match"
+local stub = require "luassert.stub"
 
 describe("mason-registry API", function()
     ---@module "mason-registry.api"

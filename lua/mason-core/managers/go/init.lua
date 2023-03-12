@@ -1,9 +1,9 @@
+local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local installer = require "mason-core.installer"
 local platform = require "mason-core.platform"
 local spawn = require "mason-core.spawn"
-local a = require "mason-core.async"
-local Optional = require "mason-core.optional"
-local _ = require "mason-core.functional"
 
 local M = {}
 

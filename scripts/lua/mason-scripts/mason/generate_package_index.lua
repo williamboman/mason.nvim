@@ -1,7 +1,7 @@
-local a = require "mason-core.async"
 local _ = require "mason-core.functional"
-local script_utils = require "mason-scripts.utils"
+local a = require "mason-core.async"
 local markdown = require "mason-scripts.markdown"
+local script_utils = require "mason-scripts.utils"
 
 ---@async
 local function create_markdown_index()

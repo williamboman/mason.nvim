@@ -1,7 +1,7 @@
-local mock = require "luassert.mock"
-local stub = require "luassert.stub"
-local spy = require "luassert.spy"
 local InstallHandle = require "mason-core.installer.handle"
+local mock = require "luassert.mock"
+local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 describe("installer handle", function()
     it("should register spawn handle", function()

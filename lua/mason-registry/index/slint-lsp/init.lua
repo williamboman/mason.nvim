@@ -1,7 +1,7 @@
 local Pkg = require "mason-core.package"
-local platform = require "mason-core.platform"
 local github = require "mason-core.managers.github"
 local path = require "mason-core.path"
+local platform = require "mason-core.platform"
 
 return Pkg.new {
     name = "slint-lsp",

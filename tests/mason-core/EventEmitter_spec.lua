@@ -1,8 +1,8 @@
-local spy = require "luassert.spy"
 local match = require "luassert.match"
+local spy = require "luassert.spy"
 
-local a = require "mason-core.async"
 local EventEmitter = require "mason-core.EventEmitter"
+local a = require "mason-core.async"
 
 describe("EventEmitter", function()
     it("should call registered event handlers", function()

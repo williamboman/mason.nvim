@@ -1,7 +1,7 @@
-local match = require "luassert.match"
-local stub = require "luassert.stub"
 local Result = require "mason-core.result"
 local installer = require "mason-core.installer.registry"
+local match = require "luassert.match"
+local stub = require "luassert.stub"
 local util = require "mason-core.installer.registry.util"
 
 ---@type InstallerProvider

@@ -1,9 +1,9 @@
 local Pkg = require "mason-core.package"
 local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
-local std = require "mason-core.managers.std"
-local platform = require "mason-core.platform"
 local path = require "mason-core.path"
+local platform = require "mason-core.platform"
+local std = require "mason-core.managers.std"
 
 return Pkg.new {
     name = "phpstan",

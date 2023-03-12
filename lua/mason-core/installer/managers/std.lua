@@ -1,11 +1,11 @@
+local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local installer = require "mason-core.installer"
 local fetch = require "mason-core.fetch"
+local installer = require "mason-core.installer"
+local log = require "mason-core.log"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local powershell = require "mason-core.managers.powershell"
-local Result = require "mason-core.result"
-local log = require "mason-core.log"
 
 local M = {}
 

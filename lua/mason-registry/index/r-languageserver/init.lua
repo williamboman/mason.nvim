@@ -1,8 +1,8 @@
+local Pkg = require "mason-core.package"
 local a = require "mason-core.async"
 local async_uv = require "mason-core.async.uv"
-local Pkg = require "mason-core.package"
-local path = require "mason-core.path"
 local github = require "mason-core.managers.github"
+local path = require "mason-core.path"
 
 ---@param install_dir string
 ---@param ref string
