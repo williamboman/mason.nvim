@@ -64,13 +64,19 @@ function M.prepare_installer(context)
         try(Result.pcall(fs.async.mkdirp, package_build_prefix))
         context.cwd:set(package_build_prefix)
 
-        return context.package.spec.install
+        if context.package:is_registry_spec() then
+            local registry_installer = require "mason-core.installer.registry"
+            return try(registry_installer.compile(context.handle.package.spec, context.opts))
+        else
+            return context.package.spec.install
+        end
     end)
 end
 
----@async
+---@generic T
 ---@param context InstallContext
----@param fn async fun(context: InstallContext)
+---@param fn fun(context: InstallContext): T
+---@return T
 function M.exec_in_context(context, fn)
     local thread = coroutine.create(function(...)
         -- We wrap the function to allow it to be a spy instance (in which case it's not actually a function, but a

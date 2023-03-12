@@ -11,7 +11,7 @@ local sources = require "mason-registry.sources"
 ---@field get_all_package_names fun(self: RegistrySource): string[]
 ---@field get_display_name fun(self: RegistrySource): string
 ---@field is_installed fun(self: RegistrySource): boolean
----@field install async fun(self: RegistrySource): Result
+---@field get_installer fun(self: RegistrySource): Optional # Optional<async fun (): Result>
 
 ---@class MasonRegistry : EventEmitter
 ---@diagnostic disable-next-line: assign-type-mismatch
@@ -116,6 +116,42 @@ end
 ---@return Package[]
 function M.get_all_packages()
     return get_packages(M.get_all_package_names())
+end
+
+---@param cb fun(success: boolean, err: any?)
+function M.update(cb)
+    local a = require "mason-core.async"
+    local Result = require "mason-core.result"
+
+    a.run(function()
+        return Result.try(function(try)
+            local updated_sources = {}
+            for source in sources.iter { include_uninstalled = true } do
+                source:get_installer():if_present(function(installer)
+                    try(installer():map_err(function(err)
+                        return ("%s failed to install: %s"):format(source, err)
+                    end))
+                    table.insert(updated_sources, source)
+                end)
+            end
+            return updated_sources
+        end)
+    end, function(success, sources_or_err)
+        if not success then
+            cb(success, sources_or_err)
+            return
+        end
+        sources_or_err
+            :on_success(function(updated_sources)
+                if #updated_sources > 0 then
+                    M:emit("update", updated_sources)
+                end
+                cb(true, updated_sources)
+            end)
+            :on_failure(function(err)
+                cb(false, err)
+            end)
+    end)
 end
 
 return M

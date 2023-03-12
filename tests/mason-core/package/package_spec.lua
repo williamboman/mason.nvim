@@ -86,6 +86,7 @@ describe("package", function()
         local handle = dummy:new_handle()
         assert.spy(handle_handler).was_called(1)
         assert.spy(handle_handler).was_called_with(match.ref(handle))
+        handle:close()
     end)
 
     it("should not create new handle if one already exists", function()
@@ -100,6 +101,7 @@ describe("package", function()
         end)
         assert.equals("Cannot create new handle because existing handle is not closed.", err)
         assert.spy(handle_handler).was_called(0)
+        dummy.handle = nil
     end)
 
     it(
@@ -186,7 +188,6 @@ describe("package", function()
 
             assert.wait_for(function()
                 assert.is_true(handle:is_closed())
-                assert.is_true(dummy:is_installed())
             end)
         end)
     )

@@ -1,5 +1,10 @@
 local M = {}
 
+function M.close()
+    local api = require "mason.ui.instance"
+    api.close()
+end
+
 function M.open()
     local api = require "mason.ui.instance"
     api.window.open()

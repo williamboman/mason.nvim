@@ -58,4 +58,8 @@ function M.package_build_prefix(name)
     return M.concat { M.install_prefix ".packages", name }
 end
 
+function M.registry_prefix()
+    return M.install_prefix "registries"
+end
+
 return M

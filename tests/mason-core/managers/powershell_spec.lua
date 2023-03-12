@@ -31,7 +31,9 @@ describe("powershell manager", function()
             stub(vim.fn, "executable")
             vim.fn.executable.on_call_with("pwsh").returns(0)
 
-            powershell().command "echo 'Is this bash?'"
+            local powershell = powershell()
+            a.scheduler()
+            powershell.command "echo 'Is this bash?'"
 
             assert.spy(spawn.pwsh).was_called(0)
             assert.spy(spawn.powershell).was_called(1)
