@@ -90,8 +90,6 @@ function Package.new(spec)
             bin = { spec.bin, { "t", "nil" } },
             share = { spec.share, { "t", "nil" } },
         }
-        -- XXX: this is for compatibilty with the PackageSpec structure
-        spec.desc = spec.description
     else
         vim.validate {
             name = { spec.name, "s" },

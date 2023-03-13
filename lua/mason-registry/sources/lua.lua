@@ -10,6 +10,7 @@ LuaRegistrySource.__index = LuaRegistrySource
 ---@param spec LuaRegistrySourceSpec
 function LuaRegistrySource.new(spec)
     return setmetatable({
+        id = spec.id,
         spec = spec,
     }, LuaRegistrySource)
 end
