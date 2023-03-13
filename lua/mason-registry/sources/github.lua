@@ -36,6 +36,7 @@ GitHubRegistrySource.__index = GitHubRegistrySource
 function GitHubRegistrySource.new(spec)
     local root_dir = path.concat { path.registry_prefix(), "github", spec.namespace, spec.name }
     return setmetatable({
+        id = spec.id,
         spec = spec,
         root_dir = root_dir,
         data_file = path.concat { root_dir, "registry.json" },
@@ -69,6 +70,9 @@ function GitHubRegistrySource:reload()
                 _.each(function(lang)
                     local _ = Pkg.Lang[lang]
                 end, spec.languages)
+
+                -- XXX: this is for compatibilty with the PackageSpec structure
+                spec.desc = spec.description
 
                 local pkg = self.buffer and self.buffer[spec.name]
                 if pkg then
@@ -105,13 +109,18 @@ end
 ---@async
 function GitHubRegistrySource:install()
     return Result.try(function(try)
+        local version = self.spec.version
+        if self:is_installed() and version ~= nil then
+            -- Fixed version - nothing to update
+            return
+        end
+
         if not fs.async.dir_exists(self.root_dir) then
             log.debug("Creating registry directory", self)
             try(Result.pcall(fs.async.mkdirp, self.root_dir))
         end
 
-        local version = self.spec.version
-        if version == nil or version == "latest" then
+        if version == nil then
             log.trace("Resolving latest version for registry", self)
             ---@type GitHubRelease
             local release = try(providers.github.get_latest_release(self.spec.repo))

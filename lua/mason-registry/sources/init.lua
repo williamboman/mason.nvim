@@ -17,7 +17,7 @@ local function parse(registry_id)
                 repo = ("%s/%s"):format(namespace, name),
                 namespace = namespace,
                 name = name,
-                version = version or "latest",
+                version = version,
             }
         end
     elseif type == "lua" then
