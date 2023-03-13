@@ -1,6 +1,7 @@
 local log = require "mason-core.log"
 local match = require "luassert.match"
 local spy = require "luassert.spy"
+local stub = require "luassert.stub"
 
 local Pkg = require "mason-core.package"
 local a = require "mason-core.async"
@@ -87,4 +88,44 @@ describe(":MasonLog", function()
             assert.equals(log.outfile, vim.fn.expand "%")
         end)
     end)
+end)
+
+describe(":MasonUpdate", function()
+    it(
+        "should update registries",
+        async_test(function()
+            stub(registry, "update", function(cb)
+                cb(true, { {} })
+            end)
+            spy.on(vim, "notify")
+            api.MasonUpdate()
+            assert.spy(vim.notify).was_called(1)
+            assert.spy(vim.notify).was_called_with("Updating registries…", vim.log.levels.INFO, {
+                title = "mason.nvim",
+            })
+            a.scheduler()
+            assert.spy(vim.notify).was_called_with("Successfully updated 1 registry.", vim.log.levels.INFO, {
+                title = "mason.nvim",
+            })
+        end)
+    )
+
+    it(
+        "should notify errors",
+        async_test(function()
+            stub(registry, "update", function(cb)
+                cb(false, "Some error.")
+            end)
+            spy.on(vim, "notify")
+            api.MasonUpdate()
+            assert.spy(vim.notify).was_called(1)
+            assert.spy(vim.notify).was_called_with("Updating registries…", vim.log.levels.INFO, {
+                title = "mason.nvim",
+            })
+            a.scheduler()
+            assert.spy(vim.notify).was_called_with("Failed to update registries: Some error.", vim.log.levels.ERROR, {
+                title = "mason.nvim",
+            })
+        end)
+    )
 end)

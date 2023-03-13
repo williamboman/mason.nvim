@@ -123,7 +123,8 @@ Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) 
 > `:h mason-commands`
 
 -   `:Mason` - opens a graphical status window
--   `:MasonInstall <package> ...` - installs/reinstalls the provided packages
+-   `:MasonUpdate` - updates all managed registries
+-   `:MasonInstall <package> ...` - installs/re-installs the provided packages
 -   `:MasonUninstall <package> ...` - uninstalls the provided packages
 -   `:MasonUninstallAll` - uninstalls all packages
 -   `:MasonLog` - opens the `mason.nvim` log file in a new tab window

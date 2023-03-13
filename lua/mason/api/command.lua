@@ -211,12 +211,14 @@ vim.api.nvim_create_user_command("MasonLog", MasonLog, {
 _G.mason_completion = {
     available_package_completion = function()
         local registry = require "mason-registry"
+        registry.refresh()
         local package_names = registry.get_all_package_names()
         table.sort(package_names)
         return table.concat(package_names, "\n")
     end,
     installed_package_completion = function()
         local registry = require "mason-registry"
+        registry.refresh()
         local package_names = registry.get_installed_package_names()
         table.sort(package_names)
         return table.concat(package_names, "\n")

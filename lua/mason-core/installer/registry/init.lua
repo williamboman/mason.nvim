@@ -5,7 +5,6 @@ local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local link = require "mason-core.installer.registry.link"
 local log = require "mason-core.log"
-local semver = require "mason-core.semver"
 
 local M = {}
 
@@ -71,6 +70,7 @@ local function coalesce_source(source, version)
             local version_override = source.version_overrides[i]
             local version_type, constraint = unpack(_.split(":", version_override.constraint))
             if version_type == "semver" then
+                local semver = require "mason-core.semver"
                 local version_match = Result.try(function(try)
                     local requested_version = try(semver.parse(version))
                     if _.starts_with("<=", constraint) then
