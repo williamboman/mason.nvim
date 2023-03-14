@@ -119,7 +119,7 @@ function M.get_all_packages()
     return get_packages(M.get_all_package_names())
 end
 
-local STATE_FILE = path.concat { vim.fn.stdpath "state", "mason-registry-update" }
+local STATE_FILE = path.concat { vim.fn.stdpath "cache", "mason-registry-update" }
 
 ---@param time integer
 local function get_store_age(time)
