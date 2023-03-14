@@ -23,4 +23,7 @@ jobs:
                   neovim: true
                   version: ${{ matrix.nvim_version }}
             - name: Run tests
-              run: make test
+              run: |
+                set -e
+                make test
+                nvim -u NONE -E -R --headless +'helptags doc' +q

@@ -505,7 +505,7 @@ update({callback})
     Parameters:
         {callback} - Callback of the signature `fun(success: boolean, updated_registries: RegistrySource[])`
 
-                                                     *mason-registry.update()*
+                                                    *mason-registry.refresh()*
 refresh({callback?})
     Refreshes all registries if needed. This is a convenience wrapper around
     |mason-registry.update()| that only updates registries if:
