@@ -1,3 +1,5 @@
+local _ = require "mason-core.functional"
+
 local M = {}
 
 ---@param registry_id string
@@ -70,6 +72,27 @@ function M.iter(opts)
             end
         end
     end
+end
+
+---@return boolean #Returns true if all sources are installed.
+function M.is_installed()
+    for source in M.iter { include_uninstalled = true } do
+        if not source:is_installed() then
+            return false
+        end
+    end
+    return true
+end
+
+---@return string # The sha256 checksum of the currently registered sources.
+function M.checksum()
+    ---@type string[]
+    local registry_ids = {}
+    for source in M.iter { include_uninstalled = true } do
+        table.insert(registry_ids, source.id)
+    end
+    local checksum = _.compose(vim.fn.sha256, _.join "", _.sort_by(_.identity))
+    return checksum(registry_ids)
 end
 
 return M

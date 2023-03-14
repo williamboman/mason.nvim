@@ -125,7 +125,8 @@ exports.run_blocking = function(suspend_fn, ...)
     end, ...)
 
     if
-        vim.wait(60 * 60 * 1000, function() -- the wait time is completely arbitrary
+        resolved
+        or vim.wait(60 * 60 * 1000, function() -- the wait time is completely arbitrary
             return resolved == true
         end, 50)
     then
