@@ -3,13 +3,12 @@ local github = require "mason-core.managers.github"
 
 return Pkg.new {
     name = "openedge-language-server",
-    desc = [[OpenEdge Language Server]]
+    desc = [[OpenEdge Language Server]],
     homepage = "https://github.com/vscode-abl/vscode-abl",
     languages = { Pkg.Lang.Progress },
     categories = { Pkg.Cat.LSP },
     ---@async
-    ---@param ctx InstallContext
-    install = function(ctx)
+    install = function()
         github
             .download_release_file({
                 repo = "vscode-abl/vscode-abl",
