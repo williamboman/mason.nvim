@@ -177,6 +177,7 @@ local DEFAULT_SETTINGS = {
     -- multiple registries, the registry listed first will be used.
     registries = {
         "lua:mason-registry.index",
+        "github:mason-org/mason-registry",
     },
 
     -- The provider implementations to use for resolving supplementary package metadata (e.g., all available versions).
