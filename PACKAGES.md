@@ -173,6 +173,7 @@
 - [omnisharp](#omnisharp)
 - [omnisharp-mono](#omnisharp-mono)
 - [opencl-language-server](#opencl-language-server)
+- [openedge-language-server](#openedge-language-server)
 - [openscad-lsp](#openscad-lsp)
 - [perlnavigator](#perlnavigator)
 - [php-cs-fixer](#php-cs-fixer)
@@ -2220,6 +2221,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall opencl-language-server
+```
+# openedge-language-server
+
+> OpenEdge Language Server
+
+Homepage: [https://github.com/vscode-abl/vscode-abl](https://github.com/vscode-abl/vscode-abl)  
+Languages: `Progress`  
+Categories: `LSP`  
+
+```
+:MasonInstall openedge-language-server
 ```
 # openscad-lsp
 
