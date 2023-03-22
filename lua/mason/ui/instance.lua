@@ -221,7 +221,7 @@ local function setup_handle(handle)
     local function handle_spawnhandle_change()
         mutate_state(function(state)
             state.packages.states[handle.package.name].latest_spawn =
-                handle:peek_spawn_handle():map(tostring):or_else(nil)
+                handle:peek_spawn_handle():map(tostring):map(_.gsub("\n", "\\n ")):or_else(nil)
         end)
     end
 
