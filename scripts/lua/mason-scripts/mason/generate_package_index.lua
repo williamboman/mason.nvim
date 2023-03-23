@@ -3,6 +3,9 @@ local a = require "mason-core.async"
 local markdown = require "mason-scripts.markdown"
 local script_utils = require "mason-scripts.utils"
 
+require("mason").setup()
+require("mason-registry").refresh()
+
 ---@async
 local function create_markdown_index()
     local registry = require "mason-registry"
