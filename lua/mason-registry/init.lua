@@ -138,14 +138,13 @@ local function get_store_age(time)
     return time
 end
 
----@async
 ---@param time integer
 local function update_store_timestamp(time)
     local dir = vim.fn.fnamemodify(STATE_FILE, ":h")
-    if not fs.async.dir_exists(dir) then
-        fs.async.mkdirp(dir)
+    if not fs.sync.dir_exists(dir) then
+        fs.sync.mkdirp(dir)
     end
-    fs.async.write_file(STATE_FILE, _.join("\n", { sources.checksum(), tostring(time) }))
+    fs.sync.write_file(STATE_FILE, _.join("\n", { sources.checksum(), tostring(time) }))
 end
 
 ---@param callback? fun(success: boolean, updated_registries: RegistrySource[])
