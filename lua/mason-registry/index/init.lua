@@ -230,7 +230,6 @@ return {
   ["slint-lsp"] = "mason-registry.index.slint-lsp",
   ["smithy-language-server"] = "mason-registry.index.smithy-language-server",
   snakefmt = "mason-registry.index.snakefmt",
-  solang = "mason-registry.index.solang",
   solargraph = "mason-registry.index.solargraph",
   solhint = "mason-registry.index.solhint",
   solidity = "mason-registry.index.solidity",
