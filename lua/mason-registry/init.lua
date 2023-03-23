@@ -119,7 +119,10 @@ function M.get_all_packages()
     return get_packages(M.get_all_package_names())
 end
 
-local STATE_FILE = path.concat { vim.fn.stdpath "cache", "mason-registry-update" }
+local STATE_FILE = path.concat {
+    vim.fn.stdpath((vim.fn.has "nvim-0.8.0" == 1) and "state" or "cache"),
+    "mason-registry-update",
+}
 
 ---@param time integer
 local function get_store_age(time)
@@ -138,6 +141,10 @@ end
 ---@async
 ---@param time integer
 local function update_store_timestamp(time)
+    local dir = vim.fn.fnamemodify(STATE_FILE, ":h")
+    if not fs.async.dir_exists(dir) then
+        fs.async.mkdirp(dir)
+    end
     fs.async.write_file(STATE_FILE, _.join("\n", { sources.checksum(), tostring(time) }))
 end
 
