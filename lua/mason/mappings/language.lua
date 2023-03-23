@@ -93,7 +93,7 @@ return {
   openapi = { "vacuum" },
   opencl = { "opencl-language-server" },
   openfoam = { "foam-language-server" },
-  openscad = { "openscad", "openscad-lsp" },
+  openscad = { "openscad-lsp" },
   perl = { "perlnavigator" },
   php = { "intelephense", "php-cs-fixer", "php-debug-adapter", "phpactor", "phpcbf", "phpcs", "phpmd", "phpstan", "pint", "psalm", "semgrep" },
   powershell = { "powershell-editor-services" },
