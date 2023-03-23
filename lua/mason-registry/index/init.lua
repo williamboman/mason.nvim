@@ -134,7 +134,6 @@ return {
   joker = "mason-registry.index.joker",
   jq = "mason-registry.index.jq",
   ["jq-lsp"] = "mason-registry.index.jq-lsp",
-  ["js-debug-adapter"] = "mason-registry.index.js-debug-adapter",
   ["json-lsp"] = "mason-registry.index.json-lsp",
   ["json-to-struct"] = "mason-registry.index.json-to-struct",
   jsonlint = "mason-registry.index.jsonlint",
