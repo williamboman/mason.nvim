@@ -146,7 +146,6 @@ return {
   lemminx = "mason-registry.index.lemminx",
   ["lemmy-help"] = "mason-registry.index.lemmy-help",
   ["ltex-ls"] = "mason-registry.index.ltex-ls",
-  ["lua-language-server"] = "mason-registry.index.lua-language-server",
   luacheck = "mason-registry.index.luacheck",
   luaformatter = "mason-registry.index.luaformatter",
   ["luau-lsp"] = "mason-registry.index.luau-lsp",
