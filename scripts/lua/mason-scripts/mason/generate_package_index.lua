@@ -9,9 +9,6 @@ require("mason-registry").refresh()
 ---@async
 local function create_markdown_index()
     local registry = require "mason-registry"
-    require("mason-registry.sources").set_registries {
-        "lua:mason-registry.index",
-    }
     print "Creating markdown index…"
     local packages = _.sort_by(_.prop "name", registry.get_all_packages())
 
