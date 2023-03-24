@@ -37,6 +37,7 @@
 - [chrome-debug-adapter](#chrome-debug-adapter)
 - [clang-format](#clang-format)
 - [clangd](#clangd)
+- [clarinet](#clarinet)
 - [clarity-lsp](#clarity-lsp)
 - [clj-kondo](#clj-kondo)
 - [clojure-lsp](#clojure-lsp)
@@ -97,6 +98,7 @@
 - [fourmolu](#fourmolu)
 - [fsautocomplete](#fsautocomplete)
 - [gersemi](#gersemi)
+- [gh](#gh)
 - [gitlint](#gitlint)
 - [gitui](#gitui)
 - [glint](#glint)
@@ -153,6 +155,7 @@
 - [luacheck](#luacheck)
 - [luaformatter](#luaformatter)
 - [luau-lsp](#luau-lsp)
+- [markdown-toc](#markdown-toc)
 - [markdownlint](#markdownlint)
 - [marksman](#marksman)
 - [metamath-zero-lsp](#metamath-zero-lsp)
@@ -234,6 +237,7 @@
 - [smithy-language-server](#smithy-language-server)
 - [snakefmt](#snakefmt)
 - [solang](#solang)
+- [solang-llvm](#solang-llvm)
 - [solargraph](#solargraph)
 - [solhint](#solhint)
 - [solidity](#solidity)
@@ -686,6 +690,18 @@ Categories: `LSP`
 
 ```
 :MasonInstall clangd
+```
+# clarinet
+
+> Clarinet is a simple, modern and opinionated runtime for testing, integrating and deploying Clarity smart contracts.
+
+
+Homepage: [https://github.com/hirosystems/clarinet](https://github.com/hirosystems/clarinet)  
+Languages: `Clarity`  
+Categories: `LSP` `Runtime`  
+
+```
+:MasonInstall clarinet
 ```
 # clarity-lsp
 
@@ -1356,6 +1372,19 @@ Categories: `Formatter`
 ```
 :MasonInstall gersemi
 ```
+# gh
+
+> gh is GitHub on the command line. It brings pull requests, issues, and other GitHub concepts to the terminal next to
+where you are already working with git and your code.
+
+
+Homepage: [https://cli.github.com](https://cli.github.com)  
+Languages:   
+Categories:   
+
+```
+:MasonInstall gh
+```
 # gitlint
 
 > Gitlint is a git commit message linter written in python: it checks your commit messages for style.
@@ -1799,7 +1828,7 @@ Categories: `LSP`
 ```
 # js-debug-adapter
 
-> The VS Code JavaScript debugger
+> The VS Code JavaScript debugger.
 
 Homepage: [https://github.com/microsoft/vscode-js-debug](https://github.com/microsoft/vscode-js-debug)  
 Languages: `JavaScript` `TypeScript`  
@@ -1996,6 +2025,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall luau-lsp
+```
+# markdown-toc
+
+> API and CLI for generating a markdown TOC (table of contents) for a README or any markdown files.
+
+Homepage: [https://github.com/jonschlinkert/markdown-toc](https://github.com/jonschlinkert/markdown-toc)  
+Languages: `Markdown`  
+Categories: `Formatter`  
+
+```
+:MasonInstall markdown-toc
 ```
 # markdownlint
 
@@ -2897,7 +2937,7 @@ Categories: `Formatter`
 ```
 # solang
 
-> Solidity Compiler for Solana, Substrate, and ewasm
+> Solidity Compiler for Solana, Substrate, and ewasm.
 
 Homepage: [https://solang.readthedocs.io/en/latest/](https://solang.readthedocs.io/en/latest/)  
 Languages: `Solidity`  
@@ -2905,6 +2945,17 @@ Categories: `LSP` `Compiler`
 
 ```
 :MasonInstall solang
+```
+# solang-llvm
+
+> Solang requires Solana's LLVM fork. We provide pre-built binaries compatible with Solang.
+
+Homepage: [https://github.com/hyperledger/solang-llvm](https://github.com/hyperledger/solang-llvm)  
+Languages: `Solidity`  
+Categories: `LSP` `Compiler`  
+
+```
+:MasonInstall solang-llvm
 ```
 # solargraph
 
