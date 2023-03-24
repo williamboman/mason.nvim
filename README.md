@@ -32,7 +32,7 @@
 linters, and formatters through a single interface. It runs everywhere Neovim runs (across Linux, macOS, Windows, etc.),
 with only a small set of [external requirements](#requirements) needed.
 
-Packages are installed in Neovim's `:h stdpath` by default. Executables are linked to a single `bin/` directory, which
+Packages are installed in Neovim's data directory([`stdpath("data")`](https://neovim.io/doc/user/starting.html#standard-path)) by default. Executables are linked to a single `bin/` directory, which
 `mason.nvim` will add to Neovim's PATH during setup, allowing seamless access from Neovim builtins (shell, terminal,
 etc.) as well as other 3rd party plugins.
 
