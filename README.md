@@ -90,13 +90,26 @@ your personal usage, some of these will also need to be installed. Refer to `:ch
 ## [Packer](https://github.com/wbthomason/packer.nvim)
 
 ```lua
-use "williamboman/mason.nvim"
+use {
+    "williamboman/mason.nvim",
+    run = ":MasonUpdate" -- :MasonUpdate updates registry contents
+}
 ```
 
-## vim-plug
+## [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+```lua
+{
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate" -- :MasonUpdate updates registry contents
+}
+```
+
+## [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```vim
-Plug 'williamboman/mason.nvim'
+" :MasonUpdate updates registry contents
+Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
 ```
 
 # Setup
