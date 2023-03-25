@@ -132,12 +132,6 @@ function GitHubRegistrySource:install()
             out_file = path.concat { self.root_dir, "registry.json.zip" },
         }):map_err(_.always "Failed to download registry.json.zip."))
 
-        local checksums = try(
-            fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "checksums.txt")):map_err(
-                _.always "Failed to download checksums.txt."
-            )
-        )
-        local parsed_checksums = parse_checksums(checksums)
 
         platform.when {
             unix = function()
@@ -161,11 +155,17 @@ function GitHubRegistrySource:install()
         }
         pcall(fs.async.unlink, path.concat { self.root_dir, "registry.json.zip" })
 
+        local checksums = try(
+            fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "checksums.txt")):map_err(
+                _.always "Failed to download checksums.txt."
+            )
+        )
+
         try(Result.pcall(
             fs.async.write_file,
             self.info_file,
             vim.json.encode {
-                checksums = parsed_checksums,
+                checksums = parse_checksums(checksums),
                 version = version,
                 download_timestamp = os.time(),
             }
