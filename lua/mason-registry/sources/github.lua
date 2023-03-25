@@ -132,7 +132,6 @@ function GitHubRegistrySource:install()
             out_file = path.concat { self.root_dir, "registry.json.zip" },
         }):map_err(_.always "Failed to download registry.json.zip."))
 
-
         platform.when {
             unix = function()
                 try(spawn.unzip({ "-o", "registry.json.zip", cwd = self.root_dir }):map_err(function(err)
