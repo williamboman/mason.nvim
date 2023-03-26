@@ -4,6 +4,7 @@ local a = require "mason-core.async"
 local async_uv = require "mason-core.async.uv"
 local github_client = require "mason-core.managers.github.client"
 local platform = require "mason-core.platform"
+local registry_sources = require "mason-registry.sources"
 local spawn = require "mason-core.spawn"
 
 local M = {}
@@ -139,7 +140,20 @@ function M.check()
         end
     ))
 
+    for source in registry_sources.iter { include_uninstalled = true } do
+        if source:is_installed() then
+            health.report_ok(("Registry `%s` is installed."):format(source:get_display_name()))
+        else
+            health.report_error(("Registry `%s` is NOT installed."):format(source:get_display_name()))
+        end
+    end
+
     local checks = {
+        check {
+            name = "unzip",
+            cmd = "unzip",
+            args = { "-v" },
+        },
         check {
             cmd = "go",
             args = { "version" },
