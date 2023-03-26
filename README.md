@@ -266,10 +266,10 @@ local DEFAULT_SETTINGS = {
 👋 didn't find what you were looking for? Try looking in the <a href="./doc/mason.txt">help docs</a> <code>:help mason.nvim</code>!
 </sup>
 
-[help-mason-commands]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L177
-[help-mason-how-to-use-packages]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L153
-[help-mason-introduction]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L11
-[help-mason-quickstart]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L67
-[help-mason-requirements]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L50
-[help-mason-settings]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L237
+[help-mason-commands]: ./doc/mason.txt#L177
+[help-mason-how-to-use-packages]: ./doc/mason.txt#L153
+[help-mason-introduction]: ./doc/mason.txt#L11
+[help-mason-quickstart]: ./doc/mason.txt#L67
+[help-mason-requirements]: ./doc/mason.txt#L50
+[help-mason-settings]: ./doc/mason.txt#L237
 [help-standard-path]: https://neovim.io/doc/user/starting.html#standard-path
