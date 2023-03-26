@@ -152,7 +152,7 @@ function M.check()
         check {
             name = "unzip",
             cmd = "unzip",
-            args = { "-v" }
+            args = { "-v" },
         },
         check {
             cmd = "go",
