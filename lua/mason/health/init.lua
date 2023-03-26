@@ -144,7 +144,7 @@ function M.check()
         if source:is_installed() then
             health.report_ok(("Registry `%s` is installed."):format(source:get_display_name()))
         else
-            health.report_error(("Registry `%s` is NOT installed."):format(source))
+            health.report_error(("Registry `%s` is NOT installed."):format(source:get_display_name()))
         end
     end
 
