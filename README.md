@@ -26,21 +26,21 @@
 
 # Introduction
 
-> `:h mason-introduction`
+> [`:h mason-introduction`][help-mason-introduction]
 
 `mason.nvim` is a Neovim plugin that allows you to easily manage external editor tooling such as LSP servers, DAP servers,
 linters, and formatters through a single interface. It runs everywhere Neovim runs (across Linux, macOS, Windows, etc.),
 with only a small set of [external requirements](#requirements) needed.
 
-Packages are installed in Neovim's data directory([`stdpath("data")`](https://neovim.io/doc/user/starting.html#standard-path)) by default. Executables are linked to a single `bin/` directory, which
-`mason.nvim` will add to Neovim's PATH during setup, allowing seamless access from Neovim builtins (shell, terminal,
-etc.) as well as other 3rd party plugins.
+Packages are installed in Neovim's data directory ([`:h standard-path`][help-standard-path]) by default. Executables are
+linked to a single `bin/` directory, which `mason.nvim` will add to Neovim's PATH during setup, allowing seamless access
+from Neovim builtins (shell, terminal, etc.) as well as other 3rd party plugins.
 
 For a list of all available packages, see [PACKAGES.md](./PACKAGES.md).
 
 ## How to use installed packages
 
-> `:h mason-how-to-use-packages`
+> [`:h mason-how-to-use-packages`][help-mason-how-to-use-packages]
 
 Although many packages are perfectly usable out of the box through Neovim builtins, it is recommended to use other 3rd
 party plugins to further integrate these. The following plugins are recommended:
@@ -66,7 +66,7 @@ party plugins to further integrate these. The following plugins are recommended:
 
 # Requirements
 
-> `:h mason-requirements`
+> [`:h mason-requirements`][help-mason-requirements]
 
 `mason.nvim` relaxes the minimum requirements by attempting multiple different utilities (for example, `wget`,
 `curl`, and `Invoke-WebRequest` are all perfect substitutes).
@@ -101,7 +101,7 @@ Plug 'williamboman/mason.nvim'
 
 # Setup
 
-> `:h mason-quickstart`
+> [`:h mason-quickstart`][help-mason-quickstart]
 
 ```lua
 require("mason").setup()
@@ -120,7 +120,7 @@ Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) 
 
 # Commands
 
-> `:h mason-commands`
+> [`:h mason-commands`][help-mason-commands]
 
 -   `:Mason` - opens a graphical status window
 -   `:MasonUpdate` - updates all managed registries
@@ -131,7 +131,7 @@ Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) 
 
 # Configuration
 
-> `:h mason-settings`
+> [`:h mason-settings`][help-mason-settings]
 
 You may optionally configure certain behavior of `mason.nvim` when calling the `.setup()` function. Refer to the
 [default configuration](#default-configuration) for a list of all available settings.
@@ -265,3 +265,11 @@ local DEFAULT_SETTINGS = {
 <sup>
 👋 didn't find what you were looking for? Try looking in the <a href="./doc/mason.txt">help docs</a> <code>:help mason.nvim</code>!
 </sup>
+
+[help-mason-commands]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L177
+[help-mason-how-to-use-packages]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L153
+[help-mason-introduction]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L11
+[help-mason-quickstart]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L67
+[help-mason-requirements]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L50
+[help-mason-settings]: https://github.com/williamboman/mason.nvim/blob/main/doc/mason.txt#L237
+[help-standard-path]: https://neovim.io/doc/user/starting.html#standard-path
