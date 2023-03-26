@@ -22,6 +22,7 @@
 -   [Setup](#setup)
     -   [Extensions](#extensions)
 -   [Commands](#commands)
+-   [Registries](#registries)
 -   [Configuration](#configuration)
 
 # Introduction
@@ -141,6 +142,17 @@ Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) 
 -   `:MasonUninstall <package> ...` - uninstalls the provided packages
 -   `:MasonUninstallAll` - uninstalls all packages
 -   `:MasonLog` - opens the `mason.nvim` log file in a new tab window
+
+
+# Registries
+
+Mason's core package registry is located at [mason-org/mason-registry](https://github.com/mason-org/mason-registry).
+Before any packages can be used, the registry needs to be downloaded. This is done automatically for you when using the
+different Mason commands (e.g. `:MasonInstall`), but can also be done manually by using the `:MasonUpdate` command.
+
+If you're utilizing Mason's Lua APIs to access packages, it's recommended to use the
+[`:h mason-registry.refresh()`][help-mason-registry-refresh] and/or [`:h mason-registry.update()`][help-mason-registry-update]
+functions to ensure you have the latest package information before retrieving packages.
 
 # Configuration
 
@@ -283,6 +295,8 @@ local DEFAULT_SETTINGS = {
 [help-mason-how-to-use-packages]: ./doc/mason.txt#L153
 [help-mason-introduction]: ./doc/mason.txt#L11
 [help-mason-quickstart]: ./doc/mason.txt#L67
+[help-mason-registry-refresh]: ./doc/mason.txt#L509
+[help-mason-registry-update]: ./doc/mason.txt#L502
 [help-mason-requirements]: ./doc/mason.txt#L50
 [help-mason-settings]: ./doc/mason.txt#L237
 [help-standard-path]: https://neovim.io/doc/user/starting.html#standard-path
