@@ -207,7 +207,6 @@ return {
   ["ruby-lsp"] = "mason-registry.index.ruby-lsp",
   ruff = "mason-registry.index.ruff",
   ["ruff-lsp"] = "mason-registry.index.ruff-lsp",
-  ["rust-analyzer"] = "mason-registry.index.rust-analyzer",
   rustfmt = "mason-registry.index.rustfmt",
   rustywind = "mason-registry.index.rustywind",
   ["salt-lsp"] = "mason-registry.index.salt-lsp",
