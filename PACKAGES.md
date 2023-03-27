@@ -295,7 +295,7 @@
 
 # actionlint
 
-> Static checker for GitHub Actions workflow files
+> Static checker for GitHub Actions workflow files.
 
 Homepage: [https://github.com/rhysd/actionlint](https://github.com/rhysd/actionlint)  
 Languages: `YAML`  
@@ -306,7 +306,7 @@ Categories: `Linter`
 ```
 # ada-language-server
 
-> Ada/SPARK language server
+> Ada/SPARK language server.
 
 Homepage: [https://github.com/AdaCore/ada_language_server](https://github.com/AdaCore/ada_language_server)  
 Languages: `Ada`  
@@ -1232,6 +1232,7 @@ Categories: `LSP`
 > Language Server Protocol implementation for ESLint. The server uses the ESLint library installed in the opened
 workspace folder. If the folder doesn't provide one the extension looks for a global install version.
 
+
 Homepage: [https://github.com/Microsoft/vscode-eslint](https://github.com/Microsoft/vscode-eslint)  
 Languages: `JavaScript` `TypeScript`  
 Categories: `LSP`  
@@ -1663,7 +1664,7 @@ Categories: `LSP`
 ```
 # haxe-language-server
 
-> Language Server Protocol implementation for the Haxe language
+> Language Server Protocol implementation for the Haxe language.
 
 Homepage: [https://github.com/vshaxe/haxe-language-server](https://github.com/vshaxe/haxe-language-server)  
 Languages: `Haxe`  
