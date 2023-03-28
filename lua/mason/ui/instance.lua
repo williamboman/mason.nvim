@@ -475,6 +475,8 @@ local function check_new_visible_package_versions()
         state.packages.new_versions_check.percentage_complete = 0
     end)
 
+    a.wait(registry.update)
+
     local sem = Semaphore.new(5)
     a.wait_all(_.map(function(package)
         return function()
