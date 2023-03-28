@@ -2783,10 +2783,12 @@ Categories: `LSP`
 ```
 # rust-analyzer
 
-> rust-analyzer is an implementation of Language Server Protocol for the Rust programming language. It provides
-features like completion and goto definition for many code editors, including VS Code, Emacs and Vim.
+> rust-analyzer is an implementation of the Language Server Protocol for the
+Rust programming language. It provides features like completion and goto
+definition for many code editors, including VS Code, Emacs and Vim.
 
-Homepage: [https://rust-analyzer.github.io](https://rust-analyzer.github.io)  
+
+Homepage: [https://github.com/rust-lang/rust-analyzer](https://github.com/rust-lang/rust-analyzer)  
 Languages: `Rust`  
 Categories: `LSP`  
 
