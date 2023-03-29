@@ -317,7 +317,7 @@ Categories: `LSP`
 ```
 # alex
 
-> Catch insensitive, inconsiderate writing
+> Catch insensitive, inconsiderate writing.
 
 Homepage: [https://github.com/get-alex/alex](https://github.com/get-alex/alex)  
 Languages: `Markdown`  
@@ -328,9 +328,9 @@ Categories: `Linter`
 ```
 # angular-language-server
 
-> The Angular Language Service provides code editors with a way to get completions, errors, hints, and navigation
-inside Angular templates. It works with external templates in separate HTML files, and also with in-line
-templates.
+> The Angular Language Service provides code editors with a way to get completions, errors, hints, and navigation inside
+Angular templates. It works with external templates in separate HTML files, and also with in-line templates.
+
 
 Homepage: [https://angular.io/guide/language-service](https://angular.io/guide/language-service)  
 Languages: `Angular`  
@@ -341,7 +341,7 @@ Categories: `LSP`
 ```
 # ansible-language-server
 
-> Ansible Language Server
+> Ansible Language Server.
 
 Homepage: [https://github.com/ansible/ansible-language-server](https://github.com/ansible/ansible-language-server)  
 Languages: `Ansible`  
@@ -352,8 +352,7 @@ Categories: `LSP`
 ```
 # ansible-lint
 
-> Ansible Lint is a command-line tool for linting playbooks,
-roles and collections aimed toward any Ansible users.
+> Ansible Lint is a command-line tool for linting playbooks, roles and collections aimed toward any Ansible users.
 
 Homepage: [https://github.com/ansible/ansible-lint](https://github.com/ansible/ansible-lint)  
 Languages: `Ansible`  
@@ -367,6 +366,7 @@ Categories: `Linter`
 > Provides rich language features for Statamic's Antlers templating language, including code completions, syntax
 highlighting, and more.
 
+
 Homepage: [https://github.com/Stillat/vscode-antlers-language-server](https://github.com/Stillat/vscode-antlers-language-server)  
 Languages: `Antlers`  
 Categories: `LSP`  
@@ -376,8 +376,7 @@ Categories: `LSP`
 ```
 # apex-language-server
 
-> The Apex Language Server is an IDE-agnostic way for tools to access code-editing capabilities such as code
-completion, go to definition, find all usage, and refactoring.
+> The Apex Language Server is an IDE-agnostic way for tools to access code-editing capabilities such as code completion, go to definition, find all usage, and refactoring.
 
 Homepage: [https://github.com/forcedotcom/salesforcedx-vscode](https://github.com/forcedotcom/salesforcedx-vscode)  
 Languages: `Apex`  
@@ -388,7 +387,7 @@ Categories: `LSP`
 ```
 # arduino-language-server
 
-> An Arduino Language Server based on Clangd to Arduino code autocompletion
+> An Arduino Language Server based on Clangd to Arduino code autocompletion.
 
 Homepage: [https://github.com/arduino/arduino-language-server](https://github.com/arduino/arduino-language-server)  
 Languages: `Arduino`  
@@ -399,7 +398,7 @@ Categories: `LSP`
 ```
 # asm-lsp
 
-> Language server for NASM/GAS/GO Assembly
+> Language server for NASM/GAS/GO Assembly.
 
 Homepage: [https://github.com/bergercookie/asm-lsp](https://github.com/bergercookie/asm-lsp)  
 Languages: `Assembly`  
@@ -432,7 +431,7 @@ Categories: `Formatter`
 ```
 # autopep8
 
-> A tool that automatically formats Python code to conform to the PEP 8 style guide
+> A tool that automatically formats Python code to conform to the PEP 8 style guide.
 
 Homepage: [https://pypi.org/project/autopep8/](https://pypi.org/project/autopep8/)  
 Languages: `Python`  
@@ -443,7 +442,7 @@ Categories: `Formatter`
 ```
 # awk-language-server
 
-> Language Server for AWK
+> Language Server for AWK.
 
 Homepage: [https://github.com/Beaglefoot/awk-language-server](https://github.com/Beaglefoot/awk-language-server)  
 Languages: `AWK`  
@@ -465,7 +464,7 @@ Categories: `DAP`
 ```
 # bash-language-server
 
-> A language server for Bash
+> A language server for Bash.
 
 Homepage: [https://github.com/bash-lsp/bash-language-server](https://github.com/bash-lsp/bash-language-server)  
 Languages: `Bash`  
@@ -476,7 +475,7 @@ Categories: `LSP`
 ```
 # beancount-language-server
 
-> A Language Server Protocol (LSP) for beancount files
+> A Language Server Protocol (LSP) for beancount files.
 
 Homepage: [https://github.com/polarmutex/beancount-language-server](https://github.com/polarmutex/beancount-language-server)  
 Languages: `Beancount`  
@@ -509,7 +508,7 @@ Categories: `LSP`
 ```
 # black
 
-> Black, the uncompromising Python code formatter
+> Black, the uncompromising Python code formatter.
 
 Homepage: [https://pypi.org/project/black/](https://pypi.org/project/black/)  
 Languages: `Python`  
@@ -520,7 +519,7 @@ Categories: `Formatter`
 ```
 # blackd-client
 
-> Tiny HTTP client for the Black (blackd) Python code formatter
+> Tiny HTTP client for the Black (blackd) Python code formatter.
 
 Homepage: [https://github.com/disrupted/blackd-client](https://github.com/disrupted/blackd-client)  
 Languages: `Python`  
@@ -531,7 +530,7 @@ Categories: `Formatter`
 ```
 # blade-formatter
 
-> An opinionated blade template formatter for Laravel that respects readability
+> An opinionated blade template formatter for Laravel that respects readability.
 
 Homepage: [https://github.com/shufo/blade-formatter](https://github.com/shufo/blade-formatter)  
 Languages: `Blade`  
@@ -542,10 +541,10 @@ Categories: `Formatter`
 ```
 # blue
 
-> blue is a somewhat less uncompromising code formatter than black, the OG of Python formatters. We love the idea
-of automatically formatting Python code, for the same reasons that inspired black, however we take issue with
-some of the decisions black makes. Kudos to black for pioneering code formatting for Python, and for its
-excellent implementation.
+> blue is a somewhat less uncompromising code formatter than black, the OG of Python formatters. We love the idea of
+automatically formatting Python code, for the same reasons that inspired black, however we take issue with some of the
+decisions black makes. Kudos to black for pioneering code formatting for Python, and for its excellent implementation.
+
 
 Homepage: [https://blue.readthedocs.io/en/latest/](https://blue.readthedocs.io/en/latest/)  
 Languages: `Python`  
@@ -560,7 +559,7 @@ Categories: `Formatter`
 
 Homepage: [https://github.com/RokuCommunity/brighterscript](https://github.com/RokuCommunity/brighterscript)  
 Languages: `BrighterScript`  
-Categories: `LSP` `Compiler`  
+Categories: `Compiler` `LSP`  
 
 ```
 :MasonInstall brighterscript
@@ -578,7 +577,7 @@ Categories: `Formatter`
 ```
 # bsl-language-server
 
-> Implementation of Language Server Protocol for Language 1C (BSL)
+> Implementation of Language Server Protocol for Language 1C (BSL).
 
 Homepage: [https://1c-syntax.github.io/bsl-language-server](https://1c-syntax.github.io/bsl-language-server)  
 Languages: `1С:Enterprise` `OneScript`  
@@ -589,7 +588,7 @@ Categories: `LSP`
 ```
 # bslint
 
-> A brighterscript CLI tool to lint your code without compiling your project.
+> A BrighterScript CLI tool to lint your code without compiling your project.
 
 Homepage: [https://github.com/rokucommunity/bslint](https://github.com/rokucommunity/bslint)  
 Languages: `BrighterScript`  
@@ -600,9 +599,10 @@ Categories: `Linter`
 ```
 # buf
 
-> The Buf CLI is a one stop shop for your local Protocol Buffers needs. It comes with a linter that enforces good
-API designs, a breaking change detector, a generator, a formatter that formats your Protobuf files in accordance
-with industry standards. It also helps you manage your Protobuf assets on the Buf Schema Registry.
+> The Buf CLI is a one stop shop for your local Protocol Buffers needs. It comes with a linter that enforces good API
+designs, a breaking change detector, a generator, a formatter that formats your Protobuf files in accordance with
+industry standards. It also helps you manage your Protobuf assets on the Buf Schema Registry.
+
 
 Homepage: [https://buf.build](https://buf.build)  
 Languages: `Protobuf`  
@@ -613,7 +613,8 @@ Categories: `Linter` `Formatter`
 ```
 # buf-language-server
 
-> `bufls` is a prototype for the beginnings of a Protobuf language server compatible with Buf modules and workspaces.
+> buf-language-server is a prototype for the beginnings of a Protobuf language server compatible with Buf modules and workspaces.
+
 
 Homepage: [https://github.com/bufbuild/buf-language-server](https://github.com/bufbuild/buf-language-server)  
 Languages: `Protobuf`  
@@ -635,8 +636,9 @@ Categories: `Linter` `Formatter`
 ```
 # cbfmt
 
-> A tool to format codeblocks inside markdown and org documents. It iterates over all codeblocks, and formats them
-with the tool(s) specified for the language of the block.
+> A tool to format codeblocks inside markdown and org documents. It iterates over all codeblocks, and formats them with
+the tool(s) specified for the language of the block.
+
 
 Homepage: [https://github.com/lukas-reineke/cbfmt](https://github.com/lukas-reineke/cbfmt)  
 Languages: `Markdown`  
