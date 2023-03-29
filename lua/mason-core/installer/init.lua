@@ -163,7 +163,7 @@ function M.execute(handle, opts)
         handle:on("stderr", append_log)
     end
 
-    log.fmt_info("Executing installer for %s version=%s", pkg, opts.version or "latest")
+    log.fmt_info("Executing installer for %s %s", pkg, opts)
 
     return Result.try(function(try)
         -- 1. prepare directories and initialize cwd
