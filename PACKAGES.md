@@ -16,7 +16,6 @@
 - [autoflake](#autoflake)
 - [autopep8](#autopep8)
 - [awk-language-server](#awk-language-server)
-- [azure-pipelines-language-server](#azure-pipelines-language-server)
 - [bash-debug-adapter](#bash-debug-adapter)
 - [bash-language-server](#bash-language-server)
 - [beancount-language-server](#beancount-language-server)
@@ -33,7 +32,6 @@
 - [buf](#buf)
 - [buf-language-server](#buf-language-server)
 - [buildifier](#buildifier)
-- [bzl](#bzl)
 - [cbfmt](#cbfmt)
 - [cfn-lint](#cfn-lint)
 - [chrome-debug-adapter](#chrome-debug-adapter)
@@ -53,7 +51,6 @@
 - [commitlint](#commitlint)
 - [cpplint](#cpplint)
 - [cpptools](#cpptools)
-- [cql-language-server](#cql-language-server)
 - [crystalline](#crystalline)
 - [csharp-language-server](#csharp-language-server)
 - [csharpier](#csharpier)
@@ -134,7 +131,6 @@
 - [intelephense](#intelephense)
 - [isort](#isort)
 - [java-debug-adapter](#java-debug-adapter)
-- [java-language-server](#java-language-server)
 - [java-test](#java-test)
 - [jdtls](#jdtls)
 - [jedi-language-server](#jedi-language-server)
@@ -455,17 +451,6 @@ Categories: `LSP`
 ```
 :MasonInstall awk-language-server
 ```
-# azure-pipelines-language-server
-
-> A language server for Azure Pipelines YAML.
-
-Homepage: [https://github.com/microsoft/azure-pipelines-language-server](https://github.com/microsoft/azure-pipelines-language-server)  
-Languages: `Azure Pipelines`  
-Categories: `LSP`  
-
-```
-:MasonInstall azure-pipelines-language-server
-```
 # bash-debug-adapter
 
 > Bash shell debugger, based on bashdb.
@@ -648,19 +633,6 @@ Categories: `Linter` `Formatter`
 
 ```
 :MasonInstall buildifier
-```
-# bzl
-
-> Autocompletion, hover documentation, and debugging for BUILD files. Get a huge productivity boost with rule,
-attribute, and function definitions right in your IDE.
-
-
-Homepage: [https://bzl.io/](https://bzl.io/)  
-Languages: `Starlark`  
-Categories: `LSP` `DAP`  
-
-```
-:MasonInstall bzl
 ```
 # cbfmt
 
@@ -877,17 +849,6 @@ Categories: `DAP`
 
 ```
 :MasonInstall cpptools
-```
-# cql-language-server
-
-> A language server for Clinical Quality Language (CQL).
-
-Homepage: [https://github.com/cqframework/cql-language-server](https://github.com/cqframework/cql-language-server)  
-Languages: `CQL`  
-Categories: `LSP`  
-
-```
-:MasonInstall cql-language-server
 ```
 # crystalline
 
@@ -1790,17 +1751,6 @@ Categories: `DAP`
 
 ```
 :MasonInstall java-debug-adapter
-```
-# java-language-server
-
-> Java language server using the Java compiler API.
-
-Homepage: [https://github.com/georgewfraser/java-language-server](https://github.com/georgewfraser/java-language-server)  
-Languages: `Java`  
-Categories: `LSP` `DAP`  
-
-```
-:MasonInstall java-language-server
 ```
 # java-test
 
