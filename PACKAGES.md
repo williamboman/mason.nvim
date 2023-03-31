@@ -251,6 +251,7 @@
 - [spectral-language-server](#spectral-language-server)
 - [sql-formatter](#sql-formatter)
 - [sqlfluff](#sqlfluff)
+- [sqlfmt](#sqlfmt)
 - [sqlls](#sqlls)
 - [sqls](#sqls)
 - [standardrb](#standardrb)
@@ -680,6 +681,7 @@ Categories: `Formatter`
 > CloudFormation Linter. Validate AWS CloudFormation YAML/JSON templates against the AWS CloudFormation Resource
 Specification and additional checks. Includes checking valid values for resource properties and best practices.
 
+
 Homepage: [https://github.com/aws-cloudformation/cfn-lint](https://github.com/aws-cloudformation/cfn-lint)  
 Languages: `YAML` `JSON`  
 Categories: `Linter`  
@@ -700,10 +702,10 @@ Categories: `DAP`
 ```
 # clang-format
 
-> clang-format is formatter for C/C++/Java/JavaScript/JSON/Objective-C/Protobuf/C# code
+> clang-format is formatter for C/C++/Java/JavaScript/JSON/Objective-C/Protobuf/C# code.
 
 Homepage: [https://pypi.org/project/clang-format/](https://pypi.org/project/clang-format/)  
-Languages: `C` `C++` `Java` `JavaScript` `JSON` `C#`  
+Languages: `C` `C#` `C++` `JSON` `Java` `JavaScript`  
 Categories: `Formatter`  
 
 ```
@@ -713,6 +715,7 @@ Categories: `Formatter`
 
 > clangd understands your C++ code and adds smart features to your editor: code completion, compile errors,
 go-to-definition and more.
+
 
 Homepage: [https://clangd.llvm.org](https://clangd.llvm.org)  
 Languages: `C` `C++`  
@@ -746,7 +749,9 @@ Categories: `LSP`
 ```
 # clj-kondo
 
-> Static analyzer and linter for Clojure code that sparks joy
+> Clj-kondo performs static analysis on Clojure, ClojureScript and EDN, without the need of a running REPL. It informs
+you about potential errors while you are typing.
+
 
 Homepage: [https://github.com/clj-kondo/clj-kondo](https://github.com/clj-kondo/clj-kondo)  
 Languages: `Clojure` `ClojureScript`  
@@ -768,7 +773,7 @@ Categories: `LSP`
 ```
 # cmake-language-server
 
-> CMake LSP Implementation
+> CMake LSP Implementation.
 
 Homepage: [https://github.com/regen100/cmake-language-server](https://github.com/regen100/cmake-language-server)  
 Languages: `CMake`  
@@ -779,7 +784,7 @@ Categories: `LSP`
 ```
 # cmakelang
 
-> Language tools for cmake (format, lint, etc)
+> Language tools for cmake (format, lint, etc).
 
 Homepage: [https://pypi.org/project/cmakelang/](https://pypi.org/project/cmakelang/)  
 Languages: `CMake`  
@@ -790,7 +795,7 @@ Categories: `Formatter` `Linter`
 ```
 # cmakelint
 
-> cmakelint parses CMake files and reports style issues
+> cmakelint parses CMake files and reports style issues.
 
 Homepage: [https://github.com/cmake-lint/cmake-lint](https://github.com/cmake-lint/cmake-lint)  
 Languages: `CMake`  
@@ -801,7 +806,7 @@ Categories: `Linter`
 ```
 # codelldb
 
-> A native debugger based on LLDB
+> A native debugger based on LLDB.
 
 Homepage: [https://github.com/vadimcn/vscode-lldb](https://github.com/vadimcn/vscode-lldb)  
 Languages: `C` `C++` `Rust`  
@@ -812,9 +817,10 @@ Categories: `DAP`
 ```
 # codeql
 
-> Discover vulnerabilities across a codebase with CodeQL, our industry-leading semantic code analysis engine.
-CodeQL lets you query code as though it were data. Write a query to find all variants of a vulnerability,
-eradicating it forever. Then share your query to help others do the same.
+> Discover vulnerabilities across a codebase with CodeQL, our industry-leading semantic code analysis engine. CodeQL
+lets you query code as though it were data. Write a query to find all variants of a vulnerability, eradicating it
+forever. Then share your query to help others do the same.
+
 
 Homepage: [https://github.com/github/codeql-cli-binaries](https://github.com/github/codeql-cli-binaries)  
 Languages: `CodeQL`  
@@ -825,7 +831,7 @@ Categories: `LSP`
 ```
 # codespell
 
-> check code for common misspellings
+> Check code for common misspellings.
 
 Homepage: [https://github.com/codespell-project/codespell](https://github.com/codespell-project/codespell)  
 Languages:   
@@ -836,7 +842,7 @@ Categories: `Linter`
 ```
 # colorgen-nvim
 
-> Blazingly fast colorscheme generator for Neovim written in Rust
+> Blazingly fast colorscheme generator for Neovim written in Rust.
 
 Homepage: [https://github.com/ChristianChiarulli/colorgen-nvim](https://github.com/ChristianChiarulli/colorgen-nvim)  
 Languages:   
@@ -850,7 +856,7 @@ Categories: `Compiler`
 > commitlint checks if your commit messages meet the conventional commit format.
 
 Homepage: [https://commitlint.js.org/](https://commitlint.js.org/)  
-Languages: `GitCommit`  
+Languages:   
 Categories: `Linter`  
 
 ```
@@ -858,7 +864,7 @@ Categories: `Linter`
 ```
 # cpplint
 
-> Cpplint is a command-line tool to check C/C++ files for style issues following Google's C++ style guide
+> Cpplint is a command-line tool to check C/C++ files for style issues following Google's C++ style guide.
 
 Homepage: [https://pypi.org/project/cpplint/](https://pypi.org/project/cpplint/)  
 Languages: `C` `C++`  
@@ -891,7 +897,7 @@ Categories: `LSP`
 ```
 # crystalline
 
-> A Language Server Protocol implementation for Crystal. 🔮
+> A Language Server Protocol implementation for Crystal.
 
 Homepage: [https://github.com/elbywan/crystalline](https://github.com/elbywan/crystalline)  
 Languages: `Crystal`  
@@ -902,7 +908,7 @@ Categories: `LSP`
 ```
 # csharp-language-server
 
-> Roslyn-based LSP language server for C#
+> Roslyn-based LSP language server for C#.
 
 Homepage: [https://github.com/razzmatazz/csharp-language-server](https://github.com/razzmatazz/csharp-language-server)  
 Languages: `C#`  
@@ -913,7 +919,7 @@ Categories: `LSP`
 ```
 # csharpier
 
-> CSharpier is an opinionated code formatter for c#
+> CSharpier is an opinionated code formatter for C#.
 
 Homepage: [https://csharpier.com](https://csharpier.com)  
 Languages: `C#`  
@@ -924,7 +930,7 @@ Categories: `Formatter`
 ```
 # cspell
 
-> A Spell Checker for Code
+> A Spell Checker for Code.
 
 Homepage: [https://github.com/streetsidesoftware/cspell](https://github.com/streetsidesoftware/cspell)  
 Languages:   
@@ -946,7 +952,7 @@ Categories: `LSP`
 ```
 # cssmodules-language-server
 
-> autocompletion and go-to-definition for cssmodules
+> Autocompletion and go-to-definition for cssmodules.
 
 Homepage: [https://github.com/antonk52/cssmodules-language-server](https://github.com/antonk52/cssmodules-language-server)  
 Languages: `CSS`  
@@ -957,7 +963,7 @@ Categories: `LSP`
 ```
 # cucumber-language-server
 
-> Cucumber Language Server
+> Cucumber Language Server.
 
 Homepage: [https://github.com/cucumber/language-server](https://github.com/cucumber/language-server)  
 Languages: `Cucumber`  
@@ -990,10 +996,10 @@ Categories: `LSP`
 ```
 # curlylint
 
-> Experimental HTML templates linting for Jinja, Nunjucks, Django templates, Twig, Liquid
+> Experimental HTML templates linting for Jinja, Nunjucks, Django templates, Twig, Liquid.
 
 Homepage: [https://www.curlylint.org/](https://www.curlylint.org/)  
-Languages: `Django` `Jinja` `Nunjucks` `Twig` `Liquid`  
+Languages: `Django` `Jinja` `Liquid` `Nunjucks` `Twig`  
 Categories: `Linter`  
 
 ```
@@ -1012,7 +1018,7 @@ Categories: `DAP`
 ```
 # debugpy
 
-> An implementation of the Debug Adapter Protocol for Python
+> An implementation of the Debug Adapter Protocol for Python.
 
 Homepage: [https://github.com/microsoft/debugpy](https://github.com/microsoft/debugpy)  
 Languages: `Python`  
@@ -1034,10 +1040,11 @@ Categories: `DAP`
 ```
 # deno
 
-> Deno (/ˈdiːnoʊ/, pronounced dee-no) is a JavaScript, TypeScript, and WebAssembly runtime with secure defaults
-and a great developer experience.
+> Deno (/ˈdiːnoʊ/, pronounced dee-no) is a JavaScript, TypeScript, and WebAssembly runtime with secure defaults and a
+great developer experience.
 
-Homepage: [https://deno.land/manual/language_server/overview](https://deno.land/manual/language_server/overview)  
+
+Homepage: [https://deno.land/](https://deno.land/)  
 Languages: `JavaScript` `TypeScript`  
 Categories: `LSP` `Runtime`  
 
@@ -3112,6 +3119,17 @@ Categories: `Linter`
 
 ```
 :MasonInstall sqlfluff
+```
+# sqlfmt
+
+> sqlfmt formats your dbt SQL files so you don't have to. It is similar in nature to black, gofmt, and rustfmt (but for SQL).
+
+Homepage: [https://sqlfmt.com/](https://sqlfmt.com/)  
+Languages: `SQL`  
+Categories: `Formatter`  
+
+```
+:MasonInstall sqlfmt
 ```
 # sqlls
 
