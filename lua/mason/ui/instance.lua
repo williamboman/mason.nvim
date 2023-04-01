@@ -477,7 +477,7 @@ local function check_new_visible_package_versions()
         local success, err = a.wait(registry.update)
         mutate_state(function(state)
             if not success then
-                state.info.registry_update_error = tostring(err)
+                state.info.registry_update_error = tostring(_.gsub("\n", " ", err))
             else
                 state.info.registry_update_error = nil
             end
