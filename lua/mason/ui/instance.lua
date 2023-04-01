@@ -466,10 +466,6 @@ local function check_new_visible_package_versions()
         end)
     )(state.packages.installed)
 
-    if #installed_visible_packages == 0 then
-        return
-    end
-
     mutate_state(function(state)
         state.packages.new_versions_check.is_checking = true
         state.packages.new_versions_check.current = 0
