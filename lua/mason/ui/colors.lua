@@ -17,7 +17,8 @@ local hl_groups = {
     MasonMutedBlock = { bg = "#888888", fg = "#222222", default = true },
     MasonMutedBlockBold = { bg = "#888888", fg = "#222222", bold = true, default = true },
 
-    MasonError = { fg = "#f44747", default = true },
+    MasonError = { link = "ErrorMsg", default = true },
+    MasonWarning = { link = "WarningMsg", default = true },
 
     MasonHeading = { bold = true, default = true },
 }
