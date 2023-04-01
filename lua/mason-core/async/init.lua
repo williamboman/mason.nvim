@@ -188,6 +188,9 @@ end
 ---@param mode '"first"' | '"all"'
 local function wait(suspend_fns, mode)
     local channel = oneshot_channel()
+    if #suspend_fns == 0 then
+        return
+    end
 
     do
         local results = {}
