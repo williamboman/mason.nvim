@@ -1075,7 +1075,7 @@ Categories: `LSP`
 ```
 # djlint
 
-> HTML Template Linter and Formatter. Django - Jinja - Nunjucks - Handlebars - GoLang
+> HTML Template Linter and Formatter. Django - Jinja - Nunjucks - Handlebars - GoLang.
 
 Homepage: [https://github.com/Riverside-Healthcare/djLint](https://github.com/Riverside-Healthcare/djLint)  
 Languages: `Django` `Go` `Nunjucks` `Handlebargs` `Mustache` `Angular` `Jinja`  
@@ -1108,7 +1108,7 @@ Categories: `LSP`
 ```
 # dot-language-server
 
-> A language server for the DOT language
+> A language server for the DOT language.
 
 Homepage: [https://github.com/nikeee/dot-language-server](https://github.com/nikeee/dot-language-server)  
 Languages: `DOT`  
@@ -1152,7 +1152,7 @@ Categories: `Linter`
 ```
 # efm
 
-> General purpose Language Server
+> General purpose Language Server.
 
 Homepage: [https://github.com/mattn/efm-langserver](https://github.com/mattn/efm-langserver)  
 Languages:   
@@ -1166,6 +1166,7 @@ Categories: `LSP`
 > A frontend-independent IDE "smartness" server for Elixir. Implements the "Language Server Protocol" standard and
 provides debugger support via the "Debug Adapter Protocol".
 
+
 Homepage: [https://github.com/elixir-lsp/elixir-ls](https://github.com/elixir-lsp/elixir-ls)  
 Languages: `Elixir`  
 Categories: `LSP` `DAP`  
@@ -1177,6 +1178,7 @@ Categories: `LSP` `DAP`
 
 > elm-format formats Elm source code according to a standard set of rules based on the official Elm Style Guide
 
+
 Homepage: [https://github.com/avh4/elm-format](https://github.com/avh4/elm-format)  
 Languages: `Elm`  
 Categories: `Formatter`  
@@ -1186,7 +1188,7 @@ Categories: `Formatter`
 ```
 # elm-language-server
 
-> Language server implementation for Elm
+> Language server implementation for Elm.
 
 Homepage: [https://github.com/elm-tooling/elm-language-server](https://github.com/elm-tooling/elm-language-server)  
 Languages: `Elm`  
@@ -1197,7 +1199,7 @@ Categories: `LSP`
 ```
 # ember-language-server
 
-> Language Server Protocol implementation for Ember.js and Glimmer projects
+> Language Server Protocol implementation for Ember.js and Glimmer projects.
 
 Homepage: [https://github.com/lifeart/ember-language-server](https://github.com/lifeart/ember-language-server)  
 Languages: `Ember`  
@@ -1219,7 +1221,7 @@ Categories: `LSP`
 ```
 # erb-lint
 
-> erb-lint is a tool to help lint your ERB or HTML files using the included linters or by writing your own
+> erb-lint is a tool to help lint your ERB or HTML files using the included linters or by writing your own.
 
 Homepage: [https://github.com/Shopify/erb-lint](https://github.com/Shopify/erb-lint)  
 Languages: `HTML` `Ruby`  
@@ -1234,7 +1236,7 @@ Categories: `Linter`
 
 Homepage: [https://github.com/erg-lang/erg](https://github.com/erg-lang/erg)  
 Languages: `Erg`  
-Categories: `LSP` `Compiler`  
+Categories: `Compiler` `LSP`  
 
 ```
 :MasonInstall erg
@@ -1252,14 +1254,13 @@ Categories: `LSP`
 ```
 # erlang-ls
 
-> Implementing features such as auto-complete or go-to-definition for a programming language is not trivial.
-Traditionally, this work had to be repeated for each development tool and it required a mix of expertise in both
-the targeted programming language and the programming language internally used by the development tool of
-choice.
+> Erlang LS is a language server providing language features for the Erlang programming language. The server works with
+Emacs, VSCode, Sublime Text 3, Vim and probably many more text editors and IDE which adhere to the LSP protocol.
+
 
 Homepage: [https://erlang-ls.github.io/](https://erlang-ls.github.io/)  
 Languages: `Erlang`  
-Categories: `LSP`  
+Categories: `DAP` `LSP`  
 
 ```
 :MasonInstall erlang-ls
@@ -1290,7 +1291,7 @@ Categories: `LSP`
 ```
 # eslint_d
 
-> Makes eslint the fastest linter on the planet
+> Makes eslint the fastest linter on the planet.
 
 Homepage: [https://github.com/mantoni/eslint_d.js/](https://github.com/mantoni/eslint_d.js/)  
 Languages: `TypeScript` `JavaScript`  
@@ -1301,7 +1302,7 @@ Categories: `Linter`
 ```
 # fantomas
 
-> Fantomas is an opinionated code formatter for f#
+> Fantomas is an opinionated code formatter for F#.
 
 Homepage: [https://fsprojects.github.io/fantomas](https://fsprojects.github.io/fantomas)  
 Languages: `F#`  
@@ -1312,7 +1313,7 @@ Categories: `Formatter`
 ```
 # fennel-language-server
 
-> Fennel language server protocol (LSP) support. 
+> Fennel language server protocol (LSP) support.
 
 Homepage: [https://github.com/rydesun/fennel-language-server](https://github.com/rydesun/fennel-language-server)  
 Languages: `Fennel`  
@@ -1323,7 +1324,7 @@ Categories: `LSP`
 ```
 # firefox-debug-adapter
 
-> Debug your web application or browser extension in Firefox
+> Debug your web application or browser extension in Firefox.
 
 Homepage: [https://github.com/firefox-devtools/vscode-firefox-debug](https://github.com/firefox-devtools/vscode-firefox-debug)  
 Languages: `JavaScript` `TypeScript`  
@@ -1334,7 +1335,7 @@ Categories: `DAP`
 ```
 # fixjson
 
-> A JSON file fixer/formatter for humans using (relaxed) JSON5
+> A JSON file fixer/formatter for humans using (relaxed) JSON5.
 
 Homepage: [https://github.com/rhysd/fixjson](https://github.com/rhysd/fixjson)  
 Languages: `JSON`  
@@ -1345,8 +1346,9 @@ Categories: `Formatter`
 ```
 # flake8
 
-> flake8 is a python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the
-style and quality of some python code.
+> flake8 is a python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the style
+and quality of some Python code.
+
 
 Homepage: [https://github.com/PyCQA/flake8](https://github.com/PyCQA/flake8)  
 Languages: `Python`  
@@ -1357,7 +1359,7 @@ Categories: `Linter`
 ```
 # flux-lsp
 
-> Implementation of Language Server Protocol for the Flux language
+> Implementation of Language Server Protocol for the Flux language.
 
 Homepage: [https://github.com/influxdata/flux-lsp](https://github.com/influxdata/flux-lsp)  
 Languages: `Flux`  
@@ -1368,7 +1370,7 @@ Categories: `LSP`
 ```
 # foam-language-server
 
-> A language server for OpenFOAM case files
+> A language server for OpenFOAM case files.
 
 Homepage: [https://github.com/FoamScience/foam-language-server](https://github.com/FoamScience/foam-language-server)  
 Languages: `OpenFOAM`  
@@ -1379,7 +1381,7 @@ Categories: `LSP`
 ```
 # fortls
 
-> fortls - Fortran Language Server
+> fortls - Fortran Language Server.
 
 Homepage: [https://github.com/gnikit/fortls](https://github.com/gnikit/fortls)  
 Languages: `Fortran`  
@@ -1401,7 +1403,7 @@ Categories: `Formatter`
 ```
 # fsautocomplete
 
-> F# language server using Language Server Protocol
+> F# language server using Language Server Protocol.
 
 Homepage: [https://github.com/fsharp/FsAutoComplete](https://github.com/fsharp/FsAutoComplete)  
 Languages: `F#`  
