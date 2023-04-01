@@ -150,25 +150,8 @@ end
 ---@param callback? fun(success: boolean, updated_registries: RegistrySource[])
 function M.update(callback)
     local a = require "mason-core.async"
-    local Result = require "mason-core.result"
-    return a.run(function()
-        return Result.try(function(try)
-            local updated_sources = {}
-            for source in sources.iter { include_uninstalled = true } do
-                source:get_installer():if_present(function(installer)
-                    try(installer():map_err(function(err)
-                        return ("%s failed to install: %s"):format(source, err)
-                    end))
-                    table.insert(updated_sources, source)
-                end)
-            end
-            return updated_sources
-        end):on_success(function(updated_sources)
-            if #updated_sources > 0 then
-                M:emit("update", updated_sources)
-            end
-        end)
-    end, function(success, result)
+
+    return a.run(require("mason-registry.installer").run, function(success, result)
         if not callback then
             return
         end
