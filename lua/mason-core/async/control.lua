@@ -5,28 +5,21 @@ local Condvar = {}
 Condvar.__index = Condvar
 
 function Condvar.new()
-    return setmetatable({ handles = {}, queue = {}, is_notifying = false }, Condvar)
+    return setmetatable({ handles = {} }, Condvar)
 end
 
 ---@async
 function Condvar:wait()
     a.wait(function(resolve)
-        if self.is_notifying then
-            self.queue[resolve] = true
-        else
-            self.handles[resolve] = true
-        end
+        self.handles[#self.handles + 1] = resolve
     end)
 end
 
 function Condvar:notify_all()
-    self.is_notifying = true
-    for handle in pairs(self.handles) do
-        handle()
+    for _, handle in ipairs(self.handles) do
+        pcall(handle)
     end
-    self.handles = self.queue
-    self.queue = {}
-    self.is_notifying = false
+    self.handles = {}
 end
 
 local Permit = {}
@@ -69,7 +62,42 @@ function Semaphore:acquire()
     return Permit.new(self)
 end
 
+---@class OneShotChannel
+---@field has_sent boolean
+---@field value any
+---@field condvar Condvar
+local OneShotChannel = {}
+OneShotChannel.__index = OneShotChannel
+
+function OneShotChannel.new()
+    return setmetatable({
+        has_sent = false,
+        value = nil,
+        condvar = Condvar.new(),
+    }, OneShotChannel)
+end
+
+function OneShotChannel:is_closed()
+    return self.has_sent
+end
+
+function OneShotChannel:send(...)
+    assert(not self.has_sent, "Oneshot channel can only send once.")
+    self.has_sent = true
+    self.value = { ... }
+    self.condvar:notify_all()
+    self.condvar = nil
+end
+
+function OneShotChannel:receive()
+    if not self.has_sent then
+        self.condvar:wait()
+    end
+    return unpack(self.value)
+end
+
 return {
     Condvar = Condvar,
     Semaphore = Semaphore,
+    OneShotChannel = OneShotChannel,
 }
