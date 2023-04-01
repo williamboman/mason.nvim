@@ -76,7 +76,7 @@ local function GenericHelp(state)
                 p.muted "Packages are sourced from the following registries:",
             },
             unpack(_.map(function(registry)
-                return { p.none(" - " .. registry) }
+                return { p.none(" - " .. registry.name) }
             end, state.info.registries)),
         },
         Ui.EmptyLine(),

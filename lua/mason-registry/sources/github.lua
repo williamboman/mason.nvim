@@ -123,7 +123,11 @@ function GitHubRegistrySource:install()
         if version == nil then
             log.trace("Resolving latest version for registry", self)
             ---@type GitHubRelease
-            local release = try(providers.github.get_latest_release(self.spec.repo))
+            local release = try(
+                providers.github
+                    .get_latest_release(self.spec.repo)
+                    :map_err(_.always "Failed to fetch latest registry version from GitHub API.")
+            )
             version = release.tag_name
             log.trace("Resolved latest registry version", self, version)
         end

@@ -59,8 +59,10 @@ local INITIAL_STATE = {
     info = {
         ---@type string | nil
         used_disk_space = nil,
-        ---@type string[]
+        ---@type { name: string, is_installed: boolean }[]
         registries = {},
+        ---@type string?
+        registry_update_error = nil,
     },
     view = {
         is_showing_help = false,
@@ -475,7 +477,16 @@ local function check_new_visible_package_versions()
         state.packages.new_versions_check.percentage_complete = 0
     end)
 
-    a.wait(registry.update)
+    do
+        local success, err = a.wait(registry.update)
+        mutate_state(function(state)
+            if not success then
+                state.info.registry_update_error = tostring(err)
+            else
+                state.info.registry_update_error = nil
+            end
+        end)
+    end
 
     local sem = Semaphore.new(5)
     a.wait_all(_.map(function(package)
@@ -655,7 +666,10 @@ end
 local function update_registry_info()
     local registries = {}
     for source in require("mason-registry.sources").iter { include_uninstalled = true } do
-        table.insert(registries, source:get_display_name())
+        table.insert(registries, {
+            name = source:get_display_name(),
+            is_installed = source:is_installed(),
+        })
     end
     mutate_state(function(state)
         state.info.registries = registries

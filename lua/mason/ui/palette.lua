@@ -20,6 +20,7 @@ M.highlight_block_secondary = hl "MasonHighlightBlockSecondary"
 M.highlight_block_bold_secondary = hl "MasonHighlightBlockBoldSecondary"
 M.highlight_secondary = hl "MasonHighlightSecondary"
 M.error = hl "MasonError"
+M.warning = hl "MasonWarning"
 M.heading = hl "MasonHeading"
 
 setmetatable(M, {
