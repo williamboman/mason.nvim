@@ -17,8 +17,8 @@ jobs:
                   neovim: true
                   version: v0.8.0
 
-            - name: make autogenerate
-              run: make autogenerate
+            - name: make generate
+              run: make generate
 
             - name: Create Pull Request
               id: cpr
@@ -28,6 +28,7 @@ jobs:
                   author: "William Botman <william+bot@redwill.se>"
                   committer: "William Botman <william+bot@redwill.se>"
                   add-paths: |
+                      lua/mason/mappings
                       lua/mason-schemas
                       PACKAGES.md
                   commit-message: "chore: autogenerate"
