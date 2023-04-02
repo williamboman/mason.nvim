@@ -1438,10 +1438,10 @@ Categories:
 ```
 # gitlint
 
-> Gitlint is a git commit message linter written in python: it checks your commit messages for style.
+> Gitlint is a git commit message linter written in Python: it checks your commit messages for style.
 
 Homepage: [https://jorisroovers.com/gitlint/](https://jorisroovers.com/gitlint/)  
-Languages: `GitCommit`  
+Languages:   
 Categories: `Linter`  
 
 ```
@@ -1449,7 +1449,7 @@ Categories: `Linter`
 ```
 # gitui
 
-> Blazing fast terminal-ui for git written in Rust
+> Blazing fast terminal-ui for git written in Rust.
 
 Homepage: [https://github.com/extrawurst/gitui](https://github.com/extrawurst/gitui)  
 Languages:   
@@ -1460,10 +1460,10 @@ Categories:
 ```
 # glint
 
-> Glint is a set of tools to aid in developing code that uses the Glimmer VM for rendering, such as
-Ember.js v3.24+ and GlimmerX projects. Similar to Vetur for Vue projects or Svelte Language Tools, Glint
-consists of a CLI and a language server to provide feedback and enforce correctness both locally during editing
-and project-wide in CI.
+> Glint is a set of tools to aid in developing code that uses the Glimmer VM for rendering, such as Ember.js v3.24+ and
+GlimmerX projects. Similar to Vetur for Vue projects or Svelte Language Tools, Glint consists of a CLI and a language
+server to provide feedback and enforce correctness both locally during editing and project-wide in CI.
+
 
 Homepage: [https://typed-ember.gitbook.io/glint/](https://typed-ember.gitbook.io/glint/)  
 Languages: `Handlebars` `Glimmer` `TypeScript` `JavaScript`  
@@ -1474,7 +1474,7 @@ Categories: `LSP` `Linter`
 ```
 # glow
 
-> Render markdown on the CLI, with pizzazz
+> Render markdown on the CLI, with pizzazz!
 
 Homepage: [https://github.com/charmbracelet/glow](https://github.com/charmbracelet/glow)  
 Languages: `Markdown`  
@@ -1496,7 +1496,7 @@ Categories: `DAP`
 ```
 # gofumpt
 
-> A stricter gofmt
+> A stricter gofmt.
 
 Homepage: [https://pkg.go.dev/mvdan.cc/gofumpt](https://pkg.go.dev/mvdan.cc/gofumpt)  
 Languages: `Go`  
@@ -1507,8 +1507,9 @@ Categories: `Formatter`
 ```
 # goimports
 
-> A golang formatter which formats your code in the same style as gofmt and additionally updates your Go import
-lines, adding missing ones and removing unreferenced ones.
+> A golang formatter which formats your code in the same style as gofmt and additionally updates your Go import lines,
+adding missing ones and removing unreferenced ones.
+
 
 Homepage: [https://pkg.go.dev/golang.org/x/tools/cmd/goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)  
 Languages: `Go`  
@@ -1519,12 +1520,12 @@ Categories: `Formatter`
 ```
 # goimports-reviser
 
-> Tool for Golang to sort goimports by 3-4 groups: std, general, company (optional), and project dependencies.
-Also, formatting for your code will be prepared (so, you don't need to use gofmt or goimports separately).
-Use additional option -rm-unused to remove unused imports and -set-alias to rewrite import aliases for
-versioned packages.
+> Tool for Golang to sort goimports by 3-4 groups: std, general, company (optional), and project dependencies. Also,
+formatting for your code will be prepared (so, you don't need to use gofmt or goimports separately). Use additional
+option -rm-unused to remove unused imports and -set-alias to rewrite import aliases for versioned packages.
 
-Homepage: [https://pkg.go.dev/github.com/incu6us/goimports-reviser](https://pkg.go.dev/github.com/incu6us/goimports-reviser)  
+
+Homepage: [https://github.com/incu6us/goimports-reviser](https://github.com/incu6us/goimports-reviser)  
 Languages: `Go`  
 Categories: `Formatter`  
 
@@ -1536,6 +1537,7 @@ Categories: `Formatter`
 > golangci-lint is a fast Go linters runner. It runs linters in parallel, uses caching, supports yaml config, has
 integrations with all major IDE and has dozens of linters included.
 
+
 Homepage: [https://golangci-lint.run/](https://golangci-lint.run/)  
 Languages: `Go`  
 Categories: `Linter`  
@@ -1545,7 +1547,7 @@ Categories: `Linter`
 ```
 # golangci-lint-langserver
 
-> golangci-lint language server
+> golangci-lint language server.
 
 Homepage: [https://github.com/nametake/golangci-lint-langserver](https://github.com/nametake/golangci-lint-langserver)  
 Languages: `Go`  
@@ -1556,7 +1558,7 @@ Categories: `LSP`
 ```
 # golines
 
-> A golang formatter that fixes long lines
+> A golang formatter that fixes long lines.
 
 Homepage: [https://github.com/segmentio/golines](https://github.com/segmentio/golines)  
 Languages: `Go`  
@@ -1567,11 +1569,11 @@ Categories: `Formatter`
 ```
 # gomodifytags
 
-> Go tool to modify/update field tags in structs
+> Go tool to modify/update field tags in structs.
 
 Homepage: [https://github.com/fatih/gomodifytags](https://github.com/fatih/gomodifytags)  
 Languages: `Go`  
-Categories:   
+Categories: `Formatter`  
 
 ```
 :MasonInstall gomodifytags
@@ -1589,8 +1591,9 @@ Categories: `Formatter`
 ```
 # gopls
 
-> gopls (pronounced "Go please") is the official Go language server developed by the Go team. It provides IDE
-features to any LSP-compatible editor.
+> gopls (pronounced "Go please") is the official Go language server developed by the Go team. It provides IDE features
+to any LSP-compatible editor.
+
 
 Homepage: [https://pkg.go.dev/golang.org/x/tools/gopls](https://pkg.go.dev/golang.org/x/tools/gopls)  
 Languages: `Go`  
@@ -1601,7 +1604,7 @@ Categories: `LSP`
 ```
 # gospel
 
-> misspelled word linter for Go comments, string literals and embedded files
+> misspelled word linter for Go comments, string literals and embedded files.
 
 Homepage: [https://github.com/kortschak/gospel](https://github.com/kortschak/gospel)  
 Languages: `Go`  
@@ -1612,20 +1615,21 @@ Categories: `Linter`
 ```
 # gotests
 
-> Gotests is a Golang commandline tool that generates table driven tests based on its target source files'
-function and method signatures.
+> Gotests is a Golang commandline tool that generates table driven tests based on its target source files' function and
+method signatures.
+
 
 Homepage: [https://github.com/cweill/gotests](https://github.com/cweill/gotests)  
 Languages: `Go`  
-Categories:   
+Categories: `Formatter`  
 
 ```
 :MasonInstall gotests
 ```
 # gotestsum
 
-> 'go test' runner with output optimized for humans, JUnit XML for CI integration, and 
-a summary of the test results.
+> 'go test' runner with output optimized for humans, JUnit XML for CI integration, and a summary of the test results.
+
 
 Homepage: [https://github.com/gotestyourself/gotestsum](https://github.com/gotestyourself/gotestsum)  
 Languages: `Go`  
@@ -1669,7 +1673,7 @@ Categories: `LSP`
 ```
 # groovy-language-server
 
-> A language server for Groovy
+> A language server for Groovy.
 
 Homepage: [https://github.com/GroovyLanguageServer/groovy-language-server](https://github.com/GroovyLanguageServer/groovy-language-server)  
 Languages: `Groovy`  
@@ -1680,7 +1684,7 @@ Categories: `LSP`
 ```
 # hadolint
 
-> Dockerfile linter, validate inline bash, written in Haskell
+> Dockerfile linter, validate inline bash, written in Haskell.
 
 Homepage: [https://github.com/hadolint/hadolint](https://github.com/hadolint/hadolint)  
 Languages: `Docker`  
@@ -1693,6 +1697,7 @@ Categories: `Linter`
 
 > haml-lint is a tool to help keep your HAML files clean and readable. In addition to HAML-specific style and lint
 checks, it integrates with RuboCop to bring its powerful static analysis tools to your HAML documents.
+
 
 Homepage: [https://github.com/sds/haml-lint](https://github.com/sds/haml-lint)  
 Languages: `HAML`  
