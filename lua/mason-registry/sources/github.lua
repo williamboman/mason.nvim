@@ -45,7 +45,7 @@ function GitHubRegistrySource.new(spec)
 end
 
 function GitHubRegistrySource:is_installed()
-    return fs.sync.file_exists(self.data_file)
+    return fs.sync.file_exists(self.data_file) and fs.sync.file_exists(self.info_file)
 end
 
 function GitHubRegistrySource:reload()
@@ -108,6 +108,8 @@ end
 
 ---@async
 function GitHubRegistrySource:install()
+    local zzlib = require "mason-vendor.zzlib"
+
     return Result.try(function(try)
         local version = self.spec.version
         if self:is_installed() and version ~= nil then
@@ -132,31 +134,15 @@ function GitHubRegistrySource:install()
             log.trace("Resolved latest registry version", self, version)
         end
 
-        try(fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "registry.json.zip"), {
-            out_file = path.concat { self.root_dir, "registry.json.zip" },
-        }):map_err(_.always "Failed to download registry.json.zip."))
-
-        platform.when {
-            unix = function()
-                try(spawn.unzip({ "-o", "registry.json.zip", cwd = self.root_dir }):map_err(function(err)
-                    return ("Failed to unpack registry contents: %s"):format(err.stderr)
-                end))
-            end,
-            win = function()
-                local powershell = require "mason-core.managers.powershell"
-                powershell
-                    .command(
-                        ("Microsoft.PowerShell.Archive\\Expand-Archive -Force -Path %q -DestinationPath ."):format "registry.json.zip",
-                        {
-                            cwd = self.root_dir,
-                        }
-                    )
-                    :map_err(function(err)
-                        return ("Failed to unpack registry contents: %s"):format(err.stderr)
-                    end)
-            end,
-        }
-        pcall(fs.async.unlink, path.concat { self.root_dir, "registry.json.zip" })
+        local zip_buffer = try(
+            fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "registry.json.zip")):map_err(
+                _.always "Failed to download registry archive."
+            )
+        )
+        local registry_contents = try(
+            Result.pcall(zzlib.unzip, zip_buffer, "registry.json")
+                :map_err(_.always "Failed to unpack registry archive.")
+        )
 
         local checksums = try(
             fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "checksums.txt")):map_err(
@@ -164,6 +150,7 @@ function GitHubRegistrySource:install()
             )
         )
 
+        try(Result.pcall(fs.async.write_file, self.data_file, registry_contents))
         try(Result.pcall(
             fs.async.write_file,
             self.info_file,
