@@ -49,7 +49,7 @@ describe("EventEmitter", function()
             local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
             emitter:on("event", mockx.throws "My error.")
             emitter:emit "event"
-            a.scheduler()
+            a.wait(vim.schedule)
             assert.spy(vim.api.nvim_err_writeln).was_called(1)
             assert.spy(vim.api.nvim_err_writeln).was_called_with "My error."
         end)

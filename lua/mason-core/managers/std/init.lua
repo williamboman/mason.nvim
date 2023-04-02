@@ -21,9 +21,7 @@ end
 function M.ensure_executable(executable, opts)
     local ctx = installer.context()
     opts = opts or {}
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
     if vim.fn.executable(executable) ~= 1 then
         ctx.stdio_sink.stderr(("%s was not found in path.\n"):format(executable))
         if opts.help_url then
@@ -190,9 +188,7 @@ end
 ---@params opts
 function M.select(items, opts)
     assert(not platform.is_headless, "Tried to prompt for user input while in headless mode.")
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
     local async_select = a.promisify(vim.ui.select)
     return async_select(items, opts)
 end

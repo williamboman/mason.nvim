@@ -46,9 +46,7 @@ function M.install(packages)
         pkgs[1] = ("%s==%s"):format(pkgs[1], version)
     end)
 
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
 
     local executables = platform.is.win
             and _.list_not_nil(vim.g.python3_host_prog and vim.fn.expand(vim.g.python3_host_prog), "python", "python3")

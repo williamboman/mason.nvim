@@ -61,9 +61,7 @@ return Pkg.new {
     ---@async
     ---@param ctx InstallContext
     install = function(ctx)
-        if vim.in_fast_event() then
-            a.scheduler()
-        end
+        a.scheduler()
         if vim.fn.executable "java" == 1 then
             download_platform_independent()
         else

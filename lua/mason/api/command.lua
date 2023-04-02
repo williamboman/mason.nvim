@@ -66,8 +66,8 @@ local function join_handles(handles)
         end, handles)
 
         if _.length(failed_packages) > 0 then
-            a.scheduler() -- wait for scheduler for logs to finalize
-            a.scheduler() -- logs have been written
+            a.wait(vim.schedule) -- wait for scheduler for logs to finalize
+            a.wait(vim.schedule) -- logs have been written
             vim.api.nvim_err_writeln ""
             vim.api.nvim_err_writeln(
                 ("The following packages failed to install: %s"):format(_.join(", ", failed_packages))

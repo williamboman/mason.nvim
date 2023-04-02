@@ -13,7 +13,7 @@ describe(":Mason", function()
         "should open the UI window",
         async_test(function()
             api.Mason()
-            a.scheduler()
+            a.wait(vim.schedule)
             local win = vim.api.nvim_get_current_win()
             local buf = vim.api.nvim_win_get_buf(win)
             assert.equals("mason", vim.api.nvim_buf_get_option(buf, "filetype"))
@@ -103,7 +103,7 @@ describe(":MasonUpdate", function()
             assert.spy(vim.notify).was_called_with("Updating registries…", vim.log.levels.INFO, {
                 title = "mason.nvim",
             })
-            a.scheduler()
+            a.wait(vim.schedule)
             assert.spy(vim.notify).was_called_with("Successfully updated 1 registry.", vim.log.levels.INFO, {
                 title = "mason.nvim",
             })
@@ -122,7 +122,7 @@ describe(":MasonUpdate", function()
             assert.spy(vim.notify).was_called_with("Updating registries…", vim.log.levels.INFO, {
                 title = "mason.nvim",
             })
-            a.scheduler()
+            a.wait(vim.schedule)
             assert.spy(vim.notify).was_called_with("Failed to update registries: Some error.", vim.log.levels.ERROR, {
                 title = "mason.nvim",
             })

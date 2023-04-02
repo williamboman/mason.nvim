@@ -114,9 +114,7 @@ end
 ---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
     local normalized_pkg_name = trim_wildcard_suffix(receipt.primary_source.package)
     -- trims e.g. golang.org/x/tools/gopls to gopls
     local executable = vim.fn.fnamemodify(normalized_pkg_name, ":t")

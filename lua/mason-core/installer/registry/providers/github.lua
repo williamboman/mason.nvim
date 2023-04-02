@@ -113,9 +113,7 @@ local release = {
             end))
 
             for __, download in ipairs(source.downloads) do
-                if vim.in_fast_event() then
-                    a.scheduler()
-                end
+                a.scheduler()
                 local out_dir = vim.fn.fnamemodify(download.out_file, ":h")
                 local out_file = vim.fn.fnamemodify(download.out_file, ":t")
                 if out_dir ~= "." then

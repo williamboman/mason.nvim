@@ -306,9 +306,7 @@ function M.check()
             :map(
                 ---@param rate_limit GitHubRateLimitResponse
                 function(rate_limit)
-                    if vim.in_fast_event() then
-                        a.scheduler()
-                    end
+                    a.scheduler()
                     local remaining = rate_limit.resources.core.remaining
                     local used = rate_limit.resources.core.used
                     local limit = rate_limit.resources.core.limit
@@ -327,9 +325,7 @@ function M.check()
                 end
             )
             :on_failure(function()
-                if vim.in_fast_event() then
-                    a.scheduler()
-                end
+                a.scheduler()
                 health.report_warn "Failed to check GitHub API rate limit status."
             end)
     end)

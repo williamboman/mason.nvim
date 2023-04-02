@@ -144,9 +144,7 @@ end
 ---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.check_outdated_primary_package(receipt, install_dir)
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
     local crate_name = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
     return get_installed_crates(install_dir)
         :ok()
@@ -189,9 +187,7 @@ end
 ---@param receipt InstallReceipt<InstallReceiptPackageSource>
 ---@param install_dir string
 function M.get_installed_primary_package_version(receipt, install_dir)
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
     local crate_name = vim.fn.fnamemodify(receipt.primary_source.package, ":t")
     return get_installed_crates(install_dir)
         :ok()

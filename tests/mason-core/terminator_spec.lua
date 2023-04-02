@@ -27,7 +27,7 @@ describe("terminator", function()
             local dummy2_handle = dummy2:install()
             terminator.terminate(5000)
 
-            a.scheduler()
+            a.wait(vim.schedule)
             assert.spy(InstallHandle.terminate).was_called(2)
             assert.spy(InstallHandle.terminate).was_called_with(match.is_ref(dummy_handle))
             assert.spy(InstallHandle.terminate).was_called_with(match.is_ref(dummy2_handle))
@@ -67,7 +67,7 @@ describe("terminator", function()
                 },
             }, true, {})
 
-            a.scheduler()
+            a.wait(vim.schedule)
 
             assert.spy(vim.api.nvim_err_writeln).was_called(1)
             assert.spy(vim.api.nvim_err_writeln).was_called_with(_.dedent [[
