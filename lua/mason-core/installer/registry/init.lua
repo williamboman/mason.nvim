@@ -141,10 +141,8 @@ end
 function M.compile(spec, opts)
     log.debug("Compiling installer.", spec.name, opts)
     return Result.try(function(try)
-        if vim.in_fast_event() then
-            -- Parsers run synchronously and may access API functions, so we schedule before-hand.
-            a.scheduler()
-        end
+        -- Parsers run synchronously and may access API functions, so we schedule before-hand.
+        a.scheduler()
 
         local map_parse_err = _.cond {
             {

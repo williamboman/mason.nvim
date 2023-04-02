@@ -55,9 +55,7 @@ function M.init(opts)
         log.fmt_debug("pypi: init", opts)
         local ctx = installer.context()
 
-        if vim.in_fast_event() then
-            a.scheduler()
-        end
+        a.scheduler()
 
         local executables = platform.is.win
                 and _.list_not_nil(

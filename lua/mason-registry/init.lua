@@ -176,15 +176,11 @@ function M.refresh(cb)
 
     ---@async
     local function refresh()
-        if vim.in_fast_event() then
-            a.scheduler()
-        end
+        a.scheduler()
         local is_outdated = get_store_age(os.time()) > REGISTRY_STORE_TTL
         if is_outdated or not sources.is_installed() then
             if a.wait(M.update) then
-                if vim.in_fast_event() then
-                    a.scheduler()
-                end
+                a.scheduler()
                 update_store_timestamp(os.time())
             end
         end

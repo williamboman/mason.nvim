@@ -153,4 +153,25 @@ _.lazy_when = function(condition, value)
     return condition and value() or nil
 end
 
+---@param fn fun()
+_.scheduler = function(fn)
+    if vim.in_fast_event() then
+        vim.schedule(fn)
+    else
+        fn()
+    end
+end
+
+---@generic T : fun(...)
+---@param fn T
+---@return T
+_.scheduler_wrap = function(fn)
+    return function(...)
+        local args = _.table_pack(...)
+        _.scheduler(function()
+            fn(unpack(args, 1, args.n + 1))
+        end)
+    end
+end
+
 return _

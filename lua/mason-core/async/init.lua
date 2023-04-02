@@ -150,7 +150,9 @@ exports.sleep = function(ms)
 end
 
 exports.scheduler = function()
-    await(vim.schedule)
+    if vim.in_fast_event() then
+        await(vim.schedule)
+    end
 end
 
 ---@async

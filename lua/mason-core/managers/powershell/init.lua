@@ -12,9 +12,7 @@ local PWSHOPT = {
 }
 
 local powershell = _.lazy(function()
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
     if vim.fn.executable "pwsh" == 1 then
         return "pwsh"
     else

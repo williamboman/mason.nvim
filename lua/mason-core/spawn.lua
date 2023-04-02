@@ -34,9 +34,7 @@ local function Failure(err, cmd)
 end
 
 local is_executable = _.memoize(function(cmd)
-    if vim.in_fast_event() then
-        a.scheduler()
-    end
+    a.scheduler()
     return vim.fn.executable(cmd) == 1
 end, _.identity)
 

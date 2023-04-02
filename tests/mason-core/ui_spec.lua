@@ -186,7 +186,7 @@ describe("integration test", function()
             window.open()
 
             -- Initial window and buffer creation + initial render
-            a.scheduler()
+            a.wait(vim.schedule)
 
             assert.spy(win_set_option).was_called(9)
             assert.spy(win_set_option).was_called_with(match.is_number(), "number", false)
@@ -245,7 +245,7 @@ describe("integration test", function()
             end)
 
             assert.spy(set_lines).was_called(1)
-            a.scheduler()
+            a.wait(vim.schedule)
             assert.spy(set_lines).was_called(2)
 
             assert
@@ -288,12 +288,12 @@ describe("integration test", function()
             local mutate_state = window.state { show_extra_lines = false }
             window.init {}
             window.open()
-            a.scheduler()
+            a.wait(vim.schedule)
             window.set_cursor { 5, 3 } -- move cursor to sticky line
             mutate_state(function(state)
                 state.show_extra_lines = true
             end)
-            a.scheduler()
+            a.wait(vim.schedule)
             local cursor = window.get_cursor()
             assert.same({ 8, 3 }, cursor)
         end)
@@ -311,7 +311,7 @@ describe("integration test", function()
             window.state {}
             window.init { border = "rounded" }
             window.open()
-            a.scheduler()
+            a.wait(vim.schedule)
 
             assert.spy(nvim_open_win).was_called(1)
             assert.spy(nvim_open_win).was_called_with(

@@ -63,10 +63,7 @@ local function link(context, link_context, link_fn)
 
             do
                 -- 1. Ensure destination directory exists
-                if vim.in_fast_event() then
-                    a.scheduler()
-                end
-
+                a.scheduler()
                 local dir = vim.fn.fnamemodify(dest_abs_path, ":h")
                 if not fs.async.dir_exists(dir) then
                     try(Result.pcall(fs.async.mkdirp, dir))

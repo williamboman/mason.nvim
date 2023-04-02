@@ -214,9 +214,7 @@ local function expand_file_spec(ctx, purl, source, file_spec_table)
                     return Result.failure(("Cannot link file %q to dir %q."):format(source_path, dest))
                 end
 
-                if vim.in_fast_event() then
-                    a.scheduler()
-                end
+                a.scheduler()
 
                 local glob = path.concat { cwd, source_path } .. "**/*"
                 log.fmt_trace("Symlink glob for %s: %s", ctx.package, glob)
