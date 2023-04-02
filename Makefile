@@ -29,11 +29,8 @@ schemas-generate: dependencies
 package-markdown-index-generate: dependencies
 	./scripts/nvim.sh scripts/lua/mason-scripts/mason/generate_package_index.lua
 
-.PHONY: autogenerate
-autogenerate: schemas-generate package-markdown-index-generate
-
 .PHONY: generate
-generate: dependencies
+generate: dependencies schemas-generate package-markdown-index-generate
 	./scripts/nvim.sh scripts/lua/mason-scripts/mason/generate.lua
 
 # vim:noexpandtab
