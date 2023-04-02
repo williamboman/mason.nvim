@@ -256,7 +256,7 @@ end
 ---@param callback fun(success: boolean, result_or_err: NewPackageVersion)
 function Package:check_new_version(callback)
     if self:is_registry_spec() then
-        self:get_installed_version(function(success, installed_version)
+        self:get_installed_version(_.scheduler_wrap(function(success, installed_version)
             if not success then
                 return callback(false, installed_version)
             end
@@ -281,7 +281,7 @@ function Package:check_new_version(callback)
             end)
                 :on_success(resolve(true))
                 :on_failure(resolve(false))
-        end)
+        end))
     else
         a.run(function()
             local receipt = self:get_receipt():or_else_throw "Unable to get receipt."
