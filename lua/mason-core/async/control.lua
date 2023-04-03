@@ -22,6 +22,7 @@ function Condvar:notify_all()
     self.handles = {}
 end
 
+---@class Permit
 local Permit = {}
 Permit.__index = Permit
 
