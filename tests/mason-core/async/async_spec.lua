@@ -1,5 +1,7 @@
+local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local assert = require "luassert"
+local control = require "mason-core.async.control"
 local match = require "luassert.match"
 local process = require "mason-core.process"
 local spy = require "luassert.spy"
@@ -199,5 +201,113 @@ describe("async", function()
     it("should yield back immediately when not providing any functions", function()
         assert.is_nil(a.wait_first {})
         assert.is_nil(a.wait_all {})
+    end)
+end)
+
+describe("async :: Condvar", function()
+    local Condvar = control.Condvar
+
+    it("should block execution until condvar is notified", function()
+        local condvar = Condvar.new()
+
+        local function wait()
+            local start = timestamp()
+            condvar:wait()
+            local stop = timestamp()
+            return stop - start
+        end
+
+        local start = timestamp()
+        local condvar_waits = a.run_blocking(function()
+            vim.defer_fn(function()
+                condvar:notify_all()
+            end, 110)
+            return _.table_pack(a.wait_all {
+                wait,
+                wait,
+                wait,
+                wait,
+            })
+        end)
+        local stop = timestamp()
+
+        for _, delay in ipairs(condvar_waits) do
+            assert.is_True(delay >= 100)
+        end
+        assert.is_true((stop - start) >= 100)
+    end)
+end)
+
+describe("async :: Semaphore", function()
+    local Semaphore = control.Semaphore
+
+    it("should limit the amount of permits", function()
+        local sem = Semaphore.new(5)
+        ---@type Permit[]
+        local permits = {}
+
+        local cancel_thread = a.run(function()
+            while true do
+                table.insert(permits, sem:acquire())
+            end
+        end)
+        cancel_thread()
+
+        assert.equals(5, #permits)
+    end)
+
+    it("should lease new permits", function()
+        local sem = Semaphore.new(2)
+        ---@type Permit[]
+        local permits = {}
+
+        local cancel_thread = a.run(function()
+            while true do
+                table.insert(permits, sem:acquire())
+            end
+        end)
+
+        assert.equals(2, #permits)
+        permits[1]:forget()
+        permits[2]:forget()
+        assert.equals(4, #permits)
+        cancel_thread()
+    end)
+end)
+
+describe("async :: OneShotChannel", function()
+    local OneShotChannel = control.OneShotChannel
+
+    it("should only allow sending once", function()
+        local channel = OneShotChannel.new()
+        assert.is_false(channel:is_closed())
+        channel:send "value"
+        assert.is_true(channel:is_closed())
+        local err = assert.has_error(function()
+            channel:send "value"
+        end)
+        assert.equals("Oneshot channel can only send once.", err)
+    end)
+
+    it("should wait until it can receive", function()
+        local channel = OneShotChannel.new()
+
+        local start = timestamp()
+        local value = a.run_blocking(function()
+            vim.defer_fn(function()
+                channel:send(42)
+            end, 110)
+            return channel:receive()
+        end)
+        local stop = timestamp()
+
+        assert.is_true((stop - start) >= 100)
+        assert.equals(42, value)
+    end)
+
+    it("should receive immediately if value is already sent", function()
+        local channel = OneShotChannel.new()
+        channel:send(42)
+        assert.equals(42, channel:receive())
     end)
 end)
