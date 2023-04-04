@@ -4,8 +4,24 @@ local installer = require "mason-core.installer"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
+local semver = require "mason-core.semver"
+local spawn = require "mason-core.spawn"
 
 local M = {}
+
+---@async
+---@param predicate fun(npm_version: Semver): boolean
+---@return boolean
+local function npm_version_satisfies(predicate)
+    return Result.try(function(try)
+        local npm_versions = try(spawn.npm { "version", "--json" }).stdout
+        ---@type { npm: string }
+        local versions = try(Result.pcall(vim.json.decode, npm_versions))
+        ---@type Semver
+        local npm_version = try(semver.parse(versions.npm))
+        return predicate(npm_version)
+    end):get_or_else(false)
+end
 
 ---@async
 function M.init()
@@ -18,7 +34,7 @@ function M.init()
             "--scope=mason",
         })
 
-        -- Use global-style. The reasons for this are:
+        -- Use shallow install-strategy. The reasons for this are:
         --   a) To avoid polluting the executables (aka bin-links) that npm creates.
         --   b) The installation is, after all, more similar to a "global" installation. We don't really gain
         --      any of the benefits of not using global style (e.g., deduping the dependency tree).
@@ -27,7 +43,11 @@ function M.init()
         --  is a bit unreliable across npm versions (especially <7), so we take extra measures to avoid
         --  inadvertently polluting global npm config.
         try(Result.pcall(function()
-            ctx.fs:append_file(".npmrc", "global-style=true")
+            if npm_version_satisfies(_.gte(semver.new "9.0.0")) then
+                ctx.fs:append_file(".npmrc", "\ninstall-strategy=shallow")
+            else
+                ctx.fs:append_file(".npmrc", "\nglobal-style=true")
+            end
         end))
 
         ctx.stdio_sink.stdout "Initialized npm root\n"

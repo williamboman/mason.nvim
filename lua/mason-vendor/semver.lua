@@ -144,18 +144,28 @@ local function smallerPrerelease(mine, other)
   return smallerIdList(splitByDot(mine), splitByDot(other))
 end
 
+---@class ISemver
 local methods = {}
 
+---@return Semver
 function methods:nextMajor()
   return semver(self.major + 1, 0, 0)
 end
+---@return Semver
 function methods:nextMinor()
   return semver(self.major, self.minor + 1, 0)
 end
+---@return Semver
 function methods:nextPatch()
   return semver(self.major, self.minor, self.patch + 1)
 end
 
+---@class Semver : ISemver
+---@field major integer
+---@field minor integer
+---@field patch integer
+---@field prerelease? string
+---@field build? string
 local mt = { __index = methods }
 function mt:__eq(other)
   return self.major == other.major and
@@ -188,6 +198,7 @@ function mt:__tostring()
   return table.concat(buffer)
 end
 
+---@return Semver
 local function new(major, minor, patch, prerelease, build)
   assert(major, "At least one parameter is needed")
 
