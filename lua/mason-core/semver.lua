@@ -4,9 +4,14 @@ local semver = require "mason-vendor.semver"
 local M = {}
 
 ---@param version string
-function M.parse(version)
+function M.new(version)
     version = version:gsub("^v", "")
-    return Result.pcall(semver, version)
+    return semver(version)
+end
+
+---@param version string
+function M.parse(version)
+    return Result.pcall(M.new, version)
 end
 
 return M
