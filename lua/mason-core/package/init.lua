@@ -309,7 +309,7 @@ function PackageMt.__tostring(self)
 end
 
 function Package:get_aliases()
-    return require("mason-registry").get_aliases(self.name)
+    return require("mason-registry").get_package_aliases(self.name)
 end
 
 return Package

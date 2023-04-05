@@ -198,7 +198,7 @@ local aliases = {}
 
 ---Register aliases for the specified packages
 ---@param new_aliases table<string, string[]>
-function M.register_aliases(new_aliases)
+function M.register_package_aliases(new_aliases)
     for key, value in pairs(new_aliases) do
         aliases[key] = aliases[key] or {}
         for _, alias in pairs(value) do
@@ -208,7 +208,7 @@ function M.register_aliases(new_aliases)
 end
 
 ---@param name string
-function M.get_aliases(name)
+function M.get_package_aliases(name)
     return aliases[name]
 end
 
