@@ -193,4 +193,25 @@ function M.refresh(cb)
     end
 end
 
+---@type table<string, string[]>
+local aliases = {}
+
+---Register aliases for the specified packages
+---@param new_aliases table<string, string[]>
+function M.register_package_aliases(new_aliases)
+    for pkg_name, pkg_aliases in pairs(new_aliases) do
+        aliases[pkg_name] = aliases[pkg_name] or {}
+        for _, alias in pairs(pkg_aliases) do
+            if alias ~= pkg_name then
+                table.insert(aliases[pkg_name], alias)
+            end
+        end
+    end
+end
+
+---@param name string
+function M.get_package_aliases(name)
+    return aliases[name] or {}
+end
+
 return M

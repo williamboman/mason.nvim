@@ -124,7 +124,9 @@ local function PackageComponent(state, pkg, opts)
     local label = (is_expanded or pkg_state.has_transitioned) and p.Bold(" " .. pkg.name) or p.none(" " .. pkg.name)
 
     return Ui.Node {
-        Ui.HlTextNode { { opts.icon, label } },
+        Ui.HlTextNode {
+            { opts.icon, label, p.none " ", p.Comment(table.concat(pkg:get_aliases(), ", ")) },
+        },
         opts.sticky or Ui.Node {},
         Ui.When(pkg_state.is_checking_new_version, function()
             return Ui.VirtualTextNode { p.Comment " checking for new version…" }
