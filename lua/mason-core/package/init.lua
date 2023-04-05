@@ -308,4 +308,8 @@ function PackageMt.__tostring(self)
     return ("Package(name=%s)"):format(self.name)
 end
 
+function Package:get_aliases()
+    return require("mason-registry").get_aliases(self.name)
+end
+
 return Package

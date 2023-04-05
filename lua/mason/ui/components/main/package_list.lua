@@ -71,6 +71,10 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
                     p.muted "homepage",
                     pkg.spec.homepage and p.highlight(pkg.spec.homepage) or p.muted "-",
                 },
+                    pkg:get_aliases() ~= nil and {
+                    p.muted "aliases",
+                    (#pkg:get_aliases() > 0 and p.highlight(table.concat(pkg:get_aliases(), ", "))) or p.muted "-",
+                 },
                 {
                     p.muted "languages",
                     #pkg.spec.languages > 0 and p.Bold(table.concat(pkg.spec.languages, ", ")) or p.muted "-",

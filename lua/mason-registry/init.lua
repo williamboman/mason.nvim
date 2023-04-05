@@ -193,4 +193,23 @@ function M.refresh(cb)
     end
 end
 
+---table<string, string[]>
+local aliases = {}
+
+---Register aliases for the specified packages
+---@param new_aliases table<string, string[]>
+function M.register_aliases(new_aliases)
+    for key, value in pairs(new_aliases) do
+        aliases[key] = aliases[key] or {}
+        for _, alias in pairs(value) do
+            table.insert(aliases[key], alias)
+        end
+    end
+end
+
+---@param name string
+function M.get_aliases(name)
+    return aliases[name]
+end
+
 return M
