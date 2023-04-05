@@ -2,7 +2,6 @@ local Optional = require "mason-core.optional"
 local Pkg = require "mason-core.package"
 local _ = require "mason-core.functional"
 local github = require "mason-core.managers.github"
-local github_client = require "mason-core.managers.github.client"
 local platform = require "mason-core.platform"
 local std = require "mason-core.managers.std"
 
