@@ -193,7 +193,7 @@ function M.refresh(cb)
     end
 end
 
----table<string, string[]>
+---@type table<string, string[]>
 local aliases = {}
 
 ---Register aliases for the specified packages
