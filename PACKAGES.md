@@ -104,6 +104,7 @@
 - [gh](#gh)
 - [gitlint](#gitlint)
 - [gitui](#gitui)
+- [gleam](#gleam)
 - [glint](#glint)
 - [glow](#glow)
 - [go-debug-adapter](#go-debug-adapter)
@@ -1458,6 +1459,17 @@ Categories:
 ```
 :MasonInstall gitui
 ```
+# gleam
+
+> A friendly language for building type-safe, scalable systems!
+
+Homepage: [https://gleam.run/](https://gleam.run/)  
+Languages: `Gleam`  
+Categories: `Compiler` `Formatter` `LSP`  
+
+```
+:MasonInstall gleam
+```
 # glint
 
 > Glint is a set of tools to aid in developing code that uses the Glimmer VM for rendering, such as Ember.js v3.24+ and
@@ -1785,7 +1797,7 @@ Categories: `LSP`
 ```
 # isort
 
-> isort is a Python utility / library to sort imports alphabetically
+> isort is a Python utility / library to sort imports alphabetically.
 
 Homepage: [https://pypi.org/project/isort/](https://pypi.org/project/isort/)  
 Languages: `Python`  
@@ -1830,6 +1842,7 @@ Enables support for the following test frameworks:
 - JUnit 5 (v5.1.0+)
 - TestNG (v6.8.0+)
 
+
 Homepage: [https://github.com/microsoft/vscode-java-test](https://github.com/microsoft/vscode-java-test)  
 Languages: `Java`  
 Categories: `DAP`  
@@ -1839,7 +1852,7 @@ Categories: `DAP`
 ```
 # jdtls
 
-> Java language server
+> Java language server.
 
 Homepage: [https://github.com/eclipse/eclipse.jdt.ls](https://github.com/eclipse/eclipse.jdt.ls)  
 Languages: `Java`  
@@ -1861,7 +1874,7 @@ Categories: `LSP`
 ```
 # joker
 
-> Small Clojure interpreter, linter and formatter
+> Small Clojure interpreter, linter and formatter.
 
 Homepage: [https://github.com/candid82/joker](https://github.com/candid82/joker)  
 Languages: `Clojure` `ClojureScript`  
@@ -1872,7 +1885,7 @@ Categories: `Formatter` `Linter`
 ```
 # jq
 
-> Command-line JSON processor
+> Command-line JSON processor.
 
 Homepage: [https://github.com/stedolan/jq](https://github.com/stedolan/jq)  
 Languages: `JSON`  
@@ -1885,6 +1898,7 @@ Categories: `Formatter`
 
 > jq-lsp is a language server for the jq language, developed by Mattias Wadman. It provides IDE features to any
 LSP-compatible editor.
+
 
 Homepage: [https://github.com/wader/jq-lsp](https://github.com/wader/jq-lsp)  
 Languages: `Jq`  
@@ -1917,7 +1931,7 @@ Categories: `LSP`
 ```
 # json-to-struct
 
-> A simple command-line tool for generating to struct definitions from JSON
+> A simple command-line tool for generating to struct definitions from JSON.
 
 Homepage: [https://github.com/tmc/json-to-struct](https://github.com/tmc/json-to-struct)  
 Languages: `Go`  
@@ -1939,7 +1953,7 @@ Categories: `Linter`
 ```
 # jsonnet-language-server
 
-> A Language Server Protocol (LSP) server for Jsonnet (https://jsonnet.org)
+> A Language Server Protocol (LSP) server for Jsonnet (https://jsonnet.org).
 
 Homepage: [https://github.com/grafana/jsonnet-language-server](https://github.com/grafana/jsonnet-language-server)  
 Languages: `Jsonnet`  
@@ -1961,7 +1975,7 @@ Categories: `LSP`
 ```
 # kotlin-debug-adapter
 
-> Kotlin/JVM debugging for any editor/IDE using the Debug Adapter Protocol
+> Kotlin/JVM debugging for any editor/IDE using the Debug Adapter Protocol.
 
 Homepage: [https://github.com/fwcd/kotlin-debug-adapter](https://github.com/fwcd/kotlin-debug-adapter)  
 Languages: `Kotlin`  
@@ -1972,7 +1986,7 @@ Categories: `DAP`
 ```
 # kotlin-language-server
 
-> Kotlin code completion, linting and more for any editor/IDE using the Language Server Protocol
+> Kotlin code completion, linting and more for any editor/IDE using the Language Server Protocol.
 
 Homepage: [https://github.com/fwcd/kotlin-language-server](https://github.com/fwcd/kotlin-language-server)  
 Languages: `Kotlin`  
@@ -1983,7 +1997,7 @@ Categories: `LSP`
 ```
 # ktlint
 
-> An anti-bikeshedding Kotlin linter with built-in formatter
+> An anti-bikeshedding Kotlin linter with built-in formatter.
 
 Homepage: [https://github.com/pinterest/ktlint](https://github.com/pinterest/ktlint)  
 Languages: `Kotlin`  
@@ -1997,6 +2011,7 @@ Categories: `Formatter` `Linter`
 > latexindent.pl is a perl script to beautify/tidy/format/indent (add horizontal leading space to) code within
 environments, commands, after headings and within special code blocks.
 
+
 Homepage: [https://github.com/cmhughes/latexindent.pl](https://github.com/cmhughes/latexindent.pl)  
 Languages: `LaTeX`  
 Categories: `Formatter`  
@@ -2006,7 +2021,7 @@ Categories: `Formatter`
 ```
 # lelwel
 
-> LL(1) parser generator for Rust
+> LL(1) parser generator for Rust.
 
 Homepage: [https://github.com/0x2a-42/lelwel](https://github.com/0x2a-42/lelwel)  
 Languages: `Lelwel`  
@@ -2017,7 +2032,7 @@ Categories: `LSP`
 ```
 # lemminx
 
-> XML Language Server
+> XML Language Server.
 
 Homepage: [https://github.com/eclipse/lemminx](https://github.com/eclipse/lemminx)  
 Languages: `XML`  
@@ -2028,7 +2043,7 @@ Categories: `LSP`
 ```
 # lemmy-help
 
-> Every one needs help, so lemmy-help you! A CLI to generate vim/nvim help doc from emmylua
+> Every one needs help, so lemmy-help you! A CLI to generate vim/nvim help doc from emmylua.
 
 Homepage: [https://github.com/numToStr/lemmy-help](https://github.com/numToStr/lemmy-help)  
 Languages: `Lua`  
@@ -2039,8 +2054,8 @@ Categories:
 ```
 # ltex-ls
 
-> LTeX Language Server: LSP language server for LanguageTool 🔍✔️ with support for LaTeX 🎓, Markdown 📝, and
-others.
+> LTeX Language Server: LSP language server for LanguageTool 🔍✔️ with support for LaTeX 🎓, Markdown 📝, and others.
+
 
 Homepage: [https://valentjn.github.io/ltex/](https://valentjn.github.io/ltex/)  
 Languages: `Text` `Markdown` `LaTeX`  
@@ -2073,7 +2088,7 @@ Categories: `Linter`
 ```
 # luaformatter
 
-> Code formatter for Lua
+> Code formatter for Lua.
 
 Homepage: [https://github.com/Koihik/LuaFormatter](https://github.com/Koihik/LuaFormatter)  
 Languages: `Lua`  
@@ -2106,7 +2121,7 @@ Categories: `Formatter`
 ```
 # markdownlint
 
-> A Node.js style checker and lint tool for Markdown/CommonMark files
+> A Node.js style checker and lint tool for Markdown/CommonMark files.
 
 Homepage: [https://github.com/igorshubovych/markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)  
 Languages: `Markdown`  
@@ -2139,7 +2154,7 @@ Categories: `LSP`
 ```
 # misspell
 
-> Correct commonly misspelled English words in source files
+> Correct commonly misspelled English words in source files.
 
 Homepage: [https://github.com/client9/misspell](https://github.com/client9/misspell)  
 Languages:   
@@ -2150,8 +2165,9 @@ Categories: `Linter`
 ```
 # mockdebug
 
-> Mock Debug simulates a debug adapter. It supports step, continue, breakpoints, exceptions, and variable access
-but it is not connected to any real debugger.
+> Mock Debug simulates a debug adapter. It supports step, continue, breakpoints, exceptions, and variable access but it
+is not connected to any real debugger.
+
 
 Homepage: [https://github.com/microsoft/vscode-mock-debug](https://github.com/microsoft/vscode-mock-debug)  
 Languages:   
@@ -2173,7 +2189,7 @@ Categories: `LSP`
 ```
 # mypy
 
-> Mypy is a static type checker for Python. 
+> Mypy is a static type checker for Python.
 
 Homepage: [https://github.com/python/mypy](https://github.com/python/mypy)  
 Languages: `Python`  
