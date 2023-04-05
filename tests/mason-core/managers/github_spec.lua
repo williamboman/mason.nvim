@@ -3,15 +3,15 @@ local stub = require "luassert.stub"
 
 local Optional = require "mason-core.optional"
 local Result = require "mason-core.result"
-local client = require "mason-core.managers.github.client"
 local github = require "mason-core.managers.github"
 local installer = require "mason-core.installer"
+local providers = require "mason-core.providers"
 
 describe("github release file", function()
     it(
         "should use provided version",
         async_test(function()
-            stub(client, "fetch_latest_release")
+            stub(providers.github, "get_latest_release")
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
             installer.prepare_installer(ctx)
@@ -22,7 +22,7 @@ describe("github release file", function()
                     version = Optional.of "13.37",
                 }
             end)
-            assert.spy(client.fetch_latest_release).was_not_called()
+            assert.spy(providers.github.get_latest_release).was_not_called()
             assert.equals("13.37", source.release)
             assert.equals(
                 "https://github.com/williamboman/mason.nvim/releases/download/13.37/program.exe",
@@ -34,8 +34,8 @@ describe("github release file", function()
     it(
         "should use use dynamic asset_file",
         async_test(function()
-            stub(client, "fetch_latest_release")
-            client.fetch_latest_release.returns(Result.success(mock.new {
+            stub(providers.github, "get_latest_release")
+            providers.github.get_latest_release.returns(Result.success(mock.new {
                 tag_name = "im_the_tag",
             }))
             local handle = InstallHandleGenerator "dummy"
@@ -49,8 +49,8 @@ describe("github release file", function()
                     end,
                 }
             end)
-            assert.spy(client.fetch_latest_release).was_called(1)
-            assert.spy(client.fetch_latest_release).was_called_with "williamboman/mason.nvim"
+            assert.spy(providers.github.get_latest_release).was_called(1)
+            assert.spy(providers.github.get_latest_release).was_called_with "williamboman/mason.nvim"
             assert.equals("im_the_tag", source.release)
             assert.equals("im_the_tag_for_reals", source.asset_file)
             assert.equals(
@@ -65,7 +65,7 @@ describe("github release version", function()
     it(
         "should use provided version",
         async_test(function()
-            stub(client, "fetch_latest_release")
+            stub(providers.github, "get_latest_release")
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
             installer.prepare_installer(ctx)
@@ -75,7 +75,7 @@ describe("github release version", function()
                     version = Optional.of "13.37",
                 }
             end)
-            assert.spy(client.fetch_latest_release).was_not_called()
+            assert.spy(providers.github.get_latest_release).was_not_called()
             assert.equals("13.37", source.release)
         end)
     )
@@ -84,8 +84,8 @@ describe("github release version", function()
         "should fetch latest release from GitHub API",
         async_test(function()
             async_test(function()
-                stub(client, "fetch_latest_release")
-                client.fetch_latest_release.returns(Result.success { tag_name = "v42" })
+                stub(providers.github, "get_latest_release")
+                providers.github.get_latest_release.returns(Result.success { tag_name = "v42" })
                 local handle = InstallHandleGenerator "dummy"
                 local ctx = InstallContextGenerator(handle)
                 installer.prepare_installer(ctx)
@@ -94,8 +94,8 @@ describe("github release version", function()
                         repo = "williamboman/mason.nvim",
                     }
                 end)
-                assert.spy(client.fetch_latest_release).was_called(1)
-                assert.spy(client.fetch_latest_release).was_called_with "williamboman/mason.nvim"
+                assert.spy(providers.github.get_latest_release).was_called(1)
+                assert.spy(providers.github.get_latest_release).was_called_with "williamboman/mason.nvim"
                 assert.equals("v42", source.release)
             end)
         end)

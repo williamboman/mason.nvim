@@ -1,30 +1,19 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local spawn = require "mason-core.spawn"
+local client = require "mason-core.managers.github.client"
 
 ---@type GitHubProvider
 return {
     get_latest_release = function(repo)
-        return spawn
-            .gh({ "api", ("repos/%s/releases/latest"):format(repo) })
-            :map(_.prop "stdout")
-            :map_catching(vim.json.decode)
+        return client.fetch_latest_release(repo)
     end,
     get_all_release_versions = function(repo)
-        return spawn
-            .gh({ "api", ("repos/%s/releases"):format(repo) })
-            :map(_.prop "stdout")
-            :map_catching(vim.json.decode)
-            :map(_.map(_.prop "tag_name"))
+        return client.fetch_all_releases(repo):map(_.map(_.prop "tag_name"))
     end,
     get_latest_tag = function(repo)
         return Result.failure "Unimplemented"
     end,
     get_all_tags = function(repo)
-        return spawn
-            .gh({ "api", ("repos/%s/git/matching-refs/tags"):format(repo) })
-            :map(_.prop "stdout")
-            :map_catching(vim.json.decode)
-            :map(_.map(_.compose(_.gsub("^refs/tags/", ""), _.prop "ref")))
+        return client.fetch_all_tags(repo):map(_.map(_.compose(_.gsub("^refs/tags/", ""), _.prop "ref")))
     end,
 }

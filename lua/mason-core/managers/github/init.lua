@@ -1,8 +1,8 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local client = require "mason-core.managers.github.client"
 local installer = require "mason-core.installer"
 local platform = require "mason-core.platform"
+local providers = require "mason-core.providers"
 local settings = require "mason.settings"
 local std = require "mason-core.managers.std"
 
@@ -53,8 +53,8 @@ function M.release_version(opts)
     local ctx = installer.context()
     ---@type string
     local release = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
-        return client
-            .fetch_latest_release(opts.repo)
+        return providers.github
+            .get_latest_release(opts.repo)
             :map(_.prop "tag_name")
             :get_or_throw "Failed to fetch latest release from GitHub API. Refer to :h mason-provider-errors for more information."
     end)
@@ -105,7 +105,10 @@ end
 function M.tag(opts)
     local ctx = installer.context()
     local tag = _.coalesce(opts.version, ctx.requested_version):or_else_get(function()
-        return client.fetch_latest_tag(opts.repo):get_or_throw "Failed to fetch latest tag from GitHub API."
+        return providers.github
+            .get_latest_tag(opts.repo)
+            :map(_.prop "tag")
+            :get_or_throw "Failed to fetch latest tag from GitHub API."
     end)
 
     return {
@@ -168,7 +171,7 @@ function M.check_outdated_primary_package_release(receipt)
     if source.type ~= "github_release" and source.type ~= "github_release_file" then
         return Result.failure "Receipt does not have a primary source of type (github_release|github_release_file)."
     end
-    return client.fetch_latest_release(source.repo):map_catching(
+    return providers.github.get_latest_release(source.repo):map_catching(
         ---@param latest_release GitHubRelease
         function(latest_release)
             if source.release ~= latest_release.tag_name then
@@ -190,7 +193,7 @@ function M.check_outdated_primary_package_tag(receipt)
     if source.type ~= "github_tag" then
         return Result.failure "Receipt does not have a primary source of type github_tag."
     end
-    return client.fetch_latest_tag(source.repo):map_catching(function(latest_tag)
+    return providers.github.get_latest_tag(source.repo):map(_.prop "tag"):map_catching(function(latest_tag)
         if source.tag ~= latest_tag then
             return {
                 name = source.repo,

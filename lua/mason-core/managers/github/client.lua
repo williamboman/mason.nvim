@@ -1,12 +1,11 @@
 local _ = require "mason-core.functional"
 local fetch = require "mason-core.fetch"
-local log = require "mason-core.log"
-local providers = require "mason-core.providers"
 local spawn = require "mason-core.spawn"
 
 local M = {}
 
----@alias GitHubCommit {sha: string}
+---@alias GitHubCommit { sha: string }
+---@alias GitHubRef { ref: string }
 
 local stringify_params = _.compose(_.join "&", _.map(_.join "="), _.sort_by(_.head), _.to_pairs)
 
@@ -21,12 +20,12 @@ local function gh_api_call(path, opts)
     return spawn
         .gh({ "api", path, env = { CLICOLOR_FORCE = 0 } })
         :map(_.prop "stdout")
-        :recover_catching(function()
+        :or_else(function()
             return fetch(("https://api.github.com/%s"):format(path), {
                 headers = {
                     Accept = "application/vnd.github.v3+json; q=1.0, application/json; q=0.8",
                 },
-            }):get_or_throw()
+            })
         end)
         :map_catching(vim.json.decode)
 end
@@ -35,48 +34,26 @@ M.api_call = gh_api_call
 
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
----@return Result # Result<GitHubRelease[]>
-function M.fetch_releases(repo)
-    log.fmt_trace("Fetching GitHub releases for repo=%s", repo)
-    local path = ("repos/%s/releases"):format(repo)
-    return gh_api_call(path):map_err(function()
-        return ("Failed to fetch releases for GitHub repository %s."):format(repo)
-    end)
-end
-
----@async
----@param repo string The GitHub repo ("username/repo").
----@param tag_name string The tag_name of the release to fetch.
-function M.fetch_release(repo, tag_name)
-    log.fmt_trace("Fetching GitHub release for repo=%s, tag_name=%s", repo, tag_name)
-    local path = ("repos/%s/releases/tags/%s"):format(repo, tag_name)
-    return gh_api_call(path):map_err(function()
-        return ("Failed to fetch release %q for GitHub repository %s."):format(tag_name, repo)
-    end)
-end
-
----@async
----@param repo string The GitHub repo ("username/repo").
 ---@return Result # Result<GitHubRelease>
 function M.fetch_latest_release(repo)
-    return providers.github.get_latest_release(repo)
+    local path = ("repos/%s/releases/latest"):format(repo)
+    return gh_api_call(path)
 end
 
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
----@return Result # Result<GitHubTag[]>
-function M.fetch_tags(repo)
-    local path = ("repos/%s/tags"):format(repo)
-    return gh_api_call(path):map_err(function()
-        return ("Failed to fetch tags for GitHub repository %s."):format(repo)
-    end)
+---@return Result # Result<GitHubRelease[]>
+function M.fetch_all_releases(repo)
+    local path = ("repos/%s/releases"):format(repo)
+    return gh_api_call(path)
 end
 
 ---@async
 ---@param repo string The GitHub repo ("username/repo").
----@return Result # Result<string> The latest tag name.
-function M.fetch_latest_tag(repo)
-    return providers.github.get_latest_tag(repo):map(_.prop "tag")
+---@return Result # Result<GitHubRef[]>
+function M.fetch_all_tags(repo)
+    local path = ("repos/%s/git/matching-refs/tags"):format(repo)
+    return gh_api_call(path)
 end
 
 ---@async
