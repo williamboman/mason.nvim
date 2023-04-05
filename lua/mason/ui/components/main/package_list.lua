@@ -2,6 +2,7 @@ local Ui = require "mason-core.ui"
 local _ = require "mason-core.functional"
 local p = require "mason.ui.palette"
 local settings = require "mason.settings"
+local Pkg = require "mason-core.package"
 
 local JsonSchema = require "mason.ui.components.json-schema"
 
@@ -46,6 +47,16 @@ local function ExecutablesTable(executables)
     return rows
 end
 
+local function table_contains(table, element)
+    for _, value in pairs(table) do
+        if value == element then
+            return true
+        end
+    end
+
+    return false
+end
+
 ---@param state InstallerUiState
 ---@param pkg Package
 ---@param is_installed boolean
@@ -71,10 +82,10 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
                     p.muted "homepage",
                     pkg.spec.homepage and p.highlight(pkg.spec.homepage) or p.muted "-",
                 },
-                    pkg:get_aliases() ~= nil and {
+                table_contains(pkg.spec.categories, Pkg.Cat.LSP) and {
                     p.muted "aliases",
                     (#pkg:get_aliases() > 0 and p.highlight(table.concat(pkg:get_aliases(), ", "))) or p.muted "-",
-                 },
+                },
                 {
                     p.muted "languages",
                     #pkg.spec.languages > 0 and p.Bold(table.concat(pkg.spec.languages, ", ")) or p.muted "-",

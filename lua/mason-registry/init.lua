@@ -209,7 +209,7 @@ end
 
 ---@param name string
 function M.get_package_aliases(name)
-    return aliases[name]
+    return aliases[name] or {}
 end
 
 return M
