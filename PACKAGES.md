@@ -272,6 +272,7 @@
 - [tflint](#tflint)
 - [twigcs](#twigcs)
 - [typescript-language-server](#typescript-language-server)
+- [typst-lsp](#typst-lsp)
 - [unocss-language-server](#unocss-language-server)
 - [usort](#usort)
 - [vacuum](#vacuum)
@@ -3364,6 +3365,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall typescript-language-server
+```
+# typst-lsp
+
+> A brand-new language server for Typst.
+
+Homepage: [https://github.com/nvarner/typst-lsp](https://github.com/nvarner/typst-lsp)  
+Languages: `Typst`  
+Categories: `LSP`  
+
+```
+:MasonInstall typst-lsp
 ```
 # unocss-language-server
 
