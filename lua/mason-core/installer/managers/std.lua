@@ -233,7 +233,7 @@ function M.clone(git_url, opts)
         })
         if opts.rev then
             try(ctx.spawn.git { "fetch", "--depth", "1", "origin", opts.rev })
-            try(ctx.spawn.git { "checkout", "FETCH_HEAD" })
+            try(ctx.spawn.git { "checkout", "--quiet", "FETCH_HEAD" })
         end
     end)
 end
