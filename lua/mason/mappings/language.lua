@@ -133,6 +133,7 @@ return {
   toml = { "taplo" },
   twig = { "curlylint", "twigcs" },
   typescript = { "chrome-debug-adapter", "deno", "eslint-lsp", "eslint_d", "firefox-debug-adapter", "glint", "js-debug-adapter", "node-debug2-adapter", "prettier", "prettierd", "rome", "rustywind", "semgrep", "typescript-language-server", "vtsls", "xo" },
+  typst = { "typst-lsp" },
   v = { "vls" },
   vala = { "vala-language-server" },
   veryl = { "veryl-ls" },
