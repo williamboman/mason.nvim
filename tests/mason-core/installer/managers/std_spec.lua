@@ -145,6 +145,6 @@ describe("std clone", function()
         assert
             .spy(ctx.spawn.git)
             .was_called_with { "fetch", "--depth", "1", "origin", "e1fd03b1856cb5ad8425f49e18353dc524b02f91" }
-        assert.spy(ctx.spawn.git).was_called_with { "checkout", "FETCH_HEAD" }
+        assert.spy(ctx.spawn.git).was_called_with { "checkout", "--quiet", "FETCH_HEAD" }
     end)
 end)
