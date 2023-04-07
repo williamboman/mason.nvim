@@ -134,15 +134,17 @@ function GitHubRegistrySource:install()
             log.trace("Resolved latest registry version", self, version)
         end
 
-        local zip_buffer = try(
-            fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "registry.json.zip")):map_err(
-                _.always "Failed to download registry archive."
-            )
-        )
+        local zip_file = path.concat { self.root_dir, "registry.json.zip" }
+        try(fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "registry.json.zip"), {
+            out_file = zip_file,
+        }):map_err(_.always "Failed to download registry archive."))
+        local zip_buffer = fs.async.read_file(zip_file)
         local registry_contents = try(
             Result.pcall(zzlib.unzip, zip_buffer, "registry.json")
+                :on_failure(_.partial(log.error, "Failed to unpack registry archive."))
                 :map_err(_.always "Failed to unpack registry archive.")
         )
+        pcall(fs.async.unlink, zip_file)
 
         local checksums = try(
             fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "checksums.txt")):map_err(
