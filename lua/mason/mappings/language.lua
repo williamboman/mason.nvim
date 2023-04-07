@@ -91,6 +91,7 @@ return {
   nix = { "nil", "rnix-lsp" },
   nunjucks = { "curlylint", "djlint" },
   ocaml = { "ocaml-lsp", "ocamlformat" },
+  odin = { "ols" },
   onescript = { "bsl-language-server" },
   openapi = { "vacuum" },
   opencl = { "opencl-language-server" },

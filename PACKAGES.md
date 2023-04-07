@@ -178,6 +178,7 @@
 - [nxls](#nxls)
 - [ocaml-lsp](#ocaml-lsp)
 - [ocamlformat](#ocamlformat)
+- [ols](#ols)
 - [omnisharp](#omnisharp)
 - [omnisharp-mono](#omnisharp-mono)
 - [opencl-language-server](#opencl-language-server)
@@ -2310,6 +2311,17 @@ Categories: `Formatter`
 
 ```
 :MasonInstall ocamlformat
+```
+# ols
+
+> Language server for Odin. This project is still in early development.
+
+Homepage: [https://github.com/DanielGavin/ols](https://github.com/DanielGavin/ols)  
+Languages: `Odin`  
+Categories: `LSP`  
+
+```
+:MasonInstall ols
 ```
 # omnisharp
 
