@@ -258,6 +258,7 @@
 - [sqls](#sqls)
 - [standardrb](#standardrb)
 - [staticcheck](#staticcheck)
+- [stylelint](#stylelint)
 - [stylelint-lsp](#stylelint-lsp)
 - [stylua](#stylua)
 - [svelte-language-server](#svelte-language-server)
@@ -271,6 +272,7 @@
 - [texlab](#texlab)
 - [textlint](#textlint)
 - [tflint](#tflint)
+- [tree-sitter-cli](#tree-sitter-cli)
 - [twigcs](#twigcs)
 - [typescript-language-server](#typescript-language-server)
 - [typst-lsp](#typst-lsp)
@@ -3211,6 +3213,17 @@ Categories: `Linter`
 ```
 :MasonInstall staticcheck
 ```
+# stylelint
+
+> A mighty CSS linter that helps you avoid errors and enforce conventions.
+
+Homepage: [https://stylelint.io](https://stylelint.io)  
+Languages: `CSS` `Sass` `SCSS` `LESS`  
+Categories: `Linter`  
+
+```
+:MasonInstall stylelint
+```
 # stylelint-lsp
 
 > A stylelint Language Server
@@ -3354,6 +3367,19 @@ Categories: `LSP` `Linter`
 
 ```
 :MasonInstall tflint
+```
+# tree-sitter-cli
+
+> The Tree-sitter CLI allows you to develop, test, and use Tree-sitter grammars from the command line. It works on
+MacOS, Linux, and Windows.
+
+
+Homepage: [https://github.com/tree-sitter/tree-sitter/blob/master/cli/README.md](https://github.com/tree-sitter/tree-sitter/blob/master/cli/README.md)  
+Languages:   
+Categories: `Compiler`  
+
+```
+:MasonInstall tree-sitter-cli
 ```
 # twigcs
 
