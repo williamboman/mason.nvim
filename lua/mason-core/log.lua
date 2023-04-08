@@ -1,6 +1,5 @@
 local _ = require "mason-core.functional"
 local path = require "mason-core.path"
-local platform = require "mason-core.platform"
 local settings = require "mason.settings"
 
 local config = {
@@ -9,7 +8,7 @@ local config = {
 
     -- Should print the output to neovim while running
     -- values: 'sync','async',false
-    use_console = platform.is_headless,
+    use_console = vim.env.MASON_VERBOSE_LOGS == "1",
 
     -- Should highlighting be used in console (using echohl)
     highlights = true,
