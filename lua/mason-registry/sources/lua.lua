@@ -1,3 +1,5 @@
+local log = require "mason-core.log"
+
 ---@class LuaRegistrySourceSpec
 ---@field id string
 ---@field mod string
@@ -20,7 +22,12 @@ end
 function LuaRegistrySource:get_package(pkg_name)
     local index = require(self.spec.mod)
     if index[pkg_name] then
-        return require(index[pkg_name])
+        local ok, mod = pcall(require, index[pkg_name])
+        if ok then
+            return mod
+        else
+            log.fmt_warn("Unable to load %s from %s: %s", pkg_name, self, mod)
+        end
     end
 end
 
