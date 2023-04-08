@@ -1,4 +1,3 @@
-local a = require "mason-core.async"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
 local spawn = require "mason-core.spawn"
@@ -64,5 +63,29 @@ describe("powershell manager", function()
             "-Command",
             [[ $ErrorActionPreference = "Stop";  $ProgressPreference = 'SilentlyContinue';  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; echo 'Is this bash?']],
         })
+    end)
+
+    it("should close stdin", function()
+        local stdin = {
+            close = spy.new(),
+        }
+        stub(
+            spawn,
+            "pwsh",
+            ---@param args SpawnArgs
+            function(args)
+                args.on_spawn(mock.new(), {
+                    stdin,
+                }, 1)
+            end
+        )
+        stub(vim.fn, "executable")
+        vim.fn.executable.on_call_with("pwsh").returns(1)
+
+        powershell().command "Powershell-Command"
+
+        assert.spy(spawn.pwsh).was_called(1)
+        assert.spy(stdin.close).was_called(1)
+        assert.spy(stdin.close).was_called_with(match.is_ref(stdin))
     end)
 end)
