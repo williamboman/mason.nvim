@@ -34,6 +34,10 @@ function M.command(command, opts, custom_spawn)
         "-Command",
         PWSHOPT.error_action_preference .. PWSHOPT.progress_preference .. PWSHOPT.security_protocol .. command,
         env_raw = process.graft_env(opts.env or {}, { "PSMODULEPATH" }),
+        on_spawn = function(_, stdio)
+            local stdin = stdio[1]
+            stdin:close()
+        end,
     }, opts))
 end
 
