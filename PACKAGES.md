@@ -2204,7 +2204,7 @@ Categories: `Linter`
 ```
 # neocmakelsp
 
-> CMake LSP implementation based on Tower and Tree-sitter
+> CMake LSP implementation based on Tower and Tree-sitter.
 
 Homepage: [https://github.com/Decodetalkers/neocmakelsp](https://github.com/Decodetalkers/neocmakelsp)  
 Languages: `CMake`  
@@ -2237,8 +2237,9 @@ Categories: `LSP`
 ```
 # nickel-lang-lsp
 
-> The Nickel Language Server (NLS) is a language server for the Nickel programming language. NLS offers error
-messages, type hints, and auto-completion right in your favorite LSP-enabled editor.
+> The Nickel Language Server (NLS) is a language server for the Nickel programming language. NLS offers error messages,
+type hints, and auto-completion right in your favorite LSP-enabled editor.
+
 
 Homepage: [https://nickel-lang.org/](https://nickel-lang.org/)  
 Languages: `Nickel`  
@@ -2249,7 +2250,7 @@ Categories: `LSP`
 ```
 # nil
 
-> Language Server for Nix
+> Language Server for Nix.
 
 Homepage: [https://github.com/oxalica/nil](https://github.com/oxalica/nil)  
 Languages: `Nix`  
@@ -2260,7 +2261,7 @@ Categories: `LSP`
 ```
 # nimlsp
 
-> Language Server Protocol implementation for Nim
+> Language Server Protocol implementation for Nim.
 
 Homepage: [https://github.com/PMunch/nimlsp](https://github.com/PMunch/nimlsp)  
 Languages: `Nim`  
@@ -2293,7 +2294,7 @@ Categories: `LSP`
 ```
 # ocaml-lsp
 
-> OCaml Language Server Protocol implementation
+> OCaml Language Server Protocol implementation.
 
 Homepage: [https://github.com/ocaml/ocaml-lsp](https://github.com/ocaml/ocaml-lsp)  
 Languages: `OCaml`  
@@ -2306,6 +2307,7 @@ Categories: `LSP`
 
 > ocamlformat is a tool for formatting OCaml code. It automatically adjusts the layout of your code to follow the
 recommended style guidelines, making it easier to read and understand.
+
 
 Homepage: [https://github.com/ocaml-ppx/ocamlformat](https://github.com/ocaml-ppx/ocamlformat)  
 Languages: `OCaml`  
@@ -2330,6 +2332,7 @@ Categories: `LSP`
 > OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires dotnet (.NET 6.0) to be
 installed.
 
+
 Homepage: [https://github.com/OmniSharp/omnisharp-roslyn](https://github.com/OmniSharp/omnisharp-roslyn)  
 Languages: `C#`  
 Categories: `LSP`  
@@ -2339,8 +2342,9 @@ Categories: `LSP`
 ```
 # omnisharp-mono
 
-> OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires Mono to be installed on
-Linux & macOS.
+> OmniSharp language server based on Roslyn workspaces. This version of Omnisharp requires Mono to be installed on Linux
+& macOS.
+
 
 Homepage: [https://github.com/OmniSharp/omnisharp-roslyn](https://github.com/OmniSharp/omnisharp-roslyn)  
 Languages: `C#`  
@@ -2351,7 +2355,7 @@ Categories: `LSP`
 ```
 # opencl-language-server
 
-> Provides an OpenCL kernel diagnostics
+> Provides an OpenCL kernel diagnostics.
 
 Homepage: [https://github.com/Galarius/opencl-language-server](https://github.com/Galarius/opencl-language-server)  
 Languages: `OpenCL`  
@@ -2362,10 +2366,10 @@ Categories: `LSP`
 ```
 # openedge-language-server
 
-> OpenEdge Language Server
+> OpenEdge Language Server.
 
 Homepage: [https://github.com/vscode-abl/vscode-abl](https://github.com/vscode-abl/vscode-abl)  
-Languages: `Progress`  
+Languages: `Progress` `OpenEdge`  
 Categories: `LSP`  
 
 ```
@@ -2384,7 +2388,7 @@ Categories: `LSP`
 ```
 # perlnavigator
 
-> Perl Language Server that includes perl critic and code navigation
+> Perl Language Server that includes perl critic and code navigation.
 
 Homepage: [https://github.com/bscan/PerlNavigator](https://github.com/bscan/PerlNavigator)  
 Languages: `Perl`  
@@ -2395,9 +2399,10 @@ Categories: `LSP`
 ```
 # php-cs-fixer
 
-> The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards; whether you want to
-follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the
-Symfony one. You can also define your (team's) style through configuration.')
+> The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards; whether you want to follow PHP
+coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the Symfony one. You can
+also define your (team's) style through configuration.
+
 
 Homepage: [https://github.com/PHP-CS-Fixer/PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)  
 Languages: `PHP`  
@@ -2408,7 +2413,7 @@ Categories: `Formatter`
 ```
 # php-debug-adapter
 
-> PHP Debug Adapter 🐞⛔
+> PHP Debug Adapter 🐞⛔.
 
 Homepage: [https://github.com/xdebug/vscode-php-debug](https://github.com/xdebug/vscode-php-debug)  
 Languages: `PHP`  
@@ -2419,8 +2424,9 @@ Categories: `DAP`
 ```
 # phpactor
 
-> Phpactor is an intelligent Completion and Refactoring tool for PHP which is available over it’s own RPC protocol
-and as a Language Server.
+> Phpactor is an intelligent Completion and Refactoring tool for PHP which is available over it’s own RPC protocol and
+as a Language Server.
+
 
 Homepage: [https://phpactor.readthedocs.io/en/master/](https://phpactor.readthedocs.io/en/master/)  
 Languages: `PHP`  
@@ -2453,8 +2459,9 @@ Categories: `Linter`
 ```
 # phpmd
 
-> PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD.
-PHPMD can be seen as an user friendly frontend application for the raw metrics stream measured by PHP Depend.
+> PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD. PHPMD can
+be seen as an user friendly frontend application for the raw metrics stream measured by PHP Depend.
+
 
 Homepage: [https://github.com/phpmd/phpmd](https://github.com/phpmd/phpmd)  
 Languages: `PHP`  
@@ -2478,7 +2485,7 @@ Categories: `Linter`
 
 > Laravel Pint is an opinionated PHP code style fixer for minimalists.
 
-Homepage: [https://laravel.com/docs/9.x/pint](https://laravel.com/docs/9.x/pint)  
+Homepage: [https://laravel.com/docs/pint](https://laravel.com/docs/pint)  
 Languages: `PHP`  
 Categories: `Formatter`  
 
@@ -2487,7 +2494,7 @@ Categories: `Formatter`
 ```
 # powershell-editor-services
 
-> A common platform for PowerShell development support in any editor or application!
+> A common platform for PowerShell development support in any editor or application.
 
 Homepage: [https://github.com/PowerShell/PowerShellEditorServices](https://github.com/PowerShell/PowerShellEditorServices)  
 Languages: `PowerShell`  
@@ -2498,10 +2505,10 @@ Categories: `LSP`
 ```
 # prettier
 
-> Prettier is an opinionated code formatter
+> Prettier is an opinionated code formatter.
 
 Homepage: [https://prettier.io](https://prettier.io)  
-Languages: `JavaScript` `TypeScript` `Flow` `JSX` `JSON` `CSS` `SCSS` `LESS` `HTML` `Vue` `Angular` `GraphQL` `Markdown` `YAML`  
+Languages: `Angular` `CSS` `Flow` `GraphQL` `HTML` `JSON` `JSX` `JavaScript` `LESS` `Markdown` `SCSS` `TypeScript` `Vue` `YAML`  
 Categories: `Formatter`  
 
 ```
@@ -2509,10 +2516,10 @@ Categories: `Formatter`
 ```
 # prettierd
 
-> Prettier, as a daemon, for ludicrous formatting speed
+> Prettier, as a daemon, for ludicrous formatting speed.
 
 Homepage: [https://github.com/fsouza/prettierd](https://github.com/fsouza/prettierd)  
-Languages: `JavaScript` `TypeScript` `Flow` `JSX` `JSON` `CSS` `SCSS` `LESS` `HTML` `Vue` `Angular` `GraphQL` `Markdown` `YAML`  
+Languages: `Angular` `CSS` `Flow` `GraphQL` `HTML` `JSON` `JSX` `JavaScript` `LESS` `Markdown` `SCSS` `TypeScript` `Vue` `YAML`  
 Categories: `Formatter`  
 
 ```
@@ -2520,8 +2527,9 @@ Categories: `Formatter`
 ```
 # prisma-language-server
 
-> Any editor that is compatible with the Language Server Protocol can create clients that can use the features
-provided by this language server.
+> Any editor that is compatible with the Language Server Protocol can create clients that can use the features provided
+by this language server.
+
 
 Homepage: [https://github.com/prisma/language-tools](https://github.com/prisma/language-tools)  
 Languages: `Prisma`  
@@ -2532,8 +2540,9 @@ Categories: `LSP`
 ```
 # proselint
 
-> proselint is a linter for English prose. It places the world's greatest writers and editors by your side, where
-they whisper suggestions on how to improve your prose.
+> proselint is a linter for English prose. It places the world's greatest writers and editors by your side, where they
+whisper suggestions on how to improve your prose.
+
 
 Homepage: [https://github.com/amperser/proselint](https://github.com/amperser/proselint)  
 Languages: `Text` `Markdown`  
