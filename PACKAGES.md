@@ -2553,7 +2553,7 @@ Categories: `Linter`
 ```
 # prosemd-lsp
 
-> An experimental proofreading and linting language server for markdown files ✍️
+> An experimental proofreading and linting language server for markdown files.
 
 Homepage: [https://github.com/kitten/prosemd-lsp](https://github.com/kitten/prosemd-lsp)  
 Languages: `Markdown`  
@@ -2564,7 +2564,7 @@ Categories: `LSP`
 ```
 # protolint
 
-> protolint is the pluggable linting/fixing utility for Protocol Buffer files (proto2+proto3)
+> protolint is the pluggable linting/fixing utility for Protocol Buffer files (proto2+proto3).
 
 Homepage: [https://github.com/yoheimuta/protolint](https://github.com/yoheimuta/protolint)  
 Languages: `Protobuf`  
@@ -2575,7 +2575,7 @@ Categories: `Linter`
 ```
 # psalm
 
-> A static analysis tool for finding errors in PHP applications
+> A static analysis tool for finding errors in PHP applications.
 
 Homepage: [https://psalm.dev/](https://psalm.dev/)  
 Languages: `PHP`  
@@ -2586,7 +2586,7 @@ Categories: `LSP`
 ```
 # puppet-editor-services
 
-> Puppet Language Server for editors
+> Puppet Language Server for editors.
 
 Homepage: [https://github.com/puppetlabs/puppet-editor-services](https://github.com/puppetlabs/puppet-editor-services)  
 Languages: `Puppet`  
@@ -2597,9 +2597,9 @@ Categories: `LSP` `DAP`
 ```
 # purescript-language-server
 
-> Node-based Language Server Protocol server for PureScript based on the PureScript IDE server (aka psc-ide / purs
-ide server). Used as the vscode plugin backend but should be compatible with other Language Server Client
-implementations.
+> Node-based Language Server Protocol server for PureScript based on the PureScript IDE server (aka psc-ide / purs ide
+server). Used as the vscode plugin backend but should be compatible with other Language Server Client implementations.
+
 
 Homepage: [https://github.com/nwolverson/purescript-language-server](https://github.com/nwolverson/purescript-language-server)  
 Languages: `PureScript`  
@@ -2610,7 +2610,7 @@ Categories: `LSP`
 ```
 # pydocstyle
 
-> pydocstyle is a static analysis tool for checking compliance with Python docstring conventions
+> pydocstyle is a static analysis tool for checking compliance with Python docstring conventions.
 
 Homepage: [https://www.pydocstyle.org/](https://www.pydocstyle.org/)  
 Languages: `Python`  
@@ -2623,8 +2623,9 @@ Categories: `Linter`
 
 > A simple program which checks Python source files for errors.
 
-Pyflakes analyzes programs and detects various errors. It works by parsing the source file, not importing it, so
-it is safe to use on modules with side effects. It’s also much faster.
+Pyflakes analyzes programs and detects various errors. It works by parsing the source file, not importing it, so it is
+safe to use on modules with side effects. It’s also much faster.
+
 
 Homepage: [https://pypi.org/project/pyflakes/](https://pypi.org/project/pyflakes/)  
 Languages: `Python`  
@@ -2646,7 +2647,7 @@ Categories: `Linter`
 ```
 # pylint
 
-> Pylint is a static code analyser for Python 2 or 3
+> Pylint is a static code analyser for Python 2 or 3.
 
 Homepage: [https://pypi.org/project/pylint/](https://pypi.org/project/pylint/)  
 Languages: `Python`  
@@ -2668,18 +2669,18 @@ Categories: `Linter`
 ```
 # pyre
 
-> Pyre is a performant type checker for Python compliant with PEP 484
+> Pyre is a performant type checker for Python compliant with PEP 484.
 
 Homepage: [https://pypi.org/project/pyre-check/](https://pypi.org/project/pyre-check/)  
 Languages: `Python`  
-Categories: `Linter` `LSP`  
+Categories: `LSP` `Linter`  
 
 ```
 :MasonInstall pyre
 ```
 # pyright
 
-> Static type checker for Python
+> Static type checker for Python.
 
 Homepage: [https://github.com/microsoft/pyright](https://github.com/microsoft/pyright)  
 Languages: `Python`  
@@ -2690,7 +2691,7 @@ Categories: `LSP`
 ```
 # python-lsp-server
 
-> Fork of the python-language-server project, maintained by the Spyder IDE team and the community
+> Fork of the python-language-server project, maintained by the Spyder IDE team and the community.
 
 Homepage: [https://github.com/python-lsp/python-lsp-server](https://github.com/python-lsp/python-lsp-server)  
 Languages: `Python`  
@@ -2703,6 +2704,7 @@ Categories: `LSP`
 
 > Over 130× faster than ESLint, quick-lint-js gives you instant feedback as you code. Find bugs in your JavaScript
 before your finger leaves the keyboard. Lint any JavaScript file with no configuration.
+
 
 Homepage: [https://quick-lint-js.com/](https://quick-lint-js.com/)  
 Languages: `JavaScript`  
@@ -2724,7 +2726,7 @@ Categories: `LSP`
 ```
 # raku-navigator
 
-> Raku Language Server that includes Raku critic and code navigation
+> Raku Language Server that includes Raku critic and code navigation.
 
 Homepage: [https://github.com/bscan/RakuNavigator](https://github.com/bscan/RakuNavigator)  
 Languages: `Raku`  
@@ -2735,7 +2737,7 @@ Categories: `LSP`
 ```
 # reason-language-server
 
-> A language server for reason, in reason
+> A language server for reason, in reason.
 
 Homepage: [https://github.com/jaredly/reason-language-server](https://github.com/jaredly/reason-language-server)  
 Languages: `Reason`  
@@ -2757,7 +2759,7 @@ Categories: `Formatter`
 ```
 # remark-language-server
 
-> A language server to lint and format markdown files with remark
+> A language server to lint and format markdown files with remark.
 
 Homepage: [https://github.com/remarkjs/remark-language-server](https://github.com/remarkjs/remark-language-server)  
 Languages: `Markdown`  
@@ -2790,7 +2792,7 @@ Categories: `LSP`
 ```
 # revive
 
-> ~6x faster, stricter, configurable, extensible, and beautiful drop-in replacement for golint
+> ~6x faster, stricter, configurable, extensible, and beautiful drop-in replacement for golint.
 
 Homepage: [https://github.com/mgechev/revive](https://github.com/mgechev/revive)  
 Languages: `Go`  
@@ -2801,7 +2803,7 @@ Categories: `Linter`
 ```
 # rnix-lsp
 
-> Language Server for Nix
+> Language Server for Nix.
 
 Homepage: [https://github.com/nix-community/rnix-lsp](https://github.com/nix-community/rnix-lsp)  
 Languages: `Nix`  
@@ -2812,7 +2814,7 @@ Categories: `LSP`
 ```
 # robotframework-lsp
 
-> Language Server Protocol implementation for Robot Framework
+> Language Server Protocol implementation for Robot Framework.
 
 Homepage: [https://github.com/robocorp/robotframework-lsp](https://github.com/robocorp/robotframework-lsp)  
 Languages: `Robot Framework`  
@@ -2826,7 +2828,7 @@ Categories: `LSP`
 > Rome is a formatter, linter, bundler, and more for JavaScript, TypeScript, JSON, HTML, Markdown, and CSS.
 
 Homepage: [https://rome.tools](https://rome.tools)  
-Languages: `TypeScript` `JavaScript`  
+Languages: `CSS` `HTML` `JSON` `JavaScript` `Markdown` `TypeScript`  
 Categories: `LSP` `Linter`  
 
 ```
@@ -2845,7 +2847,7 @@ Categories: `Linter`
 ```
 # rubocop
 
-> The Ruby Linter/Formatter that Serves and Protects
+> The Ruby Linter/Formatter that Serves and Protects.
 
 Homepage: [https://rubocop.org](https://rubocop.org)  
 Languages: `Ruby`  
@@ -2857,6 +2859,7 @@ Categories: `Formatter` `Linter`
 # ruby-lsp
 
 > This gem is an implementation of the language server protocol specification for Ruby, used to improve editor features.
+
 
 Homepage: [https://github.com/Shopify/ruby-lsp](https://github.com/Shopify/ruby-lsp)  
 Languages: `Ruby`  
@@ -2903,7 +2906,7 @@ Categories: `LSP`
 ```
 # rustfmt
 
-> A tool for formatting Rust code according to style guidelines
+> A tool for formatting Rust code according to style guidelines.
 
 Homepage: [https://github.com/rust-lang/rustfmt](https://github.com/rust-lang/rustfmt)  
 Languages: `Rust`  
@@ -2914,10 +2917,10 @@ Categories: `Formatter`
 ```
 # rustywind
 
-> CLI for organizing Tailwind CSS classes
+> CLI for organizing Tailwind CSS classes.
 
 Homepage: [https://github.com/avencera/rustywind](https://github.com/avencera/rustywind)  
-Languages: `JavaScript` `TypeScript` `JSX` `HTML` `Vue` `Angular`  
+Languages: `Angular` `HTML` `JSX` `JavaScript` `TypeScript` `Vue`  
 Categories: `Formatter`  
 
 ```
@@ -2925,7 +2928,7 @@ Categories: `Formatter`
 ```
 # salt-lsp
 
-> Salt Language Server Protocol Server
+> Salt Language Server Protocol Server.
 
 Homepage: [https://github.com/dcermak/salt-lsp](https://github.com/dcermak/salt-lsp)  
 Languages: `Salt`  
@@ -2936,7 +2939,7 @@ Categories: `LSP`
 ```
 # selene
 
-> A blazing-fast modern Lua linter written in Rust
+> A blazing-fast modern Lua linter written in Rust.
 
 Homepage: [https://kampfkarren.github.io/selene/](https://kampfkarren.github.io/selene/)  
 Languages: `Lua` `Luau`  
@@ -2947,10 +2950,12 @@ Categories: `Linter`
 ```
 # semgrep
 
-> Semgrep is a fast, open-source, static analysis engine for finding bugs, detecting vulnerabilities in third-party dependencies, and enforcing code standards.
+> Semgrep is a fast, open-source, static analysis engine for finding bugs, detecting vulnerabilities in third-party
+dependencies, and enforcing code standards.
+
 
 Homepage: [https://github.com/returntocorp/semgrep](https://github.com/returntocorp/semgrep)  
-Languages: `C#` `Go` `Java` `JavaScript` `JSON` `PHP` `Python` `Ruby` `TypeScript` `Scala`  
+Languages: `C#` `Go` `JSON` `Java` `JavaScript` `PHP` `Python` `Ruby` `Scala` `TypeScript`  
 Categories: `Linter`  
 
 ```
@@ -2958,7 +2963,7 @@ Categories: `Linter`
 ```
 # serve-d
 
-> Microsoft language server protocol implementation for D using workspace-d
+> Microsoft language server protocol implementation for D using workspace-d.
 
 Homepage: [https://github.com/Pure-D/serve-d](https://github.com/Pure-D/serve-d)  
 Languages: `D`  
@@ -2969,7 +2974,7 @@ Categories: `LSP`
 ```
 # shellcheck
 
-> ShellCheck, a static analysis tool for shell scripts
+> ShellCheck, a static analysis tool for shell scripts.
 
 Homepage: [https://www.shellcheck.net/](https://www.shellcheck.net/)  
 Languages: `Bash`  
@@ -2980,7 +2985,7 @@ Categories: `Linter`
 ```
 # shellharden
 
-> The corrective bash syntax highlighter
+> The corrective bash syntax highlighter.
 
 Homepage: [https://github.com/anordal/shellharden](https://github.com/anordal/shellharden)  
 Languages: `Bash`  
@@ -2991,7 +2996,7 @@ Categories: `Formatter` `Linter`
 ```
 # shfmt
 
-> A shell formatter (sh/bash/mksh)
+> A shell formatter (sh/bash/mksh).
 
 Homepage: [https://github.com/mvdan/sh](https://github.com/mvdan/sh)  
 Languages: `Bash` `Mksh` `Shell`  
@@ -3002,7 +3007,7 @@ Categories: `Formatter`
 ```
 # shopify-theme-check
 
-> The Ultimate Shopify Theme Linter
+> The Ultimate Shopify Theme Linter.
 
 Homepage: [https://github.com/Shopify/theme-check](https://github.com/Shopify/theme-check)  
 Languages: `Liquid`  
@@ -3035,7 +3040,7 @@ Categories: `LSP`
 ```
 # snakefmt
 
-> The uncompromising Snakemake code formatter
+> The uncompromising Snakemake code formatter.
 
 Homepage: [https://github.com/snakemake/snakefmt](https://github.com/snakemake/snakefmt)  
 Languages: `Snakemake`  
@@ -3079,7 +3084,7 @@ Categories: `LSP`
 ```
 # solhint
 
-> Solhint is a linting utility for Solidity code
+> Solhint is a linting utility for Solidity code.
 
 Homepage: [https://protofire.github.io/solhint/](https://protofire.github.io/solhint/)  
 Languages: `Solidity`  
@@ -3090,7 +3095,7 @@ Categories: `Linter`
 ```
 # solidity
 
-> Solidity, the Smart Contract Programming Language
+> Solidity, the Smart Contract Programming Language.
 
 Homepage: [https://github.com/ethereum/solidity](https://github.com/ethereum/solidity)  
 Languages: `Solidity`  
@@ -3123,8 +3128,9 @@ Categories: `LSP`
 ```
 # sourcery
 
-> Sourcery is a tool available in your IDE, GitHub, or as a CLI that suggests refactoring improvements to help
-make your code more readable and generally higher quality.
+> Sourcery is a tool available in your IDE, GitHub, or as a CLI that suggests refactoring improvements to help make your
+code more readable and generally higher quality.
+
 
 Homepage: [https://docs.sourcery.ai/](https://docs.sourcery.ai/)  
 Languages: `Python`  
@@ -3135,8 +3141,9 @@ Categories: `LSP`
 ```
 # spectral-language-server
 
-> Awesome Spectral JSON/YAML linter with OpenAPI/AsyncAPI support. Spectral is a flexible object linter with out
-of the box support for OpenAPI v2 and v3, JSON Schema, and AsyncAPI.
+> Awesome Spectral JSON/YAML linter with OpenAPI/AsyncAPI support. Spectral is a flexible object linter with out of the
+box support for OpenAPI v2 and v3, JSON Schema, and AsyncAPI.
+
 
 Homepage: [https://github.com/stoplightio/vscode-spectral](https://github.com/stoplightio/vscode-spectral)  
 Languages: `JSON` `YAML`  
@@ -3147,7 +3154,7 @@ Categories: `LSP`
 ```
 # sql-formatter
 
-> A whitespace formatter for different query languages
+> A whitespace formatter for different query languages.
 
 Homepage: [https://sql-formatter-org.github.io/sql-formatter/](https://sql-formatter-org.github.io/sql-formatter/)  
 Languages: `SQL`  
@@ -3158,7 +3165,7 @@ Categories: `Formatter`
 ```
 # sqlfluff
 
-> SQLFluff is a dialect-flexible and configurable SQL linter
+> SQLFluff is a dialect-flexible and configurable SQL linter.
 
 Homepage: [https://github.com/sqlfluff/sqlfluff](https://github.com/sqlfluff/sqlfluff)  
 Languages: `SQL`  
@@ -3180,7 +3187,7 @@ Categories: `Formatter`
 ```
 # sqlls
 
-> SQL Language Server
+> SQL Language Server.
 
 Homepage: [https://github.com/joe-re/sql-language-server](https://github.com/joe-re/sql-language-server)  
 Languages: `SQL`  
@@ -3202,7 +3209,7 @@ Categories: `LSP`
 ```
 # standardrb
 
-> Ruby Style Guide, with linter and automatic code fixer
+> Ruby Style Guide, with linter and automatic code fixer.
 
 Homepage: [https://github.com/testdouble/standard/](https://github.com/testdouble/standard/)  
 Languages: `Ruby`  
@@ -3213,7 +3220,7 @@ Categories: `Formatter` `Linter`
 ```
 # staticcheck
 
-> The advanced Go linter
+> The advanced Go linter.
 
 Homepage: [https://staticcheck.io/](https://staticcheck.io/)  
 Languages: `Go`  
@@ -3235,7 +3242,7 @@ Categories: `Linter`
 ```
 # stylelint-lsp
 
-> A stylelint Language Server
+> A stylelint Language Server.
 
 Homepage: [https://github.com/bmatcuk/stylelint-lsp](https://github.com/bmatcuk/stylelint-lsp)  
 Languages: `Stylelint`  
@@ -3246,7 +3253,7 @@ Categories: `LSP`
 ```
 # stylua
 
-> An opinionated Lua code formatter
+> An opinionated Lua code formatter.
 
 Homepage: [https://github.com/JohnnyMorganz/StyLua](https://github.com/JohnnyMorganz/StyLua)  
 Languages: `Lua` `Luau`  
@@ -3268,8 +3275,9 @@ Categories: `LSP`
 ```
 # svlangserver
 
-> A language server for systemverilog that has been tested to work with coc.nvim, VSCode, Sublime Text 4, emacs,
-and Neovim.
+> A language server for systemverilog that has been tested to work with coc.nvim, VSCode, Sublime Text 4, emacs, and
+Neovim.
+
 
 Homepage: [https://github.com/imc-trading/svlangserver](https://github.com/imc-trading/svlangserver)  
 Languages: `SystemVerilog`  
@@ -3313,7 +3321,7 @@ Categories: `LSP`
 ```
 # teal-language-server
 
-> A language server for Teal, a typed dialect of Lua
+> A language server for Teal, a typed dialect of Lua.
 
 Homepage: [https://github.com/teal-language/teal-language-server](https://github.com/teal-language/teal-language-server)  
 Languages: `Teal`  
@@ -3335,7 +3343,7 @@ Categories: `Compiler`
 ```
 # terraform-ls
 
-> Terraform Language Server
+> Terraform Language Server.
 
 Homepage: [https://github.com/hashicorp/terraform-ls](https://github.com/hashicorp/terraform-ls)  
 Languages: `Terraform`  
@@ -3346,7 +3354,7 @@ Categories: `LSP`
 ```
 # texlab
 
-> An implementation of the Language Server Protocol for LaTeX
+> An implementation of the Language Server Protocol for LaTeX.
 
 Homepage: [https://github.com/latex-lsp/texlab](https://github.com/latex-lsp/texlab)  
 Languages: `LaTeX`  
@@ -3368,7 +3376,7 @@ Categories: `Linter`
 ```
 # tflint
 
-> A Pluggable Terraform Linter
+> A Pluggable Terraform Linter.
 
 Homepage: [https://github.com/terraform-linters/tflint](https://github.com/terraform-linters/tflint)  
 Languages: `Terraform`  
@@ -3392,8 +3400,9 @@ Categories: `Compiler`
 ```
 # twigcs
 
-> The missing checkstyle for twig! Twigcs aims to be what phpcs is to php. It checks your codebase for violations
-on coding standards.
+> The missing checkstyle for twig! Twigcs aims to be what phpcs is to php. It checks your codebase for violations on
+coding standards.
+
 
 Homepage: [https://github.com/friendsoftwig/twigcs](https://github.com/friendsoftwig/twigcs)  
 Languages: `Twig`  
@@ -3404,7 +3413,7 @@ Categories: `Linter`
 ```
 # typescript-language-server
 
-> TypeScript & JavaScript Language Server
+> TypeScript & JavaScript Language Server.
 
 Homepage: [https://github.com/typescript-language-server/typescript-language-server](https://github.com/typescript-language-server/typescript-language-server)  
 Languages: `TypeScript` `JavaScript`  
@@ -3448,9 +3457,10 @@ Categories: `Formatter`
 ```
 # vacuum
 
-> vacuum is the worlds fastest OpenAPI 3, OpenAPI 2 / Swagger linter and quality analysis tool.
-Built in go, it tears through API specs faster than you can think.
-vacuum is compatible with Spectral rulesets and generates compatible reports.
+> vacuum is the worlds fastest OpenAPI 3, OpenAPI 2 / Swagger linter and quality analysis tool. Built in go, it tears
+through API specs faster than you can think. vacuum is compatible with Spectral rulesets and generates compatible
+reports.
+
 
 Homepage: [https://github.com/daveshanley/vacuum](https://github.com/daveshanley/vacuum)  
 Languages: `OpenAPI`  
@@ -3461,7 +3471,7 @@ Categories: `Linter`
 ```
 # vala-language-server
 
-> Code Intelligence for Vala & Genie
+> Code Intelligence for Vala & Genie.
 
 Homepage: [https://github.com/vala-lang/vala-language-server](https://github.com/vala-lang/vala-language-server)  
 Languages: `Vala`  
@@ -3494,7 +3504,7 @@ Categories: `LSP` `Linter` `Formatter`
 ```
 # veryl-ls
 
-> Veryl language server
+> Veryl language server.
 
 Homepage: [https://github.com/dalance/veryl](https://github.com/dalance/veryl)  
 Languages: `Veryl`  
@@ -3538,7 +3548,7 @@ Categories: `Linter`
 ```
 # visualforce-language-server
 
-> Visualforce language server
+> Visualforce language server.
 
 Homepage: [https://github.com/forcedotcom/salesforcedx-vscode](https://github.com/forcedotcom/salesforcedx-vscode)  
 Languages: `Visualforce`  
@@ -3549,7 +3559,7 @@ Categories: `LSP`
 ```
 # vls
 
-> V language server
+> V language server.
 
 Homepage: [https://github.com/vlang/vls](https://github.com/vlang/vls)  
 Languages: `V`  
@@ -3563,7 +3573,7 @@ Categories: `LSP`
 > LSP wrapper around the TypeScript extension bundled with VSCode.
 
 Homepage: [https://github.com/yioneko/vtsls](https://github.com/yioneko/vtsls)  
-Languages: `TypeScript` `JavaScript`  
+Languages: `JavaScript` `TypeScript`  
 Categories: `LSP`  
 
 ```
@@ -3571,7 +3581,7 @@ Categories: `LSP`
 ```
 # vue-language-server
 
-> ⚡ Explore high-performance tooling for Vue
+> ⚡ Explore high-performance tooling for Vue.
 
 Homepage: [https://github.com/johnsoncodehk/volar](https://github.com/johnsoncodehk/volar)  
 Languages: `Vue`  
@@ -3582,12 +3592,13 @@ Categories: `LSP`
 ```
 # vulture
 
-> Vulture finds unused code in Python programs. This is useful for cleaning up and finding errors in large code
-bases. If you run Vulture on both your library and test suite you can find untested code.
+> Vulture finds unused code in Python programs. This is useful for cleaning up and finding errors in large code bases.
+If you run Vulture on both your library and test suite you can find untested code.
 
-Due to Python's dynamic nature, static code analyzers like Vulture are likely to miss some dead code. Also, code
-that is only called implicitly may be reported as unused. Nonetheless, Vulture can be a very helpful tool for
-higher code quality.
+Due to Python's dynamic nature, static code analyzers like Vulture are likely to miss some dead code. Also, code that
+is only called implicitly may be reported as unused. Nonetheless, Vulture can be a very helpful tool for higher code
+quality.
+
 
 Homepage: [https://github.com/jendrikseipp/vulture](https://github.com/jendrikseipp/vulture)  
 Languages: `Python`  
@@ -3598,7 +3609,7 @@ Categories: `Linter`
 ```
 # wgsl-analyzer
 
-> A language server implementation for the WGSL shading language
+> A language server implementation for the WGSL shading language.
 
 Homepage: [https://github.com/wgsl-analyzer/wgsl-analyzer](https://github.com/wgsl-analyzer/wgsl-analyzer)  
 Languages: `WGSL`  
@@ -3611,6 +3622,7 @@ Categories: `LSP`
 
 > Naive linter for English prose for developers who can't write good and wanna learn to do other stuff good too.
 
+
 Homepage: [https://github.com/btford/write-good](https://github.com/btford/write-good)  
 Languages: `Markdown`  
 Categories: `Linter`  
@@ -3620,10 +3632,10 @@ Categories: `Linter`
 ```
 # xmlformatter
 
-> xmlformatter is an Open Source Python package that provides formatting of XML documents. xmlformatter differs
-from others formatters by handling whitespaces by a distinct set of formatting rules - formatting element
-content by an object style and mixed content by a text style. You may find xmlformatter useful for corrections
-and presentations.
+> xmlformatter is an Open Source Python package that provides formatting of XML documents. xmlformatter differs from
+others formatters by handling whitespaces by a distinct set of formatting rules - formatting element content by an
+object style and mixed content by a text style. You may find xmlformatter useful for corrections and presentations.
+
 
 Homepage: [https://github.com/pamoller/xmlformatter](https://github.com/pamoller/xmlformatter)  
 Languages: `XML`  
@@ -3634,7 +3646,7 @@ Categories: `Formatter`
 ```
 # xo
 
-> JavaScript/TypeScript linter (ESLint wrapper) with great defaults
+> JavaScript/TypeScript linter (ESLint wrapper) with great defaults.
 
 Homepage: [https://github.com/xojs/xo](https://github.com/xojs/xo)  
 Languages: `JavaScript` `TypeScript`  
@@ -3645,7 +3657,7 @@ Categories: `Linter`
 ```
 # yaml-language-server
 
-> Language Server for YAML Files
+> Language Server for YAML Files.
 
 Homepage: [https://github.com/redhat-developer/yaml-language-server](https://github.com/redhat-developer/yaml-language-server)  
 Languages: `YAML`  
@@ -3667,8 +3679,9 @@ Categories: `Formatter`
 ```
 # yamllint
 
-> Linter for YAML files. yamllint does not only check for syntax validity, but for weirdnesses like key repetition
-and cosmetic problems such as lines length, trailing spaces, indentation, etc.
+> Linter for YAML files. yamllint does not only check for syntax validity, but for weirdnesses like key repetition and
+cosmetic problems such as lines length, trailing spaces, indentation, etc.
+
 
 Homepage: [https://github.com/adrienverge/yamllint](https://github.com/adrienverge/yamllint)  
 Languages: `YAML`  
@@ -3679,7 +3692,7 @@ Categories: `Linter`
 ```
 # yapf
 
-> YAPF, Yet Another Python Formatter
+> YAPF, Yet Another Python Formatter.
 
 Homepage: [https://pypi.org/project/yapf/](https://pypi.org/project/yapf/)  
 Languages: `Python`  
@@ -3690,10 +3703,10 @@ Categories: `Formatter`
 ```
 # yls-yara
 
-> Language Server for YARA Files
+> Language server for the YARA language.
 
 Homepage: [https://avast.github.io/yls/](https://avast.github.io/yls/)  
-Languages: `Yara`  
+Languages: `YARA`  
 Categories: `LSP`  
 
 ```
@@ -3701,7 +3714,7 @@ Categories: `LSP`
 ```
 # zk
 
-> A plain text note-taking assistant
+> A plain text note-taking assistant.
 
 Homepage: [https://github.com/mickael-menu/zk](https://github.com/mickael-menu/zk)  
 Languages: `Markdown`  
@@ -3712,7 +3725,7 @@ Categories: `LSP`
 ```
 # zls
 
-> Zig LSP implementation + Zig Language Server
+> Zig LSP implementation + Zig Language Server.
 
 Homepage: [https://github.com/zigtools/zls](https://github.com/zigtools/zls)  
 Languages: `Zig`  
