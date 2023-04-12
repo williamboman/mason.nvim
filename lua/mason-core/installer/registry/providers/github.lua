@@ -68,27 +68,51 @@ local release = {
             ---@type { out_file: string, download_url: string }[]
             local downloads = {}
 
-            for __, file in ipairs(type(asset.file) == "string" and { asset.file } or asset.file) do
-                local asset_file_components = _.split(":", file)
-                local source_file = try(expr.interpolate(_.head(asset_file_components), expr_ctx))
-                local out_file = try(expr.interpolate(_.last(asset_file_components), expr_ctx))
+            local interpolated_asset = try(expr.tbl_interpolate(asset, expr_ctx))
 
-                if _.matches("/$", out_file) then
-                    -- out_file is a dir expression (e.g. "libexec/")
-                    out_file = out_file .. source_file
-                end
+            ---@param file string
+            ---@return Result # Result<{ source_file: string, out_file: string }>
+            local function parse_asset_file(file)
+                return Result.try(function(try)
+                    local asset_file_components = _.split(":", file)
+                    local source_file = try(expr.interpolate(_.head(asset_file_components), expr_ctx))
+                    local out_file = try(expr.interpolate(_.last(asset_file_components), expr_ctx))
 
-                table.insert(downloads, {
-                    out_file = out_file,
+                    if _.matches("/$", out_file) then
+                        -- out_file is a dir expression (e.g. "libexec/")
+                        out_file = out_file .. source_file
+                    end
+
+                    return {
+                        source_file = source_file,
+                        out_file = out_file,
+                    }
+                end)
+            end
+
+            local get_downloads = _.map(function(asset_file)
+                return {
+                    out_file = asset_file.out_file,
                     download_url = settings.current.github.download_url_template:format(
                         ("%s/%s"):format(purl.namespace, purl.name),
                         purl.version,
-                        source_file
+                        asset_file.source_file
                     ),
-                })
-            end
+                }
+            end)
 
-            local interpolated_asset = try(expr.tbl_interpolate(asset, expr_ctx))
+            if type(asset.file) == "string" then
+                local parsed_asset_file = try(parse_asset_file(asset.file))
+                downloads = get_downloads { parsed_asset_file }
+                interpolated_asset.file = parsed_asset_file.out_file
+            else
+                local parsed_asset_files = {}
+                for _, file in ipairs(asset.file) do
+                    table.insert(parsed_asset_files, try(parse_asset_file(file)))
+                end
+                downloads = get_downloads(parsed_asset_files)
+                interpolated_asset.file = _.map(_.prop "out_file", parsed_asset_files)
+            end
 
             ---@class ParsedGitHubReleaseSource : ParsedPackageSource
             local parsed_source = {
