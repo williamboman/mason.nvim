@@ -207,6 +207,7 @@
 - [pyflakes](#pyflakes)
 - [pylama](#pylama)
 - [pylint](#pylint)
+- [pylyzer](#pylyzer)
 - [pyproject-flake8](#pyproject-flake8)
 - [pyre](#pyre)
 - [pyright](#pyright)
@@ -2655,6 +2656,17 @@ Categories: `Linter`
 
 ```
 :MasonInstall pylint
+```
+# pylyzer
+
+> A fast static code analyzer & language server for Python.
+
+Homepage: [https://github.com/mtshiba/pylyzer](https://github.com/mtshiba/pylyzer)  
+Languages: `Python`  
+Categories: `LSP`  
+
+```
+:MasonInstall pylyzer
 ```
 # pyproject-flake8
 
