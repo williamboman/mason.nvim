@@ -75,7 +75,7 @@ describe("github provider :: parsing", function()
             Result.success {
                 repo = "namespace/name",
                 asset = {
-                    file = "file-linux-amd64-2023-03-09.tar.gz:out-dir/",
+                    file = "out-dir/file-linux-amd64-2023-03-09.tar.gz",
                 },
                 downloads = {
                     {
@@ -87,6 +87,68 @@ describe("github provider :: parsing", function()
             github.parse({
                 asset = {
                     file = "file-linux-amd64-{{version}}.tar.gz:out-dir/",
+                },
+            }, purl(), { target = "linux_x64" })
+        )
+    end)
+
+    it("should expand returned asset.file to point to out_file", function()
+        assert.same(
+            Result.success {
+                repo = "namespace/name",
+                asset = {
+                    file = {
+                        "out-dir/linux-amd64-2023-03-09.tar.gz",
+                        "LICENSE.txt",
+                        "README.md",
+                    },
+                },
+                downloads = {
+                    {
+                        out_file = "out-dir/linux-amd64-2023-03-09.tar.gz",
+                        download_url = "https://github.com/namespace/name/releases/download/2023-03-09/linux-amd64-2023-03-09.tar.gz",
+                    },
+                    {
+                        out_file = "LICENSE.txt",
+                        download_url = "https://github.com/namespace/name/releases/download/2023-03-09/license",
+                    },
+                    {
+                        out_file = "README.md",
+                        download_url = "https://github.com/namespace/name/releases/download/2023-03-09/README.md",
+                    },
+                },
+            },
+            github.parse({
+                asset = {
+                    file = {
+                        "linux-amd64-{{version}}.tar.gz:out-dir/",
+                        "license:LICENSE.txt",
+                        "README.md",
+                    },
+                },
+            }, purl(), { target = "linux_x64" })
+        )
+    end)
+
+    it("should interpolate asset table", function()
+        assert.same(
+            Result.success {
+                repo = "namespace/name",
+                asset = {
+                    file = "linux-amd64-2023-03-09.tar.gz",
+                    bin = "linux-amd64-2023-03-09",
+                },
+                downloads = {
+                    {
+                        out_file = "linux-amd64-2023-03-09.tar.gz",
+                        download_url = "https://github.com/namespace/name/releases/download/2023-03-09/linux-amd64-2023-03-09.tar.gz",
+                    },
+                },
+            },
+            github.parse({
+                asset = {
+                    file = "linux-amd64-{{version}}.tar.gz",
+                    bin = "linux-amd64-{{version}}",
                 },
             }, purl(), { target = "linux_x64" })
         )
