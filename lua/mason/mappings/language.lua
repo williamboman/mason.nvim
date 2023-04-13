@@ -62,6 +62,7 @@ return {
   handlebars = { "glint" },
   haskell = { "fourmolu", "haskell-language-server" },
   haxe = { "haxe-language-server" },
+  helm = { "helm-ls" },
   hoon = { "hoon-language-server" },
   html = { "erb-lint", "html-lsp", "prettier", "prettierd", "rome", "rustywind" },
   java = { "clang-format", "google-java-format", "java-debug-adapter", "java-language-server", "java-test", "jdtls", "semgrep" },

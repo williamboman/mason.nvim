@@ -128,6 +128,7 @@
 - [haml-lint](#haml-lint)
 - [haskell-language-server](#haskell-language-server)
 - [haxe-language-server](#haxe-language-server)
+- [helm-ls](#helm-ls)
 - [hoon-language-server](#hoon-language-server)
 - [html-lsp](#html-lsp)
 - [iferr](#iferr)
@@ -1744,6 +1745,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall haxe-language-server
+```
+# helm-ls
+
+> A language server that offers Helm support in early development - programmed in Go.
+
+Homepage: [https://github.com/mrjosh/helm-ls](https://github.com/mrjosh/helm-ls)  
+Languages: `Helm`  
+Categories: `LSP`  
+
+```
+:MasonInstall helm-ls
 ```
 # hoon-language-server
 
