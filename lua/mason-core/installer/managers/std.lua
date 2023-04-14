@@ -193,13 +193,32 @@ local function untar_compressed(rel_path)
     }
 end
 
+---@async
+---@param rel_path string
+---@return Result
+---@nodiscard
+local function untar_zst(rel_path)
+    return platform.when {
+        unix = function()
+            return untar(rel_path)
+        end,
+        win = function()
+            local ctx = installer.context()
+            local uncompressed_tar = rel_path:gsub("%.zst$", "")
+            ctx.spawn.zstd { "-dfo", uncompressed_tar, rel_path }
+            ctx.fs:unlink(rel_path)
+            return untar(uncompressed_tar)
+        end,
+    }
+end
+
 -- Order is important.
 local unpack_by_filename = _.cond {
     { _.matches "%.tar$", untar },
     { _.matches "%.tar%.gz$", untar },
     { _.matches "%.tar%.bz2$", untar },
     { _.matches "%.tar%.xz$", untar_compressed },
-    { _.matches "%.tar%.zst$", untar_compressed },
+    { _.matches "%.tar%.zst$", untar_zst },
     { _.matches "%.zip$", unzip },
     { _.matches "%.vsix$", unzip },
     { _.matches "%.gz$", gunzip },
