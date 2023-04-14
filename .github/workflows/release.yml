@@ -1,28 +1,29 @@
-name: ci
+name: Release
 
 on:
-    push:
-        branches:
-            - "main"
+  push:
+    branches:
+      - "main"
 permissions:
-    contents: write
-    pull-requests: write
+  contents: write
+  pull-requests: write
 
 jobs:
-    release:
-      name: release
-      runs-on: ubuntu-latest
-      steps:
-        - uses: google-github-actions/release-please-action@v3
-          id: release
-          with:
-            release-type: simple
-            package-name: mason.nvim
-        - uses: actions/checkout@v3
-        - uses: rickstaa/action-create-tag@v1
-          if: ${{ steps.release.outputs.release_created }}
-          with:
-            tag: stable
-            message: "Current stable release: ${{ steps.release.outputs.tag_name }}"
-            force_push_tag: true
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: simple
+          package-name: mason.nvim
 
+      - uses: actions/checkout@v3
+
+      - uses: rickstaa/action-create-tag@v1
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          tag: stable
+          message: "Current stable release: ${{ steps.release.outputs.tag_name }}"
+          force_push_tag: true
