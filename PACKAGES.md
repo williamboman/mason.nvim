@@ -1982,9 +1982,9 @@ Categories: `LSP`
 ```
 # julia-lsp
 
-> An implementation of the Microsoft Language Server Protocol for the Julia language.
+> Language server for Julia.
 
-Homepage: [https://github.com/julia-vscode/LanguageServer.jl](https://github.com/julia-vscode/LanguageServer.jl)  
+Homepage: [https://github.com/julia-vscode/julia-vscode](https://github.com/julia-vscode/julia-vscode)  
 Languages: `Julia`  
 Categories: `LSP`  
 
