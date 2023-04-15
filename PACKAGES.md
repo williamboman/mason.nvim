@@ -165,6 +165,7 @@
 - [markdownlint](#markdownlint)
 - [marksman](#marksman)
 - [metamath-zero-lsp](#metamath-zero-lsp)
+- [millet](#millet)
 - [misspell](#misspell)
 - [mockdebug](#mockdebug)
 - [move-analyzer](#move-analyzer)
@@ -2168,6 +2169,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall metamath-zero-lsp
+```
+# millet
+
+> A language server for Standard ML.
+
+Homepage: [https://github.com/azdavis/millet](https://github.com/azdavis/millet)  
+Languages: `Standard ML`  
+Categories: `LSP`  
+
+```
+:MasonInstall millet
 ```
 # misspell
 
