@@ -127,6 +127,7 @@ return {
   solidity = { "solang", "solang-llvm", "solhint", "solidity", "solidity-ls" },
   sphinx = { "esbonio" },
   sql = { "sql-formatter", "sqlfluff", "sqlfmt", "sqlls", "sqls" },
+  ["standard ml"] = { "millet" },
   starlark = { "bzl" },
   stylelint = { "stylelint-lsp" },
   svelte = { "svelte-language-server" },
