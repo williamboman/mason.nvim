@@ -30,7 +30,8 @@ local build = {
     ---@async
     ---@param ctx InstallContext
     ---@param source ParsedGitHubBuildSource
-    install = function(ctx, source)
+    ---@param purl Purl
+    install = function(ctx, source, purl)
         local std = require "mason-core.installer.managers.std"
         return Result.try(function(try)
             try(std.clone(source.repo, { rev = source.rev }))
@@ -44,11 +45,18 @@ local build = {
                             async_uv.shutdown(stdin)
                             async_uv.close(stdin)
                         end),
+                        env = {
+                            MASON_VERSION = purl.version,
+                        },
                     }
                 end,
                 win = function()
                     local powershell = require "mason-core.managers.powershell"
-                    return powershell.command(source.build.run, {}, ctx.spawn)
+                    return powershell.command(source.build.run, {
+                        env = {
+                            MASON_VERSION = purl.version,
+                        },
+                    }, ctx.spawn)
                 end,
             })
         end)
@@ -188,11 +196,11 @@ end
 ---@async
 ---@param ctx InstallContext
 ---@param source ParsedGitHubReleaseSource | ParsedGitHubBuildSource
-function M.install(ctx, source)
+function M.install(ctx, source, purl)
     if source.asset then
-        return release.install(ctx, source)
+        return release.install(ctx, source, purl)
     elseif source.build then
-        return build.install(ctx, source)
+        return build.install(ctx, source, purl)
     else
         return Result.failure "Unknown source type."
     end
