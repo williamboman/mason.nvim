@@ -76,7 +76,7 @@ end
 ---@alias GitHubRateLimitResponse {resources: { core: GitHubRateLimit }}
 
 ---@async
---@return Result @of GitHubRateLimitResponse
+---@return Result # Result<GitHubRateLimitResponse>
 function M.fetch_rate_limit()
     return gh_api_call "rate_limit"
 end
