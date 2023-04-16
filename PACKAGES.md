@@ -2751,7 +2751,7 @@ Categories: `LSP` `Linter`
 ```
 # r-languageserver
 
-> An implementation of the Language Server Protocol for R
+> An implementation of the Language Server Protocol for R.
 
 Homepage: [https://github.com/REditorSupport/languageserver](https://github.com/REditorSupport/languageserver)  
 Languages: `R`  
