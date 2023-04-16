@@ -9,6 +9,12 @@ local spawn = require "mason-core.spawn"
 
 local M = {}
 
+-- "report_" prefix has been deprecated, use the recommended replacements if they exist.
+local start = health.start or health.report_start
+local ok = health.ok or health.report_ok
+local warn = health.warn or health.report_warn
+local error = health.error or health.report_error
+
 ---@alias HealthCheckResult
 ---| '"success"'
 ---| '"version-mismatch"'
@@ -38,12 +44,21 @@ function HealthCheck:get_version()
 end
 
 function HealthCheck:get_health_report_level()
-    return ({
-        ["success"] = "report_ok",
-        ["parse-error"] = "report_warn",
-        ["version-mismatch"] = self.relaxed and "report_warn" or "report_error",
-        ["not-available"] = self.relaxed and "report_warn" or "report_error",
-    })[self.result]
+    if health.start then
+        return ({
+            ["success"] = "ok",
+            ["parse-error"] = "warn",
+            ["version-mismatch"] = self.relaxed and "warn" or "error",
+            ["not-available"] = self.relaxed and "warn" or "error",
+        })[self.result]
+    else
+        return ({
+            ["success"] = "report_ok",
+            ["parse-error"] = "report_warn",
+            ["version-mismatch"] = self.relaxed and "report_warn" or "report_error",
+            ["not-available"] = self.relaxed and "report_warn" or "report_error",
+        })[self.result]
+    end
 end
 
 function HealthCheck:__tostring()
@@ -123,11 +138,11 @@ local function mk_healthcheck(callback)
 end
 
 function M.check()
-    health.report_start "mason.nvim report"
+    start "mason.nvim report"
     if vim.fn.has "nvim-0.7.0" == 1 then
-        health.report_ok "neovim version >= 0.7.0"
+        ok "neovim version >= 0.7.0"
     else
-        health.report_error "neovim version < 0.7.0"
+        error "neovim version < 0.7.0"
     end
 
     local completed = 0
@@ -142,11 +157,9 @@ function M.check()
 
     for source in registry_sources.iter { include_uninstalled = true } do
         if source:is_installed() then
-            health.report_ok(("Registry `%s` is installed."):format(source:get_display_name()))
+            ok(("Registry `%s` is installed."):format(source:get_display_name()))
         else
-            health.report_error(
-                ("Registry `%s` is not installed. Run :MasonUpdate to install."):format(source:get_display_name())
-            )
+            error(("Registry `%s` is not installed. Run :MasonUpdate to install."):format(source:get_display_name()))
         end
     end
 
@@ -319,15 +332,15 @@ function M.check()
                         vim.fn.strftime("%c", reset)
                     )
                     if remaining <= 0 then
-                        health.report_error(("GitHub API rate limit exceeded. %s"):format(diagnostics))
+                        error(("GitHub API rate limit exceeded. %s"):format(diagnostics))
                     else
-                        health.report_ok(("GitHub API rate limit. %s"):format(diagnostics))
+                        ok(("GitHub API rate limit. %s"):format(diagnostics))
                     end
                 end
             )
             :on_failure(function()
                 a.scheduler()
-                health.report_warn "Failed to check GitHub API rate limit status."
+                warn "Failed to check GitHub API rate limit status."
             end)
     end)
 
