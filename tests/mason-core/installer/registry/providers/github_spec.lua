@@ -401,13 +401,19 @@ describe("github provider :: installing", function()
                 build = {
                     run = [[npm install && npm run compile]],
                 },
-            })
+            }, purl { version = "2023-03-09" })
         end)
 
         assert.is_true(result:is_success())
         assert.spy(std.clone).was_called(1)
         assert.spy(std.clone).was_called_with("namespace/name", { rev = "2023-03-09" })
         assert.spy(ctx.spawn.bash).was_called(1)
+        assert.spy(ctx.spawn.bash).was_called_with(match.tbl_containing {
+            on_spawn = match.is_function(),
+            env = match.same {
+                MASON_VERSION = "2023-03-09",
+            },
+        })
         assert.spy(uv.write).was_called(2)
         assert.spy(uv.write).was_called_with(stdin, "set -euxo pipefail;\n")
         assert.spy(uv.write).was_called_with(stdin, "npm install && npm run compile")

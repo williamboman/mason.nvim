@@ -40,7 +40,7 @@ end
 
 ---@class InstallerProvider
 ---@field parse fun(source: RegistryPackageSource, purl: Purl, opts: PackageInstallOpts): Result
----@field install async fun(ctx: InstallContext, source: ParsedPackageSource): Result
+---@field install async fun(ctx: InstallContext, source: ParsedPackageSource, purl: Purl): Result
 
 ---@class ParsedPackageSource
 
@@ -166,7 +166,7 @@ function M.compile(spec, opts)
         return function(ctx)
             return Result.try(function(try)
                 -- Run installer
-                try(parsed.provider.install(ctx, parsed.source))
+                try(parsed.provider.install(ctx, parsed.source, parsed.purl))
 
                 -- Expand & register links
                 if spec.bin then
