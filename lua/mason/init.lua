@@ -13,6 +13,8 @@ local function setup_autocmds()
     })
 end
 
+M.has_setup = false
+
 ---@param config MasonSettings?
 function M.setup(config)
     if config then
@@ -29,6 +31,7 @@ function M.setup(config)
     require "mason.api.command"
     setup_autocmds()
     require("mason-registry.sources").set_registries(settings.current.registries)
+    M.has_setup = true
 end
 
 return M
