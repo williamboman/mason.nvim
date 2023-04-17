@@ -14,6 +14,19 @@ describe("functional: relation", function()
         assert.is_false(is_42(32))
     end)
 
+    it("should check non-equality", function()
+        local tbl = {}
+        local is_not_tbl = _.not_equals(tbl)
+        local is_not_a = _.not_equals "a"
+        local is_not_42 = _.not_equals(42)
+
+        assert.is_false(is_not_tbl(tbl))
+        assert.is_false(is_not_a "a")
+        assert.is_false(is_not_42(42))
+        assert.is_true(is_not_a "b")
+        assert.is_true(is_not_42(32))
+    end)
+
     it("should check property equality", function()
         local fn_key = function() end
         local tbl = { a = "a", b = "b", number = 42, [fn_key] = "fun" }

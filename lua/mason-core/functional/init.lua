@@ -70,6 +70,7 @@ _.index_by = list.index_by
 ---@module "mason-core.functional.relation"
 local relation = lazy_require "mason-core.functional.relation"
 _.equals = relation.equals
+_.not_equals = relation.not_equals
 _.prop_eq = relation.prop_eq
 _.prop_satisfies = relation.prop_satisfies
 _.path_satisfies = relation.path_satisfies

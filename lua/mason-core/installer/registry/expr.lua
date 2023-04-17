@@ -13,17 +13,27 @@ local parse_expr = _.compose(
     _.split "|"
 )
 
+---@param predicate fun(value: string): boolean
+---@param value string
+local take_if = _.curryN(function(predicate, value)
+    return predicate(value) and value or nil
+end, 2)
+
+---@param predicate fun(value: string): boolean
+---@param value string
+local take_if_not = _.curryN(function(predicate, value)
+    return (not predicate(value)) and value or nil
+end, 2)
+
 local FILTERS = {
-    format = _.format,
-    gsub = _.gsub,
+    equals = _.equals,
+    not_equals = _.not_equals,
+    strip_prefix = _.trim_start_matches,
+    strip_suffix = _.trim_end_matches,
+    take_if = take_if,
+    take_if_not = take_if_not,
     to_lower = _.to_lower,
     to_upper = _.to_upper,
-    trim = _.trim,
-    trim_start = _.trim_start,
-    trim_end = _.trim_end,
-    strip_prefix = _.strip_prefix,
-    strip_suffix = _.strip_suffix,
-    tostring = tostring,
 }
 
 ---@generic T : table
@@ -60,7 +70,9 @@ function M.interpolate(str, ctx)
                 return filter
             end, components.filters)
 
-            return _.reduce(_.apply_to, value, filters) or ""
+            local reduced_value = _.reduce(_.apply_to, value, filters)
+
+            return reduced_value ~= nil and tostring(reduced_value) or ""
         end, str)
     end)
 end
@@ -68,7 +80,7 @@ end
 ---@generic T : table
 ---@param tbl T
 ---@param ctx table
----@return T
+---@return Result # Result<T>
 function M.tbl_interpolate(tbl, ctx)
     return Result.try(function(try)
         local interpolated = {}
