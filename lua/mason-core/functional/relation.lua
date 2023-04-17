@@ -6,6 +6,10 @@ _.equals = fun.curryN(function(expected, value)
     return value == expected
 end, 2)
 
+_.not_equals = fun.curryN(function(expected, value)
+    return value ~= expected
+end, 2)
+
 _.prop_eq = fun.curryN(function(property, value, tbl)
     return tbl[property] == value
 end, 3)
