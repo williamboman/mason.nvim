@@ -78,4 +78,12 @@ describe("mason setup", function()
             nargs = "0",
         }(user_commands["MasonLog"]))
     end)
+
+    it("should set the has_setup flag", function()
+        package.loaded["mason"] = nil
+        local mason = require "mason"
+        assert.is_false(mason.has_setup)
+        mason.setup()
+        assert.is_true(mason.has_setup)
+    end)
 end)
