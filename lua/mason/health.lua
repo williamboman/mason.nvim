@@ -142,16 +142,6 @@ local function check_core_utils()
         relaxed = platform.is.win,
     }
     check { cmd = "tar", args = { "--version" }, name = "tar" }
-    check {
-        cmd = "pwsh",
-        args = {
-            "-NoProfile",
-            "-Command",
-            [[$PSVersionTable.PSVersion, $PSVersionTable.OS, $PSVersionTable.Platform -join " "]],
-        },
-        name = "pwsh",
-        relaxed = not platform.is.win,
-    }
 
     if platform.is.unix then
         check { cmd = "bash", args = { "--version" }, name = "bash" }
@@ -159,6 +149,15 @@ local function check_core_utils()
     end
 
     if platform.is.win then
+        check {
+            cmd = "pwsh",
+            args = {
+                "-NoProfile",
+                "-Command",
+                [[$PSVersionTable.PSVersion, $PSVersionTable.OS, $PSVersionTable.Platform -join " "]],
+            },
+            name = "pwsh",
+        }
         check { cmd = "7z", args = { "--help" }, name = "7z", relaxed = true }
     end
 end
