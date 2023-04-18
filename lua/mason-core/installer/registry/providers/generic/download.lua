@@ -9,10 +9,10 @@ local M = {}
 ---@field target (Platform | Platform[])?
 ---@field files table<string, string>
 
----@class GenericSource : RegistryPackageSource
+---@class GenericDownloadSource : RegistryPackageSource
 ---@field download GenericDownload | GenericDownload[]
 
----@param source GenericSource
+---@param source GenericDownloadSource
 ---@param purl Purl
 ---@param opts PackageInstallOpts
 function M.parse(source, purl, opts)
@@ -23,7 +23,7 @@ function M.parse(source, purl, opts)
         ---@type { files: table<string, string> }
         local interpolated_download = try(expr.tbl_interpolate(download, expr_ctx))
 
-        ---@class ParsedGenericSource : ParsedPackageSource
+        ---@class ParsedGenericDownloadSource : ParsedPackageSource
         local parsed_source = {
             download = interpolated_download,
         }
@@ -33,7 +33,7 @@ end
 
 ---@async
 ---@param ctx InstallContext
----@param source ParsedGenericSource
+---@param source ParsedGenericDownloadSource
 function M.install(ctx, source)
     local std = require "mason-core.installer.managers.std"
     return Result.try(function(try)

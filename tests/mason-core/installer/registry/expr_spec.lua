@@ -162,6 +162,20 @@ describe("expr filters :: take_if{_not}", function()
                 greeting = "Hello World!",
             })
         )
+
+        assert.same(
+            Result.success "",
+            expr.interpolate("{{ take_if(false, greeting) }}", {
+                greeting = "Hello World!",
+            })
+        )
+
+        assert.same(
+            Result.success "Hello World!",
+            expr.interpolate("{{ take_if(true, greeting) }}", {
+                greeting = "Hello World!",
+            })
+        )
     end)
 
     it("should not take if value matches", function()
@@ -182,6 +196,20 @@ describe("expr filters :: take_if{_not}", function()
         assert.same(
             Result.success "",
             expr.interpolate("{{ take_if_not(equals('Hello World!'), greeting) }}", {
+                greeting = "Hello World!",
+            })
+        )
+
+        assert.same(
+            Result.success "Hello World!",
+            expr.interpolate("{{ take_if_not(false, greeting) }}", {
+                greeting = "Hello World!",
+            })
+        )
+
+        assert.same(
+            Result.success "",
+            expr.interpolate("{{ take_if_not(true, greeting) }}", {
                 greeting = "Hello World!",
             })
         )

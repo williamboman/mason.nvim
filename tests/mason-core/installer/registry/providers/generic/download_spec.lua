@@ -13,7 +13,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("generic provider :: parsing", function()
+describe("generic provider :: download :: parsing", function()
     it("should parse single download target", function()
         assert.same(
             Result.success {
@@ -63,11 +63,29 @@ describe("generic provider :: parsing", function()
     end)
 
     it("should check supported platforms", function()
-        assert.same(Result.failure "PLATFORM_UNSUPPORTED", generic.parse({ supported_platforms = { "VIC64" } }, purl()))
+        assert.same(
+            Result.failure "PLATFORM_UNSUPPORTED",
+            generic.parse(
+                {
+                    download = {
+                        {
+                            target = "win_arm64",
+                            files = {
+                                ["name.tar.gz"] = [[https://getpackage.org/downloads/win-aarch64/{{version | strip_prefix "v"}}/name.tar.gz]],
+                            },
+                        },
+                    },
+                },
+                purl(),
+                {
+                    target = "linux_arm64",
+                }
+            )
+        )
     end)
 end)
 
-describe("generic provider :: installing", function()
+describe("generic provider :: download :: installing", function()
     it("should install generic packages", function()
         local ctx = create_dummy_context()
         local std = require "mason-core.installer.managers.std"

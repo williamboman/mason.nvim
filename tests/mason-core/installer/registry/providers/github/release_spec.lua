@@ -3,7 +3,6 @@ local Result = require "mason-core.result"
 local github = require "mason-core.installer.registry.providers.github"
 local installer = require "mason-core.installer"
 local match = require "luassert.match"
-local mock = require "luassert.mock"
 local registry_installer = require "mason-core.installer.registry"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
@@ -17,7 +16,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("github provider :: parsing", function()
+describe("github provider :: release :: parsing", function()
     it("should parse release asset source", function()
         assert.same(
             Result.success {
@@ -157,7 +156,10 @@ describe("github provider :: parsing", function()
     it("should parse build source", function()
         assert.same(
             Result.success {
-                build = { run = [[npm install && npm run compile]] },
+                build = {
+                    run = [[npm install && npm run compile]],
+                    env = { MASON_VERSION = "2023-03-09" },
+                },
                 repo = "https://github.com/namespace/name.git",
                 rev = "2023-03-09",
             },
@@ -172,7 +174,11 @@ describe("github provider :: parsing", function()
     it("should parse build source with multiple targets", function()
         assert.same(
             Result.success {
-                build = { target = "win_x64", run = [[npm install]] },
+                build = {
+                    target = "win_x64",
+                    run = [[npm install]],
+                    env = { MASON_VERSION = "2023-03-09" },
+                },
                 repo = "https://github.com/namespace/name.git",
                 rev = "2023-03-09",
             },
@@ -261,7 +267,7 @@ describe("github provider :: parsing", function()
     end)
 end)
 
-describe("github provider :: installing", function()
+describe("github provider :: release :: installing", function()
     it("should install github release assets", function()
         local ctx = create_dummy_context()
         local std = require "mason-core.installer.managers.std"
@@ -374,50 +380,5 @@ describe("github provider :: installing", function()
         assert.is_true(result:is_failure())
         assert.same(Result.failure [[Version "1.42.0" is not available.]], result)
         assert.spy(std.download_file).was_called(0)
-    end)
-
-    it("should install github build sources", function()
-        local ctx = create_dummy_context()
-        local std = require "mason-core.installer.managers.std"
-        local uv = require "mason-core.async.uv"
-        stub(uv, "write")
-        stub(uv, "shutdown")
-        stub(uv, "close")
-        local stdin = mock.new()
-        stub(std, "clone", mockx.returns(Result.success()))
-        stub(
-            ctx.spawn,
-            "bash", ---@param args SpawnArgs
-            function(args)
-                args.on_spawn(mock.new(), { stdin })
-                return Result.success()
-            end
-        )
-
-        local result = installer.exec_in_context(ctx, function()
-            return github.install(ctx, {
-                repo = "namespace/name",
-                rev = "2023-03-09",
-                build = {
-                    run = [[npm install && npm run compile]],
-                },
-            }, purl { version = "2023-03-09" })
-        end)
-
-        assert.is_true(result:is_success())
-        assert.spy(std.clone).was_called(1)
-        assert.spy(std.clone).was_called_with("namespace/name", { rev = "2023-03-09" })
-        assert.spy(ctx.spawn.bash).was_called(1)
-        assert.spy(ctx.spawn.bash).was_called_with(match.tbl_containing {
-            on_spawn = match.is_function(),
-            env = match.same {
-                MASON_VERSION = "2023-03-09",
-            },
-        })
-        assert.spy(uv.write).was_called(2)
-        assert.spy(uv.write).was_called_with(stdin, "set -euxo pipefail;\n")
-        assert.spy(uv.write).was_called_with(stdin, "npm install && npm run compile")
-        assert.spy(uv.shutdown).was_called_with(stdin)
-        assert.spy(uv.close).was_called_with(stdin)
     end)
 end)

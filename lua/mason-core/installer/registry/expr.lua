@@ -13,15 +13,21 @@ local parse_expr = _.compose(
     _.split "|"
 )
 
----@param predicate fun(value: string): boolean
+---@param predicate (fun(value: string): boolean) | boolean
 ---@param value string
 local take_if = _.curryN(function(predicate, value)
+    if type(predicate) == "boolean" then
+        predicate = _.always(predicate)
+    end
     return predicate(value) and value or nil
 end, 2)
 
----@param predicate fun(value: string): boolean
+---@param predicate (fun(value: string): boolean) | boolean
 ---@param value string
 local take_if_not = _.curryN(function(predicate, value)
+    if type(predicate) == "boolean" then
+        predicate = _.always(predicate)
+    end
     return (not predicate(value)) and value or nil
 end, 2)
 

@@ -149,7 +149,13 @@ end
 local function expand_bin(ctx, spec, purl, source)
     log.debug("Registering bin links", ctx.package, spec.bin)
     return Result.try(function(try)
-        local expr_ctx = { version = purl.version, source = source }
+        local expr_ctx = {
+            version = purl.version,
+            source = source,
+            is_platform = function(target)
+                return platform.is[target]
+            end,
+        }
 
         local bin_table = spec.bin
         if not bin_table then
