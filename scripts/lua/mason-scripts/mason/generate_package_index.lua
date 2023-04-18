@@ -4,11 +4,10 @@ local markdown = require "mason-scripts.markdown"
 local script_utils = require "mason-scripts.utils"
 
 require("mason").setup()
-require("mason-registry").refresh()
+local registry = require "mason-registry"
 
 ---@async
 local function create_markdown_index()
-    local registry = require "mason-registry"
     print "Creating markdown index…"
     local packages = _.sort_by(_.prop "name", registry.get_all_packages())
 
@@ -21,5 +20,6 @@ local function create_markdown_index()
 end
 
 a.run_blocking(function()
+    assert(a.wait(registry.update), "Failed to update registry.")
     create_markdown_index()
 end)
