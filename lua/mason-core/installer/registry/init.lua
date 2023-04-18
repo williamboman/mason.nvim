@@ -132,6 +132,8 @@ function M.parse(spec, opts)
             source = parsed_source,
             purl = purl,
         }
+    end):on_failure(function(err)
+        log.debug("Failed to parse spec spec", spec.name, err)
     end)
 end
 

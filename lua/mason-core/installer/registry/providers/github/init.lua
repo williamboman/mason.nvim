@@ -26,7 +26,7 @@ function M.install(ctx, source, purl)
         return require("mason-core.installer.registry.providers.github.release").install(ctx, source)
     elseif source.build then
         source = source--[[@as ParsedGitHubBuildSource]]
-        return require("mason-core.installer.registry.providers.github.build").install(ctx, source, purl)
+        return require("mason-core.installer.registry.providers.github.build").install(ctx, source)
     else
         return Result.failure "Unknown source type."
     end
