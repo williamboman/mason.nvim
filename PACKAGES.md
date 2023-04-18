@@ -131,6 +131,7 @@
 - [helm-ls](#helm-ls)
 - [hoon-language-server](#hoon-language-server)
 - [html-lsp](#html-lsp)
+- [htmlbeautifier](#htmlbeautifier)
 - [iferr](#iferr)
 - [impl](#impl)
 - [intelephense](#intelephense)
@@ -299,6 +300,7 @@
 - [xmlformatter](#xmlformatter)
 - [xo](#xo)
 - [yaml-language-server](#yaml-language-server)
+- [yamlfix](#yamlfix)
 - [yamlfmt](#yamlfmt)
 - [yamllint](#yamllint)
 - [yapf](#yapf)
@@ -1779,6 +1781,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall html-lsp
+```
+# htmlbeautifier
+
+> A normaliser/beautifier for HTML that also understands embedded Ruby. Ideal for tidying up Rails templates.
+
+Homepage: [https://github.com/threedaymonk/htmlbeautifier](https://github.com/threedaymonk/htmlbeautifier)  
+Languages: `HTML` `Ruby`  
+Categories: `Formatter`  
+
+```
+:MasonInstall htmlbeautifier
 ```
 # iferr
 
@@ -3701,6 +3714,17 @@ Categories: `LSP`
 
 ```
 :MasonInstall yaml-language-server
+```
+# yamlfix
+
+> A simple and configurable YAML formatter that keeps comments.
+
+Homepage: [https://github.com/lyz-code/yamlfix](https://github.com/lyz-code/yamlfix)  
+Languages: `YAML`  
+Categories: `Formatter`  
+
+```
+:MasonInstall yamlfix
 ```
 # yamlfmt
 
