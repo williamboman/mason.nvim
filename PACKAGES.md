@@ -252,6 +252,7 @@
 - [solhint](#solhint)
 - [solidity](#solidity)
 - [solidity-ls](#solidity-ls)
+- [sonarlint-language-server](#sonarlint-language-server)
 - [sorbet](#sorbet)
 - [sourcery](#sourcery)
 - [spectral-language-server](#spectral-language-server)
@@ -276,6 +277,7 @@
 - [texlab](#texlab)
 - [textlint](#textlint)
 - [tflint](#tflint)
+- [tfsec](#tfsec)
 - [tree-sitter-cli](#tree-sitter-cli)
 - [twigcs](#twigcs)
 - [typescript-language-server](#typescript-language-server)
@@ -3164,6 +3166,17 @@ Categories: `LSP`
 ```
 :MasonInstall solidity-ls
 ```
+# sonarlint-language-server
+
+> SonarLint language server.
+
+Homepage: [https://github.com/SonarSource/sonarlint-vscode](https://github.com/SonarSource/sonarlint-vscode)  
+Languages: `C` `C++` `CSS` `Go` `HTML` `Java` `JavaScript` `TypeScript` `Python` `PHP` `Terraform` `Text`  
+Categories: `Linter`  
+
+```
+:MasonInstall sonarlint-language-server
+```
 # sorbet
 
 > Sorbet is a fast, powerful type checker designed for Ruby.
@@ -3433,6 +3446,17 @@ Categories: `LSP` `Linter`
 
 ```
 :MasonInstall tflint
+```
+# tfsec
+
+> Security scanner for your Terraform code
+
+Homepage: [https://github.com/aquasecurity/tfsec](https://github.com/aquasecurity/tfsec)  
+Languages: `Terraform`  
+Categories: `Linter`  
+
+```
+:MasonInstall tfsec
 ```
 # tree-sitter-cli
 
