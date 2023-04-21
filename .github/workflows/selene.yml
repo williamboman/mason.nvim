@@ -16,5 +16,5 @@ jobs:
               with:
                   # token is needed because the action allegedly downloads binary from github releases
                   token: ${{ secrets.GITHUB_TOKEN }}
-                  args: lua/ tests/ scripts/
+                  args: lua/ tests/
                   version: 0.24.0

@@ -21,16 +21,4 @@ clean: clean_fixtures clean_dependencies
 test: clean_fixtures dependencies
 	INSTALL_ROOT_DIR=${INSTALL_ROOT_DIR} $(NVIM_HEADLESS) -c "call RunTests()"
 
-.PHONY: schemas-generate
-schemas-generate: dependencies
-	./scripts/nvim.sh scripts/lua/mason-scripts/mason-schemas/generate.lua
-
-.PHONY: package-markdown-index-generate
-package-markdown-index-generate: dependencies
-	./scripts/nvim.sh scripts/lua/mason-scripts/mason/generate_package_index.lua
-
-.PHONY: generate
-generate: dependencies schemas-generate package-markdown-index-generate
-	./scripts/nvim.sh scripts/lua/mason-scripts/mason/generate.lua
-
 # vim:noexpandtab
