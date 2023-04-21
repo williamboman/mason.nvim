@@ -4,14 +4,12 @@ local path = require "mason-core.path"
 local script_utils = require "mason-scripts.utils"
 
 local MASON_DIR = path.concat { vim.loop.cwd(), "lua", "mason" }
-local MASON_REGISTRY_DIR = path.concat { vim.loop.cwd(), "lua", "mason-registry" }
 
 require("mason").setup()
-require("mason-registry").refresh()
+local registry = require "mason-registry"
 
 ---@async
 local function create_language_map()
-    local registry = require "mason-registry"
     print "Creating language map…"
     local indexed_languages = {}
     local language_map = {}
@@ -38,29 +36,7 @@ local function create_language_map()
         "w"
     )
 end
-
----@async
-local function create_package_index()
-    a.scheduler()
-    print "Creating package index…"
-    local packages = {}
-    local to_lua_path = _.compose(_.gsub("/", "."), _.gsub("^lua/", ""))
-    for _, package_path in ipairs(vim.fn.glob("lua/mason-registry/index/*/init.lua", false, true)) do
-        local package_filename = vim.fn.fnamemodify(package_path, ":h:t")
-        local lua_path = to_lua_path(vim.fn.fnamemodify(package_path, ":h"))
-        local pkg = require(lua_path)
-        assert(package_filename == pkg.name, ("Package name is not the same as its module name %s"):format(lua_path))
-        packages[pkg.name] = lua_path
-    end
-
-    script_utils.write_file(
-        path.concat { MASON_REGISTRY_DIR, "index", "init.lua" },
-        "return " .. vim.inspect(packages),
-        "w"
-    )
-end
-
 a.run_blocking(function()
-    create_package_index()
+    assert(a.wait(registry.update), "Failed to update registry.")
     create_language_map()
 end)
