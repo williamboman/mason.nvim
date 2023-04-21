@@ -2,12 +2,13 @@ local health = vim.health or require "health"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
-local async_uv = require "mason-core.async.uv"
 local control = require "mason-core.async.control"
 local github_client = require "mason-core.managers.github.client"
 local platform = require "mason-core.platform"
+local providers = require "mason-core.providers"
 local registry_sources = require "mason-registry.sources"
 local spawn = require "mason-core.spawn"
+local version = require "mason.version"
 
 local Semaphore = control.Semaphore
 
@@ -288,10 +289,34 @@ local function check_languages()
     }
 end
 
+---@async
+local function check_mason_version()
+    providers.github
+        .get_latest_release("williamboman/mason.nvim")
+        :on_success(
+            ---@param latest_release GitHubRelease
+            function(latest_release)
+                a.scheduler()
+                if latest_release.tag_name ~= version.VERSION then
+                    report_warn(("mason.nvim version %s"):format(version.VERSION), {
+                        ("The latest version of mason.nvim is: %s"):format(latest_release.tag_name),
+                    })
+                else
+                    report_ok(("mason.nvim version %s"):format(version.VERSION))
+                end
+            end
+        )
+        :on_failure(function()
+            a.scheduler()
+            report_ok(("mason.nvim version %s"):format(version.VERSION))
+        end)
+end
+
 function M.check()
     report_start "mason.nvim"
 
     a.run_blocking(function()
+        check_mason_version()
         check_neovim()
         check_registries()
         check_core_utils()

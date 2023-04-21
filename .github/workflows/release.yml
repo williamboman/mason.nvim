@@ -16,8 +16,12 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
+          token: ${{ secrets.PAT }}
           release-type: simple
           package-name: mason.nvim
+          extra-files: |
+            README.md
+            lua/mason/version.lua
 
       - uses: actions/checkout@v3
 
