@@ -34,8 +34,8 @@ end, 2)
 local FILTERS = {
     equals = _.equals,
     not_equals = _.not_equals,
-    strip_prefix = _.trim_start_matches,
-    strip_suffix = _.trim_end_matches,
+    strip_prefix = _.strip_prefix,
+    strip_suffix = _.strip_suffix,
     take_if = take_if,
     take_if_not = take_if_not,
     to_lower = _.to_lower,

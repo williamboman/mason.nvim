@@ -216,6 +216,26 @@ describe("expr filters :: take_if{_not}", function()
     end)
 end)
 
+describe("expr filters :: strip_{suffix,prefix}", function()
+    it("should strip prefix", function()
+        assert.same(
+            Result.success "1.0.0",
+            expr.interpolate([[{{value | strip_prefix("v") }}]], {
+                value = "v1.0.0",
+            })
+        )
+    end)
+
+    it("should strip suffix", function()
+        assert.same(
+            Result.success "bin/file",
+            expr.interpolate([[{{value | strip_suffix(".tar.gz") }}]], {
+                value = "bin/file.tar.gz",
+            })
+        )
+    end)
+end)
+
 describe("table interpolation", function()
     it("should interpolate nested values", function()
         assert.same(
