@@ -158,8 +158,6 @@ describe("registry linker", function()
         fs.sync.file_exists.on_call_with(path.concat { ctx.cwd:get(), "v1.0.0", "dir", "file2" }).returns(true)
         fs.sync.file_exists.on_call_with(path.concat { ctx.cwd:get(), "v1.0.0", "dir", "file3" }).returns(true)
 
-        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), "v1.0.0-exec.sh").returns(true)
-
         local result = link.share(
             ctx,
             {
@@ -184,6 +182,13 @@ describe("registry linker", function()
             },
             result
         )
+
+        assert.same({
+            ["file"] = "v1.0.0-file",
+            ["dir/file1"] = "v1.0.0/dir/file1",
+            ["dir/file2"] = "v1.0.0/dir/file2",
+            ["dir/file3"] = "v1.0.0/dir/file3",
+        }, ctx.links.share)
     end)
 
     it("should register opt links", function()
@@ -200,8 +205,6 @@ describe("registry linker", function()
         fs.sync.file_exists.on_call_with(path.concat { ctx.cwd:get(), "v1.0.0", "dir", "file1" }).returns(true)
         fs.sync.file_exists.on_call_with(path.concat { ctx.cwd:get(), "v1.0.0", "dir", "file2" }).returns(true)
         fs.sync.file_exists.on_call_with(path.concat { ctx.cwd:get(), "v1.0.0", "dir", "file3" }).returns(true)
-
-        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), "v1.0.0-exec.sh").returns(true)
 
         local result = link.opt(
             ctx,
@@ -227,5 +230,12 @@ describe("registry linker", function()
             },
             result
         )
+
+        assert.same({
+            ["file"] = "v1.0.0-file",
+            ["dir/file1"] = "v1.0.0/dir/file1",
+            ["dir/file2"] = "v1.0.0/dir/file2",
+            ["dir/file3"] = "v1.0.0/dir/file3",
+        }, ctx.links.opt)
     end)
 end)

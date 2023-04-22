@@ -5,6 +5,7 @@ local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local link = require "mason-core.installer.registry.link"
 local log = require "mason-core.log"
+local schemas = require "mason-core.installer.registry.schemas"
 
 local M = {}
 
@@ -169,6 +170,16 @@ function M.compile(spec, opts)
             return Result.try(function(try)
                 -- Run installer
                 try(parsed.provider.install(ctx, parsed.source, parsed.purl))
+
+                if spec.schemas then
+                    local result = schemas.download(ctx, spec, parsed.purl, parsed.source):on_failure(function(err)
+                        log.error("Failed to download schemas", ctx.package, err)
+                    end)
+                    if opts.strict then
+                        -- schema download sources are not considered stable nor a critical feature, so we only fail in strict mode
+                        try(result)
+                    end
+                end
 
                 -- Expand & register links
                 if spec.bin then

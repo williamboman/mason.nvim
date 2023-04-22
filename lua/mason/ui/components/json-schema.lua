@@ -108,6 +108,10 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
             )
         end
         return Ui.Node(nodes)
+    elseif vim.tbl_islist(schema) then
+        return Ui.Node(_.map(function(sub_schema)
+            return JsonSchema(pkg, schema_id, state, sub_schema)
+        end, schema))
     else
         -- Leaf node (aka any type that isn't an object)
         local type = resolve_type(schema)
