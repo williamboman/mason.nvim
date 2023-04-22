@@ -17,4 +17,8 @@ describe("mason-registry", function()
         assert.is_true(registry.has_package "dummy")
         assert.is_false(registry.has_package "non-existent")
     end)
+
+    it("should get all package specs", function()
+        assert.equals(3, #registry.get_all_package_specs())
+    end)
 end)

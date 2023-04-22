@@ -1,3 +1,5 @@
+local Optional = require "mason-core.optional"
+local _ = require "mason-core.functional"
 local log = require "mason-core.log"
 
 ---@class LuaRegistrySourceSpec
@@ -35,6 +37,13 @@ end
 function LuaRegistrySource:get_all_package_names()
     local index = require(self.spec.mod)
     return vim.tbl_keys(index)
+end
+
+---@return PackageSpec[]
+function LuaRegistrySource:get_all_package_specs()
+    return _.filter_map(function(name)
+        return Optional.of_nilable(self:get_package(name)):map(_.prop "spec")
+    end, self:get_all_package_names())
 end
 
 function LuaRegistrySource:is_installed()
