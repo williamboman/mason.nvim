@@ -63,6 +63,9 @@ local PackageMt = { __index = Package }
 ---@field id string PURL-compliant identifier.
 ---@field version_overrides? RegistryPackageSourceVersionOverride[]
 
+---@class RegistryPackageSchemas
+---@field lsp string?
+
 ---@class RegistryPackageSpec
 ---@field schema '"registry+v1"'
 ---@field name string
@@ -72,6 +75,7 @@ local PackageMt = { __index = Package }
 ---@field languages string[]
 ---@field categories string[]
 ---@field source RegistryPackageSource
+---@field schemas RegistryPackageSchemas?
 ---@field bin table<string, string>?
 ---@field share table<string, string>?
 ---@field opt table<string, string>?
@@ -127,7 +131,7 @@ function Package:new_handle()
     return handle
 end
 
----@alias PackageInstallOpts { version?: string, debug?: boolean, target?: string, force?: boolean }
+---@alias PackageInstallOpts { version?: string, debug?: boolean, target?: string, force?: boolean, strict?: boolean }
 
 ---@param opts? PackageInstallOpts
 ---@return InstallHandle
@@ -292,11 +296,13 @@ function Package:check_new_version(callback)
 end
 
 function Package:get_lsp_settings_schema()
-    local ok, schema = pcall(require, ("mason-schemas.lsp.%s"):format(self.name))
-    if not ok then
-        return Optional.empty()
+    local schema_file = path.share_prefix(path.concat { "mason-schemas", "lsp", ("%s.json"):format(self.name) })
+    if fs.sync.file_exists(schema_file) then
+        return Result.pcall(vim.json.decode, fs.sync.read_file(schema_file), {
+            luanil = { object = true, array = true },
+        }):ok()
     end
-    return Optional.of(schema)
+    return Optional.empty()
 end
 
 ---@return boolean

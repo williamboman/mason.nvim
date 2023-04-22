@@ -273,9 +273,10 @@ end
 ---@param spec RegistryPackageSpec
 ---@param purl Purl
 ---@param source ParsedPackageSource
+---@nodiscard
 M.bin = function(ctx, spec, purl, source)
     return expand_bin(ctx, spec, purl, source):on_success(function(links)
-        ctx.links.bin = links
+        ctx.links.bin = vim.tbl_extend("force", ctx.links.bin, links)
     end)
 end
 
@@ -284,9 +285,10 @@ end
 ---@param spec RegistryPackageSpec
 ---@param purl Purl
 ---@param source ParsedPackageSource
+---@nodiscard
 M.share = function(ctx, spec, purl, source)
     return expand_file_spec(ctx, purl, source, spec.share):on_success(function(links)
-        ctx.links.share = links
+        ctx.links.share = vim.tbl_extend("force", ctx.links.share, links)
     end)
 end
 
@@ -295,9 +297,10 @@ end
 ---@param spec RegistryPackageSpec
 ---@param purl Purl
 ---@param source ParsedPackageSource
+---@nodiscard
 M.opt = function(ctx, spec, purl, source)
     return expand_file_spec(ctx, purl, source, spec.opt):on_success(function(links)
-        ctx.links.opt = links
+        ctx.links.opt = vim.tbl_extend("force", ctx.links.opt, links)
     end)
 end
 
