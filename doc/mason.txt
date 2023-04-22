@@ -492,11 +492,19 @@ get_all_packages()
 
                                       *mason-registry.get_all_package_names()*
 get_all_package_names()
-    Returns all package names. This is a fast function that doesn't load any
-    extra modules.
+    Returns all package names. This is a faster function than
+    |mason-registry.get_all_packages()| because it loads fewer modules.
 
     Returns:
         string[]
+
+                                      *mason-registry.get_all_package_specs()*
+get_all_package_specs()
+    Returns all package specifications. This is a faster function than
+    |mason-registry.get_all_packages()| because it loads fewer modules.
+
+    Returns:
+        (PackageSpec | RegistryPackageSpec)[]
 
                                                      *mason-registry.update()*
 update({callback})

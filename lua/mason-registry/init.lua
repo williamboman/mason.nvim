@@ -10,6 +10,7 @@ local sources = require "mason-registry.sources"
 ---@field id string
 ---@field get_package fun(self: RegistrySource, pkg_name: string): Package?
 ---@field get_all_package_names fun(self: RegistrySource): string[]
+---@field get_all_package_specs fun(self: RegistrySource): PackageSpec[] | RegistryPackageSpec[]
 ---@field get_display_name fun(self: RegistrySource): string
 ---@field is_installed fun(self: RegistrySource): boolean
 ---@field get_installer fun(self: RegistrySource): Optional # Optional<async fun (): Result>
@@ -117,6 +118,15 @@ end
 ---@return Package[]
 function M.get_all_packages()
     return get_packages(M.get_all_package_names())
+end
+
+---@return (RegistryPackageSpec | PackageSpec)[]
+function M.get_all_package_specs()
+    local specs = {}
+    for source in sources.iter() do
+        vim.list_extend(specs, source:get_all_package_specs())
+    end
+    return _.uniq_by(_.prop "name", specs)
 end
 
 local STATE_FILE = path.concat {
