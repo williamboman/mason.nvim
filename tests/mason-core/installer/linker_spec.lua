@@ -152,7 +152,7 @@ describe("linker", function()
         end)
     )
 
-    it("should rename share files on Windows", function()
+    it("should copy share files on Windows", function()
         platform.is.darwin = false
         platform.is.mac = false
         platform.is.linux = false
@@ -163,7 +163,7 @@ describe("linker", function()
         stub(fs.async, "mkdirp")
         stub(fs.async, "dir_exists")
         stub(fs.async, "file_exists")
-        stub(fs.async, "rename")
+        stub(fs.async, "copy_file")
 
         -- mock non-existent dest files
         fs.async.file_exists.on_call_with(path.share_prefix "share-file").returns(false)
@@ -187,13 +187,14 @@ describe("linker", function()
 
         assert.is_true(result:is_success())
 
-        assert.spy(fs.async.rename).was_called(2)
+        assert.spy(fs.async.copy_file).was_called(2)
         assert
-            .spy(fs.async.rename)
-            .was_called_with(path.concat { dummy:get_install_path(), "share-file" }, path.share_prefix "share-file")
-        assert.spy(fs.async.rename).was_called_with(
+            .spy(fs.async.copy_file)
+            .was_called_with(path.concat { dummy:get_install_path(), "share-file" }, path.share_prefix "share-file", { excl = true })
+        assert.spy(fs.async.copy_file).was_called_with(
             path.concat { dummy:get_install_path(), "nested", "path", "to", "share-file" },
-            path.share_prefix "nested/path/share-file"
+            path.share_prefix "nested/path/share-file",
+            { excl = true }
         )
 
         assert.spy(fs.async.mkdirp).was_called(2)

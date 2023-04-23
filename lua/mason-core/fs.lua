@@ -86,6 +86,14 @@ local function make_module(uv)
     end
 
     ---@param path string
+    ---@param new_path string
+    ---@param flags table? { excl?: boolean, ficlone?: boolean, ficlone_force?: boolean }
+    function M.copy_file(path, new_path, flags)
+        log.debug("fs: copy_file", path, new_path, flags)
+        uv.fs_copyfile(path, new_path, flags)
+    end
+
+    ---@param path string
     ---@param contents string
     ---@param flags string? Defaults to "w".
     function M.write_file(path, contents, flags)
