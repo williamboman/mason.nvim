@@ -102,9 +102,9 @@ end
 
 ---@param context InstallContext
 ---@param link_context LinkContext
-local function rename(context, link_context)
+local function copyfile(context, link_context)
     return link(context, link_context, function(new_abs_path, target_abs_path)
-        return Result.pcall(fs.async.rename, target_abs_path, new_abs_path)
+        return Result.pcall(fs.async.copy_file, target_abs_path, new_abs_path, { excl = true })
     end)
 end
 
@@ -138,8 +138,8 @@ function M.link(context)
     return Result.try(function(try)
         if platform.is.win then
             try(win_bin_wrapper(context))
-            try(rename(context, LinkContext.SHARE))
-            try(rename(context, LinkContext.OPT))
+            try(copyfile(context, LinkContext.SHARE))
+            try(copyfile(context, LinkContext.OPT))
         else
             try(symlink(context, LinkContext.BIN))
             try(symlink(context, LinkContext.SHARE))
