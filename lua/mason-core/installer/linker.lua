@@ -50,7 +50,7 @@ end
 ---@async
 ---@param context InstallContext
 ---@param link_context LinkContext
----@param link_fn async fun(dest: string, target: string): Result
+---@param link_fn async fun(new_abs_path: string, target_abs_path: string): Result
 local function link(context, link_context, link_fn)
     log.trace("Linking", context.package, link_context.type, context.links[link_context.type])
     return Result.try(function(try)
@@ -58,13 +58,13 @@ local function link(context, link_context, link_fn)
             if platform.is.win and link_context == LinkContext.BIN then
                 name = ("%s.cmd"):format(name)
             end
-            local dest_abs_path = link_context.prefix(name)
+            local new_abs_path = link_context.prefix(name)
             local target_abs_path = path.concat { context.package:get_install_path(), rel_path }
 
             do
                 -- 1. Ensure destination directory exists
                 a.scheduler()
-                local dir = vim.fn.fnamemodify(dest_abs_path, ":h")
+                local dir = vim.fn.fnamemodify(new_abs_path, ":h")
                 if not fs.async.dir_exists(dir) then
                     try(Result.pcall(fs.async.mkdirp, dir))
                 end
@@ -74,11 +74,11 @@ local function link(context, link_context, link_fn)
                 -- 2. Ensure source file exists and target doesn't yet exist OR if --force unlink target if it already
                 -- exists.
                 if context.opts.force then
-                    if fs.async.file_exists(dest_abs_path) then
-                        try(Result.pcall(fs.async.unlink, dest_abs_path))
+                    if fs.async.file_exists(new_abs_path) then
+                        try(Result.pcall(fs.async.unlink, new_abs_path))
                     end
-                elseif fs.async.file_exists(dest_abs_path) then
-                    return Result.failure(("%q is already linked."):format(dest_abs_path, name))
+                elseif fs.async.file_exists(new_abs_path) then
+                    return Result.failure(("%q is already linked."):format(new_abs_path, name))
                 end
                 if not fs.async.file_exists(target_abs_path) then
                     return Result.failure(("Link target %q does not exist."):format(target_abs_path))
@@ -86,7 +86,7 @@ local function link(context, link_context, link_fn)
             end
 
             -- 3. Execute link.
-            try(link_fn(dest_abs_path, target_abs_path))
+            try(link_fn(new_abs_path, target_abs_path))
             context.receipt:with_link(link_context.type, name, rel_path)
         end
     end)
@@ -95,17 +95,25 @@ end
 ---@param context InstallContext
 ---@param link_context LinkContext
 local function symlink(context, link_context)
-    return link(context, link_context, function(target, dest)
-        return Result.pcall(fs.async.symlink, dest, target)
+    return link(context, link_context, function(new_abs_path, target_abs_path)
+        return Result.pcall(fs.async.symlink, target_abs_path, new_abs_path)
+    end)
+end
+
+---@param context InstallContext
+---@param link_context LinkContext
+local function rename(context, link_context)
+    return link(context, link_context, function(new_abs_path, target_abs_path)
+        return Result.pcall(fs.async.rename, target_abs_path, new_abs_path)
     end)
 end
 
 ---@param context InstallContext
 local function win_bin_wrapper(context)
-    return link(context, LinkContext.BIN, function(dest, target)
+    return link(context, LinkContext.BIN, function(new_abs_path, target_abs_path)
         return Result.pcall(
             fs.async.write_file,
-            dest,
+            new_abs_path,
             _.dedent(([[
                 @ECHO off
                 GOTO start
@@ -117,7 +125,7 @@ local function win_bin_wrapper(context)
                 CALL :find_dp0
 
                 endLocal & goto #_undefined_# 2>NUL || title %%COMSPEC%% & "%s" %%*
-            ]]):format(target))
+            ]]):format(target_abs_path))
         )
     end)
 end
@@ -130,11 +138,13 @@ function M.link(context)
     return Result.try(function(try)
         if platform.is.win then
             try(win_bin_wrapper(context))
+            try(rename(context, LinkContext.SHARE))
+            try(rename(context, LinkContext.OPT))
         else
             try(symlink(context, LinkContext.BIN))
+            try(symlink(context, LinkContext.SHARE))
+            try(symlink(context, LinkContext.OPT))
         end
-        try(symlink(context, LinkContext.SHARE))
-        try(symlink(context, LinkContext.OPT))
     end)
 end
 
