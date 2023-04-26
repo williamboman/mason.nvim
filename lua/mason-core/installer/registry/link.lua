@@ -79,6 +79,13 @@ local bin_delegates = {
             return ctx:write_node_exec_wrapper(bin, target)
         end)
     end,
+    ["ruby"] = function(target, bin)
+        local installer = require "mason-core.installer"
+        local ctx = installer.context()
+        return Result.pcall(function()
+            return ctx:write_ruby_exec_wrapper(bin, target)
+        end)
+    end,
     ["exec"] = function(target, bin)
         local installer = require "mason-core.installer"
         local ctx = installer.context()
@@ -152,9 +159,6 @@ local function expand_bin(ctx, spec, purl, source)
         local expr_ctx = {
             version = purl.version,
             source = source,
-            is_platform = function(target)
-                return platform.is[target]
-            end,
         }
 
         local bin_table = spec.bin

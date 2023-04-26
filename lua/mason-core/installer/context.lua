@@ -254,6 +254,21 @@ function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_
 end
 
 ---@param new_executable_rel_path string Relative path to the executable file to create.
+---@param script_rel_path string Relative path to the Node.js script.
+function InstallContext:write_ruby_exec_wrapper(new_executable_rel_path, script_rel_path)
+    if not self.fs:file_exists(script_rel_path) then
+        error(("Cannot write Ruby exec wrapper for path %q as it doesn't exist."):format(script_rel_path), 0)
+    end
+    return self:write_shell_exec_wrapper(
+        new_executable_rel_path,
+        ("ruby %q"):format(path.concat {
+            self.package:get_install_path(),
+            script_rel_path,
+        })
+    )
+end
+
+---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param script_rel_path string Relative path to the PHP script.
 function InstallContext:write_php_exec_wrapper(new_executable_rel_path, script_rel_path)
     if not self.fs:file_exists(script_rel_path) then
