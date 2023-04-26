@@ -42,7 +42,7 @@ Packages are installed in Neovim's data directory ([`:h standard-path`][help-sta
 linked to a single `bin/` directory, which `mason.nvim` will add to Neovim's PATH during setup, allowing seamless access
 from Neovim builtins (shell, terminal, etc.) as well as other 3rd party plugins.
 
-For a list of all available packages, see [PACKAGES.md](./PACKAGES.md).
+For a list of all available packages, see https://mason-registry.dev/registry/list.
 
 ## How to use installed packages
 
