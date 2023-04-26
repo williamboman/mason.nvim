@@ -9,7 +9,12 @@
 <p align="center">
     Portable package manager for Neovim that runs everywhere Neovim runs.<br />
     Easily install and manage LSP servers, DAP servers, linters, and formatters.<br />
+</p>
+<p align="center">
     <code>:help mason.nvim</code>
+</p>
+<p align="center">
+    <sup>Latest version: v1.0.0</sup> <!-- x-release-please-version -->
 </p>
 
 # Table of Contents
