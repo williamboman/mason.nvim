@@ -1,5 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local platform = require "mason-core.platform"
 
 local M = {}
 
@@ -40,6 +41,9 @@ local FILTERS = {
     take_if_not = take_if_not,
     to_lower = _.to_lower,
     to_upper = _.to_upper,
+    is_platform = function(target)
+        return platform.is[target]
+    end,
 }
 
 ---@generic T : table
