@@ -19,6 +19,10 @@ describe("installer", function()
         local handle = InstallHandleGenerator "dummy"
         local ctx = InstallContextGenerator(handle)
         stub(ctx.fs, "write_file")
+        stub(ctx.fs, "file_exists")
+        stub(ctx.fs, "dir_exists")
+        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
+        ctx.fs.dir_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
         stub(std, "chmod")
 
         ctx:write_shell_exec_wrapper("my-executable", "bash -c 'echo $GREETING'", {
@@ -44,6 +48,10 @@ exec bash -c 'echo $GREETING' "$@"]]
         local handle = InstallHandleGenerator "dummy"
         local ctx = InstallContextGenerator(handle)
         stub(ctx.fs, "write_file")
+        stub(ctx.fs, "file_exists")
+        stub(ctx.fs, "dir_exists")
+        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
+        ctx.fs.dir_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
         stub(std, "chmod")
 
         ctx:write_shell_exec_wrapper("my-executable", "cmd.exe /C echo %GREETING%", {
@@ -58,6 +66,23 @@ exec bash -c 'echo $GREETING' "$@"]]
 SET GREETING=Hello World!
 cmd.exe /C echo %GREETING% %*]]
         )
+    end)
+
+    it("should not write shell exec wrapper if new executable path already exists", function()
+        local exec_rel_path = path.concat { "obscure", "path", "to", "server" }
+        local handle = InstallHandleGenerator "dummy"
+        local ctx = InstallContextGenerator(handle)
+        stub(ctx.fs, "file_exists")
+        stub(ctx.fs, "dir_exists")
+        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), exec_rel_path).returns(true)
+        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), "my-wrapper-script").returns(true)
+        ctx.fs.dir_exists.on_call_with(match.is_ref(ctx.fs), "my-wrapper-script").returns(true)
+
+        local err = assert.has_error(function()
+            ctx:write_shell_exec_wrapper("my-wrapper-script", "contents")
+        end)
+
+        assert.equals([[Cannot write exec wrapper to "my-wrapper-script" because the file already exists.]], err)
     end)
 
     it("should write Node exec wrapper", function()
@@ -76,6 +101,25 @@ cmd.exe /C echo %GREETING% %*]]
             match.is_ref(ctx),
             "my-wrapper-script",
             ("node %q"):format(path.concat { dummy:get_install_path(), js_rel_path })
+        )
+    end)
+
+    it("should write Ruby exec wrapper", function()
+        local js_rel_path = path.concat { "some", "obscure", "path", "server.js" }
+        local dummy = registry.get_package "dummy"
+        local handle = InstallHandleGenerator "dummy"
+        local ctx = InstallContextGenerator(handle)
+        stub(ctx, "write_shell_exec_wrapper")
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), js_rel_path).returns(true)
+
+        ctx:write_ruby_exec_wrapper("my-wrapper-script", js_rel_path)
+
+        assert.spy(ctx.write_shell_exec_wrapper).was_called(1)
+        assert.spy(ctx.write_shell_exec_wrapper).was_called_with(
+            match.is_ref(ctx),
+            "my-wrapper-script",
+            ("ruby %q"):format(path.concat { dummy:get_install_path(), js_rel_path })
         )
     end)
 
