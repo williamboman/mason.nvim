@@ -342,6 +342,9 @@ local BATCH_TEMPLATE = _.dedent [[
 ---@param env table<string, string>?
 ---@return string # The created executable filename.
 function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, command, env)
+    if self.fs:file_exists(new_executable_rel_path) or self.fs:dir_exists(new_executable_rel_path) then
+        error(("Cannot write exec wrapper to %q because the file already exists."):format(new_executable_rel_path), 0)
+    end
     return platform.when {
         unix = function()
             local std = require "mason-core.managers.std"
