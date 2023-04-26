@@ -76,7 +76,11 @@ describe("pypi provider :: installing", function()
             install_extra_args = { "--proxy", "http://localghost" },
         }
         assert.spy(manager.install).was_called(1)
-        assert.spy(manager.install).was_called_with("package", "1.5.0", { extra = "lsp", extra_packages = { "extra" } })
+        assert.spy(manager.install).was_called_with(
+            "package",
+            "1.5.0",
+            { extra = "lsp", extra_packages = { "extra" }, install_extra_args = { "--proxy", "http://localghost" } }
+        )
         settings.set(settings._DEFAULT_SETTINGS)
     end)
 
