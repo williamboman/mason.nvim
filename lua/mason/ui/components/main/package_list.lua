@@ -219,7 +219,7 @@ local function InstallingPackageComponent(pkg, state)
         Ui.Keybind(settings.current.ui.keymaps.install_package, "INSTALL_PACKAGE", pkg),
         Ui.CascadingStyleNode({ "INDENT" }, {
             Ui.HlTextNode(pkg_state.is_log_expanded and p.Bold "▼ Displaying full log" or p.muted(tail)),
-            Ui.Keybind("<CR>", "TOGGLE_INSTALL_LOG", pkg),
+            Ui.Keybind(settings.current.ui.keymaps.toggle_package_install_log, "TOGGLE_INSTALL_LOG", pkg),
             Ui.StickyCursor { id = ("%s-toggle-install-log"):format(pkg.name) },
         }),
         Ui.When(pkg_state.is_log_expanded, function()
@@ -284,7 +284,6 @@ local function Failed(state)
         state = state,
         heading = Ui.HlTextNode(p.heading "Failed"),
         packages = packages,
-        ---@param pkg Package
         list_item_renderer = InstallingPackageComponent,
     }
 end
