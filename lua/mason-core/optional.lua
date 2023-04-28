@@ -62,6 +62,16 @@ function Optional:or_else_get(supplier)
     end
 end
 
+---@param supplier fun(value: any): Optional
+---@return Optional
+function Optional:and_then(supplier)
+    if self:is_present() then
+        return supplier(self._value)
+    else
+        return self
+    end
+end
+
 ---@param supplier fun(): Optional
 ---@return Optional
 function Optional:or_(supplier)
