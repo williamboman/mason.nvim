@@ -18,14 +18,12 @@ body:
 
               ---
 
-    - type: dropdown
+    - type: checkboxes
       attributes:
           label: I've searched open issues for similar requests
           description: If possible, please contribute to any open issues instead of opening a new one.
           options:
-              - "Yes"
-      validations:
-          required: true
+              - label: "Yes"
 
     - type: dropdown
       attributes:

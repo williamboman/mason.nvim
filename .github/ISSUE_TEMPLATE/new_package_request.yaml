@@ -7,14 +7,12 @@ labels:
     - new-package-request
 
 body:
-    - type: dropdown
+    - type: checkboxes
       attributes:
           label: I've searched open & closed issues for similar requests
           description: If possible, please contribute to [existing issues](https://github.com/williamboman/mason.nvim/issues?q=is%3Aissue+label%3Anew-package-request) instead of opening a new one.
           options:
-              - "Yes"
-      validations:
-          required: true
+              - label: "Yes"
 
     - type: input
       attributes:
