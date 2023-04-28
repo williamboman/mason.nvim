@@ -92,3 +92,48 @@ describe("Optional.ok_or()", function()
         assert.equals("I'm empty.", result:err_or_nil())
     end)
 end)
+
+describe("Optional.or_()", function()
+    it("should run supplier if value is not present", function()
+        local spy = spy.new(function()
+            return Optional.of "Hello world!"
+        end)
+        assert.same(Optional.of "Hello world!", Optional.empty():or_(spy))
+        assert.spy(spy).was_called(1)
+
+        assert.same(Optional.empty(), Optional.empty():or_(Optional.empty))
+    end)
+
+    it("should not run supplier if value is present", function()
+        local spy = spy.new(function()
+            return Optional.of "Hello world!"
+        end)
+        assert.same(Optional.of "Hello world!", Optional.of("Hello world!"):or_(spy))
+        assert.spy(spy).was_called(0)
+    end)
+end)
+
+describe("Optional.and_then()", function()
+    it("should run supplier if value is present", function()
+        local spy = spy.new(function(value)
+            return Optional.of(("%s world!"):format(value))
+        end)
+        assert.same(Optional.of "Hello world!", Optional.of("Hello"):and_then(spy))
+        assert.spy(spy).was_called(1)
+
+        assert.same(
+            Optional.empty(),
+            Optional.empty():and_then(function()
+                return Optional.of "Nothing."
+            end)
+        )
+    end)
+
+    it("should not run supplier if value is not present", function()
+        local spy = spy.new(function()
+            return Optional.of "Hello world!"
+        end)
+        assert.same(Optional.empty(), Optional.empty():and_then(spy))
+        assert.spy(spy).was_called(0)
+    end)
+end)
