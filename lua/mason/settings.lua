@@ -104,6 +104,8 @@ local DEFAULT_SETTINGS = {
             cancel_installation = "<C-c>",
             -- Keymap to apply language filter
             apply_language_filter = "<C-f>",
+            -- Keymap to toggle viewing package installation log
+            toggle_package_install_log = "<CR>",
         },
     },
 }
