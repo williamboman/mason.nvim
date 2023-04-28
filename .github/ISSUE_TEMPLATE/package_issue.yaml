@@ -25,14 +25,12 @@ body:
           options:
               - label: "Yes"
 
-    - type: dropdown
+    - type: checkboxes
       attributes:
           label: I've manually reviewed logs to find potential errors
           description: Logs such as `:MasonLog`, `:LspLog`, etc. (don't paste logs without reviewing them yourself first)
           options:
-              - "Yes"
-      validations:
-          required: true
+              - label: "Yes"
 
     - type: checkboxes
       attributes:
