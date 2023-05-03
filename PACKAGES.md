@@ -1,1 +1,1 @@
-Moved to https://mason-registry.dev/registry/list
+Moved to https://github.com/mason-org/mason-registry
