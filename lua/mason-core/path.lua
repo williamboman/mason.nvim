@@ -58,6 +58,11 @@ function M.package_build_prefix(name)
     return M.concat { M.install_prefix "staging", name }
 end
 
+---@param name string
+function M.package_lock(name)
+    return M.package_build_prefix(("%s.lock"):format(name))
+end
+
 function M.registry_prefix()
     return M.install_prefix "registries"
 end

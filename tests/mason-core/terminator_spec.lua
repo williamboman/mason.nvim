@@ -11,23 +11,25 @@ describe("terminator", function()
     it(
         "should terminate all active handles on nvim exit",
         async_test(function()
-            -- TODO: Tests on CI fail for some reason - sleeping helps
-            a.sleep(500)
             spy.on(InstallHandle, "terminate")
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
             for _, pkg in ipairs { dummy, dummy2 } do
-                stub(pkg.spec, "install")
-                pkg.spec.install.invokes(function()
+                stub(pkg.spec, "install", function()
                     a.sleep(10000)
                 end)
             end
 
             local dummy_handle = dummy:install()
             local dummy2_handle = dummy2:install()
+
+            assert.wait_for(function()
+                assert.spy(dummy.spec.install).was_called()
+                assert.spy(dummy2.spec.install).was_called()
+            end)
+
             terminator.terminate(5000)
 
-            a.wait(vim.schedule)
             assert.spy(InstallHandle.terminate).was_called(2)
             assert.spy(InstallHandle.terminate).was_called_with(match.is_ref(dummy_handle))
             assert.spy(InstallHandle.terminate).was_called_with(match.is_ref(dummy2_handle))
@@ -41,22 +43,25 @@ describe("terminator", function()
     it(
         "should print warning messages",
         async_test(function()
-            -- TODO: Tests on CI fail for some reason - sleeping helps
-            a.sleep(500)
             spy.on(vim.api, "nvim_echo")
             spy.on(vim.api, "nvim_err_writeln")
             spy.on(InstallHandle, "terminate")
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
             for _, pkg in ipairs { dummy, dummy2 } do
-                stub(pkg.spec, "install")
-                pkg.spec.install.invokes(function()
+                stub(pkg.spec, "install", function()
                     a.sleep(10000)
                 end)
             end
 
             local dummy_handle = dummy:install()
             local dummy2_handle = dummy2:install()
+
+            assert.wait_for(function()
+                assert.spy(dummy.spec.install).was_called()
+                assert.spy(dummy2.spec.install).was_called()
+            end)
+
             terminator.terminate(5000)
 
             assert.spy(vim.api.nvim_echo).was_called(1)
@@ -85,8 +90,6 @@ describe("terminator", function()
     it(
         "should send SIGTERM and then SIGKILL after grace period",
         async_test(function()
-            -- TODO: Tests on CI fail for some reason - sleeping helps
-            a.sleep(500)
             spy.on(InstallHandle, "kill")
             local dummy = registry.get_package "dummy"
             stub(dummy.spec, "install")

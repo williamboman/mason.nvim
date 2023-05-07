@@ -167,4 +167,48 @@ describe("installer", function()
             assert.equals("spawn: bash failed with exit code 42 and signal 0. ", tostring(result:err_or_nil()))
         end)
     )
+
+    it(
+        "should lock package",
+        async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local callback = spy.new()
+            stub(handle.package.spec, "install", function()
+                a.sleep(3000)
+            end)
+
+            a.run(function()
+                return installer.execute(handle, { debug = true })
+            end, callback)
+
+            assert.wait_for(function()
+                assert.is_true(fs.sync.file_exists(path.package_lock "dummy"))
+            end)
+            handle:terminate()
+            assert.wait_for(function()
+                assert.spy(callback).was_called(1)
+            end)
+            assert.is_false(fs.sync.file_exists(path.package_lock "dummy"))
+        end)
+    )
+
+    it(
+        "should not run installer if package lock exists",
+        async_test(function()
+            local handle = InstallHandleGenerator "dummy"
+            local install = spy.new()
+            stub(handle.package.spec, "install", install)
+
+            fs.sync.write_file(path.package_lock "dummy", "dummypid")
+            local result = installer.execute(handle, { debug = true })
+            assert.is_true(fs.sync.file_exists(path.package_lock "dummy"))
+            fs.sync.unlink(path.package_lock "dummy")
+
+            assert.spy(install).was_not_called()
+            assert.equals(
+                "Lockfile exists, installation is already running in another process (pid: dummypid). Run with :MasonInstall --force to bypass.",
+                result:err_or_nil()
+            )
+        end)
+    )
 end)

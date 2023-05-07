@@ -16,7 +16,7 @@ local sem = Semaphore.new(settings.current.max_concurrent_installers)
 local M = {}
 
 ---@async
-local function create_prefix_dirs()
+function M.create_prefix_dirs()
     return Result.try(function(try)
         for _, p in ipairs {
             path.install_prefix(),
@@ -53,10 +53,28 @@ function M.context()
 end
 
 ---@async
+---@param ctx InstallContext
+local function lock_package(ctx)
+    log.debug("Attempting to lock package", ctx.package)
+    local lockfile = path.package_lock(ctx.package.name)
+    if not ctx.opts.force and fs.async.file_exists(lockfile) then
+        log.error("Lockfile already exists.", ctx.package)
+        return Result.failure(
+            ("Lockfile exists, installation is already running in another process (pid: %s). Run with :MasonInstall --force to bypass."):format(
+                fs.sync.read_file(lockfile)
+            )
+        )
+    end
+    a.scheduler()
+    fs.async.write_file(lockfile, vim.fn.getpid())
+    log.debug("Wrote lockfile", ctx.package)
+    return Result.success(lockfile)
+end
+
+---@async
 ---@param context InstallContext
 function M.prepare_installer(context)
     return Result.try(function(try)
-        try(create_prefix_dirs())
         local package_build_prefix = path.package_build_prefix(context.package.name)
         if fs.async.dir_exists(package_build_prefix) then
             try(Result.pcall(fs.async.rmrf, package_build_prefix))
@@ -165,60 +183,72 @@ function M.execute(handle, opts)
 
     log.fmt_info("Executing installer for %s %s", pkg, opts)
 
-    return Result.try(function(try)
-        -- 1. prepare directories and initialize cwd
-        local installer = try(M.prepare_installer(context))
+    return M.create_prefix_dirs()
+        :and_then(function()
+            return lock_package(context)
+        end)
+        :and_then(function(lockfile)
+            local release_lock = _.partial(pcall, fs.async.unlink, lockfile)
+            return Result.try(function(try)
+                -- 1. prepare directories and initialize cwd
+                local installer = try(M.prepare_installer(context))
 
-        -- 2. execute installer
-        try(run_installer(context, installer))
+                -- 2. execute installer
+                try(run_installer(context, installer))
 
-        -- 3. promote temporary installation dir
-        try(Result.pcall(function()
-            context:promote_cwd()
-        end))
+                -- 3. promote temporary installation dir
+                try(Result.pcall(function()
+                    context:promote_cwd()
+                end))
 
-        -- 4. link package
-        try(linker.link(context))
+                -- 4. link package
+                try(linker.link(context))
 
-        -- 5. build & write receipt
-        ---@type InstallReceipt
-        local receipt = try(build_receipt(context))
-        try(Result.pcall(function()
-            receipt:write(context.cwd:get())
-        end))
-    end)
+                -- 5. build & write receipt
+                ---@type InstallReceipt
+                local receipt = try(build_receipt(context))
+                try(Result.pcall(function()
+                    receipt:write(context.cwd:get())
+                end))
+            end)
+                :on_success(function()
+                    release_lock()
+                    if opts.debug then
+                        context.fs:write_file("mason-debug.log", table.concat(tailed_output, ""))
+                    end
+                end)
+                :on_failure(function()
+                    release_lock()
+                    if not opts.debug then
+                        -- clean up installation dir
+                        pcall(function()
+                            fs.async.rmrf(context.cwd:get())
+                        end)
+                    else
+                        context.fs:write_file("mason-debug.log", table.concat(tailed_output, ""))
+                        context.stdio_sink.stdout(
+                            ("[debug] Installation directory retained at %q.\n"):format(context.cwd:get())
+                        )
+                    end
+
+                    -- unlink linked executables (in the occasion an error occurs after linking)
+                    build_receipt(context):on_success(function(receipt)
+                        linker.unlink(context.package, receipt):on_failure(function(err)
+                            log.error("Failed to unlink failed installation", err)
+                        end)
+                    end)
+                end)
+        end)
         :on_success(function()
             permit:forget()
             handle:close()
             log.fmt_info("Installation succeeded for %s", pkg)
-            if opts.debug then
-                context.fs:write_file("mason-debug.log", table.concat(tailed_output, ""))
-            end
         end)
         :on_failure(function(failure)
             permit:forget()
             log.fmt_error("Installation failed for %s error=%s", pkg, failure)
             context.stdio_sink.stderr(tostring(failure))
             context.stdio_sink.stderr "\n"
-
-            if not opts.debug then
-                -- clean up installation dir
-                pcall(function()
-                    fs.async.rmrf(context.cwd:get())
-                end)
-            else
-                context.fs:write_file("mason-debug.log", table.concat(tailed_output, ""))
-                context.stdio_sink.stdout(
-                    ("[debug] Installation directory retained at %q.\n"):format(context.cwd:get())
-                )
-            end
-
-            -- unlink linked executables (in the occasion an error occurs after linking)
-            build_receipt(context):on_success(function(receipt)
-                linker.unlink(context.package, receipt):on_failure(function(err)
-                    log.error("Failed to unlink failed installation", err)
-                end)
-            end)
 
             if not handle:is_closed() and not handle.is_terminated then
                 handle:close()
