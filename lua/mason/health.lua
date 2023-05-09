@@ -7,6 +7,7 @@ local github_client = require "mason-core.managers.github.client"
 local platform = require "mason-core.platform"
 local providers = require "mason-core.providers"
 local registry_sources = require "mason-registry.sources"
+local settings = require "mason.settings"
 local spawn = require "mason-core.spawn"
 local version = require "mason.version"
 
@@ -290,7 +291,7 @@ local function check_languages()
 end
 
 ---@async
-local function check_mason_version()
+local function check_mason()
     providers.github
         .get_latest_release("williamboman/mason.nvim")
         :on_success(
@@ -310,13 +311,16 @@ local function check_mason_version()
             a.scheduler()
             report_ok(("mason.nvim version %s"):format(version.VERSION))
         end)
+
+    report_ok(("PATH: %s"):format(settings.current.PATH))
+    report_ok(("Providers: \n  %s"):format(_.join("\n  ", settings.current.providers)))
 end
 
 function M.check()
     report_start "mason.nvim"
 
     a.run_blocking(function()
-        check_mason_version()
+        check_mason()
         check_neovim()
         check_registries()
         check_core_utils()
