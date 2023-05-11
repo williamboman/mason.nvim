@@ -77,6 +77,8 @@ local INITIAL_STATE = {
         title_prefix = "", -- for animation
     },
     packages = {
+        ---@type Package[]
+        outdated_packages = {},
         new_versions_check = {
             is_checking = false,
             current = 0,
@@ -271,6 +273,8 @@ local function setup_handle(handle)
     handle_spawnhandle_change()
     mutate_state(function(state)
         state.packages.states[handle.package.name] = create_initial_package_state()
+        state.packages.outdated_packages =
+            _.filter(_.complement(_.equals(handle.package)), state.packages.outdated_packages)
     end)
 end
 
@@ -426,7 +430,7 @@ local function check_new_package_version(pkg)
     mutate_state(function(state)
         state.packages.states[pkg.name].is_checking_new_version = true
     end)
-    a.wait(function(resolve, reject)
+    return a.wait(function(resolve, reject)
         pkg:check_new_version(function(success, new_version)
             mutate_state(function(state)
                 state.packages.states[pkg.name].is_checking_new_version = false
@@ -467,6 +471,7 @@ local function check_new_visible_package_versions()
     )(state.packages.installed)
 
     mutate_state(function(state)
+        state.packages.outdated_packages = {}
         state.packages.new_versions_check.is_checking = true
         state.packages.new_versions_check.current = 0
         state.packages.new_versions_check.total = #installed_visible_packages
@@ -488,11 +493,14 @@ local function check_new_visible_package_versions()
     a.wait_all(_.map(function(package)
         return function()
             local permit = sem:acquire()
-            pcall(check_new_package_version, package)
+            local has_new_version = pcall(check_new_package_version, package)
             mutate_state(function(state)
                 state.packages.new_versions_check.current = state.packages.new_versions_check.current + 1
                 state.packages.new_versions_check.percentage_complete = state.packages.new_versions_check.current
                     / state.packages.new_versions_check.total
+                if has_new_version then
+                    table.insert(state.packages.outdated_packages, package)
+                end
             end)
             permit:forget()
         end
@@ -551,14 +559,12 @@ end
 
 local function update_all_packages()
     local state = get_state()
-    _.each(
-        function(pkg)
-            pkg:install(pkg)
-        end,
-        _.filter(function(pkg)
-            return state.packages.visible[pkg.name] and state.packages.states[pkg.name].new_version
-        end, state.packages.installed)
-    )
+    _.each(function(pkg)
+        pkg:install(pkg)
+    end, state.packages.outdated_packages)
+    mutate_state(function(state)
+        state.packages.outdated_packages = {}
+    end)
 end
 
 local function toggle_install_log(event)

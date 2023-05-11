@@ -150,6 +150,20 @@ local function PackageComponent(state, pkg, opts)
     }
 end
 
+local get_outdated_packages_preview = _.if_else(
+    _.compose(_.lte(4), _.size),
+    _.compose(_.join ", ", _.map(_.prop "name")),
+    _.compose(
+        _.join ", ",
+        _.converge(_.concat, {
+            _.compose(_.map(_.prop "name"), _.take(3)),
+            function(pkgs)
+                return { ("and %d more…"):format(#pkgs - 3) }
+            end,
+        })
+    )
+)
+
 ---@param state InstallerUiState
 local function Installed(state)
     return Ui.Node {
@@ -172,6 +186,19 @@ local function Installed(state)
                         styling((" "):rep(new_versions_check.percentage_complete * 15)),
                     }
                 end),
+                Ui.When(
+                    not state.packages.new_versions_check.is_checking and #state.packages.outdated_packages > 0,
+                    function()
+                        return Ui.VirtualTextNode {
+                            p.muted "Press ",
+                            p.highlight(settings.current.ui.keymaps.update_all_packages),
+                            p.muted " to update ",
+                            p.highlight(tostring(#state.packages.outdated_packages)),
+                            p.muted(#state.packages.outdated_packages > 1 and " packages " or " package "),
+                            p.Comment(("(%s)"):format(get_outdated_packages_preview(state.packages.outdated_packages))),
+                        }
+                    end
+                ),
             },
             packages = state.packages.installed,
             ---@param pkg Package
