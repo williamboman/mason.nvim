@@ -123,8 +123,8 @@ function GitHubRegistrySource:install()
 
     return Result.try(function(try)
         local version = self.spec.version
-        if self:is_installed() and version ~= nil then
-            -- Fixed version - nothing to update
+        if self:is_installed() and self:get_info().version == version then
+            -- Fixed version is already installed - nothing to update
             return
         end
 
