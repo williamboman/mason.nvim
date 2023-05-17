@@ -151,7 +151,7 @@ window.events:on("search:enter", function()
         state.view.is_searching = true
     end)
     vim.schedule(function()
-        vim.cmd.redraw()
+        vim.cmd "redraw"
     end)
 end)
 
