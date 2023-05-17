@@ -15,6 +15,7 @@ return function(state)
                     p.none((" "):rep(#state.header.title_prefix + 1)),
                 }, {
                     p.header " mason.nvim ",
+                    state.view.is_searching and p.Comment " (search mode, press <Esc> to clear)" or p.none "",
                 }),
                 Ui.When(
                     state.view.is_showing_help,

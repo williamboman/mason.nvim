@@ -25,6 +25,7 @@ local function GlobalKeybinds(state)
         Ui.Keybind("q", "CLOSE_WINDOW", nil, true),
         Ui.When(not state.view.language_filter, Ui.Keybind("<Esc>", "CLOSE_WINDOW", nil, true)),
         Ui.When(state.view.language_filter, Ui.Keybind("<Esc>", "CLEAR_LANGUAGE_FILTER", nil, true)),
+        Ui.When(state.view.is_searching, Ui.Keybind("<Esc>", "CLEAR_SEARCH_MODE", nil, true)),
         Ui.Keybind(settings.current.ui.keymaps.apply_language_filter, "LANGUAGE_FILTER", nil, true),
         Ui.Keybind(settings.current.ui.keymaps.update_all_packages, "UPDATE_ALL_PACKAGES", nil, true),
 
@@ -65,6 +66,7 @@ local INITIAL_STATE = {
         registry_update_error = nil,
     },
     view = {
+        is_searching = false,
         is_showing_help = false,
         is_current_settings_expanded = false,
         language_filter = nil,
@@ -143,6 +145,23 @@ window.view(
 )
 
 local mutate_state, get_state = window.state(INITIAL_STATE)
+
+window.events:on("search:enter", function()
+    mutate_state(function(state)
+        state.view.is_searching = true
+    end)
+    vim.schedule(function()
+        vim.cmd.redraw()
+    end)
+end)
+
+window.events:on("search:leave", function(search)
+    if search == "" then
+        mutate_state(function(state)
+            state.view.is_searching = false
+        end)
+    end
+end)
 
 ---@param pkg Package
 ---@param group string
@@ -551,6 +570,12 @@ local function clear_filter()
     end)
 end
 
+local function clear_search_mode()
+    mutate_state(function(state)
+        state.view.is_searching = false
+    end)
+end
+
 local function toggle_expand_current_settings()
     mutate_state(function(state)
         state.view.is_current_settings_expanded = not state.view.is_current_settings_expanded
@@ -579,6 +604,7 @@ local effects = {
     ["CHECK_NEW_PACKAGE_VERSION"] = a.scope(_.compose(_.partial(pcall, check_new_package_version), _.prop "payload")),
     ["CHECK_NEW_VISIBLE_PACKAGE_VERSIONS"] = a.scope(check_new_visible_package_versions),
     ["CLEAR_LANGUAGE_FILTER"] = clear_filter,
+    ["CLEAR_SEARCH_MODE"] = clear_search_mode,
     ["CLOSE_WINDOW"] = window.close,
     ["INSTALL_PACKAGE"] = install_package,
     ["LANGUAGE_FILTER"] = filter,
