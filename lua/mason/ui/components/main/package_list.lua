@@ -115,6 +115,8 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
     })
 end
 
+local get_package_search_keywords = _.compose(_.join ", ", _.map(_.to_lower), _.path { "spec", "languages" })
+
 ---@param state InstallerUiState
 ---@param pkg Package
 ---@param opts { keybinds: KeybindHandlerNode[], icon: string[], is_installed: boolean, sticky: StickyCursorNode? }
@@ -125,7 +127,14 @@ local function PackageComponent(state, pkg, opts)
 
     return Ui.Node {
         Ui.HlTextNode {
-            { opts.icon, label, p.none " ", p.Comment(table.concat(pkg:get_aliases(), ", ")) },
+            {
+                opts.icon,
+                label,
+                p.none " ",
+                p.Comment(table.concat(pkg:get_aliases(), ", ")),
+                state.view.is_searching and p.Comment(" // keywords: " .. get_package_search_keywords(pkg))
+                    or p.none "",
+            },
         },
         opts.sticky or Ui.Node {},
         Ui.When(pkg_state.is_checking_new_version, function()

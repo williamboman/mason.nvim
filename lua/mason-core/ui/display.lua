@@ -1,3 +1,4 @@
+local EventEmitter = require "mason-core.EventEmitter"
 local log = require "mason-core.log"
 local settings = require "mason.settings"
 local state = require "mason-core.ui.state"
@@ -212,6 +213,8 @@ function M.new_view_only_win(name, filetype)
     ---@type WindowOpts
     local window_opts = {}
 
+    local events = EventEmitter.new()
+
     vim.diagnostic.config({
         virtual_text = {
             severity = { min = vim.diagnostic.severity.HINT, max = vim.diagnostic.severity.ERROR },
@@ -367,6 +370,24 @@ function M.new_view_only_win(name, filetype)
         bufnr = vim.api.nvim_create_buf(false, true)
         win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(window_opts, false))
 
+        vim.api.nvim_create_autocmd("CmdLineEnter", {
+            buffer = bufnr,
+            callback = function()
+                if vim.v.event.cmdtype == "/" or vim.v.event.cmdtype == "?" then
+                    events:emit "search:enter"
+                end
+            end,
+        })
+
+        vim.api.nvim_create_autocmd("CmdLineLeave", {
+            buffer = bufnr,
+            callback = function(args)
+                if vim.v.event.cmdtype == "/" or vim.v.event.cmdtype == "?" then
+                    events:emit("search:leave", vim.fn.getcmdline())
+                end
+            end,
+        })
+
         registered_effect_handlers = window_opts.effects
         registered_keybinds = {}
         registered_keymaps = {}
@@ -455,6 +476,7 @@ function M.new_view_only_win(name, filetype)
     end
 
     return {
+        events = events,
         ---@param _renderer fun(state: table): table
         view = function(_renderer)
             renderer = _renderer
