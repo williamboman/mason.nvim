@@ -16,8 +16,11 @@ lua require("luassertx")
 lua require("test_helpers")
 
 lua <<EOF
+local path = require "mason-core.path"
+
 require("mason").setup {
-    install_root_dir = vim.env.INSTALL_ROOT_DIR,
+    log_level = vim.log.levels.DEBUG,
+    install_root_dir = vim.env.INSTALL_ROOT_DIR or path.concat { vim.loop.cwd(), "tests", "fixtures", "mason"},
     registries = {
         "lua:dummy-registry.index"
     }

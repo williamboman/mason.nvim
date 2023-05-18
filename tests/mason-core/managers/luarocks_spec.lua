@@ -1,14 +1,19 @@
+local a = require "mason-core.async"
 local installer = require "mason-core.installer"
 local luarocks = require "mason-core.managers.luarocks"
 local path = require "mason-core.path"
 
 describe("luarocks manager", function()
+    before_each(function()
+        a.run_blocking(installer.create_prefix_dirs)
+    end)
+
     it(
         "should install provided package",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
@@ -28,7 +33,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "1.2.3" })
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, luarocks.package "lua-cjson")
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
@@ -48,7 +53,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, luarocks.package("lua-cjson", { dev = true }))
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {
@@ -68,7 +73,7 @@ describe("luarocks manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, luarocks.package("luaformatter", { server = "https://luarocks.org/dev" }))
             assert.spy(ctx.spawn.luarocks).was_called(1)
             assert.spy(ctx.spawn.luarocks).was_called_with {

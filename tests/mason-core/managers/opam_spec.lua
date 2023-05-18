@@ -8,7 +8,7 @@ describe("opam manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(
                 ctx,
                 opam.packages { "main-package", "supporting-package", "supporting-package2" }
@@ -33,7 +33,7 @@ describe("opam manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(
                 ctx,
                 opam.packages { "main-package", "supporting-package", "supporting-package2" }

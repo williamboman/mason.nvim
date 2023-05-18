@@ -15,6 +15,7 @@ local spawn = require "mason-core.spawn"
 describe("pip3 manager", function()
     before_each(function()
         settings.set(settings._DEFAULT_SETTINGS)
+        a.run_blocking(installer.create_prefix_dirs)
     end)
 
     it("normalizes pip3 packages", function()
@@ -29,7 +30,7 @@ describe("pip3 manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(
                 ctx,
                 pip3.packages { "main-package", "supporting-package", "supporting-package2" }
@@ -69,7 +70,7 @@ describe("pip3 manager", function()
             ctx.spawn.python = spy.new(mockx.throws())
             ctx.spawn[vim.g.python3_host_prog] = spy.new(mockx.throws())
             local err = assert.has_error(function()
-                installer.prepare_installer(ctx)
+                installer.prepare_installer(ctx):get_or_throw()
                 installer.exec_in_context(ctx, pip3.packages { "package" })
             end)
             vim.g.python3_host_prog = nil
@@ -91,7 +92,7 @@ describe("pip3 manager", function()
             ctx.spawn.python = spy.new(mockx.returns {})
             ctx.spawn[vim.g.python3_host_prog] = spy.new(mockx.returns {})
 
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, pip3.packages { "package" })
             vim.g.python3_host_prog = nil
             assert.spy(ctx.spawn.python3).was_called(0)
@@ -109,7 +110,7 @@ describe("pip3 manager", function()
             ctx.spawn.python = spy.new(mockx.returns {})
             ctx.spawn[vim.env.HOME .. "/python3"] = spy.new(mockx.returns {})
 
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, pip3.packages { "package" })
             a.scheduler()
             vim.g.python3_host_prog = nil
@@ -127,7 +128,7 @@ describe("pip3 manager", function()
             }
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, pip3.packages { "package" })
             assert.spy(ctx.spawn.python).was_called(1)
             assert.spy(ctx.spawn.python).was_called_with {
@@ -153,7 +154,7 @@ describe("pip3 manager", function()
             }
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle)
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(ctx, pip3.packages { "package" })
             assert.spy(ctx.spawn.python).was_called(2)
             assert.spy(ctx.spawn.python).was_called_with {
@@ -184,7 +185,7 @@ describe("pip3 manager", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local ctx = InstallContextGenerator(handle, { version = "42.13.37" })
-            installer.prepare_installer(ctx)
+            installer.prepare_installer(ctx):get_or_throw()
             installer.exec_in_context(
                 ctx,
                 pip3.packages { "main-package", "supporting-package", "supporting-package2" }
