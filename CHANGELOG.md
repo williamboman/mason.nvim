@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/williamboman/mason.nvim/compare/v1.1.0...v1.1.1) (2023-05-29)
+
+
+### Bug Fixes
+
+* **ui:** improve search mode UI and remove redundant whitespaces ([#1332](https://github.com/williamboman/mason.nvim/issues/1332)) ([a18c031](https://github.com/williamboman/mason.nvim/commit/a18c031c72a3c7576ba5dc60ee30de8290c8757c))
+
 ## [1.1.0](https://github.com/williamboman/mason.nvim/compare/v1.0.1...v1.1.0) (2023-05-18)
 
 
