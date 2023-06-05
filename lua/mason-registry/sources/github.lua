@@ -123,7 +123,7 @@ function GitHubRegistrySource:install()
 
     return Result.try(function(try)
         local version = self.spec.version
-        if self:is_installed() and self:get_info().version == version then
+        if self:is_installed() and self:get_info().version == version and version ~= 'latest' then
             -- Fixed version is already installed - nothing to update
             return
         end
@@ -146,7 +146,7 @@ function GitHubRegistrySource:install()
         end
 
         local zip_file = path.concat { self.root_dir, "registry.json.zip" }
-        try(fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "registry.json.zip"), {
+        try(fetch(settings.current.github.registry_url_template:format(self.spec.repo, version, "registry.json.zip"), {
             out_file = zip_file,
         }):map_err(_.always "Failed to download registry archive."))
         local zip_buffer = fs.async.read_file(zip_file)
@@ -158,7 +158,7 @@ function GitHubRegistrySource:install()
         pcall(fs.async.unlink, zip_file)
 
         local checksums = try(
-            fetch(settings.current.github.download_url_template:format(self.spec.repo, version, "checksums.txt")):map_err(
+            fetch(settings.current.github.registry_url_template:format(self.spec.repo, version, "checksums.txt")):map_err(
                 _.always "Failed to download checksums.txt."
             )
         )
