@@ -176,13 +176,14 @@ local function wait(suspend_fns, mode)
         for i, suspend_fn in ipairs(suspend_fns) do
             thread_cancellations[i] = exports.run(suspend_fn, function(success, result)
                 completed = completed + 1
+                if channel:is_closed() then
+                    return
+                end
                 if not success then
-                    if not channel:is_closed() then
-                        cancel()
-                        channel:send(false, result)
-                        results = nil
-                        thread_cancellations = {}
-                    end
+                    cancel()
+                    channel:send(false, result)
+                    results = nil
+                    thread_cancellations = {}
                 else
                     results[i] = result
                     if mode == "first" or completed >= count then
