@@ -99,11 +99,10 @@ describe(":MasonUpdate", function()
             end)
             spy.on(vim, "notify")
             api.MasonUpdate()
-            assert.spy(vim.notify).was_called(1)
+            assert.spy(vim.notify).was_called(2)
             assert.spy(vim.notify).was_called_with("Updating registries…", vim.log.levels.INFO, {
                 title = "mason.nvim",
             })
-            a.wait(vim.schedule)
             assert.spy(vim.notify).was_called_with("Successfully updated 1 registry.", vim.log.levels.INFO, {
                 title = "mason.nvim",
             })
@@ -118,11 +117,10 @@ describe(":MasonUpdate", function()
             end)
             spy.on(vim, "notify")
             api.MasonUpdate()
-            assert.spy(vim.notify).was_called(1)
+            assert.spy(vim.notify).was_called(2)
             assert.spy(vim.notify).was_called_with("Updating registries…", vim.log.levels.INFO, {
                 title = "mason.nvim",
             })
-            a.wait(vim.schedule)
             assert.spy(vim.notify).was_called_with("Failed to update registries: Some error.", vim.log.levels.ERROR, {
                 title = "mason.nvim",
             })
