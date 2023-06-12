@@ -1,5 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local providers = require "mason-core.providers"
 local util = require "mason-core.installer.registry.util"
 
 ---@param purl Purl
@@ -46,6 +47,12 @@ function M.install(ctx, source)
             extra_packages = source.extra_packages,
         }))
     end)
+end
+
+---@async
+---@param purl Purl
+function M.get_versions(purl)
+    return providers.npm.get_all_versions(purl_to_npm(purl))
 end
 
 return M

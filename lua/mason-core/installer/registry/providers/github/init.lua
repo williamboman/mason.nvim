@@ -32,4 +32,18 @@ function M.install(ctx, source, purl)
     end
 end
 
+---@async
+---@param purl Purl
+---@param source GitHubReleaseSource | GitHubBuildSource
+function M.get_versions(purl, source)
+    if source.asset then
+        return require("mason-core.installer.registry.providers.github.release").get_versions(purl)
+    elseif source.build then
+        -- We can't yet reliably determine the true source (release, tag, commit, etc.) for "build" sources.
+        return Result.failure "Unimplemented."
+    else
+        return Result.failure "Unknown source type."
+    end
+end
+
 return M

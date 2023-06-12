@@ -1,5 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local providers = require "mason-core.providers"
 local util = require "mason-core.installer.registry.util"
 
 local M = {}
@@ -46,7 +47,6 @@ end
 ---@param source ParsedCargoSource
 function M.install(ctx, source)
     local cargo = require "mason-core.installer.managers.cargo"
-    local providers = require "mason-core.providers"
 
     return Result.try(function(try)
         try(util.ensure_valid_version(function()
@@ -59,6 +59,12 @@ function M.install(ctx, source)
             locked = source.locked,
         }))
     end)
+end
+
+---@async
+---@param purl Purl
+function M.get_versions(purl)
+    return providers.crates.get_all_versions(purl.name)
 end
 
 return M

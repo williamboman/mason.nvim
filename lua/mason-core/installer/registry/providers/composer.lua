@@ -1,4 +1,5 @@
 local Result = require "mason-core.result"
+local providers = require "mason-core.providers"
 local util = require "mason-core.installer.registry.util"
 
 local M = {}
@@ -20,7 +21,6 @@ end
 ---@param source ParsedComposerSource
 function M.install(ctx, source)
     local composer = require "mason-core.installer.managers.composer"
-    local providers = require "mason-core.providers"
 
     return Result.try(function(try)
         try(util.ensure_valid_version(function()
@@ -29,6 +29,12 @@ function M.install(ctx, source)
 
         try(composer.install(source.package, source.version))
     end)
+end
+
+---@async
+---@param purl Purl
+function M.get_versions(purl)
+    return providers.packagist.get_all_versions(("%s/%s"):format(purl.namespace, purl.name))
 end
 
 return M
