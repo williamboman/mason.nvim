@@ -10,9 +10,6 @@ return {
     get_all_release_versions = function(repo)
         return client.fetch_all_releases(repo):map(_.map(_.prop "tag_name"))
     end,
-    get_latest_tag = function(repo)
-        return Result.failure "Unimplemented"
-    end,
     get_all_tags = function(repo)
         return client.fetch_all_tags(repo):map(_.map(_.compose(_.gsub("^refs/tags/", ""), _.prop "ref")))
     end,
