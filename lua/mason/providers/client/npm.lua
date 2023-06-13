@@ -11,6 +11,10 @@ return {
             :map(_.pick { "name", "version" })
     end,
     get_all_versions = function(pkg)
-        return spawn.npm({ "view", pkg, "versions" }):map(_.prop "stdout"):map_catching(vim.json.decode)
+        return spawn
+            .npm({ "view", "--json", pkg, "versions" })
+            :map(_.prop "stdout")
+            :map_catching(vim.json.decode)
+            :map(_.reverse)
     end,
 }

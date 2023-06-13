@@ -27,8 +27,9 @@ local function get_all_versions(pkg)
             "--use-deprecated=legacy-resolver", -- for pip >= 20.3
             ("%s=="):format(pkg), -- invalid version specifier to trigger the wanted error message
         })
-        :map_err(_.compose(_.split ", ", _.head, _.match "%(from versions: (.+)%)", _.prop "stderr"))
-        :recover(_.identity)
+        :recover(_.prop "stderr")
+        :map(_.compose(_.split ", ", _.head, _.match "%(from versions: (.+)%)"))
+        :map(_.reverse)
 end
 
 ---@param pkg string
