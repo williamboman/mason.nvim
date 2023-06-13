@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/williamboman/mason.nvim/compare/v1.2.0...v1.2.1) (2023-06-13)
+
+
+### Bug Fixes
+
+* **providers:** fix some client providers and add some more ([#1354](https://github.com/williamboman/mason.nvim/issues/1354)) ([6f44955](https://github.com/williamboman/mason.nvim/commit/6f4495590a0f9e121b483c9b1236fbabbd80da7a))
+
 ## [1.2.0](https://github.com/williamboman/mason.nvim/compare/v1.1.1...v1.2.0) (2023-06-13)
 
 
