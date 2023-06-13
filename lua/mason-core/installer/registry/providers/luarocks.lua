@@ -42,4 +42,10 @@ function M.install(ctx, source)
     })
 end
 
+---@async
+---@param purl Purl
+function M.get_versions(purl)
+    return Result.failure "Unimplemented."
+end
+
 return M

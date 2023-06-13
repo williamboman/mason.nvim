@@ -2,6 +2,7 @@ local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local expr = require "mason-core.installer.registry.expr"
+local providers = require "mason-core.providers"
 local settings = require "mason.settings"
 local util = require "mason-core.installer.registry.util"
 
@@ -111,6 +112,12 @@ function M.install(ctx, source)
             end))
         end
     end)
+end
+
+---@async
+---@param purl Purl
+function M.get_versions(purl)
+    return providers.github.get_all_release_versions(("%s/%s"):format(purl.namespace, purl.name))
 end
 
 return M

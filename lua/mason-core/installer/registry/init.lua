@@ -42,6 +42,7 @@ end
 ---@class InstallerProvider
 ---@field parse fun(source: RegistryPackageSource, purl: Purl, opts: PackageInstallOpts): Result
 ---@field install async fun(ctx: InstallContext, source: ParsedPackageSource, purl: Purl): Result
+---@field get_versions async fun(purl: Purl, source: RegistryPackageSource): Result # Result<string[]>
 
 ---@class ParsedPackageSource
 
@@ -201,6 +202,18 @@ function M.compile(spec, opts)
                 error(err, 0)
             end)
         end
+    end)
+end
+
+---@async
+---@param spec RegistryPackageSpec
+function M.get_versions(spec)
+    return Result.try(function(try)
+        ---@type Purl
+        local purl = try(Purl.parse(spec.source.id))
+        ---@type InstallerProvider
+        local provider = try(get_provider(purl))
+        return provider.get_versions(purl, spec.source)
     end)
 end
 

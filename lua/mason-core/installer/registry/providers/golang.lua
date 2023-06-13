@@ -1,5 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local providers = require "mason-core.providers"
 local util = require "mason-core.installer.registry.util"
 
 local M = {}
@@ -34,7 +35,6 @@ end
 ---@param source ParsedGolangSource
 function M.install(ctx, source)
     local golang = require "mason-core.installer.managers.golang"
-    local providers = require "mason-core.providers"
 
     return Result.try(function(try)
         try(util.ensure_valid_version(function()
@@ -45,6 +45,12 @@ function M.install(ctx, source)
             extra_packages = source.extra_packages,
         }))
     end)
+end
+
+---@async
+---@param purl Purl
+function M.get_versions(purl)
+    return providers.golang.get_all_versions(get_package_name(purl))
 end
 
 return M

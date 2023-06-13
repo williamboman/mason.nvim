@@ -22,4 +22,10 @@ function M.install(ctx, source)
     return nuget.install(source.package, source.version)
 end
 
+---@async
+---@param purl Purl
+function M.get_versions(purl)
+    return Result.failure "Unimplemented."
+end
+
 return M

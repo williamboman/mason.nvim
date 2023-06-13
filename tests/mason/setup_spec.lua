@@ -53,7 +53,7 @@ describe("mason setup", function()
             bar = false,
             definition = "Install one or more packages.",
             nargs = "+",
-            complete = "custom",
+            complete = "<Lua function>",
         }(user_commands["MasonInstall"]))
 
         assert.is_true(match.tbl_containing {
@@ -61,7 +61,7 @@ describe("mason setup", function()
             bar = false,
             definition = "Uninstall one or more packages.",
             nargs = "+",
-            complete = "custom",
+            complete = "<Lua function>",
         }(user_commands["MasonUninstall"]))
 
         assert.is_true(match.tbl_containing {
