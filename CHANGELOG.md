@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/williamboman/mason.nvim/compare/v1.1.1...v1.2.0) (2023-06-13)
+
+
+### Features
+
+* **command:** improve completion for :MasonInstall ([#1353](https://github.com/williamboman/mason.nvim/issues/1353)) ([13e26c8](https://github.com/williamboman/mason.nvim/commit/13e26c81ff5074ee8f095a791cd37fc1cec37377))
+
+
+### Bug Fixes
+
+* **async:** always check channel state ([#1351](https://github.com/williamboman/mason.nvim/issues/1351)) ([f503346](https://github.com/williamboman/mason.nvim/commit/f5033463bb911a136e577fc6f339328f162e2b4a))
+* **command:** run :MasonUpdate synchronously in headless mode ([#1347](https://github.com/williamboman/mason.nvim/issues/1347)) ([0276793](https://github.com/williamboman/mason.nvim/commit/02767937fc2e1b214c854a8fdde26ae1d3529dd6))
+* **functional:** strip_prefix and strip_suffix should not use patterns ([#1352](https://github.com/williamboman/mason.nvim/issues/1352)) ([f99b702](https://github.com/williamboman/mason.nvim/commit/f99b70233e49db2229350bb82d9ddc6e2f4131c0))
+
 ## [1.1.1](https://github.com/williamboman/mason.nvim/compare/v1.1.0...v1.1.1) (2023-05-29)
 
 
