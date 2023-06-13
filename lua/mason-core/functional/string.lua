@@ -108,21 +108,27 @@ _.trim_end_matches = fun.curryN(function(pattern, str)
 end, 2)
 
 _.strip_prefix = fun.curryN(function(prefix_pattern, str)
-    local _, start = string.find(str, "^" .. prefix_pattern)
-    if start then
-        return str:sub(start + 1)
-    else
+    if #prefix_pattern > #str then
         return str
     end
+    for i = 1, #prefix_pattern do
+        if str:sub(i, i) ~= prefix_pattern:sub(i, i) then
+            return str
+        end
+    end
+    return str:sub(#prefix_pattern + 1)
 end, 2)
 
 _.strip_suffix = fun.curryN(function(suffix_pattern, str)
-    local stop = string.find(str, suffix_pattern .. "$")
-    if stop then
-        return str:sub(1, stop - 1)
-    else
+    if #suffix_pattern > #str then
         return str
     end
+    for i = 1, #suffix_pattern do
+        if str:sub(-i, -i) ~= suffix_pattern:sub(-i, -i) then
+            return str
+        end
+    end
+    return str:sub(1, -#suffix_pattern - 1)
 end, 2)
 
 return _
