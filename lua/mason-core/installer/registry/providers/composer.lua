@@ -21,14 +21,7 @@ end
 ---@param source ParsedComposerSource
 function M.install(ctx, source)
     local composer = require "mason-core.installer.managers.composer"
-
-    return Result.try(function(try)
-        try(util.ensure_valid_version(function()
-            return providers.packagist.get_all_versions(source.package)
-        end))
-
-        try(composer.install(source.package, source.version))
-    end)
+    return composer.install(source.package, source.version)
 end
 
 ---@async

@@ -48,17 +48,11 @@ end
 function M.install(ctx, source)
     local cargo = require "mason-core.installer.managers.cargo"
 
-    return Result.try(function(try)
-        try(util.ensure_valid_version(function()
-            return providers.crates.get_all_versions(source.crate)
-        end))
-
-        try(cargo.install(source.crate, source.version, {
-            git = source.git,
-            features = source.features,
-            locked = source.locked,
-        }))
-    end)
+    return cargo.install(source.crate, source.version, {
+        git = source.git,
+        features = source.features,
+        locked = source.locked,
+    })
 end
 
 ---@async

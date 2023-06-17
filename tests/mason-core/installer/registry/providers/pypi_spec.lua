@@ -83,32 +83,4 @@ describe("pypi provider :: installing", function()
         )
         settings.set(settings._DEFAULT_SETTINGS)
     end)
-
-    it("should ensure valid version", function()
-        local ctx = create_dummy_context {
-            version = "1.10.0",
-        }
-        local manager = require "mason-core.installer.managers.pypi"
-        local providers = require "mason-core.providers"
-        stub(providers.pypi, "get_all_versions", mockx.returns(Result.success { "1.0.0" }))
-        stub(manager, "init", mockx.returns(Result.success()))
-        stub(manager, "install", mockx.returns(Result.success()))
-
-        local result = installer.exec_in_context(ctx, function()
-            return pypi.install(ctx, {
-                package = "package",
-                version = "1.5.0",
-                extra_packages = {},
-                pip = {
-                    upgrade = true,
-                    extra_args = { "--proxy", "http://localghost" },
-                },
-            })
-        end)
-
-        assert.is_true(result:is_failure())
-        assert.same(Result.failure [[Version "1.10.0" is not available.]], result)
-        assert.spy(manager.init).was_called(0)
-        assert.spy(manager.install).was_called(0)
-    end)
 end)

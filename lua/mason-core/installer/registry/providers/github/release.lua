@@ -88,13 +88,8 @@ end
 ---@param source ParsedGitHubReleaseSource
 function M.install(ctx, source)
     local std = require "mason-core.installer.managers.std"
-    local providers = require "mason-core.providers"
 
     return Result.try(function(try)
-        try(util.ensure_valid_version(function()
-            return providers.github.get_all_release_versions(source.repo)
-        end))
-
         for __, download in ipairs(source.downloads) do
             a.scheduler()
             local out_dir = vim.fn.fnamemodify(download.out_file, ":h")

@@ -116,28 +116,4 @@ describe("cargo provider :: installing", function()
             locked = true,
         })
     end)
-
-    it("should ensure valid version", function()
-        local ctx = create_dummy_context {
-            version = "1.10.0",
-        }
-        local manager = require "mason-core.installer.managers.cargo"
-        local providers = require "mason-core.providers"
-        stub(providers.crates, "get_all_versions", mockx.returns(Result.success { "1.0.0" }))
-        stub(manager, "install", mockx.returns(Result.success()))
-
-        local result = installer.exec_in_context(ctx, function()
-            return cargo.install(ctx, {
-                crate = "crate-name",
-                version = "1.10.0",
-                features = nil,
-                locked = true,
-                git = nil,
-            })
-        end)
-
-        assert.is_true(result:is_failure())
-        assert.same(Result.failure [[Version "1.10.0" is not available.]], result)
-        assert.spy(manager.install).was_called(0)
-    end)
 end)

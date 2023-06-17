@@ -36,15 +36,9 @@ end
 function M.install(ctx, source)
     local golang = require "mason-core.installer.managers.golang"
 
-    return Result.try(function(try)
-        try(util.ensure_valid_version(function()
-            return providers.golang.get_all_versions(source.package)
-        end))
-
-        try(golang.install(source.package, source.version, {
-            extra_packages = source.extra_packages,
-        }))
-    end)
+    return golang.install(source.package, source.version, {
+        extra_packages = source.extra_packages,
+    })
 end
 
 ---@async
