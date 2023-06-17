@@ -1,6 +1,7 @@
 local Result = require "mason-core.result"
 local installer = require "mason-core.installer.registry"
 local match = require "luassert.match"
+local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 local util = require "mason-core.installer.registry.util"
 
@@ -27,6 +28,9 @@ local dummy_provider = {
         else
             return Result.success()
         end
+    end,
+    get_versions = function()
+        return Result.success { "v1.0.0", "v2.0.0" }
     end,
 }
 
@@ -125,24 +129,99 @@ end)
 describe("registry installer :: compiling", function()
     it("should run compiled installer function successfully", function()
         installer.register_provider("dummy", dummy_provider)
+        spy.on(dummy_provider, "get_versions")
+
+        ---@type PackageInstallOpts
+        local opts = {}
 
         local result = installer.compile({
             schema = "registry+v1",
             source = {
                 id = "pkg:dummy/package-name@v1.2.3",
             },
-        }, {})
+        }, opts)
 
         assert.is_true(result:is_success())
-        local installer_fn = result:get_or_nil()
+        local installer_fn = result:get_or_throw()
 
-        local ctx = create_dummy_context()
+        local ctx = create_dummy_context(opts)
+        local installer_result = require("mason-core.installer").exec_in_context(ctx, installer_fn)
+
+        assert.same(Result.success(), installer_result)
+        assert.spy(dummy_provider.get_versions).was_not_called()
+    end)
+
+    it("should ensure valid version", function()
+        installer.register_provider("dummy", dummy_provider)
+        spy.on(dummy_provider, "get_versions")
+
+        ---@type PackageInstallOpts
+        local opts = { version = "v2.0.0" }
+
+        local result = installer.compile({
+            schema = "registry+v1",
+            source = {
+                id = "pkg:dummy/package-name@v1.2.3",
+            },
+        }, opts)
+
+        assert.is_true(result:is_success())
+        local installer_fn = result:get_or_throw()
+
+        local ctx = create_dummy_context(opts)
         local installer_result = require("mason-core.installer").exec_in_context(ctx, installer_fn)
         assert.same(Result.success(), installer_result)
+
+        assert.spy(dummy_provider.get_versions).was_called(1)
+        assert.spy(dummy_provider.get_versions).was_called_with({
+            name = "package-name",
+            scheme = "pkg",
+            type = "dummy",
+            version = "v2.0.0",
+        }, {
+            id = "pkg:dummy/package-name@v1.2.3",
+        })
+    end)
+
+    it("should reject invalid version", function()
+        installer.register_provider("dummy", dummy_provider)
+        spy.on(dummy_provider, "get_versions")
+
+        ---@type PackageInstallOpts
+        local opts = { version = "v13.3.7" }
+
+        local result = installer.compile({
+            schema = "registry+v1",
+            source = {
+                id = "pkg:dummy/package-name@v1.2.3",
+            },
+        }, opts)
+
+        assert.is_true(result:is_success())
+        local installer_fn = result:get_or_throw()
+
+        local ctx = create_dummy_context(opts)
+        local err = assert.has_error(function()
+            require("mason-core.installer").exec_in_context(ctx, installer_fn)
+        end)
+
+        assert.equals([[Version "v13.3.7" is not available.]], err)
+        assert.spy(dummy_provider.get_versions).was_called(1)
+        assert.spy(dummy_provider.get_versions).was_called_with({
+            name = "package-name",
+            scheme = "pkg",
+            type = "dummy",
+            version = "v13.3.7",
+        }, {
+            id = "pkg:dummy/package-name@v1.2.3",
+        })
     end)
 
     it("should raise errors upon installer failures", function()
         installer.register_provider("dummy", dummy_provider)
+
+        ---@type PackageInstallOpts
+        local opts = {}
 
         local result = installer.compile({
             schema = "registry+v1",
@@ -150,12 +229,12 @@ describe("registry installer :: compiling", function()
                 id = "pkg:dummy/package-name@v1.2.3",
                 should_fail = true,
             },
-        }, {})
+        }, opts)
 
         assert.is_true(result:is_success())
         local installer_fn = result:get_or_nil()
 
-        local ctx = create_dummy_context()
+        local ctx = create_dummy_context(opts)
         local err = assert.has_error(function()
             require("mason-core.installer").exec_in_context(ctx, installer_fn)
         end)
@@ -178,13 +257,15 @@ describe("registry installer :: compiling", function()
             opt = { ["opt/"] = "opt/" },
             share = { ["share/"] = "share/" },
         }
+        ---@type PackageInstallOpts
+        local opts = {}
 
-        local result = installer.compile(spec, {})
+        local result = installer.compile(spec, opts)
 
         assert.is_true(result:is_success())
         local installer_fn = result:get_or_nil()
 
-        local ctx = create_dummy_context()
+        local ctx = create_dummy_context(opts)
         local installer_result = require("mason-core.installer").exec_in_context(ctx, installer_fn)
         assert.is_true(installer_result:is_success())
 

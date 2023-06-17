@@ -6,6 +6,7 @@ local a = require "mason-core.async"
 local link = require "mason-core.installer.registry.link"
 local log = require "mason-core.log"
 local schemas = require "mason-core.installer.registry.schemas"
+local util = require "mason-core.installer.registry.util"
 
 local M = {}
 
@@ -132,6 +133,7 @@ function M.parse(spec, opts)
         return {
             provider = provider,
             source = parsed_source,
+            raw_source = source,
             purl = purl,
         }
     end):on_failure(function(err)
@@ -162,13 +164,19 @@ function M.compile(spec, opts)
             { _.T, _.identity },
         }
 
-        ---@type { purl: Purl, provider: InstallerProvider, source: ParsedPackageSource }
+        ---@type { purl: Purl, provider: InstallerProvider, source: ParsedPackageSource, raw_source: RegistryPackageSource }
         local parsed = try(M.parse(spec, opts):map_err(map_parse_err))
 
         ---@async
         ---@param ctx InstallContext
         return function(ctx)
             return Result.try(function(try)
+                if ctx.opts.version then
+                    try(util.ensure_valid_version(function()
+                        return parsed.provider.get_versions(parsed.purl, parsed.raw_source)
+                    end))
+                end
+
                 -- Run installer
                 try(parsed.provider.install(ctx, parsed.source, parsed.purl))
 

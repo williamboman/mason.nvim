@@ -41,10 +41,6 @@ function M.install(ctx, source)
     local pypi = require "mason-core.installer.managers.pypi"
 
     return Result.try(function(try)
-        try(util.ensure_valid_version(function()
-            return providers.pypi.get_all_versions(source.package)
-        end))
-
         try(pypi.init {
             upgrade_pip = source.pip.upgrade,
             install_extra_args = source.pip.extra_args,

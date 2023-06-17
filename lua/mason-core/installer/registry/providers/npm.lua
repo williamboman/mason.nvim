@@ -35,13 +35,8 @@ end
 ---@param source ParsedNpmSource
 function M.install(ctx, source)
     local npm = require "mason-core.installer.managers.npm"
-    local providers = require "mason-core.providers"
 
     return Result.try(function(try)
-        try(util.ensure_valid_version(function()
-            return providers.npm.get_all_versions(source.package)
-        end))
-
         try(npm.init())
         try(npm.install(source.package, source.version, {
             extra_packages = source.extra_packages,

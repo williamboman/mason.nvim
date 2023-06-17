@@ -38,7 +38,7 @@ end
 
 ---Checks whether a custom version of a package installation corresponds to a valid version.
 ---@async
----@param versions_thunk async fun(): Result Result<string>
+---@param versions_thunk async fun(): Result Result<string[]>
 function M.ensure_valid_version(versions_thunk)
     local ctx = installer.context()
     local version = ctx.opts.version

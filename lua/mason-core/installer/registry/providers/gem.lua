@@ -32,16 +32,9 @@ end
 ---@param source ParsedGemSource
 function M.install(ctx, source)
     local gem = require "mason-core.installer.managers.gem"
-
-    return Result.try(function(try)
-        try(util.ensure_valid_version(function()
-            return providers.rubygems.get_all_versions(source.package)
-        end))
-
-        try(gem.install(source.package, source.version, {
-            extra_packages = source.extra_packages,
-        }))
-    end)
+    return gem.install(source.package, source.version, {
+        extra_packages = source.extra_packages,
+    })
 end
 
 ---@async
