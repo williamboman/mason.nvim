@@ -23,7 +23,7 @@ local report_error = _.scheduler_wrap(health.error or health.report_error)
 local sem = Semaphore.new(5)
 
 ---@async
----@param opts {cmd:string, args:string[], name: string, use_stderr: boolean?, version_check: (fun(version: string): string?), relaxed: boolean?}
+---@param opts {cmd:string, args:string[], name: string, use_stderr: boolean?, version_check: (fun(version: string): string?), relaxed: boolean?, advice: string[]}
 local function check(opts)
     local get_first_non_empty_line = _.compose(_.head, _.filter(_.complement(_.matches "^%s*$")), _.split "\n")
 
@@ -60,7 +60,7 @@ local function check(opts)
         report_ok(("%s: `%s`"):format(opts.name, version or "Ok"))
     end):on_failure(function(err)
         local report = opts.relaxed and report_warn or report_error
-        report(("%s: not available"):format(opts.name), { tostring(err) })
+        report(("%s: not available"):format(opts.name), opts.advice or { tostring(err) })
     end)
     permit:forget()
 end
@@ -249,13 +249,20 @@ local function check_languages()
         check_thunk { cmd = "java", args = { "-version" }, name = "java", use_stderr = true, relaxed = true },
         check_thunk { cmd = "julia", args = { "--version" }, name = "julia", relaxed = true },
         function()
-            if platform.is.win then
-                check { cmd = "python", args = { "--version" }, name = "python", relaxed = true }
-                check { cmd = "python", args = { "-m", "pip", "--version" }, name = "pip", relaxed = true }
-            else
-                check { cmd = "python3", args = { "--version" }, name = "python3", relaxed = true }
-                check { cmd = "python3", args = { "-m", "pip", "--version" }, name = "pip3", relaxed = true }
-            end
+            local python = platform.is.win and "python" or "python3"
+            check { cmd = python, args = { "--version" }, name = "python", relaxed = true }
+            check { cmd = python, args = { "-m", "pip", "--version" }, name = "pip", relaxed = true }
+            check {
+                cmd = python,
+                args = { "-c", "import venv" },
+                name = "python venv",
+                relaxed = true,
+                advice = {
+                    [[On Debian/Ubuntu systems, you need to install the python3-venv package using the following command:
+
+    apt-get install python3-venv]],
+                },
+            }
         end,
         function()
             a.scheduler()
