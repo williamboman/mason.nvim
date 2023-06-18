@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/williamboman/mason.nvim/compare/v1.2.1...v1.3.0) (2023-06-18)
+
+
+### Features
+
+* **health:** add advice for Debian/Ubuntu regarding python3 venv ([#1358](https://github.com/williamboman/mason.nvim/issues/1358)) ([6f3853e](https://github.com/williamboman/mason.nvim/commit/6f3853e5ae8c200e29d2e394e479d9c3f8e018f5))
+
 ## [1.2.1](https://github.com/williamboman/mason.nvim/compare/v1.2.0...v1.2.1) (2023-06-13)
 
 
