@@ -3,6 +3,7 @@ local fetch = require "mason-core.fetch"
 local match = require "luassert.match"
 local spawn = require "mason-core.spawn"
 local stub = require "luassert.stub"
+local version = require "mason.version"
 
 describe("fetch", function()
     it(
@@ -21,7 +22,9 @@ describe("fetch", function()
             assert.spy(spawn.curl).was_called(1)
             assert.spy(spawn.wget).was_called_with {
                 {
-                    "--header=User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)",
+                    ("--header=User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
+                        version.VERSION
+                    ),
                     "--header=X-Custom-Header: here",
                 },
                 "-nv",
@@ -38,7 +41,9 @@ describe("fetch", function()
                 match.same {
                     {
                         "-H",
-                        "User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)",
+                        ("User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
+                            version.VERSION
+                        ),
                     },
                     {
                         "-H",
@@ -79,7 +84,9 @@ describe("fetch", function()
 
             assert.spy(spawn.wget).was_called_with {
                 {
-                    "--header=User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)",
+                    ("--header=User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
+                        version.VERSION
+                    ),
                 },
                 "-nv",
                 "-o",
@@ -95,7 +102,9 @@ describe("fetch", function()
                 match.same {
                     {
                         "-H",
-                        "User-Agent: mason.nvim (+https://github.com/williamboman/mason.nvim)",
+                        ("User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
+                            version.VERSION
+                        ),
                     },
                 },
                 "-fsSL",
