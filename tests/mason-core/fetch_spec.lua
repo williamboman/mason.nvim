@@ -32,6 +32,7 @@ describe("fetch", function()
                 "/dev/null",
                 "-O",
                 "-",
+                "--timeout=30",
                 "--method=GET",
                 vim.NIL, -- body-data
                 "https://api.github.com",
@@ -54,6 +55,7 @@ describe("fetch", function()
                 match.same { "-X", "GET" },
                 vim.NIL, -- data
                 vim.NIL, -- out file
+                match.same { "--connect-timeout", 30 },
                 "https://api.github.com",
                 on_spawn = match.is_function(),
             })
@@ -93,6 +95,7 @@ describe("fetch", function()
                 "/dev/null",
                 "-O",
                 "/test.json",
+                "--timeout=30",
                 "--method=GET",
                 vim.NIL, -- body-data
                 "https://api.github.com/data",
@@ -111,6 +114,7 @@ describe("fetch", function()
                 match.same { "-X", "GET" },
                 vim.NIL, -- data
                 match.same { "-o", "/test.json" },
+                match.same { "--connect-timeout", 30 },
                 "https://api.github.com/data",
                 on_spawn = match.is_function(),
             })
