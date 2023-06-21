@@ -10,6 +10,8 @@ local version = require "mason.version"
 
 local USER_AGENT = ("mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(version.VERSION)
 
+local TIMEOUT_SECONDS = 30
+
 ---@alias FetchMethod
 ---| '"GET"'
 ---| '"POST"'
@@ -47,8 +49,9 @@ local function fetch(url, opts)
         if opts.out_file then
             platform_specific = function()
                 return powershell.command(
-                    ([[iwr %s -UseBasicParsing -Method %q -Uri %q %s -OutFile %q;]]):format(
+                    ([[iwr %s -TimeoutSec %s -UseBasicParsing -Method %q -Uri %q %s -OutFile %q;]]):format(
                         headers,
+                        TIMEOUT_SECONDS,
                         opts.method,
                         url,
                         opts.data and ("-Body %s"):format(opts.data) or "",
@@ -59,8 +62,9 @@ local function fetch(url, opts)
         else
             platform_specific = function()
                 return powershell.command(
-                    ([[Write-Output (iwr %s -Method %q -UseBasicParsing %s -Uri %q).Content;]]):format(
+                    ([[Write-Output (iwr %s -TimeoutSec %s -Method %q -UseBasicParsing %s -Uri %q).Content;]]):format(
                         headers,
+                        TIMEOUT_SECONDS,
                         opts.method,
                         opts.data and ("-Body %s"):format(opts.data) or "",
                         url
@@ -80,6 +84,7 @@ local function fetch(url, opts)
             "/dev/null",
             "-O",
             opts.out_file or "-",
+            ("--timeout=%s"):format(TIMEOUT_SECONDS),
             ("--method=%s"):format(opts.method),
             opts.data and {
                 ("--body-data=%s"):format(opts.data) or vim.NIL,
@@ -107,6 +112,7 @@ local function fetch(url, opts)
             },
             opts.data and { "-d", "@-" } or vim.NIL,
             opts.out_file and { "-o", opts.out_file } or vim.NIL,
+            { "--connect-timeout", TIMEOUT_SECONDS },
             url,
             on_spawn = a.scope(function(_, stdio)
                 local stdin = stdio[1]
