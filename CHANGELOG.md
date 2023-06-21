@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/williamboman/mason.nvim/compare/v1.3.0...v1.4.0) (2023-06-21)
+
+
+### Features
+
+* **fetch:** add explicit default timeout to requests ([#1364](https://github.com/williamboman/mason.nvim/issues/1364)) ([82cae55](https://github.com/williamboman/mason.nvim/commit/82cae550c87466b1163b216bdb9c71cb71dd8f67))
+* **fetch:** include mason.nvim version in User-Agent ([#1362](https://github.com/williamboman/mason.nvim/issues/1362)) ([e706d30](https://github.com/williamboman/mason.nvim/commit/e706d305fbcc8701bd30e31dd727aee2853b9db9))
+
 ## [1.3.0](https://github.com/williamboman/mason.nvim/compare/v1.2.1...v1.3.0) (2023-06-18)
 
 
