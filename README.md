@@ -52,7 +52,7 @@ Although many packages are perfectly usable out of the box through Neovim builti
 party plugins to further integrate these. The following plugins are recommended:
 
 -   LSP: [`lspconfig`][lspconfig] & [`mason-lspconfig.nvim`][mason-lspconfig.nvim]
--   DAP: [`nvim-dap`][nvim-dap]
+-   DAP: [`nvim-dap`][nvim-dap] & [`nvim-dap-ui`][nvim-dap-ui]
 -   Linters: [`null-ls.nvim`][null-ls.nvim] or [`nvim-lint`][nvim-lint]
 -   Formatters: [`null-ls.nvim`][null-ls.nvim] or [`formatter.nvim`][formatter.nvim]
 
@@ -61,6 +61,7 @@ party plugins to further integrate these. The following plugins are recommended:
 [mason-lspconfig.nvim]: https://github.com/williamboman/mason-lspconfig.nvim
 [null-ls.nvim]: https://github.com/jose-elias-alvarez/null-ls.nvim
 [nvim-dap]: https://github.com/mfussenegger/nvim-dap
+[nvim-dap-ui]: https://github.com/rcarriga/nvim-dap-ui
 [nvim-lint]: https://github.com/mfussenegger/nvim-lint
 
 ## Screenshots

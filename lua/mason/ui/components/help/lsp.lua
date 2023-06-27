@@ -5,6 +5,9 @@ local p = require "mason.ui.palette"
 return function(state)
     return Ui.HlTextNode {
         {
+            p.Bold "What is LSP?",
+        },
+        {
             p.none "The ",
             p.highlight_secondary "L",
             p.none "anguage ",
@@ -19,5 +22,16 @@ return function(state)
         {
             p.none "like auto complete, go to definition, find all references etc.",
         },
+        {},
+        {
+            p.none "The term ",
+            p.highlight_secondary "LSP",
+            p.none " is often used to reference a server implementation of",
+        },
+        { p.none "the LSP protocol." },
+        {},
+        { p.none "For more information, see:" },
+        { p.none " - https://microsoft.github.io/language-server-protocol/" },
+        { p.none " - ", p.highlight ":help lsp" },
     }
 end

@@ -15,10 +15,11 @@ editor tooling such as LSP servers, DAP servers, linters, and formatters
 through a single interface. It runs everywhere Neovim runs (across Linux,
 macOS, Windows, etc.), with only a small set of external requirements needed.
 
-Packages are installed in Neovim's `:h stdpath` by default. Executables are
-linked to a single `bin/` directory, which `mason.nvim` will add to the
-Neovim's PATH during setup, allowing easy access for the builtin
-shell/terminal as well as other 3rd party plugins.
+Packages are installed in Neovim's data directory (`:h standard-path`) by
+default. Executables are linked to a single `bin/` directory, which
+`mason.nvim` will add to Neovim's PATH during setup, allowing seamless access
+from Neovim builtins (shell, terminal, etc.) as well as other 3rd party
+plugins.
 
 -----------------
 MASON.NVIM LUA API
@@ -39,8 +40,7 @@ Extension plugins help fill gaps with the rest of the Neovim ecosystem.
 
 mason-lspconfig ~
     `mason-lspconfig` bridges Mason with the `lspconfig` plugin - making
-    it easier to use both plugins together. Strongly recommended for Windows
-    users.
+    it easier to use both plugins together.
     https://github.com/williamboman/mason-lspconfig.nvim
 
 3rd party extensions ~
@@ -157,7 +157,7 @@ builtins, it is recommended to use other 3rd party plugins to further
 integrate these. The following plugins are recommended:
 
 -   LSP: `lspconfig` & `mason-lspconfig.nvim`
--   DAP: `nvim-dap`
+-   DAP: `nvim-dap` & `nvim-dap-ui`
 -   Linters: `null-ls.nvim` or `nvim-lint`
 -   Formatters: `null-ls.nvim` or `formatter.nvim`
 
@@ -166,6 +166,7 @@ lspconfig             https://github.com/neovim/nvim-lspconfig
 mason-lspconfig.nvim  https://github.com/williamboman/mason-lspconfig.nvim
 null-ls.nvim          https://github.com/jose-elias-alvarez/null-ls.nvim
 nvim-dap              https://github.com/mfussenegger/nvim-dap
+nvim-dap-ui           https://github.com/rcarriga/nvim-dap-ui
 nvim-lint             https://github.com/mfussenegger/nvim-lint
 
 See also ~

@@ -49,11 +49,12 @@ local function GenericHelp(state)
     local keymap_tuples = {
         { "Toggle help", "g?" },
         { "Toggle package info", settings.current.ui.keymaps.toggle_package_expand },
+        { "Toggle package installation log", settings.current.ui.keymaps.toggle_package_install_log },
         { "Apply language filter", settings.current.ui.keymaps.apply_language_filter },
         { "Install package", settings.current.ui.keymaps.install_package },
         { "Uninstall package", settings.current.ui.keymaps.uninstall_package },
         { "Update package", settings.current.ui.keymaps.update_package },
-        { "Update all installed packages", settings.current.ui.keymaps.update_all_packages },
+        { "Update all outdated packages", settings.current.ui.keymaps.update_all_packages },
         { "Check for new package version", settings.current.ui.keymaps.check_package_version },
         { "Check for new versions (all packages)", settings.current.ui.keymaps.check_outdated_packages },
         { "Cancel installation of package", settings.current.ui.keymaps.cancel_installation },
@@ -115,11 +116,12 @@ local function GenericHelp(state)
             { p.Bold "How do I use installed packages?" },
             { p.muted "Mason only makes packages available for use. It does not automatically integrate" },
             { p.muted "these into Neovim. You have multiple different options for using any given" },
+            { p.muted "package, and you are free to pick and choose as you see fit." },
             {
-                p.muted "package, and you are free to pick and choose as you see fit. See ",
-                p.highlight ":h mason-how-to",
+                p.muted "See ",
+                p.highlight ":help mason-how-to-use-packages",
+                p.muted " for a recommendation.",
             },
-            { p.muted "for a recommendation." },
         },
         Ui.EmptyLine(),
         Ui.HlTextNode {
@@ -129,9 +131,11 @@ local function GenericHelp(state)
         Ui.CascadingStyleNode({ "INDENT" }, {
             Ui.HlTextNode {
                 {
+                    p.none "- ",
                     p.highlight "https://github.com/williamboman/mason.nvim/blob/main/CONTRIBUTING.md",
                 },
                 {
+                    p.none "- ",
                     p.highlight "https://github.com/williamboman/mason.nvim/blob/main/doc/reference.md",
                 },
             },

@@ -5,6 +5,9 @@ local p = require "mason.ui.palette"
 return function(state)
     return Ui.HlTextNode {
         {
+            p.Bold "What is DAP?",
+        },
+        {
             p.none "The ",
             p.highlight_secondary "D",
             p.none "ebugger ",
@@ -23,5 +26,8 @@ return function(state)
             p.none "capabilities - such as pausing execution, stepping through statements,",
         },
         { p.none "and inspecting variables." },
+        {},
+        { p.none "For more information, see:" },
+        { p.none " - https://microsoft.github.io/debug-adapter-protocol/" },
     }
 end
