@@ -40,7 +40,7 @@ end
 ---@param out_file string
 function M.download_file(url, out_file)
     local ctx = installer.context()
-    ctx.stdio_sink.stdout(("Downloading file %q...\n"):format(url))
+    ctx.stdio_sink.stdout(("Downloading file %q…\n"):format(url))
     fetch(url, {
             out_file = path.concat { ctx.cwd:get(), out_file },
         })

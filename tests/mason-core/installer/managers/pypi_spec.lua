@@ -1,6 +1,7 @@
 local installer = require "mason-core.installer"
 local path = require "mason-core.path"
 local pypi = require "mason-core.installer.managers.pypi"
+local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
 ---@param ctx InstallContext
@@ -17,6 +18,7 @@ describe("pypi manager", function()
     it("should init venv without upgrading pip", function()
         local ctx = create_dummy_context()
         stub(ctx, "promote_cwd")
+
         installer.exec_in_context(ctx, function()
             pypi.init { upgrade_pip = false }
         end)
@@ -75,6 +77,17 @@ describe("pypi manager", function()
                 vim.NIL, -- extra_packages
             },
         }
+    end)
+
+    it("should write output", function()
+        local ctx = create_dummy_context()
+        spy.on(ctx.stdio_sink, "stdout")
+
+        installer.exec_in_context(ctx, function()
+            pypi.install("pypi-package", "1.0.0")
+        end)
+
+        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing pip package pypi-package@1.0.0…\n"
     end)
 
     it("should install extra specifier", function()

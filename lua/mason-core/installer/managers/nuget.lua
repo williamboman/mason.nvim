@@ -12,6 +12,7 @@ local M = {}
 function M.install(package, version)
     log.fmt_debug("nuget: install %s %s", package, version)
     local ctx = installer.context()
+    ctx.stdio_sink.stdout(("Installing nuget package %s@%s…\n"):format(package, version))
     return ctx.spawn.dotnet {
         "tool",
         "update",

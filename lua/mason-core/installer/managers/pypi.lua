@@ -68,9 +68,11 @@ function M.init(opts)
         -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
         ctx:promote_cwd()
 
+        ctx.stdio_sink.stdout "Creating virtual environment…\n"
         try(create_venv(executables))
 
         if opts.upgrade_pip then
+            ctx.stdio_sink.stdout "Upgrading pip inside the virtual environment…\n"
             try(pip_install({ "pip" }, opts.install_extra_args))
         end
     end)
@@ -83,6 +85,8 @@ end
 function M.install(pkg, version, opts)
     opts = opts or {}
     log.fmt_debug("pypi: install %s %s", pkg, version, opts)
+    local ctx = installer.context()
+    ctx.stdio_sink.stdout(("Installing pip package %s@%s…\n"):format(pkg, version))
     return pip_install({
         opts.extra and ("%s[%s]==%s"):format(pkg, opts.extra, version) or ("%s==%s"):format(pkg, version),
         opts.extra_packages or vim.NIL,

@@ -1,10 +1,11 @@
 local cargo = require "mason-core.installer.managers.cargo"
 local installer = require "mason-core.installer"
+local spy = require "luassert.spy"
 
 describe("cargo manager", function()
     it("should install", function()
-        local handle = InstallHandleGenerator "dummy"
-        local ctx = InstallContextGenerator(handle)
+        local ctx = create_dummy_context()
+
         installer.exec_in_context(ctx, function()
             cargo.install("my-crate", "1.0.0")
         end)
@@ -21,9 +22,19 @@ describe("cargo manager", function()
         }
     end)
 
+    it("should write output", function()
+        local ctx = create_dummy_context()
+        spy.on(ctx.stdio_sink, "stdout")
+
+        installer.exec_in_context(ctx, function()
+            cargo.install("my-crate", "1.0.0")
+        end)
+
+        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing crate my-crate@1.0.0…\n"
+    end)
+
     it("should install locked", function()
-        local handle = InstallHandleGenerator "dummy"
-        local ctx = InstallContextGenerator(handle)
+        local ctx = create_dummy_context()
         installer.exec_in_context(ctx, function()
             cargo.install("my-crate", "1.0.0", {
                 locked = true,
@@ -43,8 +54,7 @@ describe("cargo manager", function()
     end)
 
     it("should install provided features", function()
-        local handle = InstallHandleGenerator "dummy"
-        local ctx = InstallContextGenerator(handle)
+        local ctx = create_dummy_context()
         installer.exec_in_context(ctx, function()
             cargo.install("my-crate", "1.0.0", {
                 features = "lsp,cli",
@@ -64,8 +74,7 @@ describe("cargo manager", function()
     end)
 
     it("should install git tag source", function()
-        local handle = InstallHandleGenerator "dummy"
-        local ctx = InstallContextGenerator(handle)
+        local ctx = create_dummy_context()
         installer.exec_in_context(ctx, function()
             cargo.install("my-crate", "1.0.0", {
                 git = {
@@ -87,8 +96,7 @@ describe("cargo manager", function()
     end)
 
     it("should install git rev source", function()
-        local handle = InstallHandleGenerator "dummy"
-        local ctx = InstallContextGenerator(handle)
+        local ctx = create_dummy_context()
         installer.exec_in_context(ctx, function()
             cargo.install("my-crate", "16dfc89abd413c391e5b63ae5d132c22843ce9a7", {
                 git = {

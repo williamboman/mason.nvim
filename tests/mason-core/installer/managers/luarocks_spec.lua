@@ -1,5 +1,6 @@
 local installer = require "mason-core.installer"
 local luarocks = require "mason-core.installer.managers.luarocks"
+local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
 describe("luarocks manager", function()
@@ -59,5 +60,16 @@ describe("luarocks manager", function()
             "--server=https://luarocks.org/dev",
             { "my-rock", "1.0.0" },
         }
+    end)
+
+    it("should write output", function()
+        local ctx = create_dummy_context()
+        stub(ctx, "promote_cwd")
+        spy.on(ctx.stdio_sink, "stdout")
+        installer.exec_in_context(ctx, function()
+            luarocks.install("my-rock", "1.0.0")
+        end)
+
+        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing luarocks package my-rock@1.0.0…\n"
     end)
 end)
