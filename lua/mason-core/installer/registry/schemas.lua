@@ -1,5 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local expr = require "mason-core.installer.registry.expr"
 local fetch = require "mason-core.fetch"
 local log = require "mason-core.log"
@@ -56,7 +57,15 @@ function M.download(ctx, spec, purl, source)
         ctx.fs:mkdir "mason-schemas"
 
         if interpolated_schemas.lsp then
-            try(download_lsp_schema(ctx, interpolated_schemas.lsp))
+            try(a.wait_first {
+                function()
+                    return download_lsp_schema(ctx, interpolated_schemas.lsp)
+                end,
+                function()
+                    a.sleep(5000)
+                    return Result.failure "Schema download timed out."
+                end,
+            })
         end
     end)
 end
