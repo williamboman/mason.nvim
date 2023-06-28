@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.1](https://github.com/williamboman/mason.nvim/compare/v1.5.0...v1.5.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* **linker:** ensure exec wrapper target is executable ([#1380](https://github.com/williamboman/mason.nvim/issues/1380)) ([10da1a3](https://github.com/williamboman/mason.nvim/commit/10da1a33b4ac24ad4d76a9af91871720ac6b65e4))
+* **purl:** percent-encoding is case insensitive ([#1382](https://github.com/williamboman/mason.nvim/issues/1382)) ([b68d3be](https://github.com/williamboman/mason.nvim/commit/b68d3be4b664671002221d43c82e74a0f1006b26))
+
 ## [1.5.0](https://github.com/williamboman/mason.nvim/compare/v1.4.0...v1.5.0) (2023-06-28)
 
 
