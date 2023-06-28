@@ -162,6 +162,11 @@ local github = _.evolve {
     namespace = _.to_lower,
 }
 
+local composer = _.evolve {
+    name = _.to_lower,
+    namespace = _.to_lower,
+}
+
 local is_mlflow_azuredatabricks = _.all_pass {
     _.prop_eq("type", "mlflow"),
     _.path_satisfies(_.matches "^https?://.*azuredatabricks%.net", { "qualifiers", "repository_url" }),
@@ -176,6 +181,7 @@ local type_validations = _.cond {
 
 local type_transforms = _.cond {
     { _.prop_eq("type", "bitbucket"), bitbucket },
+    { _.prop_eq("type", "composer"), composer },
     { _.prop_eq("type", "github"), github },
     { _.prop_eq("type", "pypi"), pypi },
     { _.prop_eq("type", "huggingface"), huggingface },
