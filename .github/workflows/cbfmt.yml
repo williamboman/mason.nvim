@@ -20,7 +20,7 @@ jobs:
             - name: Download Stylua
               run: |
                   mkdir /tmp/stylua && cd $_
-                  curl -fsSL -o stylua.zip "https://github.com/JohnnyMorganz/StyLua/releases/download/v0.17.0/stylua-linux.zip"
+                  curl -fsSL -o stylua.zip "https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux.zip"
                   unzip -d /usr/local/bin stylua.zip
             - name: Download Shellharden
               run: |

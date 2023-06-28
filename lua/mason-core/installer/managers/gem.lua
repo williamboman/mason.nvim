@@ -50,16 +50,22 @@ function M.create_bin_wrapper(bin)
         return Result.failure(("Cannot link Gem executable %q because it doesn't exist."):format(bin))
     end
 
-    return Result.pcall(ctx.write_shell_exec_wrapper, ctx, bin, path.concat { ctx.package:get_install_path(), bin_path }, {
-        GEM_PATH = platform.when {
-            unix = function()
-                return ("%s:$GEM_PATH"):format(ctx.package:get_install_path())
-            end,
-            win = function()
-                return ("%s;%%GEM_PATH%%"):format(ctx.package:get_install_path())
-            end,
-        },
-    })
+    return Result.pcall(
+        ctx.write_shell_exec_wrapper,
+        ctx,
+        bin,
+        path.concat { ctx.package:get_install_path(), bin_path },
+        {
+            GEM_PATH = platform.when {
+                unix = function()
+                    return ("%s:$GEM_PATH"):format(ctx.package:get_install_path())
+                end,
+                win = function()
+                    return ("%s;%%GEM_PATH%%"):format(ctx.package:get_install_path())
+                end,
+            },
+        }
+    )
 end
 
 return M
