@@ -1,5 +1,5 @@
+local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
-local purl = require "mason-core.purl"
 
 describe("purl", function()
     it("should parse well-formed PURLs", function()
@@ -16,7 +16,7 @@ describe("purl", function()
                 version = "2022-11-28",
                 subpath = "bin/rust-analyzer",
             },
-            purl.parse "pkg:github/rust-lang/rust-analyzer@2022-11-28?target=linux_x64_gnu&download_url=https://github.com/rust-lang/rust-analyzer/releases/download/2022-11-28/rust-analyzer-x86_64-unknown-linux-gnu.gz#bin/rust-analyzer"
+            Purl.parse "pkg:github/rust-lang/rust-analyzer@2022-11-28?target=linux_x64_gnu&download_url=https://github.com/rust-lang/rust-analyzer/releases/download/2022-11-28/rust-analyzer-x86_64-unknown-linux-gnu.gz#bin/rust-analyzer"
         )
 
         assert.same(
@@ -29,7 +29,7 @@ describe("purl", function()
                 qualifiers = nil,
                 subpath = nil,
             },
-            purl.parse "pkg:github/rust-lang/rust-analyzer@2025-04-20"
+            Purl.parse "pkg:github/rust-lang/rust-analyzer@2025-04-20"
         )
 
         assert.same(
@@ -42,7 +42,7 @@ describe("purl", function()
                 qualifiers = nil,
                 subpath = nil,
             },
-            purl.parse "pkg:npm/typescript-language-server@10.23.1"
+            Purl.parse "pkg:npm/typescript-language-server@10.23.1"
         )
 
         assert.same(
@@ -55,7 +55,7 @@ describe("purl", function()
                 qualifiers = nil,
                 subpath = nil,
             },
-            purl.parse "pkg:pypi/python-language-server"
+            Purl.parse "pkg:pypi/python-language-server"
         )
 
         assert.same(
@@ -65,12 +65,26 @@ describe("purl", function()
                 scheme = "pkg",
                 type = "npm",
             },
-            purl.parse "pkg:npm/%40angular/cli"
+            Purl.parse "pkg:npm/%40angular/cli"
         )
     end)
 
     it("should fail to parse invalid PURLs", function()
-        assert.same(Result.failure "Malformed purl (invalid scheme).", purl.parse "scam:github/react@18.0.0")
+        assert.same(Result.failure "Malformed purl (invalid scheme).", Purl.parse "scam:github/react@18.0.0")
+    end)
+
+    it("should treat percent-encoded components as case insensitive", function()
+        local purl = {
+            name = "sonarlint-vscode",
+            namespace = "sonarsource",
+            scheme = "pkg",
+            type = "github",
+            version = "3.18.0+70423" .. string.char(0xab),
+        }
+        assert.same(Result.success(purl), Purl.parse "pkg:github/SonarSource/sonarlint-vscode@3.18.0%2b70423%ab")
+        assert.same(Result.success(purl), Purl.parse "pkg:github/SonarSource/sonarlint-vscode@3.18.0%2B70423%aB")
+        assert.same(Result.success(purl), Purl.parse "pkg:github/SonarSource/sonarlint-vscode@3.18.0%2b70423%AB")
+        assert.same(Result.success(purl), Purl.parse "pkg:github/SonarSource/sonarlint-vscode@3.18.0%2B70423%Ab")
     end)
 end)
 
@@ -89,7 +103,7 @@ describe("purl test suite ::", function()
 
     for _, test in ipairs(test_fixture) do
         it(test.description, function()
-            local result = purl.parse(test.purl)
+            local result = Purl.parse(test.purl)
             if test.is_invalid then
                 assert.is_true(result:is_failure())
             else
@@ -106,7 +120,7 @@ describe("purl test suite ::", function()
                     result
                 )
 
-                assert.equals(test.canonical_purl, purl.compile(result:get_or_throw()))
+                assert.equals(test.canonical_purl, Purl.compile(result:get_or_throw()))
             end
         end)
     end
