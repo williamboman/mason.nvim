@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0](https://github.com/williamboman/mason.nvim/compare/v1.4.0...v1.5.0) (2023-06-28)
+
+
+### Features
+
+* **command:** add completion for option flags for :MasonInstall ([#1379](https://github.com/williamboman/mason.nvim/issues/1379)) ([e507af7](https://github.com/williamboman/mason.nvim/commit/e507af7b996dae90404345abb2bc88540f931589))
+* **installer:** write more installation output to stdout ([#1376](https://github.com/williamboman/mason.nvim/issues/1376)) ([758ac5b](https://github.com/williamboman/mason.nvim/commit/758ac5b35e823eee74a90f855b2a66afc51ec92d))
+
+
+### Bug Fixes
+
+* **installer:** timeout schema download after 5s ([#1374](https://github.com/williamboman/mason.nvim/issues/1374)) ([d114376](https://github.com/williamboman/mason.nvim/commit/d11437645af60449ff252b2c9abda103c5610520))
+
 ## [1.4.0](https://github.com/williamboman/mason.nvim/compare/v1.3.0...v1.4.0) (2023-06-21)
 
 
