@@ -125,6 +125,23 @@ end
 
 ---@async
 ---@param file_path string
+function ContextualFs:chmod_exec(file_path)
+    local bit = require "bit"
+    -- see chmod(2)
+    local USR_EXEC = 0x40
+    local GRP_EXEC = 0x8
+    local ALL_EXEC = 0x1
+    local EXEC = bit.bor(USR_EXEC, GRP_EXEC, ALL_EXEC)
+    local fstat = self:fstat(file_path)
+    if bit.band(fstat.mode, EXEC) ~= EXEC then
+        local plus_exec = bit.bor(fstat.mode, EXEC)
+        log.fmt_debug("Setting exec flags on file %s %o -> %o", file_path, fstat.mode, plus_exec)
+        self:chmod(file_path, plus_exec) -- chmod +x
+    end
+end
+
+---@async
+---@param file_path string
 ---@param mode integer
 function ContextualFs:chmod(file_path, mode)
     return fs.async.chmod(path.concat { self.cwd:get(), file_path }, mode)
@@ -315,6 +332,9 @@ end
 function InstallContext:write_exec_wrapper(new_executable_rel_path, target_executable_rel_path)
     if not self.fs:file_exists(target_executable_rel_path) then
         error(("Cannot write exec wrapper for path %q as it doesn't exist."):format(target_executable_rel_path), 0)
+    end
+    if platform.is.unix then
+        self.fs:chmod_exec(target_executable_rel_path)
     end
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,

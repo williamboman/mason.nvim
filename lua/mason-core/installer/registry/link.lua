@@ -129,24 +129,6 @@ local bin_delegates = {
     end,
 }
 
----@async
----@param ctx InstallContext
----@param target string
-local function chmod_exec(ctx, target)
-    local bit = require "bit"
-    -- see chmod(2)
-    local USR_EXEC = 0x40
-    local GRP_EXEC = 0x8
-    local ALL_EXEC = 0x1
-    local EXEC = bit.bor(USR_EXEC, GRP_EXEC, ALL_EXEC)
-    local fstat = ctx.fs:fstat(target)
-    if bit.band(fstat.mode, EXEC) ~= EXEC then
-        local plus_exec = bit.bor(fstat.mode, EXEC)
-        log.fmt_debug("Setting exec flags on file %s %o -> %o", target, fstat.mode, plus_exec)
-        ctx.fs:chmod(target, plus_exec) -- chmod +x
-    end
-end
-
 ---Expands bin specification from spec and registers bins to be linked.
 ---@async
 ---@param ctx InstallContext
@@ -187,7 +169,7 @@ local function expand_bin(ctx, spec, purl, source)
             end
 
             if platform.is.unix then
-                chmod_exec(ctx, target)
+                ctx.fs:chmod_exec(target)
             end
 
             expanded_bin_table[bin] = target
