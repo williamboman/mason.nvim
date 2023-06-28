@@ -14,6 +14,7 @@ local M = {}
 function M.install(package, version)
     log.fmt_debug("composer: install %s %s", package, version)
     local ctx = installer.context()
+    ctx.stdio_sink.stdout(("Installing composer package %s@%s…\n"):format(package, version))
     return Result.try(function(try)
         try(ctx.spawn.composer {
             "init",

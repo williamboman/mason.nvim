@@ -20,6 +20,7 @@ local function download_lsp_schema(ctx, url)
 
         if is_vscode_schema then
             local url = unpack(_.match("^vscode:(.+)$", url))
+            ctx.stdio_sink.stdout(("Downloading LSP configuration schema from %q…\n"):format(url))
             local json = try(fetch(url))
 
             ---@type { contributes?: { configuration?: table } }
@@ -33,6 +34,7 @@ local function download_lsp_schema(ctx, url)
                 return Result.failure "Unable to find LSP entry in VSCode schema."
             end
         else
+            ctx.stdio_sink.stdout(("Downloading LSP configuration schema from %q…\n"):format(url))
             try(std.download_file(url, out_file))
             ctx.links.share[share_file] = out_file
         end

@@ -15,7 +15,7 @@ function M.install(pkg, version, opts)
     opts = opts or {}
     log.fmt_debug("gem: install %s %s %s", pkg, version, opts)
     local ctx = installer.context()
-
+    ctx.stdio_sink.stdout(("Installing gem %s@%s…\n"):format(pkg, version))
     return ctx.spawn.gem {
         "install",
         "--no-user-install",

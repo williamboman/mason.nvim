@@ -3,6 +3,7 @@ local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local npm = require "mason-core.installer.managers.npm"
 local spawn = require "mason-core.spawn"
+local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
 describe("npm manager", function()
@@ -77,5 +78,16 @@ describe("npm manager", function()
             "my-package@1.0.0",
             { "extra-package" },
         }
+    end)
+
+    it("should write output", function()
+        local ctx = create_dummy_context()
+        spy.on(ctx.stdio_sink, "stdout")
+
+        installer.exec_in_context(ctx, function()
+            npm.install("my-package", "1.0.0")
+        end)
+
+        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing npm package my-package@1.0.0…\n"
     end)
 end)
