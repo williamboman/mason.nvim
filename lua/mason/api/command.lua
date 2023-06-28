@@ -92,6 +92,7 @@ local function MasonInstall(package_specifiers, opts)
             version = version,
             debug = opts.debug,
             force = opts.force,
+            strict = opts.strict,
             target = opts.target,
         }
     end)
@@ -149,7 +150,14 @@ end, {
     complete = function(arg_lead)
         local registry = require "mason-registry"
 
-        if _.matches("^.+@", arg_lead) then
+        if _.starts_with("--", arg_lead) then
+            return _.filter(_.starts_with(arg_lead), {
+                "--debug",
+                "--force",
+                "--strict",
+                "--target=",
+            })
+        elseif _.matches("^.+@", arg_lead) then
             local pkg_name, version = unpack(_.match("^(.+)@(.*)", arg_lead))
             local ok, pkg = pcall(registry.get_package, pkg_name)
             if not ok then
