@@ -16,7 +16,7 @@ local function percent_encode(char)
     return ("%%%x"):format(string.byte(char, 1, 1))
 end
 
-local decode_percent_encoding = _.gsub("%%([A-F0-9][A-F0-9])", _.compose(string.char, parse_hex))
+local decode_percent_encoding = _.gsub("%%([A-Fa-f0-9][A-Fa-f0-9])", _.compose(string.char, parse_hex))
 local encode_percent_encoding = _.gsub("[!#$&'%(%)%*%+;=%?@%[%] ]", percent_encode)
 
 local function validate_conan(purl)
