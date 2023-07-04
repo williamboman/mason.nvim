@@ -14,7 +14,7 @@
     <code>:help mason.nvim</code>
 </p>
 <p align="center">
-    <sup>Latest version: v1.5.1</sup> <!-- x-release-please-version -->
+    <sup>Latest version: v1.6.0</sup> <!-- x-release-please-version -->
 </p>
 
 # Table of Contents
