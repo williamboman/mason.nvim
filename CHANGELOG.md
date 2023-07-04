@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/williamboman/mason.nvim/compare/v1.5.1...v1.6.0) (2023-07-04)
+
+
+### Features
+
+* **ui:** display package deprecation message ([#1391](https://github.com/williamboman/mason.nvim/issues/1391)) ([b728115](https://github.com/williamboman/mason.nvim/commit/b7281153cd9167d2b1a5d8cbda1ba8d4ad9fa8c2))
+* **ui:** don't use diagnostic messages for displaying deprecated, uninstalled, packages ([#1393](https://github.com/williamboman/mason.nvim/issues/1393)) ([c290d0e](https://github.com/williamboman/mason.nvim/commit/c290d0e4ab6da9cac1e26684e53fba0b615862ed))
+
 ## [1.5.1](https://github.com/williamboman/mason.nvim/compare/v1.5.0...v1.5.1) (2023-06-28)
 
 
