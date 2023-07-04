@@ -52,6 +52,9 @@ end
 local function ExpandedPackageInfo(state, pkg, is_installed)
     local pkg_state = state.packages.states[pkg.name]
     return Ui.CascadingStyleNode({ "INDENT" }, {
+        Ui.When(not is_installed and pkg.spec.deprecation, function()
+            return Ui.HlTextNode(p.warning(("Deprecation message: %s"):format(pkg.spec.deprecation.message)))
+        end),
         Ui.HlTextNode(_.map(function(line)
             return { p.Comment(line) }
         end, _.split("\n", pkg.spec.desc))),
@@ -137,15 +140,20 @@ local function PackageComponent(state, pkg, opts)
     if state.view.is_searching then
         package_line[#package_line + 1] = p.Comment((" (keywords: %s)"):format(get_package_search_keywords(pkg)))
     end
+    if not opts.is_installed and pkg.spec.deprecation ~= nil then
+        package_line[#package_line + 1] = p.warning " deprecated"
+    end
 
     return Ui.Node {
         Ui.HlTextNode { package_line },
         opts.sticky or Ui.Node {},
-        pkg.spec.deprecation and Ui.DiagnosticsNode {
-            message = ("deprecated: %s"):format(pkg.spec.deprecation.message),
-            severity = vim.diagnostic.severity.WARN,
-            source = ("Deprecated since version %s"):format(pkg.spec.deprecation.since),
-        } or Ui.Node {},
+        Ui.When(opts.is_installed and pkg.spec.deprecation ~= nil, function()
+            return Ui.DiagnosticsNode {
+                message = ("deprecated: %s"):format(pkg.spec.deprecation.message),
+                severity = vim.diagnostic.severity.WARN,
+                source = ("Deprecated since version %s"):format(pkg.spec.deprecation.since),
+            }
+        end),
         Ui.When(pkg_state.is_checking_new_version, function()
             return Ui.VirtualTextNode { p.Comment " checking for new version…" }
         end),
