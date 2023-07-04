@@ -66,6 +66,10 @@ local PackageMt = { __index = Package }
 ---@class RegistryPackageSchemas
 ---@field lsp string?
 
+---@class RegistryPackageDeprecation
+---@field since string
+---@field message string
+
 ---@class RegistryPackageSpec
 ---@field schema '"registry+v1"'
 ---@field name string
@@ -75,6 +79,7 @@ local PackageMt = { __index = Package }
 ---@field languages string[]
 ---@field categories string[]
 ---@field source RegistryPackageSource
+---@field deprecation RegistryPackageDeprecation?
 ---@field schemas RegistryPackageSchemas?
 ---@field bin table<string, string>?
 ---@field share table<string, string>?

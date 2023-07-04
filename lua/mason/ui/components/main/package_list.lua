@@ -141,14 +141,18 @@ local function PackageComponent(state, pkg, opts)
     return Ui.Node {
         Ui.HlTextNode { package_line },
         opts.sticky or Ui.Node {},
+        pkg.spec.deprecation and Ui.DiagnosticsNode {
+            message = ("deprecated: %s"):format(pkg.spec.deprecation.message),
+            severity = vim.diagnostic.severity.WARN,
+            source = ("Deprecated since version %s"):format(pkg.spec.deprecation.since),
+        } or Ui.Node {},
         Ui.When(pkg_state.is_checking_new_version, function()
             return Ui.VirtualTextNode { p.Comment " checking for new version…" }
         end),
         Ui.Keybind(settings.current.ui.keymaps.check_package_version, "CHECK_NEW_PACKAGE_VERSION", pkg),
         Ui.When(pkg_state.new_version ~= nil, function()
             return Ui.DiagnosticsNode {
-                message = ("new version available: %s %s -> %s"):format(
-                    pkg_state.new_version.name,
+                message = ("new version available: %s -> %s"):format(
                     pkg_state.new_version.current_version,
                     pkg_state.new_version.latest_version
                 ),
