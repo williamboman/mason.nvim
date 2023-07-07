@@ -132,7 +132,7 @@ function M.parse(spec, opts)
         log.trace("Parsed source for purl.", source.id, parsed_source)
         return {
             provider = provider,
-            source = parsed_source,
+            source = vim.tbl_extend("keep", parsed_source, source),
             raw_source = source,
             purl = purl,
         }
@@ -204,7 +204,6 @@ function M.compile(spec, opts)
                 ctx.receipt:with_primary_source {
                     type = ctx.package.spec.schema,
                     id = Purl.compile(parsed.purl),
-                    source = parsed.source,
                 }
             end):on_failure(function(err)
                 error(err, 0)
