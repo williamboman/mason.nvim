@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/williamboman/mason.nvim/compare/v1.6.0...v1.6.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* **installer:** retain unmapped source fields ([#1399](https://github.com/williamboman/mason.nvim/issues/1399)) ([0579574](https://github.com/williamboman/mason.nvim/commit/05795741895ee16062eabeb0d89bff7cbcd693fa))
+
 ## [1.6.0](https://github.com/williamboman/mason.nvim/compare/v1.5.1...v1.6.0) (2023-07-04)
 
 
