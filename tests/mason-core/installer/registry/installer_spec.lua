@@ -56,8 +56,29 @@ describe("registry installer :: parsing", function()
             version = "v1.2.3",
         }, parsed.purl)
         assert.same({
+            id = "pkg:dummy/package-name@v1.2.3",
             package = "package-name",
             extra_info = "here",
+        }, parsed.source)
+    end)
+
+    it("should keep unmapped fields", function()
+        installer.register_provider("dummy", dummy_provider)
+
+        local result = installer.parse({
+            schema = "registry+v1",
+            source = {
+                id = "pkg:dummy/package-name@v1.2.3",
+                bin = "node:server.js",
+            },
+        }, {})
+        local parsed = result:get_or_nil()
+
+        assert.is_true(result:is_success())
+        assert.same({
+            id = "pkg:dummy/package-name@v1.2.3",
+            package = "package-name",
+            bin = "node:server.js",
         }, parsed.source)
     end)
 
@@ -277,6 +298,7 @@ describe("registry installer :: compiling", function()
                 name = "package-name",
                 version = "v1.2.3",
             }, {
+                id = "pkg:dummy/package-name@v1.2.3",
                 package = "package-name",
             })
         end

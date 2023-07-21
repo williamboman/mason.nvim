@@ -225,6 +225,7 @@ describe("github provider :: release :: parsing", function()
 
         assert.is_true(result:is_success())
         assert.same({
+            id = "pkg:github/owner/repo@1.2.3",
             asset = {
                 target = "darwin_x64",
                 file = "old-asset.tar.gz",
@@ -233,6 +234,17 @@ describe("github provider :: release :: parsing", function()
                 {
                     download_url = "https://github.com/owner/repo/releases/download/1.0.0/old-asset.tar.gz",
                     out_file = "old-asset.tar.gz",
+                },
+            },
+            version_overrides = {
+                {
+                    constraint = "semver:<=1.0.0",
+                    asset = {
+                        {
+                            target = "darwin_x64",
+                            file = "old-asset.tar.gz",
+                        },
+                    },
                 },
             },
             repo = "owner/repo",
