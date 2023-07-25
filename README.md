@@ -106,7 +106,7 @@ use {
 
 ```lua
 {
-    "williamboman/mason.nvim",
+    "williamboman/mason.nvim"
 }
 ```
 
