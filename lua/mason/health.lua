@@ -143,7 +143,12 @@ local function check_core_utils()
         use_stderr = platform.is.mac, -- Apple gzip prints version string to stderr
         relaxed = platform.is.win,
     }
-    check { cmd = "tar", args = { "--version" }, name = "tar" }
+
+    local tar_cmd = "tar"
+    if platform.is.unix and not platform.is.linux then
+        tar_cmd = "gtar"
+    end
+    check { cmd = tar_cmd, args = { "--version" }, name = tar_cmd }
 
     if platform.is.unix then
         check { cmd = "bash", args = { "--version" }, name = "bash" }

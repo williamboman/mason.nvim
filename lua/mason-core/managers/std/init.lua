@@ -100,7 +100,11 @@ end
 function M.untar(file, opts)
     opts = opts or {}
     local ctx = installer.context()
-    ctx.spawn.tar {
+    local tar_cmd = ctx.spawn.tar
+    if platform.is.unix and not platform.is.linux then
+        tar_cmd = ctx.spawn.gtar
+    end
+    tar_cmd {
         opts.strip_components and { "--strip-components", opts.strip_components } or vim.NIL,
         "--no-same-owner",
         "-xvf",

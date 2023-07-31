@@ -1,7 +1,15 @@
 local installer = require "mason-core.installer"
 local match = require "luassert.match"
+local platform = require "mason-core.platform"
 local std = require "mason-core.installer.managers.std"
 local stub = require "luassert.stub"
+
+local function get_tar_cmd(ctx)
+    if platform.is.unix and not platform.is.linux then
+        return ctx.spawn.gtar
+    end
+    return ctx.spawn.tar
+end
 
 describe("std unpack [Unix]", function()
     it("should unpack .gz", function()
@@ -16,65 +24,70 @@ describe("std unpack [Unix]", function()
 
     it("should unpack .tar", function()
         local ctx = create_dummy_context()
+        local tar_cmd = get_tar_cmd(ctx)
         stub(ctx.fs, "unlink")
         installer.exec_in_context(ctx, function()
             std.unpack "file.tar"
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar" }
+        assert.spy(tar_cmd).was_called(1)
+        assert.spy(tar_cmd).was_called_with { "--no-same-owner", "-xvf", "file.tar" }
         assert.spy(ctx.fs.unlink).was_called(1)
         assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar")
     end)
 
     it("should unpack .tar.bz2", function()
         local ctx = create_dummy_context()
+        local tar_cmd = get_tar_cmd(ctx)
         stub(ctx.fs, "unlink")
         installer.exec_in_context(ctx, function()
             std.unpack "file.tar.bz2"
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.bz2" }
+        assert.spy(tar_cmd).was_called(1)
+        assert.spy(tar_cmd).was_called_with { "--no-same-owner", "-xvf", "file.tar.bz2" }
         assert.spy(ctx.fs.unlink).was_called(1)
         assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.bz2")
     end)
 
     it("should unpack .tar.gz", function()
         local ctx = create_dummy_context()
+        local tar_cmd = get_tar_cmd(ctx)
         stub(ctx.fs, "unlink")
         installer.exec_in_context(ctx, function()
             std.unpack "file.tar.gz"
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.gz" }
+        assert.spy(tar_cmd).was_called(1)
+        assert.spy(tar_cmd).was_called_with { "--no-same-owner", "-xvf", "file.tar.gz" }
         assert.spy(ctx.fs.unlink).was_called(1)
         assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.gz")
     end)
 
     it("should unpack .tar.xz", function()
         local ctx = create_dummy_context()
+        local tar_cmd = get_tar_cmd(ctx)
         stub(ctx.fs, "unlink")
         installer.exec_in_context(ctx, function()
             std.unpack "file.tar.xz"
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.xz" }
+        assert.spy(tar_cmd).was_called(1)
+        assert.spy(tar_cmd).was_called_with { "--no-same-owner", "-xvf", "file.tar.xz" }
         assert.spy(ctx.fs.unlink).was_called(1)
         assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.xz")
     end)
 
     it("should unpack .tar.zst", function()
         local ctx = create_dummy_context()
+        local tar_cmd = get_tar_cmd(ctx)
         stub(ctx.fs, "unlink")
         installer.exec_in_context(ctx, function()
             std.unpack "file.tar.zst"
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.zst" }
+        assert.spy(tar_cmd).was_called(1)
+        assert.spy(tar_cmd).was_called_with { "--no-same-owner", "-xvf", "file.tar.zst" }
         assert.spy(ctx.fs.unlink).was_called(1)
         assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.zst")
     end)

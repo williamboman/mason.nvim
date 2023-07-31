@@ -108,7 +108,11 @@ end
 local function untar(rel_path)
     log.fmt_debug("std: untar %s", rel_path)
     local ctx = installer.context()
-    return ctx.spawn.tar({ "--no-same-owner", "-xvf", rel_path }):on_success(function()
+    local tar_cmd = ctx.spawn.tar
+    if platform.is.unix and not platform.is.linux then
+        tar_cmd = ctx.spawn.gtar
+    end
+    return tar_cmd({ "--no-same-owner", "-xvf", rel_path }):on_success(function()
         pcall(function()
             ctx.fs:unlink(rel_path)
         end)
