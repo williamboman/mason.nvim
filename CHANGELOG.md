@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/williamboman/mason.nvim/compare/v1.6.1...v1.6.2) (2023-08-09)
+
+
+### Bug Fixes
+
+* **ui:** don't disable search mode if empty pattern and last-pattern is set ([#1445](https://github.com/williamboman/mason.nvim/issues/1445)) ([be6f680](https://github.com/williamboman/mason.nvim/commit/be6f680774a75a06ceede3bd7159df2388f49b04))
+
 ## [1.6.1](https://github.com/williamboman/mason.nvim/compare/v1.6.0...v1.6.1) (2023-07-21)
 
 
