@@ -47,7 +47,7 @@ function M.ensure_valid_version(versions_thunk)
         ctx.stdio_sink.stdout "Fetching available versions…\n"
         local all_versions = versions_thunk()
         if all_versions:is_failure() then
-            log.warn("Failed to fetch versions for package %s", ctx.package)
+            log.warn("Failed to fetch versions for package", ctx.package)
             -- Gracefully fail (i.e. optimistically continue package installation)
             return Result.success()
         end
