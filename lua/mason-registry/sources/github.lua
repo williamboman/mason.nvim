@@ -1,5 +1,4 @@
 local Optional = require "mason-core.optional"
-local Pkg = require "mason-core.package"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local fetch = require "mason-core.fetch"
@@ -7,8 +6,8 @@ local fs = require "mason-core.fs"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
 local providers = require "mason-core.providers"
-local registry_installer = require "mason-core.installer.registry"
 local settings = require "mason.settings"
+local util = require "mason-registry.sources.util"
 
 -- Parse sha256sum text output to a table<filename: string, sha256sum: string> structure
 local parse_checksums = _.compose(_.from_pairs, _.map(_.compose(_.reverse, _.split "  ")), _.split "\n", _.trim)
@@ -52,50 +51,16 @@ function GitHubRegistrySource:get_all_package_specs()
         return {}
     end
     local data = vim.json.decode(fs.sync.read_file(self.data_file)) --[[@as RegistryPackageSpec[] ]]
-    return _.filter_map(
-        ---@param spec RegistryPackageSpec
-        function(spec)
-            -- registry+v1 specifications doesn't include a schema property, so infer it
-            spec.schema = spec.schema or "registry+v1"
-
-            if not registry_installer.SCHEMA_CAP[spec.schema] then
-                log.fmt_debug("Excluding package=%s with unsupported schema_version=%s", spec.name, spec.schema)
-                return Optional.empty()
-            end
-
-            -- XXX: this is for compatibilty with the PackageSpec structure
-            spec.desc = spec.description
-            return Optional.of(spec)
-        end,
-        data
-    )
+    return _.filter_map(util.map_registry_spec, data)
 end
 
 function GitHubRegistrySource:reload()
     if not self:is_installed() then
         return
     end
-    self.buffer = _.compose(
-        _.index_by(_.prop "name"),
-        _.map(
-            ---@param spec RegistryPackageSpec
-            function(spec)
-                -- hydrate Pkg.Lang index
-                _.each(function(lang)
-                    local _ = Pkg.Lang[lang]
-                end, spec.languages)
-
-                local pkg = self.buffer and self.buffer[spec.name]
-                if pkg then
-                    -- Apply spec to the existing Package instance. This is important as to not have lingering package
-                    -- instances.
-                    pkg.spec = spec
-                    return pkg
-                end
-                return Pkg.new(spec)
-            end
-        )
-    )(self:get_all_package_specs())
+    self.buffer = _.compose(_.index_by(_.prop "name"), _.map(util.hydrate_package(self.buffer or {})))(
+        self:get_all_package_specs()
+    )
     return self.buffer
 end
 

@@ -30,6 +30,13 @@ local function parse(registry_id)
                 mod = id,
             }
         end
+    elseif type == "file" then
+        return function()
+            local FileRegistrySource = require "mason-registry.sources.file"
+            return FileRegistrySource.new {
+                path = id,
+            }
+        end
     elseif type ~= nil then
         error(("Unknown registry type %q: %q."):format(type, registry_id), 0)
     end
