@@ -109,6 +109,20 @@ end
 local function untar(rel_path)
     log.fmt_debug("std: untar %s", rel_path)
     local ctx = installer.context()
+    local tar = vim.fn.executable "gtar" == 1 and "gtar" or "tar"
+    return ctx.spawn[tar]({ "--no-same-owner", "-xvf", rel_path }):on_success(function()
+        pcall(function()
+            ctx.fs:unlink(rel_path)
+        end)
+    end)
+end
+
+---@async
+---@param rel_path string
+---@nodiscard
+function M.untar(rel_path)
+    log.fmt_debug("std: untar %s", rel_path)
+    local ctx = installer.context()
     a.scheduler()
     local tar = vim.fn.executable "gtar" == 1 and "gtar" or "tar"
     return ctx.spawn[tar]({ "--no-same-owner", "-xvf", rel_path }):on_success(function()
