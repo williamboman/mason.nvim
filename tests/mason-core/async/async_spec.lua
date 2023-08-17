@@ -311,3 +311,58 @@ describe("async :: OneShotChannel", function()
         assert.equals(42, channel:receive())
     end)
 end)
+
+describe("async :: Channel", function()
+    local Channel = control.Channel
+
+    it("should suspend send until buffer is received", function()
+        local channel = Channel.new()
+        spy.on(channel, "send")
+        local guard = spy.new()
+
+        a.run(function()
+            channel:send "message"
+            guard()
+            channel:send "another message"
+        end, function() end)
+
+        assert.spy(channel.send).was_called(1)
+        assert.spy(channel.send).was_called_with(match.is_ref(channel), "message")
+        assert.spy(guard).was_not_called()
+    end)
+
+    it("should send subsequent messages after they're received", function()
+        local channel = Channel.new()
+        spy.on(channel, "send")
+
+        a.run(function()
+            channel:send "message"
+            channel:send "another message"
+        end, function() end)
+
+        local value = channel:receive()
+        assert.equals(value, "message")
+
+        assert.spy(channel.send).was_called(2)
+        assert.spy(channel.send).was_called_with(match.is_ref(channel), "message")
+        assert.spy(channel.send).was_called_with(match.is_ref(channel), "another message")
+    end)
+
+    it("should suspend receive until message is sent", function()
+        local channel = Channel.new()
+
+        a.run(function()
+            a.sleep(100)
+            channel:send "hello world"
+        end, function() end)
+
+        local start = timestamp()
+        local value = a.run_blocking(function()
+            return channel:receive()
+        end)
+        local stop = timestamp()
+
+        assert.is_true((stop - start) > 80)
+        assert.equals(value, "hello world")
+    end)
+end)
