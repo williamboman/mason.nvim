@@ -455,6 +455,8 @@ local function check_new_package_version(pkg)
                 state.packages.states[pkg.name].is_checking_new_version = false
                 if success then
                     state.packages.states[pkg.name].new_version = new_version
+                else
+                    state.packages.states[pkg.name].new_version = nil
                 end
             end)
             if success then
