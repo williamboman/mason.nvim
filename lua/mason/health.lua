@@ -144,11 +144,8 @@ local function check_core_utils()
         relaxed = platform.is.win,
     }
 
-    local tar_cmd = "tar"
-    if platform.is.unix and not platform.is.linux then
-        tar_cmd = "gtar"
-    end
-    check { cmd = tar_cmd, args = { "--version" }, name = tar_cmd }
+    local tar = vim.fn.executable "gtar" == 1 and "gtar" or "tar"
+    check { cmd = tar, args = { "--version" }, name = tar }
 
     if platform.is.unix then
         check { cmd = "bash", args = { "--version" }, name = "bash" }
