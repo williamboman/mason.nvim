@@ -156,7 +156,7 @@ window.events:on("search:enter", function()
 end)
 
 window.events:on("search:leave", function(search)
-    if search == "" then
+    if search == "" and vim.fn.getreg "/" == "" then
         mutate_state(function(state)
             state.view.is_searching = false
         end)
@@ -455,6 +455,8 @@ local function check_new_package_version(pkg)
                 state.packages.states[pkg.name].is_checking_new_version = false
                 if success then
                     state.packages.states[pkg.name].new_version = new_version
+                else
+                    state.packages.states[pkg.name].new_version = nil
                 end
             end)
             if success then
