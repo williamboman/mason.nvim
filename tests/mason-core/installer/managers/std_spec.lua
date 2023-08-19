@@ -14,23 +14,24 @@ describe("std unpack [Unix]", function()
         assert.spy(ctx.spawn.gzip).was_called_with { "-d", "file.gz" }
     end)
 
-    it("should use gtar if available", function()
-        local ctx = create_dummy_context()
-        stub(ctx.fs, "unlink")
-        stub(vim.fn, "executable")
-        vim.fn.executable.on_call_with("gtar").returns(1)
-        installer.exec_in_context(ctx, function()
-            std.unpack "file.tar.gz"
-        end)
-
-        assert.spy(ctx.spawn.gtar).was_called(1)
-        assert.spy(ctx.spawn.gtar).was_called_with { "--no-same-owner", "-xvf", "file.tar.gz" }
-    end)
-
-    describe("tar (not gtar)", function()
+    describe("tar", function()
         before_each(function()
             stub(vim.fn, "executable")
             vim.fn.executable.on_call_with("gtar").returns(0)
+        end)
+
+        it("should use gtar if available", function()
+            local ctx = create_dummy_context()
+            stub(ctx.fs, "unlink")
+            stub(vim.fn, "executable")
+            vim.fn.executable.on_call_with("gtar").returns(1)
+
+            installer.exec_in_context(ctx, function()
+                std.unpack "file.tar.gz"
+            end)
+
+            assert.spy(ctx.spawn.gtar).was_called(1)
+            assert.spy(ctx.spawn.gtar).was_called_with { "--no-same-owner", "-xvf", "file.tar.gz" }
         end)
 
         it("should unpack .tar", function()
