@@ -1,5 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local fetch = require "mason-core.fetch"
 local installer = require "mason-core.installer"
 local log = require "mason-core.log"
@@ -108,7 +109,9 @@ end
 local function untar(rel_path)
     log.fmt_debug("std: untar %s", rel_path)
     local ctx = installer.context()
-    return ctx.spawn.tar({ "--no-same-owner", "-xvf", rel_path }):on_success(function()
+    a.scheduler()
+    local tar = vim.fn.executable "gtar" == 1 and "gtar" or "tar"
+    return ctx.spawn[tar]({ "--no-same-owner", "-xvf", rel_path }):on_success(function()
         pcall(function()
             ctx.fs:unlink(rel_path)
         end)

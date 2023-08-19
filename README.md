@@ -42,7 +42,7 @@ Packages are installed in Neovim's data directory ([`:h standard-path`][help-sta
 linked to a single `bin/` directory, which `mason.nvim` will add to Neovim's PATH during setup, allowing seamless access
 from Neovim builtins (shell, terminal, etc.) as well as other 3rd party plugins.
 
-For a list of all available packages, see https://mason-registry.dev/registry/list.
+For a list of all available packages, see <https://mason-registry.dev/registry/list>.
 
 ## How to use installed packages
 
@@ -80,8 +80,22 @@ party plugins to further integrate these. The following plugins are recommended:
 The _minimum_ recommended requirements are:
 
 -   neovim `>= 0.7.0`
--   For Unix systems: `git(1)`, `curl(1)` or `wget(1)`, `unzip(1)`, `tar(1)`, `gzip(1)`
--   For Windows systems: pwsh or powershell, git, tar, and [7zip][7zip] or [peazip][peazip] or [archiver][archiver] or [winzip][winzip] or [WinRAR][winrar]
+-   For Unix systems:
+    -   `git(1)`
+    -   `curl(1)` or `wget(1)`
+    -   `unzip(1)`
+    -   GNU tar (`tar(1)` or `gtar(1)` depending on platform)
+    -   `gzip(1)`
+-   For Windows systems:
+    -   pwsh or powershell
+    -   git
+    -   GNU tar
+    -   One of the following:
+        -   [7zip][7zip]
+        -   [peazip][peazip]
+        -   [archiver][archiver]
+        -   [winzip][winzip]
+        -   [WinRAR][winrar]
 
 Note that `mason.nvim` will regularly shell out to external package managers, such as `cargo` and `npm`. Depending on
 your personal usage, some of these will also need to be installed. Refer to `:checkhealth mason` for a full list.
@@ -145,7 +159,6 @@ Refer to the [Wiki](https://github.com/williamboman/mason.nvim/wiki/Extensions) 
 -   `:MasonUninstall <package> ...` - uninstalls the provided packages
 -   `:MasonUninstallAll` - uninstalls all packages
 -   `:MasonLog` - opens the `mason.nvim` log file in a new tab window
-
 
 # Registries
 

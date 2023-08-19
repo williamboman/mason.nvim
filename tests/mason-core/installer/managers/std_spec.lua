@@ -14,69 +14,90 @@ describe("std unpack [Unix]", function()
         assert.spy(ctx.spawn.gzip).was_called_with { "-d", "file.gz" }
     end)
 
-    it("should unpack .tar", function()
-        local ctx = create_dummy_context()
-        stub(ctx.fs, "unlink")
-        installer.exec_in_context(ctx, function()
-            std.unpack "file.tar"
+    describe("tar", function()
+        before_each(function()
+            stub(vim.fn, "executable")
+            vim.fn.executable.on_call_with("gtar").returns(0)
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar" }
-        assert.spy(ctx.fs.unlink).was_called(1)
-        assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar")
-    end)
+        it("should use gtar if available", function()
+            local ctx = create_dummy_context()
+            stub(ctx.fs, "unlink")
+            stub(vim.fn, "executable")
+            vim.fn.executable.on_call_with("gtar").returns(1)
 
-    it("should unpack .tar.bz2", function()
-        local ctx = create_dummy_context()
-        stub(ctx.fs, "unlink")
-        installer.exec_in_context(ctx, function()
-            std.unpack "file.tar.bz2"
+            installer.exec_in_context(ctx, function()
+                std.unpack "file.tar.gz"
+            end)
+
+            assert.spy(ctx.spawn.gtar).was_called(1)
+            assert.spy(ctx.spawn.gtar).was_called_with { "--no-same-owner", "-xvf", "file.tar.gz" }
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.bz2" }
-        assert.spy(ctx.fs.unlink).was_called(1)
-        assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.bz2")
-    end)
+        it("should unpack .tar", function()
+            local ctx = create_dummy_context()
+            stub(ctx.fs, "unlink")
+            installer.exec_in_context(ctx, function()
+                std.unpack "file.tar"
+            end)
 
-    it("should unpack .tar.gz", function()
-        local ctx = create_dummy_context()
-        stub(ctx.fs, "unlink")
-        installer.exec_in_context(ctx, function()
-            std.unpack "file.tar.gz"
+            assert.spy(ctx.spawn.tar).was_called(1)
+            assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar" }
+            assert.spy(ctx.fs.unlink).was_called(1)
+            assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar")
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.gz" }
-        assert.spy(ctx.fs.unlink).was_called(1)
-        assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.gz")
-    end)
+        it("should unpack .tar.bz2", function()
+            local ctx = create_dummy_context()
+            stub(ctx.fs, "unlink")
+            installer.exec_in_context(ctx, function()
+                std.unpack "file.tar.bz2"
+            end)
 
-    it("should unpack .tar.xz", function()
-        local ctx = create_dummy_context()
-        stub(ctx.fs, "unlink")
-        installer.exec_in_context(ctx, function()
-            std.unpack "file.tar.xz"
+            assert.spy(ctx.spawn.tar).was_called(1)
+            assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.bz2" }
+            assert.spy(ctx.fs.unlink).was_called(1)
+            assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.bz2")
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.xz" }
-        assert.spy(ctx.fs.unlink).was_called(1)
-        assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.xz")
-    end)
+        it("should unpack .tar.gz", function()
+            local ctx = create_dummy_context()
+            stub(ctx.fs, "unlink")
+            installer.exec_in_context(ctx, function()
+                std.unpack "file.tar.gz"
+            end)
 
-    it("should unpack .tar.zst", function()
-        local ctx = create_dummy_context()
-        stub(ctx.fs, "unlink")
-        installer.exec_in_context(ctx, function()
-            std.unpack "file.tar.zst"
+            assert.spy(ctx.spawn.tar).was_called(1)
+            assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.gz" }
+            assert.spy(ctx.fs.unlink).was_called(1)
+            assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.gz")
         end)
 
-        assert.spy(ctx.spawn.tar).was_called(1)
-        assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.zst" }
-        assert.spy(ctx.fs.unlink).was_called(1)
-        assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.zst")
+        it("should unpack .tar.xz", function()
+            local ctx = create_dummy_context()
+            stub(ctx.fs, "unlink")
+            installer.exec_in_context(ctx, function()
+                std.unpack "file.tar.xz"
+            end)
+
+            assert.spy(ctx.spawn.tar).was_called(1)
+            assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.xz" }
+            assert.spy(ctx.fs.unlink).was_called(1)
+            assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.xz")
+        end)
+
+        it("should unpack .tar.zst", function()
+            local ctx = create_dummy_context()
+            stub(ctx.fs, "unlink")
+            installer.exec_in_context(ctx, function()
+                std.unpack "file.tar.zst"
+            end)
+
+            assert.spy(ctx.spawn.tar).was_called(1)
+            assert.spy(ctx.spawn.tar).was_called_with { "--no-same-owner", "-xvf", "file.tar.zst" }
+            assert.spy(ctx.fs.unlink).was_called(1)
+            assert.spy(ctx.fs.unlink).was_called_with(match.is_ref(ctx.fs), "file.tar.zst")
+        end)
     end)
 
     it("should unpack .vsix", function()

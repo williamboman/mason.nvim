@@ -143,7 +143,9 @@ local function check_core_utils()
         use_stderr = platform.is.mac, -- Apple gzip prints version string to stderr
         relaxed = platform.is.win,
     }
-    check { cmd = "tar", args = { "--version" }, name = "tar" }
+
+    local tar = vim.fn.executable "gtar" == 1 and "gtar" or "tar"
+    check { cmd = tar, args = { "--version" }, name = tar }
 
     if platform.is.unix then
         check { cmd = "bash", args = { "--version" }, name = "bash" }
