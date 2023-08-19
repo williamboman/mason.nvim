@@ -58,6 +58,20 @@ end
 ---@async
 ---@param purl Purl
 function M.get_versions(purl)
+    ---@type string?
+    local repository_url = _.path({ "qualifiers", "repository_url" }, purl)
+    if repository_url then
+        ---@type Result?
+        local git_tags = _.cond {
+            {
+                _.matches "github.com/(.+)",
+                _.compose(providers.github.get_all_tags, _.head, _.match "github.com/(.+)"),
+            },
+        }(repository_url)
+        if git_tags then
+            return git_tags
+        end
+    end
     return providers.crates.get_all_versions(purl.name)
 end
 

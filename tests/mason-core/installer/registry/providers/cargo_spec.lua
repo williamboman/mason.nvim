@@ -2,6 +2,7 @@ local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
 local cargo = require "mason-core.installer.registry.providers.cargo"
 local installer = require "mason-core.installer"
+local providers = require "mason-core.providers"
 local stub = require "luassert.stub"
 
 ---@param overrides Purl
@@ -115,5 +116,24 @@ describe("cargo provider :: installing", function()
             features = nil,
             locked = true,
         })
+    end)
+end)
+
+describe("cargo provider :: versions", function()
+    it("should recognize github cargo source", function()
+        stub(providers.github, "get_all_tags", function()
+            return Result.success { "1.0.0", "2.0.0", "3.0.0" }
+        end)
+
+        local result = cargo.get_versions(purl {
+            qualifiers = {
+                repository_url = "https://github.com/rust-lang/rust-analyzer",
+            },
+        })
+
+        assert.is_true(result:is_success())
+        assert.same({ "1.0.0", "2.0.0", "3.0.0" }, result:get_or_throw())
+        assert.spy(providers.github.get_all_tags).was_called(1)
+        assert.spy(providers.github.get_all_tags).was_called_with "rust-lang/rust-analyzer"
     end)
 end)
