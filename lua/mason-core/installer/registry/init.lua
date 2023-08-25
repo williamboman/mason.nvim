@@ -106,7 +106,7 @@ end
 ---@param spec RegistryPackageSpec
 ---@param opts PackageInstallOpts
 function M.parse(spec, opts)
-    log.debug("Parsing spec", spec.name, opts)
+    log.trace("Parsing spec", spec.name, opts)
     return Result.try(function(try)
         if not M.SCHEMA_CAP[spec.schema] then
             return Result.failure(
