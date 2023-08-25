@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0](https://github.com/williamboman/mason.nvim/compare/v1.6.2...v1.7.0) (2023-08-25)
+
+
+### Features
+
+* **cargo:** support fetching versions for git crates hosted on github ([#1459](https://github.com/williamboman/mason.nvim/issues/1459)) ([e9eb004](https://github.com/williamboman/mason.nvim/commit/e9eb0048cecc577a1eec534485d3e010487b46a7))
+* **registry:** add file: source protocol ([#1457](https://github.com/williamboman/mason.nvim/issues/1457)) ([8544039](https://github.com/williamboman/mason.nvim/commit/85440397264a31208721e4501c93b23a4940b27e))
+
+
+### Bug Fixes
+
+* **std:** use gtar if available ([#1433](https://github.com/williamboman/mason.nvim/issues/1433)) ([a51c2d0](https://github.com/williamboman/mason.nvim/commit/a51c2d063c5377ee9e58c5f9cda7c7436787be72))
+* **ui:** properly reset new package version state ([#1454](https://github.com/williamboman/mason.nvim/issues/1454)) ([68e6a15](https://github.com/williamboman/mason.nvim/commit/68e6a153d7cd1251eb85ebb48d2e351e9ab940b8))
+
 ## [1.6.2](https://github.com/williamboman/mason.nvim/compare/v1.6.1...v1.6.2) (2023-08-09)
 
 
