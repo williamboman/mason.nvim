@@ -149,7 +149,7 @@ end, {
     ---@param arg_lead string
     complete = function(arg_lead)
         local registry = require "mason-registry"
-
+        registry.refresh()
         if _.starts_with("--", arg_lead) then
             return _.filter(_.starts_with(arg_lead), {
                 "--debug",
