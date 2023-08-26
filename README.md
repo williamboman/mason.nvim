@@ -310,8 +310,8 @@ local DEFAULT_SETTINGS = {
 [help-mason-how-to-use-packages]: ./doc/mason.txt#L153
 [help-mason-introduction]: ./doc/mason.txt#L11
 [help-mason-quickstart]: ./doc/mason.txt#L67
-[help-mason-registry-refresh]: ./doc/mason.txt#L517
-[help-mason-registry-update]: ./doc/mason.txt#L510
+[help-mason-registry-refresh]: ./doc/mason.txt#L549
+[help-mason-registry-update]: ./doc/mason.txt#L542
 [help-mason-requirements]: ./doc/mason.txt#L50
 [help-mason-settings]: ./doc/mason.txt#L238
 [help-standard-path]: https://neovim.io/doc/user/starting.html#standard-path
