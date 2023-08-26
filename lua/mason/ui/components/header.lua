@@ -17,11 +17,15 @@ return function(state)
                     p.header " mason.nvim ",
                     state.view.is_searching and p.Comment " (search mode, press <Esc> to clear)" or p.none "",
                 }),
-                Ui.When(
-                    state.view.is_showing_help,
-                    { p.none "        press ", p.highlight_secondary "g?", p.none " for package list" },
-                    { p.none "press ", p.highlight "g?", p.none " for help" }
-                ),
+                Ui.When(state.view.is_showing_help, {
+                    p.none "        press ",
+                    p.highlight_secondary(settings.current.ui.keymaps.toggle_help),
+                    p.none " for package list",
+                }, {
+                    p.none "press ",
+                    p.highlight(settings.current.ui.keymaps.toggle_help),
+                    p.none " for help",
+                }),
                 { p.Comment "https://github.com/williamboman/mason.nvim" },
             },
         }),
