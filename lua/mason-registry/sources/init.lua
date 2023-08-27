@@ -48,6 +48,7 @@ local registries = {}
 
 ---@param registry_ids string[]
 function M.set_registries(registry_ids)
+    registries = {}
     for _, registry in ipairs(registry_ids) do
         local ok, err = pcall(function()
             table.insert(registries, parse(registry))
