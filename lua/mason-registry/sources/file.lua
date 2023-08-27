@@ -73,6 +73,7 @@ end
 ---@async
 function FileRegistrySource:install()
     return Result.try(function(try)
+        a.scheduler()
         if vim.fn.executable "yq" ~= 1 then
             return Result.failure "yq is not installed."
         end
