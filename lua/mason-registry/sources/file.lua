@@ -38,10 +38,9 @@ function FileRegistrySource:get_all_package_specs()
     return _.filter_map(util.map_registry_spec, self:get_buffer().specs)
 end
 
-function FileRegistrySource:reload()
-    if not self:is_installed() then
-        return
-    end
+---@param specs RegistryPackageSpec[]
+function FileRegistrySource:reload(specs)
+    self.buffer = _.assoc("specs", specs, self.buffer or {})
     self.buffer.instances = _.compose(
         _.index_by(_.prop "name"),
         _.map(util.hydrate_package(self.buffer.instances or {}))
@@ -130,8 +129,7 @@ function FileRegistrySource:install()
         return specs
     end)
         :on_success(function(specs)
-            self.buffer = _.assoc("specs", specs, self.buffer or {})
-            self:reload()
+            self:reload(specs)
         end)
         :on_failure(function(err)
             log.fmt_error("Failed to install registry %s. %s", self, err)
