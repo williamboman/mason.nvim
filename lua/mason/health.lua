@@ -228,9 +228,10 @@ local function check_languages()
             version_check = function(version)
                 -- Parses output such as "8.1.2" into major, minor, patch components
                 local _, _, major = version:find "(%d+)%.(%d+)%.(%d+)"
-                -- Based off of general observations of feature parity
-                if tonumber(major) < 6 then
-                    return "npm version must be >= 6"
+                -- Based off of general observations of feature parity.
+                -- In npm v7, peerDependencies are now automatically installed.
+                if tonumber(major) < 7 then
+                    return "npm version must be >= 7"
                 end
             end,
         },
