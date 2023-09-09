@@ -1,8 +1,7 @@
 local match = require "luassert.match"
 local path = require "mason-core.path"
-local pip3 = require "mason-core.managers.pip3"
+local pypi = require "mason-core.installer.managers.pypi"
 local registry = require "mason-registry"
-local std = require "mason-core.managers.std"
 local stub = require "luassert.stub"
 
 describe("installer", function()
@@ -21,9 +20,9 @@ describe("installer", function()
         stub(ctx.fs, "write_file")
         stub(ctx.fs, "file_exists")
         stub(ctx.fs, "dir_exists")
+        stub(ctx.fs, "chmod_exec")
         ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
         ctx.fs.dir_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
-        stub(std, "chmod")
 
         ctx:write_shell_exec_wrapper("my-executable", "bash -c 'echo $GREETING'", {
             GREETING = "Hello World!",
@@ -52,7 +51,6 @@ exec bash -c 'echo $GREETING' "$@"]]
         stub(ctx.fs, "dir_exists")
         ctx.fs.file_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
         ctx.fs.dir_exists.on_call_with(match.is_ref(ctx.fs), "my-executable").returns(false)
-        stub(std, "chmod")
 
         ctx:write_shell_exec_wrapper("my-executable", "cmd.exe /C echo %GREETING%", {
             GREETING = "Hello World!",
@@ -156,7 +154,7 @@ cmd.exe /C echo %GREETING% %*]]
         assert.spy(ctx.write_shell_exec_wrapper).was_called_with(
             match.is_ref(ctx),
             "my-wrapper-script",
-            ("%q -m my-module"):format(path.concat { pip3.venv_path(dummy:get_install_path()), "python" })
+            ("%q -m my-module"):format(path.concat { pypi.venv_path(dummy:get_install_path()), "python" })
         )
     end)
 
