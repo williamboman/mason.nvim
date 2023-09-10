@@ -39,7 +39,7 @@ function LuaRegistrySource:get_all_package_names()
     return vim.tbl_keys(index)
 end
 
----@return PackageSpec[]
+---@return RegistryPackageSpec[]
 function LuaRegistrySource:get_all_package_specs()
     return _.filter_map(function(name)
         return Optional.of_nilable(self:get_package(name)):map(_.prop "spec")

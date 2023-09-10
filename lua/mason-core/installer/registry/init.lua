@@ -34,9 +34,10 @@ M.register_provider("npm", _.lazy_require "mason-core.installer.registry.provide
 M.register_provider("nuget", _.lazy_require "mason-core.installer.registry.providers.nuget")
 M.register_provider("opam", _.lazy_require "mason-core.installer.registry.providers.opam")
 M.register_provider("pypi", _.lazy_require "mason-core.installer.registry.providers.pypi")
+M.register_provider("mason", _.lazy_require "mason-core.installer.registry.providers.mason")
 
 ---@param purl Purl
-local function get_provider(purl)
+function M.get_provider(purl)
     return Optional.of_nilable(PROVIDERS[purl.type]):ok_or(("Unknown purl type: %s"):format(purl.type))
 end
 
@@ -126,7 +127,7 @@ function M.parse(spec, opts)
         end
 
         ---@type InstallerProvider
-        local provider = try(get_provider(purl))
+        local provider = try(M.get_provider(purl))
         log.trace("Found provider for purl.", source.id)
         local parsed_source = try(provider.parse(source, purl, opts))
         log.trace("Parsed source for purl.", source.id, parsed_source)
@@ -209,18 +210,6 @@ function M.compile(spec, opts)
                 error(err, 0)
             end)
         end
-    end)
-end
-
----@async
----@param spec RegistryPackageSpec
-function M.get_versions(spec)
-    return Result.try(function(try)
-        ---@type Purl
-        local purl = try(Purl.parse(spec.source.id))
-        ---@type InstallerProvider
-        local provider = try(get_provider(purl))
-        return provider.get_versions(purl, spec.source)
     end)
 end
 

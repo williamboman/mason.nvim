@@ -25,55 +25,53 @@ describe("package", function()
 
     it("should validate spec", function()
         local valid_spec = {
+            schema = "registry+v1",
             name = "Package name",
-            desc = "Package description",
+            description = "Package description",
             homepage = "https://example.com",
             categories = { Pkg.Cat.LSP },
             languages = { Pkg.Lang.Rust },
-            install = function() end,
+            licenses = { Pkg.License.MIT },
+            source = {
+                id = "pkg:mason/package@1.0.0",
+                install = function() end,
+            },
         }
-        local function spec(fields)
+        local function modify_spec(fields)
             return setmetatable(fields, { __index = valid_spec })
         end
         assert.equals(
             "name: expected string, got number",
             assert.has_error(function()
-                Pkg.new(spec { name = 23 })
+                Pkg.new(modify_spec { name = 23 })
             end)
         )
 
         assert.equals(
-            "desc: expected string, got number",
+            "description: expected string, got number",
             assert.has_error(function()
-                Pkg.new(spec { desc = 23 })
+                Pkg.new(modify_spec { description = 23 })
             end)
         )
 
         assert.equals(
             "homepage: expected string, got number",
             assert.has_error(function()
-                Pkg.new(spec { homepage = 23 })
+                Pkg.new(modify_spec { homepage = 23 })
             end)
         )
 
         assert.equals(
             "categories: expected table, got number",
             assert.has_error(function()
-                Pkg.new(spec { categories = 23 })
+                Pkg.new(modify_spec { categories = 23 })
             end)
         )
 
         assert.equals(
             "languages: expected table, got number",
             assert.has_error(function()
-                Pkg.new(spec { languages = 23 })
-            end)
-        )
-
-        assert.equals(
-            "install: expected function, got number",
-            assert.has_error(function()
-                Pkg.new(spec { install = 23 })
+                Pkg.new(modify_spec { languages = 23 })
             end)
         )
     end)
@@ -137,8 +135,7 @@ describe("package", function()
         "should fail to install package",
         async_test(function()
             local dummy = registry.get_package "dummy"
-            stub(dummy.spec, "install")
-            dummy.spec.install.invokes(function()
+            stub(dummy.spec.source, "install", function()
                 error "I simply refuse to be installed."
             end)
             local package_install_success_handler = spy.new()

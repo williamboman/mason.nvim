@@ -455,15 +455,19 @@ to redo whatever is failing after changing the log level in order to capture
 new log entries.
 
 ==============================================================================
-Lua module: mason
-
+Lua module: "mason"
+>lua
+    require("mason")
+<
                                                                *mason.setup()*
 setup({config})
     Sets up mason with the provided {config} (see |mason-settings|).
 
 ==============================================================================
-Lua module: mason-registry
-
+Lua module: "mason-registry"
+>lua
+    require("mason-registry")
+<
                                                *mason-registry.is_installed()*
 is_installed({package_name})
     Checks whether the provided package name is installed. In many situations,
@@ -537,7 +541,7 @@ get_all_package_specs()
     |mason-registry.get_all_packages()| because it loads fewer modules.
 
     Returns:
-        (PackageSpec | RegistryPackageSpec)[]
+        RegistryPackageSpec[]
 
                                                      *mason-registry.update()*
 update({callback})

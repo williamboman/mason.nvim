@@ -57,18 +57,17 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
         end),
         Ui.HlTextNode(_.map(function(line)
             return { p.Comment(line) }
-        end, _.split("\n", pkg.spec.desc))),
+        end, _.split("\n", pkg.spec.description))),
         Ui.EmptyLine(),
         Ui.Table(_.concat(
             _.filter(_.identity, {
                 is_installed and {
                     p.muted "installed version",
-                    pkg_state.version and p.Bold(pkg_state.version)
-                        or (pkg_state.is_checking_version and p.muted "Loading…" or p.muted "-"),
+                    pkg_state.version and p.Bold(pkg_state.version) or p.muted "-",
                 },
                 pkg_state.new_version and {
                     p.muted "latest version",
-                    p.muted(pkg_state.new_version.latest_version),
+                    p.muted(pkg_state.new_version),
                 },
                 {
                     p.muted "homepage",
@@ -154,18 +153,11 @@ local function PackageComponent(state, pkg, opts)
                 source = ("Deprecated since version %s"):format(pkg.spec.deprecation.since),
             }
         end),
-        Ui.When(pkg_state.is_checking_new_version, function()
-            return Ui.VirtualTextNode { p.Comment " checking for new version…" }
-        end),
         Ui.Keybind(settings.current.ui.keymaps.check_package_version, "CHECK_NEW_PACKAGE_VERSION", pkg),
         Ui.When(pkg_state.new_version ~= nil, function()
             return Ui.DiagnosticsNode {
-                message = ("new version available: %s -> %s"):format(
-                    pkg_state.new_version.current_version,
-                    pkg_state.new_version.latest_version
-                ),
+                message = ("new version available: %s -> %s"):format(pkg_state.version or "-", pkg_state.new_version),
                 severity = vim.diagnostic.severity.INFO,
-                source = pkg_state.new_version.name,
             }
         end),
         Ui.Node(opts.keybinds),

@@ -15,18 +15,19 @@ function M.map_registry_spec(spec)
         return Optional.empty()
     end
 
-    -- XXX: this is for compatibilty with the PackageSpec structure
-    spec.desc = spec.description
     return Optional.of(spec)
 end
 
 ---@param buffer table<string, Package>
 ---@param spec RegistryPackageSpec
 M.hydrate_package = _.curryN(function(buffer, spec)
-    -- hydrate Pkg.Lang index
+    -- hydrate Pkg.Lang/License index
     _.each(function(lang)
         local _ = Pkg.Lang[lang]
     end, spec.languages)
+    _.each(function(lang)
+        local _ = Pkg.License[lang]
+    end, spec.licenses)
 
     local pkg = buffer[spec.name]
     if pkg then
