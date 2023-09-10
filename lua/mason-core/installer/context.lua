@@ -303,10 +303,10 @@ end
 ---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param module string The python module to call.
 function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, module)
-    local pip3 = require "mason-core.managers.pip3"
+    local pypi = require "mason-core.installer.managers.pypi"
     local module_exists, module_err = pcall(function()
         local result =
-            self.spawn.python { "-c", ("import %s"):format(module), with_paths = { pip3.venv_path(self.cwd:get()) } }
+            self.spawn.python { "-c", ("import %s"):format(module), with_paths = { pypi.venv_path(self.cwd:get()) } }
         if not self.spawn.strict_mode then
             result:get_or_throw()
         end
@@ -319,7 +319,7 @@ function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, modul
         new_executable_rel_path,
         ("%q -m %s"):format(
             path.concat {
-                pip3.venv_path(self.package:get_install_path()),
+                pypi.venv_path(self.package:get_install_path()),
                 "python",
             },
             module
@@ -367,14 +367,13 @@ function InstallContext:write_shell_exec_wrapper(new_executable_rel_path, comman
     end
     return platform.when {
         unix = function()
-            local std = require "mason-core.managers.std"
             local formatted_envs = _.map(function(pair)
                 local var, value = pair[1], pair[2]
                 return ("export %s=%q"):format(var, value)
             end, _.to_pairs(env or {}))
 
             self.fs:write_file(new_executable_rel_path, BASH_TEMPLATE:format(_.join("\n", formatted_envs), command))
-            std.chmod("+x", { new_executable_rel_path })
+            self.fs:chmod_exec(new_executable_rel_path)
             return new_executable_rel_path
         end,
         win = function()
