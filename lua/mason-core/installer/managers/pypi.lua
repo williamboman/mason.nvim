@@ -15,6 +15,14 @@ local VENV_DIR = "venv"
 
 local is_executable = _.compose(_.equals(1), vim.fn.executable)
 
+function M.venv_path(dir)
+    return path.concat {
+        dir,
+        VENV_DIR,
+        platform.is.win and "Scripts" or "bin",
+    }
+end
+
 ---@async
 ---@param candidates string[]
 local function resolve_python3(candidates)
