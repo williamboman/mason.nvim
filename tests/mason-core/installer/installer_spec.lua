@@ -25,12 +25,14 @@ describe("installer", function()
             spy.on(fs.async, "rename")
 
             local handle = InstallHandleGenerator "dummy"
-            spy.on(handle.package.spec, "install")
+            spy.on(handle.package.spec.source, "install")
             local result = installer.execute(handle, {})
 
             assert.is_nil(result:err_or_nil())
-            assert.spy(handle.package.spec.install).was_called(1)
-            assert.spy(handle.package.spec.install).was_called_with(match.instanceof(InstallContext))
+            assert.spy(handle.package.spec.source.install).was_called(1)
+            assert
+                .spy(handle.package.spec.source.install)
+                .was_called_with(match.instanceof(InstallContext), match.is_table())
             assert.spy(fs.async.mkdirp).was_called_with(path.package_build_prefix "dummy")
             assert.spy(fs.async.rename).was_called_with(path.package_build_prefix "dummy", path.package_prefix "dummy")
         end)
@@ -45,8 +47,7 @@ describe("installer", function()
                 error("something went wrong. don't try again.", 0)
             end)
             local handler = InstallHandleGenerator "dummy"
-            stub(handler.package.spec, "install")
-            handler.package.spec.install.invokes(installer_fn)
+            stub(handler.package.spec.source, "install", installer_fn)
             local result = installer.execute(handler, {})
             assert.spy(installer_fn).was_called(1)
             assert.is_true(result:is_failure())
@@ -60,40 +61,45 @@ describe("installer", function()
         "should write receipt",
         async_test(function()
             spy.on(fs.async, "write_file")
-            local handler = InstallHandleGenerator "dummy"
-            ---@param ctx InstallContext
-            handler.package.spec.install = function(ctx)
-                ctx.receipt:with_primary_source { type = "source", source = {} }
-
+            local handle = InstallHandleGenerator "dummy"
+            stub(handle.package.spec.source, "install", function(ctx)
                 ctx.fs:write_file("target", "")
                 ctx.fs:write_file("file.jar", "")
                 ctx.fs:write_file("opt-cmd", "")
-
-                ctx.links.bin = {
-                    ["executable"] = "target",
-                }
-                ctx.links.share = {
-                    ["package/file.jar"] = "file.jar",
-                }
-                ctx.links.opt = {
-                    ["package/bin/opt-cmd"] = "opt-cmd",
-                }
-            end
-            installer.execute(handler, {})
+            end)
+            handle.package.spec.bin = {
+                ["executable"] = "target",
+            }
+            handle.package.spec.share = {
+                ["package/file.jar"] = "file.jar",
+            }
+            handle.package.spec.opt = {
+                ["package/bin/opt-cmd"] = "opt-cmd",
+            }
+            installer.execute(handle, {})
+            handle.package.spec.bin = {}
+            handle.package.spec.share = {}
+            handle.package.spec.opt = {}
             assert.spy(fs.async.write_file).was_called_with(
-                ("%s/mason-receipt.json"):format(handler.package:get_install_path()),
+                ("%s/mason-receipt.json"):format(handle.package:get_install_path()),
                 match.capture(function(arg)
                     ---@type InstallReceipt
                     local receipt = vim.json.decode(arg)
-                    assert.equals("dummy", receipt.name)
-                    assert.same({ type = "source", source = {} }, receipt.primary_source)
-                    assert.same({}, receipt.secondary_sources)
-                    assert.same("1.1", receipt.schema_version)
-                    assert.same({
-                        bin = { executable = "target" },
-                        share = { ["package/file.jar"] = "file.jar" },
-                        opt = { ["package/bin/opt-cmd"] = "opt-cmd" },
-                    }, receipt.links)
+                    assert.is_true(match.tbl_containing {
+                        name = "dummy",
+                        primary_source = match.same {
+                            type = handle.package.spec.schema,
+                            id = handle.package.spec.source.id,
+                        },
+                        secondary_sources = match.same {},
+                        schema_version = "1.1",
+                        metrics = match.is_table(),
+                        links = match.same {
+                            bin = { executable = "target" },
+                            share = { ["package/file.jar"] = "file.jar" },
+                            opt = { ["package/bin/opt-cmd"] = "opt-cmd" },
+                        },
+                    }(receipt))
                 end)
             )
         end)
@@ -106,7 +112,7 @@ describe("installer", function()
             local capture = spy.new()
             local start = timestamp()
             local handle = InstallHandleGenerator "dummy"
-            handle.package.spec.install = function(ctx)
+            stub(handle.package.spec.source, "install", function(ctx)
                 capture(installer.run_concurrently {
                     function()
                         a.sleep(100)
@@ -121,8 +127,7 @@ describe("installer", function()
                         return "three"
                     end,
                 })
-                ctx.receipt:with_primary_source { type = "dummy" }
-            end
+            end)
             installer.execute(handle, {})
             local stop = timestamp()
             local grace_ms = 25
@@ -136,11 +141,10 @@ describe("installer", function()
         async_test(function()
             spy.on(fs.async, "write_file")
             local handle = InstallHandleGenerator "dummy"
-            stub(handle.package.spec, "install", function(ctx)
+            stub(handle.package.spec.source, "install", function(ctx)
                 ctx.stdio_sink.stdout "Hello stdout!\n"
                 ctx.stdio_sink.stderr "Hello "
                 ctx.stdio_sink.stderr "stderr!"
-                ctx.receipt:with_primary_source { type = "unmanaged" }
             end)
             installer.execute(handle, { debug = true })
             assert
@@ -153,7 +157,7 @@ describe("installer", function()
         "should raise spawn errors in strict mode",
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
-            stub(handle.package.spec, "install", function(ctx)
+            stub(handle.package.spec.source, "install", function(ctx)
                 ctx.spawn.bash { "-c", "exit 42" }
             end)
             local result = installer.execute(handle, { debug = true })
@@ -173,7 +177,7 @@ describe("installer", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local callback = spy.new()
-            stub(handle.package.spec, "install", function()
+            stub(handle.package.spec.source, "install", function()
                 a.sleep(3000)
             end)
 
@@ -197,7 +201,7 @@ describe("installer", function()
         async_test(function()
             local handle = InstallHandleGenerator "dummy"
             local install = spy.new()
-            stub(handle.package.spec, "install", install)
+            stub(handle.package.spec.source, "install", install)
 
             fs.sync.write_file(path.package_lock "dummy", "dummypid")
             local result = installer.execute(handle, { debug = true })

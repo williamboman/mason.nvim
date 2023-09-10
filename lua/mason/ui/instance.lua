@@ -42,15 +42,13 @@ end
 ---@field expanded_json_schemas table<string, boolean>
 ---@field has_expanded_before boolean
 ---@field has_transitioned boolean
----@field is_checking_new_version boolean
----@field is_checking_version boolean
 ---@field is_terminated boolean
 ---@field is_log_expanded boolean
 ---@field has_failed boolean
 ---@field latest_spawn string?
 ---@field linked_executables table<string, string>?
 ---@field lsp_settings_schema table?
----@field new_version NewPackageVersion?
+---@field new_version string?
 ---@field short_tailed_output string?
 ---@field tailed_output string[]
 ---@field version string?
@@ -212,8 +210,6 @@ local function create_initial_package_state()
         expanded_json_schemas = {},
         has_expanded_before = false,
         has_transitioned = false,
-        is_checking_new_version = false,
-        is_checking_version = false,
         is_terminated = false,
         is_log_expanded = false,
         has_failed = false,
@@ -300,20 +296,11 @@ end
 ---@param pkg Package
 local function hydrate_detailed_package_state(pkg)
     mutate_state(function(state)
-        state.packages.states[pkg.name].is_checking_version = true
         -- initialize expanded keys table
         state.packages.states[pkg.name].expanded_json_schema_keys["lsp"] = state.packages.states[pkg.name].expanded_json_schema_keys["lsp"]
             or {}
         state.packages.states[pkg.name].lsp_settings_schema = pkg:get_lsp_settings_schema():or_else(nil)
-    end)
-
-    pkg:get_installed_version(function(success, version_or_err)
-        mutate_state(function(state)
-            state.packages.states[pkg.name].is_checking_version = false
-            if success then
-                state.packages.states[pkg.name].version = version_or_err
-            end
-        end)
+        state.packages.states[pkg.name].version = pkg:get_installed_version()
     end)
 
     pkg:get_receipt():if_present(
@@ -443,29 +430,22 @@ end
 ---@async
 ---@param pkg Package
 local function check_new_package_version(pkg)
-    if get_state().packages.states[pkg.name].is_checking_new_version then
-        return
-    end
+    local installed_version = pkg:get_installed_version()
     mutate_state(function(state)
-        state.packages.states[pkg.name].is_checking_new_version = true
+        state.packages.states[pkg.name].version = installed_version
     end)
-    return a.wait(function(resolve, reject)
-        pkg:check_new_version(function(success, new_version)
-            mutate_state(function(state)
-                state.packages.states[pkg.name].is_checking_new_version = false
-                if success then
-                    state.packages.states[pkg.name].new_version = new_version
-                else
-                    state.packages.states[pkg.name].new_version = nil
-                end
-            end)
-            if success then
-                resolve(new_version)
-            else
-                reject(new_version)
-            end
+    local latest_version = pkg:get_latest_version()
+    if latest_version ~= installed_version and pkg:is_installable { version = latest_version } then
+        mutate_state(function(state)
+            state.packages.states[pkg.name].new_version = latest_version
         end)
-    end)
+        return true
+    else
+        mutate_state(function(state)
+            state.packages.states[pkg.name].new_version = nil
+        end)
+        return false
+    end
 end
 
 ---@async
@@ -511,16 +491,16 @@ local function check_new_visible_package_versions()
     end
 
     local sem = Semaphore.new(5)
-    a.wait_all(_.map(function(package)
+    a.wait_all(_.map(function(pkg)
         return function()
             local permit = sem:acquire()
-            local has_new_version = pcall(check_new_package_version, package)
+            local has_new_version = check_new_package_version(pkg)
             mutate_state(function(state)
                 state.packages.new_versions_check.current = state.packages.new_versions_check.current + 1
                 state.packages.new_versions_check.percentage_complete = state.packages.new_versions_check.current
                     / state.packages.new_versions_check.total
                 if has_new_version then
-                    table.insert(state.packages.outdated_packages, package)
+                    table.insert(state.packages.outdated_packages, pkg)
                 end
             end)
             permit:forget()
