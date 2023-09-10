@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.8.0](https://github.com/williamboman/mason.nvim/compare/v1.7.0...v1.8.0) (2023-09-04)
+
+
+### Features
+
+* **ui:** add setting to toggle help view ([#1468](https://github.com/williamboman/mason.nvim/issues/1468)) ([e1602c8](https://github.com/williamboman/mason.nvim/commit/e1602c868f938877057cb6f45e50859cb55cad96))
+
+
+### Bug Fixes
+
+* **registry:** reset registries state when setting registries ([#1474](https://github.com/williamboman/mason.nvim/issues/1474)) ([c811fbf](https://github.com/williamboman/mason.nvim/commit/c811fbf09c7642eebb37d6694f1a016a043f6ed3))
+* **registry:** schedule vim.fn calls in FileRegistrySource ([#1471](https://github.com/williamboman/mason.nvim/issues/1471)) ([1c77412](https://github.com/williamboman/mason.nvim/commit/1c77412d7ff73e453cdc5366c8d7cd98d2242802))
+
 ## [1.7.0](https://github.com/williamboman/mason.nvim/compare/v1.6.2...v1.7.0) (2023-08-25)
 
 
