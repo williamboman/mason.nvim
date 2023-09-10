@@ -163,30 +163,26 @@ end, {
             if not ok then
                 return {}
             end
-            if pkg:is_registry_spec() then
-                local a = require "mason-core.async"
-                local registry_installer = require "mason-core.installer.registry"
-                return a.run_blocking(function()
-                    return a.wait_first {
-                        function()
-                            return registry_installer
-                                .get_versions(pkg.spec --[[@as RegistryPackageSpec]])
-                                :map(
-                                    _.compose(
-                                        _.map(_.concat(arg_lead)),
-                                        _.map(_.strip_prefix(version)),
-                                        _.filter(_.starts_with(version))
-                                    )
+            local a = require "mason-core.async"
+            return a.run_blocking(function()
+                return a.wait_first {
+                    function()
+                        return pkg:get_all_versions()
+                            :map(
+                                _.compose(
+                                    _.map(_.concat(arg_lead)),
+                                    _.map(_.strip_prefix(version)),
+                                    _.filter(_.starts_with(version))
                                 )
-                                :get_or_else {}
-                        end,
-                        function()
-                            a.sleep(4000)
-                            return {}
-                        end,
-                    }
-                end)
-            end
+                            )
+                            :get_or_else {}
+                    end,
+                    function()
+                        a.sleep(4000)
+                        return {}
+                    end,
+                }
+            end)
         end
 
         local all_pkg_names = registry.get_all_package_names()

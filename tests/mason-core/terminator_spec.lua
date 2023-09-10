@@ -15,7 +15,7 @@ describe("terminator", function()
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
             for _, pkg in ipairs { dummy, dummy2 } do
-                stub(pkg.spec, "install", function()
+                stub(pkg.spec.source, "install", function()
                     a.sleep(10000)
                 end)
             end
@@ -24,8 +24,8 @@ describe("terminator", function()
             local dummy2_handle = dummy2:install()
 
             assert.wait_for(function()
-                assert.spy(dummy.spec.install).was_called()
-                assert.spy(dummy2.spec.install).was_called()
+                assert.spy(dummy.spec.source.install).was_called()
+                assert.spy(dummy2.spec.source.install).was_called()
             end)
 
             terminator.terminate(5000)
@@ -49,7 +49,7 @@ describe("terminator", function()
             local dummy = registry.get_package "dummy"
             local dummy2 = registry.get_package "dummy2"
             for _, pkg in ipairs { dummy, dummy2 } do
-                stub(pkg.spec, "install", function()
+                stub(pkg.spec.source, "install", function()
                     a.sleep(10000)
                 end)
             end
@@ -58,8 +58,8 @@ describe("terminator", function()
             local dummy2_handle = dummy2:install()
 
             assert.wait_for(function()
-                assert.spy(dummy.spec.install).was_called()
-                assert.spy(dummy2.spec.install).was_called()
+                assert.spy(dummy.spec.source.install).was_called()
+                assert.spy(dummy2.spec.source.install).was_called()
             end)
 
             terminator.terminate(5000)
@@ -92,8 +92,8 @@ describe("terminator", function()
         async_test(function()
             spy.on(InstallHandle, "kill")
             local dummy = registry.get_package "dummy"
-            stub(dummy.spec, "install")
-            dummy.spec.install.invokes(function(ctx)
+            stub(dummy.spec.source, "install")
+            dummy.spec.source.install.invokes(function(ctx)
                 -- your signals have no power here
                 ctx.spawn.bash { "-c", "function noop { :; }; trap noop SIGTERM; sleep 999999;" }
             end)
@@ -101,7 +101,7 @@ describe("terminator", function()
             local handle = dummy:install()
 
             assert.wait_for(function()
-                assert.spy(dummy.spec.install).was_called()
+                assert.spy(dummy.spec.source.install).was_called()
             end)
             terminator.terminate(50)
 

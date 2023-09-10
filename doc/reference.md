@@ -23,23 +23,25 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 [rfc2119]: https://tools.ietf.org/html/rfc2119
 [rfc8174]: https://tools.ietf.org/html/rfc8174
 
+<!--toc:start-->
 -   [Architecture diagram](#architecture-diagram)
 -   [Registry events](#registry-events)
--   [`PackageSpec`](#packagespec)
 -   [`RegistryPackageSpec`](#registrypackagespec)
 -   [`Package`](#package)
     -   [`Package.Parse({package_identifier})`](#packageparsepackage_identifier)
     -   [`Package.Lang`](#packagelang)
     -   [`Package.Cat`](#packagecat)
+    -   [`Package.License`](#packagelicense)
     -   [`Package.new({spec})`](#packagenewspec)
-    -   [`Package.spec`](#packagespec-1)
-    -   [`Package:install({opts})`](#packageinstallopts)
+    -   [`Package.spec`](#packagespec)
+    -   [`Package:install({opts?})`](#packageinstallopts)
     -   [`Package:uninstall()`](#packageuninstall)
     -   [`Package:is_installed()`](#packageis_installed)
     -   [`Package:get_install_path()`](#packageget_install_path)
-    -   [`Package:get_installed_version({callback})`](#packageget_installed_versioncallback)
-    -   [`Package:check_new_version({callback})`](#packagecheck_new_versioncallback)
--   [`NewPackageVersion`](#newpackageversion)
+    -   [`Package:get_installed_version()`](#packageget_installed_version)
+    -   [`Package:get_latest_version()`](#packageget_latest_version)
+    -   [`Package:is_installable({opts?})`](#packageis_installableopts)
+-   [`PackageInstallOpts`](#packageinstallopts-1)
 -   [`InstallContext`](#installcontext)
     -   [`InstallContext.package`](#installcontextpackage)
     -   [`InstallContext.handle`](#installcontexthandle)
@@ -48,10 +50,15 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
     -   [`InstallContext.fs`](#installcontextfs)
     -   [`InstallContext.requested_version`](#installcontextrequested_version)
     -   [`InstallContext.stdio_sink`](#installcontextstdio_sink)
+-   [`ContextualFs`](#contextualfs)
+-   [`ContextualSpawn`](#contextualspawn)
+-   [`CwdManager`](#cwdmanager)
+    -   [`CwdManager:set({cwd)})`](#cwdmanagersetcwd)
+    -   [`CwdManager:get()`](#cwdmanagerget)
 -   [`InstallHandleState`](#installhandlestate)
 -   [`InstallHandle`](#installhandle)
     -   [`InstallHandle.package`](#installhandlepackage)
-    -   [`InstallHandle.state`](#installhandlestate-1)
+    -   [`InstallHandle.state`](#installhandlestate)
     -   [`InstallHandle.is_terminated`](#installhandleis_terminated)
     -   [`InstallHandle:is_idle()`](#installhandleis_idle)
     -   [`InstallHandle:is_queued()`](#installhandleis_queued)
@@ -63,6 +70,7 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
     -   [`EventEmitter:on({event}, {handler})`](#eventemitteronevent-handler)
     -   [`EventEmitter:once({event, handler})`](#eventemitteronceevent-handler)
     -   [`EventEmitter:off({event}, {handler})`](#eventemitteroffevent-handler)
+<!--toc:end-->
 
 ## Architecture diagram
 
@@ -101,34 +109,21 @@ registry:on(
 )
 ```
 
-## `PackageSpec`
-
-**Type:**
-
-| Key        | Value                               |
-| ---------- | ----------------------------------- |
-| name       | `string`                            |
-| desc       | `string`                            |
-| homepage   | `string`                            |
-| categories | [`PackageCategory[]`](#packagecat)  |
-| languages  | [`PackageLanguage[]`](#packagelang) |
-| install    | `async fun(ctx: InstallContext)`    |
-
 ## `RegistryPackageSpec`
 
-| Key         | Value                               |
-| ----------- | ----------------------------------- |
-| schema      | `"registry+v1"`                     |
-| name        | `string`                            |
-| description | `string`                            |
-| homepage    | `string`                            |
-| licenses    | `string`                            |
-| categories  | [`PackageCategory[]`](#packagecat)  |
-| languages   | [`PackageLanguage[]`](#packagelang) |
-| source      | `table`                             |
-| bin         | `table<string, string>?`            |
-| share       | `table<string, string>?`            |
-| opt         | `table<string, string>?`            |
+| Key         | Value                                 |
+| ----------- | ------------------------------------- |
+| schema      | `"registry+v1"`                       |
+| name        | `string`                              |
+| description | `string`                              |
+| homepage    | `string`                              |
+| licenses    | [`PackageLicense[]`](#packagelicense) |
+| categories  | [`PackageCategory[]`](#packagecat)    |
+| languages   | [`PackageLanguage[]`](#packagelang)   |
+| source      | `table`                               |
+| bin         | `table<string, string>?`              |
+| share       | `table<string, string>?`              |
+| opt         | `table<string, string>?`              |
 
 ## `Package`
 
@@ -184,23 +179,25 @@ Package.Cat = {
 }
 ```
 
-All the available categories a package can be tagged with.
+### `Package.License`
+
+Similar as [`Package.Lang`](#packagelang) but for SPDX license identifiers.
 
 ### `Package.new({spec})`
 
 **Parameters:**
 
--   `spec`: [`PackageSpec`](#packagespec)
+-   `spec`: [`RegistryPackageSpec`](#registrypackagespec)
 
 ### `Package.spec`
 
-**Type**: [`PackageSpec`](#packagespec) or [`RegistryPackageSpec`](#registrypackagespec)
+**Type**: [`RegistryPackageSpec`](#registrypackagespec)
 
-### `Package:install({opts})`
+### `Package:install({opts?})`
 
 **Parameters:**
 
--   `opts`: `{ version: string|nil } | nil` (optional)
+-   `opts?`: [`PackageInstallOpts`](#packageinstallopts-1) (optional)
 
 **Returns:** [`InstallHandle`](#installhandle)
 
@@ -226,40 +223,45 @@ Uninstalls the package instance this method is being called on.
 **Returns:** `string` The full path where this package is installed. _Note that this will always return a string,
 regardless of whether the package is actually installed or not._
 
-### `Package:get_installed_version({callback})`
+### `Package:get_installed_version()`
+
+**Returns:** `string?` The currently installed version of the package. Returns `nil` if the package is not installed.
+
+### `Package:get_latest_version()`
+
+**Returns:** `string` The latest package version as provided by the currently installed version of the registry.
+
+_Note that this method will not check if one or more registries are outdated. If it's desired to retrieve the latest
+upstream version, refresh/update registries first (`:h mason-registry.refresh()`, `:h mason-registry.update()`), for
+example:_
+
+```lua
+local registry = require "mason-registry"
+registry.refresh(function()
+    local pkg = registry.get_package "rust-analyzer"
+    local latest_version = pkg:get_latest_version()
+end)
+```
+
+### `Package:is_installable({opts?})`
 
 **Parameters:**
 
--   `callback`: `fun(success: boolean, version_or_err: string)`
+-   `opts?`: [`PackageInstallOpts`](#packageinstallopts-1) (optional)
 
-This method will asynchronously get the currently installed version, and invoke the provided `{callback}` with the
-results.
+**Returns:** `boolean` Returns `true` if the package is installable on the current platform.
 
-### `Package:check_new_version({callback})`
-
-**Parameters:**
-
--   `callback`: `fun(success: boolean, result_or_err: NewPackageVersion | string)`
-
-This method will asynchronously check whether there's a newer version of the package, and invoke the provided
-`{callback}` with the results.
-
-_Note that the `{callback}` will only be invoked with `success = true` when there is a new version available (i.e. a
-version that is considered newer/greater than the one currently installed). When a new version can not be found, either
-because the current version is the latest or due to other issues, `{callback}` will be invoked with `success = false`._
-
-_Note that this method will result in network calls and will error when there is no internet connection. Also, one
-should call this method with care as to not cause high network traffic as well as respecting user's online privacy._
-
-## `NewPackageVersion`
+## `PackageInstallOpts`
 
 **Type:**
 
-| Key             | Value    |
-| --------------- | -------- |
-| name            | `string` |
-| current_version | `string` |
-| latest_version  | `string` |
+| Key     | Value      | Description                                                                                              |
+| ------- | ---------- | -------------------------------------------------------------------------------------------------------- |
+| version | `string?`  | The desired version of the package.                                                                      |
+| target  | `string?`  | The desired target of the package to install (e.g. `darwin_arm64`, `linux_x64`).                         |
+| debug   | `boolean?` | If debug logs should be written.                                                                         |
+| force   | `boolean?` | If installation should continue if there are conditions that would normally cause installation to fail.  |
+| strict  | `boolean?` | If installation should NOT continue if there are errors that are not necessary for package to be usable. |
 
 ## `InstallContext`
 
