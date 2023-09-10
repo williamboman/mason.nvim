@@ -202,7 +202,7 @@ function InstallContext.new(handle, opts)
     local cwd_manager = CwdManager.new(path.install_prefix())
     return setmetatable({
         cwd = cwd_manager,
-        spawn = ContextualSpawn.new(cwd_manager, handle, not handle.package:is_registry_spec()),
+        spawn = ContextualSpawn.new(cwd_manager, handle, false),
         handle = handle,
         package = handle.package, -- for convenience
         fs = ContextualFs.new(cwd_manager),

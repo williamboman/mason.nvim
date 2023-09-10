@@ -25,13 +25,19 @@ describe("package", function()
 
     if vim.fn.has "nvim-0.11" == 1 then
         it("should validate spec", function()
+            ---@type RegistryPackageSpec
             local valid_spec = {
+                schema = "registry+v1",
                 name = "Package name",
-                desc = "Package description",
+                description = "Package description",
                 homepage = "https://example.com",
                 categories = { Pkg.Cat.LSP },
                 languages = { Pkg.Lang.Rust },
-                install = function() end,
+                licenses = {},
+                source = {
+                    id = "pkg:mason/package@1",
+                    install = function() end,
+                }
             }
             local function spec(fields)
                 return setmetatable(fields, { __index = valid_spec })
@@ -44,9 +50,9 @@ describe("package", function()
             )
 
             assert.equals(
-                "desc: expected string, got number",
+                "description: expected string, got number",
                 assert.has_error(function()
-                    Pkg.new(spec { desc = 23 })
+                    Pkg.new(spec { description = 23 })
                 end)
             )
 
@@ -68,13 +74,6 @@ describe("package", function()
                 "languages: expected table, got number",
                 assert.has_error(function()
                     Pkg.new(spec { languages = 23 })
-                end)
-            )
-
-            assert.equals(
-                "install: expected function, got number",
-                assert.has_error(function()
-                    Pkg.new(spec { install = 23 })
                 end)
             )
         end)
@@ -139,8 +138,7 @@ describe("package", function()
         "should fail to install package",
         async_test(function()
             local dummy = registry.get_package "dummy"
-            stub(dummy.spec, "install")
-            dummy.spec.install.invokes(function()
+            stub(dummy.spec.source, "install", function()
                 error "I simply refuse to be installed."
             end)
             local package_install_success_handler = spy.new()

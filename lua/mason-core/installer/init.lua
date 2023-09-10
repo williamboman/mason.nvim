@@ -74,6 +74,7 @@ end
 ---@async
 ---@param context InstallContext
 function M.prepare_installer(context)
+    local installer = require "mason-core.installer.registry"
     return Result.try(function(try)
         local package_build_prefix = path.package_build_prefix(context.package.name)
         if fs.async.dir_exists(package_build_prefix) then
@@ -82,12 +83,7 @@ function M.prepare_installer(context)
         try(Result.pcall(fs.async.mkdirp, package_build_prefix))
         context.cwd:set(package_build_prefix)
 
-        if context.package:is_registry_spec() then
-            local registry_installer = require "mason-core.installer.registry"
-            return try(registry_installer.compile(context.handle.package.spec, context.opts))
-        else
-            return context.package.spec.install
-        end
+        return try(installer.compile(context.handle.package.spec, context.opts))
     end)
 end
 

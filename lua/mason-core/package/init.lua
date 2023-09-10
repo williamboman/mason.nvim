@@ -10,13 +10,9 @@ local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local registry = require "mason-registry"
 
-local is_not_nil = _.complement(_.is_nil)
-local is_registry_schema_id = _.matches "^registry%+v[1-9]+$"
-local is_registry_spec = _.prop_satisfies(_.all_pass { is_not_nil, is_registry_schema_id }, "schema")
-
 ---@class Package : EventEmitter
 ---@field name string
----@field spec RegistryPackageSpec | PackageSpec
+---@field spec RegistryPackageSpec
 ---@field private handle InstallHandle The currently associated handle.
 local Package = setmetatable({}, { __index = EventEmitter })
 
@@ -47,15 +43,17 @@ Package.Cat = {
     Formatter = "Formatter",
 }
 
-local PackageMt = { __index = Package }
+---@alias PackageLicense string
 
----@class PackageSpec
----@field name string
----@field desc string
----@field homepage string
----@field categories PackageCategory[]
----@field languages PackageLanguage[]
----@field install async fun(ctx: InstallContext)
+---@type table<PackageLicense, PackageLicense>
+Package.License = setmetatable({}, {
+    __index = function(s, license)
+        s[license] = license
+        return s[license]
+    end,
+})
+
+local PackageMt = { __index = Package }
 
 ---@class RegistryPackageSourceVersionOverride : RegistryPackageSource
 ---@field constraint string
@@ -86,32 +84,24 @@ local PackageMt = { __index = Package }
 ---@field share table<string, string>?
 ---@field opt table<string, string>?
 
----@param spec PackageSpec | RegistryPackageSpec
+---@param spec RegistryPackageSpec
 local function validate_spec(spec)
     if platform.cached_features["nvim-0.11"] ~= 1 then
         return
     end
-    if is_registry_spec(spec) then
-        vim.validate("name", spec.name, "string")
-        vim.validate("description", spec.description, "string")
-        vim.validate("homepage", spec.homepage, "string")
-        vim.validate("licenses", spec.licenses, "table")
-        vim.validate("categories", spec.categories, "table")
-        vim.validate("languages", spec.languages, "table")
-        vim.validate("source", spec.source, "table")
-        vim.validate("bin", spec.bin, { "table", "nil" })
-        vim.validate("share", spec.share, { "table", "nil" })
-    else
-        vim.validate("name", spec.name, "string")
-        vim.validate("desc", spec.desc, "string")
-        vim.validate("homepage", spec.homepage, "string")
-        vim.validate("categories", spec.categories, "table")
-        vim.validate("languages", spec.languages, "table")
-        vim.validate("install", spec.install, "function")
-    end
+    vim.validate("schema", spec.schema, _.equals "registry+v1", "registry+v1")
+    vim.validate("name", spec.name, "string")
+    vim.validate("description", spec.description, "string")
+    vim.validate("homepage", spec.homepage, "string")
+    vim.validate("licenses", spec.licenses, "table")
+    vim.validate("categories", spec.categories, "table")
+    vim.validate("languages", spec.languages, "table")
+    vim.validate("source", spec.source, "table")
+    vim.validate("bin", spec.bin, { "table", "nil" })
+    vim.validate("share", spec.share, { "table", "nil" })
 end
 
----@param spec PackageSpec | RegistryPackageSpec
+---@param spec RegistryPackageSpec
 function Package.new(spec)
     validate_spec(spec)
     return EventEmitter.init(setmetatable({
@@ -241,67 +231,40 @@ function Package:get_receipt()
     return Optional.empty()
 end
 
----@param callback fun(success: boolean, version_or_err: string)
-function Package:get_installed_version(callback)
-    self:get_receipt()
-        :if_present(
+---@return string?
+function Package:get_installed_version()
+    return self:get_receipt()
+        :and_then(
             ---@param receipt InstallReceipt
             function(receipt)
-                if is_registry_schema_id(receipt.primary_source.type) then
-                    local resolve = _.curryN(callback, 2)
-                    Purl.parse(receipt.primary_source.id)
-                        :map(_.prop "version")
-                        :on_success(resolve(true))
-                        :on_failure(resolve(false))
-                else
-                    a.run(function()
-                        local version_checks = require "mason-core.package.version-check"
-                        return version_checks.get_installed_version(receipt, self:get_install_path()):get_or_throw()
-                    end, callback)
-                end
+                return Purl.parse(receipt.primary_source.id):map(_.prop "version"):ok()
             end
         )
-        :if_not_present(function()
-            callback(false, "Unable to get receipt.")
-        end)
+        :or_else(nil)
 end
 
----@param callback fun(success: boolean, result_or_err: NewPackageVersion)
-function Package:check_new_version(callback)
-    if self:is_registry_spec() then
-        self:get_installed_version(_.scheduler_wrap(function(success, installed_version)
-            if not success then
-                return callback(false, installed_version)
-            end
-            local resolve = _.curryN(callback, 2)
-            Result.try(function(try)
-                -- This is a bit goofy, but it's done to verify that a new version is supported by the
-                -- current platform (parse fails if it's not). We don't want to surface new versions that
-                -- are unsupported.
-                try(require("mason-core.installer.registry").parse(self.spec, {}))
+---@return string
+function Package:get_latest_version()
+    return Purl.parse(self.spec.source.id)
+        :map(_.prop "version")
+        :get_or_throw(("Unable to retrieve version from malformed purl: %s."):format(self.spec.source.id))
+end
 
-                ---@type Purl
-                local purl = try(Purl.parse(self.spec.source.id))
-                if purl.version and installed_version ~= purl.version then
-                    return {
-                        name = purl.name,
-                        current_version = installed_version,
-                        latest_version = purl.version,
-                    }
-                else
-                    return Result.failure "Package is not outdated."
-                end
-            end)
-                :on_success(resolve(true))
-                :on_failure(resolve(false))
-        end))
-    else
-        a.run(function()
-            local receipt = self:get_receipt():or_else_throw "Unable to get receipt."
-            local version_checks = require "mason-core.package.version-check"
-            return version_checks.get_new_version(receipt, self:get_install_path()):get_or_throw()
-        end, callback)
-    end
+---@param opts? PackageInstallOpts
+function Package:is_installable(opts)
+    return require("mason-core.installer.registry").parse(self.spec, opts or {}):is_success()
+end
+
+---@return Result # Result<string[]>
+function Package:get_all_versions()
+    local registry_installer = require "mason-core.installer.registry"
+    return Result.try(function(try)
+        ---@type Purl
+        local purl = try(Purl.parse(self.spec.source.id))
+        ---@type InstallerProvider
+        local provider = try(registry_installer.get_provider(purl))
+        return provider.get_versions(purl, self.spec.source)
+    end)
 end
 
 function Package:get_lsp_settings_schema()
@@ -312,11 +275,6 @@ function Package:get_lsp_settings_schema()
         }):ok()
     end
     return Optional.empty()
-end
-
----@return boolean
-function Package:is_registry_spec()
-    return is_registry_spec(self.spec)
 end
 
 function PackageMt.__tostring(self)
