@@ -11,6 +11,14 @@ local M = {}
 
 local VENV_DIR = "venv"
 
+function M.venv_path(dir)
+    return path.concat {
+        dir,
+        VENV_DIR,
+        platform.is.win and "Scripts" or "bin",
+    }
+end
+
 ---@async
 ---@param py_executables string[]
 local function create_venv(py_executables)
@@ -24,12 +32,7 @@ end
 ---@param args SpawnArgs
 local function venv_python(args)
     local ctx = installer.context()
-    local python_path = path.concat {
-        ctx.cwd:get(),
-        VENV_DIR,
-        platform.is.win and "Scripts" or "bin",
-        platform.is.win and "python.exe" or "python",
-    }
+    local python_path = path.concat { M.venv_path(ctx.cwd:get()), platform.is.win and "python.exe" or "python" }
     return ctx.spawn[python_path](args)
 end
 

@@ -6,7 +6,7 @@ local installer = require "mason-core.installer"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
-local powershell = require "mason-core.managers.powershell"
+local powershell = require "mason-core.installer.managers.powershell"
 
 local M = {}
 

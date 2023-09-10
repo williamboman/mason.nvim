@@ -6,8 +6,8 @@ local stub = require "luassert.stub"
 
 describe("powershell manager", function()
     local function powershell()
-        package.loaded["mason-core.managers.powershell"] = nil
-        return require "mason-core.managers.powershell"
+        package.loaded["mason-core.installer.managers.powershell"] = nil
+        return require "mason-core.installer.managers.powershell"
     end
 
     it("should use pwsh if available", function()
