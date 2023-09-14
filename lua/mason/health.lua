@@ -3,9 +3,9 @@ local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local control = require "mason-core.async.control"
-local github_client = require "mason-core.managers.github.client"
 local platform = require "mason-core.platform"
 local providers = require "mason-core.providers"
+local registry = require "mason-registry"
 local registry_sources = require "mason-registry.sources"
 local settings = require "mason.settings"
 local spawn = require "mason-core.spawn"
@@ -67,6 +67,7 @@ end
 
 local function check_registries()
     report_start "mason.nvim [Registries]"
+    a.wait(registry.refresh)
     for source in registry_sources.iter { include_uninstalled = true } do
         if source:is_installed() then
             report_ok(("Registry `%s` is installed."):format(source:get_display_name()))
@@ -77,46 +78,6 @@ local function check_registries()
             )
         end
     end
-end
-
----@async
-local function check_github()
-    report_start "mason.nvim [GitHub]"
-    github_client
-        .fetch_rate_limit()
-        :on_success(
-            ---@param rate_limit GitHubRateLimitResponse
-            function(rate_limit)
-                a.scheduler()
-                local remaining = rate_limit.resources.core.remaining
-                local used = rate_limit.resources.core.used
-                local limit = rate_limit.resources.core.limit
-                local reset = rate_limit.resources.core.reset
-                local diagnostics = ("Used: %d. Remaining: %d. Limit: %d. Reset: %s."):format(
-                    used,
-                    remaining,
-                    limit,
-                    vim.fn.strftime("%c", reset)
-                )
-                if remaining <= 0 then
-                    report_error(("GitHub API rate limit exceeded. %s"):format(diagnostics))
-                else
-                    local NON_AUTH_LIMIT = 60
-                    if limit > NON_AUTH_LIMIT then
-                        report_ok(("GitHub API rate limit. %s"):format(diagnostics))
-                    else
-                        report_ok(
-                            ("GitHub API rate limit. %s\nInstall and authenticate via gh-cli to increase rate limit."):format(
-                                diagnostics
-                            )
-                        )
-                    end
-                end
-            end
-        )
-        :on_failure(function()
-            report_warn "Failed to check GitHub API rate limit status."
-        end)
 end
 
 local function check_neovim()
@@ -336,7 +297,6 @@ function M.check()
         check_registries()
         check_core_utils()
         check_languages()
-        check_github()
         a.wait(vim.schedule)
     end)
 end
