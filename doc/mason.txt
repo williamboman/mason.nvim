@@ -1,6 +1,6 @@
 *mason.nvim*
 
-Minimum version of neovim: 0.7.0
+Minimum version of neovim: 0.9.0
 
 Author: William Boman
                                                             *mason-help-guide*
@@ -53,7 +53,7 @@ REQUIREMENTS                                              *mason-requirements*
 utilities (for example, `wget`, `curl`, and `Invoke-WebRequest` are all
 perfect substitutes). The _minimum_ recommended requirements are:
 
--   neovim `>= 0.7.0`
+-   neovim `>= 0.9.0`
 -   For Unix systems: `git(1)`, `curl(1)` or `wget(1)`, `unzip(1)`, `tar(1)`,
     `gzip(1)`
 -   For Windows systems: pwsh or powershell, git, tar, and 7zip or peazip or
