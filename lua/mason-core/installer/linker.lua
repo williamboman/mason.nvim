@@ -21,12 +21,12 @@ local LinkContext = {
 ---@param link_context LinkContext
 local function unlink(receipt, link_context)
     return Result.pcall(function()
-        local links = receipt.links[link_context.type]
+        local links = receipt:get_links()[link_context.type]
         if not links then
             return
         end
         for linked_file in pairs(links) do
-            if receipt.schema_version == "1.0" and link_context == LinkContext.BIN and platform.is.win then
+            if receipt:get_schema_version() == "1.0" and link_context == LinkContext.BIN and platform.is.win then
                 linked_file = linked_file .. ".cmd"
             end
             local share_path = link_context.prefix(linked_file)
@@ -39,7 +39,7 @@ end
 ---@param receipt InstallReceipt
 ---@nodiscard
 function M.unlink(pkg, receipt)
-    log.fmt_debug("Unlinking %s", pkg, receipt.links)
+    log.fmt_debug("Unlinking %s", pkg, receipt:get_links())
     return Result.try(function(try)
         try(unlink(receipt, LinkContext.BIN))
         try(unlink(receipt, LinkContext.SHARE))
