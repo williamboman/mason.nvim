@@ -32,26 +32,23 @@ describe("EventEmitter", function()
 
     it("should remove registered event handlers", function()
         local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
-        local my_event_handler = spy.new()
-        emitter:on("my:event", my_event_handler --[[@as fun()]])
-        emitter:once("my:event", my_event_handler --[[@as fun()]])
+        local my_event_handler = spy.new() --[[@as fun()]]
+        emitter:on("my:event", my_event_handler)
+        emitter:once("my:event", my_event_handler)
 
-        emitter:off("my:event", my_event_handler --[[@as fun()]])
+        emitter:off("my:event", my_event_handler)
 
         emitter:emit("my:event", { table = "value" })
         assert.spy(my_event_handler).was_called(0)
     end)
 
-    it(
-        "should print errors in handlers",
-        async_test(function()
-            spy.on(vim.api, "nvim_err_writeln")
-            local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
-            emitter:on("event", mockx.throws "My error.")
-            emitter:emit "event"
-            a.wait(vim.schedule)
-            assert.spy(vim.api.nvim_err_writeln).was_called(1)
-            assert.spy(vim.api.nvim_err_writeln).was_called_with "My error."
-        end)
-    )
+    it("should print errors in handlers", function()
+        spy.on(vim.api, "nvim_err_writeln")
+        local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
+        emitter:on("event", mockx.throws "My error.")
+        emitter:emit "event"
+        a.run_blocking(a.wait, vim.schedule)
+        assert.spy(vim.api.nvim_err_writeln).was_called(1)
+        assert.spy(vim.api.nvim_err_writeln).was_called_with "My error."
+    end)
 end)
