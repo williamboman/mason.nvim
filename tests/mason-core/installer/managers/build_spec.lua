@@ -1,14 +1,24 @@
 local Result = require "mason-core.result"
 local build = require "mason-core.installer.managers.build"
-local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
+local test_helper = require "mason-test.helpers"
 
 describe("build manager", function()
+    local snapshot
+
+    before_each(function()
+        snapshot = assert.snapshot()
+    end)
+
+    after_each(function()
+        snapshot:revert()
+    end)
+
     it("should run build instruction", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helper.create_context()
         local uv = require "mason-core.async.uv"
         spy.on(ctx, "promote_cwd")
         stub(uv, "write")
@@ -24,7 +34,7 @@ describe("build manager", function()
             end
         )
 
-        local result = installer.exec_in_context(ctx, function()
+        local result = ctx:execute(function()
             return build.run {
                 run = [[npm install && npm run compile]],
                 env = {
@@ -52,11 +62,10 @@ describe("build manager", function()
     end)
 
     it("should promote cwd if not staged", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helper.create_context()
         stub(ctx, "promote_cwd")
-        stub(ctx.spawn, "bash", mockx.returns(Result.success()))
 
-        local result = installer.exec_in_context(ctx, function()
+        local result = ctx:execute(function()
             return build.run {
                 run = "make",
                 staged = false,

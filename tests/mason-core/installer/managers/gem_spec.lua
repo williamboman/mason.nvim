@@ -1,13 +1,15 @@
 local gem = require "mason-core.installer.managers.gem"
-local installer = require "mason-core.installer"
 local spy = require "luassert.spy"
+local test_helper = require "mason-test.helpers"
 
 describe("gem manager", function()
     it("should install", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
-            gem.install("my-gem", "1.0.0")
+        local ctx = test_helper.create_context()
+
+        local result = ctx:execute(function()
+            return gem.install("my-gem", "1.0.0")
         end)
+        assert.is_true(result:is_success())
 
         assert.spy(ctx.spawn.gem).was_called(1)
         assert.spy(ctx.spawn.gem).was_called_with {
@@ -20,15 +22,15 @@ describe("gem manager", function()
             "my-gem:1.0.0",
             vim.NIL, -- extra_packages
             env = {
-                GEM_HOME = ctx.cwd:get(),
+                GEM_HOME = "/tmp/install-dir",
             },
         }
     end)
 
     it("should write output", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helper.create_context()
         spy.on(ctx.stdio_sink, "stdout")
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             gem.install("my-gem", "1.0.0")
         end)
 
@@ -36,8 +38,8 @@ describe("gem manager", function()
     end)
 
     it("should install extra packages", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helper.create_context()
+        ctx:execute(function()
             gem.install("my-gem", "1.0.0", {
                 extra_packages = { "extra-gem" },
             })
