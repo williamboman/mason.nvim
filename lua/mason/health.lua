@@ -144,6 +144,7 @@ local function check_core_utils()
         relaxed = platform.is.win,
     }
 
+    a.scheduler()
     local tar = vim.fn.executable "gtar" == 1 and "gtar" or "tar"
     check { cmd = tar, args = { "--version" }, name = tar }
 
