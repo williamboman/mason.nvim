@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/williamboman/mason.nvim/compare/v1.8.0...v1.8.1) (2023-10-10)
+
+
+### Bug Fixes
+
+* **health:** schedule vim.fn call ([#1514](https://github.com/williamboman/mason.nvim/issues/1514)) ([3ba3b79](https://github.com/williamboman/mason.nvim/commit/3ba3b79f73d5411e72c7df5445150f4e9278d4d7))
+
 ## [1.8.0](https://github.com/williamboman/mason.nvim/compare/v1.7.0...v1.8.0) (2023-09-04)
 
 
