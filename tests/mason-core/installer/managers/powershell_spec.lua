@@ -1,3 +1,4 @@
+local a = require "mason-core.async"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
 local spawn = require "mason-core.spawn"
@@ -5,6 +6,16 @@ local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
 describe("powershell manager", function()
+    local snapshot
+
+    before_each(function()
+        snapshot = assert.snapshot()
+    end)
+
+    after_each(function()
+        snapshot:revert()
+    end)
+
     local function powershell()
         package.loaded["mason-core.installer.managers.powershell"] = nil
         return require "mason-core.installer.managers.powershell"
@@ -22,21 +33,18 @@ describe("powershell manager", function()
         assert.spy(spawn.powershell).was_called(0)
     end)
 
-    it(
-        "should use powershell if pwsh is not available",
-        async_test(function()
-            stub(spawn, "pwsh", function() end)
-            stub(spawn, "powershell", function() end)
-            stub(vim.fn, "executable")
-            vim.fn.executable.on_call_with("pwsh").returns(0)
+    it("should use powershell if pwsh is not available", function()
+        stub(spawn, "pwsh", function() end)
+        stub(spawn, "powershell", function() end)
+        stub(vim.fn, "executable")
+        vim.fn.executable.on_call_with("pwsh").returns(0)
 
-            local powershell = powershell()
-            powershell.command "echo 'Is this bash?'"
+        local powershell = powershell()
+        a.run_blocking(powershell.command, "echo 'Is this bash?'")
 
-            assert.spy(spawn.pwsh).was_called(0)
-            assert.spy(spawn.powershell).was_called(1)
-        end)
-    )
+        assert.spy(spawn.pwsh).was_called(0)
+        assert.spy(spawn.powershell).was_called(1)
+    end)
 
     it("should use the provided spawner for commands", function()
         spy.on(spawn, "pwsh")

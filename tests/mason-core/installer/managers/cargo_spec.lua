@@ -1,12 +1,12 @@
 local cargo = require "mason-core.installer.managers.cargo"
-local installer = require "mason-core.installer"
 local spy = require "luassert.spy"
+local test_helpers = require "mason-test.helpers"
 
 describe("cargo manager", function()
     it("should install", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
 
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             cargo.install("my-crate", "1.0.0")
         end)
 
@@ -23,10 +23,10 @@ describe("cargo manager", function()
     end)
 
     it("should write output", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         spy.on(ctx.stdio_sink, "stdout")
 
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             cargo.install("my-crate", "1.0.0")
         end)
 
@@ -34,8 +34,8 @@ describe("cargo manager", function()
     end)
 
     it("should install locked", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             cargo.install("my-crate", "1.0.0", {
                 locked = true,
             })
@@ -54,8 +54,8 @@ describe("cargo manager", function()
     end)
 
     it("should install provided features", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             cargo.install("my-crate", "1.0.0", {
                 features = "lsp,cli",
             })
@@ -74,8 +74,8 @@ describe("cargo manager", function()
     end)
 
     it("should install git tag source", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             cargo.install("my-crate", "1.0.0", {
                 git = {
                     url = "https://github.com/neovim/neovim",
@@ -96,8 +96,8 @@ describe("cargo manager", function()
     end)
 
     it("should install git rev source", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             cargo.install("my-crate", "16dfc89abd413c391e5b63ae5d132c22843ce9a7", {
                 git = {
                     url = "https://github.com/neovim/neovim",

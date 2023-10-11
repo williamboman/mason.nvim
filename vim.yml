@@ -11,20 +11,10 @@ globals:
     async_test:
         args:
             - type: function
-    assert.wait_for:
+    assert.wait:
         args:
             - type: function
-    create_dummy_context:
-        args:
-            - type: table
-              required: false
-    InstallHandleGenerator:
-        args:
-            - type: string
-    InstallContextGenerator:
-        args:
-            - type: any
-            - type: table
+            - type: number
               required: false
     mockx.throws:
         args:

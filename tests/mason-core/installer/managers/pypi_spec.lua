@@ -1,8 +1,8 @@
-local installer = require "mason-core.installer"
 local path = require "mason-core.path"
 local pypi = require "mason-core.installer.managers.pypi"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
+local test_helpers = require "mason-test.helpers"
 
 ---@param ctx InstallContext
 local function venv_py(ctx)
@@ -15,11 +15,21 @@ local function venv_py(ctx)
 end
 
 describe("pypi manager", function()
+    local snapshot
+
+    before_each(function()
+        snapshot = assert.snapshot()
+    end)
+
+    after_each(function()
+        snapshot:revert()
+    end)
+
     it("should init venv without upgrading pip", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx, "promote_cwd")
 
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             pypi.init { upgrade_pip = false }
         end)
 
@@ -33,9 +43,9 @@ describe("pypi manager", function()
     end)
 
     it("should init venv and upgrade pip", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx, "promote_cwd")
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             pypi.init { upgrade_pip = true, install_extra_args = { "--proxy", "http://localhost" } }
         end)
 
@@ -59,8 +69,8 @@ describe("pypi manager", function()
     end)
 
     it("should install", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             pypi.install("pypi-package", "1.0.0")
         end)
 
@@ -80,10 +90,10 @@ describe("pypi manager", function()
     end)
 
     it("should write output", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         spy.on(ctx.stdio_sink, "stdout")
 
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             pypi.install("pypi-package", "1.0.0")
         end)
 
@@ -91,8 +101,8 @@ describe("pypi manager", function()
     end)
 
     it("should install extra specifier", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             pypi.install("pypi-package", "1.0.0", {
                 extra = "lsp",
             })
@@ -114,8 +124,8 @@ describe("pypi manager", function()
     end)
 
     it("should install extra packages", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             pypi.install("pypi-package", "1.0.0", {
                 extra_packages = { "extra-package" },
                 install_extra_args = { "--proxy", "http://localhost:9000" },

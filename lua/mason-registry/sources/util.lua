@@ -1,8 +1,8 @@
 local Optional = require "mason-core.optional"
 local Pkg = require "mason-core.package"
 local _ = require "mason-core.functional"
+local compiler = require "mason-core.installer.compiler"
 local log = require "mason-core.log"
-local registry_installer = require "mason-core.installer.registry"
 
 local M = {}
 
@@ -10,7 +10,7 @@ local M = {}
 function M.map_registry_spec(spec)
     spec.schema = spec.schema or "registry+v1"
 
-    if not registry_installer.SCHEMA_CAP[spec.schema] then
+    if not compiler.SCHEMA_CAP[spec.schema] then
         log.fmt_debug("Excluding package=%s with unsupported schema_version=%s", spec.name, spec.schema)
         return Optional.empty()
     end

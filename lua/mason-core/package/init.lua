@@ -1,13 +1,16 @@
 local EventEmitter = require "mason-core.EventEmitter"
+local InstallLocation = require "mason-core.installer.location"
+local InstallRunner = require "mason-core.installer.runner"
 local Optional = require "mason-core.optional"
 local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local a = require "mason-core.async"
 local fs = require "mason-core.fs"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
 local registry = require "mason-registry"
+local settings = require "mason.settings"
+local Semaphore = require("mason-core.async.control").Semaphore
 
 ---@class Package : EventEmitter
 ---@field name string
@@ -129,81 +132,56 @@ end
 
 ---@alias PackageInstallOpts { version?: string, debug?: boolean, target?: string, force?: boolean, strict?: boolean }
 
----@param opts? PackageInstallOpts
----@return InstallHandle
-function Package:install(opts)
-    opts = opts or {}
+-- TODO this needs to be elsewhere
+local semaphore = Semaphore.new(settings.current.max_concurrent_installers)
+
+function Package:is_installing()
     return self:get_handle()
-        :map(function(handle)
-            if not handle:is_closed() then
-                log.fmt_debug("Handle %s already exist for package %s", handle, self)
-                return handle
+        :map(
+            ---@param handle InstallHandle
+            function(handle)
+                return not handle:is_closed()
             end
-        end)
-        :or_else_get(function()
-            local handle = self:new_handle()
-            a.run(
-                require("mason-core.installer").execute,
-                ---@param success boolean
-                ---@param result Result
-                function(success, result)
-                    if not success then
-                        -- Installer failed abnormally (i.e. unexpected exception in the installer code itself).
-                        log.error("Unexpected error", result)
-                        handle.stdio.sink.stderr(tostring(result))
-                        handle.stdio.sink.stderr "\nInstallation failed abnormally. Please report this error."
-                        self:emit("install:failed", handle)
-                        registry:emit("package:install:failed", self, handle)
-
-                        -- We terminate _after_ emitting failure events because [termination -> failed] have different
-                        -- meaning than [failed -> terminate] ([termination -> failed] is interpreted as a triggered
-                        -- termination).
-                        if not handle:is_closed() and not handle.is_terminated then
-                            handle:terminate()
-                        end
-                        return
-                    end
-                    result
-                        :on_success(function()
-                            self:emit("install:success", handle)
-                            registry:emit("package:install:success", self, handle)
-                        end)
-                        :on_failure(function()
-                            self:emit("install:failed", handle)
-                            registry:emit("package:install:failed", self, handle)
-                        end)
-                end,
-                handle,
-                opts
-            )
-            return handle
-        end)
+        )
+        :or_else(false)
 end
 
+---@param opts? PackageInstallOpts
+---@param callback? fun(success: boolean, result: any)
+---@return InstallHandle
+function Package:install(opts, callback)
+    opts = opts or {}
+    assert(not self:is_installing(), "Package is already installing.")
+    local handle = self:new_handle()
+    local runner = InstallRunner.new(InstallLocation.new(settings.current.install_root_dir), handle, semaphore)
+    runner:execute(opts, callback)
+    return handle
+end
+
+---@return boolean
 function Package:uninstall()
-    local was_unlinked = self:unlink()
-    if was_unlinked then
-        self:emit "uninstall:success"
-        registry:emit("package:uninstall:success", self)
-    end
-    return was_unlinked
+    return self:get_receipt()
+        :map(function(receipt)
+            self:unlink(receipt)
+            self:emit("uninstall:success", receipt)
+            registry:emit("package:uninstall:success", self, receipt)
+            return true
+        end)
+        :or_else(false)
 end
 
-function Package:unlink()
+---@private
+---@param receipt InstallReceipt
+function Package:unlink(receipt)
     log.fmt_trace("Unlinking %s", self)
     local install_path = self:get_install_path()
+
     -- 1. Unlink
-    self:get_receipt():if_present(function(receipt)
-        local linker = require "mason-core.installer.linker"
-        linker.unlink(self, receipt):get_or_throw()
-    end)
+    local linker = require "mason-core.installer.linker"
+    linker.unlink(self, receipt):get_or_throw()
 
     -- 2. Remove installation artifacts
-    if fs.sync.dir_exists(install_path) then
-        fs.sync.rmrf(install_path)
-        return true
-    end
-    return false
+    fs.sync.rmrf(install_path)
 end
 
 function Package:is_installed()
@@ -254,18 +232,18 @@ end
 
 ---@param opts? PackageInstallOpts
 function Package:is_installable(opts)
-    return require("mason-core.installer.registry").parse(self.spec, opts or {}):is_success()
+    return require("mason-core.installer.compiler").parse(self.spec, opts or {}):is_success()
 end
 
 ---@return Result # Result<string[]>
 function Package:get_all_versions()
-    local registry_installer = require "mason-core.installer.registry"
+    local compiler = require "mason-core.installer.compiler"
     return Result.try(function(try)
         ---@type Purl
         local purl = try(Purl.parse(self.spec.source.id))
-        ---@type InstallerProvider
-        local provider = try(registry_installer.get_provider(purl))
-        return provider.get_versions(purl, self.spec.source)
+        ---@type InstallerCompiler
+        local compiler = try(compiler.get_compiler(purl))
+        return compiler.get_versions(purl, self.spec.source)
     end)
 end
 

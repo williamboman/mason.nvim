@@ -1,14 +1,25 @@
 local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
 local fs = require "mason-core.fs"
-local link = require "mason-core.installer.registry.link"
+local link = require "mason-core.installer.compiler.link"
 local match = require "luassert.match"
 local path = require "mason-core.path"
 local stub = require "luassert.stub"
+local test_helpers = require "mason-test.helpers"
 
 describe("registry linker", function()
+    local snapshot
+
+    before_each(function()
+        snapshot = assert.snapshot()
+    end)
+
+    after_each(function()
+        snapshot:revert()
+    end)
+
     it("should expand bin table", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx.fs, "file_exists")
         stub(ctx.fs, "chmod")
         stub(ctx.fs, "fstat")
@@ -45,7 +56,7 @@ describe("registry linker", function()
     end)
 
     it("should chmod executable if necessary", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx.fs, "file_exists")
         stub(ctx.fs, "chmod")
         stub(ctx.fs, "fstat")
@@ -74,7 +85,7 @@ describe("registry linker", function()
     end)
 
     it("should interpolate bin table", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx.fs, "file_exists")
         stub(ctx.fs, "chmod")
         stub(ctx.fs, "fstat")
@@ -106,7 +117,7 @@ describe("registry linker", function()
     end)
 
     it("should delegate bin paths", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx.fs, "file_exists")
         stub(ctx.fs, "chmod")
         stub(ctx.fs, "fstat")
@@ -144,7 +155,7 @@ describe("registry linker", function()
     end)
 
     it("should register share links", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx.fs, "file_exists")
         stub(fs.sync, "file_exists")
         stub(vim.fn, "glob")
@@ -192,7 +203,7 @@ describe("registry linker", function()
     end)
 
     it("should register opt links", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx.fs, "file_exists")
         stub(fs.sync, "file_exists")
         stub(vim.fn, "glob")

@@ -1,13 +1,23 @@
-local installer = require "mason-core.installer"
 local luarocks = require "mason-core.installer.managers.luarocks"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
+local test_helpers = require "mason-test.helpers"
 
 describe("luarocks manager", function()
+    local snapshot
+
+    before_each(function()
+        snapshot = assert.snapshot()
+    end)
+
+    after_each(function()
+        snapshot:revert()
+    end)
+
     it("should install", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx, "promote_cwd")
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             luarocks.install("my-rock", "1.0.0")
         end)
 
@@ -23,9 +33,9 @@ describe("luarocks manager", function()
     end)
 
     it("should install dev mode", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx, "promote_cwd")
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             luarocks.install("my-rock", "1.0.0", {
                 dev = true,
             })
@@ -43,9 +53,9 @@ describe("luarocks manager", function()
     end)
 
     it("should install using provided server", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx, "promote_cwd")
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             luarocks.install("my-rock", "1.0.0", {
                 server = "https://luarocks.org/dev",
             })
@@ -63,10 +73,10 @@ describe("luarocks manager", function()
     end)
 
     it("should write output", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         stub(ctx, "promote_cwd")
         spy.on(ctx.stdio_sink, "stdout")
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             luarocks.install("my-rock", "1.0.0")
         end)
 
