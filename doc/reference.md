@@ -24,6 +24,7 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 [rfc8174]: https://tools.ietf.org/html/rfc8174
 
 <!--toc:start-->
+
 -   [Architecture diagram](#architecture-diagram)
 -   [Registry events](#registry-events)
 -   [`RegistryPackageSpec`](#registrypackagespec)
@@ -34,31 +35,38 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
     -   [`Package.License`](#packagelicense)
     -   [`Package.new({spec})`](#packagenewspec)
     -   [`Package.spec`](#packagespec)
-    -   [`Package:install({opts?})`](#packageinstallopts)
+    -   [`Package:is_installing()`](#packageis_installing)
+    -   [`Package:install({opts?}, {callback?})`](#packageinstallopts-callback)
     -   [`Package:uninstall()`](#packageuninstall)
     -   [`Package:is_installed()`](#packageis_installed)
     -   [`Package:get_install_path()`](#packageget_install_path)
     -   [`Package:get_installed_version()`](#packageget_installed_version)
     -   [`Package:get_latest_version()`](#packageget_latest_version)
-    -   [`Package:is_installable({opts?})`](#packageis_installableopts)
 -   [`PackageInstallOpts`](#packageinstallopts-1)
 -   [`InstallContext`](#installcontext)
     -   [`InstallContext.package`](#installcontextpackage)
     -   [`InstallContext.handle`](#installcontexthandle)
-    -   [`InstallContext.cwd`](#installcontextcwd)
     -   [`InstallContext.spawn`](#installcontextspawn)
     -   [`InstallContext.fs`](#installcontextfs)
-    -   [`InstallContext.requested_version`](#installcontextrequested_version)
-    -   [`InstallContext.stdio_sink`](#installcontextstdio_sink)
+    -   [`InstallContext.opts`](#installcontextopts)
+    -   [`InstallContext.stdio_sink`](#installcontextstdiosink)
 -   [`ContextualFs`](#contextualfs)
+    -   [`ContextualFs:append_file(rel_path, contents)`](#contextualfsappendfilerelpath-contents)
+    -   [`ContextualFs:write_file(rel_path, contents)`](#contextualfswritefilerelpath-contents)
+    -   [`ContextualFs:read_file(rel_path)`](#contextualfsreadfilerelpath)
+    -   [`ContextualFs:file_exists(rel_path)`](#contextualfsfileexistsrelpath)
+    -   [`ContextualFs:dir_exists(rel_path)`](#contextualfsdirexistsrelpath)
+    -   [`ContextualFs:rmrf(rel_path)`](#contextualfsrmrfrelpath)
+    -   [`ContextualFs:unlink(rel_path)`](#contextualfsunlinkrelpath)
+    -   [`ContextualFs:rename(old_rel_path, new_rel_path)`](#contextualfsrenameoldrelpath-newrelpath)
+    -   [`ContextualFs:mkdir(dir_rel_path)`](#contextualfsmkdirdirrelpath)
+    -   [`ContextualFs:mkdirp(dir_rel_path)`](#contextualfsmkdirpdirrelpath)
+    -   [`ContextualFs:chmod(dir_rel_path, mode)`](#contextualfschmoddirrelpath-mode)
 -   [`ContextualSpawn`](#contextualspawn)
--   [`CwdManager`](#cwdmanager)
-    -   [`CwdManager:set({cwd)})`](#cwdmanagersetcwd)
-    -   [`CwdManager:get()`](#cwdmanagerget)
 -   [`InstallHandleState`](#installhandlestate)
 -   [`InstallHandle`](#installhandle)
     -   [`InstallHandle.package`](#installhandlepackage)
-    -   [`InstallHandle.state`](#installhandlestate)
+    -   [`InstallHandle.state`](#installhandlestate-1)
     -   [`InstallHandle.is_terminated`](#installhandleis_terminated)
     -   [`InstallHandle:is_idle()`](#installhandleis_idle)
     -   [`InstallHandle:is_queued()`](#installhandleis_queued)
@@ -82,12 +90,12 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 
 The `mason-registry` Lua module extends the [EventEmitter](#eventemitter) interface and emits the following events:
 
-| Event                       | Handler signature                          |
-| --------------------------- | ------------------------------------------ |
-| `package:handle`            | `fun(pkg: Package, handle: InstallHandle)` |
-| `package:install:success`   | `fun(pkg: Package, handle: InstallHandle)` |
-| `package:install:failed`    | `fun(pkg: Package, handle: InstallHandle)` |
-| `package:uninstall:success` | `fun(pkg: Package)`                        |
+| Event                       | Handler signature                            |
+| --------------------------- | -------------------------------------------- |
+| `package:handle`            | `fun(pkg: Package, handle: InstallHandle)`   |
+| `package:install:success`   | `fun(pkg: Package, receipt: InstallReceipt)` |
+| `package:install:failed`    | `fun(pkg: Package, error: any)`              |
+| `package:uninstall:success` | `fun(pkg: Package, receipt: InstallReceipt)` |
 
 The following is an example for how to register handlers for events:
 
@@ -103,7 +111,7 @@ registry:on(
 
 registry:on(
     "package:install:success",
-    vim.schedule_wrap(function(pkg, handle)
+    vim.schedule_wrap(function(pkg, receipt)
         print(string.format("Successfully installed %s", pkg.name))
     end)
 )
@@ -135,11 +143,11 @@ The `Package` class encapsulates the installation instructions and metadata abou
 
 This class extends the [EventEmitter](#eventemitter) interface and emits the following events:
 
-| Event               | Handler signature            |
-| ------------------- | ---------------------------- |
-| `install:success`   | `fun(handle: InstallHandle)` |
-| `install:failed`    | `fun(handle: InstallHandle)` |
-| `uninstall:success` | `fun()`                      |
+| Event               | Handler signature               |
+| ------------------- | ------------------------------- |
+| `install:success`   | `fun(receipt: InstallReceipt)`  |
+| `install:failed`    | `fun(pkg: Package, error: any)` |
+| `uninstall:success` | `fun(receipt: InstallReceipt)`  |
 
 ### `Package.Parse({package_identifier})`
 
@@ -193,22 +201,28 @@ Similar as [`Package.Lang`](#packagelang) but for SPDX license identifiers.
 
 **Type**: [`RegistryPackageSpec`](#registrypackagespec)
 
-### `Package:install({opts?})`
+### `Package:is_installing()`
+
+**Returns:** `boolean`
+
+### `Package:install({opts?}, {callback?})`
 
 **Parameters:**
 
 -   `opts?`: [`PackageInstallOpts`](#packageinstallopts-1) (optional)
+-   `callback?`: `fun(success: boolean, result: any)` (optional) - Callback to be called when package installation completes. _Note: this is called before events (["package:install:success"](#registry-events), ["install:success"](#package)) are emitted._
 
 **Returns:** [`InstallHandle`](#installhandle)
 
-Installs the package instance this method is being called on. Accepts an
-optional `{opts}` argument, which can be used to specify a desired version to
-install.
+Installs the package instance this method is being called on. Accepts an optional `{opts}` argument which can be used to
+for example specify which version to install (see [`PackageInstallOpts`](#packageinstallopts-1)), and an optional
+`{callback}` argument which is called when the installation finishes.
 
 The returned [`InstallHandle`](#installhandle) can be used to observe progress and control the installation process
 (e.g., cancelling).
 
-_Note that if the package already have an active handle registered, that handler is returned instead of a new one._
+_Note that if the package is already being installed this method will error. See
+[`Package:is_installing()`](#packageis_installing)._
 
 ### `Package:uninstall()`
 
@@ -243,14 +257,6 @@ registry.refresh(function()
 end)
 ```
 
-### `Package:is_installable({opts?})`
-
-**Parameters:**
-
--   `opts?`: [`PackageInstallOpts`](#packageinstallopts-1) (optional)
-
-**Returns:** `boolean` Returns `true` if the package is installable on the current platform.
-
 ## `PackageInstallOpts`
 
 **Type:**
@@ -280,10 +286,6 @@ directory of the installation, and (ii) automatically registers stdout and stder
 
 **Type:** [`InstallHandle`](#installhandle)
 
-### `InstallContext.cwd`
-
-**Type:** [`CwdManager`](#cwdmanager)
-
 ### `InstallContext.spawn`
 
 **Type:** [`ContextualSpawn`](#contextualspawn)
@@ -292,15 +294,17 @@ directory of the installation, and (ii) automatically registers stdout and stder
 
 **Type:** [`ContextualFs`](#contextualfs)
 
-### `InstallContext.requested_version`
+### `InstallContext.opts`
 
-**Type:** `Optional<string>`
+**Type:** [`PackageInstallOpts`](#packageinstallopts-1)
 
 ### `InstallContext.stdio_sink`
 
 **Type:** `{ stdout: fun(chunk: string), stderr: fun(chunk: string) }`
 
-The `.stdio_sink` property can be used to send stdout or stderr output, to be presented to the user.
+The `stdio_sink` property can be used to send stdout or stderr output. This gets presented to users during installation
+and is also retained in installation logs. Line breaks are not automatically handled and must be manually included via
+the escape sequence `\n`.
 
 Example:
 
@@ -318,16 +322,96 @@ Pkg.new {
 
 ## `ContextualFs`
 
-Provides wrapper functions around `mason-core.fs`. These wrapper functions all accept relative paths, which will be
-expanded based on the associated `InstallContext`'s current working directory.
+`ContextualFs` is a class that provides file system operations using paths relative from the current working directory
+of its associated `InstallContext`[#installcontext].
+
+### `ContextualFs:append_file(rel_path, contents)`
+
+**Parameters:**
+
+-   `rel_path`: `string`
+-   `contents`: `string`
+
+Appends `contents` to file located at `rel_path`.
+
+### `ContextualFs:write_file(rel_path, contents)`
+
+**Parameters:**
+
+-   `rel_path`: `string`
+-   `contents`: `string`
+
+Writes `contents` to file located at `rel_path`.
+
+### `ContextualFs:read_file(rel_path)`
+
+**Parameters:**
+
+-   `rel_path`: `string`
+
+**Returns:** `string`
+
+### `ContextualFs:file_exists(rel_path)`
+
+**Parameters:**
+
+-   `rel_path`: `string`
+
+**Returns:** `boolean`
+
+### `ContextualFs:dir_exists(rel_path)`
+
+**Parameters:**
+
+-   `rel_path`: `string`
+
+**Returns:** `boolean`
+
+### `ContextualFs:rmrf(rel_path)`
+
+**Parameters:**
+
+-   `rel_path`: `string`
+
+### `ContextualFs:unlink(rel_path)`
+
+**Parameters:**
+
+-   `rel_path`: `string`
+
+### `ContextualFs:rename(old_rel_path, new_rel_path)`
+
+**Parameters:**
+
+-   `old_rel_path`: `string`
+-   `new_rel_path`: `string`
+
+### `ContextualFs:mkdir(dir_rel_path)`
+
+**Parameters:**
+
+-   `dir_rel_path`: `string`
+
+### `ContextualFs:mkdirp(dir_rel_path)`
+
+**Parameters:**
+
+-   `dir_rel_path`: `string`
+
+### `ContextualFs:chmod(dir_rel_path, mode)`
+
+**Parameters:**
+
+-   `dir_rel_path`: `string`
+-   `mode`: `integer`
 
 ## `ContextualSpawn`
 
 **Type:** `table<string, async fun(opts: SpawnOpts)>`
 
-Provides an asynchronous interface to spawn processes (via libuv). Each spawned process will, by default, be spawned
-with the current working directory of the `InstallContext` it belongs to. stdout & stderr will also automatically be
-registered with the relevant `InstallHandle`.
+Provides an interface to spawn processes (via libuv). Each process will be spawned with the current working directory of
+the `InstallContext` it belongs to. stdout & stderr will automatically be captured and displayed to the user and
+retained in installation logs.
 
 Example usage:
 
@@ -345,23 +429,6 @@ Pkg.new {
     end,
 }
 ```
-
-## `CwdManager`
-
-Manages the current working directory of an installation (through `InstallContext`).
-
-### `CwdManager:set({cwd)})`
-
-**Parameters:**
-
--   `cwd`: `string`
-
-Changes the current working directory to `{cwd}`. `{cwd}` MUST be within the user's configured `install_root_dir`
-setting.
-
-### `CwdManager:get()`
-
-**Returns:** `string`
 
 ## `InstallHandleState`
 

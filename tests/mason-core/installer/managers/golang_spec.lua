@@ -1,12 +1,12 @@
 local golang = require "mason-core.installer.managers.golang"
-local installer = require "mason-core.installer"
 local spy = require "luassert.spy"
+local test_helpers = require "mason-test.helpers"
 
 describe("golang manager", function()
     it("should install", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
 
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             golang.install("my-golang", "1.0.0")
         end)
 
@@ -22,10 +22,10 @@ describe("golang manager", function()
     end)
 
     it("should write output", function()
-        local ctx = create_dummy_context()
+        local ctx = test_helpers.create_context()
         spy.on(ctx.stdio_sink, "stdout")
 
-        installer.exec_in_context(ctx, function()
+        ctx:execute(function()
             golang.install("my-golang", "1.0.0")
         end)
 
@@ -33,8 +33,8 @@ describe("golang manager", function()
     end)
 
     it("should install extra packages", function()
-        local ctx = create_dummy_context()
-        installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context()
+        ctx:execute(function()
             golang.install("my-golang", "1.0.0", {
                 extra_packages = { "extra", "package" },
             })

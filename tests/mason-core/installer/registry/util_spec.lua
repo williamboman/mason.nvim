@@ -1,8 +1,8 @@
 local Result = require "mason-core.result"
-local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local platform = require "mason-core.platform"
-local util = require "mason-core.installer.registry.util"
+local test_helpers = require "mason-test.helpers"
+local util = require "mason-core.installer.compiler.util"
 
 describe("registry installer util", function()
     it("should coalesce single target", function()
@@ -40,8 +40,8 @@ describe("registry installer util", function()
     end)
 
     it("should accept valid version", function()
-        local ctx = create_dummy_context { version = "1.0.0" }
-        local result = installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context { install_opts = { version = "1.0.0" } }
+        local result = ctx:execute(function()
             return util.ensure_valid_version(function()
                 return Result.success { "1.0.0", "2.0.0", "3.0.0" }
             end)
@@ -50,8 +50,8 @@ describe("registry installer util", function()
     end)
 
     it("should reject invalid version", function()
-        local ctx = create_dummy_context { version = "13.3.7" }
-        local result = installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context { install_opts = { version = "13.3.7" } }
+        local result = ctx:execute(function()
             return util.ensure_valid_version(function()
                 return Result.success { "1.0.0", "2.0.0", "3.0.0" }
             end)
@@ -60,8 +60,8 @@ describe("registry installer util", function()
     end)
 
     it("should gracefully accept version if unable to resolve available versions", function()
-        local ctx = create_dummy_context { version = "13.3.7" }
-        local result = installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context { install_opts = { version = "13.3.7" } }
+        local result = ctx:execute(function()
             return util.ensure_valid_version(function()
                 return Result.failure()
             end)
@@ -70,8 +70,8 @@ describe("registry installer util", function()
     end)
 
     it("should accept version if in force mode", function()
-        local ctx = create_dummy_context { version = "13.3.7", force = true }
-        local result = installer.exec_in_context(ctx, function()
+        local ctx = test_helpers.create_context { install_opts = { version = "13.3.7", force = true } }
+        local result = ctx:execute(function()
             return util.ensure_valid_version(function()
                 return Result.success { "1.0.0" }
             end)

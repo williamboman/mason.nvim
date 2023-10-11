@@ -1,3 +1,7 @@
+local Result = require "mason-core.result"
+local fs = require "mason-core.fs"
+local path = require "mason-core.path"
+
 local M = {}
 
 ---@alias InstallReceiptSchemaVersion
@@ -56,11 +60,11 @@ function InstallReceipt:get_links()
 end
 
 ---@async
----@param cwd string
-function InstallReceipt:write(cwd)
-    local path = require "mason-core.path"
-    local fs = require "mason-core.fs"
-    fs.async.write_file(path.concat { cwd, "mason-receipt.json" }, vim.json.encode(self))
+---@param dir string
+function InstallReceipt:write(dir)
+    return Result.pcall(function()
+        fs.async.write_file(path.concat { dir, "mason-receipt.json" }, vim.json.encode(self))
+    end)
 end
 
 ---@class InstallReceiptBuilder
