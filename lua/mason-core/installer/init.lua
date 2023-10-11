@@ -37,11 +37,7 @@ end
 local function build_receipt(context)
     return Result.pcall(function()
         log.fmt_debug("Building receipt for %s", context.package)
-        return context.receipt
-            :with_name(context.package.name)
-            :with_schema_version("1.1")
-            :with_completion_time(vim.loop.gettimeofday())
-            :build()
+        return context.receipt:with_name(context.package.name):with_completion_time(vim.loop.gettimeofday()):build()
     end)
 end
 

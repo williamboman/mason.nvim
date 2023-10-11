@@ -69,8 +69,11 @@ local PackageMt = { __index = Package }
 ---@field since string
 ---@field message string
 
+---@alias RegistryPackageSpecSchema
+--- | '"registry+v1"'
+
 ---@class RegistryPackageSpec
----@field schema '"registry+v1"'
+---@field schema RegistryPackageSpecSchema
 ---@field name string
 ---@field description string
 ---@field homepage string
@@ -237,8 +240,9 @@ function Package:get_installed_version()
         :and_then(
             ---@param receipt InstallReceipt
             function(receipt)
-                if receipt.primary_source.id then
-                    return Purl.parse(receipt.primary_source.id):map(_.prop "version"):ok()
+                local source = receipt:get_source()
+                if source.id then
+                    return Purl.parse(source.id):map(_.prop "version"):ok()
                 else
                     return Optional.empty()
                 end

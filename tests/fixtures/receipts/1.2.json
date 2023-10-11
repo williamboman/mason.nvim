@@ -1,0 +1,19 @@
+{
+  "name": "angular-language-server",
+  "links": {
+    "bin": {
+      "ngserver": "node_modules/.bin/ngserver"
+    },
+    "opt": {},
+    "share": {}
+  },
+  "metrics": {
+    "completion_time": 1694752770559,
+    "start_time": 1694752764840
+  },
+  "schema_version": "1.2",
+  "source": {
+    "type": "registry+v1",
+    "id": "pkg:npm/%40angular/language-server@16.1.8"
+  }
+}
