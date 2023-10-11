@@ -213,7 +213,6 @@ local function expand_file_spec(ctx, purl, source, file_spec_table)
 
                 ---@type string[]
                 local files = _.filter_map(function(abs_path)
-                    -- fs.sync because async causes stack overflow on many files (TODO fix that)
                     if not fs.sync.file_exists(abs_path) then
                         -- only link actual files (e.g. exclude directory entries from glob)
                         return Optional.empty()
