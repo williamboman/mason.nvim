@@ -84,17 +84,22 @@ local function MasonInstall(package_specifiers, opts)
     opts = opts or {}
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
+    local Optional = require "mason-core.optional"
 
-    local install_packages = _.map(function(pkg_specifier)
+    local install_packages = _.filter_map(function(pkg_specifier)
         local package_name, version = Package.Parse(pkg_specifier)
         local pkg = registry.get_package(package_name)
-        return pkg:install {
-            version = version,
-            debug = opts.debug,
-            force = opts.force,
-            strict = opts.strict,
-            target = opts.target,
-        }
+        if pkg:is_installing() then
+            return Optional.empty()
+        else
+            return Optional.of(pkg:install {
+                version = version,
+                debug = opts.debug,
+                force = opts.force,
+                strict = opts.strict,
+                target = opts.target,
+            })
+        end
     end)
 
     if platform.is_headless then
