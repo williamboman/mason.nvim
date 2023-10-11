@@ -198,7 +198,7 @@ local function Installed(state)
                     local new_versions_check = state.packages.new_versions_check
                     local styling = new_versions_check.percentage_complete == 1 and p.highlight_block or p.muted_block
                     return Ui.VirtualTextNode {
-                        p.Comment "checking for new package versions ",
+                        p.Comment "updating registry ",
                         styling(("%-4s"):format(math.floor(new_versions_check.percentage_complete * 100) .. "%")),
                         styling((" "):rep(new_versions_check.percentage_complete * 15)),
                     }
