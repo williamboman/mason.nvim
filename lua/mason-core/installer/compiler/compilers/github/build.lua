@@ -19,13 +19,7 @@ function M.parse(source, purl, opts)
 
         local expr_ctx = { version = purl.version }
 
-        -- TODO: In a few releases of the core registry, r-languageserver reads $MASON_VERSION directly. Remove this
-        -- some time in the future.
-        local default_env = {
-            MASON_VERSION = purl.version,
-        }
-        build_instruction.env =
-            vim.tbl_extend("force", default_env, try(expr.tbl_interpolate(build_instruction.env or {}, expr_ctx)))
+        build_instruction.env = try(expr.tbl_interpolate(build_instruction.env or {}, expr_ctx))
 
         ---@class ParsedGitHubBuildSource : ParsedPackageSource
         local parsed_source = {

@@ -19,7 +19,7 @@ describe("github provider :: build :: parsing", function()
             Result.success {
                 build = {
                     run = [[npm install && npm run compile]],
-                    env = { MASON_VERSION = "2023-03-09" },
+                    env = {},
                 },
                 repo = "https://github.com/namespace/name.git",
                 rev = "2023-03-09",
@@ -38,7 +38,7 @@ describe("github provider :: build :: parsing", function()
                 build = {
                     target = "win_x64",
                     run = [[npm install]],
-                    env = { MASON_VERSION = "2023-03-09" },
+                    env = {},
                 },
                 repo = "https://github.com/namespace/name.git",
                 rev = "2023-03-09",
@@ -84,7 +84,6 @@ describe("github provider :: build :: installing", function()
                 build = {
                     run = [[npm install && npm run compile]],
                     env = {
-                        MASON_VERSION = "2023-03-09",
                         SOME_VALUE = "here",
                     },
                 },
@@ -98,7 +97,6 @@ describe("github provider :: build :: installing", function()
         assert.spy(build.run).was_called_with {
             run = [[npm install && npm run compile]],
             env = {
-                MASON_VERSION = "2023-03-09",
                 SOME_VALUE = "here",
             },
         }

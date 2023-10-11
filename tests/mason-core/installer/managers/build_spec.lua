@@ -38,7 +38,6 @@ describe("build manager", function()
             return build.run {
                 run = [[npm install && npm run compile]],
                 env = {
-                    MASON_VERSION = "2023-03-09",
                     SOME_VALUE = "here",
                 },
             }
@@ -50,7 +49,6 @@ describe("build manager", function()
         assert.spy(ctx.spawn.bash).was_called_with(match.tbl_containing {
             on_spawn = match.is_function(),
             env = match.same {
-                MASON_VERSION = "2023-03-09",
                 SOME_VALUE = "here",
             },
         })
