@@ -237,7 +237,11 @@ function Package:get_installed_version()
         :and_then(
             ---@param receipt InstallReceipt
             function(receipt)
-                return Purl.parse(receipt.primary_source.id):map(_.prop "version"):ok()
+                if receipt.primary_source.id then
+                    return Purl.parse(receipt.primary_source.id):map(_.prop "version"):ok()
+                else
+                    return Optional.empty()
+                end
             end
         )
         :or_else(nil)
