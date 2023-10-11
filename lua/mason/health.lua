@@ -120,10 +120,10 @@ local function check_github()
 end
 
 local function check_neovim()
-    if vim.fn.has "nvim-0.7.0" == 1 then
-        report_ok "neovim version >= 0.7.0"
+    if vim.fn.has "nvim-0.9.0" == 1 then
+        report_ok "neovim version >= 0.9.0"
     else
-        report_error("neovim version < 0.7.0", { "Upgrade Neovim." })
+        report_error("neovim version < 0.9.0", { "Upgrade Neovim." })
     end
 end
 
