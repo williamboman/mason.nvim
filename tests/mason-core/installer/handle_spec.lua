@@ -4,6 +4,16 @@ local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
 describe("installer handle", function()
+    local snapshot
+
+    before_each(function()
+        snapshot = assert.snapshot()
+    end)
+
+    after_each(function()
+        snapshot:revert()
+    end)
+
     it("should register spawn handle", function()
         local handle = InstallHandle.new(mock.new {})
         local spawn_handle_change_handler = spy.new()
@@ -72,36 +82,33 @@ describe("installer handle", function()
         assert.spy(kill_handler).was_called_with(9)
     end)
 
-    it(
-        "should terminate handle",
-        async_test(function()
-            local process = require "mason-core.process"
-            stub(process, "kill")
-            local uv_handle1 = {}
-            local uv_handle2 = {}
-            local handle = InstallHandle.new(mock.new {})
-            local kill_handler = spy.new()
-            local terminate_handler = spy.new()
-            local closed_handler = spy.new()
+    it("should terminate handle", function()
+        local process = require "mason-core.process"
+        stub(process, "kill")
+        local uv_handle1 = {}
+        local uv_handle2 = {}
+        local handle = InstallHandle.new(mock.new {})
+        local kill_handler = spy.new()
+        local terminate_handler = spy.new()
+        local closed_handler = spy.new()
 
-            handle:once("kill", kill_handler)
-            handle:once("terminate", terminate_handler)
-            handle:once("closed", closed_handler)
-            handle.state = "ACTIVE"
-            handle.spawn_handles = { { uv_handle = uv_handle2 }, { uv_handle = uv_handle2 } }
-            handle:terminate()
+        handle:once("kill", kill_handler)
+        handle:once("terminate", terminate_handler)
+        handle:once("closed", closed_handler)
+        handle.state = "ACTIVE"
+        handle.spawn_handles = { { uv_handle = uv_handle2 }, { uv_handle = uv_handle2 } }
+        handle:terminate()
 
-            assert.spy(process.kill).was_called(2)
-            assert.spy(process.kill).was_called_with(uv_handle1, 15)
-            assert.spy(process.kill).was_called_with(uv_handle2, 15)
-            assert.spy(kill_handler).was_called(1)
-            assert.spy(kill_handler).was_called_with(15)
-            assert.spy(terminate_handler).was_called(1)
-            assert.is_true(handle.is_terminated)
-            assert.wait_for(function()
-                assert.is_true(handle:is_closed())
-                assert.spy(closed_handler).was_called(1)
-            end)
+        assert.spy(process.kill).was_called(2)
+        assert.spy(process.kill).was_called_with(uv_handle1, 15)
+        assert.spy(process.kill).was_called_with(uv_handle2, 15)
+        assert.spy(kill_handler).was_called(1)
+        assert.spy(kill_handler).was_called_with(15)
+        assert.spy(terminate_handler).was_called(1)
+        assert.is_true(handle.is_terminated)
+        assert.wait(function()
+            assert.is_true(handle:is_closed())
+            assert.spy(closed_handler).was_called(1)
         end)
-    )
+    end)
 end)

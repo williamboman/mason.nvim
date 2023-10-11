@@ -34,7 +34,8 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
     -   [`Package.License`](#packagelicense)
     -   [`Package.new({spec})`](#packagenewspec)
     -   [`Package.spec`](#packagespec)
-    -   [`Package:install({opts?})`](#packageinstallopts)
+    -   [`Package:is_installing()`](#packageis_installing)
+    -   [`Package:install({opts?}, {callback?})`](#packageinstallopts-callback)
     -   [`Package:uninstall()`](#packageuninstall)
     -   [`Package:is_installed()`](#packageis_installed)
     -   [`Package:get_install_path()`](#packageget_install_path)
@@ -82,12 +83,12 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
 
 The `mason-registry` Lua module extends the [EventEmitter](#eventemitter) interface and emits the following events:
 
-| Event                       | Handler signature                          |
-| --------------------------- | ------------------------------------------ |
-| `package:handle`            | `fun(pkg: Package, handle: InstallHandle)` |
-| `package:install:success`   | `fun(pkg: Package, handle: InstallHandle)` |
-| `package:install:failed`    | `fun(pkg: Package, handle: InstallHandle)` |
-| `package:uninstall:success` | `fun(pkg: Package)`                        |
+| Event                       | Handler signature                                      |
+| --------------------------- | ------------------------------------------------------ |
+| `package:handle`            | `fun(pkg: Package, handle: InstallHandle)`             |
+| `package:install:success`   | `fun(pkg: Package, handle: InstallHandle)`             |
+| `package:install:failed`    | `fun(pkg: Package, handle: InstallHandle, error: any)` |
+| `package:uninstall:success` | `fun(pkg: Package)`                                    |
 
 The following is an example for how to register handlers for events:
 
@@ -135,11 +136,11 @@ The `Package` class encapsulates the installation instructions and metadata abou
 
 This class extends the [EventEmitter](#eventemitter) interface and emits the following events:
 
-| Event               | Handler signature            |
-| ------------------- | ---------------------------- |
-| `install:success`   | `fun(handle: InstallHandle)` |
-| `install:failed`    | `fun(handle: InstallHandle)` |
-| `uninstall:success` | `fun()`                      |
+| Event               | Handler signature                                      |
+| ------------------- | ------------------------------------------------------ |
+| `install:success`   | `fun(handle: InstallHandle)`                           |
+| `install:failed`    | `fun(pkg: Package, handle: InstallHandle, error: any)` |
+| `uninstall:success` | `fun()`                                                |
 
 ### `Package.Parse({package_identifier})`
 
@@ -193,22 +194,28 @@ Similar as [`Package.Lang`](#packagelang) but for SPDX license identifiers.
 
 **Type**: [`RegistryPackageSpec`](#registrypackagespec)
 
-### `Package:install({opts?})`
+### `Package:is_installing()`
+
+**Returns:** `boolean`
+
+### `Package:install({opts?}, {callback?})`
 
 **Parameters:**
 
 -   `opts?`: [`PackageInstallOpts`](#packageinstallopts-1) (optional)
+-   `callback?`: `fun(success: boolean, result: any)` (optional) - Callback to be called when package installation completes. _Note: this is called before events (["package:install:success"](#registry-events), ["install:success"](#package)) are emitted._
 
 **Returns:** [`InstallHandle`](#installhandle)
 
-Installs the package instance this method is being called on. Accepts an
-optional `{opts}` argument, which can be used to specify a desired version to
-install.
+Installs the package instance this method is being called on. Accepts an optional `{opts}` argument which can be used to
+for example specify which version to install (see [`PackageInstallOpts`](#packageinstallopts-1)), and an optional
+`{callback}` argument which is called when the installation finishes.
 
 The returned [`InstallHandle`](#installhandle) can be used to observe progress and control the installation process
 (e.g., cancelling).
 
-_Note that if the package already have an active handle registered, that handler is returned instead of a new one._
+_Note that if the package is already being installed this method will error. See
+[`Package:is_installing()`](#packageis_installing)._
 
 ### `Package:uninstall()`
 

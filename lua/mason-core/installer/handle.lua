@@ -120,6 +120,10 @@ function InstallHandle:is_closed()
     return self.state == "CLOSED"
 end
 
+function InstallHandle:is_closing()
+    return self:is_closed() or self.is_terminated
+end
+
 ---@param new_state InstallHandleState
 function InstallHandle:set_state(new_state)
     local old_state = self.state
