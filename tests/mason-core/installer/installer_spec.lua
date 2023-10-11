@@ -87,12 +87,11 @@ describe("installer", function()
                     local receipt = vim.json.decode(arg)
                     assert.is_true(match.tbl_containing {
                         name = "dummy",
-                        primary_source = match.same {
+                        source = match.same {
                             type = handle.package.spec.schema,
                             id = handle.package.spec.source.id,
                         },
-                        secondary_sources = match.same {},
-                        schema_version = "1.1",
+                        schema_version = "1.2",
                         metrics = match.is_table(),
                         links = match.same {
                             bin = { executable = "target" },

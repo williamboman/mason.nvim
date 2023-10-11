@@ -10,6 +10,7 @@ local util = require "mason-core.installer.registry.util"
 
 local M = {}
 
+---@type table<RegistryPackageSpecSchema, boolean>
 M.SCHEMA_CAP = _.set_of {
     "registry+v1",
 }
@@ -203,7 +204,7 @@ function M.compile(spec, opts)
                     try(link.opt(ctx, spec, parsed.purl, parsed.source))
                 end
 
-                ctx.receipt:with_primary_source {
+                ctx.receipt:with_source {
                     type = ctx.package.spec.schema,
                     id = Purl.compile(parsed.purl),
                 }
