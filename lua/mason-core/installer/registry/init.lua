@@ -180,6 +180,7 @@ function M.compile(spec, opts)
                 end
 
                 -- Run installer
+                a.scheduler()
                 try(parsed.provider.install(ctx, parsed.source, parsed.purl))
 
                 if spec.schemas then
