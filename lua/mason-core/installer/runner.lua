@@ -8,9 +8,6 @@ local log = require "mason-core.log"
 local registry = require "mason-registry"
 
 local InstallContext = require "mason-core.installer.context"
-local InstallContextCwd = require "mason-core.installer.context.cwd"
-local InstallContextFs = require "mason-core.installer.context.fs"
-local InstallContextSpawn = require "mason-core.installer.context.spawn"
 
 ---@class InstallRunner
 ---@field location InstallLocation
@@ -37,10 +34,7 @@ function InstallRunner:execute(opts, callback)
     local handle = self.handle
     log.fmt_info("Executing installer for %s %s", handle.package, opts)
 
-    local context_cwd = InstallContextCwd.new(self.location)
-    local context_spawn = InstallContextSpawn.new(context_cwd, handle, false)
-    local context_fs = InstallContextFs.new(context_cwd)
-    local context = InstallContext.new(handle, context_cwd, context_spawn, context_fs, opts)
+    local context = InstallContext.new(handle, self.location, opts)
 
     local tailed_output = {}
 
@@ -107,7 +101,7 @@ function InstallRunner:execute(opts, callback)
             context.receipt:with_start_time(vim.loop.gettimeofday())
 
             -- 1. initialize working directory
-            try(context_cwd:initialize(handle))
+            try(context.cwd:initialize())
 
             -- 2. run installer
             ---@type async fun(ctx: InstallContext): Result

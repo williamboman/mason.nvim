@@ -1,3 +1,6 @@
+local InstallContextCwd = require "mason-core.installer.context.cwd"
+local InstallContextFs = require "mason-core.installer.context.fs"
+local InstallContextSpawn = require "mason-core.installer.context.spawn"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local fs = require "mason-core.fs"
@@ -9,6 +12,7 @@ local receipt = require "mason-core.receipt"
 ---@class InstallContext
 ---@field receipt InstallReceiptBuilder
 ---@field fs InstallContextFs
+---@field location InstallLocation
 ---@field spawn InstallContextSpawn
 ---@field handle InstallHandle
 ---@field package Package
@@ -20,15 +24,17 @@ local InstallContext = {}
 InstallContext.__index = InstallContext
 
 ---@param handle InstallHandle
----@param cwd InstallContextCwd
----@param spawn InstallContextSpawn
----@param fs InstallContextFs
+---@param location InstallLocation
 ---@param opts PackageInstallOpts
-function InstallContext.new(handle, cwd, spawn, fs, opts)
+function InstallContext.new(handle, location, opts)
+    local cwd = InstallContextCwd.new(handle, location)
+    local spawn = InstallContextSpawn.new(handle, cwd, false)
+    local fs = InstallContextFs.new(cwd)
     return setmetatable({
         cwd = cwd,
         spawn = spawn,
         handle = handle,
+        location = location,
         package = handle.package, -- for convenience
         fs = fs,
         receipt = receipt.InstallReceiptBuilder.new(),
