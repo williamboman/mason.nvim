@@ -1,3 +1,4 @@
+local InstallLocation = require "mason-core.installer.location"
 local Optional = require "mason-core.optional"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
@@ -31,7 +32,7 @@ GitHubRegistrySource.__index = GitHubRegistrySource
 
 ---@param spec GitHubRegistrySourceSpec
 function GitHubRegistrySource.new(spec)
-    local root_dir = path.concat { path.registry_prefix(), "github", spec.namespace, spec.name }
+    local root_dir = InstallLocation.global():registry(path.concat { "github", spec.namespace, spec.name })
     return setmetatable({
         id = spec.id,
         spec = spec,
