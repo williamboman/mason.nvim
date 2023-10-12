@@ -33,7 +33,7 @@ describe("install runner ::", function()
     describe("locking ::", function()
         it("should respect semaphore locks", function()
             local semaphore = Semaphore.new(1)
-            local location = InstallLocation.new(settings.current.install_root_dir)
+            local location = InstallLocation.global()
             local dummy_handle = InstallHandle.new(dummy)
             local runner_1 = InstallRunner.new(location, dummy_handle, semaphore)
             local runner_2 = InstallRunner.new(location, InstallHandle.new(dummy2), semaphore)
@@ -60,7 +60,7 @@ describe("install runner ::", function()
 
         it("should write lockfile", function()
             local semaphore = Semaphore.new(1)
-            local location = InstallLocation.new(settings.current.install_root_dir)
+            local location = InstallLocation.global()
             local dummy_handle = InstallHandle.new(dummy)
             local runner = InstallRunner.new(location, dummy_handle, semaphore)
 
@@ -75,7 +75,7 @@ describe("install runner ::", function()
 
         it("should abort installation if installation lock exists", function()
             local semaphore = Semaphore.new(1)
-            local location = InstallLocation.new(settings.current.install_root_dir)
+            local location = InstallLocation.global()
             local dummy_handle = InstallHandle.new(dummy)
             local runner = InstallRunner.new(location, dummy_handle, semaphore)
 
@@ -98,7 +98,7 @@ describe("install runner ::", function()
 
         it("should not abort installation if installation lock exists with force=true", function()
             local semaphore = Semaphore.new(1)
-            local location = InstallLocation.new(settings.current.install_root_dir)
+            local location = InstallLocation.global()
             local dummy_handle = InstallHandle.new(dummy)
             local runner = InstallRunner.new(location, dummy_handle, semaphore)
 
@@ -118,7 +118,7 @@ describe("install runner ::", function()
 
         it("should release lock after successful installation", function()
             local semaphore = Semaphore.new(1)
-            local location = InstallLocation.new(settings.current.install_root_dir)
+            local location = InstallLocation.global()
             local dummy_handle = InstallHandle.new(dummy)
             local runner = InstallRunner.new(location, dummy_handle, semaphore)
 
@@ -136,7 +136,7 @@ describe("install runner ::", function()
     end)
 
     it("should initialize install location", function()
-        local location = InstallLocation.new(settings.current.install_root_dir)
+        local location = InstallLocation.global()
         local runner = InstallRunner.new(location, InstallHandle.new(registry.get_package "dummy"), Semaphore.new(1))
 
         spy.on(location, "initialize")
@@ -150,7 +150,7 @@ describe("install runner ::", function()
 
     describe("receipt ::", function()
         it("should write receipt", function()
-            local location = InstallLocation.new(settings.current.install_root_dir)
+            local location = InstallLocation.global()
             local runner =
                 InstallRunner.new(location, InstallHandle.new(registry.get_package "dummy"), Semaphore.new(1))
 
@@ -186,7 +186,7 @@ describe("install runner ::", function()
         registry:once("package:install:failed", registry_spy)
         dummy:once("install:failed", package_spy)
 
-        local location = InstallLocation.new(settings.current.install_root_dir)
+        local location = InstallLocation.global()
         local handle = InstallHandle.new(registry.get_package "dummy")
         local runner = InstallRunner.new(location, handle, Semaphore.new(1))
 
@@ -209,7 +209,7 @@ describe("install runner ::", function()
     end)
 
     it("should terminate installation", function()
-        local location = InstallLocation.new(settings.current.install_root_dir)
+        local location = InstallLocation.global()
         local handle = InstallHandle.new(registry.get_package "dummy")
         local runner = InstallRunner.new(location, handle, Semaphore.new(1))
 
@@ -234,7 +234,7 @@ describe("install runner ::", function()
     end)
 
     it("should write debug logs when debug=true", function()
-        local location = InstallLocation.new(settings.current.install_root_dir)
+        local location = InstallLocation.global()
         local handle = InstallHandle.new(registry.get_package "dummy")
         local runner = InstallRunner.new(location, handle, Semaphore.new(1))
 
@@ -255,7 +255,7 @@ describe("install runner ::", function()
     end)
 
     it("should not retain installation directory on failure", function()
-        local location = InstallLocation.new(settings.current.install_root_dir)
+        local location = InstallLocation.global()
         local handle = InstallHandle.new(registry.get_package "dummy")
         local runner = InstallRunner.new(location, handle, Semaphore.new(1))
 
@@ -276,7 +276,7 @@ describe("install runner ::", function()
     end)
 
     it("should retain installation directory on failure and debug=true", function()
-        local location = InstallLocation.new(settings.current.install_root_dir)
+        local location = InstallLocation.global()
         local handle = InstallHandle.new(registry.get_package "dummy")
         local runner = InstallRunner.new(location, handle, Semaphore.new(1))
 
