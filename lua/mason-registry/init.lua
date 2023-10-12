@@ -1,4 +1,5 @@
 local EventEmitter = require "mason-core.EventEmitter"
+local InstallLocation = require "mason-core.installer.location"
 local Optional = require "mason-core.optional"
 local _ = require "mason-core.functional"
 local fs = require "mason-core.fs"
@@ -20,6 +21,7 @@ local sources = require "mason-registry.sources"
 local M = setmetatable({}, { __index = EventEmitter })
 EventEmitter.init(M)
 
+---@type fun(location: InstallLocation): table<string, true>
 local scan_install_root
 
 do
@@ -37,13 +39,14 @@ do
         end)
     )
 
+    ---@param location InstallLocation
     ---@return table<string, true>
-    scan_install_root = function()
+    scan_install_root = function(location)
         if cached_dirs then
             return cached_dirs
         end
         log.trace "Scanning installation root dir"
-        local ok, entries = pcall(fs.sync.readdir, path.package_prefix())
+        local ok, entries = pcall(fs.sync.readdir, location:package())
         if not ok then
             log.debug("Failed to scan installation root dir", entries)
             -- presume installation root dir has not been created yet (i.e., no packages installed)
@@ -63,7 +66,7 @@ end
 ---modules required to load.
 ---@param package_name string
 function M.is_installed(package_name)
-    return scan_install_root()[package_name] == true
+    return scan_install_root(InstallLocation.global())[package_name] == true
 end
 
 ---Returns an instance of the Package class if the provided package name exists. This function errors if a package cannot be found.
@@ -93,7 +96,7 @@ local get_packages = _.map(M.get_package)
 ---Returns all installed package names. This is a fast function that doesn't load any extra modules.
 ---@return string[]
 function M.get_installed_package_names()
-    return _.keys(scan_install_root())
+    return _.keys(scan_install_root(InstallLocation.global()))
 end
 
 ---Returns all installed package instances. This is a slower function that loads more modules.

@@ -133,7 +133,7 @@ function InstallRunner:execute(opts, callback)
                     context:build_receipt():on_success(
                         ---@param receipt InstallReceipt
                         function(receipt)
-                            linker.unlink(handle.package, receipt):on_failure(function(err)
+                            linker.unlink(handle.package, receipt, self.location):on_failure(function(err)
                                 log.error("Failed to unlink failed installation.", err)
                             end)
                         end
