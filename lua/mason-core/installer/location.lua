@@ -1,6 +1,7 @@
 local Path = require "mason-core.path"
 local Result = require "mason-core.result"
 local fs = require "mason-core.fs"
+local settings = require "mason.settings"
 
 ---@class InstallLocation
 ---@field private dir string
@@ -12,6 +13,10 @@ function InstallLocation.new(dir)
     return setmetatable({
         dir = dir,
     }, InstallLocation)
+end
+
+function InstallLocation.global()
+    return InstallLocation.new(settings.current.install_root_dir)
 end
 
 function InstallLocation:get_dir()

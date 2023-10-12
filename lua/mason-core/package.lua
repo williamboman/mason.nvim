@@ -159,7 +159,7 @@ function Package:install(opts, callback)
     opts = opts or {}
     assert(not self:is_installing(), "Package is already installing.")
     local handle = self:new_handle()
-    local runner = InstallRunner.new(InstallLocation.new(settings.current.install_root_dir), handle, semaphore)
+    local runner = InstallRunner.new(InstallLocation.global(), handle, semaphore)
     runner:execute(opts, callback)
     return handle
 end
