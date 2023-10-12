@@ -4,27 +4,29 @@ local path = require "mason-core.path"
 
 ---@class InstallContextCwd
 ---@field private location InstallLocation Defines the upper boundary for which paths are allowed as cwd.
+---@field private handle InstallHandle
 ---@field private cwd string?
 local InstallContextCwd = {}
 InstallContextCwd.__index = InstallContextCwd
 
+---@param handle InstallHandle
 ---@param location InstallLocation
-function InstallContextCwd.new(location)
+function InstallContextCwd.new(handle, location)
     assert(location, "location not provided")
     return setmetatable({
         location = location,
+        handle = handle,
         cwd = nil,
     }, InstallContextCwd)
 end
 
----@param handle InstallHandle
-function InstallContextCwd:initialize(handle)
+function InstallContextCwd:initialize()
     return Result.try(function(try)
-        local staging_dir = self.location:staging(handle.package.name)
-        if fs.async.dir_exists(staging_dir) then
-            try(Result.pcall(fs.async.rmrf, staging_dir))
+        local staging_dir = self.location:staging(self.handle.package.name)
+        if fs.sync.dir_exists(staging_dir) then
+            try(Result.pcall(fs.sync.rmrf, staging_dir))
         end
-        try(Result.pcall(fs.async.mkdirp, staging_dir))
+        try(Result.pcall(fs.sync.mkdirp, staging_dir))
         self:set(staging_dir)
     end)
 end

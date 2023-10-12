@@ -9,7 +9,6 @@ local stub = require "luassert.stub"
 local Semaphore = require("mason-core.async.control").Semaphore
 local a = require "mason-core.async"
 local registry = require "mason-registry"
-local settings = require "mason.settings"
 
 describe("install runner ::", function()
     local dummy = registry.get_package "dummy"

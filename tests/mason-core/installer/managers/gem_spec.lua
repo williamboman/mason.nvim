@@ -22,7 +22,7 @@ describe("gem manager", function()
             "my-gem:1.0.0",
             vim.NIL, -- extra_packages
             env = {
-                GEM_HOME = "/tmp/install-dir",
+                GEM_HOME = ctx.location:staging "dummy",
             },
         }
     end)
