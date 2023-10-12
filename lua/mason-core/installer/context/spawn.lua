@@ -7,10 +7,10 @@ local spawn = require "mason-core.spawn"
 ---@field [string] async fun(opts: SpawnArgs): Result
 local InstallContextSpawn = {}
 
----@param cwd InstallContextCwd
 ---@param handle InstallHandle
+---@param cwd InstallContextCwd
 ---@param strict_mode boolean
-function InstallContextSpawn.new(cwd, handle, strict_mode)
+function InstallContextSpawn.new(handle, cwd, strict_mode)
     return setmetatable({ cwd = cwd, handle = handle, strict_mode = strict_mode }, InstallContextSpawn)
 end
 
