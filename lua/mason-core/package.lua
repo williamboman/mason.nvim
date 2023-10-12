@@ -184,7 +184,7 @@ function Package:unlink(receipt)
 
     -- 1. Unlink
     local linker = require "mason-core.installer.linker"
-    linker.unlink(self, receipt):get_or_throw()
+    linker.unlink(self, receipt, InstallLocation.global()):get_or_throw()
 
     -- 2. Remove installation artifacts
     fs.sync.rmrf(install_path)
@@ -199,7 +199,7 @@ function Package:get_handle()
 end
 
 function Package:get_install_path()
-    return path.package_prefix(self.name)
+    return InstallLocation.global():package(self.name)
 end
 
 ---@return Optional # Optional<InstallReceipt>
@@ -254,7 +254,8 @@ function Package:get_all_versions()
 end
 
 function Package:get_lsp_settings_schema()
-    local schema_file = path.share_prefix(path.concat { "mason-schemas", "lsp", ("%s.json"):format(self.name) })
+    local schema_file = InstallLocation.global()
+        :share(path.concat { "mason-schemas", "lsp", ("%s.json"):format(self.name) })
     if fs.sync.file_exists(schema_file) then
         return Result.pcall(vim.json.decode, fs.sync.read_file(schema_file), {
             luanil = { object = true, array = true },

@@ -8,18 +8,40 @@ local platform = require "mason-core.platform"
 
 local M = {}
 
----@alias LinkContext { type: '"bin"' | '"opt"' | '"share"', prefix: fun(path: string): string }
+---@alias LinkContext { type: '"bin"' | '"opt"' | '"share"', prefix: fun(path: string, location: InstallLocation): string }
 
 ---@type table<'"BIN"' | '"OPT"' | '"SHARE"', LinkContext>
 local LinkContext = {
-    BIN = { type = "bin", prefix = path.bin_prefix },
-    OPT = { type = "opt", prefix = path.opt_prefix },
-    SHARE = { type = "share", prefix = path.share_prefix },
+    BIN = {
+        type = "bin",
+        ---@param path string
+        ---@param location InstallLocation
+        prefix = function(path, location)
+            return location:bin(path)
+        end,
+    },
+    OPT = {
+        type = "opt",
+        ---@param path string
+        ---@param location InstallLocation
+        prefix = function(path, location)
+            return location:opt(path)
+        end,
+    },
+    SHARE = {
+        type = "share",
+        ---@param path string
+        ---@param location InstallLocation
+        prefix = function(path, location)
+            return location:share(path)
+        end,
+    },
 }
 
 ---@param receipt InstallReceipt
 ---@param link_context LinkContext
-local function unlink(receipt, link_context)
+---@param location InstallLocation
+local function unlink(receipt, link_context, location)
     return Result.pcall(function()
         local links = receipt:get_links()[link_context.type]
         if not links then
@@ -29,7 +51,7 @@ local function unlink(receipt, link_context)
             if receipt:get_schema_version() == "1.0" and link_context == LinkContext.BIN and platform.is.win then
                 linked_file = linked_file .. ".cmd"
             end
-            local share_path = link_context.prefix(linked_file)
+            local share_path = link_context.prefix(linked_file, location)
             fs.sync.unlink(share_path)
         end
     end)
@@ -37,13 +59,14 @@ end
 
 ---@param pkg Package
 ---@param receipt InstallReceipt
+---@param location InstallLocation
 ---@nodiscard
-function M.unlink(pkg, receipt)
+function M.unlink(pkg, receipt, location)
     log.fmt_debug("Unlinking %s", pkg, receipt:get_links())
     return Result.try(function(try)
-        try(unlink(receipt, LinkContext.BIN))
-        try(unlink(receipt, LinkContext.SHARE))
-        try(unlink(receipt, LinkContext.OPT))
+        try(unlink(receipt, LinkContext.BIN, location))
+        try(unlink(receipt, LinkContext.SHARE, location))
+        try(unlink(receipt, LinkContext.OPT, location))
     end)
 end
 
@@ -58,7 +81,7 @@ local function link(context, link_context, link_fn)
             if platform.is.win and link_context == LinkContext.BIN then
                 name = ("%s.cmd"):format(name)
             end
-            local new_abs_path = link_context.prefix(name)
+            local new_abs_path = link_context.prefix(name, context.location)
             local target_abs_path = path.concat { context.package:get_install_path(), rel_path }
 
             do
