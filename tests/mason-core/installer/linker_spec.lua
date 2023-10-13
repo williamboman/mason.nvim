@@ -14,7 +14,7 @@ EXIT /b
 SETLOCAL
 CALL :find_dp0
 
-endLocal & goto #_undefined_# 2>NUL || title %%COMSPEC%% & "%s" %%*]]
+endLocal & goto #_undefined_# 2>NUL || title %%COMSPEC%% & "%%dp0%%\%s" %%*]]
 
 describe("linker", function()
     local snapshot
@@ -63,13 +63,10 @@ describe("linker", function()
         assert.spy(fs.async.symlink).was_called(2)
         assert
             .spy(fs.async.symlink)
-            .was_called_with(path.concat { dummy:get_install_path(), "another-executable" }, ctx.location:bin "another-executable")
+            .was_called_with("../packages/dummy/another-executable", ctx.location:bin "another-executable")
         assert
             .spy(fs.async.symlink)
-            .was_called_with(
-                path.concat { dummy:get_install_path(), "nested", "path", "my-executable" },
-                ctx.location:bin "my-executable"
-            )
+            .was_called_with("../packages/dummy/nested/path/my-executable", ctx.location:bin "my-executable")
     end)
 
     it("should write executable wrapper on Windows", function()
@@ -101,14 +98,15 @@ describe("linker", function()
 
         assert.spy(fs.async.symlink).was_called(0)
         assert.spy(fs.async.write_file).was_called(2)
-        assert.spy(fs.async.write_file).was_called_with(
-            ctx.location:bin "another-executable.cmd",
-            WIN_CMD_SCRIPT:format(path.concat { dummy:get_install_path(), "another-executable" })
-        )
-        assert.spy(fs.async.write_file).was_called_with(
-            ctx.location:bin "my-executable.cmd",
-            WIN_CMD_SCRIPT:format(path.concat { dummy:get_install_path(), "nested", "path", "my-executable" })
-        )
+        assert
+            .spy(fs.async.write_file)
+            .was_called_with(ctx.location:bin "another-executable.cmd", WIN_CMD_SCRIPT:format "..\\packages\\dummy\\another-executable")
+        assert
+            .spy(fs.async.write_file)
+            .was_called_with(
+                ctx.location:bin "my-executable.cmd",
+                WIN_CMD_SCRIPT:format "..\\packages\\dummy\\nested\\path\\my-executable"
+            )
     end)
 
     it("should symlink share files", function()
@@ -142,13 +140,10 @@ describe("linker", function()
 
         assert.spy(fs.async.write_file).was_called(0)
         assert.spy(fs.async.symlink).was_called(2)
+        assert.spy(fs.async.symlink).was_called_with("../packages/dummy/share-file", ctx.location:share "share-file")
         assert
             .spy(fs.async.symlink)
-            .was_called_with(path.concat { dummy:get_install_path(), "share-file" }, ctx.location:share "share-file")
-        assert.spy(fs.async.symlink).was_called_with(
-            path.concat { dummy:get_install_path(), "nested", "path", "to", "share-file" },
-            ctx.location:share "nested/path/share-file"
-        )
+            .was_called_with("../../../packages/dummy/nested/path/to/share-file", ctx.location:share "nested/path/share-file")
 
         assert.spy(fs.async.mkdirp).was_called(2)
         assert.spy(fs.async.mkdirp).was_called_with(ctx.location:share "nested/path")

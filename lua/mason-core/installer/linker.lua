@@ -73,7 +73,7 @@ end
 ---@async
 ---@param context InstallContext
 ---@param link_context LinkContext
----@param link_fn async fun(new_abs_path: string, target_abs_path: string): Result
+---@param link_fn async fun(new_abs_path: string, target_abs_path: string, target_rel_path: string): Result
 local function link(context, link_context, link_fn)
     log.trace("Linking", context.package, link_context.type, context.links[link_context.type])
     return Result.try(function(try)
@@ -83,6 +83,7 @@ local function link(context, link_context, link_fn)
             end
             local new_abs_path = link_context.prefix(name, context.location)
             local target_abs_path = path.concat { context.package:get_install_path(), rel_path }
+            local target_rel_path = path.relative(new_abs_path, target_abs_path)
 
             do
                 -- 1. Ensure destination directory exists
@@ -109,7 +110,7 @@ local function link(context, link_context, link_fn)
             end
 
             -- 3. Execute link.
-            try(link_fn(new_abs_path, target_abs_path))
+            try(link_fn(new_abs_path, target_abs_path, target_rel_path))
             context.receipt:with_link(link_context.type, name, rel_path)
         end
     end)
@@ -118,8 +119,8 @@ end
 ---@param context InstallContext
 ---@param link_context LinkContext
 local function symlink(context, link_context)
-    return link(context, link_context, function(new_abs_path, target_abs_path)
-        return Result.pcall(fs.async.symlink, target_abs_path, new_abs_path)
+    return link(context, link_context, function(new_abs_path, _, target_rel_path)
+        return Result.pcall(fs.async.symlink, target_rel_path, new_abs_path)
     end)
 end
 
@@ -133,7 +134,8 @@ end
 
 ---@param context InstallContext
 local function win_bin_wrapper(context)
-    return link(context, LinkContext.BIN, function(new_abs_path, target_abs_path)
+    return link(context, LinkContext.BIN, function(new_abs_path, __, target_rel_path)
+        local windows_target_rel_path = target_rel_path:gsub("/", "\\")
         return Result.pcall(
             fs.async.write_file,
             new_abs_path,
@@ -147,8 +149,8 @@ local function win_bin_wrapper(context)
                 SETLOCAL
                 CALL :find_dp0
 
-                endLocal & goto #_undefined_# 2>NUL || title %%COMSPEC%% & "%s" %%*
-            ]]):format(target_abs_path))
+                endLocal & goto #_undefined_# 2>NUL || title %%COMSPEC%% & "%%dp0%%\%s" %%*
+            ]]):format(windows_target_rel_path))
         )
     end)
 end
