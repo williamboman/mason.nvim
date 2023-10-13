@@ -15,7 +15,7 @@ describe("installer handle", function()
     end)
 
     it("should register spawn handle", function()
-        local handle = InstallHandle.new(mock.new {})
+        local handle = InstallHandle:new(mock.new {})
         local spawn_handle_change_handler = spy.new()
         local luv_handle = mock.new {}
 
@@ -32,7 +32,7 @@ describe("installer handle", function()
     end)
 
     it("should deregister spawn handle", function()
-        local handle = InstallHandle.new(mock.new {})
+        local handle = InstallHandle:new(mock.new {})
         local spawn_handle_change_handler = spy.new()
         local luv_handle1 = mock.new {}
         local luv_handle2 = mock.new {}
@@ -53,7 +53,7 @@ describe("installer handle", function()
     end)
 
     it("should change state", function()
-        local handle = InstallHandle.new(mock.new {})
+        local handle = InstallHandle:new(mock.new {})
         local state_change_handler = spy.new()
 
         handle:once("state:change", state_change_handler)
@@ -68,7 +68,7 @@ describe("installer handle", function()
         local process = require "mason-core.process"
         stub(process, "kill")
         local uv_handle = {}
-        local handle = InstallHandle.new(mock.new {})
+        local handle = InstallHandle:new(mock.new {})
         local kill_handler = spy.new()
 
         handle:once("kill", kill_handler)
@@ -87,7 +87,7 @@ describe("installer handle", function()
         stub(process, "kill")
         local uv_handle1 = {}
         local uv_handle2 = {}
-        local handle = InstallHandle.new(mock.new {})
+        local handle = InstallHandle:new(mock.new {})
         local kill_handler = spy.new()
         local terminate_handler = spy.new()
         local closed_handler = spy.new()

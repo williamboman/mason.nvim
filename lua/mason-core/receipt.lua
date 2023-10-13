@@ -25,12 +25,12 @@ local M = {}
 local InstallReceipt = {}
 InstallReceipt.__index = InstallReceipt
 
-function InstallReceipt.new(data)
-    return setmetatable(data, InstallReceipt)
+function InstallReceipt:new(data)
+    return setmetatable(data, self)
 end
 
 function InstallReceipt.from_json(json)
-    return InstallReceipt.new(json)
+    return InstallReceipt:new(json)
 end
 
 function InstallReceipt:get_name()
@@ -72,14 +72,16 @@ end
 local InstallReceiptBuilder = {}
 InstallReceiptBuilder.__index = InstallReceiptBuilder
 
-function InstallReceiptBuilder.new()
-    return setmetatable({
-        links = {
-            bin = vim.empty_dict(),
-            share = vim.empty_dict(),
-            opt = vim.empty_dict(),
-        },
-    }, InstallReceiptBuilder)
+function InstallReceiptBuilder:new()
+    ---@type InstallReceiptBuilder
+    local instance = {}
+    setmetatable(instance, self)
+    instance.links = {
+        bin = vim.empty_dict(),
+        share = vim.empty_dict(),
+        opt = vim.empty_dict(),
+    }
+    return instance
 end
 
 ---@param name string
@@ -130,7 +132,7 @@ function InstallReceiptBuilder:build()
     assert(self.start_time, "start_time is required")
     assert(self.completion_time, "completion_time is required")
     assert(self.source, "source is required")
-    return InstallReceipt.new {
+    return InstallReceipt:new {
         name = self.name,
         schema_version = "1.2",
         metrics = {

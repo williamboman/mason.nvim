@@ -490,7 +490,7 @@ local function check_new_visible_package_versions()
         end)
     end
 
-    local sem = Semaphore.new(5)
+    local sem = Semaphore:new(5)
     a.wait_all(_.map(function(pkg)
         return function()
             local permit = sem:acquire()

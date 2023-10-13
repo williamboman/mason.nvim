@@ -25,7 +25,7 @@ local function parse(registry_id)
         local name, version = unpack(vim.split(name, "@"))
         return function()
             local GitHubRegistrySource = require "mason-registry.sources.github"
-            return GitHubRegistrySource.new {
+            return GitHubRegistrySource:new {
                 id = registry_id,
                 repo = ("%s/%s"):format(namespace, name),
                 namespace = namespace,
@@ -36,7 +36,7 @@ local function parse(registry_id)
     elseif type == "lua" then
         return function()
             local LuaRegistrySource = require "mason-registry.sources.lua"
-            return LuaRegistrySource.new {
+            return LuaRegistrySource:new {
                 id = registry_id,
                 mod = id,
             }
@@ -44,7 +44,7 @@ local function parse(registry_id)
     elseif type == "file" then
         return function()
             local FileRegistrySource = require "mason-registry.sources.file"
-            return FileRegistrySource.new {
+            return FileRegistrySource:new {
                 path = id,
             }
         end

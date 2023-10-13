@@ -54,35 +54,35 @@ describe("package", function()
         assert.equals(
             "name: expected string, got number",
             assert.has_error(function()
-                Pkg.new(modify_spec { name = 23 })
+                Pkg:new(modify_spec { name = 23 })
             end)
         )
 
         assert.equals(
             "description: expected string, got number",
             assert.has_error(function()
-                Pkg.new(modify_spec { description = 23 })
+                Pkg:new(modify_spec { description = 23 })
             end)
         )
 
         assert.equals(
             "homepage: expected string, got number",
             assert.has_error(function()
-                Pkg.new(modify_spec { homepage = 23 })
+                Pkg:new(modify_spec { homepage = 23 })
             end)
         )
 
         assert.equals(
             "categories: expected table, got number",
             assert.has_error(function()
-                Pkg.new(modify_spec { categories = 23 })
+                Pkg:new(modify_spec { categories = 23 })
             end)
         )
 
         assert.equals(
             "languages: expected table, got number",
             assert.has_error(function()
-                Pkg.new(modify_spec { languages = 23 })
+                Pkg:new(modify_spec { languages = 23 })
             end)
         )
     end)

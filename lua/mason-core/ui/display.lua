@@ -214,7 +214,7 @@ function M.new_view_only_win(name, filetype)
     ---@type WindowOpts
     local window_opts = {}
 
-    local events = EventEmitter.new()
+    local events = EventEmitter:new()
 
     vim.diagnostic.config({
         virtual_text = {

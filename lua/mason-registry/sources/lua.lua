@@ -12,11 +12,13 @@ local LuaRegistrySource = {}
 LuaRegistrySource.__index = LuaRegistrySource
 
 ---@param spec LuaRegistrySourceSpec
-function LuaRegistrySource.new(spec)
-    return setmetatable({
-        id = spec.id,
-        spec = spec,
-    }, LuaRegistrySource)
+function LuaRegistrySource:new(spec)
+    ---@type LuaRegistrySource
+    local instance = {}
+    setmetatable(instance, LuaRegistrySource)
+    instance.id = spec.id
+    instance.spec = spec
+    return instance
 end
 
 ---@param pkg_name string

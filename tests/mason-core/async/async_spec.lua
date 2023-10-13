@@ -188,7 +188,7 @@ describe("async :: Condvar", function()
     local Condvar = control.Condvar
 
     it("should block execution until condvar is notified", function()
-        local condvar = Condvar.new()
+        local condvar = Condvar:new()
 
         local function wait()
             local start = timestamp()
@@ -222,7 +222,7 @@ describe("async :: Semaphore", function()
     local Semaphore = control.Semaphore
 
     it("should limit the amount of permits", function()
-        local sem = Semaphore.new(5)
+        local sem = Semaphore:new(5)
         ---@type Permit[]
         local permits = {}
 
@@ -237,7 +237,7 @@ describe("async :: Semaphore", function()
     end)
 
     it("should lease new permits", function()
-        local sem = Semaphore.new(2)
+        local sem = Semaphore:new(2)
         ---@type Permit[]
         local permits = {}
 
@@ -259,7 +259,7 @@ describe("async :: OneShotChannel", function()
     local OneShotChannel = control.OneShotChannel
 
     it("should only allow sending once", function()
-        local channel = OneShotChannel.new()
+        local channel = OneShotChannel:new()
         assert.is_false(channel:is_closed())
         channel:send "value"
         assert.is_true(channel:is_closed())
@@ -270,7 +270,7 @@ describe("async :: OneShotChannel", function()
     end)
 
     it("should wait until it can receive", function()
-        local channel = OneShotChannel.new()
+        local channel = OneShotChannel:new()
 
         local start = timestamp()
         local value = a.run_blocking(function()
@@ -286,7 +286,7 @@ describe("async :: OneShotChannel", function()
     end)
 
     it("should receive immediately if value is already sent", function()
-        local channel = OneShotChannel.new()
+        local channel = OneShotChannel:new()
         channel:send(42)
         assert.equals(42, channel:receive())
     end)
@@ -296,7 +296,7 @@ describe("async :: Channel", function()
     local Channel = control.Channel
 
     it("should suspend send until buffer is received", function()
-        local channel = Channel.new()
+        local channel = Channel:new()
         spy.on(channel, "send")
         local guard = spy.new()
 
@@ -312,7 +312,7 @@ describe("async :: Channel", function()
     end)
 
     it("should send subsequent messages after they're received", function()
-        local channel = Channel.new()
+        local channel = Channel:new()
         spy.on(channel, "send")
 
         a.run(function()
@@ -329,7 +329,7 @@ describe("async :: Channel", function()
     end)
 
     it("should suspend receive until message is sent", function()
-        local channel = Channel.new()
+        local channel = Channel:new()
 
         a.run(function()
             a.sleep(100)

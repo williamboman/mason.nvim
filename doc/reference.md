@@ -33,7 +33,7 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
     -   [`Package.Lang`](#packagelang)
     -   [`Package.Cat`](#packagecat)
     -   [`Package.License`](#packagelicense)
-    -   [`Package.new({spec})`](#packagenewspec)
+    -   [`Package:new({spec})`](#packagenewspec)
     -   [`Package.spec`](#packagespec)
     -   [`Package:is_installing()`](#packageis_installing)
     -   [`Package:install({opts?}, {callback?})`](#packageinstallopts-callback)
@@ -191,7 +191,7 @@ Package.Cat = {
 
 Similar as [`Package.Lang`](#packagelang) but for SPDX license identifiers.
 
-### `Package.new({spec})`
+### `Package:new({spec})`
 
 **Parameters:**
 
@@ -309,7 +309,7 @@ the escape sequence `\n`.
 Example:
 
 ```lua
-Pkg.new {
+local pkg = Pkg:new {
     --- ...
     ---@async
     ---@param ctx InstallContext
@@ -416,7 +416,7 @@ retained in installation logs.
 Example usage:
 
 ```lua
-Pkg.new {
+local pkg = Pkg:new {
     --- ...
     ---@async
     ---@param ctx InstallContext

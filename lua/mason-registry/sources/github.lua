@@ -31,15 +31,17 @@ local GitHubRegistrySource = {}
 GitHubRegistrySource.__index = GitHubRegistrySource
 
 ---@param spec GitHubRegistrySourceSpec
-function GitHubRegistrySource.new(spec)
+function GitHubRegistrySource:new(spec)
+    ---@type GitHubRegistrySource
+    local instance = {}
+    setmetatable(instance, GitHubRegistrySource)
     local root_dir = InstallLocation.global():registry(path.concat { "github", spec.namespace, spec.name })
-    return setmetatable({
-        id = spec.id,
-        spec = spec,
-        root_dir = root_dir,
-        data_file = path.concat { root_dir, "registry.json" },
-        info_file = path.concat { root_dir, "info.json" },
-    }, GitHubRegistrySource)
+    instance.id = spec.id
+    instance.spec = spec
+    instance.root_dir = root_dir
+    instance.data_file = path.concat { root_dir, "registry.json" }
+    instance.info_file = path.concat { root_dir, "info.json" }
+    return instance
 end
 
 function GitHubRegistrySource:is_installed()

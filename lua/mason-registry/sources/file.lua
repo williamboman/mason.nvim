@@ -23,10 +23,12 @@ local FileRegistrySource = {}
 FileRegistrySource.__index = FileRegistrySource
 
 ---@param spec FileRegistrySourceSpec
-function FileRegistrySource.new(spec)
-    return setmetatable({
-        spec = spec,
-    }, FileRegistrySource)
+function FileRegistrySource:new(spec)
+    ---@type FileRegistrySource
+    local instance = {}
+    setmetatable(instance, self)
+    instance.spec = spec
+    return instance
 end
 
 function FileRegistrySource:is_installed()
@@ -91,7 +93,7 @@ function FileRegistrySource:install()
         ---@type ReaddirEntry[]
         local entries = _.filter(_.prop_eq("type", "directory"), fs.async.readdir(packages_dir))
 
-        local channel = Channel.new()
+        local channel = Channel:new()
         a.run(function()
             for _, entry in ipairs(entries) do
                 channel:send(path.concat { packages_dir, entry.name, "package.yaml" })

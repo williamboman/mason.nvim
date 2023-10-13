@@ -20,7 +20,7 @@ local report_ok = _.scheduler_wrap(health.ok or health.report_ok)
 local report_warn = _.scheduler_wrap(health.warn or health.report_warn)
 local report_error = _.scheduler_wrap(health.error or health.report_error)
 
-local sem = Semaphore.new(5)
+local sem = Semaphore:new(5)
 
 ---@async
 ---@param opts {cmd:string, args:string[], name: string, use_stderr: boolean?, version_check: (fun(version: string): string?), relaxed: boolean?, advice: string[]}
