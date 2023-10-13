@@ -35,7 +35,7 @@ M.hydrate_package = _.curryN(function(buffer, spec)
         pkg.spec = spec
         return pkg
     end
-    return Pkg.new(spec)
+    return Pkg:new(spec)
 end, 2)
 
 return M

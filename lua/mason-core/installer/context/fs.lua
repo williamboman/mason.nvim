@@ -8,8 +8,12 @@ local InstallContextFs = {}
 InstallContextFs.__index = InstallContextFs
 
 ---@param cwd InstallContextCwd
-function InstallContextFs.new(cwd)
-    return setmetatable({ cwd = cwd }, InstallContextFs)
+function InstallContextFs:new(cwd)
+    ---@type InstallContextFs
+    local instance = {}
+    setmetatable(instance, InstallContextFs)
+    instance.cwd = cwd
+    return instance
 end
 
 ---@async

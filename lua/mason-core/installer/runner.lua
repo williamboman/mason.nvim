@@ -20,12 +20,14 @@ InstallRunner.__index = InstallRunner
 ---@param location InstallLocation
 ---@param handle InstallHandle
 ---@param semaphore Semaphore
-function InstallRunner.new(location, handle, semaphore)
-    return setmetatable({
-        location = location,
-        semaphore = semaphore,
-        handle = handle,
-    }, InstallRunner)
+function InstallRunner:new(location, handle, semaphore)
+    ---@type InstallRunner
+    local instance = {}
+    setmetatable(instance, self)
+    instance.location = location
+    instance.semaphore = semaphore
+    instance.handle = handle
+    return instance
 end
 
 ---@param opts PackageInstallOpts
@@ -34,7 +36,7 @@ function InstallRunner:execute(opts, callback)
     local handle = self.handle
     log.fmt_info("Executing installer for %s %s", handle.package, opts)
 
-    local context = InstallContext.new(handle, self.location, opts)
+    local context = InstallContext:new(handle, self.location, opts)
 
     local tailed_output = {}
 

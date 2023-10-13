@@ -10,8 +10,14 @@ local InstallContextSpawn = {}
 ---@param handle InstallHandle
 ---@param cwd InstallContextCwd
 ---@param strict_mode boolean
-function InstallContextSpawn.new(handle, cwd, strict_mode)
-    return setmetatable({ cwd = cwd, handle = handle, strict_mode = strict_mode }, InstallContextSpawn)
+function InstallContextSpawn:new(handle, cwd, strict_mode)
+    ---@type InstallContextSpawn
+    local instance = {}
+    setmetatable(instance, self)
+    instance.cwd = cwd
+    instance.handle = handle
+    instance.strict_mode = strict_mode
+    return instance
 end
 
 ---@param cmd string

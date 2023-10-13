@@ -17,7 +17,9 @@ local Semaphore = require("mason-core.async.control").Semaphore
 ---@field name string
 ---@field spec RegistryPackageSpec
 ---@field private handle InstallHandle The currently associated handle.
-local Package = setmetatable({}, { __index = EventEmitter })
+local Package = {}
+Package.__index = Package
+setmetatable(Package, { __index = EventEmitter })
 
 ---@param package_identifier string
 ---@return string, string?
@@ -55,8 +57,6 @@ Package.License = setmetatable({}, {
         return s[license]
     end,
 })
-
-local PackageMt = { __index = Package }
 
 ---@class RegistryPackageSourceVersionOverride : RegistryPackageSource
 ---@field constraint string
@@ -108,12 +108,12 @@ local function validate_spec(spec)
 end
 
 ---@param spec RegistryPackageSpec
-function Package.new(spec)
+function Package:new(spec)
     validate_spec(spec)
-    return EventEmitter.init(setmetatable({
-        name = spec.name, -- for convenient access
-        spec = spec,
-    }, PackageMt))
+    local instance = EventEmitter.new(self) --[[@as Package]]
+    instance.name = spec.name -- for convenient access
+    instance.spec = spec
+    return instance
 end
 
 function Package:new_handle()
@@ -122,7 +122,7 @@ function Package:new_handle()
     end)
     log.fmt_trace("Creating new handle for %s", self)
     local InstallationHandle = require "mason-core.installer.handle"
-    local handle = InstallationHandle.new(self)
+    local handle = InstallationHandle:new(self)
     self.handle = handle
 
     -- Ideally we'd decouple this and leverage Mason's event system, but to allow loading as little as possible during
@@ -139,7 +139,7 @@ end
 ---@alias PackageInstallOpts { version?: string, debug?: boolean, target?: string, force?: boolean, strict?: boolean }
 
 -- TODO this needs to be elsewhere
-local semaphore = Semaphore.new(settings.current.max_concurrent_installers)
+local semaphore = Semaphore:new(settings.current.max_concurrent_installers)
 
 function Package:is_installing()
     return self:get_handle()
@@ -159,7 +159,7 @@ function Package:install(opts, callback)
     opts = opts or {}
     assert(not self:is_installing(), "Package is already installing.")
     local handle = self:new_handle()
-    local runner = InstallRunner.new(InstallLocation.global(), handle, semaphore)
+    local runner = InstallRunner:new(InstallLocation.global(), handle, semaphore)
     runner:execute(opts, callback)
     return handle
 end
@@ -263,13 +263,12 @@ function Package:get_lsp_settings_schema()
     end
     return Optional.empty()
 end
-
-function PackageMt.__tostring(self)
-    return ("Package(name=%s)"):format(self.name)
-end
-
 function Package:get_aliases()
     return require("mason-registry").get_package_aliases(self.name)
+end
+
+function Package:__tostring()
+    return ("Package(name=%s)"):format(self.name)
 end
 
 return Package

@@ -30,11 +30,11 @@ describe("install runner ::", function()
 
     describe("locking ::", function()
         it("should respect semaphore locks", function()
-            local semaphore = Semaphore.new(1)
+            local semaphore = Semaphore:new(1)
             local location = InstallLocation.global()
-            local dummy_handle = InstallHandle.new(dummy)
-            local runner_1 = InstallRunner.new(location, dummy_handle, semaphore)
-            local runner_2 = InstallRunner.new(location, InstallHandle.new(dummy2), semaphore)
+            local dummy_handle = InstallHandle:new(dummy)
+            local runner_1 = InstallRunner:new(location, dummy_handle, semaphore)
+            local runner_2 = InstallRunner:new(location, InstallHandle:new(dummy2), semaphore)
 
             stub(dummy.spec.source, "install", function()
                 a.sleep(10000)
@@ -57,10 +57,10 @@ describe("install runner ::", function()
         end)
 
         it("should write lockfile", function()
-            local semaphore = Semaphore.new(1)
+            local semaphore = Semaphore:new(1)
             local location = InstallLocation.global()
-            local dummy_handle = InstallHandle.new(dummy)
-            local runner = InstallRunner.new(location, dummy_handle, semaphore)
+            local dummy_handle = InstallHandle:new(dummy)
+            local runner = InstallRunner:new(location, dummy_handle, semaphore)
 
             spy.on(fs.async, "write_file")
 
@@ -72,10 +72,10 @@ describe("install runner ::", function()
         end)
 
         it("should abort installation if installation lock exists", function()
-            local semaphore = Semaphore.new(1)
+            local semaphore = Semaphore:new(1)
             local location = InstallLocation.global()
-            local dummy_handle = InstallHandle.new(dummy)
-            local runner = InstallRunner.new(location, dummy_handle, semaphore)
+            local dummy_handle = InstallHandle:new(dummy)
+            local runner = InstallRunner:new(location, dummy_handle, semaphore)
 
             stub(fs.async, "file_exists")
             stub(fs.async, "read_file")
@@ -95,10 +95,10 @@ describe("install runner ::", function()
         end)
 
         it("should not abort installation if installation lock exists with force=true", function()
-            local semaphore = Semaphore.new(1)
+            local semaphore = Semaphore:new(1)
             local location = InstallLocation.global()
-            local dummy_handle = InstallHandle.new(dummy)
-            local runner = InstallRunner.new(location, dummy_handle, semaphore)
+            local dummy_handle = InstallHandle:new(dummy)
+            local runner = InstallRunner:new(location, dummy_handle, semaphore)
 
             stub(fs.async, "file_exists")
             stub(fs.async, "read_file")
@@ -115,10 +115,10 @@ describe("install runner ::", function()
         end)
 
         it("should release lock after successful installation", function()
-            local semaphore = Semaphore.new(1)
+            local semaphore = Semaphore:new(1)
             local location = InstallLocation.global()
-            local dummy_handle = InstallHandle.new(dummy)
-            local runner = InstallRunner.new(location, dummy_handle, semaphore)
+            local dummy_handle = InstallHandle:new(dummy)
+            local runner = InstallRunner:new(location, dummy_handle, semaphore)
 
             local callback = spy.new()
             runner:execute({}, callback)
@@ -135,7 +135,7 @@ describe("install runner ::", function()
 
     it("should initialize install location", function()
         local location = InstallLocation.global()
-        local runner = InstallRunner.new(location, InstallHandle.new(registry.get_package "dummy"), Semaphore.new(1))
+        local runner = InstallRunner:new(location, InstallHandle:new(registry.get_package "dummy"), Semaphore:new(1))
 
         spy.on(location, "initialize")
 
@@ -150,7 +150,7 @@ describe("install runner ::", function()
         it("should write receipt", function()
             local location = InstallLocation.global()
             local runner =
-                InstallRunner.new(location, InstallHandle.new(registry.get_package "dummy"), Semaphore.new(1))
+                InstallRunner:new(location, InstallHandle:new(registry.get_package "dummy"), Semaphore:new(1))
 
             runner:execute {}
 
@@ -185,8 +185,8 @@ describe("install runner ::", function()
         dummy:once("install:failed", package_spy)
 
         local location = InstallLocation.global()
-        local handle = InstallHandle.new(registry.get_package "dummy")
-        local runner = InstallRunner.new(location, handle, Semaphore.new(1))
+        local handle = InstallHandle:new(registry.get_package "dummy")
+        local runner = InstallRunner:new(location, handle, Semaphore:new(1))
 
         stub(dummy.spec.source, "install", function()
             error("I've made a mistake.", 0)
@@ -208,8 +208,8 @@ describe("install runner ::", function()
 
     it("should terminate installation", function()
         local location = InstallLocation.global()
-        local handle = InstallHandle.new(registry.get_package "dummy")
-        local runner = InstallRunner.new(location, handle, Semaphore.new(1))
+        local handle = InstallHandle:new(registry.get_package "dummy")
+        local runner = InstallRunner:new(location, handle, Semaphore:new(1))
 
         local capture = spy.new()
         stub(dummy.spec.source, "install", function()
@@ -233,8 +233,8 @@ describe("install runner ::", function()
 
     it("should write debug logs when debug=true", function()
         local location = InstallLocation.global()
-        local handle = InstallHandle.new(registry.get_package "dummy")
-        local runner = InstallRunner.new(location, handle, Semaphore.new(1))
+        local handle = InstallHandle:new(registry.get_package "dummy")
+        local runner = InstallRunner:new(location, handle, Semaphore:new(1))
 
         stub(dummy.spec.source, "install", function(ctx)
             ctx.stdio_sink.stdout "Hello "
@@ -254,8 +254,8 @@ describe("install runner ::", function()
 
     it("should not retain installation directory on failure", function()
         local location = InstallLocation.global()
-        local handle = InstallHandle.new(registry.get_package "dummy")
-        local runner = InstallRunner.new(location, handle, Semaphore.new(1))
+        local handle = InstallHandle:new(registry.get_package "dummy")
+        local runner = InstallRunner:new(location, handle, Semaphore:new(1))
 
         stub(dummy.spec.source, "install", function(ctx)
             ctx.stdio_sink.stderr "Something will go terribly wrong.\n"
@@ -275,8 +275,8 @@ describe("install runner ::", function()
 
     it("should retain installation directory on failure and debug=true", function()
         local location = InstallLocation.global()
-        local handle = InstallHandle.new(registry.get_package "dummy")
-        local runner = InstallRunner.new(location, handle, Semaphore.new(1))
+        local handle = InstallHandle:new(registry.get_package "dummy")
+        local runner = InstallRunner:new(location, handle, Semaphore:new(1))
 
         stub(dummy.spec.source, "install", function(ctx)
             ctx.stdio_sink.stderr "Something will go terribly wrong.\n"

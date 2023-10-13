@@ -26,10 +26,10 @@ InstallContext.__index = InstallContext
 ---@param handle InstallHandle
 ---@param location InstallLocation
 ---@param opts PackageInstallOpts
-function InstallContext.new(handle, location, opts)
-    local cwd = InstallContextCwd.new(handle, location)
-    local spawn = InstallContextSpawn.new(handle, cwd, false)
-    local fs = InstallContextFs.new(cwd)
+function InstallContext:new(handle, location, opts)
+    local cwd = InstallContextCwd:new(handle, location)
+    local spawn = InstallContextSpawn:new(handle, cwd, false)
+    local fs = InstallContextFs:new(cwd)
     return setmetatable({
         cwd = cwd,
         spawn = spawn,
@@ -37,7 +37,7 @@ function InstallContext.new(handle, location, opts)
         location = location,
         package = handle.package, -- for convenience
         fs = fs,
-        receipt = receipt.InstallReceiptBuilder.new(),
+        receipt = receipt.InstallReceiptBuilder:new(),
         stdio_sink = handle.stdio.sink,
         links = {
             bin = {},

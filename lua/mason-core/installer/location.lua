@@ -8,14 +8,16 @@ local InstallLocation = {}
 InstallLocation.__index = InstallLocation
 
 ---@param dir string
-function InstallLocation.new(dir)
-    return setmetatable({
-        dir = dir,
-    }, InstallLocation)
+function InstallLocation:new(dir)
+    ---@type InstallLocation
+    local instance = {}
+    setmetatable(instance, self)
+    instance.dir = dir
+    return instance
 end
 
 function InstallLocation.global()
-    return InstallLocation.new(settings.current.install_root_dir)
+    return InstallLocation:new(settings.current.install_root_dir)
 end
 
 function InstallLocation:get_dir()

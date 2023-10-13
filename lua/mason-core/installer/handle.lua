@@ -23,9 +23,19 @@ local uv = vim.loop
 local InstallHandleSpawnHandle = {}
 InstallHandleSpawnHandle.__index = InstallHandleSpawnHandle
 
----@param fields InstallHandleSpawnHandle
-function InstallHandleSpawnHandle.new(fields)
-    return setmetatable(fields, InstallHandleSpawnHandle)
+---@param luv_handle luv_handle
+---@param pid integer
+---@param cmd string
+---@param args string[]
+function InstallHandleSpawnHandle:new(luv_handle, pid, cmd, args)
+    ---@type InstallHandleSpawnHandle
+    local instance = {}
+    setmetatable(instance, InstallHandleSpawnHandle)
+    instance.uv_handle = luv_handle
+    instance.pid = pid
+    instance.cmd = cmd
+    instance.args = args
+    return instance
 end
 
 function InstallHandleSpawnHandle:__tostring()
@@ -38,8 +48,9 @@ end
 ---@field stdio { buffers: { stdout: string[], stderr: string[] }, sink: StdioSink }
 ---@field is_terminated boolean
 ---@field private spawn_handles InstallHandleSpawnHandle[]
-local InstallHandle = setmetatable({}, { __index = EventEmitter })
-local InstallHandleMt = { __index = InstallHandle }
+local InstallHandle = {}
+InstallHandle.__index = InstallHandle
+setmetatable(InstallHandle, { __index = EventEmitter })
 
 ---@param handle InstallHandle
 local function new_sink(handle)
@@ -60,14 +71,14 @@ local function new_sink(handle)
 end
 
 ---@param pkg Package
-function InstallHandle.new(pkg)
-    local self = EventEmitter.init(setmetatable({}, InstallHandleMt))
-    self.state = "IDLE"
-    self.package = pkg
-    self.spawn_handles = {}
-    self.stdio = new_sink(self)
-    self.is_terminated = false
-    return self
+function InstallHandle:new(pkg)
+    local instance = EventEmitter.new(self)
+    instance.state = "IDLE"
+    instance.package = pkg
+    instance.spawn_handles = {}
+    instance.stdio = new_sink(instance)
+    instance.is_terminated = false
+    return instance
 end
 
 ---@param luv_handle luv_handle
@@ -75,12 +86,7 @@ end
 ---@param cmd string
 ---@param args string[]
 function InstallHandle:register_spawn_handle(luv_handle, pid, cmd, args)
-    local spawn_handles = InstallHandleSpawnHandle.new {
-        uv_handle = luv_handle,
-        pid = pid,
-        cmd = cmd,
-        args = args,
-    }
+    local spawn_handles = InstallHandleSpawnHandle:new(luv_handle, pid, cmd, args)
     log.fmt_trace("Pushing spawn_handles stack for %s: %s (pid: %s)", self, spawn_handles, pid)
     self.spawn_handles[#self.spawn_handles + 1] = spawn_handles
     self:emit "spawn_handles:change"
@@ -211,7 +217,7 @@ function InstallHandle:close()
     self:__clear_event_handlers()
 end
 
-function InstallHandleMt:__tostring()
+function InstallHandle:__tostring()
     return ("InstallHandle(package=%s, state=%s)"):format(self.package, self.state)
 end
 

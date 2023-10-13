@@ -11,13 +11,15 @@ InstallContextCwd.__index = InstallContextCwd
 
 ---@param handle InstallHandle
 ---@param location InstallLocation
-function InstallContextCwd.new(handle, location)
+function InstallContextCwd:new(handle, location)
     assert(location, "location not provided")
-    return setmetatable({
-        location = location,
-        handle = handle,
-        cwd = nil,
-    }, InstallContextCwd)
+    ---@type InstallContextCwd
+    local instance = {}
+    setmetatable(instance, self)
+    instance.location = location
+    instance.handle = handle
+    instance.cwd = nil
+    return instance
 end
 
 function InstallContextCwd:initialize()

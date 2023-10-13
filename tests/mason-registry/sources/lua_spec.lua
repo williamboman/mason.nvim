@@ -6,7 +6,7 @@ describe("Lua registry source", function()
             ["my-pkg"] = "pkg-index.my-pkg",
         }
         package.loaded["pkg-index.my-pkg"] = {}
-        local source = LuaRegistrySource.new {
+        local source = LuaRegistrySource:new {
             mod = "pkg-index",
         }
         assert.is_not_nil(source:get_package "my-pkg")
@@ -19,7 +19,7 @@ describe("Lua registry source", function()
             ["rust-analyzer"] = "pkg-index.rust-analyzer",
             ["typescript-language-server"] = "pkg-index.typescript-language-server",
         }
-        local source = LuaRegistrySource.new {
+        local source = LuaRegistrySource:new {
             mod = "pkg-index",
         }
         local package_names = source:get_all_package_names()
@@ -33,10 +33,10 @@ describe("Lua registry source", function()
 
     it("should check if is installed", function()
         package.loaded["pkg-index"] = {}
-        local installed_source = LuaRegistrySource.new {
+        local installed_source = LuaRegistrySource:new {
             mod = "pkg-index",
         }
-        local uninstalled_source = LuaRegistrySource.new {
+        local uninstalled_source = LuaRegistrySource:new {
             mod = "non-existent",
         }
 
@@ -45,6 +45,6 @@ describe("Lua registry source", function()
     end)
 
     it("should stringify instances", function()
-        assert.equals("LuaRegistrySource(mod=pkg-index)", tostring(LuaRegistrySource.new { mod = "pkg-index" }))
+        assert.equals("LuaRegistrySource(mod=pkg-index)", tostring(LuaRegistrySource:new { mod = "pkg-index" }))
     end)
 end)

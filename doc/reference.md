@@ -32,7 +32,7 @@ RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as de
     -   [`Package.Lang`](#packagelang)
     -   [`Package.Cat`](#packagecat)
     -   [`Package.License`](#packagelicense)
-    -   [`Package.new({spec})`](#packagenewspec)
+    -   [`Package:new({spec})`](#packagenewspec)
     -   [`Package.spec`](#packagespec)
     -   [`Package:is_installing()`](#packageis_installing)
     -   [`Package:install({opts?}, {callback?})`](#packageinstallopts-callback)
@@ -184,7 +184,7 @@ Package.Cat = {
 
 Similar as [`Package.Lang`](#packagelang) but for SPDX license identifiers.
 
-### `Package.new({spec})`
+### `Package:new({spec})`
 
 **Parameters:**
 
@@ -312,7 +312,7 @@ The `.stdio_sink` property can be used to send stdout or stderr output, to be pr
 Example:
 
 ```lua
-Pkg.new {
+local pkg = Pkg:new {
     --- ...
     ---@async
     ---@param ctx InstallContext
@@ -339,7 +339,7 @@ registered with the relevant `InstallHandle`.
 Example usage:
 
 ```lua
-Pkg.new {
+local pkg = Pkg:new {
     --- ...
     ---@async
     ---@param ctx InstallContext

@@ -5,8 +5,12 @@ local log = require "mason-core.log"
 local EventEmitter = {}
 EventEmitter.__index = EventEmitter
 
-function EventEmitter.new()
-    return EventEmitter.init(setmetatable({}, EventEmitter))
+function EventEmitter:new()
+    local instance = {}
+    setmetatable(instance, self)
+    instance.__event_handlers = {}
+    instance.__event_handlers_once = {}
+    return instance
 end
 
 ---@generic T

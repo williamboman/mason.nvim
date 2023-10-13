@@ -23,10 +23,12 @@ local FileRegistrySource = {}
 FileRegistrySource.__index = FileRegistrySource
 
 ---@param spec FileRegistrySourceSpec
-function FileRegistrySource.new(spec)
-    return setmetatable({
-        spec = spec,
-    }, FileRegistrySource)
+function FileRegistrySource:new(spec)
+    ---@type FileRegistrySource
+    local instance = {}
+    setmetatable(instance, self)
+    instance.spec = spec
+    return instance
 end
 
 function FileRegistrySource:is_installed()

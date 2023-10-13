@@ -11,7 +11,7 @@ local update_channel
 ---@async
 function M.run()
     if not update_channel or update_channel:is_closed() then
-        update_channel = OneShotChannel.new()
+        update_channel = OneShotChannel:new()
         a.run(function()
             update_channel:send(Result.try(function(try)
                 local updated_sources = {}
