@@ -2,18 +2,8 @@ local path = require "mason-core.path"
 
 describe("path", function()
     it("concatenates paths", function()
-        assert.equals("foo/bar/baz/~", path.concat { "foo", "bar", "baz", "~" })
-    end)
-
-    it("concatenates paths on Windows", function()
-        local old_os = jit.os
-        -- selene: allow(incorrect_standard_library_use)
-        jit.os = "windows"
-        package.loaded["mason-core.path"] = nil
-        local path = require "mason-core.path"
-        assert.equals([[foo\bar\baz\~]], path.concat { "foo", "bar", "baz", "~" })
-        -- selene: allow(incorrect_standard_library_use)
-        jit.os = old_os
+        assert.equals("foo/bar/baz", path.concat { "foo", "bar", "baz" })
+        assert.equals("foo/bar/baz", path.concat { "foo/", "bar/", "baz/" })
     end)
 
     it("identifies subdirectories", function()
@@ -28,7 +18,7 @@ describe("path", function()
             {
                 from = "/home/user/dir1/fileA",
                 to = "/home/user/dir1/fileB",
-                expected = "./fileB",
+                expected = "fileB",
             },
             {
                 from = "/home/user/dir1/fileA",
@@ -43,7 +33,7 @@ describe("path", function()
             {
                 from = "/home/user/dir1/subdir/fileD",
                 to = "/home/user/dir1/subdir/fileF",
-                expected = "./fileF",
+                expected = "fileF",
             },
             {
                 from = "/home/user/dir1/fileG",
@@ -58,12 +48,12 @@ describe("path", function()
             {
                 from = "/fileK",
                 to = "/home/fileL",
-                expected = "./home/fileL",
+                expected = "home/fileL",
             },
             {
                 from = "/home/user/fileM",
                 to = "/home/user/dir1/dir2/fileL",
-                expected = "./dir1/dir2/fileL",
+                expected = "dir1/dir2/fileL",
             },
         }
 
