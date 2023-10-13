@@ -74,7 +74,7 @@ end
 
 ---@param path string
 function InstallLocation:registry(path)
-    return Path.concat { self.dir, "registry", path }
+    return Path.concat { self.dir, "registries", path }
 end
 
 ---@param opts { PATH: '"append"' | '"prepend"' | '"skip"' }
