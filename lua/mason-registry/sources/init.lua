@@ -2,10 +2,21 @@ local _ = require "mason-core.functional"
 
 local M = {}
 
+---@param str string
+local function split_once_left(str, char)
+    for i = 1, #str do
+        if str:sub(i, i) == char then
+            local segment = str:sub(1, i - 1)
+            return segment, str:sub(i + 1)
+        end
+    end
+    return str
+end
+
 ---@param registry_id string
 ---@return fun(): RegistrySource # Thunk to instantiate provider.
 local function parse(registry_id)
-    local type, id = registry_id:match "^(.+):(.+)$"
+    local type, id = split_once_left(registry_id, ":")
     if type == "github" then
         local namespace, name = id:match "^(.+)/(.+)$"
         if not namespace or not name then
