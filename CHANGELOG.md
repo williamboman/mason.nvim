@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/williamboman/mason.nvim/compare/v1.8.1...v1.8.2) (2023-10-31)
+
+
+### Bug Fixes
+
+* **registry:** fix parsing registry identifiers that contain ":" ([#1542](https://github.com/williamboman/mason.nvim/issues/1542)) ([87eb3ac](https://github.com/williamboman/mason.nvim/commit/87eb3ac2ab4fcbf5326d8bde6842b073a3be65a7))
+
 ## [1.8.1](https://github.com/williamboman/mason.nvim/compare/v1.8.0...v1.8.1) (2023-10-10)
 
 
