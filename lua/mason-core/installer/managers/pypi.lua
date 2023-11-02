@@ -24,13 +24,17 @@ end
 ---@param args SpawnArgs
 local function venv_python(args)
     local ctx = installer.context()
-    local python_path = path.concat {
-        ctx.cwd:get(),
-        VENV_DIR,
-        platform.is.win and "Scripts" or "bin",
-        platform.is.win and "python.exe" or "python",
-    }
-    return ctx.spawn[python_path](args)
+    local python_candidates = _.filter(_.identity, {
+        platform.is.unix and path.concat { VENV_DIR, "bin", "python" },
+        platform.is.win and path.concat { VENV_DIR, "bin", "python.exe" },
+        platform.is.win and path.concat { VENV_DIR, "Scripts", "python.exe" },
+    })
+    for _, python_path in ipairs(python_candidates) do
+        if ctx.fs:file_exists(python_path) then
+            return ctx.spawn[path.concat { ctx.cwd:get(), python_path }](args)
+        end
+    end
+    return Result.failure "Failed to find python executable in virtual environment."
 end
 
 ---@async
