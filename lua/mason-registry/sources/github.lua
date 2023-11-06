@@ -1,4 +1,4 @@
-local InstallLocation = require "mason-core.installer.location"
+local InstallLocation = require "mason-core.installer.InstallLocation"
 local Optional = require "mason-core.optional"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"

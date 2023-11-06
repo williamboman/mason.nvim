@@ -10,18 +10,18 @@ vim.api.nvim_create_user_command("Mason", Mason, {
     nargs = 0,
 })
 
--- This is needed because neovim doesn't do any validation of command args when using custom completion (I think?)
-local filter_valid_packages = _.filter(function(pkg_specifier)
+local get_valid_packages = _.filter_map(function(pkg_specifier)
+    local Optional = require "mason-core.optional"
     local notify = require "mason-core.notify"
     local Package = require "mason-core.package"
     local registry = require "mason-registry"
-    local package_name = Package.Parse(pkg_specifier)
-    local ok = pcall(registry.get_package, package_name)
-    if ok then
-        return true
+    local package_name, version = Package.Parse(pkg_specifier)
+    local ok, pkg = pcall(registry.get_package, package_name)
+    if ok and pkg then
+        return Optional.of { pkg = pkg, version = version }
     else
         notify(("%q is not a valid package."):format(pkg_specifier), vim.log.levels.ERROR)
-        return false
+        return Optional.empty()
     end
 end)
 
@@ -56,9 +56,7 @@ local function join_handles(handles)
             handles
         ))
         local failed_packages = _.filter_map(function(handle)
-            -- TODO: The outcome of a package installation is currently not captured in the handle, but is instead
-            -- internalized in the Package instance itself. Change this to assert on the handle state when it's
-            -- available.
+            -- TODO: Use new install callback to determine success.
             if not handle.package:is_installed() then
                 return Optional.of(handle.package.name)
             else
@@ -79,21 +77,18 @@ local function join_handles(handles)
 end
 
 ---@param package_specifiers string[]
----@param opts? PackageInstallOpts
+---@param opts? table<string, string | boolean>
 local function MasonInstall(package_specifiers, opts)
     opts = opts or {}
-    local Package = require "mason-core.package"
     local registry = require "mason-registry"
     local Optional = require "mason-core.optional"
 
-    local install_packages = _.filter_map(function(pkg_specifier)
-        local package_name, version = Package.Parse(pkg_specifier)
-        local pkg = registry.get_package(package_name)
-        if pkg:is_installing() then
+    local install_packages = _.filter_map(function(target)
+        if target.pkg:is_installing() then
             return Optional.empty()
         else
-            return Optional.of(pkg:install {
-                version = version,
+            return Optional.of(target.pkg:install {
+                version = target.version,
                 debug = opts.debug,
                 force = opts.force,
                 strict = opts.strict,
@@ -104,7 +99,7 @@ local function MasonInstall(package_specifiers, opts)
 
     if platform.is_headless then
         registry.refresh()
-        local valid_packages = filter_valid_packages(package_specifiers)
+        local valid_packages = get_valid_packages(package_specifiers)
         if #valid_packages ~= #package_specifiers then
             -- When executing in headless mode we don't allow any of the provided packages to be invalid.
             -- This is to avoid things like scripts silently not erroring even if they've provided one or more invalid packages.
@@ -117,7 +112,7 @@ local function MasonInstall(package_specifiers, opts)
         -- Important: We start installation of packages _after_ opening the UI. This gives the UI components a chance to
         -- register the necessary event handlers in time, avoiding desynced state.
         registry.refresh(function()
-            local valid_packages = filter_valid_packages(package_specifiers)
+            local valid_packages = get_valid_packages(package_specifiers)
             install_packages(valid_packages)
             vim.schedule(function()
                 ui.set_sticky_cursor "installing-section"
@@ -165,7 +160,7 @@ end, {
         elseif _.matches("^.+@", arg_lead) then
             local pkg_name, version = unpack(_.match("^(.+)@(.*)", arg_lead))
             local ok, pkg = pcall(registry.get_package, pkg_name)
-            if not ok then
+            if not ok or not pkg then
                 return {}
             end
             local a = require "mason-core.async"
@@ -197,12 +192,10 @@ end, {
 
 ---@param package_names string[]
 local function MasonUninstall(package_names)
-    local registry = require "mason-registry"
-    local valid_packages = filter_valid_packages(package_names)
+    local valid_packages = get_valid_packages(package_names)
     if #valid_packages > 0 then
-        _.each(function(package_name)
-            local pkg = registry.get_package(package_name)
-            pkg:uninstall()
+        _.each(function(target)
+            target.pkg:uninstall()
         end, valid_packages)
         require("mason.ui").open()
     end

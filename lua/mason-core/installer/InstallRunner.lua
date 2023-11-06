@@ -2,41 +2,45 @@ local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local compiler = require "mason-core.installer.compiler"
+local control = require "mason-core.async.control"
 local fs = require "mason-core.fs"
 local linker = require "mason-core.installer.linker"
 local log = require "mason-core.log"
 local registry = require "mason-registry"
 
+local OneShotChannel = control.OneShotChannel
+
 local InstallContext = require "mason-core.installer.context"
 
 ---@class InstallRunner
----@field location InstallLocation
 ---@field handle InstallHandle
----@field semaphore Semaphore
----@field permit Permit?
+---@field global_semaphore Semaphore
+---@field global_permit Permit?
+---@field package_permit Permit?
 local InstallRunner = {}
 InstallRunner.__index = InstallRunner
 
----@param location InstallLocation
 ---@param handle InstallHandle
 ---@param semaphore Semaphore
-function InstallRunner:new(location, handle, semaphore)
+function InstallRunner:new(handle, semaphore)
     ---@type InstallRunner
     local instance = {}
     setmetatable(instance, self)
     instance.location = location
-    instance.semaphore = semaphore
+    instance.global_semaphore = semaphore
     instance.handle = handle
     return instance
 end
 
+---@alias InstallRunnerCallback fun(success: true, receipt: InstallReceipt) | fun(success: false, handle: InstallHandle, error: any)
+
 ---@param opts PackageInstallOpts
----@param callback? fun(success: boolean, result: any)
+---@param callback? InstallRunnerCallback
 function InstallRunner:execute(opts, callback)
     local handle = self.handle
     log.fmt_info("Executing installer for %s %s", handle.package, opts)
 
-    local context = InstallContext:new(handle, self.location, opts)
+    local context = InstallContext:new(handle, opts)
 
     local tailed_output = {}
 
@@ -79,25 +83,27 @@ function InstallRunner:execute(opts, callback)
         self:release_lock()
         self:release_permit()
 
-        if callback then
-            callback(success, result)
-        end
-
         if success then
             log.fmt_info("Installation succeeded for %s", handle.package)
-            handle.package:emit("install:success", handle)
-            registry:emit("package:install:success", handle.package, handle)
+            if callback then
+                callback(true, result.receipt)
+            end
+            handle.package:emit("install:success", result.receipt)
+            registry:emit("package:install:success", handle.package, result.receipt)
         else
             log.fmt_error("Installation failed for %s error=%s", handle.package, result)
-            handle.package:emit("install:failed", handle, result)
-            registry:emit("package:install:failed", handle.package, handle, result)
+            if callback then
+                callback(false, result)
+            end
+            handle.package:emit("install:failed", result)
+            registry:emit("package:install:failed", handle.package, result)
         end
     end)
 
     local cancel_execution = a.run(function()
         return Result.try(function(try)
-            try(self:acquire_permit())
-            try(self.location:initialize())
+            try(self.handle.location:initialize())
+            try(self:acquire_permit()):receive()
             try(self:acquire_lock(opts.force))
 
             context.receipt:with_start_time(vim.loop.gettimeofday())
@@ -107,7 +113,7 @@ function InstallRunner:execute(opts, callback)
 
             -- 2. run installer
             ---@type async fun(ctx: InstallContext): Result
-            local installer = try(compiler.compile(handle.package.spec, opts))
+            local installer = try(compiler.compile_installer(handle.package.spec, opts))
             try(context:execute(installer))
 
             -- 3. promote temporary installation dir
@@ -116,28 +122,23 @@ function InstallRunner:execute(opts, callback)
             end))
 
             -- 4. link package & write receipt
-            return linker
-                .link(context)
-                :and_then(function()
-                    return context:build_receipt(context)
-                end)
-                :and_then(
+            try(linker.link(context):on_failure(function()
+                -- unlink any links that were made before failure
+                context:build_receipt():on_success(
                     ---@param receipt InstallReceipt
                     function(receipt)
-                        return receipt:write(context.cwd:get())
+                        linker.unlink(handle.package, receipt, self.handle.location):on_failure(function(err)
+                            log.error("Failed to unlink failed installation.", err)
+                        end)
                     end
                 )
-                :on_failure(function()
-                    -- unlink any links that were made before failure
-                    context:build_receipt():on_success(
-                        ---@param receipt InstallReceipt
-                        function(receipt)
-                            linker.unlink(handle.package, receipt, self.location):on_failure(function(err)
-                                log.error("Failed to unlink failed installation.", err)
-                            end)
-                        end
-                    )
-                end)
+            end))
+            ---@type InstallReceipt
+            local receipt = try(context:build_receipt())
+            try(Result.pcall(fs.sync.write_file, handle.location:receipt(handle.package.name), receipt:to_json()))
+            return {
+                receipt = receipt,
+            }
         end):get_or_throw()
     end, finalize)
 
@@ -157,7 +158,7 @@ end
 ---@async
 ---@private
 function InstallRunner:release_lock()
-    pcall(fs.async.unlink, self.location:lockfile(self.handle.package.name))
+    pcall(fs.async.unlink, self.handle.location:lockfile(self.handle.package.name))
 end
 
 ---@async
@@ -166,7 +167,7 @@ end
 function InstallRunner:acquire_lock(force)
     local pkg = self.handle.package
     log.debug("Attempting to lock package", pkg)
-    local lockfile = self.location:lockfile(pkg.name)
+    local lockfile = self.handle.location:lockfile(pkg.name)
     if force ~= true and fs.async.file_exists(lockfile) then
         log.error("Lockfile already exists.", pkg)
         return Result.failure(
@@ -181,33 +182,45 @@ function InstallRunner:acquire_lock(force)
     return Result.success(lockfile)
 end
 
----@async
 ---@private
 function InstallRunner:acquire_permit()
+    local channel = OneShotChannel:new()
+    log.fmt_debug("Acquiring permit for %s", self.handle.package)
     local handle = self.handle
-    if handle:is_active() or handle:is_closed() then
-        log.fmt_debug("Received active or closed handle %s", handle)
+    if handle:is_active() or handle:is_closing() then
+        log.fmt_debug("Received active or closing handle %s", handle)
         return Result.failure "Invalid handle state."
     end
 
     handle:queued()
-    local permit = self.semaphore:acquire()
-    if handle:is_closed() then
-        permit:forget()
-        log.fmt_trace("Installation was aborted %s", handle)
-        return Result.failure "Installation was aborted."
-    end
-    log.fmt_trace("Activating handle %s", handle)
-    handle:active()
-    self.permit = permit
-    return Result.success()
+    a.run(function()
+        self.global_permit = self.global_semaphore:acquire()
+        self.package_permit = handle.package:acquire_permit()
+    end, function(success, err)
+        if not success or handle:is_closing() then
+            if not success then
+                log.error("Acquiring permits failed", err)
+            end
+            self:release_permit()
+        else
+            log.fmt_debug("Activating handle %s", handle)
+            handle:active()
+            channel:send()
+        end
+    end)
+
+    return Result.success(channel)
 end
 
 ---@private
 function InstallRunner:release_permit()
-    if self.permit then
-        self.permit:forget()
-        self.permit = nil
+    if self.global_permit then
+        self.global_permit:forget()
+        self.global_permit = nil
+    end
+    if self.package_permit then
+        self.package_permit:forget()
+        self.package_permit = nil
     end
 end
 

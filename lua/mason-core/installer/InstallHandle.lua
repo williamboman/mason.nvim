@@ -43,10 +43,11 @@ function InstallHandleSpawnHandle:__tostring()
 end
 
 ---@class InstallHandle : EventEmitter
----@field package Package
+---@field package AbstractPackage
 ---@field state InstallHandleState
 ---@field stdio { buffers: { stdout: string[], stderr: string[] }, sink: StdioSink }
 ---@field is_terminated boolean
+---@field location InstallLocation
 ---@field private spawn_handles InstallHandleSpawnHandle[]
 local InstallHandle = {}
 InstallHandle.__index = InstallHandle
@@ -70,14 +71,17 @@ local function new_sink(handle)
     }
 end
 
----@param pkg Package
-function InstallHandle:new(pkg)
+---@param pkg AbstractPackage
+---@param location InstallLocation
+function InstallHandle:new(pkg, location)
+    ---@type InstallHandle
     local instance = EventEmitter.new(self)
     instance.state = "IDLE"
     instance.package = pkg
     instance.spawn_handles = {}
     instance.stdio = new_sink(instance)
     instance.is_terminated = false
+    instance.location = location
     return instance
 end
 

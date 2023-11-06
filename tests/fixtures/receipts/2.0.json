@@ -1,0 +1,30 @@
+{
+  "links": {
+    "bin": {
+      "ngserver": "node_modules/.bin/ngserver"
+    },
+    "share": {},
+    "opt": {}
+  },
+  "name": "angular-language-server",
+  "schema_version": "2.0",
+  "metrics": {
+    "start_time": 1739692587948,
+    "completion_time": 1739692591360
+  },
+  "source": {
+    "id": "pkg:npm/%40angular/language-server@19.1.0",
+    "raw": {
+      "id": "pkg:npm/%40angular/language-server@19.1.0",
+      "extra_packages": [
+        "typescript@5.4.5"
+      ]
+    },
+    "type": "registry+v1"
+  },
+  "install_options": {
+    "debug": false,
+    "strict": false,
+    "force": false
+  }
+}

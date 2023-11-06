@@ -16,7 +16,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("github provider :: release :: parsing", function()
+describe("github compiler :: release :: parsing", function()
     it("should parse release asset source", function()
         assert.same(
             Result.success {
@@ -211,6 +211,7 @@ describe("github provider :: release :: parsing", function()
                 version_overrides = {
                     {
                         constraint = "semver:<=1.0.0",
+                        id = "pkg:github/owner/repo@1.0.0",
                         asset = {
                             {
                                 target = "darwin_x64",
@@ -225,7 +226,7 @@ describe("github provider :: release :: parsing", function()
 
         assert.is_true(result:is_success())
         assert.same({
-            id = "pkg:github/owner/repo@1.2.3",
+            id = "pkg:github/owner/repo@1.0.0",
             asset = {
                 target = "darwin_x64",
                 file = "old-asset.tar.gz",
@@ -234,17 +235,6 @@ describe("github provider :: release :: parsing", function()
                 {
                     download_url = "https://github.com/owner/repo/releases/download/1.0.0/old-asset.tar.gz",
                     out_file = "old-asset.tar.gz",
-                },
-            },
-            version_overrides = {
-                {
-                    constraint = "semver:<=1.0.0",
-                    asset = {
-                        {
-                            target = "darwin_x64",
-                            file = "old-asset.tar.gz",
-                        },
-                    },
                 },
             },
             repo = "owner/repo",
@@ -279,7 +269,7 @@ describe("github provider :: release :: parsing", function()
     end)
 end)
 
-describe("github provider :: release :: installing", function()
+describe("github compiler :: release :: installing", function()
     local snapshot
 
     before_each(function()

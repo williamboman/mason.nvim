@@ -70,6 +70,14 @@ function M.install(pkg, version, opts)
     }
 end
 
+---@async
+---@param pkg string
+function M.uninstall(pkg)
+    local ctx = installer.context()
+    ctx.stdio_sink.stdout(("Uninstalling npm package %s…\n"):format(pkg))
+    return ctx.spawn.npm { "uninstall", pkg }
+end
+
 ---@param exec string
 function M.bin_path(exec)
     return Result.pcall(platform.when, {

@@ -14,7 +14,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("pypi provider :: parsing", function()
+describe("pypi compiler :: parsing", function()
     it("should parse package", function()
         settings.set {
             pip = {
@@ -43,7 +43,7 @@ describe("pypi provider :: parsing", function()
     end)
 end)
 
-describe("pypi provider :: installing", function()
+describe("pypi compiler :: installing", function()
     local snapshot
 
     before_each(function()

@@ -71,9 +71,9 @@ local function upsert(dst, src)
 end
 
 ---@param source RegistryPackageSource
----@param version string
+---@param version string?
 local function coalesce_source(source, version)
-    if source.version_overrides then
+    if version and source.version_overrides then
         for i = #source.version_overrides, 1, -1 do
             local version_override = source.version_overrides[i]
             local version_type, constraint = unpack(_.split(":", version_override.constraint))
@@ -94,18 +94,12 @@ local function coalesce_source(source, version)
                 end):get_or_else(false)
 
                 if version_match then
-                    if version_override.id then
-                        -- Because this entry provides its own purl id, it overrides the entire source definition.
-                        return version_override
-                    else
-                        -- Upsert the default source with the contents of the version override.
-                        return upsert(vim.deepcopy(source), _.dissoc("constraint", version_override))
-                    end
+                    return _.dissoc("constraint", version_override)
                 end
             end
         end
     end
-    return source
+    return _.dissoc("version_overrides", source)
 end
 
 ---@param spec RegistryPackageSpec
@@ -121,7 +115,7 @@ function M.parse(spec, opts)
             )
         end
 
-        local source = opts.version and coalesce_source(spec.source, opts.version) or spec.source
+        local source = coalesce_source(spec.source, opts.version)
 
         ---@type Purl
         local purl = try(Purl.parse(source.id))
@@ -149,7 +143,7 @@ end
 ---@async
 ---@param spec RegistryPackageSpec
 ---@param opts PackageInstallOpts
-function M.compile(spec, opts)
+function M.compile_installer(spec, opts)
     log.debug("Compiling installer.", spec.name, opts)
     return Result.try(function(try)
         -- Parsers run synchronously and may access API functions, so we schedule before-hand.
@@ -210,9 +204,10 @@ function M.compile(spec, opts)
                 ctx.receipt:with_source {
                     type = ctx.package.spec.schema,
                     id = Purl.compile(parsed.purl),
+                    -- Exclude the "install" field from "mason" sources because this is a Lua function.
+                    raw = parsed.purl.type == "mason" and _.dissoc("install", parsed.raw_source) or parsed.raw_source,
                 }
-            end):on_failure(function(err)
-                error(err, 0)
+                ctx.receipt:with_install_options(opts)
             end)
         end
     end)

@@ -86,7 +86,6 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
                 return ExecutablesTable(pkg_state.linked_executables)
             end)
         )),
-        -- ExecutablesTable(is_installed and pkg_state.linked_executables or package.spec.executables),
         Ui.When(pkg_state.lsp_settings_schema ~= nil, function()
             local has_expanded = pkg_state.expanded_json_schemas["lsp"]
             return Ui.Node {

@@ -13,7 +13,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("composer provider :: parsing", function()
+describe("composer compiler :: parsing", function()
     it("should parse package", function()
         assert.same(
             Result.success {
@@ -25,7 +25,7 @@ describe("composer provider :: parsing", function()
     end)
 end)
 
-describe("composer provider :: installing", function()
+describe("composer compiler :: installing", function()
     local snapshot
 
     before_each(function()

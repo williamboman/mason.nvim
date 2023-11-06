@@ -57,7 +57,7 @@ local function unlink(receipt, link_context, location)
     end)
 end
 
----@param pkg Package
+---@param pkg AbstractPackage
 ---@param receipt InstallReceipt
 ---@param location InstallLocation
 ---@nodiscard
@@ -82,31 +82,27 @@ local function link(context, link_context, link_fn)
                 name = ("%s.cmd"):format(name)
             end
             local new_abs_path = link_context.prefix(name, context.location)
-            local target_abs_path = path.concat { context.package:get_install_path(), rel_path }
+            local target_abs_path = path.concat { context:get_install_path(), rel_path }
             local target_rel_path = path.relative(new_abs_path, target_abs_path)
 
-            do
-                -- 1. Ensure destination directory exists
-                a.scheduler()
-                local dir = vim.fn.fnamemodify(new_abs_path, ":h")
-                if not fs.async.dir_exists(dir) then
-                    try(Result.pcall(fs.async.mkdirp, dir))
-                end
+            -- 1. Ensure destination directory exists
+            a.scheduler()
+            local dir = vim.fn.fnamemodify(new_abs_path, ":h")
+            if not fs.async.dir_exists(dir) then
+                try(Result.pcall(fs.async.mkdirp, dir))
             end
 
-            do
-                -- 2. Ensure source file exists and target doesn't yet exist OR if --force unlink target if it already
-                -- exists.
-                if context.opts.force then
-                    if fs.async.file_exists(new_abs_path) then
-                        try(Result.pcall(fs.async.unlink, new_abs_path))
-                    end
-                elseif fs.async.file_exists(new_abs_path) then
-                    return Result.failure(("%q is already linked."):format(new_abs_path, name))
+            -- 2. Ensure source file exists and target doesn't yet exist OR if --force unlink target if it already
+            -- exists.
+            if context.opts.force then
+                if fs.async.file_exists(new_abs_path) then
+                    try(Result.pcall(fs.async.unlink, new_abs_path))
                 end
-                if not fs.async.file_exists(target_abs_path) then
-                    return Result.failure(("Link target %q does not exist."):format(target_abs_path))
-                end
+            elseif fs.async.file_exists(new_abs_path) then
+                return Result.failure(("%q is already linked."):format(new_abs_path, name))
+            end
+            if not fs.async.file_exists(target_abs_path) then
+                return Result.failure(("Link target %q does not exist."):format(target_abs_path))
             end
 
             -- 3. Execute link.

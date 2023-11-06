@@ -50,9 +50,9 @@ describe("linker", function()
         fs.async.file_exists.on_call_with(ctx.location:bin "my-executable").returns(false)
         fs.async.file_exists.on_call_with(ctx.location:bin "another-executable").returns(false)
         fs.async.file_exists
-            .on_call_with(path.concat { dummy:get_install_path(), "nested", "path", "my-executable" })
+            .on_call_with(path.concat { ctx:get_install_path(), "nested", "path", "my-executable" })
             .returns(true)
-        fs.async.file_exists.on_call_with(path.concat { dummy:get_install_path(), "another-executable" }).returns(true)
+        fs.async.file_exists.on_call_with(path.concat { ctx:get_install_path(), "another-executable" }).returns(true)
 
         ctx:link_bin("my-executable", path.concat { "nested", "path", "my-executable" })
         ctx:link_bin("another-executable", "another-executable")
@@ -86,9 +86,9 @@ describe("linker", function()
         fs.async.file_exists.on_call_with(ctx.location:bin "my-executable").returns(false)
         fs.async.file_exists.on_call_with(ctx.location:bin "another-executable").returns(false)
         fs.async.file_exists
-            .on_call_with(path.concat { dummy:get_install_path(), "nested", "path", "my-executable" })
+            .on_call_with(path.concat { ctx:get_install_path(), "nested", "path", "my-executable" })
             .returns(true)
-        fs.async.file_exists.on_call_with(path.concat { dummy:get_install_path(), "another-executable" }).returns(true)
+        fs.async.file_exists.on_call_with(path.concat { ctx:get_install_path(), "another-executable" }).returns(true)
 
         ctx:link_bin("my-executable", path.concat { "nested", "path", "my-executable" })
         ctx:link_bin("another-executable", "another-executable")
@@ -126,9 +126,9 @@ describe("linker", function()
         fs.async.dir_exists.on_call_with(ctx.location:share "nested/path").returns(false)
 
         -- mock existent source files
-        fs.async.file_exists.on_call_with(path.concat { dummy:get_install_path(), "share-file" }).returns(true)
+        fs.async.file_exists.on_call_with(path.concat { ctx:get_install_path(), "share-file" }).returns(true)
         fs.async.file_exists
-            .on_call_with(path.concat { dummy:get_install_path(), "nested", "path", "to", "share-file" })
+            .on_call_with(path.concat { ctx:get_install_path(), "nested", "path", "to", "share-file" })
             .returns(true)
 
         ctx.links.share["nested/path/share-file"] = path.concat { "nested", "path", "to", "share-file" }
@@ -171,9 +171,9 @@ describe("linker", function()
         fs.async.dir_exists.on_call_with(ctx.location:share "nested/path").returns(false)
 
         -- mock existent source files
-        fs.async.file_exists.on_call_with(path.concat { dummy:get_install_path(), "share-file" }).returns(true)
+        fs.async.file_exists.on_call_with(path.concat { ctx:get_install_path(), "share-file" }).returns(true)
         fs.async.file_exists
-            .on_call_with(path.concat { dummy:get_install_path(), "nested", "path", "to", "share-file" })
+            .on_call_with(path.concat { ctx:get_install_path(), "nested", "path", "to", "share-file" })
             .returns(true)
 
         ctx.links.share["nested/path/share-file"] = path.concat { "nested", "path", "to", "share-file" }
@@ -186,9 +186,9 @@ describe("linker", function()
         assert.spy(fs.async.copy_file).was_called(2)
         assert
             .spy(fs.async.copy_file)
-            .was_called_with(path.concat { dummy:get_install_path(), "share-file" }, ctx.location:share "share-file", { excl = true })
+            .was_called_with(path.concat { ctx:get_install_path(), "share-file" }, ctx.location:share "share-file", { excl = true })
         assert.spy(fs.async.copy_file).was_called_with(
-            path.concat { dummy:get_install_path(), "nested", "path", "to", "share-file" },
+            path.concat { ctx:get_install_path(), "nested", "path", "to", "share-file" },
             ctx.location:share "nested/path/share-file",
             { excl = true }
         )

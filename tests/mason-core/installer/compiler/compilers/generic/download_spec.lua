@@ -1,7 +1,7 @@
 local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
-local match = require "luassert.match"
 local generic = require "mason-core.installer.compiler.compilers.generic"
+local match = require "luassert.match"
 local stub = require "luassert.stub"
 local test_helpers = require "mason-test.helpers"
 
@@ -14,7 +14,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("generic provider :: download :: parsing", function()
+describe("generic compiler :: download :: parsing", function()
     it("should parse single download target", function()
         assert.same(
             Result.success {
@@ -98,7 +98,7 @@ describe("generic provider :: download :: parsing", function()
     end)
 end)
 
-describe("generic provider :: download :: installing", function()
+describe("generic compiler :: download :: installing", function()
     local snapshot
 
     before_each(function()

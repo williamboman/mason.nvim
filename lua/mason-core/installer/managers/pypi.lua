@@ -214,6 +214,19 @@ function M.install(pkg, version, opts)
     }, opts.install_extra_args)
 end
 
+---@async
+---@param pkg string
+function M.uninstall(pkg)
+    log.fmt_debug("pypi: uninstall %s", pkg)
+    return venv_python {
+        "-m",
+        "pip",
+        "uninstall",
+        "-y",
+        pkg,
+    }
+end
+
 ---@param executable string
 function M.bin_path(executable)
     local ctx = installer.context()

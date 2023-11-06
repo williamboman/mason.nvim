@@ -1,5 +1,5 @@
 local EventEmitter = require "mason-core.EventEmitter"
-local InstallLocation = require "mason-core.installer.location"
+local InstallLocation = require "mason-core.installer.InstallLocation"
 local Optional = require "mason-core.optional"
 local _ = require "mason-core.functional"
 local fs = require "mason-core.fs"
@@ -123,7 +123,7 @@ function M.get_all_packages()
     return get_packages(M.get_all_package_names())
 end
 
----@return (RegistryPackageSpec | PackageSpec)[]
+---@return RegistryPackageSpec[]
 function M.get_all_package_specs()
     local specs = {}
     for source in sources.iter() do

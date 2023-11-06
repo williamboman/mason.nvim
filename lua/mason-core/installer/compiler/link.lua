@@ -38,7 +38,7 @@ local bin_delegates = {
             local python = platform.is.win and "python" or "python3"
             return ctx:write_shell_exec_wrapper(
                 bin,
-                ("%s %q"):format(python, path.concat { ctx.package:get_install_path(), target })
+                ("%s %q"):format(python, path.concat { ctx:get_install_path(), target })
             )
         end)
     end,
@@ -66,7 +66,7 @@ local bin_delegates = {
             return ctx:write_shell_exec_wrapper(
                 bin,
                 ("dotnet %q"):format(path.concat {
-                    ctx.package:get_install_path(),
+                    ctx:get_install_path(),
                     target,
                 })
             )
@@ -103,7 +103,7 @@ local bin_delegates = {
             return ctx:write_shell_exec_wrapper(
                 bin,
                 ("java -jar %q"):format(path.concat {
-                    ctx.package:get_install_path(),
+                    ctx:get_install_path(),
                     target,
                 })
             )

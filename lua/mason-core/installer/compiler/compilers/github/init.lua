@@ -20,7 +20,7 @@ end
 ---@async
 ---@param ctx InstallContext
 ---@param source ParsedGitHubReleaseSource | ParsedGitHubBuildSource
-function M.install(ctx, source, purl)
+function M.install(ctx, source)
     if source.asset then
         source = source--[[@as ParsedGitHubReleaseSource]]
         return require("mason-core.installer.compiler.compilers.github.release").install(ctx, source)

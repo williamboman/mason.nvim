@@ -4,7 +4,7 @@ local a = require "mason-core.async"
 local match = require "luassert.match"
 local spy = require "luassert.spy"
 
-describe("result", function()
+describe("Result ::", function()
     it("should create success", function()
         local result = Result.success "Hello!"
         assert.is_true(result:is_success())

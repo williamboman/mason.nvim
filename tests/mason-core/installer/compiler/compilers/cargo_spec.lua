@@ -14,7 +14,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("cargo provider :: parsing", function()
+describe("cargo compiler :: parsing", function()
     it("should parse package", function()
         assert.same(
             Result.success {
@@ -93,7 +93,7 @@ describe("cargo provider :: parsing", function()
     end)
 end)
 
-describe("cargo provider :: installing", function()
+describe("cargo compiler :: installing", function()
     local snapshot
 
     before_each(function()
@@ -129,7 +129,7 @@ describe("cargo provider :: installing", function()
     end)
 end)
 
-describe("cargo provider :: versions", function()
+describe("cargo compiler :: versions", function()
     local snapshot
 
     before_each(function()

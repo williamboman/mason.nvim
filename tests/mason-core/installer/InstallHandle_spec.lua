@@ -1,9 +1,9 @@
-local InstallHandle = require "mason-core.installer.handle"
+local InstallHandle = require "mason-core.installer.InstallHandle"
 local mock = require "luassert.mock"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
-describe("installer handle", function()
+describe("InstallHandle ::", function()
     local snapshot
 
     before_each(function()

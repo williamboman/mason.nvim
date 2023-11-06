@@ -104,7 +104,7 @@ cmd.exe /C echo %GREETING% %*]]
         assert.spy(ctx.write_shell_exec_wrapper).was_called_with(
             match.is_ref(ctx),
             "my-wrapper-script",
-            ("node %q"):format(path.concat { dummy:get_install_path(), js_rel_path })
+            ("node %q"):format(path.concat { ctx:get_install_path(), js_rel_path })
         )
     end)
 
@@ -122,7 +122,7 @@ cmd.exe /C echo %GREETING% %*]]
         assert.spy(ctx.write_shell_exec_wrapper).was_called_with(
             match.is_ref(ctx),
             "my-wrapper-script",
-            ("ruby %q"):format(path.concat { dummy:get_install_path(), js_rel_path })
+            ("ruby %q"):format(path.concat { ctx:get_install_path(), js_rel_path })
         )
     end)
 
@@ -157,7 +157,7 @@ cmd.exe /C echo %GREETING% %*]]
         assert.spy(ctx.write_shell_exec_wrapper).was_called_with(
             match.is_ref(ctx),
             "my-wrapper-script",
-            ("%q -m my-module"):format(path.concat { pypi.venv_path(dummy:get_install_path()), "python" })
+            ("%q -m my-module"):format(path.concat { pypi.venv_path(ctx:get_install_path()), "python" })
         )
     end)
 
@@ -196,7 +196,7 @@ cmd.exe /C echo %GREETING% %*]]
             .was_called_with(
                 match.is_ref(ctx),
                 "my-wrapper-script",
-                ("%q"):format(path.concat { dummy:get_install_path(), exec_rel_path })
+                ("%q"):format(path.concat { ctx:get_install_path(), exec_rel_path })
             )
     end)
 
@@ -229,7 +229,7 @@ cmd.exe /C echo %GREETING% %*]]
         assert.spy(ctx.write_shell_exec_wrapper).was_called_with(
             match.is_ref(ctx),
             "my-wrapper-script",
-            ("php %q"):format(path.concat { dummy:get_install_path(), php_rel_path })
+            ("php %q"):format(path.concat { ctx:get_install_path(), php_rel_path })
         )
     end)
 

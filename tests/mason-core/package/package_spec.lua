@@ -2,24 +2,25 @@ local Pkg = require "mason-core.package"
 local a = require "mason-core.async"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
+local receipt = require "mason-core.receipt"
 local registry = require "mason-registry"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
+local test_helpers = require "mason-test.helpers"
 
-describe("package", function()
+describe("Package ::", function()
     local snapshot
 
     before_each(function()
         snapshot = assert.snapshot()
+        local dummy = registry.get_package "dummy"
+        if dummy:is_installed() then
+            test_helpers.sync_uninstall(dummy)
+        end
     end)
 
     after_each(function()
         snapshot:revert()
-    end)
-
-    before_each(function()
-        registry.get_package("dummy"):uninstall()
-        package.loaded["dummy_package"] = nil
     end)
 
     it("should parse package specifiers", function()
@@ -91,28 +92,27 @@ describe("package", function()
 
     it("should create new handle", function()
         local dummy = registry.get_package "dummy"
-        -- yo dawg
-        local handle_handler = spy.new()
-        dummy:once("handle", handle_handler)
-        local handle = dummy:new_handle()
-        assert.spy(handle_handler).was_called(1)
-        assert.spy(handle_handler).was_called_with(match.ref(handle))
+        local callback = spy.new()
+        dummy:once("install:handle", callback)
+        local handle = dummy:new_install_handle()
+        assert.spy(callback).was_called(1)
+        assert.spy(callback).was_called_with(match.ref(handle))
         handle:close()
     end)
 
     it("should not create new handle if one already exists", function()
         local dummy = registry.get_package "dummy"
-        dummy.handle = mock.new {
+        dummy.install_handle = mock.new {
             is_closed = mockx.returns(false),
         }
         local handle_handler = spy.new()
-        dummy:once("handle", handle_handler)
+        dummy:once("install:handle", handle_handler)
         local err = assert.has_error(function()
-            dummy:new_handle()
+            dummy:new_install_handle()
         end)
-        assert.equals("Cannot create new handle because existing handle is not closed.", err)
+        assert.equals("Cannot create new install handle because existing handle is not closed.", err)
         assert.spy(handle_handler).was_called(0)
-        dummy.handle = nil
+        dummy.install_handle = nil
     end)
 
     it("should successfully install package", function()
@@ -135,9 +135,11 @@ describe("package", function()
 
         assert.wait(function()
             assert.spy(install_success_handler).was_called(1)
-            assert.spy(install_success_handler).was_called_with(match.is_ref(handle))
+            assert.spy(install_success_handler).was_called_with(match.instanceof(receipt.InstallReceipt))
             assert.spy(package_install_success_handler).was_called(1)
-            assert.spy(package_install_success_handler).was_called_with(match.is_ref(dummy), match.is_ref(handle))
+            assert
+                .spy(package_install_success_handler)
+                .was_called_with(match.is_ref(dummy), match.instanceof(receipt.InstallReceipt))
             assert.spy(package_install_failed_handler).was_called(0)
             assert.spy(install_failed_handler).was_called(0)
         end)
@@ -166,11 +168,11 @@ describe("package", function()
 
         assert.wait(function()
             assert.spy(install_failed_handler).was_called(1)
-            assert.spy(install_failed_handler).was_called_with(match.is_ref(handle), "I simply refuse to be installed.")
+            assert.spy(install_failed_handler).was_called_with "I simply refuse to be installed."
             assert.spy(package_install_failed_handler).was_called(1)
             assert
                 .spy(package_install_failed_handler)
-                .was_called_with(match.is_ref(dummy), match.is_ref(handle), "I simply refuse to be installed.")
+                .was_called_with(match.is_ref(dummy), "I simply refuse to be installed.")
             assert.spy(package_install_success_handler).was_called(0)
             assert.spy(install_success_handler).was_called(0)
         end)
@@ -200,7 +202,7 @@ describe("package", function()
         local dummy = registry.get_package "registry"
 
         -- Move outside the main loop
-        a.run_blocking(function ()
+        a.run_blocking(function()
             a.wait(function(resolve)
                 local timer = vim.loop.new_timer()
                 timer:start(0, 0, function()

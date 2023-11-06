@@ -1,8 +1,10 @@
+-- !!!
+-- in dire need of rework, proceed with caution
+-- !!!
 local Package = require "mason-core.package"
 local Ui = require "mason-core.ui"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
-local control = require "mason-core.async.control"
 local display = require "mason-core.ui.display"
 local notify = require "mason-core.notify"
 local registry = require "mason-registry"
@@ -13,8 +15,6 @@ local Help = require "mason.ui.components.help"
 local LanguageFilter = require "mason.ui.components.language-filter"
 local Main = require "mason.ui.components.main"
 local Tabs = require "mason.ui.components.tabs"
-
-local Semaphore = control.Semaphore
 
 require "mason.ui.colors"
 
@@ -81,8 +81,6 @@ local INITIAL_STATE = {
         outdated_packages = {},
         new_versions_check = {
             is_checking = false,
-            current = 0,
-            total = 0,
             percentage_complete = 0,
         },
         ---@type Package[]
@@ -288,8 +286,6 @@ local function setup_handle(handle)
     handle_spawnhandle_change()
     mutate_state(function(state)
         state.packages.states[handle.package.name] = create_initial_package_state()
-        state.packages.outdated_packages =
-            _.filter(_.complement(_.equals(handle.package)), state.packages.outdated_packages)
     end)
 end
 
@@ -372,11 +368,21 @@ end
 local function terminate_package_handle(event)
     ---@type Package
     local pkg = event.payload
-    vim.schedule_wrap(notify)(("Cancelling installation of %q."):format(pkg.name))
-    pkg:get_handle():if_present(
+    pkg:get_install_handle():if_present(
         ---@param handle InstallHandle
         function(handle)
             if not handle:is_closed() then
+                vim.schedule_wrap(notify)(("Cancelling installation of %q."):format(pkg.name))
+                handle:terminate()
+            end
+        end
+    )
+
+    pkg:get_uninstall_handle():if_present(
+        ---@param handle InstallHandle
+        function(handle)
+            if not handle:is_closed() then
+                vim.schedule_wrap(notify)(("Cancelling uninstallation of %q."):format(pkg.name))
                 handle:terminate()
             end
         end
@@ -387,7 +393,7 @@ local function terminate_all_package_handles(event)
     ---@type Package[]
     local pkgs = _.list_copy(event.payload) -- we copy because list is mutated while iterating it
     for _, pkg in ipairs(pkgs) do
-        pkg:get_handle():if_present(
+        pkg:get_install_handle():if_present(
             ---@param handle InstallHandle
             function(handle)
                 if not handle:is_closed() then
@@ -399,16 +405,22 @@ local function terminate_all_package_handles(event)
 end
 
 local function install_package(event)
-    ---@type Package
+    ---@type AbstractPackage
     local pkg = event.payload
-    pkg:install()
+    if not pkg:is_installing() then
+        pkg:install()
+    end
+    mutate_state(function(state)
+        state.packages.outdated_packages = _.filter(_.complement(_.equals(pkg)), state.packages.outdated_packages)
+    end)
 end
 
 local function uninstall_package(event)
-    ---@type Package
+    ---@type AbstractPackage
     local pkg = event.payload
-    pkg:uninstall()
-    vim.schedule_wrap(notify)(("%q was successfully uninstalled."):format(pkg.name))
+    if not pkg:is_uninstalling() then
+        pkg:uninstall()
+    end
 end
 
 local function toggle_expand_package(event)
@@ -449,39 +461,22 @@ local function check_new_package_version(pkg)
 end
 
 ---@async
-local function check_new_visible_package_versions()
+local function check_new_package_versions()
     local state = get_state()
     if state.packages.new_versions_check.is_checking then
         return
     end
-    local installed_visible_packages = _.compose(
-        _.filter(
-            ---@param package Package
-            function(package)
-                return package
-                    :get_handle()
-                    :map(function(handle)
-                        return handle:is_closed()
-                    end)
-                    :or_else(true)
-            end
-        ),
-        _.filter(function(package)
-            return state.packages.visible[package.name]
-        end)
-    )(state.packages.installed)
 
     mutate_state(function(state)
         state.packages.outdated_packages = {}
         state.packages.new_versions_check.is_checking = true
-        state.packages.new_versions_check.current = 0
-        state.packages.new_versions_check.total = #installed_visible_packages
         state.packages.new_versions_check.percentage_complete = 0
     end)
 
     do
         local success, err = a.wait(registry.update)
         mutate_state(function(state)
+            state.packages.new_versions_check.percentage_complete = 1
             if not success then
                 state.info.registry_update_error = tostring(_.gsub("\n", " ", err))
             else
@@ -490,25 +485,25 @@ local function check_new_visible_package_versions()
         end)
     end
 
-    local sem = Semaphore:new(5)
-    a.wait_all(_.map(function(pkg)
-        return function()
-            local permit = sem:acquire()
-            local has_new_version = check_new_package_version(pkg)
-            mutate_state(function(state)
-                state.packages.new_versions_check.current = state.packages.new_versions_check.current + 1
-                state.packages.new_versions_check.percentage_complete = state.packages.new_versions_check.current
-                    / state.packages.new_versions_check.total
-                if has_new_version then
-                    table.insert(state.packages.outdated_packages, pkg)
-                end
-            end)
-            permit:forget()
-        end
-    end, installed_visible_packages))
+    local outdated_packages = {}
 
-    a.sleep(800)
     mutate_state(function(state)
+        for _, pkg in ipairs(state.packages.installed) do
+            local current_version = pkg:get_installed_version()
+            local latest_version = pkg:get_latest_version()
+            if current_version ~= latest_version then
+                state.packages.states[pkg.name].version = current_version
+                state.packages.states[pkg.name].new_version = latest_version
+                table.insert(outdated_packages, pkg)
+            else
+                state.packages.states[pkg.name].new_version = nil
+            end
+        end
+    end)
+
+    a.sleep(1000)
+    mutate_state(function(state)
+        state.packages.outdated_packages = outdated_packages
         state.packages.new_versions_check.is_checking = false
         state.packages.new_versions_check.current = 0
         state.packages.new_versions_check.total = 0
@@ -567,7 +562,7 @@ end
 local function update_all_packages()
     local state = get_state()
     _.each(function(pkg)
-        pkg:install(pkg)
+        pkg:install()
     end, state.packages.outdated_packages)
     mutate_state(function(state)
         state.packages.outdated_packages = {}
@@ -584,7 +579,7 @@ end
 
 local effects = {
     ["CHECK_NEW_PACKAGE_VERSION"] = a.scope(_.compose(_.partial(pcall, check_new_package_version), _.prop "payload")),
-    ["CHECK_NEW_VISIBLE_PACKAGE_VERSIONS"] = a.scope(check_new_visible_package_versions),
+    ["CHECK_NEW_VISIBLE_PACKAGE_VERSIONS"] = a.scope(check_new_package_versions),
     ["CLEAR_LANGUAGE_FILTER"] = clear_filter,
     ["CLEAR_SEARCH_MODE"] = clear_search_mode,
     ["CLOSE_WINDOW"] = window.close,
@@ -630,10 +625,13 @@ local function setup_package(pkg)
         table.insert(state.packages[pkg:is_installed() and "installed" or "uninstalled"], pkg)
     end)
 
-    pkg:get_handle():if_present(setup_handle)
-    pkg:on("handle", setup_handle)
+    pkg:get_install_handle():if_present(setup_handle)
+    pkg:on("install:handle", setup_handle)
 
     pkg:on("install:success", function()
+        vim.schedule(function()
+            notify(("%s was successfully installed."):format(pkg.name))
+        end)
         mutate_state(function(state)
             state.packages.states[pkg.name] = create_initial_package_state()
             if state.packages.expanded == pkg.name then
@@ -641,7 +639,6 @@ local function setup_package(pkg)
             end
         end)
         mutate_package_grouping(pkg, "installed")
-        vim.schedule_wrap(notify)(("%q was successfully installed."):format(pkg.name))
     end)
 
     pkg:on(
@@ -655,6 +652,9 @@ local function setup_package(pkg)
                 end)
                 mutate_package_grouping(pkg, pkg:is_installed() and "installed" or "uninstalled")
             else
+                vim.schedule(function()
+                    notify(("%s failed to install."):format(pkg.name), vim.log.levels.ERROR)
+                end)
                 mutate_package_grouping(pkg, "failed")
                 mutate_state(function(state)
                     state.packages.states[pkg.name].has_failed = true
@@ -664,8 +664,17 @@ local function setup_package(pkg)
     )
 
     pkg:on("uninstall:success", function()
+        if pkg:is_installing() then
+            -- We don't care about uninstallations that occur during installation because it's expected behaviour and
+            -- not constructive to surface to users.
+            return
+        end
+        vim.schedule(function()
+            notify(("%s was successfully uninstalled."):format(pkg.name))
+        end)
         mutate_state(function(state)
             state.packages.states[pkg.name] = create_initial_package_state()
+            state.packages.outdated_packages = _.filter(_.complement(_.equals(pkg)), state.packages.outdated_packages)
         end)
         mutate_package_grouping(pkg, "uninstalled")
     end)
@@ -688,7 +697,9 @@ end
 
 ---@param packages Package[]
 local function setup_packages(packages)
-    _.each(setup_package, _.sort_by(_.prop "name", packages))
+    for _, pkg in ipairs(_.sort_by(_.prop "name", packages)) do
+        setup_package(pkg)
+    end
     mutate_state(function(state)
         state.packages.all = packages
     end)
@@ -714,7 +725,7 @@ window.init {
 if settings.current.ui.check_outdated_packages_on_open then
     vim.defer_fn(
         a.scope(function()
-            check_new_visible_package_versions()
+            check_new_package_versions()
         end),
         100
     )

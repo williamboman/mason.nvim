@@ -13,7 +13,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("generic provider :: build :: parsing", function()
+describe("generic compiler :: build :: parsing", function()
     it("should parse single build target", function()
         assert.same(
             Result.success {
@@ -118,7 +118,7 @@ describe("generic provider :: build :: parsing", function()
     end)
 end)
 
-describe("generic provider :: build :: installing", function()
+describe("generic compiler :: build :: installing", function()
     local snapshot
 
     before_each(function()

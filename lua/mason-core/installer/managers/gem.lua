@@ -54,14 +54,14 @@ function M.create_bin_wrapper(bin)
         ctx.write_shell_exec_wrapper,
         ctx,
         bin,
-        path.concat { ctx.package:get_install_path(), bin_path },
+        path.concat { ctx:get_install_path(), bin_path },
         {
             GEM_PATH = platform.when {
                 unix = function()
-                    return ("%s:$GEM_PATH"):format(ctx.package:get_install_path())
+                    return ("%s:$GEM_PATH"):format(ctx:get_install_path())
                 end,
                 win = function()
-                    return ("%s;%%GEM_PATH%%"):format(ctx.package:get_install_path())
+                    return ("%s;%%GEM_PATH%%"):format(ctx:get_install_path())
                 end,
             },
         }

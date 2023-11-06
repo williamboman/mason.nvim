@@ -1,8 +1,9 @@
-local InstallContextCwd = require "mason-core.installer.context.cwd"
-local InstallContextFs = require "mason-core.installer.context.fs"
-local InstallContextSpawn = require "mason-core.installer.context.spawn"
+local InstallContextCwd = require "mason-core.installer.context.InstallContextCwd"
+local InstallContextFs = require "mason-core.installer.context.InstallContextFs"
+local InstallContextSpawn = require "mason-core.installer.context.InstallContextSpawn"
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local a = require "mason-core.async"
 local fs = require "mason-core.fs"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
@@ -15,7 +16,7 @@ local receipt = require "mason-core.receipt"
 ---@field location InstallLocation
 ---@field spawn InstallContextSpawn
 ---@field handle InstallHandle
----@field package Package
+---@field package AbstractPackage
 ---@field cwd InstallContextCwd
 ---@field opts PackageInstallOpts
 ---@field stdio_sink StdioSink
@@ -24,17 +25,16 @@ local InstallContext = {}
 InstallContext.__index = InstallContext
 
 ---@param handle InstallHandle
----@param location InstallLocation
 ---@param opts PackageInstallOpts
-function InstallContext:new(handle, location, opts)
-    local cwd = InstallContextCwd:new(handle, location)
+function InstallContext:new(handle, opts)
+    local cwd = InstallContextCwd:new(handle)
     local spawn = InstallContextSpawn:new(handle, cwd, false)
     local fs = InstallContextFs:new(cwd)
     return setmetatable({
         cwd = cwd,
         spawn = spawn,
         handle = handle,
-        location = location,
+        location = handle.location, -- for convenience
         package = handle.package, -- for convenience
         fs = fs,
         receipt = receipt.InstallReceiptBuilder:new(),
@@ -51,23 +51,35 @@ end
 ---@async
 function InstallContext:promote_cwd()
     local cwd = self.cwd:get()
-    local install_path = self.package:get_install_path()
+    local install_path = self:get_install_path()
     if install_path == cwd then
-        log.fmt_debug("cwd %s is already promoted (at %s)", cwd, install_path)
+        log.fmt_debug("cwd %s is already promoted", cwd)
         return
     end
     log.fmt_debug("Promoting cwd %s to %s", cwd, install_path)
+
     -- 1. Uninstall any existing installation
-    self.handle.package:uninstall()
+    if self.handle.package:is_installed() then
+        a.wait(function(resolve, reject)
+            self.handle.package:uninstall({ bypass_permit = true }, function(success, result)
+                if not success then
+                    reject(result)
+                else
+                    resolve()
+                end
+            end)
+        end)
+    end
+
     -- 2. Prepare for renaming cwd to destination
     if platform.is.unix then
         -- Some Unix systems will raise an error when renaming a directory to a destination that does not already exist.
         fs.async.mkdir(install_path)
     end
-    -- 3. Move the cwd to the final installation directory
-    fs.async.rename(cwd, install_path)
-    -- 4. Update cwd
+    -- 3. Update cwd
     self.cwd:set(install_path)
+    -- 4. Move the cwd to the final installation directory
+    fs.async.rename(cwd, install_path)
 end
 
 ---@param rel_path string The relative path from the current working directory to change cwd to. Will only restore to the initial cwd after execution of fn (if provided).
@@ -94,7 +106,7 @@ function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
         ("node %q"):format(path.concat {
-            self.package:get_install_path(),
+            self:get_install_path(),
             script_rel_path,
         })
     )
@@ -109,7 +121,7 @@ function InstallContext:write_ruby_exec_wrapper(new_executable_rel_path, script_
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
         ("ruby %q"):format(path.concat {
-            self.package:get_install_path(),
+            self:get_install_path(),
             script_rel_path,
         })
     )
@@ -124,7 +136,7 @@ function InstallContext:write_php_exec_wrapper(new_executable_rel_path, script_r
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
         ("php %q"):format(path.concat {
-            self.package:get_install_path(),
+            self:get_install_path(),
             script_rel_path,
         })
     )
@@ -149,7 +161,7 @@ function InstallContext:write_pyvenv_exec_wrapper(new_executable_rel_path, modul
         new_executable_rel_path,
         ("%q -m %s"):format(
             path.concat {
-                pypi.venv_path(self.package:get_install_path()),
+                pypi.venv_path(self:get_install_path()),
                 "python",
             },
             module
@@ -169,7 +181,7 @@ function InstallContext:write_exec_wrapper(new_executable_rel_path, target_execu
     return self:write_shell_exec_wrapper(
         new_executable_rel_path,
         ("%q"):format(path.concat {
-            self.package:get_install_path(),
+            self:get_install_path(),
             target_executable_rel_path,
         })
     )
@@ -262,6 +274,10 @@ function InstallContext:build_receipt()
     return Result.pcall(function()
         return self.receipt:with_name(self.package.name):with_completion_time(vim.loop.gettimeofday()):build()
     end)
+end
+
+function InstallContext:get_install_path()
+    return self.location:package(self.package.name)
 end
 
 return InstallContext

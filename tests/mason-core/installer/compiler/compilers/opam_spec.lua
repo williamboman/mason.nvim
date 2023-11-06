@@ -1,32 +1,31 @@
 local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
-local golang = require "mason-core.installer.compiler.compilers.golang"
+local opam = require "mason-core.installer.compiler.compilers.opam"
 local stub = require "luassert.stub"
 local test_helpers = require "mason-test.helpers"
 
 ---@param overrides Purl
 local function purl(overrides)
-    local purl = Purl.parse("pkg:golang/namespace/package@v1.5.0"):get_or_throw()
+    local purl = Purl.parse("pkg:opam/package@2.2.0"):get_or_throw()
     if not overrides then
         return purl
     end
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("golang provider :: parsing", function()
+describe("opam compiler :: parsing", function()
     it("should parse package", function()
         assert.same(
             Result.success {
-                package = "namespace/package",
-                version = "v1.5.0",
-                extra_packages = { "extra" },
+                package = "package",
+                version = "2.2.0",
             },
-            golang.parse({ extra_packages = { "extra" } }, purl())
+            opam.parse({}, purl())
         )
     end)
 end)
 
-describe("golang provider :: installing", function()
+describe("opam compiler :: installing", function()
     local snapshot
 
     before_each(function()
@@ -37,21 +36,20 @@ describe("golang provider :: installing", function()
         snapshot:revert()
     end)
 
-    it("should install golang packages", function()
+    it("should install opam packages", function()
         local ctx = test_helpers.create_context()
-        local manager = require "mason-core.installer.managers.golang"
+        local manager = require "mason-core.installer.managers.opam"
         stub(manager, "install", mockx.returns(Result.success()))
 
         local result = ctx:execute(function()
-            return golang.install(ctx, {
-                package = "namespace/package",
-                version = "v1.5.0",
-                extra_packages = { "extra" },
+            return opam.install(ctx, {
+                package = "package",
+                version = "1.5.0",
             })
         end)
 
         assert.is_true(result:is_success())
         assert.spy(manager.install).was_called(1)
-        assert.spy(manager.install).was_called_with("namespace/package", "v1.5.0", { extra_packages = { "extra" } })
+        assert.spy(manager.install).was_called_with("package", "1.5.0")
     end)
 end)

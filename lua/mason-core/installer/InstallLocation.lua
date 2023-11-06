@@ -59,9 +59,9 @@ function InstallLocation:opt(path)
     return Path.concat { self.dir, "opt", path }
 end
 
----@param path string?
-function InstallLocation:package(path)
-    return Path.concat { self.dir, "packages", path }
+---@param pkg string?
+function InstallLocation:package(pkg)
+    return Path.concat { self.dir, "packages", pkg }
 end
 
 ---@param path string?
@@ -77,6 +77,11 @@ end
 ---@param path string
 function InstallLocation:registry(path)
     return Path.concat { self.dir, "registries", path }
+end
+
+---@param pkg string
+function InstallLocation:receipt(pkg)
+    return Path.concat { self:package(pkg), "mason-receipt.json" }
 end
 
 ---@param opts { PATH: '"append"' | '"prepend"' | '"skip"' }

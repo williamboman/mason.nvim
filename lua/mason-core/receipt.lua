@@ -1,15 +1,11 @@
-local Result = require "mason-core.result"
-local fs = require "mason-core.fs"
-local path = require "mason-core.path"
-
 local M = {}
 
 ---@alias InstallReceiptSchemaVersion
 ---| '"1.0"'
 ---| '"1.1"'
----| '"1.2"'
+---| '"2.0"'
 
----@alias InstallReceiptSource {type: RegistryPackageSpecSchema, id: string}
+---@alias InstallReceiptSource {type: RegistryPackageSpecSchema, id: string, raw: RegistryPackageSource}
 
 ---@class InstallReceiptLinks
 ---@field bin? table<string, string>
@@ -22,6 +18,7 @@ local M = {}
 ---@field public metrics {start_time:integer, completion_time:integer}
 ---@field public source InstallReceiptSource
 ---@field public links InstallReceiptLinks
+---@field public install_options PackageInstallOpts
 local InstallReceipt = {}
 InstallReceipt.__index = InstallReceipt
 
@@ -31,6 +28,10 @@ end
 
 function InstallReceipt.from_json(json)
     return InstallReceipt:new(json)
+end
+
+function InstallReceipt:__tostring()
+    return ("InstallReceipt(name=%s, purl=%s)"):format(self.name, self:get_source().id or "N/A")
 end
 
 function InstallReceipt:get_name()
@@ -49,22 +50,30 @@ end
 
 ---@return InstallReceiptSource
 function InstallReceipt:get_source()
-    if self:is_schema_min "1.2" then
+    if self:is_schema_min "2.0" then
         return self.source
     end
     return self.primary_source --[[@as InstallReceiptSource]]
+end
+
+function InstallReceipt:get_raw_source()
+    if self:is_schema_min "2.0" then
+        return self.source.raw
+    else
+        return nil
+    end
+end
+
+function InstallReceipt:get_install_options()
+    return self.install_options
 end
 
 function InstallReceipt:get_links()
     return self.links
 end
 
----@async
----@param dir string
-function InstallReceipt:write(dir)
-    return Result.pcall(function()
-        fs.async.write_file(path.concat { dir, "mason-receipt.json" }, vim.json.encode(self))
-    end)
+function InstallReceipt:to_json()
+    return vim.json.encode(self)
 end
 
 ---@class InstallReceiptBuilder
@@ -93,6 +102,12 @@ end
 ---@param source InstallReceiptSource
 function InstallReceiptBuilder:with_source(source)
     self.source = source
+    return self
+end
+
+---@param install_options PackageInstallOpts
+function InstallReceiptBuilder:with_install_options(install_options)
+    self.install_options = install_options
     return self
 end
 
@@ -132,13 +147,15 @@ function InstallReceiptBuilder:build()
     assert(self.start_time, "start_time is required")
     assert(self.completion_time, "completion_time is required")
     assert(self.source, "source is required")
+    assert(self.install_options, "install_options is required")
     return InstallReceipt:new {
         name = self.name,
-        schema_version = "1.2",
+        schema_version = "2.0",
         metrics = {
             start_time = self.start_time,
             completion_time = self.completion_time,
         },
+        install_options = self.install_options,
         source = self.source,
         links = self.links,
     }

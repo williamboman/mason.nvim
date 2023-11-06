@@ -13,7 +13,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("npm provider :: parsing", function()
+describe("npm compiler :: parsing", function()
     it("should parse package", function()
         assert.same(
             Result.success {
@@ -26,7 +26,7 @@ describe("npm provider :: parsing", function()
     end)
 end)
 
-describe("npm provider :: installing", function()
+describe("npm compiler :: installing", function()
     local snapshot
 
     before_each(function()

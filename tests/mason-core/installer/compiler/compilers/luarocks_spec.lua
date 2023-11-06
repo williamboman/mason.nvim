@@ -14,7 +14,7 @@ local function purl(overrides)
     return vim.tbl_deep_extend("force", purl, overrides)
 end
 
-describe("luarocks provider :: parsing", function()
+describe("luarocks compiler :: parsing", function()
     it("should parse package", function()
         assert.same(
             Result.success {
@@ -52,7 +52,7 @@ describe("luarocks provider :: parsing", function()
     end)
 end)
 
-describe("luarocks provider :: installing", function()
+describe("luarocks compiler :: installing", function()
     local snapshot
 
     before_each(function()

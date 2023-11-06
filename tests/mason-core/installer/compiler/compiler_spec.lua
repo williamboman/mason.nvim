@@ -35,7 +35,7 @@ local dummy_compiler = {
     end,
 }
 
-describe("registry installer :: parsing", function()
+describe("registry compiler :: parsing", function()
     it("should parse valid package specs", function()
         compiler.register_compiler("dummy", dummy_compiler)
 
@@ -122,7 +122,7 @@ describe("registry installer :: parsing", function()
     it("should handle PLATFORM_UNSUPPORTED", function()
         compiler.register_compiler("dummy", dummy_compiler)
 
-        local result = compiler.compile({
+        local result = compiler.compile_installer({
             schema = "registry+v1",
             source = {
                 id = "pkg:dummy/package-name@v1.2.3",
@@ -136,7 +136,7 @@ describe("registry installer :: parsing", function()
     it("should error upon parsing failures", function()
         compiler.register_compiler("dummy", dummy_compiler)
 
-        local result = compiler.compile({
+        local result = compiler.compile_installer({
             schema = "registry+v1",
             source = {
                 id = "pkg:dummy/package-name@v1.2.3",
@@ -148,7 +148,7 @@ describe("registry installer :: parsing", function()
     end)
 end)
 
-describe("registry installer :: compiling", function()
+describe("registry compiler :: compiling", function()
     local snapshot
 
     before_each(function()
@@ -166,7 +166,7 @@ describe("registry installer :: compiling", function()
         ---@type PackageInstallOpts
         local opts = {}
 
-        local result = compiler.compile({
+        local result = compiler.compile_installer({
             schema = "registry+v1",
             source = {
                 id = "pkg:dummy/package-name@v1.2.3",
@@ -190,7 +190,7 @@ describe("registry installer :: compiling", function()
         ---@type PackageInstallOpts
         local opts = { version = "v2.0.0" }
 
-        local result = compiler.compile({
+        local result = compiler.compile_installer({
             schema = "registry+v1",
             source = {
                 id = "pkg:dummy/package-name@v1.2.3",
@@ -222,7 +222,7 @@ describe("registry installer :: compiling", function()
         ---@type PackageInstallOpts
         local opts = { version = "v13.3.7" }
 
-        local result = compiler.compile({
+        local result = compiler.compile_installer({
             schema = "registry+v1",
             source = {
                 id = "pkg:dummy/package-name@v1.2.3",
@@ -234,7 +234,7 @@ describe("registry installer :: compiling", function()
 
         local ctx = test_helpers.create_context { install_opts = opts }
         local err = assert.has_error(function()
-            ctx:execute(installer_fn)
+            ctx:execute(installer_fn):get_or_throw()
         end)
 
         assert.equals([[Version "v13.3.7" is not available.]], err)
@@ -255,7 +255,7 @@ describe("registry installer :: compiling", function()
         ---@type PackageInstallOpts
         local opts = {}
 
-        local result = compiler.compile({
+        local result = compiler.compile_installer({
             schema = "registry+v1",
             source = {
                 id = "pkg:dummy/package-name@v1.2.3",
@@ -268,7 +268,7 @@ describe("registry installer :: compiling", function()
 
         local ctx = test_helpers.create_context()
         local err = assert.has_error(function()
-            ctx:execute(installer_fn)
+            ctx:execute(installer_fn):get_or_throw()
         end)
         assert.equals("This is a failure.", err)
     end)
@@ -292,7 +292,7 @@ describe("registry installer :: compiling", function()
         ---@type PackageInstallOpts
         local opts = {}
 
-        local result = compiler.compile(spec, opts)
+        local result = compiler.compile_installer(spec, opts)
 
         assert.is_true(result:is_success())
         local installer_fn = result:get_or_nil()
