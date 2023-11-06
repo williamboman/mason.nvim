@@ -50,7 +50,7 @@ function Permit:forget()
     if semaphore.permits > 0 and #semaphore.handles > 0 then
         semaphore.permits = semaphore.permits - 1
         local release = table.remove(semaphore.handles, 1)
-        release(Permit:new(semaphore))
+        release()
     end
 end
 
@@ -73,7 +73,7 @@ function Semaphore:acquire()
     if self.permits > 0 then
         self.permits = self.permits - 1
     else
-        return a.wait(function(resolve)
+        a.wait(function(resolve)
             table.insert(self.handles, resolve)
         end)
     end
