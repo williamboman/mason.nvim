@@ -120,7 +120,6 @@ local function pip_install(pkgs, extra_args)
         "pip",
         "--disable-pip-version-check",
         "install",
-        "-U",
         extra_args or vim.NIL,
         pkgs,
     }
@@ -150,7 +149,7 @@ end
 ---@param opts? { extra?: string, extra_packages?: string[], install_extra_args?: string[] }
 function M.install(pkg, version, opts)
     opts = opts or {}
-    log.fmt_debug("pypi: install %s %s", pkg, version, opts)
+    log.fmt_debug("pypi: install %s %s %s", pkg, version, opts or "")
     local ctx = installer.context()
     ctx.stdio_sink.stdout(("Installing pip package %s@%s…\n"):format(pkg, version))
     return pip_install({

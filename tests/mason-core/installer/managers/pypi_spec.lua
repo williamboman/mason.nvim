@@ -70,7 +70,6 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
-            "-U",
             { "--proxy", "http://localhost" },
             { "pip" },
         }
@@ -91,7 +90,6 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
-            "-U",
             vim.NIL, -- install_extra_args
             {
                 "pypi-package==1.0.0",
@@ -130,7 +128,6 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
-            "-U",
             vim.NIL, -- install_extra_args
             {
                 "pypi-package[lsp]==1.0.0",
@@ -156,7 +153,6 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
-            "-U",
             { "--proxy", "http://localhost:9000" },
             {
                 "pypi-package==1.0.0",
