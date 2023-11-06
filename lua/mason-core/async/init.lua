@@ -79,6 +79,9 @@ local function new_execution_context(suspend_fn, callback, ...)
             return
         end
         local ok, promise_or_result = co.resume(thread, ...)
+        if cancelled or not thread then
+            return
+        end
         if ok then
             if co.status(thread) == "suspended" then
                 if getmetatable(promise_or_result) == Promise then
