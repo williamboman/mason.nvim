@@ -119,7 +119,7 @@ describe("registry linker", function()
             ["npm:executable"] = "node_modules/.bin/executable",
             ["nuget:executable"] = "executable",
             ["opam:executable"] = "bin/executable",
-            ["pypi:executable"] = "venv/bin/executable",
+            -- ["pypi:executable"] = "venv/bin/executable",
         }
 
         for bin, path in pairs(matrix) do

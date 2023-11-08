@@ -1,4 +1,5 @@
 local installer = require "mason-core.installer"
+local match = require "luassert.match"
 local path = require "mason-core.path"
 local pypi = require "mason-core.installer.managers.pypi"
 local spy = require "luassert.spy"
@@ -35,6 +36,9 @@ describe("pypi manager", function()
     it("should init venv and upgrade pip", function()
         local ctx = create_dummy_context()
         stub(ctx, "promote_cwd")
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.ref(ctx.fs), "venv/bin/python").returns(true)
+
         installer.exec_in_context(ctx, function()
             pypi.init { upgrade_pip = true, install_extra_args = { "--proxy", "http://localhost" } }
         end)
@@ -60,6 +64,8 @@ describe("pypi manager", function()
 
     it("should install", function()
         local ctx = create_dummy_context()
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.ref(ctx.fs), "venv/bin/python").returns(true)
         installer.exec_in_context(ctx, function()
             pypi.install("pypi-package", "1.0.0")
         end)
@@ -81,6 +87,8 @@ describe("pypi manager", function()
 
     it("should write output", function()
         local ctx = create_dummy_context()
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.ref(ctx.fs), "venv/bin/python").returns(true)
         spy.on(ctx.stdio_sink, "stdout")
 
         installer.exec_in_context(ctx, function()
@@ -92,6 +100,9 @@ describe("pypi manager", function()
 
     it("should install extra specifier", function()
         local ctx = create_dummy_context()
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.ref(ctx.fs), "venv/bin/python").returns(true)
+
         installer.exec_in_context(ctx, function()
             pypi.install("pypi-package", "1.0.0", {
                 extra = "lsp",
@@ -115,6 +126,8 @@ describe("pypi manager", function()
 
     it("should install extra packages", function()
         local ctx = create_dummy_context()
+        stub(ctx.fs, "file_exists")
+        ctx.fs.file_exists.on_call_with(match.ref(ctx.fs), "venv/bin/python").returns(true)
         installer.exec_in_context(ctx, function()
             pypi.install("pypi-package", "1.0.0", {
                 extra_packages = { "extra-package" },

@@ -20,17 +20,32 @@ local function create_venv(py_executables)
     end, py_executables)):ok_or "Failed to create python3 virtual environment."
 end
 
+---@param ctx InstallContext
+---@param executable string
+local function find_venv_executable(ctx, executable)
+    local candidates = _.filter(_.identity, {
+        platform.is.unix and path.concat { VENV_DIR, "bin", executable },
+        -- MSYS2
+        platform.is.win and path.concat { VENV_DIR, "bin", ("%s.exe"):format(executable) },
+        -- Stock Windows
+        platform.is.win and path.concat { VENV_DIR, "Scripts", ("%s.exe"):format(executable) },
+    })
+
+    for _, candidate in ipairs(candidates) do
+        if ctx.fs:file_exists(candidate) then
+            return Result.success(candidate)
+        end
+    end
+    return Result.failure(("Failed to find executable %q in Python virtual environment."):format(executable))
+end
+
 ---@async
 ---@param args SpawnArgs
 local function venv_python(args)
     local ctx = installer.context()
-    local python_path = path.concat {
-        ctx.cwd:get(),
-        VENV_DIR,
-        platform.is.win and "Scripts" or "bin",
-        platform.is.win and "python.exe" or "python",
-    }
-    return ctx.spawn[python_path](args)
+    return find_venv_executable(ctx, "python"):and_then(function(python_path)
+        return ctx.spawn[path.concat { ctx.cwd:get(), python_path }](args)
+    end)
 end
 
 ---@async
@@ -93,16 +108,10 @@ function M.install(pkg, version, opts)
     }, opts.install_extra_args)
 end
 
----@param exec string
-function M.bin_path(exec)
-    return Result.pcall(platform.when, {
-        unix = function()
-            return path.concat { "venv", "bin", exec }
-        end,
-        win = function()
-            return path.concat { "venv", "Scripts", ("%s.exe"):format(exec) }
-        end,
-    })
+---@param executable string
+function M.bin_path(executable)
+    local ctx = installer.context()
+    return find_venv_executable(ctx, executable)
 end
 
 return M
