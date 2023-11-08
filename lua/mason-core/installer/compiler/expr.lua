@@ -95,6 +95,9 @@ function M.tbl_interpolate(tbl, ctx)
     return Result.try(function(try)
         local interpolated = {}
         for k, v in pairs(tbl) do
+            if type(k) == "string" then
+                k = try(M.interpolate(k, ctx))
+            end
             if type(v) == "string" then
                 interpolated[k] = try(M.interpolate(v, ctx))
             elseif type(v) == "table" then
