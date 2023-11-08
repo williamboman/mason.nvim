@@ -270,4 +270,17 @@ describe("table interpolation", function()
             }, {})
         )
     end)
+
+    it("should interpolate string keys", function()
+        assert.same(
+            Result.success {
+                ["a-1.2.3"] = "1.2.3",
+                [12] = "12",
+            },
+            expr.tbl_interpolate({
+                ["a-{{version}}"] = "{{version}}",
+                [12] = "12",
+            }, { version = "1.2.3" })
+        )
+    end)
 end)
