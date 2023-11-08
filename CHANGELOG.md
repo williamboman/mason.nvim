@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.3](https://github.com/williamboman/mason.nvim/compare/v1.8.2...v1.8.3) (2023-11-08)
+
+
+### Bug Fixes
+
+* **pypi:** support MSYS2 virtual environments on Windows ([#1547](https://github.com/williamboman/mason.nvim/issues/1547)) ([3e2432a](https://github.com/williamboman/mason.nvim/commit/3e2432ad0bca01fc3356389b341aa3e5e2da9fd8))
+
 ## [1.8.2](https://github.com/williamboman/mason.nvim/compare/v1.8.1...v1.8.2) (2023-10-31)
 
 
