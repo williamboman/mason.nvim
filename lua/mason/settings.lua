@@ -66,6 +66,13 @@ local DEFAULT_SETTINGS = {
         --
         -- Example: { "--proxy", "https://proxyserver" }
         install_args = {},
+
+        ---@since 1.8.4
+        -- These args will be added to `python -m venv` calls. Note that setting extra args might impact intended behavior
+        -- and is not recommended.
+        --
+        -- Example: { "--system-site-packges", "--symlinks" }
+        venv_args = {},
     },
 
     ui = {

@@ -6,6 +6,7 @@ local installer = require "mason-core.installer"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
+local settings = require "mason.settings"
 
 local M = {}
 
@@ -16,7 +17,7 @@ local VENV_DIR = "venv"
 local function create_venv(py_executables)
     local ctx = installer.context()
     return Optional.of_nilable(_.find_first(function(executable)
-        return ctx.spawn[executable]({ "-m", "venv", VENV_DIR }):is_success()
+        return ctx.spawn[executable]({ "-m", "venv", settings.current.pip.venv_args, VENV_DIR }):is_success()
     end, py_executables)):ok_or "Failed to create python3 virtual environment."
 end
 
