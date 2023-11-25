@@ -108,8 +108,7 @@ function FileRegistrySource:install()
                     local yaml_spec = fs.async.read_file(package_file)
                     local spec = vim.json.decode(spawn
                         [yq]({
-                            "-o",
-                            "json",
+                            ".",
                             on_spawn = a.scope(function(_, stdio)
                                 local stdin = stdio[1]
                                 async_uv.write(stdin, yaml_spec)
