@@ -4,6 +4,7 @@ local installer = require "mason-core.installer"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local providers = require "mason-core.providers"
+local settings = require "mason.settings"
 local spawn = require "mason-core.spawn"
 
 local list_copy = _.list_copy
@@ -63,7 +64,7 @@ function M.install(packages)
     ctx.fs:append_file(".npmrc", "global-style=true")
 
     ensure_npm_root(ctx)
-    ctx.spawn.npm { "install", pkgs }
+    ctx.spawn.npm(vim.list_extend({ "install", pkgs }, settings.current.npm.install_args))
 
     if packages.bin then
         _.each(function(executable)

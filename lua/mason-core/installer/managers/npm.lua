@@ -5,6 +5,7 @@ local log = require "mason-core.log"
 local path = require "mason-core.path"
 local platform = require "mason-core.platform"
 local semver = require "mason-core.semver"
+local settings = require "mason.settings"
 local spawn = require "mason-core.spawn"
 
 local M = {}
@@ -63,11 +64,11 @@ function M.install(pkg, version, opts)
     log.fmt_debug("npm: install %s %s %s", pkg, version, opts)
     local ctx = installer.context()
     ctx.stdio_sink.stdout(("Installing npm package %s@%s…\n"):format(pkg, version))
-    return ctx.spawn.npm {
+    return ctx.spawn.npm(vim.list_extend({
         "install",
         ("%s@%s"):format(pkg, version),
         opts.extra_packages or vim.NIL,
-    }
+    }, settings.current.npm.install_args))
 end
 
 ---@param exec string
