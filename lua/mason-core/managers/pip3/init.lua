@@ -57,7 +57,7 @@ function M.install(packages)
 
     -- Find first executable that manages to create venv
     local executable = _.find_first(function(executable)
-        return pcall(ctx.spawn[executable], { "-m", "venv", VENV_DIR })
+        return pcall(ctx.spawn[executable], { "-m", "venv", "--system-site-packages", VENV_DIR })
     end, executables)
 
     Optional.of_nilable(executable)
