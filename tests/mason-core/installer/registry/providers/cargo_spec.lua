@@ -136,4 +136,16 @@ describe("cargo provider :: versions", function()
         assert.spy(providers.github.get_all_tags).was_called(1)
         assert.spy(providers.github.get_all_tags).was_called_with "rust-lang/rust-analyzer"
     end)
+
+    it("should not provide git commit SHAs", function()
+        local result = cargo.get_versions(purl {
+            qualifiers = {
+                repository_url = "https://github.com/rust-lang/rust-analyzer",
+                rev = "true",
+            },
+        })
+
+        assert.is_false(result:is_success())
+        assert.equals("Unable to retrieve commit SHAs.", result:err_or_nil())
+    end)
 end)

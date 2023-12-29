@@ -60,7 +60,14 @@ end
 function M.get_versions(purl)
     ---@type string?
     local repository_url = _.path({ "qualifiers", "repository_url" }, purl)
+    local rev = _.path({ "qualifiers", "rev" }, purl)
     if repository_url then
+        if rev == "true" then
+            -- When ?rev=true we're targeting a commit SHA. It's not feasible to retrieve all commit SHAs for a
+            -- repository so we fail instead.
+            return Result.failure "Unable to retrieve commit SHAs."
+        end
+
         ---@type Result?
         local git_tags = _.cond {
             {
