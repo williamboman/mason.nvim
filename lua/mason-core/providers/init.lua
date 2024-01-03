@@ -44,6 +44,10 @@ local settings = require "mason.settings"
 ---@class GolangProvider
 ---@field get_all_versions? async fun(pkg: string): Result # Result<string[]>
 
+---@class OpenVSXProvider
+---@field get_latest_version? async fun(namespace: string, extension: string): Result # Result<Crate>
+---@field get_all_versions? async fun(namespace: string, extension: string): Result # Result<string[]>
+
 ---@class Provider
 ---@field github?     GitHubProvider
 ---@field npm?        NpmProvider
@@ -52,6 +56,7 @@ local settings = require "mason.settings"
 ---@field packagist?  PackagistProvider
 ---@field crates?     CratesProvider
 ---@field golang?     GolangProvider
+---@field openvsx?    OpenVSXProvider
 
 local function service_mt(service)
     return setmetatable({}, {

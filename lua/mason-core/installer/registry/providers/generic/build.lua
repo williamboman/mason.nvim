@@ -1,6 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local build = require "mason-core.installer.managers.build"
+local common = require "mason-core.installer.managers.common"
 local expr = require "mason-core.installer.registry.expr"
 local util = require "mason-core.installer.registry.util"
 
@@ -34,7 +34,7 @@ end
 ---@param ctx InstallContext
 ---@param source ParsedGenericBuildSource
 function M.install(ctx, source)
-    return build.run(source.build)
+    return common.run_build_instruction(source.build)
 end
 
 return M

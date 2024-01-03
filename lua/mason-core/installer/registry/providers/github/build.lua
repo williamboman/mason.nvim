@@ -1,6 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local build = require "mason-core.installer.managers.build"
+local common = require "mason-core.installer.managers.common"
 local expr = require "mason-core.installer.registry.expr"
 local util = require "mason-core.installer.registry.util"
 
@@ -44,7 +44,7 @@ function M.install(ctx, source)
     local std = require "mason-core.installer.managers.std"
     return Result.try(function(try)
         try(std.clone(source.repo, { rev = source.rev }))
-        try(build.run(source.build))
+        try(common.run_build_instruction(source.build))
     end)
 end
 

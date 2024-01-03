@@ -1,10 +1,10 @@
 local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
+local common = require "mason-core.installer.managers.common"
 local github = require "mason-core.installer.registry.providers.github"
 local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local registry_installer = require "mason-core.installer.registry"
-local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
 ---@param overrides Purl
@@ -285,6 +285,7 @@ describe("github provider :: release :: installing", function()
         local std = require "mason-core.installer.managers.std"
         stub(std, "download_file", mockx.returns(Result.success()))
         stub(std, "unpack", mockx.returns(Result.success()))
+        stub(common, "download_files", mockx.returns(Result.success()))
 
         local result = installer.exec_in_context(ctx, function()
             return github.install(ctx, {
@@ -306,62 +307,16 @@ describe("github provider :: release :: installing", function()
         end)
 
         assert.is_true(result:is_success())
-        assert.spy(std.download_file).was_called(2)
-        assert.spy(std.download_file).was_called_with(
-            "https://github.com/namespace/name/releases/download/2023-03-09/file-linux-amd64-2023-03-09.tar.gz",
-            "file-linux-amd64-2023-03-09.tar.gz"
-        )
-        assert.spy(std.download_file).was_called_with(
-            "https://github.com/namespace/name/releases/download/2023-03-09/another-file-linux-amd64-2023-03-09.tar.gz",
-            "another-file-linux-amd64-2023-03-09.tar.gz"
-        )
-        assert.spy(std.unpack).was_called(2)
-        assert.spy(std.unpack).was_called_with "file-linux-amd64-2023-03-09.tar.gz"
-        assert.spy(std.unpack).was_called_with "another-file-linux-amd64-2023-03-09.tar.gz"
-    end)
-
-    it("should install github release assets into specified output directory", function()
-        local ctx = create_dummy_context()
-        local std = require "mason-core.installer.managers.std"
-        local download_file_cwd, unpack_cwd
-        stub(std, "download_file", function()
-            download_file_cwd = ctx.cwd:get()
-            return Result.success()
-        end)
-        stub(std, "unpack", function()
-            unpack_cwd = ctx.cwd:get()
-            return Result.success()
-        end)
-        stub(ctx.fs, "mkdirp")
-        spy.on(ctx, "chdir")
-
-        local result = installer.exec_in_context(ctx, function()
-            return github.install(ctx, {
-                repo = "namespace/name",
-                asset = {
-                    file = "file.zip",
-                },
-                downloads = {
-                    {
-                        out_file = "out/dir/file.zip",
-                        download_url = "https://github.com/namespace/name/releases/download/2023-03-09/file.zip",
-                    },
-                },
-            })
-        end)
-
-        assert.is_true(result:is_success())
-        assert.spy(ctx.fs.mkdirp).was_called(1)
-        assert.spy(ctx.fs.mkdirp).was_called_with(match.is_ref(ctx.fs), "out/dir")
-        assert.spy(ctx.chdir).was_called(1)
-        assert.spy(ctx.chdir).was_called_with(match.is_ref(ctx), "out/dir", match.is_function())
-        assert.spy(std.download_file).was_called(1)
-        assert.is_true(match.matches "out/dir$"(download_file_cwd))
-        assert
-            .spy(std.download_file)
-            .was_called_with("https://github.com/namespace/name/releases/download/2023-03-09/file.zip", "file.zip")
-        assert.spy(std.unpack).was_called(1)
-        assert.is_true(match.matches "out/dir$"(unpack_cwd))
-        assert.spy(std.unpack).was_called_with "file.zip"
+        assert.spy(common.download_files).was_called(1)
+        assert.spy(common.download_files).was_called_with(match.is_ref(ctx), {
+            {
+                out_file = "file-linux-amd64-2023-03-09.tar.gz",
+                download_url = "https://github.com/namespace/name/releases/download/2023-03-09/file-linux-amd64-2023-03-09.tar.gz",
+            },
+            {
+                out_file = "another-file-linux-amd64-2023-03-09.tar.gz",
+                download_url = "https://github.com/namespace/name/releases/download/2023-03-09/another-file-linux-amd64-2023-03-09.tar.gz",
+            },
+        })
     end)
 end)

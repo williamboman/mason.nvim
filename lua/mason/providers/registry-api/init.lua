@@ -61,4 +61,12 @@ return {
             return api.golang.versions.all { pkg = api.encode_uri_component(pkg) }
         end,
     },
+    openvsx = {
+        get_latest_version = function(namespace, extension)
+            return api.openvsx.versions.latest { namespace = namespace, extension = extension }
+        end,
+        get_all_versions = function(namespace, extension)
+            return api.openvsx.versions.all { namespace = namespace, extension = extension }
+        end,
+    },
 }

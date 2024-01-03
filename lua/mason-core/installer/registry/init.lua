@@ -33,6 +33,7 @@ M.register_provider("luarocks", _.lazy_require "mason-core.installer.registry.pr
 M.register_provider("npm", _.lazy_require "mason-core.installer.registry.providers.npm")
 M.register_provider("nuget", _.lazy_require "mason-core.installer.registry.providers.nuget")
 M.register_provider("opam", _.lazy_require "mason-core.installer.registry.providers.opam")
+M.register_provider("openvsx", _.lazy_require "mason-core.installer.registry.providers.openvsx")
 M.register_provider("pypi", _.lazy_require "mason-core.installer.registry.providers.pypi")
 
 ---@param purl Purl

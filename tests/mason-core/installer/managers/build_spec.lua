@@ -1,5 +1,5 @@
 local Result = require "mason-core.result"
-local build = require "mason-core.installer.managers.build"
+local common = require "mason-core.installer.managers.common"
 local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local mock = require "luassert.mock"
@@ -25,7 +25,7 @@ describe("build manager", function()
         )
 
         local result = installer.exec_in_context(ctx, function()
-            return build.run {
+            return common.run_build_instruction {
                 run = [[npm install && npm run compile]],
                 env = {
                     MASON_VERSION = "2023-03-09",
@@ -57,7 +57,7 @@ describe("build manager", function()
         stub(ctx.spawn, "bash", mockx.returns(Result.success()))
 
         local result = installer.exec_in_context(ctx, function()
-            return build.run {
+            return common.run_build_instruction {
                 run = "make",
                 staged = false,
             }

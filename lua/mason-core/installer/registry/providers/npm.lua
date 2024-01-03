@@ -1,7 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
 local providers = require "mason-core.providers"
-local util = require "mason-core.installer.registry.util"
 
 ---@param purl Purl
 local function purl_to_npm(purl)
