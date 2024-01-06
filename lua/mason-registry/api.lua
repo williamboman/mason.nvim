@@ -120,4 +120,13 @@ api.golang = {
     },
 }
 
+api.openvsx = {
+    versions = {
+        ---@type ApiSignature<{ namespace: string, extension: string }>
+        latest = get "/api/openvsx/{namespace}/{extension}/versions/latest",
+        ---@type ApiSignature<{ namespace: string, extension: string }>
+        all = get "/api/openvsx/{namespace}/{extension}/versions/all",
+    },
+}
+
 return api

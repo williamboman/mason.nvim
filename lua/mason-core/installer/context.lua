@@ -241,7 +241,7 @@ function InstallContext:promote_cwd()
 end
 
 ---@param rel_path string The relative path from the current working directory to change cwd to. Will only restore to the initial cwd after execution of fn (if provided).
----@param fn async (fun())? The function to run in the context of the given path.
+---@param fn async (fun(): any)? The function to run in the context of the given path.
 function InstallContext:chdir(rel_path, fn)
     local old_cwd = self.cwd:get()
     self.cwd:set(path.concat { old_cwd, rel_path })

@@ -10,10 +10,10 @@ local M = {}
 ---@generic T : { target: Platform | Platform[] }
 ---@param candidates T[] | T
 ---@param opts PackageInstallOpts
----@return Optional # Optional<T>
+---@return Result # Result<T>
 function M.coalesce_by_target(candidates, opts)
     if not vim.tbl_islist(candidates) then
-        return Optional.of(candidates)
+        return Result.success(candidates)
     end
     return Optional.of_nilable(_.find_first(function(asset)
         if opts.target then
@@ -33,7 +33,7 @@ function M.coalesce_by_target(candidates, opts)
                 return platform.is[asset.target]
             end
         end
-    end, candidates))
+    end, candidates)):ok_or "PLATFORM_UNSUPPORTED"
 end
 
 ---Checks whether a custom version of a package installation corresponds to a valid version.

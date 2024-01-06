@@ -121,8 +121,8 @@ end)
 describe("generic provider :: build :: installing", function()
     it("should install", function()
         local ctx = create_dummy_context()
-        local build = require "mason-core.installer.managers.build"
-        stub(build, "run", mockx.returns(Result.success()))
+        local common = require "mason-core.installer.managers.common"
+        stub(common, "run_build_instruction", mockx.returns(Result.success()))
 
         local result = installer.exec_in_context(ctx, function()
             return generic.install(ctx, {
@@ -134,8 +134,8 @@ describe("generic provider :: build :: installing", function()
         end)
 
         assert.is_true(result:is_success())
-        assert.spy(build.run).was_called(1)
-        assert.spy(build.run).was_called_with {
+        assert.spy(common.run_build_instruction).was_called(1)
+        assert.spy(common.run_build_instruction).was_called_with {
             run = "make",
             env = { VALUE = "here" },
         }

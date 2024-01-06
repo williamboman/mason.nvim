@@ -1,6 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
-local build = require "mason-core.installer.managers.build"
+local common = require "mason-core.installer.managers.common"
 local expr = require "mason-core.installer.registry.expr"
 local util = require "mason-core.installer.registry.util"
 
@@ -15,7 +15,7 @@ local M = {}
 function M.parse(source, purl, opts)
     return Result.try(function(try)
         ---@type BuildInstruction
-        local build_instruction = try(util.coalesce_by_target(source.build, opts):ok_or "PLATFORM_UNSUPPORTED")
+        local build_instruction = try(util.coalesce_by_target(source.build, opts))
 
         local expr_ctx = { version = purl.version }
 
@@ -44,7 +44,7 @@ function M.install(ctx, source)
     local std = require "mason-core.installer.managers.std"
     return Result.try(function(try)
         try(std.clone(source.repo, { rev = source.rev }))
-        try(build.run(source.build))
+        try(common.run_build_instruction(source.build))
     end)
 end
 

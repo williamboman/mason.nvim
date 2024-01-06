@@ -7,7 +7,7 @@ local util = require "mason-core.installer.registry.util"
 describe("registry installer util", function()
     it("should coalesce single target", function()
         local source = { value = "here" }
-        local coalesced = util.coalesce_by_target(source, {}):get()
+        local coalesced = util.coalesce_by_target(source, {}):get_or_nil()
         assert.is_true(match.is_ref(source)(coalesced))
     end)
 
@@ -19,7 +19,7 @@ describe("registry installer util", function()
                 value = "here",
             },
             source,
-        }, { target = "VIC64" }):get()
+        }, { target = "VIC64" }):get_or_nil()
 
         assert.is_true(match.is_ref(source)(coalesced))
     end)
