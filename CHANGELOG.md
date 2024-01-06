@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.0](https://github.com/williamboman/mason.nvim/compare/v1.8.3...v1.9.0) (2024-01-06)
+
+
+### Features
+
+* add support for openvsx sources ([#1589](https://github.com/williamboman/mason.nvim/issues/1589)) ([6c68547](https://github.com/williamboman/mason.nvim/commit/6c685476df4f202e371bdd3d726729d6f3f8b9f0))
+
+
+### Bug Fixes
+
+* **cargo:** don't attempt to fetch versions when version targets commit SHA ([#1585](https://github.com/williamboman/mason.nvim/issues/1585)) ([a09da6a](https://github.com/williamboman/mason.nvim/commit/a09da6ac634926a299dd439da08bdb547a8ca011))
+
 ## [1.8.3](https://github.com/williamboman/mason.nvim/compare/v1.8.2...v1.8.3) (2023-11-08)
 
 
