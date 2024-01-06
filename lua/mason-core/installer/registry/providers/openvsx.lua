@@ -19,10 +19,7 @@ function M.parse(source, purl, opts)
     return Result.try(function(try)
         local expr_ctx = { version = purl.version }
         ---@type OpenVSXSourceDownload
-        local download = try(
-            util.coalesce_by_target(try(expr.tbl_interpolate(source.download, expr_ctx)), opts)
-                :ok_or "PLATFORM_UNSUPPORTED"
-        )
+        local download = try(util.coalesce_by_target(try(expr.tbl_interpolate(source.download, expr_ctx)), opts))
 
         local downloads = common.parse_downloads(download, function(file)
             if download.target_platform then

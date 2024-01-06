@@ -2,6 +2,7 @@ local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
 local generic = require "mason-core.installer.registry.providers.generic"
 local installer = require "mason-core.installer"
+local match = require "luassert.match"
 local stub = require "luassert.stub"
 
 ---@param overrides Purl
@@ -17,6 +18,12 @@ describe("generic provider :: download :: parsing", function()
     it("should parse single download target", function()
         assert.same(
             Result.success {
+                downloads = {
+                    {
+                        out_file = "name.tar.gz",
+                        download_url = "https://getpackage.org/downloads/1.2.0/name.tar.gz",
+                    },
+                },
                 download = {
                     files = {
                         ["name.tar.gz"] = [[https://getpackage.org/downloads/1.2.0/name.tar.gz]],
@@ -36,6 +43,12 @@ describe("generic provider :: download :: parsing", function()
     it("should coalesce download target", function()
         assert.same(
             Result.success {
+                downloads = {
+                    {
+                        out_file = "name.tar.gz",
+                        download_url = "https://getpackage.org/downloads/linux-aarch64/1.2.0/name.tar.gz",
+                    },
+                },
                 download = {
                     target = "linux_arm64",
                     files = {
@@ -88,31 +101,33 @@ end)
 describe("generic provider :: download :: installing", function()
     it("should install generic packages", function()
         local ctx = create_dummy_context()
-        local std = require "mason-core.installer.managers.std"
-        stub(std, "download_file", mockx.returns(Result.success()))
-        stub(std, "unpack", mockx.returns(Result.success()))
+        local common = require "mason-core.installer.managers.common"
+        stub(common, "download_files", mockx.returns(Result.success()))
 
         local result = installer.exec_in_context(ctx, function()
             return generic.install(ctx, {
+                downloads = {
+                    {
+                        out_file = "name.tar.gz",
+                        download_url = "https://getpackage.org/downloads/linux-aarch64/1.2.0/name.tar.gz",
+                    },
+                },
                 download = {
+                    target = "linux_arm64",
                     files = {
                         ["name.tar.gz"] = [[https://getpackage.org/downloads/linux-aarch64/1.2.0/name.tar.gz]],
-                        ["archive.tar.gz"] = [[https://getpackage.org/downloads/linux-aarch64/1.2.0/archive.tar.gz]],
                     },
                 },
             })
         end)
 
         assert.is_true(result:is_success())
-        assert.spy(std.download_file).was_called(2)
-        assert
-            .spy(std.download_file)
-            .was_called_with("https://getpackage.org/downloads/linux-aarch64/1.2.0/name.tar.gz", "name.tar.gz")
-        assert
-            .spy(std.download_file)
-            .was_called_with("https://getpackage.org/downloads/linux-aarch64/1.2.0/archive.tar.gz", "archive.tar.gz")
-        assert.spy(std.unpack).was_called(2)
-        assert.spy(std.unpack).was_called_with "name.tar.gz"
-        assert.spy(std.unpack).was_called_with "archive.tar.gz"
+        assert.spy(common.download_files).was_called(1)
+        assert.spy(common.download_files).was_called_with(match.is_ref(ctx), {
+            {
+                out_file = "name.tar.gz",
+                download_url = "https://getpackage.org/downloads/linux-aarch64/1.2.0/name.tar.gz",
+            },
+        })
     end)
 end)

@@ -18,10 +18,7 @@ function M.parse(source, purl, opts)
     return Result.try(function(try)
         local expr_ctx = { version = purl.version }
         ---@type FileDownloadSpec
-        local asset = try(
-            util.coalesce_by_target(try(expr.tbl_interpolate(source.asset, expr_ctx)), opts)
-                :ok_or "PLATFORM_UNSUPPORTED"
-        )
+        local asset = try(util.coalesce_by_target(try(expr.tbl_interpolate(source.asset, expr_ctx)), opts))
 
         local downloads = common.parse_downloads(asset, function(file)
             return settings.current.github.download_url_template:format(

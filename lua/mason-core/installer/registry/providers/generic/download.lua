@@ -1,5 +1,6 @@
 local Result = require "mason-core.result"
 local _ = require "mason-core.functional"
+local common = require "mason-core.installer.managers.common"
 local expr = require "mason-core.installer.registry.expr"
 local util = require "mason-core.installer.registry.util"
 
@@ -17,15 +18,25 @@ local M = {}
 ---@param opts PackageInstallOpts
 function M.parse(source, purl, opts)
     return Result.try(function(try)
-        local download = try(util.coalesce_by_target(source.download, opts):ok_or "PLATFORM_UNSUPPORTED")
+        local download = try(util.coalesce_by_target(source.download, opts))
 
         local expr_ctx = { version = purl.version }
         ---@type { files: table<string, string> }
         local interpolated_download = try(expr.tbl_interpolate(download, expr_ctx))
 
+        ---@type DownloadItem[]
+        local downloads = _.map(function(pair)
+            ---@type DownloadItem
+            return {
+                out_file = pair[1],
+                download_url = pair[2],
+            }
+        end, _.to_pairs(interpolated_download.files))
+
         ---@class ParsedGenericDownloadSource : ParsedPackageSource
         local parsed_source = {
             download = interpolated_download,
+            downloads = downloads,
         }
         return parsed_source
     end)
@@ -35,13 +46,7 @@ end
 ---@param ctx InstallContext
 ---@param source ParsedGenericDownloadSource
 function M.install(ctx, source)
-    local std = require "mason-core.installer.managers.std"
-    return Result.try(function(try)
-        for out_file, url in pairs(source.download.files) do
-            try(std.download_file(url, out_file))
-            try(std.unpack(out_file))
-        end
-    end)
+    return common.download_files(ctx, source.downloads)
 end
 
 return M

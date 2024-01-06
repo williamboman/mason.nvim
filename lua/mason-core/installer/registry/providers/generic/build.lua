@@ -15,7 +15,7 @@ local M = {}
 function M.parse(source, purl, opts)
     return Result.try(function(try)
         ---@type BuildInstruction
-        local build_instruction = try(util.coalesce_by_target(source.build, opts):ok_or "PLATFORM_UNSUPPORTED")
+        local build_instruction = try(util.coalesce_by_target(source.build, opts))
 
         if build_instruction.env then
             local expr_ctx = { version = purl.version, target = build_instruction.target }
