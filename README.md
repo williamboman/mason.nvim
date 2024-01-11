@@ -332,6 +332,10 @@ local DEFAULT_SETTINGS = {
 }
 ```
 
+> [!NOTE]
+> mason uses the python version specified via `vim.g.python3_host_prog`. This can be relevant for some packages,
+> where the most recent version requires a more recent python version than the one installed system's default.
+
 ---
 
 <sup>
