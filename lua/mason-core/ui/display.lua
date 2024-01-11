@@ -121,13 +121,15 @@ local function render_node(viewport_context, node, _render_context, _output)
 
             local active_styles = get_styles(full_line, render_context)
 
-            -- apply indentation
-            full_line = (" "):rep(active_styles.indentation) .. full_line
-            for j = 1, #line_highlights do
-                local highlight = line_highlights[j]
-                highlight.col_start = highlight.col_start + active_styles.indentation
-                highlight.col_end = highlight.col_end + active_styles.indentation
-                output.highlights[#output.highlights + 1] = highlight
+            -- apply indentation to non-empty lines
+            if string.len(full_line) > 0 then
+                full_line = (" "):rep(active_styles.indentation) .. full_line
+                for j = 1, #line_highlights do
+                    local highlight = line_highlights[j]
+                    highlight.col_start = highlight.col_start + active_styles.indentation
+                    highlight.col_end = highlight.col_end + active_styles.indentation
+                    output.highlights[#output.highlights + 1] = highlight
+                end
             end
 
             output.lines[#output.lines + 1] = full_line
