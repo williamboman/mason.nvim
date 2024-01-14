@@ -80,6 +80,3 @@ globals:
     assert.is_not.has_error:
         args:
             - type: function
-
-
-

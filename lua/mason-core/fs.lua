@@ -48,9 +48,11 @@ local function make_module(uv)
         if vim.in_fast_event() then
             a.scheduler()
         end
-        if vim.fn.delete(path, "rf") ~= 0 then
+        local uv = vim.uv or vim.loop
+        local success, err = uv.fs_unlink(path)
+        if not success then
             log.debug "fs: rmrf failed"
-            error(("rmrf: Could not remove directory %q."):format(path))
+            error(("rmrf: Could not remove directory %q. error: %s"):format(path, vim.inspect(err)))
         end
     end
 
