@@ -49,10 +49,15 @@ local function make_module(uv)
             a.scheduler()
         end
         local uv = vim.uv or vim.loop
-        local success, err = uv.fs_unlink(path)
-        if not success then
+        if string.find(uv.os_uname().sysname, "Windows") then
+            path = path:gsub("/", "\\")
+        end
+        if vim.fn.delete(path, "rf") ~= 0 then
+            -- local success, err = uv.fs_unlink(path)
+            -- if not success then
             log.debug "fs: rmrf failed"
-            error(("rmrf: Could not remove directory %q. error: %s"):format(path, vim.inspect(err)))
+            error(("rmrf: Could not remove directory %q."):format(path))
+            -- error(("rmrf: Could not remove directory %q. error: %s"):format(path, vim.inspect(err)))
         end
     end
 
