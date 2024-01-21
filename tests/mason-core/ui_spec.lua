@@ -324,7 +324,7 @@ describe("integration test", function()
         end)
     )
 
-    it("should not apply cascading styles to empty lines", function ()
+    it("should not apply cascading styles to empty lines", function()
         local render_output = display._render_node(
             {
                 win_width = 120,
@@ -341,6 +341,6 @@ describe("integration test", function()
             })
         )
 
-        assert.same({"  Hello World!", "" }, render_output.lines)
+        assert.same({ "  Hello World!", "" }, render_output.lines)
     end)
 end)
