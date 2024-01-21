@@ -280,24 +280,6 @@ local function check_languages()
                 }
             end
         end,
-        function()
-            a.scheduler()
-            if vim.g.python3_host_prog then
-                check {
-                    cmd = vim.fn.expand(vim.g.python3_host_prog),
-                    args = { "--version" },
-                    name = "python3_host_prog",
-                    relaxed = true,
-                }
-                a.scheduler()
-                check {
-                    cmd = vim.fn.expand(vim.g.python3_host_prog),
-                    args = { "-m", "pip", "--version" },
-                    name = "python3_host_prog pip",
-                    relaxed = true,
-                }
-            end
-        end,
     }
 end
 
