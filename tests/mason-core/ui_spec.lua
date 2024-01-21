@@ -323,4 +323,24 @@ describe("integration test", function()
             )
         end)
     )
+
+    it("should not apply cascading styles to empty lines", function()
+        local render_output = display._render_node(
+            {
+                win_width = 120,
+            },
+            Ui.CascadingStyleNode({ "INDENT" }, {
+                Ui.HlTextNode {
+                    {
+                        { "Hello World!", "MyHighlightGroup" },
+                    },
+                    {
+                        { "", "" },
+                    },
+                },
+            })
+        )
+
+        assert.same({ "  Hello World!", "" }, render_output.lines)
+    end)
 end)
