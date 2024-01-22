@@ -1,7 +1,9 @@
+local Result = require "mason-core.result"
 local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local path = require "mason-core.path"
 local pypi = require "mason-core.installer.managers.pypi"
+local spawn = require "mason-core.spawn"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
@@ -16,6 +18,11 @@ local function venv_py(ctx)
 end
 
 describe("pypi manager", function()
+    before_each(function()
+        stub(spawn, "python3", mockx.returns(Result.success()))
+        spawn.python3.on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.12.0" })
+    end)
+
     it("should init venv without upgrading pip", function()
         local ctx = create_dummy_context()
         stub(ctx, "promote_cwd")
