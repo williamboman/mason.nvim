@@ -44,7 +44,7 @@ end
 ---@async
 ---@param purl Purl
 function M.get_versions(purl)
-    return providers.golang.get_all_versions(get_package_name(purl))
+    return providers.golang.get_all_versions(("%s/%s"):format(purl.namespace, purl.name))
 end
 
 return M
