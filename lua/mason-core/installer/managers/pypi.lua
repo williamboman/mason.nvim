@@ -55,7 +55,9 @@ end
 local function create_venv()
     local stock_candidates = platform.is.win and { "python", "python3" } or { "python3", "python" }
     local stock_target = resolve_python3(stock_candidates)
-    local _ = stock_target and log.fmt_debug("Resolved stock python3 installation version %s", stock_target.version)
+    if stock_target then
+        log.fmt_debug("Resolved stock python3 installation version %s", stock_target.version)
+    end
     local versioned_candidates = get_versioned_candidates(stock_target and stock_target.version)
     log.debug("Resolving versioned python3 candidates", versioned_candidates)
     local target = resolve_python3(versioned_candidates) or stock_target
