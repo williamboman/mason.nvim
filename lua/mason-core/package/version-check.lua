@@ -9,6 +9,7 @@ local log = require "mason-core.log"
 local luarocks = require "mason-core.managers.luarocks"
 local npm = require "mason-core.managers.npm"
 local pip3 = require "mason-core.managers.pip3"
+local std = require "mason-core.managers.std"
 
 ---@param field_name string
 local function version_in_receipt(field_name)
@@ -32,6 +33,7 @@ local get_installed_version_by_type = {
     ["github_release_file"] = version_in_receipt "release",
     ["github_release"] = version_in_receipt "release",
     ["github_tag"] = version_in_receipt "tag",
+    ["custom"] = version_in_receipt "release",
 }
 
 ---@class NewPackageVersion
@@ -51,6 +53,7 @@ local get_new_version_by_type = {
     ["github_release_file"] = github.check_outdated_primary_package_release,
     ["github_release"] = github.check_outdated_primary_package_release,
     ["github_tag"] = github.check_outdated_primary_package_tag,
+    ["custom"] = std.custom_check_outdated_primary_package,
 }
 
 ---@param provider_mapping table<string, async fun(receipt: InstallReceipt, install_dir: string): Result>

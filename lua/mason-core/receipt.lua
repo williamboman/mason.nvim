@@ -19,6 +19,7 @@ local M = {}
 ---| '"github_tag"'
 ---| '"github_release"'
 ---| '"github_release_file"'
+---| '"custom"'
 
 ---@alias InstallReceiptSource {type: InstallReceiptSourceType}
 

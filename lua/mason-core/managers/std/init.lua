@@ -193,4 +193,11 @@ function M.select(items, opts)
     return async_select(items, opts)
 end
 
+---@async
+---@param receipt InstallReceipt<InstallReceiptGitHubTagSource>
+---@param install_dir string
+function M.custom_check_outdated_primary_package(receipt, install_dir)
+    error("Need to implement the custom check function.", 0)
+end
+
 return M
