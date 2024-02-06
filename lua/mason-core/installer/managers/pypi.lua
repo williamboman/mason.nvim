@@ -44,16 +44,16 @@ local function get_versioned_candidates(min_version)
         { semver.new "3.12.0", "python3.12" },
         { semver.new "3.11.0", "python3.11" },
         { semver.new "3.10.0", "python3.10" },
-        { semver.new "3.9.0", "python3.9" },
-        { semver.new "3.8.0", "python3.8" },
-        { semver.new "3.7.0", "python3.7" },
-        { semver.new "3.6.0", "python3.6" },
+        { semver.new "3.9.0",  "python3.9" },
+        { semver.new "3.8.0",  "python3.8" },
+        { semver.new "3.7.0",  "python3.7" },
+        { semver.new "3.6.0",  "python3.6" },
     })
 end
 
 ---@async
 local function create_venv()
-    local stock_candidates = platform.is.win and { "python", "python3" } or { "python3", "python" }
+    local stock_candidates = platform.is.win and { "py", "python", "python3" } or { "python3", "python" }
     local stock_target = resolve_python3(stock_candidates)
     if stock_target then
         log.fmt_debug("Resolved stock python3 installation version %s", stock_target.version)
