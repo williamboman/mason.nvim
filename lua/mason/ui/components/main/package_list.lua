@@ -64,6 +64,9 @@ local function ExpandedPackageInfo(state, pkg, is_installed)
                 is_installed and {
                     p.muted "installed version",
                     pkg_state.version and p.Bold(pkg_state.version) or p.muted "-",
+                } or {
+                    p.muted "version",
+                    p.Bold(pkg:get_latest_version()),
                 },
                 pkg_state.new_version and {
                     p.muted "latest version",
