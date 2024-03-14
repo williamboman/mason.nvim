@@ -15,13 +15,20 @@ function M.install(package, version)
     log.fmt_debug("opam: install %s %s", package, version)
     local ctx = installer.context()
     ctx.stdio_sink.stdout(("Installing opam package %s@%s…\n"):format(package, version))
-    return ctx.spawn.opam {
-        "install",
-        "--destdir=.",
-        "--yes",
-        "--verbose",
-        ("%s.%s"):format(package, version),
-    }
+    return Result.try(function(try)
+        try(ctx.spawn.opam {
+            "update",
+            "--yes",
+            "--verbose"
+        })
+        try(ctx.spawn.opam {
+            "install",
+            "--destdir=.",
+            "--yes",
+            "--verbose",
+            ("%s.%s"):format(package, version),
+        })
+    end)
 end
 
 ---@param bin string
