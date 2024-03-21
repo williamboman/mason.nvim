@@ -16,7 +16,7 @@ local VENV_DIR = "venv"
 local function create_venv(py_executables)
     local ctx = installer.context()
     return Optional.of_nilable(_.find_first(function(executable)
-        return ctx.spawn[executable]({ "-m", "venv", VENV_DIR }):is_success()
+        return ctx.spawn[executable]({ "-m", "venv", "--system-site-packages", VENV_DIR }):is_success()
     end, py_executables)):ok_or "Failed to create python3 virtual environment."
 end
 
@@ -57,6 +57,7 @@ local function pip_install(pkgs, extra_args)
         "pip",
         "--disable-pip-version-check",
         "install",
+        "--ignore-installed",
         "-U",
         extra_args or vim.NIL,
         pkgs,
