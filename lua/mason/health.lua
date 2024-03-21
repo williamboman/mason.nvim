@@ -210,7 +210,7 @@ local function check_languages()
             name = "luarocks",
             relaxed = true,
             version_check = function(version)
-                local _, _, major = version:find "(%d+)%.(%d)%.(%d)"
+                local _, _, major = version:find "(%d+)%.(%d+)%.(%d+)"
                 if not (tonumber(major) >= 3) then
                     -- Because of usage of "--dev" flag
                     return "Luarocks version must be >= 3.0.0."
