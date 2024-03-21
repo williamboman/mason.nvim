@@ -60,7 +60,7 @@ local function create_venv()
     end
     local versioned_candidates = get_versioned_candidates(stock_target and stock_target.version)
     log.debug("Resolving versioned python3 candidates", versioned_candidates)
-    local target = resolve_python3(versioned_candidates) or stock_target
+    local target = stock_target or resolve_python3(versioned_candidates)
     local ctx = installer.context()
     if not target then
         ctx.stdio_sink.stderr(
