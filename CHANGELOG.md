@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.10.0](https://github.com/williamboman/mason.nvim/compare/v1.9.0...v1.10.0) (2024-01-29)
+
+
+### Features
+
+* don't use vim.g.python3_host_prog as a candidate for python ([#1606](https://github.com/williamboman/mason.nvim/issues/1606)) ([bce96d2](https://github.com/williamboman/mason.nvim/commit/bce96d2fd483e71826728c6f9ac721fc9dd7d2cf))
+* **pypi:** attempt more python3 candidates ([#1608](https://github.com/williamboman/mason.nvim/issues/1608)) ([dcd0ea3](https://github.com/williamboman/mason.nvim/commit/dcd0ea30ccfc7d47e879878d1270d6847a519181))
+
+
+### Bug Fixes
+
+* **golang:** fix fetching package versions for packages containing subpath specifier ([#1607](https://github.com/williamboman/mason.nvim/issues/1607)) ([9c94168](https://github.com/williamboman/mason.nvim/commit/9c9416817c9f4e6f333c749327a1ed5355cfab61))
+* **pypi:** fix variable shadowing ([#1610](https://github.com/williamboman/mason.nvim/issues/1610)) ([aa550fb](https://github.com/williamboman/mason.nvim/commit/aa550fb0649643eee89d5e64c67f81916e88a736))
+* **ui:** don't indent empty lines ([#1597](https://github.com/williamboman/mason.nvim/issues/1597)) ([c7e6705](https://github.com/williamboman/mason.nvim/commit/c7e67059bb8ce7e126263471645c531d961b5e1d))
+
 ## [1.9.0](https://github.com/williamboman/mason.nvim/compare/v1.8.3...v1.9.0) (2024-01-06)
 
 

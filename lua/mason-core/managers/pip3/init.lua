@@ -48,9 +48,7 @@ function M.install(packages)
 
     a.scheduler()
 
-    local executables = platform.is.win
-            and _.list_not_nil(vim.g.python3_host_prog and vim.fn.expand(vim.g.python3_host_prog), "python", "python3")
-        or _.list_not_nil(vim.g.python3_host_prog and vim.fn.expand(vim.g.python3_host_prog), "python3", "python")
+    local executables = platform.is.win and { "python", "python3" } or { "python3", "python" }
 
     -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
     ctx:promote_cwd()
