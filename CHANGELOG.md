@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/williamboman/mason.nvim/compare/v1.10.0...v1.10.1) (2024-03-21)
+
+
+### Bug Fixes
+
+* **health:** support multidigit luarocks version numbers ([#1648](https://github.com/williamboman/mason.nvim/issues/1648)) ([751b1fc](https://github.com/williamboman/mason.nvim/commit/751b1fcbf3d3b783fcf8d48865264a9bcd8f9b10))
+
 ## [1.10.0](https://github.com/williamboman/mason.nvim/compare/v1.9.0...v1.10.0) (2024-01-29)
 
 
