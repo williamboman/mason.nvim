@@ -59,8 +59,12 @@ local function check(opts)
 
         report_ok(("%s: `%s`"):format(opts.name, version or "Ok"))
     end):on_failure(function(err)
-        local report = opts.relaxed and report_warn or report_error
-        report(("%s: not available"):format(opts.name), opts.advice or { tostring(err) })
+        if settings.current.health.ignore[opts.name] then
+            report_ok(("%s: not available (SKIPPED)"):format(opts.name))
+        else
+            local report = opts.relaxed and report_warn or report_error
+            report(("%s: not available"):format(opts.name), opts.advice or { tostring(err) })
+        end
     end)
     permit:forget()
 end

@@ -137,6 +137,10 @@ local DEFAULT_SETTINGS = {
             toggle_help = "g?",
         },
     },
+
+    health = {
+        ignore = {},
+    },
 }
 
 M._DEFAULT_SETTINGS = DEFAULT_SETTINGS
