@@ -2,6 +2,7 @@
 local Ui = require "mason-core.ui"
 local _ = require "mason-core.functional"
 local settings = require "mason.settings"
+local util = require "mason-core.installer.registry.util"
 
 local property_type_highlights = {
     ["string"] = "String",
@@ -14,7 +15,7 @@ local property_type_highlights = {
 }
 
 local function resolve_type(property_schema)
-    if vim.tbl_islist(property_schema.type) then
+    if util.islist(property_schema.type) then
         return table.concat(property_schema.type, " | ")
     elseif property_schema.type == "array" then
         if property_schema.items then
@@ -108,7 +109,7 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
             )
         end
         return Ui.Node(nodes)
-    elseif vim.tbl_islist(schema) then
+    elseif util.islist(schema) then
         return Ui.Node(_.map(function(sub_schema)
             return JsonSchema(pkg, schema_id, state, sub_schema)
         end, schema))
@@ -155,7 +156,7 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
                     { { "type", "MasonMuted" }, { type, type_highlight } },
                 }
 
-                if vim.tbl_islist(schema.enum) then
+                if util.islist(schema.enum) then
                     for idx, enum in ipairs(schema.enum) do
                         local enum_description = ""
                         if schema.enumDescriptions and schema.enumDescriptions[idx] then

@@ -1,5 +1,6 @@
 local data = require "mason-core.functional.data"
 local fun = require "mason-core.functional.function"
+local util = require "mason-core.installer.registry.util"
 
 local _ = {}
 
@@ -74,7 +75,7 @@ _.filter = fun.curryN(vim.tbl_filter, 2)
 ---@type fun(map_fn: (fun(item: T): U), items: T[]): U[]
 _.map = fun.curryN(vim.tbl_map, 2)
 
-_.flatten = fun.curryN(vim.tbl_flatten, 1)
+_.flatten = fun.curryN(util.flatten, 1)
 
 ---@generic T
 ---@param map_fn fun(item: T): Optional

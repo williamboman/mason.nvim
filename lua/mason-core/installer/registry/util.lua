@@ -7,12 +7,24 @@ local platform = require "mason-core.platform"
 
 local M = {}
 
+---Helper functions for deprecated methods in nightly
+---@return function
+function M.islist()
+    return vim.fn.has "nvim-0.10" == 1 and vim.islist or vim.tbl_islist ---@diagnostic disable-line: deprecated
+end
+
+function M.flatten()
+    return vim.fn.has "nvim-0.10" == 1 and function(...)
+        return vim.iter(...):flatten():totable()
+    end or vim.tbl_flatten ---@diagnostic disable-line: deprecated
+end
+
 ---@generic T : { target: Platform | Platform[] }
 ---@param candidates T[] | T
 ---@param opts PackageInstallOpts
 ---@return Result # Result<T>
 function M.coalesce_by_target(candidates, opts)
-    if not vim.tbl_islist(candidates) then
+    if not M.islist(candidates) then
         return Result.success(candidates)
     end
     return Optional.of_nilable(_.find_first(function(asset)
