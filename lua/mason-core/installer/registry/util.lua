@@ -15,7 +15,7 @@ end
 
 function M.flatten()
     return vim.fn.has "nvim-0.10" == 1 and function(...)
-        return vim.iter(...):flatten():totable()
+        return vim.iter(...):flatten(math.huge):totable()
     end or vim.tbl_flatten ---@diagnostic disable-line: deprecated
 end
 
