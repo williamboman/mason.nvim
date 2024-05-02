@@ -73,10 +73,7 @@ end
 function FileRegistrySource:install()
     return Result.try(function(try)
         a.scheduler()
-        if vim.fn.executable "yq" ~= 1 then
-            return Result.failure "yq is not installed."
-        end
-        local yq = vim.fn.exepath "yq"
+        local tinyyaml = require "mason-vendor.tinyyaml"
 
         local registry_dir = vim.fn.expand(self.spec.path) --[[@as string]]
         local packages_dir = path.concat { registry_dir, "packages" }
@@ -106,18 +103,7 @@ function FileRegistrySource:install()
                 local specs = {}
                 for package_file in channel:iter() do
                     local yaml_spec = fs.async.read_file(package_file)
-                    local spec = vim.json.decode(spawn
-                        [yq]({
-                            "-o",
-                            "json",
-                            on_spawn = a.scope(function(_, stdio)
-                                local stdin = stdio[1]
-                                async_uv.write(stdin, yaml_spec)
-                                async_uv.shutdown(stdin)
-                                async_uv.close(stdin)
-                            end),
-                        })
-                        :get_or_throw(("Failed to parse %s."):format(package_file)).stdout)
+                    local spec = tinyyaml.parse(yaml_spec)
 
                     specs[#specs + 1] = spec
                 end
