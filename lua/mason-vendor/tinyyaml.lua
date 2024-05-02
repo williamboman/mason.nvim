@@ -761,6 +761,8 @@ function Parser:parsemap(line, lines, indent)
       elseif sfind(lines[1], '^%s*%?') then
         local indent2 = countindent(lines[1])
         map[key] = self:parseset('', lines, indent2)
+      elseif sfind(lines[1], '^%s+%w[^:]*$') then
+        map[key] = self:parseblockstylestring('>-', lines, indent)
       else
         local indent2 = countindent(lines[1])
         if indent >= indent2 then
