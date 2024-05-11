@@ -91,24 +91,21 @@ function FileRegistrySource:install()
         ---@type ReaddirEntry[]
         local entries = _.filter(_.prop_eq("type", "directory"), fs.async.readdir(packages_dir))
 
-        local streaming_parser
-        do
-            streaming_parser = coroutine.wrap(function()
-                local buffer = ""
-                while true do
-                    local delim = buffer:find("\n", 1, true)
-                    if delim then
-                        local content = buffer:sub(1, delim - 1)
-                        buffer = buffer:sub(delim + 1)
-                        local chunk = coroutine.yield(content)
-                        buffer = buffer .. chunk
-                    else
-                        local chunk = coroutine.yield()
-                        buffer = buffer .. chunk
-                    end
+        local streaming_parser = coroutine.wrap(function()
+            local buffer = ""
+            while true do
+                local delim = buffer:find("\n", 1, true)
+                if delim then
+                    local content = buffer:sub(1, delim - 1)
+                    buffer = buffer:sub(delim + 1)
+                    local chunk = coroutine.yield(content)
+                    buffer = buffer .. chunk
+                else
+                    local chunk = coroutine.yield()
+                    buffer = buffer .. chunk
                 end
-            end)
-        end
+            end
+        end)
 
         -- Initialize parser coroutine.
         streaming_parser()
@@ -128,7 +125,6 @@ function FileRegistrySource:install()
             end
         end
 
-        a.scheduler()
         try(spawn
             [yq]({
                 "-I0", -- output one document per line
