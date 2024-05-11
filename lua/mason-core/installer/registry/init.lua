@@ -54,7 +54,7 @@ end
 local function upsert(dst, src)
     for k, v in pairs(src) do
         if type(v) == "table" then
-            if vim.tbl_islist(v) then
+            if _.is_list(v) then
                 dst[k] = _.concat(v, dst[k] or {})
             else
                 dst[k] = upsert(dst[k] or {}, src[k])

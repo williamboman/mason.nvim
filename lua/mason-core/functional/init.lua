@@ -133,6 +133,7 @@ _.assoc = tbl.assoc
 local typ = lazy_require "mason-core.functional.type"
 _.is_nil = typ.is_nil
 _.is = typ.is
+_.is_list = typ.is_list
 
 -- TODO do something else with these
 

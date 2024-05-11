@@ -12,7 +12,7 @@ local M = {}
 ---@param opts PackageInstallOpts
 ---@return Result # Result<T>
 function M.coalesce_by_target(candidates, opts)
-    if not vim.tbl_islist(candidates) then
+    if not _.is_list(candidates) then
         return Result.success(candidates)
     end
     return Optional.of_nilable(_.find_first(function(asset)
