@@ -91,41 +91,77 @@ function FileRegistrySource:install()
         ---@type ReaddirEntry[]
         local entries = _.filter(_.prop_eq("type", "directory"), fs.async.readdir(packages_dir))
 
-        local channel = Channel.new()
-        a.run(function()
-            for _, entry in ipairs(entries) do
-                channel:send(path.concat { packages_dir, entry.name, "package.yaml" })
-            end
-            channel:close()
-        end, function() end)
-
-        local CONSUMERS_COUNT = 10
-        local consumers = {}
-        for _ = 1, CONSUMERS_COUNT do
-            table.insert(consumers, function()
-                local specs = {}
-                for package_file in channel:iter() do
-                    local yaml_spec = fs.async.read_file(package_file)
-                    local spec = vim.json.decode(spawn
-                        [yq]({
-                            "-o",
-                            "json",
-                            on_spawn = a.scope(function(_, stdio)
-                                local stdin = stdio[1]
-                                async_uv.write(stdin, yaml_spec)
-                                async_uv.shutdown(stdin)
-                                async_uv.close(stdin)
-                            end),
-                        })
-                        :get_or_throw(("Failed to parse %s."):format(package_file)).stdout)
-
-                    specs[#specs + 1] = spec
+        local streaming_parser
+        do
+            streaming_parser = coroutine.wrap(function()
+                local buffer = ""
+                while true do
+                    local delim = buffer:find("\n", 1, true)
+                    if delim then
+                        local content = buffer:sub(1, delim - 1)
+                        buffer = buffer:sub(delim + 1)
+                        local chunk = coroutine.yield(content)
+                        buffer = buffer .. chunk
+                    else
+                        local chunk = coroutine.yield()
+                        buffer = buffer .. chunk
+                    end
                 end
-                return specs
             end)
         end
 
-        local specs = _.reduce(vim.list_extend, {}, _.table_pack(a.wait_all(consumers)))
+        -- Initialize parser coroutine.
+        streaming_parser()
+
+        local specs = {}
+        local stderr_buffer = {}
+        local parse_failures = 0
+
+        ---@param raw_spec string
+        local function handle_spec(raw_spec)
+            local ok, result = pcall(vim.json.decode, raw_spec)
+            if ok then
+                specs[#specs + 1] = result
+            else
+                log.fmt_error("Failed to parse JSON, err=%s, json=%s", result, raw_spec)
+                parse_failures = parse_failures + 1
+            end
+        end
+
+        a.scheduler()
+        try(spawn
+            [yq]({
+                "-I0", -- output one document per line
+                { "-o", "json" },
+                stdio_sink = {
+                    stdout = function(chunk)
+                        local raw_spec = streaming_parser(chunk)
+                        if raw_spec then
+                            handle_spec(raw_spec)
+                        end
+                    end,
+                    stderr = function(chunk)
+                        stderr_buffer[#stderr_buffer + 1] = chunk
+                    end,
+                },
+                on_spawn = a.scope(function(_, stdio)
+                    local stdin = stdio[1]
+                    for _, entry in ipairs(entries) do
+                        local contents = fs.async.read_file(path.concat { packages_dir, entry.name, "package.yaml" })
+                        async_uv.write(stdin, contents)
+                    end
+                    async_uv.shutdown(stdin)
+                    async_uv.close(stdin)
+                end),
+            })
+            :map_err(function()
+                return ("Failed to parse package YAML: %s"):format(table.concat(stderr_buffer, ""))
+            end))
+
+        if parse_failures > 0 then
+            return Result.failure(("Failed to parse %d packages."):format(parse_failures))
+        end
+
         return specs
     end)
         :on_success(function(specs)
