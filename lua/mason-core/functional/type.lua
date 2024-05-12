@@ -11,8 +11,6 @@ _.is = fun.curryN(function(typ, value)
     return type(value) == typ
 end, 2)
 
----@param value any
----@return boolean
-_.is_list = vim.fn.has "nvim-0.10" and vim.islist or vim.tbl_islist
+_.is_list = vim.islist or vim.tbl_islist
 
 return _
