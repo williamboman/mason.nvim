@@ -154,6 +154,15 @@ function FileRegistrySource:install()
                 return ("Failed to parse package YAML: %s"):format(table.concat(stderr_buffer, ""))
             end))
 
+        -- Exhaust parser coroutine.
+        for raw_spec in
+            function()
+                return streaming_parser ""
+            end
+        do
+            handle_spec(raw_spec)
+        end
+
         if parse_failures > 0 then
             return Result.failure(("Failed to parse %d packages."):format(parse_failures))
         end
