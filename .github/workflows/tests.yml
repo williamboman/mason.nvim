@@ -23,9 +23,10 @@ jobs:
                     - v0.9.2
                     - v0.9.4
                     - v0.9.5
+                    - v0.10.0
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - uses: rhysd/action-setup-vim@v1
               with:
                   neovim: true
