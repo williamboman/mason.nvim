@@ -10,7 +10,7 @@ jobs:
     cbfmt:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Download cbfmt
               run: |
                   mkdir /tmp/cbfmt && cd $_
@@ -20,7 +20,7 @@ jobs:
             - name: Download Stylua
               run: |
                   mkdir /tmp/stylua && cd $_
-                  curl -fsSL -o stylua.zip "https://github.com/JohnnyMorganz/StyLua/releases/download/v0.18.0/stylua-linux.zip"
+                  curl -fsSL -o stylua.zip "https://github.com/JohnnyMorganz/StyLua/releases/download/v0.20.0/stylua-linux.zip"
                   unzip -d /usr/local/bin stylua.zip
             - name: Download Shellharden
               run: |
