@@ -57,7 +57,7 @@ return {
             :map_catching(vim.json.decode)
             :map(_.path { "info", "requires_python" })
             :and_then(function(requires_python)
-                if type(requires_python) ~= "string" then
+                if type(requires_python) ~= "string" or requires_python == "" then
                     return Result.failure "Package does not specify supported Python versions."
                 else
                     return Result.success(requires_python)
