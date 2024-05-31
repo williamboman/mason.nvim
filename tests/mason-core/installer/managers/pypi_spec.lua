@@ -20,7 +20,7 @@ end
 describe("pypi manager", function()
     before_each(function()
         stub(spawn, "python3", mockx.returns(Result.success()))
-        spawn.python3.on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.12.0" })
+        spawn.python3.on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.11.0" })
     end)
 
     it("should init venv without upgrading pip", function()
