@@ -2,6 +2,7 @@ local Result = require "mason-core.result"
 local installer = require "mason-core.installer"
 local match = require "luassert.match"
 local path = require "mason-core.path"
+local providers = require "mason-core.providers"
 local pypi = require "mason-core.installer.managers.pypi"
 local spawn = require "mason-core.spawn"
 local spy = require "luassert.spy"
@@ -26,9 +27,10 @@ describe("pypi manager", function()
     it("should init venv without upgrading pip", function()
         local ctx = create_dummy_context()
         stub(ctx, "promote_cwd")
+        stub(providers.pypi, "get_supported_python_versions", mockx.returns(Result.failure()))
 
         installer.exec_in_context(ctx, function()
-            pypi.init { upgrade_pip = false }
+            pypi.init { package = { name = "cmake-language-server", version = "0.1.10" }, upgrade_pip = false }
         end)
 
         assert.spy(ctx.promote_cwd).was_called(1)
@@ -44,10 +46,15 @@ describe("pypi manager", function()
         local ctx = create_dummy_context()
         stub(ctx, "promote_cwd")
         stub(ctx.fs, "file_exists")
+        stub(providers.pypi, "get_supported_python_versions", mockx.returns(Result.failure()))
         ctx.fs.file_exists.on_call_with(match.ref(ctx.fs), "venv/bin/python").returns(true)
 
         installer.exec_in_context(ctx, function()
-            pypi.init { upgrade_pip = true, install_extra_args = { "--proxy", "http://localhost" } }
+            pypi.init {
+                package = { name = "cmake-language-server", version = "0.1.10" },
+                upgrade_pip = true,
+                install_extra_args = { "--proxy", "http://localhost" },
+            }
         end)
 
         assert.spy(ctx.promote_cwd).was_called(1)
@@ -67,6 +74,69 @@ describe("pypi manager", function()
             { "--proxy", "http://localhost" },
             { "pip" },
         }
+    end)
+
+    it("should find versioned candidates during init", function()
+        local ctx = create_dummy_context()
+        stub(ctx, "promote_cwd")
+        stub(ctx.fs, "file_exists")
+        stub(providers.pypi, "get_supported_python_versions", mockx.returns(Result.success ">=3.12"))
+        stub(vim.fn, "executable")
+        vim.fn.executable.on_call_with("python3.12").returns(1)
+        stub(spawn, "python3.12")
+        spawn["python3.12"].on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.12.0" })
+        ctx.fs.file_exists.on_call_with(match.ref(ctx.fs), "venv/bin/python").returns(true)
+
+        installer.exec_in_context(ctx, function()
+            pypi.init {
+                package = { name = "cmake-language-server", version = "0.1.10" },
+                upgrade_pip = true,
+                install_extra_args = { "--proxy", "http://localhost" },
+            }
+        end)
+
+        assert.spy(ctx.promote_cwd).was_called(1)
+        assert.spy(ctx.spawn["python3.12"]).was_called(1)
+        assert.spy(ctx.spawn["python3.12"]).was_called_with {
+            "-m",
+            "venv",
+            "venv",
+        }
+    end)
+
+    it("should default to stock version if unable to find suitable versioned candidate during init", function()
+        local ctx = create_dummy_context()
+        spy.on(ctx.stdio_sink, "stderr")
+        stub(ctx, "promote_cwd")
+        stub(ctx.fs, "file_exists")
+        stub(providers.pypi, "get_supported_python_versions", mockx.returns(Result.success ">=3.8"))
+        stub(vim.fn, "executable")
+        vim.fn.executable.on_call_with("python3.12").returns(0)
+        vim.fn.executable.on_call_with("python3.11").returns(0)
+        vim.fn.executable.on_call_with("python3.10").returns(0)
+        vim.fn.executable.on_call_with("python3.9").returns(0)
+        vim.fn.executable.on_call_with("python3.8").returns(0)
+        stub(spawn, "python3", mockx.returns(Result.success()))
+        spawn.python3.on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.5.0" })
+
+        installer.exec_in_context(ctx, function()
+            pypi.init {
+                package = { name = "cmake-language-server", version = "0.1.10" },
+                upgrade_pip = true,
+                install_extra_args = { "--proxy", "http://localhost" },
+            }
+        end)
+
+        assert.spy(ctx.promote_cwd).was_called(1)
+        assert.spy(ctx.spawn.python3).was_called(1)
+        assert.spy(ctx.spawn.python3).was_called_with {
+            "-m",
+            "venv",
+            "venv",
+        }
+        assert
+            .spy(ctx.stdio_sink.stderr)
+            .was_called_with "Warning: The resolved Python version 3.5.0 is not compatible with the required Python versions: >=3.8.\n"
     end)
 
     it("should install", function()
