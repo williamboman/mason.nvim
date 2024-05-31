@@ -41,7 +41,6 @@ local function get_versioned_candidates(min_version)
             return Optional.empty()
         end
     end, {
-        { semver.new "3.12.0", "python3.12" },
         { semver.new "3.11.0", "python3.11" },
         { semver.new "3.10.0", "python3.10" },
         { semver.new "3.9.0", "python3.9" },
