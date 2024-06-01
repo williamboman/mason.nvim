@@ -5,7 +5,9 @@ local a = require "mason-core.async"
 local installer = require "mason-core.installer"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
+local pep440 = require "mason-core.pep440"
 local platform = require "mason-core.platform"
+local providers = require "mason-core.providers"
 local semver = require "mason-core.semver"
 local spawn = require "mason-core.spawn"
 
@@ -13,11 +15,10 @@ local M = {}
 
 local VENV_DIR = "venv"
 
-local is_executable = _.compose(_.equals(1), vim.fn.executable)
-
 ---@async
 ---@param candidates string[]
 local function resolve_python3(candidates)
+    local is_executable = _.compose(_.equals(1), vim.fn.executable)
     a.scheduler()
     local available_candidates = _.filter(is_executable, candidates)
     for __, candidate in ipairs(available_candidates) do
@@ -31,16 +32,33 @@ local function resolve_python3(candidates)
     return nil
 end
 
----@param min_version? Semver
-local function get_versioned_candidates(min_version)
+---@param version string
+---@param specifiers string
+local function pep440_check_version(version, specifiers)
+    -- The version check only implements a subset of the PEP440 specification and may error with certain inputs.
+    local ok, result = pcall(pep440.check_version, version, specifiers)
+    if not ok then
+        log.fmt_warn(
+            "Failed to check PEP440 version compatibility for version %s with specifiers %s: %s",
+            version,
+            specifiers,
+            result
+        )
+        return false
+    end
+    return result
+end
+
+---@param supported_python_versions string
+local function get_versioned_candidates(supported_python_versions)
     return _.filter_map(function(pair)
         local version, executable = unpack(pair)
-        if not min_version or version > min_version then
-            return Optional.of(executable)
-        else
+        if not pep440_check_version(tostring(version), supported_python_versions) then
             return Optional.empty()
         end
+        return Optional.of(executable)
     end, {
+        { semver.new "3.12.0", "python3.12" },
         { semver.new "3.11.0", "python3.11" },
         { semver.new "3.10.0", "python3.10" },
         { semver.new "3.9.0", "python3.9" },
@@ -51,24 +69,60 @@ local function get_versioned_candidates(min_version)
 end
 
 ---@async
-local function create_venv()
+---@param pkg { name: string, version: string }
+local function create_venv(pkg)
+    local ctx = installer.context()
+    ---@type string?
+    local supported_python_versions = providers.pypi.get_supported_python_versions(pkg.name, pkg.version):get_or_nil()
+
+    -- 1. Resolve stock python3 installation.
     local stock_candidates = platform.is.win and { "python", "python3" } or { "python3", "python" }
     local stock_target = resolve_python3(stock_candidates)
     if stock_target then
         log.fmt_debug("Resolved stock python3 installation version %s", stock_target.version)
     end
-    local versioned_candidates = get_versioned_candidates(stock_target and stock_target.version)
-    log.debug("Resolving versioned python3 candidates", versioned_candidates)
+
+    -- 2. Resolve suitable versioned python3 installation (python3.12, python3.11, etc.).
+    local versioned_candidates = {}
+    if supported_python_versions ~= nil then
+        log.fmt_debug("Finding versioned candidates for %s", supported_python_versions)
+        versioned_candidates = get_versioned_candidates(supported_python_versions)
+    end
     local target = resolve_python3(versioned_candidates) or stock_target
-    local ctx = installer.context()
+
     if not target then
-        ctx.stdio_sink.stderr(
-            ("Unable to find python3 installation. Tried the following candidates: %s.\n"):format(
+        return Result.failure(
+            ("Unable to find python3 installation in PATH. Tried the following candidates: %s."):format(
                 _.join(", ", _.concat(stock_candidates, versioned_candidates))
             )
         )
-        return Result.failure "Failed to find python3 installation."
     end
+
+    -- 3. If a versioned python3 installation was not found, warn the user if the stock python3 installation is outside
+    -- the supported version range.
+    if
+        target == stock_target
+        and supported_python_versions ~= nil
+        and not pep440_check_version(tostring(target.version), supported_python_versions)
+    then
+        if ctx.opts.force then
+            ctx.stdio_sink.stderr(
+                ("Warning: The resolved python3 version %s is not compatible with the required Python versions: %s.\n"):format(
+                    target.version,
+                    supported_python_versions
+                )
+            )
+        else
+            ctx.stdio_sink.stderr "Run with :MasonInstall --force to bypass this version validation.\n"
+            return Result.failure(
+                ("Failed to find a python3 installation in PATH that meets the required versions (%s). Found version: %s."):format(
+                    supported_python_versions,
+                    target.version
+                )
+            )
+        end
+    end
+
     log.fmt_debug("Found python3 installation version=%s, executable=%s", target.version, target.executable)
     ctx.stdio_sink.stdout "Creating virtual environment…\n"
     return ctx.spawn[target.executable] { "-m", "venv", VENV_DIR }
@@ -118,7 +172,7 @@ local function pip_install(pkgs, extra_args)
 end
 
 ---@async
----@param opts { upgrade_pip: boolean, install_extra_args?: string[] }
+---@param opts { package: { name: string, version: string }, upgrade_pip: boolean, install_extra_args?: string[] }
 function M.init(opts)
     return Result.try(function(try)
         log.fmt_debug("pypi: init", opts)
@@ -126,7 +180,7 @@ function M.init(opts)
 
         -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
         ctx:promote_cwd()
-        try(create_venv())
+        try(create_venv(opts.package))
 
         if opts.upgrade_pip then
             ctx.stdio_sink.stdout "Upgrading pip inside the virtual environment…\n"

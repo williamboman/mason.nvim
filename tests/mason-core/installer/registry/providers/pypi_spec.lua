@@ -72,6 +72,7 @@ describe("pypi provider :: installing", function()
         assert.is_true(result:is_success())
         assert.spy(manager.init).was_called(1)
         assert.spy(manager.init).was_called_with {
+            package = { name = "package", version = "1.5.0" },
             upgrade_pip = true,
             install_extra_args = { "--proxy", "http://localghost" },
         }
