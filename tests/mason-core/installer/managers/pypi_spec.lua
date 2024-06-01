@@ -90,8 +90,8 @@ describe("pypi manager", function()
         installer.exec_in_context(ctx, function()
             pypi.init {
                 package = { name = "cmake-language-server", version = "0.1.10" },
-                upgrade_pip = true,
-                install_extra_args = { "--proxy", "http://localhost" },
+                upgrade_pip = false,
+                install_extra_args = {},
             }
         end)
 
@@ -104,7 +104,7 @@ describe("pypi manager", function()
         }
     end)
 
-    it("should default to stock version if unable to find suitable versioned candidate during init", function()
+    it("should error if unable to find a suitable python3 version", function()
         local ctx = create_dummy_context()
         spy.on(ctx.stdio_sink, "stderr")
         stub(ctx, "promote_cwd")
@@ -119,25 +119,60 @@ describe("pypi manager", function()
         stub(spawn, "python3", mockx.returns(Result.success()))
         spawn.python3.on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.5.0" })
 
-        installer.exec_in_context(ctx, function()
-            pypi.init {
+        local result = installer.exec_in_context(ctx, function()
+            return pypi.init {
                 package = { name = "cmake-language-server", version = "0.1.10" },
-                upgrade_pip = true,
-                install_extra_args = { "--proxy", "http://localhost" },
+                upgrade_pip = false,
+                install_extra_args = {},
             }
         end)
 
-        assert.spy(ctx.promote_cwd).was_called(1)
-        assert.spy(ctx.spawn.python3).was_called(1)
-        assert.spy(ctx.spawn.python3).was_called_with {
-            "-m",
-            "venv",
-            "venv",
-        }
+        assert.same(
+            Result.failure "Failed to find a python3 installation in PATH that meets the required versions (>=3.8). Found version: 3.5.0.",
+            result
+        )
         assert
             .spy(ctx.stdio_sink.stderr)
-            .was_called_with "Warning: The resolved Python version 3.5.0 is not compatible with the required Python versions: >=3.8.\n"
+            .was_called_with "Run with :MasonInstall --force to bypass this version validation.\n"
     end)
+
+    it(
+        "should default to stock version if unable to find suitable versioned candidate during init and when force=true",
+        function()
+            local ctx = create_dummy_context { force = true }
+            spy.on(ctx.stdio_sink, "stderr")
+            stub(ctx, "promote_cwd")
+            stub(ctx.fs, "file_exists")
+            stub(providers.pypi, "get_supported_python_versions", mockx.returns(Result.success ">=3.8"))
+            stub(vim.fn, "executable")
+            vim.fn.executable.on_call_with("python3.12").returns(0)
+            vim.fn.executable.on_call_with("python3.11").returns(0)
+            vim.fn.executable.on_call_with("python3.10").returns(0)
+            vim.fn.executable.on_call_with("python3.9").returns(0)
+            vim.fn.executable.on_call_with("python3.8").returns(0)
+            stub(spawn, "python3", mockx.returns(Result.success()))
+            spawn.python3.on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.5.0" })
+
+            installer.exec_in_context(ctx, function()
+                pypi.init {
+                    package = { name = "cmake-language-server", version = "0.1.10" },
+                    upgrade_pip = true,
+                    install_extra_args = { "--proxy", "http://localhost" },
+                }
+            end)
+
+            assert.spy(ctx.promote_cwd).was_called(1)
+            assert.spy(ctx.spawn.python3).was_called(1)
+            assert.spy(ctx.spawn.python3).was_called_with {
+                "-m",
+                "venv",
+                "venv",
+            }
+            assert
+                .spy(ctx.stdio_sink.stderr)
+                .was_called_with "Warning: The resolved python3 version 3.5.0 is not compatible with the required Python versions: >=3.8.\n"
+        end
+    )
 
     it("should install", function()
         local ctx = create_dummy_context()

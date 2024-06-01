@@ -39,7 +39,7 @@ local function pep440_check_version(version, specifiers)
     local ok, result = pcall(pep440.check_version, version, specifiers)
     if not ok then
         log.fmt_warn(
-            "Failed to check version compatibility for version %s with specifiers %s: %s",
+            "Failed to check PEP440 version compatibility for version %s with specifiers %s: %s",
             version,
             specifiers,
             result
@@ -91,12 +91,11 @@ local function create_venv(pkg)
     local target = resolve_python3(versioned_candidates) or stock_target
 
     if not target then
-        ctx.stdio_sink.stderr(
-            ("Unable to find python3 installation. Tried the following candidates: %s.\n"):format(
+        return Result.failure(
+            ("Unable to find python3 installation in PATH. Tried the following candidates: %s."):format(
                 _.join(", ", _.concat(stock_candidates, versioned_candidates))
             )
         )
-        return Result.failure "Failed to find python3 installation."
     end
 
     -- 3. If a versioned python3 installation was not found, warn the user if the stock python3 installation is outside
@@ -106,12 +105,22 @@ local function create_venv(pkg)
         and supported_python_versions ~= nil
         and not pep440_check_version(tostring(target.version), supported_python_versions)
     then
-        ctx.stdio_sink.stderr(
-            ("Warning: The resolved Python version %s is not compatible with the required Python versions: %s.\n"):format(
-                target.version,
-                supported_python_versions
+        if ctx.opts.force then
+            ctx.stdio_sink.stderr(
+                ("Warning: The resolved python3 version %s is not compatible with the required Python versions: %s.\n"):format(
+                    target.version,
+                    supported_python_versions
+                )
             )
-        )
+        else
+            ctx.stdio_sink.stderr "Run with :MasonInstall --force to bypass this version validation.\n"
+            return Result.failure(
+                ("Failed to find a python3 installation in PATH that meets the required versions (%s). Found version: %s."):format(
+                    supported_python_versions,
+                    target.version
+                )
+            )
+        end
     end
 
     log.fmt_debug("Found python3 installation version=%s, executable=%s", target.version, target.executable)
