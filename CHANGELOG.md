@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.11.0](https://github.com/williamboman/mason.nvim/compare/v1.10.0...v1.11.0) (2024-06-01)
+
+
+### Features
+
+* **pypi:** improve resolving suitable python version ([#1725](https://github.com/williamboman/mason.nvim/issues/1725)) ([0950b15](https://github.com/williamboman/mason.nvim/commit/0950b15060067f752fde13a779a994f59516ce3d))
+
+
+### Bug Fixes
+
+* avoid calling vim.fn.has inside fast event ([#1705](https://github.com/williamboman/mason.nvim/issues/1705)) ([1b3d604](https://github.com/williamboman/mason.nvim/commit/1b3d60405d1d720b2c4927f19672e9479703b00f))
+* fix usage of deprecated Neovim APIs ([#1703](https://github.com/williamboman/mason.nvim/issues/1703)) ([0f1cb65](https://github.com/williamboman/mason.nvim/commit/0f1cb65f436b769733d18b41572f617a1fb41f62))
+* **health:** support multidigit luarocks version numbers ([#1648](https://github.com/williamboman/mason.nvim/issues/1648)) ([751b1fc](https://github.com/williamboman/mason.nvim/commit/751b1fcbf3d3b783fcf8d48865264a9bcd8f9b10))
+* **pypi:** exclude python3.12 from candidate list ([#1722](https://github.com/williamboman/mason.nvim/issues/1722)) ([f8ce876](https://github.com/williamboman/mason.nvim/commit/f8ce8768f296717c72b3910eee7bd5ac5223cdb9))
+* **registry:** exhaust streaming parser when loading "file:" registries ([#1708](https://github.com/williamboman/mason.nvim/issues/1708)) ([49ff59a](https://github.com/williamboman/mason.nvim/commit/49ff59aded1047a773670651cfa40e76e63c6377))
+
+
+### Performance Improvements
+
+* **registry:** significantly improve the "file:" protocol performance ([#1702](https://github.com/williamboman/mason.nvim/issues/1702)) ([098a56c](https://github.com/williamboman/mason.nvim/commit/098a56c385ca3a1a0d4682d129203dda35421b8e))
+
 ## [1.10.0](https://github.com/williamboman/mason.nvim/compare/v1.9.0...v1.10.0) (2024-01-29)
 
 
