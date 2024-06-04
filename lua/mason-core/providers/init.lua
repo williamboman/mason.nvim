@@ -22,6 +22,7 @@ local settings = require "mason.settings"
 ---@class PyPiProvider
 ---@field get_latest_version? async fun(pkg: string): Result # Result<PyPiPackage>
 ---@field get_all_versions? async fun(pkg: string): Result # Result<string[]> # Sorting should not be relied upon due to "proprietary" sorting algo in pip that is difficult to replicate in mason-registry-api.
+---@field get_supported_python_versions? async fun(pkg: string, version: string): Result # Result<string> # Returns a version specifier as provided by the PyPI API (see PEP440).
 
 ---@alias RubyGem { name: string, version: string }
 

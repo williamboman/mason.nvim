@@ -5,6 +5,8 @@ local log = require "mason-core.log"
 local platform = require "mason-core.platform"
 local process = require "mason-core.process"
 
+local is_not_nil = _.complement(_.equals(vim.NIL))
+
 ---@alias JobSpawn table<string, async fun(opts: SpawnArgs): Result>
 ---@type JobSpawn
 local spawn = {
@@ -17,7 +19,7 @@ local spawn = {
         luarocks = (platform.is.win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
         rebar3 = platform.is.win and "rebar3.cmd" or "rebar3",
     },
-    _flatten_cmd_args = _.compose(_.filter(_.complement(_.equals(vim.NIL))), _.flatten),
+    _flatten_cmd_args = _.compose(_.filter(is_not_nil), _.flatten),
 }
 
 local function Failure(err, cmd)

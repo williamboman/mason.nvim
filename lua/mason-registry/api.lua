@@ -83,6 +83,8 @@ api.pypi = {
         latest = get "/api/pypi/{package}/versions/latest",
         ---@type ApiSignature<{ package: string }>
         all = get "/api/pypi/{package}/versions/all",
+        ---@type ApiSignature<{ package: string, version: string }>
+        get = get "/api/pypi/{package}/versions/{version}",
     },
 }
 

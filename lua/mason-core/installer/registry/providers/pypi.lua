@@ -21,7 +21,7 @@ function M.parse(source, purl)
         ---@class ParsedPypiSource : ParsedPackageSource
         local parsed_source = {
             package = purl.name,
-            version = purl.version,
+            version = purl.version --[[ @as string ]],
             extra = _.path({ "qualifiers", "extra" }, purl),
             extra_packages = source.extra_packages,
             pip = {
@@ -42,6 +42,10 @@ function M.install(ctx, source)
 
     return Result.try(function(try)
         try(pypi.init {
+            package = {
+                name = source.package,
+                version = source.version,
+            },
             upgrade_pip = source.pip.upgrade,
             install_extra_args = source.pip.extra_args,
         })
