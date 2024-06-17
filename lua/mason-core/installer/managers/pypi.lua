@@ -85,8 +85,10 @@ local function create_venv(pkg)
     -- 2. Resolve suitable versioned python3 installation (python3.12, python3.11, etc.).
     local versioned_candidates = {}
     if supported_python_versions ~= nil then
-        log.fmt_debug("Finding versioned candidates for %s", supported_python_versions)
-        versioned_candidates = get_versioned_candidates(supported_python_versions)
+        if stock_target and not pep440_check_version(tostring(stock_target.version), supported_python_versions) then
+            log.fmt_debug("Finding versioned candidates for %s", supported_python_versions)
+            versioned_candidates = get_versioned_candidates(supported_python_versions)
+        end
     end
     local target = resolve_python3(versioned_candidates) or stock_target
 
