@@ -103,6 +103,7 @@ describe("pypi manager", function()
         assert.spy(ctx.spawn["python3.12"]).was_called_with {
             "-m",
             "venv",
+            "--system-site-packages",
             "venv",
         }
     end)
@@ -169,6 +170,7 @@ describe("pypi manager", function()
             assert.spy(ctx.spawn.python3).was_called_with {
                 "-m",
                 "venv",
+                "--system-site-packages",
                 "venv",
             }
             assert
