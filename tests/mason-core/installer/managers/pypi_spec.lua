@@ -38,6 +38,7 @@ describe("pypi manager", function()
         assert.spy(ctx.spawn.python3).was_called_with {
             "-m",
             "venv",
+            "--system-site-packages",
             "venv",
         }
     end)
@@ -62,6 +63,7 @@ describe("pypi manager", function()
         assert.spy(ctx.spawn.python3).was_called_with {
             "-m",
             "venv",
+            "--system-site-packages",
             "venv",
         }
         assert.spy(ctx.spawn[venv_py(ctx)]).was_called(1)
@@ -70,6 +72,7 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
+            "--ignore-installed",
             "-U",
             { "--proxy", "http://localhost" },
             { "pip" },
@@ -100,6 +103,7 @@ describe("pypi manager", function()
         assert.spy(ctx.spawn["python3.12"]).was_called_with {
             "-m",
             "venv",
+            "--system-site-packages",
             "venv",
         }
     end)
@@ -166,6 +170,7 @@ describe("pypi manager", function()
             assert.spy(ctx.spawn.python3).was_called_with {
                 "-m",
                 "venv",
+                "--system-site-packages",
                 "venv",
             }
             assert
@@ -188,6 +193,7 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
+            "--ignore-installed",
             "-U",
             vim.NIL, -- install_extra_args
             {
@@ -227,6 +233,7 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
+            "--ignore-installed",
             "-U",
             vim.NIL, -- install_extra_args
             {
@@ -253,6 +260,7 @@ describe("pypi manager", function()
             "pip",
             "--disable-pip-version-check",
             "install",
+            "--ignore-installed",
             "-U",
             { "--proxy", "http://localhost:9000" },
             {
