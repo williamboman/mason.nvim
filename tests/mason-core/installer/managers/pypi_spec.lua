@@ -179,6 +179,36 @@ describe("pypi manager", function()
         end
     )
 
+    it("should prioritize stock python", function()
+        local ctx = create_dummy_context { force = true }
+        spy.on(ctx.stdio_sink, "stderr")
+        stub(ctx, "promote_cwd")
+        stub(ctx.fs, "file_exists")
+        stub(providers.pypi, "get_supported_python_versions", mockx.returns(Result.success ">=3.8"))
+        stub(vim.fn, "executable")
+        vim.fn.executable.on_call_with("python3.12").returns(1)
+        stub(spawn, "python3", mockx.returns(Result.success()))
+        spawn.python3.on_call_with({ "--version" }).returns(Result.success { stdout = "Python 3.8.0" })
+
+        installer.exec_in_context(ctx, function()
+            pypi.init {
+                package = { name = "cmake-language-server", version = "0.1.10" },
+                upgrade_pip = true,
+                install_extra_args = { "--proxy", "http://localhost" },
+            }
+        end)
+
+        assert.spy(ctx.promote_cwd).was_called(1)
+        assert.spy(ctx.spawn.python3).was_called(1)
+        assert.spy(ctx.spawn["python3.12"]).was_called(0)
+        assert.spy(ctx.spawn.python3).was_called_with {
+            "-m",
+            "venv",
+            "--system-site-packages",
+            "venv",
+        }
+    end)
+
     it("should install", function()
         local ctx = create_dummy_context()
         stub(ctx.fs, "file_exists")
