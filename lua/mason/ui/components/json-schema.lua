@@ -116,6 +116,12 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
         -- Leaf node (aka any type that isn't an object)
         local type = resolve_type(schema)
         local heading
+        if key == nil or key_width == nil then
+            return Ui.Node {
+                type = "NODE",
+                children = nil,
+            }
+        end
         local label = (key_prefix .. key .. (" "):rep(key_width or 0)):sub(1, key_width + 5) -- + 5 to account for key_prefix plus some extra whitespace
         if schema.default ~= nil then
             heading = Ui.HlTextNode {
