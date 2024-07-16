@@ -112,8 +112,8 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
         return Ui.Node(_.map(function(sub_schema)
             return JsonSchema(pkg, schema_id, state, sub_schema)
         end, schema))
-    else
-        -- Leaf node (aka any type that isn't an object)
+    elseif level > 0 then -- Leaf nodes cannot occupy the root level.
+        -- Leaf node (aka any type that isn't an object).
         local type = resolve_type(schema)
         local heading
         local label = (key_prefix .. key .. (" "):rep(key_width or 0)):sub(1, key_width + 5) -- + 5 to account for key_prefix plus some extra whitespace
@@ -175,6 +175,8 @@ local function JsonSchema(pkg, schema_id, state, schema, key, level, key_width, 
                 })
             end),
         }
+    else
+        return Ui.Node {}
     end
 end
 
