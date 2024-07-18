@@ -89,6 +89,9 @@ local DEFAULT_SETTINGS = {
         -- - Float in the range of 0-1 for a percentage of screen height.
         height = 0.9,
 
+        -- Whether to show the header.
+        show_header = true,
+
         icons = {
             ---@since 1.0.0
             -- The list icon to use for installed packages.
