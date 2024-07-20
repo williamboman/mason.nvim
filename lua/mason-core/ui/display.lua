@@ -209,7 +209,7 @@ end
 ---@param filetype string
 function M.new_view_only_win(name, filetype)
     local namespace = vim.api.nvim_create_namespace(("installer_%s"):format(name))
-    local bufnr, renderer, mutate_state, get_state, unsubscribe, win_id, window_mgmt_augroup, autoclose_augroup, registered_keymaps, registered_keybinds, registered_effect_handlers, sticky_cursor
+    local bufnr, backdrop_bufnr, renderer, mutate_state, get_state, unsubscribe, win_id, backdrop_win_id, window_mgmt_augroup, autoclose_augroup, registered_keymaps, registered_keybinds, registered_effect_handlers, sticky_cursor
     local has_initiated = false
     ---@type WindowOpts
     local window_opts = {}
@@ -238,6 +238,14 @@ function M.new_view_only_win(name, filetype)
             if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
                 log.trace "Deleting buffer"
                 vim.api.nvim_buf_delete(bufnr, { force = true })
+            end
+            if backdrop_win_id and vim.api.nvim_win_is_valid(backdrop_win_id) then
+                log.trace "Deleting backdrop window"
+                vim.api.nvim_win_close(backdrop_win_id, true)
+            end
+            if backdrop_bufnr and vim.api.nvim_buf_is_valid(backdrop_bufnr) then
+                log.trace "Deleting backdrop buffer"
+                vim.api.nvim_buf_delete(backdrop_bufnr, { force = true })
             end
         end)
     end
@@ -370,6 +378,32 @@ function M.new_view_only_win(name, filetype)
     local function open()
         bufnr = vim.api.nvim_create_buf(false, true)
         win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(window_opts, false))
+
+        backdrop_bufnr = vim.api.nvim_create_buf(false, true)
+        backdrop_win_id = vim.api.nvim_open_win(backdrop_bufnr, false, {
+            relative = "editor",
+            width = vim.o.columns,
+            height = vim.o.lines,
+            row = 0,
+            col = 0,
+            style = "minimal",
+            focusable = false,
+            zindex = 44,
+        })
+
+        local wo = function(win, k, v)
+            if vim.api.nvim_set_option_value then
+                vim.api.nvim_set_option_value(k, v, { scope = "local", win = win })
+            else
+                vim.wo[win][k] = v
+            end
+        end
+
+        vim.api.nvim_set_hl(0, "MasonBackdrop", { bg = "#000000", default = true })
+        wo(backdrop_win_id, "winhighlight", "Normal:MasonBackdrop")
+        wo(backdrop_win_id, "winblend", settings.current.ui.backdrop)
+        vim.bo[backdrop_bufnr].buftype = "nofile"
+        vim.bo[backdrop_bufnr].filetype = "mason_backdrop"
 
         vim.api.nvim_create_autocmd("CmdLineEnter", {
             buffer = bufnr,
