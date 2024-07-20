@@ -331,6 +331,9 @@ Example:
             -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
             border = "none",
 
+            -- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
+            backdrop = 100,
+
             ---@since 1.0.0
             -- Width of the window. Accepts:
             -- - Integer greater than 1 for fixed width.
