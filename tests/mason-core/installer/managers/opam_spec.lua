@@ -10,7 +10,12 @@ describe("opam manager", function()
             opam.install("opam-package", "1.0.0")
         end)
 
-        assert.spy(ctx.spawn.opam).was_called(1)
+        assert.spy(ctx.spawn.opam).was_called(2)
+        assert.spy(ctx.spawn.opam).was_called_with {
+            "update",
+            "--yes",
+            "--verbose",
+        }
         assert.spy(ctx.spawn.opam).was_called_with {
             "install",
             "--destdir=.",
