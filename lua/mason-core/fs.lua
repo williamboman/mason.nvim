@@ -137,6 +137,7 @@ local function make_module(uv)
                     if entries[i].name and not entries[i].type then
                         local stat = uv.fs_stat(path .. "/" .. entries[i].name)
                         entries[i].type = stat.type
+                        log.trace("fs: using fs_stat to find type of ", path, stat.type)
                     end
                     all_entries[#all_entries + 1] = entries[i]
                 end
