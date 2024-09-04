@@ -134,6 +134,10 @@ local function make_module(uv)
             log.trace("fs: fs_readdir", path, entries)
             if entries and #entries > 0 then
                 for i = 1, #entries do
+                    if entries[i].name and not entries[i].type then
+                        local stat = uv.fs_stat(path .. "/" .. entries[i].name)
+                        entries[i].type = stat.type
+                    end
                     all_entries[#all_entries + 1] = entries[i]
                 end
             else
