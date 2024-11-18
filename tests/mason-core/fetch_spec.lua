@@ -22,18 +22,19 @@ describe("fetch", function()
             assert.spy(spawn.curl).was_called(1)
             assert.spy(spawn.wget).was_called_with {
                 {
-                    ("--header=User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
+                    "--header",
+                    ("User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
                         version.VERSION
                     ),
-                    "--header=X-Custom-Header: here",
+                    "--header",
+                    "X-Custom-Header: here",
                 },
-                "-nv",
                 "-o",
                 "/dev/null",
                 "-O",
                 "-",
-                "--timeout=30",
-                "--method=GET",
+                "-T",
+                30,
                 vim.NIL, -- body-data
                 "https://api.github.com",
             }
@@ -86,17 +87,17 @@ describe("fetch", function()
 
             assert.spy(spawn.wget).was_called_with {
                 {
-                    ("--header=User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
+                    "--header",
+                    ("User-Agent: mason.nvim %s (+https://github.com/williamboman/mason.nvim)"):format(
                         version.VERSION
                     ),
                 },
-                "-nv",
                 "-o",
                 "/dev/null",
                 "-O",
                 "/test.json",
-                "--timeout=30",
-                "--method=GET",
+                "-T",
+                30,
                 vim.NIL, -- body-data
                 "https://api.github.com/data",
             }
