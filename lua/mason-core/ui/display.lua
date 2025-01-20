@@ -170,13 +170,10 @@ M._render_node = render_node
 
 ---@alias WindowOpts { effects?: table<string, fun()>, winhighlight?: string[], border?: string|table }
 
----@param size integer | float
+---@param size number
 ---@param viewport integer
 local function calc_size(size, viewport)
-    if size <= 1 then
-        return math.ceil(size * viewport)
-    end
-    return math.min(size, viewport)
+    return size > 1 and math.min(size, viewport) or math.floor(size * viewport)
 end
 
 ---@param opts WindowOpts
@@ -199,6 +196,10 @@ local function create_popup_window_opts(opts, sizes_only)
     }
 
     if not sizes_only then
+        if opts.border ~= "none" then
+            popup_layout.row = popup_layout.row - 1
+            popup_layout.col = popup_layout.col - 1
+        end
         popup_layout.border = opts.border
     end
 
