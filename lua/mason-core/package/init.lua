@@ -88,26 +88,22 @@ local PackageMt = { __index = Package }
 ---@param spec PackageSpec | RegistryPackageSpec
 function Package.new(spec)
     if is_registry_spec(spec) then
-        vim.validate {
-            name = { spec.name, "s" },
-            description = { spec.description, "s" },
-            homepage = { spec.homepage, "s" },
-            licenses = { spec.licenses, "t" },
-            categories = { spec.categories, "t" },
-            languages = { spec.languages, "t" },
-            source = { spec.source, "t" },
-            bin = { spec.bin, { "t", "nil" } },
-            share = { spec.share, { "t", "nil" } },
-        }
+        vim.validate("name", spec.name, "string")
+        vim.validate("description", spec.description, "string")
+        vim.validate("homepage", spec.homepage, "string")
+        vim.validate("licenses", spec.licenses, "table")
+        vim.validate("categories", spec.categories, "table")
+        vim.validate("languages", spec.languages, "table")
+        vim.validate("source", spec.source, "table")
+        vim.validate("bin", spec.bin, { "table", "nil" })
+        vim.validate("share", spec.share, { "table", "nil" })
     else
-        vim.validate {
-            name = { spec.name, "s" },
-            desc = { spec.desc, "s" },
-            homepage = { spec.homepage, "s" },
-            categories = { spec.categories, "t" },
-            languages = { spec.languages, "t" },
-            install = { spec.install, "f" },
-        }
+        vim.validate("name", spec.name, "string")
+        vim.validate("desc", spec.desc, "string")
+        vim.validate("homepage", spec.homepage, "string")
+        vim.validate("categories", spec.categories, "table")
+        vim.validate("languages", spec.languages, "table")
+        vim.validate("install", spec.install, "function")
     end
 
     return EventEmitter.init(setmetatable({
