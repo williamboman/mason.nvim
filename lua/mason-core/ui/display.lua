@@ -207,6 +207,19 @@ local function create_popup_window_opts(opts, sizes_only)
     return popup_layout
 end
 
+local function create_backdrop_window_opts()
+    return {
+        relative = "editor",
+        width = vim.o.columns,
+        height = vim.o.lines,
+        row = 0,
+        col = 0,
+        style = "minimal",
+        focusable = false,
+        zindex = 44,
+    }
+end
+
 ---@param name string Human readable identifier.
 ---@param filetype string
 function M.new_view_only_win(name, filetype)
@@ -240,14 +253,6 @@ function M.new_view_only_win(name, filetype)
             if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
                 log.trace "Deleting buffer"
                 vim.api.nvim_buf_delete(bufnr, { force = true })
-            end
-            if backdrop_win_id and vim.api.nvim_win_is_valid(backdrop_win_id) then
-                log.trace "Deleting backdrop window"
-                vim.api.nvim_win_close(backdrop_win_id, true)
-            end
-            if backdrop_bufnr and vim.api.nvim_buf_is_valid(backdrop_bufnr) then
-                log.trace "Deleting backdrop buffer"
-                vim.api.nvim_buf_delete(backdrop_bufnr, { force = true })
             end
         end)
     end
@@ -381,31 +386,16 @@ function M.new_view_only_win(name, filetype)
         bufnr = vim.api.nvim_create_buf(false, true)
         win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(window_opts, false))
 
-        backdrop_bufnr = vim.api.nvim_create_buf(false, true)
-        backdrop_win_id = vim.api.nvim_open_win(backdrop_bufnr, false, {
-            relative = "editor",
-            width = vim.o.columns,
-            height = vim.o.lines,
-            row = 0,
-            col = 0,
-            style = "minimal",
-            focusable = false,
-            zindex = 44,
-        })
+        if settings.current.ui.backdrop ~= 100 then
+            backdrop_bufnr = vim.api.nvim_create_buf(false, true)
+            backdrop_win_id = vim.api.nvim_open_win(backdrop_bufnr, false, create_backdrop_window_opts())
 
-        local wo = function(win, k, v)
-            if vim.api.nvim_set_option_value then
-                vim.api.nvim_set_option_value(k, v, { scope = "local", win = win })
-            else
-                vim.wo[win][k] = v
-            end
+            vim.wo[backdrop_win_id].winhighlight = "Normal:MasonBackdrop"
+            vim.wo[backdrop_win_id].winblend = settings.current.ui.backdrop
+            vim.bo[backdrop_bufnr].buftype = "nofile"
+            -- https://github.com/folke/lazy.nvim/issues/1399
+            vim.bo[backdrop_bufnr].filetype = "mason_backdrop"
         end
-
-        vim.api.nvim_set_hl(0, "MasonBackdrop", { bg = "#000000", default = true })
-        wo(backdrop_win_id, "winhighlight", "Normal:MasonBackdrop")
-        wo(backdrop_win_id, "winblend", settings.current.ui.backdrop)
-        vim.bo[backdrop_bufnr].buftype = "nofile"
-        vim.bo[backdrop_bufnr].filetype = "mason_backdrop"
 
         vim.api.nvim_create_autocmd("CmdLineEnter", {
             buffer = bufnr,
@@ -474,9 +464,22 @@ function M.new_view_only_win(name, filetype)
             group = window_mgmt_augroup,
             buffer = bufnr,
             callback = function()
-                if vim.api.nvim_win_is_valid(win_id) then
+                if win_id and vim.api.nvim_win_is_valid(win_id) then
                     draw(renderer(get_state()))
                     vim.api.nvim_win_set_config(win_id, create_popup_window_opts(window_opts, true))
+                end
+                if backdrop_win_id and vim.api.nvim_win_is_valid(backdrop_win_id) then
+                    vim.api.nvim_win_set_config(backdrop_win_id, create_backdrop_window_opts())
+                end
+            end,
+        })
+
+        vim.api.nvim_create_autocmd({ "WinClosed" }, {
+            once = true,
+            pattern = tostring(win_id),
+            callback = function()
+                if backdrop_win_id and vim.api.nvim_win_is_valid(backdrop_win_id) then
+                    vim.api.nvim_win_close(backdrop_win_id, true)
                 end
             end,
         })
@@ -488,7 +491,7 @@ function M.new_view_only_win(name, filetype)
                 -- Schedule is done because otherwise the window won't actually close in some cases (for example if
                 -- you're loading another buffer into it)
                 vim.schedule(function()
-                    if vim.api.nvim_win_is_valid(win_id) then
+                    if win_id and vim.api.nvim_win_is_valid(win_id) then
                         vim.api.nvim_win_close(win_id, true)
                     end
                 end)
