@@ -421,6 +421,9 @@ local function uninstall_package(event)
     ---@type Package
     local pkg = event.payload
     pkg:uninstall()
+    mutate_state(function(state)
+        remove(state.packages.outdated_packages, pkg)
+    end)
     vim.schedule_wrap(notify)(("%q was successfully uninstalled."):format(pkg.name))
 end
 
