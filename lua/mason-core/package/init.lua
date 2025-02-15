@@ -86,7 +86,10 @@ local PackageMt = { __index = Package }
 ---@field opt table<string, string>?
 
 ---@param spec PackageSpec | RegistryPackageSpec
-function Package.new(spec)
+local function validate_spec(spec)
+    if vim.fn.has("nvim-0.11") ~= 1 then
+        return
+    end
     if is_registry_spec(spec) then
         vim.validate("name", spec.name, "string")
         vim.validate("description", spec.description, "string")
@@ -105,7 +108,11 @@ function Package.new(spec)
         vim.validate("languages", spec.languages, "table")
         vim.validate("install", spec.install, "function")
     end
+end
 
+---@param spec PackageSpec | RegistryPackageSpec
+function Package.new(spec)
+    validate_spec(spec)
     return EventEmitter.init(setmetatable({
         name = spec.name, -- for convenient access
         spec = spec,
