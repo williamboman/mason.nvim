@@ -269,6 +269,7 @@ local DEFAULT_SETTINGS = {
         -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
         border = "none",
 
+        ---@since 1.11.0
         -- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
         backdrop = 100,
 
