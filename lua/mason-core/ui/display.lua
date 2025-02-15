@@ -382,7 +382,10 @@ function M.new_view_only_win(name, filetype)
         bufnr = vim.api.nvim_create_buf(false, true)
         win_id = vim.api.nvim_open_win(bufnr, true, create_popup_window_opts(window_opts, false))
 
-        if settings.current.ui.backdrop ~= 100 then
+        local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal" })
+        local is_nvim_transparent = normal_hl and normal_hl.bg == nil
+
+        if settings.current.ui.backdrop ~= 100 and vim.o.termguicolors and not is_nvim_transparent then
             backdrop_bufnr = vim.api.nvim_create_buf(false, true)
             backdrop_win_id = vim.api.nvim_open_win(backdrop_bufnr, false, create_backdrop_window_opts())
 
