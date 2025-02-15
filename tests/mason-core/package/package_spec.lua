@@ -193,4 +193,28 @@ describe("package", function()
             end)
         end)
     )
+
+    it(
+        "should be able to instantiate package outside of main loop",
+        async_test(function()
+            local dummy = registry.get_package "registry"
+
+            -- Move outside the main loop
+            a.wait(function(resolve)
+                local timer = vim.loop.new_timer()
+                timer:start(0, 0, function()
+                    timer:close()
+                    resolve()
+                end)
+            end)
+
+            assert.is_true(vim.in_fast_event())
+
+            local pkg = assert.is_not.has_error(function()
+                return Pkg.new(dummy.spec)
+            end)
+
+            assert.same(dummy.spec, pkg.spec)
+        end)
+    )
 end)

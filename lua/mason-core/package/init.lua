@@ -7,6 +7,7 @@ local a = require "mason-core.async"
 local fs = require "mason-core.fs"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
+local platform = require "mason-core.platform"
 local registry = require "mason-registry"
 
 local is_not_nil = _.complement(_.is_nil)
@@ -87,7 +88,7 @@ local PackageMt = { __index = Package }
 
 ---@param spec PackageSpec | RegistryPackageSpec
 local function validate_spec(spec)
-    if vim.fn.has "nvim-0.11" ~= 1 then
+    if platform.cached_features["nvim-0.11"] ~= 1 then
         return
     end
     if is_registry_spec(spec) then
