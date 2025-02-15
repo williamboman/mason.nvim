@@ -87,7 +87,7 @@ local PackageMt = { __index = Package }
 
 ---@param spec PackageSpec | RegistryPackageSpec
 local function validate_spec(spec)
-    if vim.fn.has("nvim-0.11") ~= 1 then
+    if vim.fn.has "nvim-0.11" ~= 1 then
         return
     end
     if is_registry_spec(spec) then
