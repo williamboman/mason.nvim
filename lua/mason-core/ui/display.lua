@@ -241,7 +241,7 @@ function M.new_view_only_win(name, filetype)
         virtual_lines = false,
     }, namespace)
 
-    local function delete_win_buf()
+    local function close_window()
         -- We queue the win_buf to be deleted in a schedule call, otherwise when used with folke/which-key (and
         -- set timeoutlen=0) we run into a weird segfault.
         -- It should probably be unnecessary once https://github.com/neovim/neovim/issues/15548 is resolved
@@ -249,10 +249,6 @@ function M.new_view_only_win(name, filetype)
             if win_id and vim.api.nvim_win_is_valid(win_id) then
                 log.trace "Deleting window"
                 vim.api.nvim_win_close(win_id, true)
-            end
-            if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-                log.trace "Deleting buffer"
-                vim.api.nvim_buf_delete(bufnr, { force = true })
             end
         end)
     end
@@ -395,6 +391,7 @@ function M.new_view_only_win(name, filetype)
             vim.bo[backdrop_bufnr].buftype = "nofile"
             -- https://github.com/folke/lazy.nvim/issues/1399
             vim.bo[backdrop_bufnr].filetype = "mason_backdrop"
+            vim.bo[backdrop_bufnr].bufhidden = "wipe"
         end
 
         vim.api.nvim_create_autocmd("CmdLineEnter", {
@@ -487,17 +484,13 @@ function M.new_view_only_win(name, filetype)
         vim.api.nvim_create_autocmd({ "BufHidden", "BufUnload" }, {
             group = autoclose_augroup,
             buffer = bufnr,
-            callback = function()
-                -- Schedule is done because otherwise the window won't actually close in some cases (for example if
-                -- you're loading another buffer into it)
-                vim.schedule(function()
-                    if win_id and vim.api.nvim_win_is_valid(win_id) then
-                        vim.api.nvim_win_close(win_id, true)
-                    end
-                end)
-            end,
+            -- This is for instances where the window remains but the buffer is no longer visible, for example when
+            -- loading another buffer into it (this is basically imitating 'winfixbuf', which was added in 0.10.0).
+            callback = close_window,
         })
 
+        -- This autocmd is responsible for closing the Mason window(s) when the user focuses another window. It
+        -- essentially behaves as WinLeave except it keeps the Mason window(s) open under certain circumstances.
         local win_enter_aucmd
         win_enter_aucmd = vim.api.nvim_create_autocmd({ "WinEnter" }, {
             group = autoclose_augroup,
@@ -506,7 +499,7 @@ function M.new_view_only_win(name, filetype)
                 local buftype = vim.api.nvim_buf_get_option(0, "buftype")
                 -- This allows us to keep the floating window open for things like diagnostic popups, UI inputs á la dressing.nvim, etc.
                 if buftype ~= "prompt" and buftype ~= "nofile" then
-                    delete_win_buf()
+                    close_window()
                     vim.api.nvim_del_autocmd(win_enter_aucmd)
                 end
             end,
@@ -564,7 +557,7 @@ function M.new_view_only_win(name, filetype)
             assert(has_initiated, "Display has not been initiated, cannot close.")
             unsubscribe(true)
             log.fmt_trace("Closing window win_id=%s, bufnr=%s", win_id, bufnr)
-            delete_win_buf()
+            close_window()
             vim.api.nvim_del_augroup_by_id(window_mgmt_augroup)
             vim.api.nvim_del_augroup_by_id(autoclose_augroup)
         end),
