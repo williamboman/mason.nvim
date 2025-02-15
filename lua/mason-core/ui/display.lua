@@ -185,6 +185,11 @@ local function create_popup_window_opts(opts, sizes_only)
     local width = calc_size(settings.current.ui.width, columns)
     local row = math.floor((lines - height) / 2)
     local col = math.floor((columns - width) / 2)
+    if opts.border ~= "none" then
+        row = math.max(row - 1, 0)
+        col = math.max(col - 1, 0)
+    end
+
     local popup_layout = {
         height = height,
         width = width,
@@ -196,10 +201,6 @@ local function create_popup_window_opts(opts, sizes_only)
     }
 
     if not sizes_only then
-        if opts.border ~= "none" then
-            popup_layout.row = popup_layout.row - 1
-            popup_layout.col = popup_layout.col - 1
-        end
         popup_layout.border = opts.border
     end
 
