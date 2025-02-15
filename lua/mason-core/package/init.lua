@@ -86,30 +86,33 @@ local PackageMt = { __index = Package }
 ---@field opt table<string, string>?
 
 ---@param spec PackageSpec | RegistryPackageSpec
-function Package.new(spec)
-    if is_registry_spec(spec) then
-        vim.validate {
-            name = { spec.name, "s" },
-            description = { spec.description, "s" },
-            homepage = { spec.homepage, "s" },
-            licenses = { spec.licenses, "t" },
-            categories = { spec.categories, "t" },
-            languages = { spec.languages, "t" },
-            source = { spec.source, "t" },
-            bin = { spec.bin, { "t", "nil" } },
-            share = { spec.share, { "t", "nil" } },
-        }
-    else
-        vim.validate {
-            name = { spec.name, "s" },
-            desc = { spec.desc, "s" },
-            homepage = { spec.homepage, "s" },
-            categories = { spec.categories, "t" },
-            languages = { spec.languages, "t" },
-            install = { spec.install, "f" },
-        }
+local function validate_spec(spec)
+    if vim.fn.has "nvim-0.11" ~= 1 then
+        return
     end
+    if is_registry_spec(spec) then
+        vim.validate("name", spec.name, "string")
+        vim.validate("description", spec.description, "string")
+        vim.validate("homepage", spec.homepage, "string")
+        vim.validate("licenses", spec.licenses, "table")
+        vim.validate("categories", spec.categories, "table")
+        vim.validate("languages", spec.languages, "table")
+        vim.validate("source", spec.source, "table")
+        vim.validate("bin", spec.bin, { "table", "nil" })
+        vim.validate("share", spec.share, { "table", "nil" })
+    else
+        vim.validate("name", spec.name, "string")
+        vim.validate("desc", spec.desc, "string")
+        vim.validate("homepage", spec.homepage, "string")
+        vim.validate("categories", spec.categories, "table")
+        vim.validate("languages", spec.languages, "table")
+        vim.validate("install", spec.install, "function")
+    end
+end
 
+---@param spec PackageSpec | RegistryPackageSpec
+function Package.new(spec)
+    validate_spec(spec)
     return EventEmitter.init(setmetatable({
         name = spec.name, -- for convenient access
         spec = spec,
