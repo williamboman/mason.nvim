@@ -2,6 +2,7 @@ local InstallContextCwd = require "mason-core.installer.context.InstallContextCw
 local InstallContextFs = require "mason-core.installer.context.InstallContextFs"
 local InstallContextSpawn = require "mason-core.installer.context.InstallContextSpawn"
 local Result = require "mason-core.result"
+local fetch = require "mason-core.fetch"
 local _ = require "mason-core.functional"
 local a = require "mason-core.async"
 local fs = require "mason-core.fs"
@@ -46,6 +47,17 @@ function InstallContext:new(handle, opts)
         },
         opts = opts,
     }, InstallContext)
+end
+
+---@async
+---@param url string
+---@param opts? FetchOpts
+function InstallContext:fetch(url, opts)
+    opts = opts or {}
+    if opts.out_file then
+        opts.out_file = path.concat { self.cwd:get(), opts.out_file }
+    end
+    return fetch(url, opts):get_or_throw()
 end
 
 ---@async
