@@ -1,7 +1,9 @@
+local a = require "mason-core.async"
 local match = require "luassert.match"
 local path = require "mason-core.path"
 local pypi = require "mason-core.installer.managers.pypi"
 local registry = require "mason-registry"
+local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 local test_helpers = require "mason-test.helpers"
 
@@ -246,5 +248,40 @@ cmd.exe /C echo %GREETING% %*]]
 
         assert.equals([[Cannot write PHP exec wrapper for path "some/obscure/path/cli.php" as it doesn't exist.]], err)
         assert.spy(ctx.write_shell_exec_wrapper).was_called(0)
+    end)
+
+    it("should await callback-style async function", function()
+        local value = a.run_blocking(function()
+            local ctx = test_helpers.create_context()
+            return ctx:execute(function()
+                return ctx:await(function(resolve, reject)
+                    vim.defer_fn(function()
+                        resolve "Value!"
+                    end, 500)
+                end)
+            end)
+        end)
+
+        assert.equals("Value!", value)
+    end)
+
+    it("should propagate errors in callback-style async function", function()
+        local guard = spy.new()
+        local error = assert.has_error(function()
+            a.run_blocking(function()
+                local ctx = test_helpers.create_context()
+                return ctx:execute(function()
+                    ctx:await(function(resolve, reject)
+                        vim.defer_fn(function()
+                            reject "Error!"
+                        end, 500)
+                    end)
+                    guard()
+                end)
+            end)
+        end)
+
+        assert.equals("Error!", error)
+        assert.spy(guard).was_called(0)
     end)
 end)

@@ -109,6 +109,12 @@ function InstallContext:chdir(rel_path, fn)
     end
 end
 
+---@async
+---@param fn fun(resolve: fun(result: any), reject: fun(error: any))
+function InstallContext:await(fn)
+    return a.wait(fn)
+end
+
 ---@param new_executable_rel_path string Relative path to the executable file to create.
 ---@param script_rel_path string Relative path to the Node.js script.
 function InstallContext:write_node_exec_wrapper(new_executable_rel_path, script_rel_path)
