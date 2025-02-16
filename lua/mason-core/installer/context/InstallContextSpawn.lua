@@ -25,7 +25,7 @@ function InstallContextSpawn:__index(cmd)
     ---@param args JobSpawnOpts
     return function(args)
         args.cwd = args.cwd or self.cwd:get()
-        args.stdio_sink = args.stdio_sink or self.handle.stdio.sink
+        args.stdio_sink = args.stdio_sink or self.handle.stdio_sink
         local on_spawn = args.on_spawn
         local captured_handle
         args.on_spawn = function(handle, stdio, pid, ...)

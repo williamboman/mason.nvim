@@ -55,13 +55,13 @@ function InstallRunner:execute(opts, callback)
     ---@async
     local function finalize_logs(success, result)
         if not success then
-            context.stdio_sink.stderr(tostring(result))
-            context.stdio_sink.stderr "\n"
+            context.stdio_sink:stderr(tostring(result))
+            context.stdio_sink:stderr "\n"
         end
 
         if opts.debug then
             context.fs:write_file("mason-debug.log", table.concat(tailed_output, ""))
-            context.stdio_sink.stdout(("[debug] Installation directory retained at %q.\n"):format(context.cwd:get()))
+            context.stdio_sink:stdout(("[debug] Installation directory retained at %q.\n"):format(context.cwd:get()))
         end
     end
 

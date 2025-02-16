@@ -1,4 +1,5 @@
 local luarocks = require "mason-core.installer.managers.luarocks"
+local match = require "luassert.match"
 local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 local test_helpers = require "mason-test.helpers"
@@ -80,6 +81,8 @@ describe("luarocks manager", function()
             luarocks.install("my-rock", "1.0.0")
         end)
 
-        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing luarocks package my-rock@1.0.0…\n"
+        assert
+            .spy(ctx.stdio_sink.stdout)
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Installing luarocks package my-rock@1.0.0…\n")
     end)
 end)

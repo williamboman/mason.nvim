@@ -212,8 +212,8 @@ describe("InstallRunner ::", function()
         local runner = InstallRunner:new(handle, Semaphore:new(1))
 
         stub(dummy.spec.source, "install", function(ctx)
-            ctx.stdio_sink.stdout "Hello "
-            ctx.stdio_sink.stderr "world!"
+            ctx.stdio_sink:stdout "Hello "
+            ctx.stdio_sink:stderr "world!"
         end)
 
         local callback = test_helpers.sync_runner_execute(runner, { debug = true })
@@ -229,7 +229,7 @@ describe("InstallRunner ::", function()
         local runner = InstallRunner:new(handle, Semaphore:new(1))
 
         stub(dummy.spec.source, "install", function(ctx)
-            ctx.stdio_sink.stderr "Something will go terribly wrong.\n"
+            ctx.stdio_sink:stderr "Something will go terribly wrong.\n"
             error("This went terribly wrong.", 0)
         end)
 
@@ -246,7 +246,7 @@ describe("InstallRunner ::", function()
         local runner = InstallRunner:new(handle, Semaphore:new(1))
 
         stub(dummy.spec.source, "install", function(ctx)
-            ctx.stdio_sink.stderr "Something will go terribly wrong.\n"
+            ctx.stdio_sink:stderr "Something will go terribly wrong.\n"
             error("This went terribly wrong.", 0)
         end)
 

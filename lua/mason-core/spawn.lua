@@ -70,10 +70,8 @@ setmetatable(spawn, {
                 args = cmd_args,
             }
 
-            local stdio
             if not spawn_args.stdio_sink then
-                stdio = process.in_memory_sink()
-                spawn_args.stdio_sink = stdio.sink
+                spawn_args.stdio_sink = process.BufferedSink:new()
             end
 
             local cmd = self._aliases[normalized_cmd] or normalized_cmd
@@ -93,17 +91,30 @@ setmetatable(spawn, {
             end)
 
             if exit_code == 0 and signal == 0 then
-                return Result.success {
-                    stdout = stdio and table.concat(stdio.buffers.stdout, "") or nil,
-                    stderr = stdio and table.concat(stdio.buffers.stderr, "") or nil,
-                }
+                if getmetatable(spawn_args.stdio_sink) == process.BufferedSink then
+                    local sink = spawn_args.stdio_sink --[[@as BufferedSink]]
+                    return Result.success {
+                        stdout = table.concat(sink.buffers.stdout, "") or nil,
+                        stderr = table.concat(sink.buffers.stderr, "") or nil,
+                    }
+                else
+                    return Result.success()
+                end
             else
-                return Failure({
-                    exit_code = exit_code,
-                    signal = signal,
-                    stdout = stdio and table.concat(stdio.buffers.stdout, "") or nil,
-                    stderr = stdio and table.concat(stdio.buffers.stderr, "") or nil,
-                }, cmd)
+                if getmetatable(spawn_args.stdio_sink) == process.BufferedSink then
+                    local sink = spawn_args.stdio_sink --[[@as BufferedSink]]
+                    return Failure({
+                        exit_code = exit_code,
+                        signal = signal,
+                        stdout = table.concat(sink.buffers.stdout, "") or nil,
+                        stderr = table.concat(sink.buffers.stderr, "") or nil,
+                    }, cmd)
+                else
+                    return Failure({
+                        exit_code = exit_code,
+                        signal = signal,
+                    }, cmd)
+                end
             end
         end
     end,

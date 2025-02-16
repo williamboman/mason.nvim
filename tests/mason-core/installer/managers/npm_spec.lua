@@ -98,6 +98,8 @@ describe("npm manager", function()
             npm.install("my-package", "1.0.0")
         end)
 
-        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing npm package my-package@1.0.0…\n"
+        assert
+            .spy(ctx.stdio_sink.stdout)
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Installing npm package my-package@1.0.0…\n")
     end)
 end)

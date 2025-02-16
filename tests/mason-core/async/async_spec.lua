@@ -42,11 +42,11 @@ describe("async", function()
 
     it("should wrap callback-style async functions via promisify", function()
         local async_spawn = _.compose(_.table_pack, a.promisify(process.spawn))
-        local stdio = process.in_memory_sink()
+        local stdio = process.BufferedSink:new()
         local success, exit_code = unpack(a.run_blocking(async_spawn, "env", {
             args = {},
             env = { "FOO=BAR", "BAR=BAZ" },
-            stdio_sink = stdio.sink,
+            stdio_sink = stdio,
         }))
         assert.is_true(success)
         assert.equals(0, exit_code)

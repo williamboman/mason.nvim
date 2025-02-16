@@ -1,3 +1,4 @@
+local match = require "luassert.match"
 local opam = require "mason-core.installer.managers.opam"
 local spy = require "luassert.spy"
 local test_helpers = require "mason-test.helpers"
@@ -28,6 +29,8 @@ describe("opam manager", function()
             opam.install("opam-package", "1.0.0")
         end)
 
-        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing opam package opam-package@1.0.0…\n"
+        assert
+            .spy(ctx.stdio_sink.stdout)
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Installing opam package opam-package@1.0.0…\n")
     end)
 end)

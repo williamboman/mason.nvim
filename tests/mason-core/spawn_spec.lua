@@ -26,16 +26,19 @@ describe("async spawn", function()
     end)
 
     it("should use provided stdio_sink", function()
-        local stdio = process.in_memory_sink()
+        local stdout = spy.new()
+        local stdio = process.StdioSink:new {
+            stdout = stdout,
+        }
         local result = a.run_blocking(spawn.env, {
             env_raw = { "FOO=bar" },
-            stdio_sink = stdio.sink,
+            stdio_sink = stdio,
         })
         assert.is_true(result:is_success())
-        assert.equals(nil, result:get_or_nil().stdout)
-        assert.equals(nil, result:get_or_nil().stderr)
-        assert.equals("FOO=bar\n", table.concat(stdio.buffers.stdout, ""))
-        assert.equals("", table.concat(stdio.buffers.stderr, ""))
+        assert.equals(nil, result:get_or_nil())
+        -- Not 100 %guaranteed it's only called once because output is always buffered, but it's extremely likely
+        assert.spy(stdout).was_called(1)
+        assert.spy(stdout).was_called_with "FOO=bar\n"
     end)
 
     it("should pass command arguments", function()
@@ -68,10 +71,7 @@ describe("async spawn", function()
         assert.spy(process.spawn).was_called_with(
             "bash",
             match.tbl_containing {
-                stdio_sink = match.tbl_containing {
-                    stdout = match.is_function(),
-                    stderr = match.is_function(),
-                },
+                stdio_sink = match.instanceof(process.BufferedSink),
                 env = match.list_containing "VAR=world",
                 args = match.tbl_containing {
                     "-c",
@@ -134,7 +134,7 @@ describe("async spawn", function()
 
     it("should format failure message", function()
         stub(process, "spawn", function(cmd, opts, callback)
-            opts.stdio_sink.stderr(("This is an error message for %s!"):format(cmd))
+            opts.stdio_sink:stderr(("This is an error message for %s!"):format(cmd))
             callback(false, 127)
         end)
 

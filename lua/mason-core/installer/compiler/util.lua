@@ -44,7 +44,7 @@ function M.ensure_valid_version(versions_thunk)
     local version = ctx.opts.version
 
     if version and not ctx.opts.force then
-        ctx.stdio_sink.stdout "Fetching available versions…\n"
+        ctx.stdio_sink:stdout "Fetching available versions…\n"
         local all_versions = versions_thunk()
         if all_versions:is_failure() then
             log.warn("Failed to fetch versions for package", ctx.package)
@@ -54,10 +54,10 @@ function M.ensure_valid_version(versions_thunk)
         all_versions = all_versions:get_or_else {}
 
         if not _.any(_.equals(version), all_versions) then
-            ctx.stdio_sink.stderr(("Tried to install invalid version %q. Available versions:\n"):format(version))
-            ctx.stdio_sink.stderr(_.compose(_.join "\n", _.map(_.join ", "), _.split_every(15))(all_versions))
-            ctx.stdio_sink.stderr "\n\n"
-            ctx.stdio_sink.stderr(
+            ctx.stdio_sink:stderr(("Tried to install invalid version %q. Available versions:\n"):format(version))
+            ctx.stdio_sink:stderr(_.compose(_.join "\n", _.map(_.join ", "), _.split_every(15))(all_versions))
+            ctx.stdio_sink:stderr "\n\n"
+            ctx.stdio_sink:stderr(
                 ("Run with --force flag to bypass version validation:\n  :MasonInstall --force %s@%s\n\n"):format(
                     ctx.package.name,
                     version

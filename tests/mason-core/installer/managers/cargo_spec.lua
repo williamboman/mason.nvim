@@ -1,4 +1,5 @@
 local cargo = require "mason-core.installer.managers.cargo"
+local match = require "luassert.match"
 local spy = require "luassert.spy"
 local test_helpers = require "mason-test.helpers"
 
@@ -30,7 +31,9 @@ describe("cargo manager", function()
             cargo.install("my-crate", "1.0.0")
         end)
 
-        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing crate my-crate@1.0.0…\n"
+        assert
+            .spy(ctx.stdio_sink.stdout)
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Installing crate my-crate@1.0.0…\n")
     end)
 
     it("should install locked", function()

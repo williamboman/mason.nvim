@@ -116,14 +116,14 @@ local function create_venv(pkg)
         and not pep440_check_version(tostring(target.version), supported_python_versions)
     then
         if ctx.opts.force then
-            ctx.stdio_sink.stderr(
+            ctx.stdio_sink:stderr(
                 ("Warning: The resolved python3 version %s is not compatible with the required Python versions: %s.\n"):format(
                     target.version,
                     supported_python_versions
                 )
             )
         else
-            ctx.stdio_sink.stderr "Run with :MasonInstall --force to bypass this version validation.\n"
+            ctx.stdio_sink:stderr "Run with :MasonInstall --force to bypass this version validation.\n"
             return Result.failure(
                 ("Failed to find a python3 installation in PATH that meets the required versions (%s). Found version: %s."):format(
                     supported_python_versions,
@@ -134,7 +134,7 @@ local function create_venv(pkg)
     end
 
     log.fmt_debug("Found python3 installation version=%s, executable=%s", target.version, target.executable)
-    ctx.stdio_sink.stdout "Creating virtual environment…\n"
+    ctx.stdio_sink:stdout "Creating virtual environment…\n"
     return ctx.spawn[target.executable] { "-m", "venv", "--system-site-packages", VENV_DIR }
 end
 
@@ -193,7 +193,7 @@ function M.init(opts)
         try(create_venv(opts.package))
 
         if opts.upgrade_pip then
-            ctx.stdio_sink.stdout "Upgrading pip inside the virtual environment…\n"
+            ctx.stdio_sink:stdout "Upgrading pip inside the virtual environment…\n"
             try(pip_install({ "pip" }, opts.install_extra_args))
         end
     end)
@@ -207,7 +207,7 @@ function M.install(pkg, version, opts)
     opts = opts or {}
     log.fmt_debug("pypi: install %s %s %s", pkg, version, opts or "")
     local ctx = installer.context()
-    ctx.stdio_sink.stdout(("Installing pip package %s@%s…\n"):format(pkg, version))
+    ctx.stdio_sink:stdout(("Installing pip package %s@%s…\n"):format(pkg, version))
     return pip_install({
         opts.extra and ("%s[%s]==%s"):format(pkg, opts.extra, version) or ("%s==%s"):format(pkg, version),
         opts.extra_packages or vim.NIL,

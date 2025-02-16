@@ -143,7 +143,7 @@ describe("pypi manager", function()
         )
         assert
             .spy(ctx.stdio_sink.stderr)
-            .was_called_with "Run with :MasonInstall --force to bypass this version validation.\n"
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Run with :MasonInstall --force to bypass this version validation.\n")
     end)
 
     it(
@@ -179,9 +179,10 @@ describe("pypi manager", function()
                 "--system-site-packages",
                 "venv",
             }
-            assert
-                .spy(ctx.stdio_sink.stderr)
-                .was_called_with "Warning: The resolved python3 version 3.5.0 is not compatible with the required Python versions: >=3.8.\n"
+            assert.spy(ctx.stdio_sink.stderr).was_called_with(
+                match.is_ref(ctx.stdio_sink),
+                "Warning: The resolved python3 version 3.5.0 is not compatible with the required Python versions: >=3.8.\n"
+            )
         end
     )
 
@@ -249,7 +250,9 @@ describe("pypi manager", function()
             pypi.install("pypi-package", "1.0.0")
         end)
 
-        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing pip package pypi-package@1.0.0…\n"
+        assert
+            .spy(ctx.stdio_sink.stdout)
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Installing pip package pypi-package@1.0.0…\n")
     end)
 
     it("should install extra specifier", function()

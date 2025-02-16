@@ -1,4 +1,5 @@
 local gem = require "mason-core.installer.managers.gem"
+local match = require "luassert.match"
 local spy = require "luassert.spy"
 local test_helper = require "mason-test.helpers"
 
@@ -34,7 +35,9 @@ describe("gem manager", function()
             gem.install("my-gem", "1.0.0")
         end)
 
-        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing gem my-gem@1.0.0…\n"
+        assert
+            .spy(ctx.stdio_sink.stdout)
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Installing gem my-gem@1.0.0…\n")
     end)
 
     it("should install extra packages", function()

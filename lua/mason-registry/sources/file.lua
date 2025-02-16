@@ -7,6 +7,7 @@ local async_uv = require "mason-core.async.uv"
 local fs = require "mason-core.fs"
 local log = require "mason-core.log"
 local path = require "mason-core.path"
+local process = require "mason-core.process"
 local spawn = require "mason-core.spawn"
 local util = require "mason-registry.sources.util"
 
@@ -131,7 +132,7 @@ function FileRegistrySource:install()
             [yq]({
                 "-I0", -- output one document per line
                 { "-o", "json" },
-                stdio_sink = {
+                stdio_sink = process.StdioSink:new {
                     stdout = function(chunk)
                         local raw_spec = streaming_parser(chunk)
                         if raw_spec then

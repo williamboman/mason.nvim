@@ -1,4 +1,5 @@
 local golang = require "mason-core.installer.managers.golang"
+local match = require "luassert.match"
 local spy = require "luassert.spy"
 local test_helpers = require "mason-test.helpers"
 
@@ -29,7 +30,9 @@ describe("golang manager", function()
             golang.install("my-golang", "1.0.0")
         end)
 
-        assert.spy(ctx.stdio_sink.stdout).was_called_with "Installing go package my-golang@1.0.0…\n"
+        assert
+            .spy(ctx.stdio_sink.stdout)
+            .was_called_with(match.is_ref(ctx.stdio_sink), "Installing go package my-golang@1.0.0…\n")
     end)
 
     it("should install extra packages", function()

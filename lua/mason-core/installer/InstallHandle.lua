@@ -45,7 +45,7 @@ end
 ---@class InstallHandle : EventEmitter
 ---@field package AbstractPackage
 ---@field state InstallHandleState
----@field stdio { buffers: { stdout: string[], stderr: string[] }, sink: StdioSink }
+---@field stdio_sink BufferedSink
 ---@field is_terminated boolean
 ---@field location InstallLocation
 ---@field private spawn_handles InstallHandleSpawnHandle[]
@@ -53,33 +53,17 @@ local InstallHandle = {}
 InstallHandle.__index = InstallHandle
 setmetatable(InstallHandle, { __index = EventEmitter })
 
----@param handle InstallHandle
-local function new_sink(handle)
-    local stdout, stderr = {}, {}
-    return {
-        buffers = { stdout = stdout, stderr = stderr },
-        sink = {
-            stdout = function(chunk)
-                stdout[#stdout + 1] = chunk
-                handle:emit("stdout", chunk)
-            end,
-            stderr = function(chunk)
-                stderr[#stderr + 1] = chunk
-                handle:emit("stderr", chunk)
-            end,
-        },
-    }
-end
-
 ---@param pkg AbstractPackage
 ---@param location InstallLocation
 function InstallHandle:new(pkg, location)
     ---@type InstallHandle
     local instance = EventEmitter.new(self)
+    local sink = process.BufferedSink:new()
+    sink:connect_events(instance)
     instance.state = "IDLE"
     instance.package = pkg
     instance.spawn_handles = {}
-    instance.stdio = new_sink(instance)
+    instance.stdio_sink = sink
     instance.is_terminated = false
     instance.location = location
     return instance

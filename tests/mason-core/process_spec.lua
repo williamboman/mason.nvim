@@ -5,7 +5,7 @@ local spy = require "luassert.spy"
 describe("process.spawn", function()
     -- Unix only
     it("should spawn command and feed output to sink", function()
-        local stdio = process.in_memory_sink()
+        local stdio = process.BufferedSink:new()
         local callback = spy.new()
         process.spawn("env", {
             args = {},
@@ -13,7 +13,7 @@ describe("process.spawn", function()
                 "HELLO=world",
                 "MY_ENV=var",
             },
-            stdio_sink = stdio.sink,
+            stdio_sink = stdio,
         }, callback)
 
         assert.wait(function()
