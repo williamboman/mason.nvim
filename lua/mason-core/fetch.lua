@@ -75,19 +75,23 @@ local function fetch(url, opts)
     end
 
     local function wget()
-        local headers =
-            _.sort_by(_.identity, _.map(_.compose(_.format "--header=%s", _.join ": "), _.to_pairs(opts.headers)))
+        local headers = {}
+        for k, v in pairs(opts.headers) do
+            table.insert(headers, "--header")
+            table.insert(headers, k .. ": " .. v)
+        end
+
         return spawn.wget {
             headers,
-            "-nv",
             "-o",
             "/dev/null",
             "-O",
             opts.out_file or "-",
-            ("--timeout=%s"):format(TIMEOUT_SECONDS),
-            ("--method=%s"):format(opts.method),
-            opts.data and {
-                ("--body-data=%s"):format(opts.data) or vim.NIL,
+            "-T",
+            TIMEOUT_SECONDS,
+            opts.data and opts.method == "POST" and {
+                "--post-data",
+                opts.data,
             } or vim.NIL,
             url,
         }
