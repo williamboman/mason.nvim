@@ -2,6 +2,7 @@ local Purl = require "mason-core.purl"
 local Result = require "mason-core.result"
 local installer = require "mason-core.installer"
 local npm = require "mason-core.installer.registry.providers.npm"
+local settings = require "mason.settings"
 local stub = require "luassert.stub"
 
 ---@param overrides Purl
@@ -15,11 +16,20 @@ end
 
 describe("npm provider :: parsing", function()
     it("should parse package", function()
+        settings.set {
+            npm = {
+                install_args = { "--registry", "https://registry.npmjs.org/" },
+            },
+        }
+
         assert.same(
             Result.success {
                 package = "@namespace/package",
                 version = "v1.5.0",
                 extra_packages = { "extra" },
+                npm = {
+                    extra_args = { "--registry", "https://registry.npmjs.org/" },
+                },
             },
             npm.parse({ extra_packages = { "extra" } }, purl())
         )
@@ -38,12 +48,19 @@ describe("npm provider :: installing", function()
                 package = "@namespace/package",
                 version = "v1.5.0",
                 extra_packages = { "extra" },
+                npm = {
+                    extra_args = { "--registry", "https://registry.npmjs.org/" },
+                },
             })
         end)
 
         assert.is_true(result:is_success())
         assert.spy(manager.init).was_called(1)
         assert.spy(manager.install).was_called(1)
-        assert.spy(manager.install).was_called_with("@namespace/package", "v1.5.0", { extra_packages = { "extra" } })
+        assert.spy(manager.install).was_called_with(
+            "@namespace/package",
+            "v1.5.0",
+            { extra_packages = { "extra" }, install_extra_args = { "--registry", "https://registry.npmjs.org/" } }
+        )
     end)
 end)
