@@ -27,10 +27,7 @@ end
 local function call_handler(event, handler, ...)
     local ok, err = pcall(handler, ...)
     if not ok then
-        vim.schedule(function()
-            log.fmt_warn("EventEmitter handler failed for event %s with error %s", event, err)
-            vim.api.nvim_err_writeln(err)
-        end)
+        log.fmt_warn("EventEmitter handler failed for event %s with error %s", event, err)
     end
 end
 

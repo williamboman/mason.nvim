@@ -1,3 +1,4 @@
+local log = require "mason-core.log"
 local match = require "luassert.match"
 local spy = require "luassert.spy"
 
@@ -42,13 +43,15 @@ describe("EventEmitter", function()
         assert.spy(my_event_handler).was_called(0)
     end)
 
-    it("should print errors in handlers", function()
-        spy.on(vim.api, "nvim_err_writeln")
+    it("should log errors in handlers", function()
+        spy.on(log, "fmt_warn")
         local emitter = EventEmitter.init(setmetatable({}, { __index = EventEmitter }))
         emitter:on("event", mockx.throws "My error.")
         emitter:emit "event"
         a.run_blocking(a.wait, vim.schedule)
-        assert.spy(vim.api.nvim_err_writeln).was_called(1)
-        assert.spy(vim.api.nvim_err_writeln).was_called_with "My error."
+        assert.spy(log.fmt_warn).was_called(1)
+        assert
+            .spy(log.fmt_warn)
+            .was_called_with("EventEmitter handler failed for event %s with error %s", "event", "My error.")
     end)
 end)
