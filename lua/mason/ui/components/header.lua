@@ -6,9 +6,9 @@ local settings = require "mason.settings"
 ---@param state InstallerUiState
 return function(state)
     local uninstalled_registries = _.filter(_.prop_eq("is_installed", false), state.info.registries)
-
-    return Ui.Node {
-        Ui.CascadingStyleNode({ "CENTERED" }, {
+    local header = Ui.EmptyLine()
+    if settings.current.ui.show_header then
+        header = Ui.CascadingStyleNode({ "CENTERED" }, {
             Ui.HlTextNode {
                 Ui.When(state.view.is_showing_help, {
                     p.header_secondary(" " .. state.header.title_prefix .. " mason.nvim "),
@@ -28,7 +28,11 @@ return function(state)
                 }),
                 { p.Comment "https://github.com/williamboman/mason.nvim" },
             },
-        }),
+        })
+    end
+
+    return Ui.Node {
+        header,
         Ui.When(not state.packages.new_versions_check.is_checking and #uninstalled_registries > 0, function()
             return Ui.CascadingStyleNode({ "INDENT" }, {
                 Ui.EmptyLine(),
