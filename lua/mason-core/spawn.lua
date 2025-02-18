@@ -10,17 +10,24 @@ local is_not_nil = _.complement(_.equals(vim.NIL))
 ---@alias JobSpawn table<string, async fun(opts: SpawnArgs): Result>
 ---@type JobSpawn
 local spawn = {
-    _aliases = {
-        npm = platform.is.win and "npm.cmd" or "npm",
-        gem = platform.is.win and "gem.cmd" or "gem",
-        composer = platform.is.win and "composer.bat" or "composer",
-        gradlew = platform.is.win and "gradlew.bat" or "gradlew",
-        -- for hererocks installations
-        luarocks = (platform.is.win and vim.fn.executable "luarocks.bat" == 1) and "luarocks.bat" or "luarocks",
-        rebar3 = platform.is.win and "rebar3.cmd" or "rebar3",
-    },
+    _aliases = {},
     _flatten_cmd_args = _.compose(_.filter(is_not_nil), _.flatten),
 }
+
+local function get_alias(cmd)
+    local alias = spawn._aliases[cmd]
+    if alias then
+        return alias
+    end
+    if platform.is.win then
+        local ok, reslut = pcall(vim.fn.exepath, cmd)
+        if ok and reslut then
+            spawn._aliases[cmd] = reslut
+            return reslut
+        end
+    end
+    return cmd
+end
 
 local function Failure(err, cmd)
     return Result.failure(setmetatable(err, {
@@ -76,7 +83,7 @@ setmetatable(spawn, {
                 spawn_args.stdio_sink = stdio.sink
             end
 
-            local cmd = self._aliases[normalized_cmd] or normalized_cmd
+            local cmd = get_alias(normalized_cmd)
 
             if (env and env.PATH) == nil and args.check_executable ~= false and not is_executable(cmd) then
                 log.fmt_debug("%s is not executable", cmd)
