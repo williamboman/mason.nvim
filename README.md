@@ -79,10 +79,10 @@ party plugins to further integrate these. The following plugins are recommended:
 `curl`, and `Invoke-WebRequest` are all perfect substitutes).
 The _minimum_ recommended requirements are:
 
--   neovim `>= 0.9.0`
+-   neovim `>= 0.10.0`
 -   For Unix systems:
     -   `git(1)`
-    -   `curl(1)` or `wget(1)`
+    -   `curl(1)` or `GNU wget(1)`
     -   `unzip(1)`
     -   GNU tar (`tar(1)` or `gtar(1)` depending on platform)
     -   `gzip(1)`
