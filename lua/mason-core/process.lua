@@ -224,7 +224,7 @@ function M.spawn(cmd, opts, callback)
     if handle == nil then
         log.fmt_error("Failed to spawn process. cmd=%s, err=%s", cmd, pid_or_err)
         if type(pid_or_err) == "string" and pid_or_err:find "ENOENT" == 1 then
-            opts.stdio_sink:stderr(("Could not find executable %q in path.\n"):format(cmd))
+            opts.stdio_sink:stderr(("Could not find executable %q in PATH.\n"):format(cmd))
         else
             opts.stdio_sink:stderr(("Failed to spawn process cmd=%s err=%s\n"):format(cmd, pid_or_err))
         end
