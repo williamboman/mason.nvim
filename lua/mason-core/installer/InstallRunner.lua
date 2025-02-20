@@ -26,7 +26,6 @@ function InstallRunner:new(handle, semaphore)
     ---@type InstallRunner
     local instance = {}
     setmetatable(instance, self)
-    instance.location = location
     instance.global_semaphore = semaphore
     instance.handle = handle
     return instance

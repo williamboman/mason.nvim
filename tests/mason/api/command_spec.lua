@@ -25,9 +25,7 @@ describe(":MasonInstall", function()
         spy.on(Pkg, "install")
         api.MasonInstall { "dummy@1.0.0", "dummy2" }
         assert.spy(Pkg.install).was_called(2)
-        assert
-            .spy(Pkg.install)
-            .was_called_with(match.is_ref(dummy), { version = "1.0.0" })
+        assert.spy(Pkg.install).was_called_with(match.is_ref(dummy), { version = "1.0.0" })
         assert.spy(Pkg.install).was_called_with(match.is_ref(dummy2), match.tbl_containing { version = match.is_nil() })
     end)
 
@@ -37,12 +35,8 @@ describe(":MasonInstall", function()
         spy.on(Pkg, "install")
         vim.cmd [[MasonInstall --debug dummy dummy2]]
         assert.spy(Pkg.install).was_called(2)
-        assert
-            .spy(Pkg.install)
-            .was_called_with(match.is_ref(dummy), { version = nil, debug = true })
-        assert
-            .spy(Pkg.install)
-            .was_called_with(match.is_ref(dummy2), { version = nil, debug = true })
+        assert.spy(Pkg.install).was_called_with(match.is_ref(dummy), { version = nil, debug = true })
+        assert.spy(Pkg.install).was_called_with(match.is_ref(dummy2), { version = nil, debug = true })
     end)
 
     it("should open the UI window", function()

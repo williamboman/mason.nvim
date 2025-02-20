@@ -7,8 +7,8 @@ local UninstallRunner = require "mason-core.installer.UninstallRunner"
 local _ = require "mason-core.functional"
 local fs = require "mason-core.fs"
 local path = require "mason-core.path"
-local registry = require "mason-registry"
 local platform = require "mason-core.platform"
+local registry = require "mason-registry"
 local Semaphore = require("mason-core.async.control").Semaphore
 
 ---@class Package : AbstractPackage
