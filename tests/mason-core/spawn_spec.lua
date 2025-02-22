@@ -1,5 +1,6 @@
 local a = require "mason-core.async"
 local match = require "luassert.match"
+local platform = require "mason-core.platform"
 local process = require "mason-core.process"
 local spawn = require "mason-core.spawn"
 local spy = require "luassert.spy"
@@ -146,46 +147,81 @@ describe("async spawn", function()
         )
     end)
 
-    it("should check whether command is executable", function()
-        local result = a.run_blocking(spawn.my_cmd, {})
-        assert.is_true(result:is_failure())
-        assert.equals(
-            "spawn: my_cmd failed with exit code - and signal -. my_cmd is not executable",
-            tostring(result:err_or_nil())
-        )
-    end)
-
-    it("should skip checking whether command is executable", function()
-        stub(process, "spawn", function(_, _, callback)
-            callback(false, 127)
+    describe("Windows", function()
+        before_each(function()
+            platform.is.win = true
         end)
 
-        local result = a.run_blocking(spawn.my_cmd, { "arg1", check_executable = false })
-        assert.is_true(result:is_failure())
-        assert.spy(process.spawn).was_called(1)
-        assert.spy(process.spawn).was_called_with(
-            "my_cmd",
-            match.tbl_containing {
-                args = match.same { "arg1" },
-            },
-            match.is_function()
-        )
-    end)
-
-    it("should skip checking whether command is executable if with_paths is provided", function()
-        stub(process, "spawn", function(_, _, callback)
-            callback(false, 127)
+        after_each(function()
+            platform.is.win = nil
         end)
 
-        local result = a.run_blocking(spawn.my_cmd, { "arg1", with_paths = {} })
-        assert.is_true(result:is_failure())
-        assert.spy(process.spawn).was_called(1)
-        assert.spy(process.spawn).was_called_with(
-            "my_cmd",
-            match.tbl_containing {
-                args = match.same { "arg1" },
-            },
-            match.is_function()
-        )
+        it("should use exepath to get absolute path to executable", function()
+            stub(process, "spawn", function(_, _, callback)
+                callback(true, 0, 0)
+            end)
+
+            local result = a.run_blocking(spawn.bash, { "arg1" })
+            assert.is_true(result:is_success())
+            assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                vim.fn.exepath "bash",
+                match.tbl_containing {
+                    args = match.same { "arg1" },
+                },
+                match.is_function()
+            )
+        end)
+
+        it("should not use exepath if env.PATH is set", function()
+            stub(process, "spawn", function(_, _, callback)
+                callback(true, 0, 0)
+            end)
+
+            local result = a.run_blocking(spawn.bash, { "arg1", env = { PATH = "C:\\some\\path" } })
+            assert.is_true(result:is_success())
+            assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                "bash",
+                match.tbl_containing {
+                    args = match.same { "arg1" },
+                },
+                match.is_function()
+            )
+        end)
+
+        it("should not use exepath if env_raw.PATH is set", function()
+            stub(process, "spawn", function(_, _, callback)
+                callback(true, 0, 0)
+            end)
+
+            local result = a.run_blocking(spawn.bash, { "arg1", env_raw = { "PATH=C:\\some\\path" } })
+            assert.is_true(result:is_success())
+            assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                "bash",
+                match.tbl_containing {
+                    args = match.same { "arg1" },
+                },
+                match.is_function()
+            )
+        end)
+
+        it("should not use exepath if with_paths is provided", function()
+            stub(process, "spawn", function(_, _, callback)
+                callback(true, 0, 0)
+            end)
+
+            local result = a.run_blocking(spawn.bash, { "arg1", with_paths = { "C:\\some\\path" } })
+            assert.is_true(result:is_success())
+            assert.spy(process.spawn).was_called(1)
+            assert.spy(process.spawn).was_called_with(
+                "bash",
+                match.tbl_containing {
+                    args = match.same { "arg1" },
+                },
+                match.is_function()
+            )
+        end)
     end)
 end)
