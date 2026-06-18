@@ -199,8 +199,8 @@ function M.init()
             if receipt:get_install_options().no_lock == true then
                 return log.debug "Package was installed but not updating lockfile because no_lock was enabled."
             end
-            if settings.current.lockfile.enabled == false then
-                return log.debug "Package was installed but not updating lockfile because lockfile is disabled via settings."
+            if settings.current.lockfile.enabled == false or settings.current.lockfile.auto_managed == false then
+                return log.debug "Package was installed but not updating lockfile because lockfile or auto_managed is disabled via settings."
             end
             local lockfile = M.get_lockfile() or M.generate_lockfile()
             local ok, entry = pcall(generate_lockfile_entry, pkg)
@@ -222,8 +222,8 @@ function M.init()
             if opts.no_lock then
                 return
             end
-            if settings.current.lockfile.enabled == false then
-                return log.debug "Package was uninstalled but not updating lockfile because lockfile is disabled via settings."
+            if settings.current.lockfile.enabled == false or settings.current.lockfile.auto_managed == false then
+                return log.debug "Package was uninstalled but not updating lockfile because lockfile or auto_managed is disabled via settings."
             end
             local lockfile = M.get_lockfile() or M.generate_lockfile()
             lockfile.body[pkg.name] = nil

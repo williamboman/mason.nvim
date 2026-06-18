@@ -41,7 +41,7 @@ linters, and formatters through a single interface. It runs everywhere Neovim ru
 with only a small set of [external requirements](#requirements) needed.
 
 Packages are installed in Neovim's data directory ([`:h standard-path`][help-standard-path]) by default. Executables are
-linked to a single `bin/` directory, which `mason.nvim` will add to Neovim's PATH during setup, allowing seamless access
+linked to a single `bin/` directory, which Mason will add to Neovim's PATH during setup, allowing seamless access
 from Neovim builtins (LSP client, shell, terminal, etc.) as well as other 3rd party plugins.
 
 For a list of all available packages, see <https://mason-registry.dev/registry/list>.
@@ -56,7 +56,7 @@ Install using your plugin manager of choice. **Setup is required**:
 require("mason").setup()
 ```
 
-`mason.nvim` is optimized to load as little as possible during setup. Lazy-loading the plugin, or somehow deferring the
+Mason is optimized to load as little as possible during setup. Lazy-loading the plugin, or somehow deferring the
 setup, is not recommended.
 
 Refer to the [Configuration](#configuration) section for information about which settings are available.
@@ -77,7 +77,7 @@ to call `require("mason").setup()` yourself**.
 
 > [`:h mason-requirements`][help-mason-requirements]
 
-`mason.nvim` relaxes the minimum requirements by attempting multiple different utilities (for example, `wget`,
+Mason relaxes the minimum requirements by attempting multiple different utilities (for example, `wget`,
 `curl`, and `Invoke-WebRequest` are all perfect substitutes).
 The _minimum_ recommended requirements are:
 
@@ -99,7 +99,7 @@ The _minimum_ recommended requirements are:
         -   [winzip][winzip]
         -   [WinRAR][winrar]
 
-Note that `mason.nvim` will regularly shell out to external package managers, such as `cargo` and `npm`. Depending on
+Note that Mason will regularly shell out to external package managers, such as `cargo` and `npm`. Depending on
 your personal usage, some of these will also need to be installed. Refer to `:checkhealth mason` for a full list.
 
 [7zip]: https://www.7-zip.org/
@@ -117,7 +117,7 @@ your personal usage, some of these will also need to be installed. Refer to `:ch
 -   `:MasonInstall <package> ...` - installs/re-installs the provided packages
 -   `:MasonUninstall <package> ...` - uninstalls the provided packages
 -   `:MasonUninstallAll` - uninstalls all packages
--   `:MasonLog` - opens the `mason.nvim` log file in a new tab window
+-   `:MasonLog` - opens the Mason log file in a new tab window
 -   `:MasonLock [restore|generate]` - for managing or restoring the lockfile
 
 ## Registries
@@ -154,10 +154,27 @@ require("mason").setup {
 }
 ```
 
-> [!NOTE]
-> If you don't wish Mason to automatically update the lockfile, don't enable the feature in the settings. You may still
-> use the lockfile feature if it's not enabled in the settings, such as manually restoring or updating the lockfile via
-> the `:MasonLock` commands.
+### Disabling automatic management of the lockfile
+
+If you don't wish Mason to automatically update your lockfile whenever you install or uninstall a package, you can
+disable it like so:
+
+```lua
+require("mason").setup {
+  lockfile = {
+    enabled = true,
+    auto_managed = false
+  }
+}
+```
+
+Alternatively, you may also provide the `--no-lock` option to the `:MasonInstall` and `:MasonUninstall` commands, for
+example:
+
+```vim
+:MasonInstall --no-lock emmylua_ls
+:MasonUnistall --no-lock emmylua_ls
+```
 
 ### Lockfile backups
 
@@ -184,7 +201,7 @@ require("mason").setup {
 > Socket Firewall is a free tool that blocks malicious packages at install time, giving developers proactive protection
 > against rising supply chain attacks.
 
-`mason.nvim` supports the [Socket.dev firewall](https://socket.dev/). To enable the firewall, turn it on in the configuration:
+Mason supports the [Socket.dev firewall](https://socket.dev/). To enable the firewall, turn it on in the configuration:
 
 ```lua
 require("mason").setup {
@@ -194,7 +211,7 @@ require("mason").setup {
 }
 ```
 
-By default, `mason.nvim` will automatically install and update the Socket Firewall client. If you want to manage the
+By default, Mason will automatically install and update the Socket Firewall client. If you want to manage the
 client manually, set `auto_managed` to `false` (this requires the `sfw` binary to be available in your `PATH`):
 
 ```lua
@@ -210,13 +227,13 @@ For more information refer to the [Socket.dev](https://socket.dev/) documentatio
 
 > [!NOTE]
 > If you already use the Socket.dev firewall in a proxy service configuration you don't need to enable the firewall in
-> `mason.nvim`.
+> Mason.
 
 ## Configuration
 
 > [`:h mason-settings`][help-mason-settings]
 
-You may optionally configure certain behavior of `mason.nvim` when calling the `.setup()` function. Refer to the
+You may optionally configure certain behavior of Mason when calling the `.setup()` function. Refer to the
 [default configuration](#default-configuration) for a list of all available settings.
 
 Example:
@@ -257,7 +274,7 @@ require("mason").setup({
 local DEFAULT_SETTINGS = {
     ---@since 1.0.0
     -- The directory in which to install packages.
-    install_root_dir = path.concat { vim.fn.stdpath "data", "mason" },
+    install_root_dir = vim.fs.joinpath(vim.fn.stdpath "data", "mason"),
 
     ---@since 1.0.0
     -- Where Mason should put its bin location in your PATH. Can be one of:
@@ -276,6 +293,31 @@ local DEFAULT_SETTINGS = {
     -- Limit for the maximum amount of packages to be installed at the same time. Once this limit is reached, any further
     -- packages that are requested to be installed will be put in a queue.
     max_concurrent_installers = 4,
+
+    lockfile = {
+        ---@since 2.4.0
+        -- Whether the lockfile feature should be enabled.
+        enabled = false,
+
+        ---@since 2.4.0
+        -- Whether Mason should automatically update your lockfile whenever a package is installed or uninstalled.
+        auto_managed = true,
+
+        ---@since 2.4.0
+        path = vim.fs.joinpath(vim.fn.stdpath "config", "mason.lock"),
+
+        backup = {
+            ---@since 2.4.0
+            -- Whether to backup lockfiles. Lockfiles will be compressed using `gzip` if available.
+            -- Note that this will backup every version of the lockfile, and over time may produce a large amount of
+            -- files.
+            enabled = false,
+
+            ---@since 2.4.0
+            -- The directory in which to save backed up lockfiles.
+            path = vim.fs.joinpath(vim.fn.stdpath "cache", "mason", "lockfiles"),
+        },
+    },
 
     ---@since 1.0.0
     -- [Advanced setting]

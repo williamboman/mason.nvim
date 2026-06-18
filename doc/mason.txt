@@ -157,11 +157,27 @@ time you install or uninstall a package to reflect the latest state.
     }
 <
 
-    Note: ~
-        If you don't wish Mason to automatically update the lockfile, don't
-        enable the feature in the settings. You may still use the lockfile
-        feature if it's not enabled in the settings, such as manually
-        restoring or updating the lockfile via the `:MasonLock` commands.
+                                                    *mason-lockfile-management*
+
+If you don't wish Mason to automatically update your lockfile whenever you
+install or uninstall a package, you can disable it like so:
+
+>lua
+    require("mason").setup {
+      lockfile = {
+        enabled = true,
+        auto_managed = false
+      }
+    }
+<
+
+Alternatively, you may also provide the `--no-lock` option to the
+`:MasonInstall` and `:MasonUninstall` commands, for example:
+
+>vim
+    :MasonInstall --no-lock emmylua_ls
+    :MasonUnistall --no-lock emmylua_ls
+<
 
     Note: ~
         It's recommended to manually manage your lockfile with version control
@@ -241,7 +257,7 @@ INSTALLING PACKAGES                                            *:MasonInstall*
 
 Usage:
 >vim
-    :MasonInstall <package> ...
+    :MasonInstall [options] <package> ...
 <
 Installs the provided packages. Packages may include a version specifier,
 like so:
@@ -253,15 +269,40 @@ headless mode):
 >sh
     $ nvim --headless -c "MasonInstall stylua" -c "qall"
 <
+
+`options` may be any of:
+    - `--debug` Enables debug mode during installation. This writes a
+                `mason-debug.log` file of installation outputs and retains the
+                installation directory if package installation fails.
+
+    - `--no-lock` Will skip updating the lockfile upon successful
+                  installation.
+
+    - `--target=` Allows you to install a different target (system
+                  architecture). Note that this is only a soft emulation and
+                  only applies to packages that provide a multi-target
+                  specification - it does not allow you to install and run
+                  cross-platform binaries.
+
+    - `--force` Tells Mason to continue with the installation when it
+                otherwise would error.
+
+    - `--strict` The opposite of `--force` - tells Mason to fail installation
+                 when it otherwise wouldn't.
+
 ------------------------------------------------------------------------------
 UNINSTALLING PACKAGES                                        *:MasonUninstall*
 
 Usage:
 >vim
-    :MasonUninstall <package> ...
+    :MasonUninstall [options] <package> ...
 <
 
 Uninstalls the provided packages.
+
+`options` may be any of:
+    - `--no-lock` Will skip updating the lockfile upon successful
+                  uninstallation.
 
 ------------------------------------------------------------------------------
 UNINSTALLING ALL PACKAGES                                 *:MasonUninstallAll*
@@ -326,7 +367,7 @@ Example:
     local DEFAULT_SETTINGS = {
         ---@since 1.0.0
         -- The directory in which to install packages.
-        install_root_dir = path.concat { vim.fn.stdpath "data", "mason" },
+        install_root_dir = vim.fs.joinpath(vim.fn.stdpath "data", "mason"),
 
         ---@since 1.0.0
         -- Where Mason should put its bin location in your PATH. Can be one of:
@@ -345,6 +386,31 @@ Example:
         -- Limit for the maximum amount of packages to be installed at the same time. Once this limit is reached, any further
         -- packages that are requested to be installed will be put in a queue.
         max_concurrent_installers = 4,
+
+        lockfile = {
+            ---@since 2.4.0
+            -- Whether the lockfile feature should be enabled.
+            enabled = false,
+
+            ---@since 2.4.0
+            -- Whether Mason should automatically update your lockfile whenever a package is installed or uninstalled.
+            auto_managed = true,
+
+            ---@since 2.4.0
+            path = vim.fs.joinpath(vim.fn.stdpath "config", "mason.lock"),
+
+            backup = {
+                ---@since 2.4.0
+                -- Whether to backup lockfiles. Lockfiles will be compressed using `gzip` if available.
+                -- Note that this will backup every version of the lockfile, and over time may produce a large amount of
+                -- files.
+                enabled = false,
+
+                ---@since 2.4.0
+                -- The directory in which to save backed up lockfiles.
+                path = vim.fs.joinpath(vim.fn.stdpath "cache", "mason", "lockfiles"),
+            },
+        },
 
         ---@since 1.0.0
         -- [Advanced setting]

@@ -26,8 +26,12 @@ local DEFAULT_SETTINGS = {
 
     lockfile = {
         ---@since 2.4.0
-        -- Whether the lockfile should automatically update when packages are installed or uninstalled.
+        -- Whether the lockfile feature should be enabled.
         enabled = false,
+
+        ---@since 2.4.0
+        -- Whether Mason should automatically update your lockfile whenever a package is installed or uninstalled.
+        auto_managed = true,
 
         ---@since 2.4.0
         path = vim.fs.joinpath(vim.fn.stdpath "config", "mason.lock"),
