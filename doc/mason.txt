@@ -137,6 +137,56 @@ See also ~
     Launch background jobs: |jobstart| & |uv.spawn()| (via |vim.loop|)
 
 ==============================================================================
+LOCKFILE                                                      *mason-lockfile*
+
+Mason supports pinning installed packages in a lockfile, allowing you to
+restore installed packages to a known state.
+
+The default location of the lockfile is inside your config directory in
+`base-directories` - normally `~/.config/nvim/mason.lock`
+(`~/AppData/Local/nvim/mason.lock` on Windows).
+
+When the feature is enabled, the lockfile will automatically be updated any
+time you install or uninstall a package to reflect the latest state.
+
+>lua
+    require("mason").setup {
+      lockfile = {
+        enabled = true
+      }
+    }
+<
+
+    Note: ~
+        If you don't wish Mason to automatically update the lockfile, don't
+        enable the feature in the settings. You may still use the lockfile
+        feature if it's not enabled in the settings, such as manually
+        restoring or updating the lockfile via the `:MasonLock` commands.
+
+    Note: ~
+        It's recommended to manually manage your lockfile with version control
+        software such as `git`.
+
+                                                        *mason-lockfile-backup*
+
+You may also choose to enable automatic backups of your lockfile. These
+backups will be written to the cache (`base-directories`) directory by
+default as gzipped copies of your lockfile. Note that a backup will be created
+for every version of your lockfile, which may result in a large amount of
+files created over time.
+
+>lua
+    require("mason").setup {
+      lockfile = {
+        enabled = true,
+        backup = {
+            enabled = true
+        }
+      }
+    }
+<
+
+==============================================================================
 MASON FIREWALL                                                *mason-firewall*
 
 `mason.nvim` supports the Socket.dev firewall. To enable the firewall, turn it
@@ -188,8 +238,10 @@ Updates all managed registries.
 
 ------------------------------------------------------------------------------
 INSTALLING PACKAGES                                            *:MasonInstall*
+
+Usage:
 >vim
-:MasonInstall <package> ...
+    :MasonInstall <package> ...
 <
 Installs the provided packages. Packages may include a version specifier,
 like so:
@@ -203,25 +255,50 @@ headless mode):
 <
 ------------------------------------------------------------------------------
 UNINSTALLING PACKAGES                                        *:MasonUninstall*
+
+Usage:
 >vim
-:MasonUninstall <package> ...
+    :MasonUninstall <package> ...
 <
 
 Uninstalls the provided packages.
 
 ------------------------------------------------------------------------------
 UNINSTALLING ALL PACKAGES                                 *:MasonUninstallAll*
+
+Usage:
 >vim
-:MasonUninstallAll
+    :MasonUninstallAll
 <
 Uninstalls all installed packages.
 
 ------------------------------------------------------------------------------
 VIEW THE MASON LOG                                                 *:MasonLog*
+
+Usage:
 >vim
-:MasonLog
+    :MasonLog
 <
 Opens the log file in a new tab window.
+
+------------------------------------------------------------------------------
+MASON LOCKFILE                                                    *:MasonLock*
+
+Usage:
+>vim
+    :MasonLock [generate|restore]
+<
+When no arguments are provided to `:MasonLock` the lockfile UI window will
+open, where you can manage your lockfile by for example
+    - generating a new lockfile
+    - remove packages from the lockfile
+    - initiate a package restore
+
+If the `generate` argument is provided, a new lockfile is created based on
+your currently installed packages.
+
+If the `restore` argument is proved, Mason will start to restore packages
+according to your lockfile.
 
 ==============================================================================
 SETTINGS                                                      *mason-settings*

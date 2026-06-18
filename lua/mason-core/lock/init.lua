@@ -55,10 +55,16 @@ local function backup_lockfile(file)
     local contents = fs.sync.read_file(file)
     local seconds, microseconds = vim.uv.gettimeofday()
     local milliseconds = seconds * 1000 + math.floor(microseconds / 1000)
-    local base_backup_file = vim.fs.joinpath(LOCKFILE_BACKUP_DIR, ("mason-%s.lock"):format(milliseconds))
+    local year = os.date "%Y"
+    local month = os.date "%m"
+    local backup_dir = vim.fs.joinpath(LOCKFILE_BACKUP_DIR, year, month)
+    if not fs.sync.dir_exists(backup_dir) then
+        fs.sync.mkdirp(backup_dir)
+    end
+    local base_backup_file = vim.fs.joinpath(backup_dir, ("mason-%s.lock"):format(milliseconds))
     local backup_file = base_backup_file
     local i = 1
-    while i < 5 and fs.sync.file_exists(backup_file) do
+    while i < 10 and fs.sync.file_exists(backup_file) do
         backup_file = base_backup_file .. "." .. i
         i = i + 1
     end
@@ -196,13 +202,7 @@ function M.init()
             if settings.current.lockfile.enabled == false then
                 return log.debug "Package was installed but not updating lockfile because lockfile is disabled via settings."
             end
-            local lockfile = M.get_lockfile()
-            if not lockfile then
-                return log.fmt_warn(
-                    "Lockfile is enabled but a lockfile could not be found at %s. Create a lockfile first through :MasonLock.",
-                    settings.current.lockfile.path
-                )
-            end
+            local lockfile = M.get_lockfile() or M.generate_lockfile()
             local ok, entry = pcall(generate_lockfile_entry, pkg)
             if ok then
                 lockfile.body[pkg.name] = entry
@@ -225,13 +225,7 @@ function M.init()
             if settings.current.lockfile.enabled == false then
                 return log.debug "Package was uninstalled but not updating lockfile because lockfile is disabled via settings."
             end
-            local lockfile = M.get_lockfile()
-            if not lockfile then
-                return log.fmt_warn(
-                    "Lockfile is enabled but a lockfile could not be found at %s. Create a lockfile first through :MasonLock.",
-                    settings.current.lockfile.path
-                )
-            end
+            local lockfile = M.get_lockfile() or M.generate_lockfile()
             lockfile.body[pkg.name] = nil
             M.write_lockfile(lockfile)
         end

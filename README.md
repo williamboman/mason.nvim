@@ -28,8 +28,8 @@
 -   [Commands](#commands)
 -   [Registries](#registries)
 -   [Screenshots](#screenshots)
--   [Firewall (socket.dev)](#firewall-socketdev)
 -   [Lockfile](#lockfile)
+-   [Firewall (socket.dev)](#firewall-socketdev)
 -   [Configuration](#configuration)
 
 ## Introduction
@@ -118,6 +118,7 @@ your personal usage, some of these will also need to be installed. Refer to `:ch
 -   `:MasonUninstall <package> ...` - uninstalls the provided packages
 -   `:MasonUninstallAll` - uninstalls all packages
 -   `:MasonLog` - opens the `mason.nvim` log file in a new tab window
+-   `:MasonLock [restore|generate]` - for managing or restoring the lockfile
 
 ## Registries
 
@@ -135,6 +136,48 @@ functions to ensure you have the latest package information before retrieving pa
 | :----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: |
 |           <img alt="Main window" src="https://github.com/user-attachments/assets/b9a57d21-f551-45ad-a1e5-a9fd66291510">           |                 <img alt="Language search" src="https://github.com/user-attachments/assets/3d24fb7b-2c57-4948-923b-0a42bb627cbe">                 | <img alt="Language filter" src="https://github.com/user-attachments/assets/c0ca5818-3c74-4071-bc41-427a2cd1056d"> |
 | <img alt="Package information" src="https://github.com/user-attachments/assets/6f9f6819-ac97-483d-a77c-8f6c6131ac85"> | <img alt="New package versions" src="https://github.com/user-attachments/assets/ff1adc4d-2fcc-46df-ab4c-291c891efa50"> |   <img alt="Help window" src="https://github.com/user-attachments/assets/1fbe75e4-fe69-4417-83e3-82329e1c236e">   |
+
+## Lockfile
+
+Mason supports pinning installed packages in a lockfile, allowing you to restore installed packages to a known state.
+The default location of the lockfile is inside your `config` directory in `:h base-directories` - normally
+`~/.config/nvim/mason.lock` (`~/AppData/Local/nvim/mason.lock` on Windows).
+
+When the feature is enabled, the lockfile will automatically be updated any time you install or uninstall a package to
+reflect the latest state.
+
+```lua
+require("mason").setup {
+  lockfile = {
+    enabled = true
+  }
+}
+```
+
+> [!NOTE]
+> If you don't wish Mason to automatically update the lockfile, don't enable the feature in the settings. You may still
+> use the lockfile feature if it's not enabled in the settings, such as manually restoring or updating the lockfile via
+> the `:MasonLock` commands.
+
+### Lockfile backups
+
+You may also choose to enable automatic backups of your lockfile. These backups will be written to the `cache` (`:h
+base-directories`) directory by default as gzipped copies of your lockfile. Note that a backup will be created for every
+version of your lockfile, which may result in a large amount of files created over time.
+
+```lua
+require("mason").setup {
+  lockfile = {
+    enabled = true,
+    backup = {
+        enabled = true
+    }
+  }
+}
+```
+
+> [!NOTE]
+> It's recommended to manually manage your lockfile with version control software such as `git`.
 
 ## Firewall (socket.dev)
 
@@ -168,10 +211,6 @@ For more information refer to the [Socket.dev](https://socket.dev/) documentatio
 > [!NOTE]
 > If you already use the Socket.dev firewall in a proxy service configuration you don't need to enable the firewall in
 > `mason.nvim`.
-
-## Lockfile
-
-
 
 ## Configuration
 
