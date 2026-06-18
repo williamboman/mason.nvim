@@ -29,6 +29,8 @@
 -   [Registries](#registries)
 -   [Screenshots](#screenshots)
 -   [Lockfile](#lockfile)
+    - [Disabling automatic management of the lockfile](#disabling-automatic-management-of-the-lockfile)
+    - [Lockfile backups](#lockfile-backups)
 -   [Firewall (socket.dev)](#firewall-socketdev)
 -   [Configuration](#configuration)
 
