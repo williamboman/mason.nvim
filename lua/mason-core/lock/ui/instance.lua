@@ -275,7 +275,7 @@ window.view(
                                             {
                                                 preview.is_installed and p.none(preview.package .. " ")
                                                     or p.Bold(preview.package .. " "),
-                                                (preview.is_installed and not is_same_version)
+                                                (preview.is_installed and not is_same_version and preview.from_version)
                                                         and p.muted(truncate(preview.from_version .. " -> ", 16))
                                                     or p.none "",
                                                 is_same_version and p.muted(truncate(preview.to_version, 16))

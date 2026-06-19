@@ -40,6 +40,11 @@ local function parse(contents)
     local header = nil
     local body = {}
     local cursor = { body }
+
+    -- Normalize line endings
+    contents = contents:gsub("\r\n", "\n")
+    contents = contents:gsub("\r", "\n")
+
     local lines = _.split("\n", contents)
 
     for line_no, line in ipairs(lines) do
