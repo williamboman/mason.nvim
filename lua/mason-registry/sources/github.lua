@@ -29,7 +29,8 @@ local GitHubRegistrySource = {}
 GitHubRegistrySource.__index = GitHubRegistrySource
 
 ---@param spec GitHubRegistrySourceSpec
-function GitHubRegistrySource:new(spec)
+---@param system boolean
+function GitHubRegistrySource:new(spec, system)
     ---@type GitHubRegistrySource
     local instance = {}
     setmetatable(instance, GitHubRegistrySource)
@@ -38,6 +39,7 @@ function GitHubRegistrySource:new(spec)
     instance.spec = spec
     instance.repo = ("%s/%s"):format(spec.namespace, spec.name)
     instance.root_dir = root_dir
+    instance.system = system
     instance.data_file = path.concat { root_dir, "registry.json" }
     instance.info_file = path.concat { root_dir, "info.json" }
     return instance
@@ -93,7 +95,7 @@ function GitHubRegistrySource:install()
 
         if not fs.async.dir_exists(self.root_dir) then
             log.debug("Creating registry directory", self)
-            try(Result.pcall(fs.async.mkdirp, self.root_dir))
+            try(Result.pcall(fs.sync.mkdirp, self.root_dir))
         end
 
         if version == nil then

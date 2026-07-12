@@ -25,6 +25,9 @@ function M.parse(source, purl)
         package = purl_to_npm(purl),
         version = purl.version,
         extra_packages = source.extra_packages,
+        npm = {
+            extra_args = settings.current.npm.install_args,
+        },
     }
 
     return Result.success(parsed_source)
@@ -40,6 +43,7 @@ function M.install(ctx, source)
         try(manager.init())
         try(manager.install(source.package, source.version, {
             extra_packages = source.extra_packages,
+            install_extra_args = source.npm.extra_args,
         }))
     end)
 end

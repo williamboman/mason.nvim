@@ -71,6 +71,8 @@ describe("npm manager", function()
             "install",
             "my-package@1.0.0",
             vim.NIL, -- extra_packages
+            vim.NIL, -- install_extra_args
+            firewall = true,
         }
     end)
 
@@ -87,6 +89,27 @@ describe("npm manager", function()
             "install",
             "my-package@1.0.0",
             { "extra-package" },
+            vim.NIL, -- install_extra_args
+            firewall = true,
+        }
+    end)
+
+    it("should install with extra args", function()
+        local ctx = test_helpers.create_context()
+
+        ctx:execute(function()
+            npm.install("my-package", "1.0.0", {
+                install_extra_args = { "--registry", "https://registry.npmjs.org/" },
+            })
+        end)
+
+        assert.spy(ctx.spawn.npm).was_called(1)
+        assert.spy(ctx.spawn.npm).was_called_with {
+            "install",
+            "my-package@1.0.0",
+            vim.NIL, -- extra_packages
+            { "--registry", "https://registry.npmjs.org/" }, -- install_extra_args
+            firewall = true,
         }
     end)
 

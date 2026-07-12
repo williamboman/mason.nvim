@@ -36,7 +36,7 @@ function UninstallRunner:execute(opts, callback)
     local location = self.handle.location
     log.fmt_info("Executing uninstaller for %s %s", pkg, opts)
     a.run(function()
-        Result.try(function(try)
+        return Result.try(function(try)
             if not opts.bypass_permit then
                 try(self:acquire_permit()):receive()
             end
@@ -47,7 +47,7 @@ function UninstallRunner:execute(opts, callback)
             else
                 try(pkg:unlink(location))
             end
-            fs.sync.rmrf(location:package(pkg.name))
+            fs.sync.rmrf(pkg:get_install_path(location))
             return receipt
         end):get_or_throw()
     end, function(success, result)
