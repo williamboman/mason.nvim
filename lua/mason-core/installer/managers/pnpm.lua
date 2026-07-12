@@ -15,6 +15,7 @@ function M.init()
         try(ctx.spawn.pnpm { "init" })
         local package_json = try(Result.pcall(vim.json.decode, ctx.fs:read_file "package.json"))
         package_json.name = "@mason/" .. package_json.name
+        package_json.devEngines = nil
         ctx.fs:write_file("package.json", try(Result.pcall(vim.json.encode, package_json)))
         ctx.stdio_sink:stdout "Initialized pnpm root.\n"
     end)
