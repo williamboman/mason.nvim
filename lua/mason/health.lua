@@ -139,7 +139,7 @@ local function check_languages()
 
     a.wait_all {
         check_thunk {
-            cmd = "go",
+            cmd = platform.is.win and "go.exe" or "go",
             args = { "version" },
             name = "Go",
             relaxed = true,
@@ -147,8 +147,8 @@ local function check_languages()
                 -- Parses output such as "go version go1.17.3 darwin/arm64" into major, minor, patch components
                 local _, _, major, minor = version:find "go(%d+)%.(%d+)"
                 -- Due to https://go.dev/doc/go-get-install-deprecation
-                if not (tonumber(major) >= 1 and tonumber(minor) >= 17) then
-                    return "Go version must be >= 1.17."
+                if (not major or not minor) or (not (tonumber(major) >= 1 and tonumber(minor) >= 17)) then
+                    return "Go version must be >= 1.17. ["..version.."]"
                 end
             end,
         },
